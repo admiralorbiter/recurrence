@@ -32,34 +32,36 @@ The secondary goal is to construct a developmental system that serves as a **mod
 
 ## Core Specification Index
 
-1. [0. Project Overview and Philosophy](file:///c:/Users/admir/Github/recurrence/0.%20Project%20Overview%20and%20Philosophy.md) — Epistemic philosophy, core goals, and level structure.
-2. [1. Charter](file:///c:/Users/admir/Github/recurrence/1.%20Charter.md) — Program scope, non-goals, operational definitions, and evidence rules.
-3. [2. Definitions](file:///c:/Users/admir/Github/recurrence/2.%20Definitions.md) — Canonical mathematical definitions, 9-level Claim Ladder, and category error matrix.
-4. [3. Initial Research Questions](file:///c:/Users/admir/Github/recurrence/3.%20Initial%20Research%20Questions.md) — Formulated research questions (RQ1–RQ12) with competing hypotheses and falsifiers.
-5. [4. Architecture](file:///c:/Users/admir/Github/recurrence/4.%20Architecture.md) — System architectures across Levels 0–3 (scaffolded persistence to native latent recurrence).
-6. [5. Experiments](file:///c:/Users/admir/Github/recurrence/5.%20Experiments.md) — Experimental protocols (E00–E18) covering scout, establish, and mechanism tiers.
-7. [6. Roadmap](file:///c:/Users/admir/Github/recurrence/6.%20Roadmap.md) — Horizon-gated execution plan (H1–H4), sprint structure, and decision gates.
-8. [7. Measurement and Analysis Plan](file:///c:/Users/admir/Github/recurrence/7.%20Measurement%20and%20Analysis%20Plan.md) — Quantitative metrics (PAI, CDI, SIS, CAS, M-ratio), statistical rules, and 20 result patterns.
-9. [8. Infrastructure](file:///c:/Users/admir/Github/recurrence/8.%20Infrastructure.md) — 12 GB VRAM compute constraints, model scorecards, storage strategies, and determinism.
-10. [9. The Continuity Garden](file:///c:/Users/admir/Github/recurrence/9.%20The%20Continuity%20Garden.md) — Minimal developmental environment specification and curriculum for Level 3 organisms.
-11. [10. Ethics](file:///c:/Users/admir/Github/recurrence/10.%20Ethics.md) — Responsible ambition framework, capability escalation controls, and welfare tiers (W0–W3).
+1. [0. Project Overview and Philosophy](0.%20Project%20Overview%20and%20Philosophy.md) — Epistemic philosophy, core goals, and level structure.
+2. [1. Charter](1.%20Charter.md) — Program scope, non-goals, operational definitions, and evidence rules.
+3. [2. Definitions](2.%20Definitions.md) — Canonical mathematical definitions, 9-level Claim Ladder, category error matrix, and program taxonomies.
+4. [3. Initial Research Questions](3.%20Initial%20Research%20Questions.md) — Formulated research questions (RQ1–RQ12) with competing hypotheses and falsifiers.
+5. [4. Architecture](4.%20Architecture.md) — System architectures across Levels 0–3 (scaffolded persistence to native latent recurrence).
+6. [5. Experiments](5.%20Experiments.md) — Experimental protocols (E00–E22) covering scout, establish, and mechanism tiers.
+7. [6. Roadmap](6.%20Roadmap.md) — Horizon-gated execution plan (H0–H4), sprint structure, and decision gates.
+8. [7. Measurement and Analysis Plan](7.%20Measurement%20and%20Analysis%20Plan.md) — Quantitative metrics (PAI, CDI, SIS, CAS, M-ratio), statistical rules, and 20 result patterns.
+9. [8. Infrastructure](8.%20Infrastructure.md) — 12 GB VRAM compute constraints, model scorecards, storage strategies, and determinism.
+10. [9. The Continuity Garden](9.%20The%20Continuity%20Garden.md) — Minimal developmental environment specification and curriculum for Level 3 organisms.
+11. [10. Ethics](10.%20Ethics.md) — Responsible ambition framework, capability escalation controls, and welfare tiers (W0–W3).
+12. [11. Theory Prediction Matrix](11.%20Theory%20Prediction%20Matrix.md) — Pre-experimental theory mapping (GNWT, HOT, RPT, AIP, FNCT) vs empirical finding scenarios.
+13. [12. Causal Model and State Decomposition](12.%20Causal%20Model%20and%20State%20Decomposition.md) — Full state vector $X_t = (z_t, M_t, \theta_t, \omega_t, C_t, R_t, E_t)$ and structural causal DAG.
 
 ---
 
 ## Supporting Registers & Logs
 
-- [Backlog](file:///c:/Users/admir/Github/recurrence/Backlog.md) — Prioritized task queue (P0–P3), open research questions, and "Do Not Chase" list.
-- [Decision Log](file:///c:/Users/admir/Github/recurrence/Decision%20Log.md) — Record of architectural, methodological, and program decisions.
-- [Research Radar](file:///c:/Users/admir/Github/recurrence/Research%20Radar.md) — Literature monitoring, scoring rubric, and paper-note workflow.
-- [Research Replication](file:///c:/Users/admir/Github/recurrence/Research%20Replication.md) — Replications and extensions of external anchor papers.
-- [Risk Register](file:///c:/Users/admir/Github/recurrence/Risk%20Register.md) — Risk assessment, likelihood/impact scoring, and mitigation triggers.
-- [Program Roadmap Diagram](file:///c:/Users/admir/Github/recurrence/program_roadmap.svg) — Visual flowchart of research phases and gates.
+- [Backlog](Backlog.md) — Prioritized task queue (P0–P3), open research questions, reviewer capture index, and "Do Not Chase" list.
+- [Decision Log](Decision%20Log.md) — Record of architectural, methodological, and program decisions.
+- [Research Radar](Research%20Radar.md) — Literature monitoring, scoring rubric, and paper-note workflow.
+- [Research Replication](Research%20Replication.md) — Replications and extensions of external anchor papers.
+- [Risk Register](Risk%20Register.md) — Risk assessment, likelihood/impact scoring, and mitigation triggers.
+- [Program Roadmap Diagram](program_roadmap.svg) — Visual flowchart of research phases and gates.
 
 ---
 
 ## Templates
 
-Located in [`templates/`](file:///c:/Users/admir/Github/recurrence/templates/):
+Located in [`templates/`](templates/):
 - `experiment_card.md` | `preregistration.md` | `result_report.md` | `hypothesis_card.md`
 - `organism_spec.md` | `architecture_change_record.md` | `decision_record.md`
 - `literature_note.md` | `paper_note_quick.md` | `sprint_review.md` | `weekly_research_log.md`

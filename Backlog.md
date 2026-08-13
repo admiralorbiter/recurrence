@@ -67,6 +67,18 @@ At each review, ask whether the strongest likely contribution is currently:
 
 The answer may change over time. The program should follow the strongest evidence rather than remaining loyal to the most ambitious original story.
 
+# Deferred Methodological & Architectural Refinements (Reviewer Capture Index)
+
+The following high-value design refinements are indexed to ensure they are incorporated during sprint execution (S00–S15) without creating upfront specification debt:
+
+1. **Construct Leakage & Ground-Truth Separation:** Expose ground-truth variables, noisy interoceptive sensors, and learned internal estimates separately. Distinguish Installation vs. Emergence protocols. (Indexed in [`9. The Continuity Garden.md`](9.%20The%20Continuity%20Garden.md)).
+2. **Off-Manifold Intervention Safeguards:** Implement interpolation curves $z(\alpha)$, compatible-branch swaps, and post-swap recovery dynamics to prevent impossible neural state artifacts. (Indexed in [`5. Experiments.md`](5.%20Experiments.md)).
+3. **Channel Capacity & Interface Controls:** Expand compute controls in E04/E06/E12 to include same-dimensional nonrecurrent channels and cleared read/write interfaces. (Indexed in [`5. Experiments.md`](5.%20Experiments.md)).
+4. **Metric Refinements & Observer Ladder:** Preregister PAI paired contrasts (intersection criterion), CAS causal alignment, CDI difference-in-differences, and 4-rung observer ladder. (Indexed in [`7. Measurement and Analysis Plan.md`](7.%20Measurement%20and%20Analysis%20Plan.md)).
+5. **Developmental Competence Equivalence:** Require matched first-order competence across developmental histories before attributing differences to developmental trajectory. (Indexed in [`1. Charter.md`](1.%20Charter.md)).
+6. **RecurrentGemma Role Specification:** Treat RecurrentGemma as token-sequence recurrence control while developing event-time latent core $z_{t+1}=R(z_t, \varnothing)$ in parallel. (Targeted for S10–S12 execution).
+7. **Bibliography Infrastructure & OSF Preregistration:** Set up `references.bib`, Zotero integration, and OSF time-stamped preregistrations during S00 foundation sprint.
+
 # Open Research Questions
 
 ## Q1 — What is the right system boundary?

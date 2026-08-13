@@ -98,7 +98,7 @@ z_{t+1} = \dots
 ## Operational organism criteria
 
 - [ ] persistent individuation
-- [ ] continuous causal trajectory
+- [ ] persistent causal trajectory
 - [ ] endogenous regulation
 - [ ] history-specific development
 - [ ] self/world/source distinction
