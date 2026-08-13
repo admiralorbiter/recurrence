@@ -14,6 +14,7 @@ This file indexes durable program decisions. Major future decisions should recei
 | **DR-0008** | Treat endogenous variables as neutral control variables, not emotions | accepted | representation/regulation does not establish valence | theory-linked valence evidence materially changes |
 | **DR-0009** | Keep the first developmental world closed, symbolic, and bounded | accepted | inspectability and safety outweigh realism | core causal results replicate and a richer world tests a clear hypothesis |
 | **DR-0010** | Preserve nulls, killed ideas, and superseded drafts | accepted | prevents retrospective story rewriting | never; retention method may change |
+| **DR-0011** | Redirect S02 toward task validation and 2x2 factorial diagnostics before observer controls | accepted | S01 scout revealed construct contamination (BPE fragmentation vs binding, prompt recency); measurement validity must precede observer modeling | S02 task validation passes with verified exact scoring |
 
 
 # Pending decisions

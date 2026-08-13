@@ -22,23 +22,23 @@ def test_kv_retrieval_scoring():
     items = task.generate_items(count=1, seed=42)
     target_item = items[0]
 
-    # Correct response
-    res_correct = task.score_response(target_item, f"The answer is {target_item.ground_truth}.")
+    # Correct structured response
+    res_correct = task.score_response(target_item, f"Answer: {target_item.ground_truth}\nConfidence: 5")
     assert res_correct["correct"] is True
     assert res_correct["score"] == 1.0
 
     # Incorrect response
-    res_wrong = task.score_response(target_item, "val_wrong123")
+    res_wrong = task.score_response(target_item, "Answer: val_wrong123\nConfidence: 2")
     assert res_wrong["correct"] is False
     assert res_wrong["score"] == 0.0
 
 
 def test_context_tracking_reproducibility():
     """Verify context tracking item generation and scoring."""
-    task = ContextTrackingTask(num_events=4)
+    task = ContextTrackingTask(num_objects=3, total_transitions=4)
     items = task.generate_items(count=3, seed=99)
     assert len(items) == 3
 
     target = items[0]
-    res = task.score_response(target, target.ground_truth)
+    res = task.score_response(target, f"Answer: {target.ground_truth}\nConfidence: 4")
     assert res["correct"] is True

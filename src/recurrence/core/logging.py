@@ -22,14 +22,25 @@ class TrialEvent(BaseModel):
 
 
 class ExperimentLogger:
-    """JSONL event stream logger with checksum calculation and DuckDB Parquet export."""
+    """JSONL event stream logger with collision guards, checksum calculation, and Parquet export."""
 
-    def __init__(self, output_dir: Union[str, Path], run_id: str):
+    def __init__(self, output_dir: Union[str, Path], run_id: str, overwrite: bool = False):
         self.output_dir = Path(output_dir)
         self.run_id = run_id
+        self.overwrite = overwrite
         self.output_dir.mkdir(parents=True, exist_ok=True)
         self.jsonl_path = self.output_dir / f"{run_id}_events.jsonl"
         self.events: List[TrialEvent] = []
+
+        if self.jsonl_path.exists():
+            if not self.overwrite:
+                raise FileExistsError(
+                    f"Run ID log already exists at {self.jsonl_path}. "
+                    "Aborting to prevent accidental event stream corruption. "
+                    "Provide a unique run_id or pass overwrite=True."
+                )
+            else:
+                self.jsonl_path.unlink()
 
     def log_event(self, event: TrialEvent) -> None:
         """Append a trial event to memory and JSONL stream."""

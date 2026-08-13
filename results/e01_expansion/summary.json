@@ -1,0 +1,46 @@
+{
+  "experiment_id": "E01_Expansion_Hardened",
+  "sprint": "S02",
+  "run_id": "run_e01_exp_002",
+  "model_name": "qwen2.5:3b",
+  "model_digest": "357c53fb659c5076de1d65ccb0b397446227b71a42be9d1603d46168015c9e4b",
+  "seed": 42,
+  "total_trials": 120,
+  "overall_accuracy": 0.3167,
+  "paired_factorial_2x2_matrix": {
+    "semantic_forced_choice": 0.65,
+    "semantic_free_generation": 0.30,
+    "opaque_forced_choice": 0.65,
+    "opaque_free_generation": 0.05
+  },
+  "main_effects": {
+    "forced_choice_mean": 0.65,
+    "free_generation_mean": 0.175,
+    "response_mode_delta": 0.475,
+    "semantic_mean": 0.475,
+    "opaque_mean": 0.35
+  },
+  "confidence_elicitation_intervention_check": {
+    "opaque_free_generation_with_confidence": 0.05,
+    "opaque_free_generation_without_confidence": 0.05,
+    "intervention_distortion": 0.0
+  },
+  "context_tracking_interleaved": {
+    "overall_accuracy": 0.20,
+    "total_trials": 20,
+    "lag_breakdown": {
+      "lag_k_0": 0.0,
+      "lag_k_1": 0.50,
+      "lag_k_2": 0.1429,
+      "lag_k_3": 0.2857
+    },
+    "error_distribution": {
+      "unresolved_hallucination_or_confusion": 12,
+      "previous_state_of_target": 1,
+      "terminal_sentence_recency_bias": 1,
+      "response_format_noncompliance": 2
+    }
+  },
+  "environment_hash": "b3532f861ed05dd7c474ab15b72a857d7ecf56a3a0d3431c37170e7cf60f6c2b",
+  "stream_checksum": "23a3cfefae4e5198bfee7b8d17033ae12ca9928f5583db31aae51eba2a721f82"
+}

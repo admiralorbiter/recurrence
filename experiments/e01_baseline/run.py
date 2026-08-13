@@ -18,6 +18,7 @@ def run_e01_baseline(
     seed: int = 42,
     output_dir: str = "artifacts/e01_baseline",
     run_id: str = "run_e01_001",
+    overwrite: bool = True,
 ) -> Dict[str, Any]:
     """Execute E01 baseline evaluation across benchmark tasks."""
     out_path = Path(output_dir)
@@ -52,7 +53,7 @@ def run_e01_baseline(
         f.write(manifest.model_dump_json(indent=2))
 
     # 3. Instantiate logger & tasks
-    logger = ExperimentLogger(output_dir=out_path, run_id=run_id)
+    logger = ExperimentLogger(output_dir=out_path, run_id=run_id, overwrite=overwrite)
     tasks = [
         KVRetrievalTask(distractor_count=5),
         ContextTrackingTask(num_events=5),

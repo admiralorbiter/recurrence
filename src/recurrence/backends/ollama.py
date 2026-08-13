@@ -24,9 +24,14 @@ class OllamaBackend:
         self.seed = seed
         self.timeout = timeout
         self.model_info = self._fetch_model_info()
+        if self.model_info["digest"] == "unknown":
+            raise RuntimeError(
+                f"Failed to verify model '{self.model_name}' on Ollama at {self.base_url}. "
+                "Ensure Ollama is running and the model has been pulled (`ollama pull {self.model_name}`)."
+            )
 
     def _fetch_model_info(self) -> Dict[str, Any]:
-        """Fetch model metadata, digest, and details from Ollama API."""
+        """Fetch model metadata, digest, and details from Ollama API with strict verification."""
         info: Dict[str, Any] = {"digest": "unknown", "details": {}, "template": ""}
         
         # 1. Fetch digest from /api/tags
@@ -39,8 +44,10 @@ class OllamaBackend:
                         info["digest"] = m.get("digest", "unknown")
                         info["details"] = m.get("details", {})
                         break
-        except Exception:
-            pass
+        except Exception as e:
+            raise ConnectionError(
+                f"Cannot connect to Ollama server at {self.base_url}/api/tags: {e}"
+            ) from e
 
         # 2. Fetch template from /api/show
         try:
@@ -51,16 +58,14 @@ class OllamaBackend:
             with urllib.request.urlopen(show_req, timeout=5) as response:
                 show_data = json.loads(response.read().decode("utf-8"))
                 info["template"] = show_data.get("template", "")
-                if info["digest"] == "unknown" and "details" in show_data:
-                    info["details"] = show_data.get("details", {})
         except Exception:
             pass
 
         return info
 
     def get_digest(self) -> str:
-        """Return model SHA256 digest string."""
-        return self.model_info.get("digest", "unknown")
+        """Return verified model SHA256 digest string."""
+        return self.model_info["digest"]
 
     def chat(
         self,
