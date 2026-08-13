@@ -38,7 +38,7 @@ def run_e01_baseline(
         backend = ToyBackend(seed=seed)
         model_tag = "toy-backend"
 
-    # 2. Create manifest
+    # 2. Create manifest & logger
     manifest = RunManifest(
         experiment_id="E01",
         run_id=run_id,
@@ -48,15 +48,13 @@ def run_e01_baseline(
     )
     manifest.compute_environment_hash()
 
-    manifest_file = out_path / f"{run_id}_manifest.json"
-    with open(manifest_file, "w", encoding="utf-8") as f:
-        f.write(manifest.model_dump_json(indent=2))
-
-    # 3. Instantiate logger & tasks
+    # 3. Instantiate logger & save manifest
     logger = ExperimentLogger(output_dir=out_path, run_id=run_id, overwrite=overwrite)
+    logger.save_manifest(manifest)
+
     tasks = [
         KVRetrievalTask(distractor_count=5),
-        ContextTrackingTask(num_events=5),
+        ContextTrackingTask(num_objects=3, total_transitions=6),
     ]
 
     total_correct = 0
@@ -101,7 +99,7 @@ def run_e01_baseline(
     parquet_path = logger.export_parquet()
 
     return {
-        "manifest_path": str(manifest_file),
+        "manifest_path": str(logger.manifest_path),
         "jsonl_path": str(logger.jsonl_path),
         "parquet_path": str(parquet_path),
         "total_items": total_items,

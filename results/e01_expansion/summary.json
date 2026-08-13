@@ -5,42 +5,155 @@
   "model_name": "qwen2.5:3b",
   "model_digest": "357c53fb659c5076de1d65ccb0b397446227b71a42be9d1603d46168015c9e4b",
   "seed": 42,
-  "total_trials": 120,
-  "overall_accuracy": 0.3167,
+  "manifest_path": "artifacts\\e01_expansion\\run_e01_exp_002\\run_e01_exp_002_manifest.json",
+  "jsonl_path": "artifacts\\e01_expansion\\run_e01_exp_002\\run_e01_exp_002_events.jsonl",
+  "parquet_path": "artifacts\\e01_expansion\\run_e01_exp_002\\run_e01_exp_002_events.parquet",
+  "total_items": 120,
+  "overall_accuracy": 0.4,
   "paired_factorial_2x2_matrix": {
-    "semantic_forced_choice": 0.65,
-    "semantic_free_generation": 0.30,
-    "opaque_forced_choice": 0.65,
-    "opaque_free_generation": 0.05
+    "semantic_forced_choice": 0.7,
+    "semantic_free_generation": 0.4,
+    "opaque_forced_choice": 0.55,
+    "opaque_free_generation": 0.25
   },
   "main_effects": {
-    "forced_choice_mean": 0.65,
-    "free_generation_mean": 0.175,
-    "response_mode_delta": 0.475,
-    "semantic_mean": 0.475,
-    "opaque_mean": 0.35
+    "forced_choice_mean": 0.625,
+    "free_generation_mean": 0.325,
+    "semantic_mean": 0.55,
+    "opaque_mean": 0.4
   },
-  "confidence_elicitation_intervention_check": {
-    "opaque_free_generation_with_confidence": 0.05,
-    "opaque_free_generation_without_confidence": 0.05,
-    "intervention_distortion": 0.0
+  "confidence_elicitation_paired_contingency": {
+    "with_confidence_accuracy": 0.25,
+    "without_confidence_accuracy": 0.2,
+    "both_correct": 2,
+    "conf_only_correct": 3,
+    "noconf_only_correct": 2,
+    "both_wrong": 13
   },
   "context_tracking_interleaved": {
-    "overall_accuracy": 0.20,
-    "total_trials": 20,
-    "lag_breakdown": {
-      "lag_k_0": 0.0,
-      "lag_k_1": 0.50,
-      "lag_k_2": 0.1429,
-      "lag_k_3": 0.2857
+    "overall_accuracy": 0.3,
+    "lag_performance": {
+      "lag_k_0": 0.25,
+      "lag_k_1": 0.0,
+      "lag_k_2": 0.2857142857142857,
+      "lag_k_3": 0.42857142857142855
     },
     "error_distribution": {
-      "unresolved_hallucination_or_confusion": 12,
+      "unresolved_hallucination": 9,
+      "initial_state_of_target": 2,
       "previous_state_of_target": 1,
-      "terminal_sentence_recency_bias": 1,
       "response_format_noncompliance": 2
+    },
+    "metacognitive_discrimination": {
+      "valid_confidence_count": 12,
+      "mean_confidence_correct": 3.75,
+      "mean_confidence_incorrect": 3.75,
+      "confidence_separation": 0.0,
+      "auroc2": 0.546875
     }
   },
-  "environment_hash": "b3532f861ed05dd7c474ab15b72a857d7ecf56a3a0d3431c37170e7cf60f6c2b",
-  "stream_checksum": "23a3cfefae4e5198bfee7b8d17033ae12ca9928f5583db31aae51eba2a721f82"
+  "overall_post_decision_discrimination": {
+    "valid_confidence_count": 69,
+    "mean_confidence_correct": 3.838709677419355,
+    "mean_confidence_incorrect": 3.5526315789473686,
+    "confidence_separation": 0.2860780984719864,
+    "auroc2": 0.5891341256366723
+  },
+  "condition_details": {
+    "kv_semantic_forced_choice_conf": {
+      "total_items": 20,
+      "correct": 14,
+      "accuracy": 0.7,
+      "failure_counts": {
+        "unresolved_generation_or_retrieval": 6
+      },
+      "discrimination": {
+        "valid_confidence_count": 15,
+        "mean_confidence_correct": 3.727272727272727,
+        "mean_confidence_incorrect": 4.0,
+        "confidence_separation": -0.27272727272727293,
+        "auroc2": 0.42045454545454547
+      }
+    },
+    "kv_semantic_free_generation_conf": {
+      "total_items": 20,
+      "correct": 8,
+      "accuracy": 0.4,
+      "failure_counts": {
+        "partial_string_corruption": 12
+      },
+      "discrimination": {
+        "valid_confidence_count": 15,
+        "mean_confidence_correct": 3.7142857142857144,
+        "mean_confidence_incorrect": 3.75,
+        "confidence_separation": -0.03571428571428559,
+        "auroc2": 0.48214285714285715
+      }
+    },
+    "kv_opaque_forced_choice_conf": {
+      "total_items": 20,
+      "correct": 11,
+      "accuracy": 0.55,
+      "failure_counts": {
+        "unresolved_generation_or_retrieval": 9
+      },
+      "discrimination": {
+        "valid_confidence_count": 13,
+        "mean_confidence_correct": 3.8333333333333335,
+        "mean_confidence_incorrect": 3.142857142857143,
+        "confidence_separation": 0.6904761904761907,
+        "auroc2": 0.6785714285714286
+      }
+    },
+    "kv_opaque_free_generation_conf": {
+      "total_items": 20,
+      "correct": 5,
+      "accuracy": 0.25,
+      "failure_counts": {
+        "partial_string_corruption": 15
+      },
+      "discrimination": {
+        "valid_confidence_count": 14,
+        "mean_confidence_correct": 4.666666666666667,
+        "mean_confidence_incorrect": 3.3636363636363638,
+        "confidence_separation": 1.3030303030303032,
+        "auroc2": 0.8636363636363636
+      }
+    },
+    "kv_opaque_free_generation_noconf": {
+      "total_items": 20,
+      "correct": 4,
+      "accuracy": 0.2,
+      "failure_counts": {
+        "partial_string_corruption": 16
+      },
+      "discrimination": {
+        "valid_confidence_count": 0,
+        "mean_confidence_correct": null,
+        "mean_confidence_incorrect": null,
+        "confidence_separation": null,
+        "auroc2": null
+      }
+    },
+    "context_tracking_obj3_trans6": {
+      "total_items": 20,
+      "correct": 6,
+      "accuracy": 0.3,
+      "failure_counts": {
+        "unresolved_hallucination": 9,
+        "initial_state_of_target": 2,
+        "previous_state_of_target": 1,
+        "response_format_noncompliance": 2
+      },
+      "discrimination": {
+        "valid_confidence_count": 12,
+        "mean_confidence_correct": 3.75,
+        "mean_confidence_incorrect": 3.75,
+        "confidence_separation": 0.0,
+        "auroc2": 0.546875
+      }
+    }
+  },
+  "checksum": "127d3f401590a189ef3c4f5a871fbfc457771124c4421e7f9e3d591e0da1414b",
+  "environment_hash": "e348a5ef77b79423af5e9727a6bb5aa576be5d6ac4b7afdb88cb536975d4efed"
 }

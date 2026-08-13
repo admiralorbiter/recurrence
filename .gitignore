@@ -18,6 +18,7 @@ dist/
 artifacts/
 *.parquet
 *.jsonl
+!results/**/*.jsonl
 
 # Environment / IDE
 .env

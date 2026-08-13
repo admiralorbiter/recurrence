@@ -30,17 +30,27 @@ class ExperimentLogger:
         self.overwrite = overwrite
         self.output_dir.mkdir(parents=True, exist_ok=True)
         self.jsonl_path = self.output_dir / f"{run_id}_events.jsonl"
+        self.manifest_path = self.output_dir / f"{run_id}_manifest.json"
         self.events: List[TrialEvent] = []
 
-        if self.jsonl_path.exists():
+        if self.jsonl_path.exists() or self.manifest_path.exists():
             if not self.overwrite:
                 raise FileExistsError(
-                    f"Run ID log already exists at {self.jsonl_path}. "
-                    "Aborting to prevent accidental event stream corruption. "
+                    f"Run artifacts already exist at {self.output_dir} for run_id '{run_id}'. "
+                    "Aborting to prevent accidental data corruption. "
                     "Provide a unique run_id or pass overwrite=True."
                 )
             else:
-                self.jsonl_path.unlink()
+                if self.jsonl_path.exists():
+                    self.jsonl_path.unlink()
+                if self.manifest_path.exists():
+                    self.manifest_path.unlink()
+
+    def save_manifest(self, manifest: Any) -> Path:
+        """Save run manifest inside the collision-guarded run directory."""
+        with open(self.manifest_path, "w", encoding="utf-8") as f:
+            f.write(manifest.model_dump_json(indent=2))
+        return self.manifest_path
 
     def log_event(self, event: TrialEvent) -> None:
         """Append a trial event to memory and JSONL stream."""

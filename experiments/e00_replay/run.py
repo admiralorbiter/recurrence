@@ -28,14 +28,10 @@ def run_e00_trial(
     )
     manifest.compute_environment_hash()
 
-    # Save manifest JSON
-    manifest_file = out_path / f"{run_id}_manifest.json"
-    with open(manifest_file, "w", encoding="utf-8") as f:
-        f.write(manifest.model_dump_json(indent=2))
-
     # 2. Instantiate backend & logger
     backend = ToyBackend(seed=seed)
-    logger = ExperimentLogger(output_dir=out_path, run_id=run_id)
+    logger = ExperimentLogger(output_dir=out_path, run_id=run_id, overwrite=True)
+    logger.save_manifest(manifest)
 
     # 3. Step through test trial
     observations = [
@@ -65,7 +61,7 @@ def run_e00_trial(
     parquet_path = logger.export_parquet()
 
     return {
-        "manifest_path": str(manifest_file),
+        "manifest_path": str(logger.manifest_path),
         "jsonl_path": str(logger.jsonl_path),
         "parquet_path": str(parquet_path),
         "checksum": checksum,

@@ -1,6 +1,6 @@
-"""Calibration, Brier scoring, and metacognitive separation analytics."""
+"""Post-decision confidence separation and rank discrimination analytics."""
 
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Tuple
 import numpy as np
 
 
@@ -42,37 +42,28 @@ def compute_auroc2(confidences: List[float], correct: List[bool]) -> Optional[fl
     return float(np.clip(auroc2, 0.0, 1.0))
 
 
-def compute_calibration_metrics(
-    confidences_1_to_5: List[Optional[int]],
-    correct_flags: List[bool]
+def compute_post_decision_discrimination_from_pairs(
+    paired_observations: List[Tuple[Optional[int], bool]]
 ) -> Dict[str, Optional[float]]:
-    """Compute prospective calibration and confidence separation metrics.
+    """Compute post-decision confidence separation and AUROC2 from paired (confidence, correct) tuples.
 
-    Args:
-        confidences_1_to_5: List of integer ratings in [1, 5] (or None if unparsed)
-        correct_flags: List of boolean trial accuracy outcomes
-
-    Returns:
-        Dict with mean_confidence, brier_score, confidence_accuracy_separation, auroc2, etc.
+    Avoids indexing desynchronization by operating strictly over paired records.
     """
-    valid_pairs = [(c, y) for c, y in zip(confidences_1_to_5, correct_flags) if c is not None]
+    valid_pairs = [(c, y) for c, y in paired_observations if c is not None]
     if not valid_pairs:
         return {
             "valid_confidence_count": 0,
             "mean_confidence_correct": None,
             "mean_confidence_incorrect": None,
             "confidence_separation": None,
-            "brier_score": None,
             "auroc2": None,
         }
 
     confs_raw, labels = zip(*valid_pairs)
-    confs_norm = [(c - 1.0) / 4.0 for c in confs_raw]  # Normalize 1..5 scale to 0.0..1.0
     labels = np.array(labels, dtype=float)
-    confs_norm = np.array(confs_norm, dtype=float)
     confs_raw = np.array(confs_raw, dtype=float)
 
-    # 1. Mean confidence by outcome
+    # 1. Mean confidence by correctness
     pos_mask = labels == 1.0
     neg_mask = labels == 0.0
 
@@ -84,10 +75,7 @@ def compute_calibration_metrics(
         else None
     )
 
-    # 2. Brier Score = (1/N) * sum((prob - actual)^2)
-    brier = float(np.mean((confs_norm - labels) ** 2))
-
-    # 3. AUROC2
+    # 2. AUROC2 rank discrimination
     auroc = compute_auroc2(list(confs_raw), list(labels.astype(bool)))
 
     return {
@@ -95,6 +83,14 @@ def compute_calibration_metrics(
         "mean_confidence_correct": mean_conf_pos,
         "mean_confidence_incorrect": mean_conf_neg,
         "confidence_separation": separation,
-        "brier_score": brier,
         "auroc2": auroc,
     }
+
+
+def compute_calibration_metrics(
+    confidences_1_to_5: List[Optional[int]],
+    correct_flags: List[bool]
+) -> Dict[str, Optional[float]]:
+    """Convenience wrapper for lists of confidences and correct flags."""
+    paired = list(zip(confidences_1_to_5, correct_flags))
+    return compute_post_decision_discrimination_from_pairs(paired)

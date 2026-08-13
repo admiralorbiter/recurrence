@@ -1,14 +1,14 @@
-"""Ollama REST API backend for reproducible open model scouting."""
+"""Ollama Local LLM Backend with greedy deterministic options, SHA256 digest extraction, and retries."""
 
 import json
 import time
-import urllib.request
 import urllib.error
-from typing import Dict, Any, List, Optional, Tuple
+import urllib.request
+from typing import Any, Dict, List, Optional, Tuple
 
 
 class OllamaBackend:
-    """Interface to local Ollama API for deterministic open model scouting."""
+    """Interface for local LLM inference via Ollama REST API with fail-fast digest verification."""
 
     def __init__(
         self,
@@ -16,56 +16,53 @@ class OllamaBackend:
         base_url: str = "http://localhost:11434",
         temperature: float = 0.0,
         seed: int = 42,
-        timeout: int = 60,
+        timeout: float = 120.0,
     ):
         self.model_name = model_name
         self.base_url = base_url.rstrip("/")
         self.temperature = temperature
         self.seed = seed
         self.timeout = timeout
-        self.model_info = self._fetch_model_info()
-        if self.model_info["digest"] == "unknown":
-            raise RuntimeError(
-                f"Failed to verify model '{self.model_name}' on Ollama at {self.base_url}. "
-                "Ensure Ollama is running and the model has been pulled (`ollama pull {self.model_name}`)."
-            )
+        self._digest: Optional[str] = None
+        self._verify_and_cache_model()
 
-    def _fetch_model_info(self) -> Dict[str, Any]:
-        """Fetch model metadata, digest, and details from Ollama API with strict verification."""
-        info: Dict[str, Any] = {"digest": "unknown", "details": {}, "template": ""}
-        
-        # 1. Fetch digest from /api/tags
+    def _verify_and_cache_model(self) -> None:
+        """Strict verification against Ollama tags. Fails fast if model not present."""
+        tags_url = f"{self.base_url}/api/tags"
         try:
-            tags_req = urllib.request.Request(f"{self.base_url}/api/tags")
-            with urllib.request.urlopen(tags_req, timeout=5) as response:
-                tags_data = json.loads(response.read().decode("utf-8"))
-                for m in tags_data.get("models", []):
-                    if m.get("name") == self.model_name or m.get("model") == self.model_name:
-                        info["digest"] = m.get("digest", "unknown")
-                        info["details"] = m.get("details", {})
-                        break
+            req = urllib.request.Request(tags_url, headers={"Content-Type": "application/json"})
+            with urllib.request.urlopen(req, timeout=10.0) as resp:
+                data = json.loads(resp.read().decode("utf-8"))
         except Exception as e:
             raise ConnectionError(
-                f"Cannot connect to Ollama server at {self.base_url}/api/tags: {e}"
-            ) from e
-
-        # 2. Fetch template from /api/show
-        try:
-            show_payload = json.dumps({"name": self.model_name}).encode("utf-8")
-            show_req = urllib.request.Request(
-                f"{self.base_url}/api/show", data=show_payload, headers={"Content-Type": "application/json"}
+                f"Failed to reach Ollama daemon at {self.base_url}. "
+                f"Ensure 'ollama serve' is active. Error: {e}"
             )
-            with urllib.request.urlopen(show_req, timeout=5) as response:
-                show_data = json.loads(response.read().decode("utf-8"))
-                info["template"] = show_data.get("template", "")
-        except Exception:
-            pass
 
-        return info
+        models = data.get("models", [])
+        matched = None
+        for m in models:
+            name = m.get("name", "")
+            model_tag = m.get("model", "")
+            if self.model_name in [name, model_tag, name.split(":")[0]]:
+                matched = m
+                break
+
+        if not matched:
+            raise RuntimeError(
+                f"Requested model '{self.model_name}' is not installed in Ollama. "
+                f"Available models: {[m.get('name') for m in models]}"
+            )
+
+        self._digest = matched.get("digest", "unknown")
+        if self._digest == "unknown":
+            raise RuntimeError(f"Could not retrieve deterministic SHA256 digest for '{self.model_name}'.")
 
     def get_digest(self) -> str:
-        """Return verified model SHA256 digest string."""
-        return self.model_info["digest"]
+        """Return the verified SHA256 model digest."""
+        if not self._digest:
+            self._verify_and_cache_model()
+        return self._digest or "unknown"
 
     def chat(
         self,
@@ -73,16 +70,7 @@ class OllamaBackend:
         temperature: Optional[float] = None,
         seed: Optional[int] = None,
     ) -> Tuple[str, Dict[str, Any]]:
-        """Send chat completion request to Ollama /api/chat.
-
-        Args:
-            messages: List of message dicts [{'role': 'user', 'content': '...'}]
-            temperature: Override sampling temperature
-            seed: Override deterministic seed
-
-        Returns:
-            Tuple of (assistant_response_text, execution_metadata_dict)
-        """
+        """Send chat messages to Ollama `/api/chat` with greedy deterministic options and retry."""
         temp = temperature if temperature is not None else self.temperature
         sd = seed if seed is not None else self.seed
 
@@ -103,10 +91,21 @@ class OllamaBackend:
             url, data=data_bytes, headers={"Content-Type": "application/json"}
         )
 
-        start_time = time.time()
-        with urllib.request.urlopen(req, timeout=self.timeout) as response:
-            result = json.loads(response.read().decode("utf-8"))
-        elapsed_ms = (time.time() - start_time) * 1000.0
+        last_err = None
+        result = {}
+        elapsed_ms = 0.0
+        for attempt in range(3):
+            try:
+                start_time = time.time()
+                with urllib.request.urlopen(req, timeout=self.timeout) as response:
+                    result = json.loads(response.read().decode("utf-8"))
+                elapsed_ms = (time.time() - start_time) * 1000.0
+                break
+            except Exception as e:
+                last_err = e
+                time.sleep(1.0 * (attempt + 1))
+        else:
+            raise TimeoutError(f"Ollama chat request failed after 3 attempts: {last_err}")
 
         content = result.get("message", {}).get("content", "")
         metadata = {
@@ -120,3 +119,10 @@ class OllamaBackend:
         }
 
         return content, metadata
+
+    def step(self, prompt: str) -> Tuple[str, str, Dict[str, Any]]:
+        """Single-turn prompt execution."""
+        messages = [{"role": "user", "content": prompt}]
+        content, metadata = self.chat(messages)
+        state_hash = self.get_digest()[:16]
+        return content, state_hash, metadata

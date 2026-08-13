@@ -55,28 +55,34 @@ class KVRetrievalTask(BaseTask):
     ) -> List[Tuple[str, str, List[Tuple[str, str]]]]:
         """Generate canonical underlying (target_key, target_value, all_pairs) instances.
 
-        Used to ensure Forced-Choice and Free-Generation evaluate identical underlying items.
+        Uses ordered lists to guarantee cross-process deterministic reproducibility.
         """
         rng = random.Random(seed)
         instances = []
 
         for _ in range(count):
-            keys = set()
+            keys: List[str] = []
+            seen_keys = set()
             while len(keys) < distractor_count + 1:
                 if identifier_type == "opaque":
-                    keys.add("key_" + "".join(rng.choices(string.ascii_lowercase + string.digits, k=6)))
+                    cand = "key_" + "".join(rng.choices(string.ascii_lowercase + string.digits, k=6))
                 else:
-                    keys.add("key_" + rng.choice(_ADJECTIVES) + "_" + rng.choice(_NOUNS))
-            keys = list(keys)
+                    cand = "key_" + rng.choice(_ADJECTIVES) + "_" + rng.choice(_NOUNS)
+                if cand not in seen_keys:
+                    seen_keys.add(cand)
+                    keys.append(cand)
 
-            values = set()
+            values: List[str] = []
+            seen_values = set()
             while len(values) < distractor_count + 1:
                 if identifier_type == "opaque":
-                    values.add("val_" + "".join(rng.choices(string.ascii_lowercase + string.digits, k=6)))
+                    cand = "val_" + "".join(rng.choices(string.ascii_lowercase + string.digits, k=6))
                 else:
                     # Random independent pairing to avoid semantic leakage
-                    values.add("val_" + rng.choice(_ADJECTIVES) + "_" + rng.choice(_NOUNS))
-            values = list(values)
+                    cand = "val_" + rng.choice(_ADJECTIVES) + "_" + rng.choice(_NOUNS)
+                if cand not in seen_values:
+                    seen_values.add(cand)
+                    values.append(cand)
 
             pairs = list(zip(keys, values))
             target_key, target_value = rng.choice(pairs)
@@ -90,23 +96,31 @@ class KVRetrievalTask(BaseTask):
         raw_instances: List[Tuple[str, str, List[Tuple[str, str]]]],
         seed: int = 42
     ) -> List[TaskItem]:
-        """Format raw paired instances into TaskItems for this condition."""
+        """Format raw paired instances into TaskItems with exact option-letter counterbalancing."""
         rng = random.Random(seed)
         items: List[TaskItem] = []
+        option_labels = ["A", "B", "C", "D"]
 
         for i, (target_key, target_value, pairs) in enumerate(raw_instances):
             formatted_pairs = "\n".join([f"- {k}: {v}" for k, v in pairs])
             distractor_values = [v for k, v in pairs if v != target_value]
 
             if self.mode == "forced_choice":
-                # Create 4-way multiple choice options (A, B, C, D)
-                options = [target_value] + rng.sample(distractor_values, k=min(3, len(distractor_values)))
-                rng.shuffle(options)
-                option_labels = ["A", "B", "C", "D"][:len(options)]
-                option_map = dict(zip(option_labels, options))
-                target_label = [lbl for lbl, opt in option_map.items() if opt == target_value][0]
+                # Exact 4-way counterbalancing: cycles A -> B -> C -> D -> A ...
+                target_label = option_labels[i % len(option_labels)]
+                sampled_distractors = rng.sample(distractor_values, k=3)
+                
+                # Assign distractors to the remaining 3 labels
+                option_map: Dict[str, str] = {}
+                dist_idx = 0
+                for lbl in option_labels:
+                    if lbl == target_label:
+                        option_map[lbl] = target_value
+                    else:
+                        option_map[lbl] = sampled_distractors[dist_idx]
+                        dist_idx += 1
 
-                options_text = "\n".join([f"({lbl}) {opt}" for lbl, opt in option_map.items()])
+                options_text = "\n".join([f"({lbl}) {option_map[lbl]}" for lbl in option_labels])
                 
                 if self.ask_confidence:
                     prompt = (
@@ -130,6 +144,7 @@ class KVRetrievalTask(BaseTask):
                 metadata = {
                     "target_key": target_key,
                     "target_value": target_value,
+                    "target_option_letter": target_label,
                     "option_map": option_map,
                     "mode": self.mode,
                     "identifier_type": self.identifier_type,
@@ -202,10 +217,10 @@ class KVRetrievalTask(BaseTask):
 
         # STRICT SCORING
         if self.mode == "forced_choice":
-            # Match option letter (e.g. 'A') or exact option text
+            # Exact option letter match OR exact option value string match
             target_val = _normalize_string(item.metadata.get("target_value", ""))
             correct = (
-                norm_answer.upper().startswith(item.ground_truth.upper()) or
+                norm_answer.upper() == item.ground_truth.upper() or
                 norm_answer == target_val
             )
         else:
