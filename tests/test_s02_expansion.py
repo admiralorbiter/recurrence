@@ -27,16 +27,17 @@ def tmp_artifact_dir(tmp_path):
 
 def test_logger_collision_protection(tmp_artifact_dir):
     """Verify ExperimentLogger raises FileExistsError on run collision when overwrite=False."""
-    logger = ExperimentLogger(output_dir=tmp_artifact_dir, run_id="test_run_01", overwrite=False)
+    run_dir = tmp_artifact_dir / "test_run_01"
+    logger = ExperimentLogger(output_dir=run_dir, run_id="test_run_01", overwrite=False)
     event = TrialEvent(run_id="test_run_01", step=1, event_type="test")
     logger.log_event(event)
 
-    # Re-instantiating with overwrite=False must raise FileExistsError
+    # Re-instantiating with overwrite=False must raise FileExistsError because run_dir exists
     with pytest.raises(FileExistsError):
-        ExperimentLogger(output_dir=tmp_artifact_dir, run_id="test_run_01", overwrite=False)
+        ExperimentLogger(output_dir=run_dir, run_id="test_run_01", overwrite=False)
 
     # Re-instantiating with overwrite=True succeeds and clears
-    logger_overwrite = ExperimentLogger(output_dir=tmp_artifact_dir, run_id="test_run_01", overwrite=True)
+    logger_overwrite = ExperimentLogger(output_dir=run_dir, run_id="test_run_01", overwrite=True)
     assert len(logger_overwrite.events) == 0
 
 
@@ -159,7 +160,7 @@ def test_e01_expansion_toy_runner_end_to_end(tmp_artifact_dir):
         use_ollama=False,
         items_per_condition=2,
         base_output_dir=str(tmp_artifact_dir),
-        results_dir=str(results_dir),
+        results_base_dir=str(results_dir),
         run_id="test_exp_toy_001",
         overwrite=True,
     )
@@ -167,6 +168,8 @@ def test_e01_expansion_toy_runner_end_to_end(tmp_artifact_dir):
     assert summary["total_items"] == 12
     assert "paired_factorial_2x2_matrix" in summary
     assert "confidence_elicitation_paired_contingency" in summary
+    assert "paired_response_mode_contingency" in summary
     assert Path(summary["parquet_path"]).exists()
-    assert (results_dir / "trials.jsonl").exists()
-    assert (results_dir / "summary.json").exists()
+    assert (results_dir / "test_exp_toy_001" / "trials.jsonl").exists()
+    assert (results_dir / "test_exp_toy_001" / "summary.json").exists()
+    assert (results_dir / "latest.json").exists()

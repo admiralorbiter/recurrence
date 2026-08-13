@@ -21,6 +21,8 @@ class TrialEvent(BaseModel):
     metadata: Dict[str, Any] = Field(default_factory=dict)
 
 
+import shutil
+
 class ExperimentLogger:
     """JSONL event stream logger with collision guards, checksum calculation, and Parquet export."""
 
@@ -28,23 +30,21 @@ class ExperimentLogger:
         self.output_dir = Path(output_dir)
         self.run_id = run_id
         self.overwrite = overwrite
-        self.output_dir.mkdir(parents=True, exist_ok=True)
-        self.jsonl_path = self.output_dir / f"{run_id}_events.jsonl"
-        self.manifest_path = self.output_dir / f"{run_id}_manifest.json"
         self.events: List[TrialEvent] = []
 
-        if self.jsonl_path.exists() or self.manifest_path.exists():
+        if self.output_dir.exists():
             if not self.overwrite:
                 raise FileExistsError(
-                    f"Run artifacts already exist at {self.output_dir} for run_id '{run_id}'. "
+                    f"Run directory already exists at '{self.output_dir}'. "
                     "Aborting to prevent accidental data corruption. "
                     "Provide a unique run_id or pass overwrite=True."
                 )
             else:
-                if self.jsonl_path.exists():
-                    self.jsonl_path.unlink()
-                if self.manifest_path.exists():
-                    self.manifest_path.unlink()
+                shutil.rmtree(self.output_dir)
+
+        self.output_dir.mkdir(parents=True, exist_ok=False)
+        self.jsonl_path = self.output_dir / f"{run_id}_events.jsonl"
+        self.manifest_path = self.output_dir / f"{run_id}_manifest.json"
 
     def save_manifest(self, manifest: Any) -> Path:
         """Save run manifest inside the collision-guarded run directory."""

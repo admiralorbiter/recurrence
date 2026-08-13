@@ -1,0 +1,6 @@
+{
+  "experiment_id": "E01_Expansion_Hardened",
+  "promoted_run_id": "run_e01_exp_002",
+  "summary_path": "results\\e01_expansion\\run_e01_exp_002\\summary.json",
+  "trials_path": "results\\e01_expansion\\run_e01_exp_002\\trials.jsonl"
+}

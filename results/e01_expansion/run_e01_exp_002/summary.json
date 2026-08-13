@@ -9,18 +9,41 @@
   "jsonl_path": "artifacts\\e01_expansion\\run_e01_exp_002\\run_e01_exp_002_events.jsonl",
   "parquet_path": "artifacts\\e01_expansion\\run_e01_exp_002\\run_e01_exp_002_events.parquet",
   "total_items": 120,
-  "overall_accuracy": 0.4,
+  "overall_accuracy": 0.375,
   "paired_factorial_2x2_matrix": {
-    "semantic_forced_choice": 0.7,
+    "semantic_forced_choice": 0.65,
     "semantic_free_generation": 0.4,
-    "opaque_forced_choice": 0.55,
+    "opaque_forced_choice": 0.6,
     "opaque_free_generation": 0.25
   },
   "main_effects": {
     "forced_choice_mean": 0.625,
     "free_generation_mean": 0.325,
-    "semantic_mean": 0.55,
-    "opaque_mean": 0.4
+    "semantic_mean": 0.525,
+    "opaque_mean": 0.425
+  },
+  "paired_response_mode_contingency": {
+    "semantic": {
+      "both_correct": 5,
+      "fc_only_correct": 8,
+      "fg_only_correct": 3,
+      "both_wrong": 4,
+      "mcnemar_p_value": 0.2265625
+    },
+    "opaque": {
+      "both_correct": 1,
+      "fc_only_correct": 11,
+      "fg_only_correct": 4,
+      "both_wrong": 4,
+      "mcnemar_p_value": 0.11846923828124999
+    },
+    "pooled": {
+      "both_correct": 6,
+      "fc_only_correct": 19,
+      "fg_only_correct": 7,
+      "both_wrong": 8,
+      "mcnemar_p_value": 0.028959274291992188
+    }
   },
   "confidence_elicitation_paired_contingency": {
     "with_confidence_accuracy": 0.25,
@@ -28,51 +51,51 @@
     "both_correct": 2,
     "conf_only_correct": 3,
     "noconf_only_correct": 2,
-    "both_wrong": 13
+    "both_wrong": 13,
+    "mcnemar_p_value": 1.0
   },
   "context_tracking_interleaved": {
-    "overall_accuracy": 0.3,
+    "overall_accuracy": 0.15,
     "lag_performance": {
-      "lag_k_0": 0.25,
-      "lag_k_1": 0.0,
-      "lag_k_2": 0.2857142857142857,
-      "lag_k_3": 0.42857142857142855
+      "lag_k_0": 0.0,
+      "lag_k_1": 0.5,
+      "lag_k_2": 0.14285714285714285,
+      "lag_k_3": 0.14285714285714285
     },
     "error_distribution": {
-      "unresolved_hallucination": 9,
-      "initial_state_of_target": 2,
-      "previous_state_of_target": 1,
-      "response_format_noncompliance": 2
+      "response_format_noncompliance": 3,
+      "unresolved_hallucination": 11,
+      "previous_state_of_target": 3
     },
     "metacognitive_discrimination": {
-      "valid_confidence_count": 12,
-      "mean_confidence_correct": 3.75,
-      "mean_confidence_incorrect": 3.75,
-      "confidence_separation": 0.0,
-      "auroc2": 0.546875
+      "valid_confidence_count": 7,
+      "mean_confidence_correct": 2.5,
+      "mean_confidence_incorrect": 4.2,
+      "confidence_separation": -1.7000000000000002,
+      "auroc2": 0.2
     }
   },
   "overall_post_decision_discrimination": {
-    "valid_confidence_count": 69,
-    "mean_confidence_correct": 3.838709677419355,
-    "mean_confidence_incorrect": 3.5526315789473686,
-    "confidence_separation": 0.2860780984719864,
-    "auroc2": 0.5891341256366723
+    "valid_confidence_count": 64,
+    "mean_confidence_correct": 3.6333333333333333,
+    "mean_confidence_incorrect": 3.735294117647059,
+    "confidence_separation": -0.10196078431372557,
+    "auroc2": 0.49558823529411766
   },
   "condition_details": {
     "kv_semantic_forced_choice_conf": {
       "total_items": 20,
-      "correct": 14,
-      "accuracy": 0.7,
+      "correct": 13,
+      "accuracy": 0.65,
       "failure_counts": {
-        "unresolved_generation_or_retrieval": 6
+        "unresolved_generation_or_retrieval": 7
       },
       "discrimination": {
-        "valid_confidence_count": 15,
-        "mean_confidence_correct": 3.727272727272727,
-        "mean_confidence_incorrect": 4.0,
-        "confidence_separation": -0.27272727272727293,
-        "auroc2": 0.42045454545454547
+        "valid_confidence_count": 14,
+        "mean_confidence_correct": 3.5,
+        "mean_confidence_incorrect": 4.5,
+        "confidence_separation": -1.0,
+        "auroc2": 0.2
       }
     },
     "kv_semantic_free_generation_conf": {
@@ -92,17 +115,17 @@
     },
     "kv_opaque_forced_choice_conf": {
       "total_items": 20,
-      "correct": 11,
-      "accuracy": 0.55,
+      "correct": 12,
+      "accuracy": 0.6,
       "failure_counts": {
-        "unresolved_generation_or_retrieval": 9
+        "unresolved_generation_or_retrieval": 8
       },
       "discrimination": {
-        "valid_confidence_count": 13,
-        "mean_confidence_correct": 3.8333333333333335,
-        "mean_confidence_incorrect": 3.142857142857143,
-        "confidence_separation": 0.6904761904761907,
-        "auroc2": 0.6785714285714286
+        "valid_confidence_count": 14,
+        "mean_confidence_correct": 3.625,
+        "mean_confidence_incorrect": 3.5,
+        "confidence_separation": 0.125,
+        "auroc2": 0.5625
       }
     },
     "kv_opaque_free_generation_conf": {
@@ -137,23 +160,22 @@
     },
     "context_tracking_obj3_trans6": {
       "total_items": 20,
-      "correct": 6,
-      "accuracy": 0.3,
+      "correct": 3,
+      "accuracy": 0.15,
       "failure_counts": {
-        "unresolved_hallucination": 9,
-        "initial_state_of_target": 2,
-        "previous_state_of_target": 1,
-        "response_format_noncompliance": 2
+        "response_format_noncompliance": 3,
+        "unresolved_hallucination": 11,
+        "previous_state_of_target": 3
       },
       "discrimination": {
-        "valid_confidence_count": 12,
-        "mean_confidence_correct": 3.75,
-        "mean_confidence_incorrect": 3.75,
-        "confidence_separation": 0.0,
-        "auroc2": 0.546875
+        "valid_confidence_count": 7,
+        "mean_confidence_correct": 2.5,
+        "mean_confidence_incorrect": 4.2,
+        "confidence_separation": -1.7000000000000002,
+        "auroc2": 0.2
       }
     }
   },
-  "checksum": "127d3f401590a189ef3c4f5a871fbfc457771124c4421e7f9e3d591e0da1414b",
-  "environment_hash": "e348a5ef77b79423af5e9727a6bb5aa576be5d6ac4b7afdb88cb536975d4efed"
+  "checksum": "444cfd3d54ee4d65238c0a53c40ecf3e7f7a4d838e129e9e7993a47b3791e88b",
+  "environment_hash": "4707bbdaba950622cc88a0f40e42830c98c52ce727d214f904c2084cae46d2c1"
 }

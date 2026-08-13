@@ -3,6 +3,7 @@
 import json
 from pathlib import Path
 from typing import Dict, Any, List, Tuple, Union
+import scipy.stats
 from recurrence.core.manifest import RunManifest
 from recurrence.core.logging import ExperimentLogger, TrialEvent
 from recurrence.backends.ollama import OllamaBackend
@@ -20,14 +21,15 @@ def run_e01_expansion(
     items_per_condition: int = 20,
     seed: int = 42,
     base_output_dir: str = "artifacts/e01_expansion",
-    results_dir: str = "results/e01_expansion",
+    results_base_dir: str = "results/e01_expansion",
     run_id: str = "run_e01_exp_002",
     overwrite: bool = False,
 ) -> Dict[str, Any]:
-    """Execute E01 expansion battery with atomic run directories, paired items, and auto-generated result tables."""
+    """Execute E01 expansion battery with atomic run directories, paired items, and run-isolated result directories."""
     run_dir = Path(base_output_dir) / run_id
-    res_dir = Path(results_dir)
-    res_dir.mkdir(parents=True, exist_ok=True)
+    res_base = Path(results_base_dir)
+    res_run_dir = res_base / run_id
+    res_run_dir.mkdir(parents=True, exist_ok=True)
 
     # 1. Initialize collision-safe logger (fails if directory exists and overwrite=False)
     logger = ExperimentLogger(output_dir=run_dir, run_id=run_id, overwrite=overwrite)
@@ -97,6 +99,12 @@ def run_e01_expansion(
     context_lag_performance: Dict[str, Dict[str, int]] = {}
     trial_records: List[Dict[str, Any]] = []
 
+    # Track paired accuracy outcomes for FC vs FG contingency
+    semantic_fc_correct: List[bool] = []
+    semantic_fg_correct: List[bool] = []
+    opaque_fc_correct: List[bool] = []
+    opaque_fg_correct: List[bool] = []
+
     # Track paired outcomes for confidence reactivity check
     opaque_fg_with_conf_correct: List[bool] = []
     opaque_fg_without_conf_correct: List[bool] = []
@@ -136,7 +144,14 @@ def run_e01_expansion(
                 if is_corr:
                     context_lag_performance[lag_key]["correct"] += 1
 
-            if task.name == "kv_opaque_free_generation_conf":
+            if task.name == "kv_semantic_forced_choice_conf":
+                semantic_fc_correct.append(is_corr)
+            elif task.name == "kv_semantic_free_generation_conf":
+                semantic_fg_correct.append(is_corr)
+            elif task.name == "kv_opaque_forced_choice_conf":
+                opaque_fc_correct.append(is_corr)
+            elif task.name == "kv_opaque_free_generation_conf":
+                opaque_fg_correct.append(is_corr)
                 opaque_fg_with_conf_correct.append(is_corr)
             elif task.name == "kv_opaque_free_generation_noconf":
                 opaque_fg_without_conf_correct.append(is_corr)
@@ -195,11 +210,46 @@ def run_e01_expansion(
     checksum = logger.compute_stream_checksum()
     parquet_path = logger.export_parquet()
 
-    # Compute paired reactivity contingency table
-    both_correct = sum(w and wo for w, wo in zip(opaque_fg_with_conf_correct, opaque_fg_without_conf_correct))
-    conf_only = sum(w and not wo for w, wo in zip(opaque_fg_with_conf_correct, opaque_fg_without_conf_correct))
-    noconf_only = sum(not w and wo for w, wo in zip(opaque_fg_with_conf_correct, opaque_fg_without_conf_correct))
-    both_wrong = sum(not w and not wo for w, wo in zip(opaque_fg_with_conf_correct, opaque_fg_without_conf_correct))
+    # Compute paired FC vs FG contingency
+    def compute_contingency(fc_list: List[bool], fg_list: List[bool]) -> Dict[str, Any]:
+        both_c = sum(c and g for c, g in zip(fc_list, fg_list))
+        fc_only = sum(c and not g for c, g in zip(fc_list, fg_list))
+        fg_only = sum(not c and g for c, g in zip(fc_list, fg_list))
+        both_w = sum(not c and not g for c, g in zip(fc_list, fg_list))
+        discordant = fc_only + fg_only
+        p_val = (
+            scipy.stats.binomtest(min(fc_only, fg_only), discordant, 0.5).pvalue
+            if discordant > 0 else 1.0
+        )
+        return {
+            "both_correct": both_c,
+            "fc_only_correct": fc_only,
+            "fg_only_correct": fg_only,
+            "both_wrong": both_w,
+            "mcnemar_p_value": float(p_val),
+        }
+
+    semantic_fc_fg_contingency = compute_contingency(semantic_fc_correct, semantic_fg_correct)
+    opaque_fc_fg_contingency = compute_contingency(opaque_fc_correct, opaque_fg_correct)
+    pooled_fc_fg_contingency = compute_contingency(
+        semantic_fc_correct + opaque_fc_correct,
+        semantic_fg_correct + opaque_fg_correct,
+    )
+
+    # Compute paired confidence reactivity contingency
+    conf_reactivity_contingency = {
+        "with_confidence_accuracy": condition_summaries.get("kv_opaque_free_generation_conf", {}).get("accuracy"),
+        "without_confidence_accuracy": condition_summaries.get("kv_opaque_free_generation_noconf", {}).get("accuracy"),
+        "both_correct": sum(w and wo for w, wo in zip(opaque_fg_with_conf_correct, opaque_fg_without_conf_correct)),
+        "conf_only_correct": sum(w and not wo for w, wo in zip(opaque_fg_with_conf_correct, opaque_fg_without_conf_correct)),
+        "noconf_only_correct": sum(not w and wo for w, wo in zip(opaque_fg_with_conf_correct, opaque_fg_without_conf_correct)),
+        "both_wrong": sum(not w and not wo for w, wo in zip(opaque_fg_with_conf_correct, opaque_fg_without_conf_correct)),
+    }
+    disc_reactivity = conf_reactivity_contingency["conf_only_correct"] + conf_reactivity_contingency["noconf_only_correct"]
+    conf_reactivity_contingency["mcnemar_p_value"] = (
+        float(scipy.stats.binomtest(min(conf_reactivity_contingency["conf_only_correct"], conf_reactivity_contingency["noconf_only_correct"]), disc_reactivity, 0.5).pvalue)
+        if disc_reactivity > 0 else 1.0
+    )
 
     results_summary = {
         "experiment_id": "E01_Expansion_Hardened",
@@ -237,14 +287,12 @@ def run_e01_expansion(
                  condition_summaries.get("kv_opaque_free_generation_conf", {}).get("accuracy", 0.0)) / 2.0
             ),
         },
-        "confidence_elicitation_paired_contingency": {
-            "with_confidence_accuracy": condition_summaries.get("kv_opaque_free_generation_conf", {}).get("accuracy"),
-            "without_confidence_accuracy": condition_summaries.get("kv_opaque_free_generation_noconf", {}).get("accuracy"),
-            "both_correct": both_correct,
-            "conf_only_correct": conf_only,
-            "noconf_only_correct": noconf_only,
-            "both_wrong": both_wrong,
+        "paired_response_mode_contingency": {
+            "semantic": semantic_fc_fg_contingency,
+            "opaque": opaque_fc_fg_contingency,
+            "pooled": pooled_fc_fg_contingency,
         },
+        "confidence_elicitation_paired_contingency": conf_reactivity_contingency,
         "context_tracking_interleaved": {
             "overall_accuracy": condition_summaries.get(task_context_interleaved.name, {}).get("accuracy"),
             "lag_performance": {
@@ -260,15 +308,29 @@ def run_e01_expansion(
         "environment_hash": manifest.environment_hash,
     }
 
-    # Automatically write canonical result files to results_dir
-    trials_file = res_dir / "trials.jsonl"
+    # Automatically write canonical result files to res_run_dir
+    trials_file = res_run_dir / "trials.jsonl"
     with open(trials_file, "w", encoding="utf-8") as f:
         for rec in trial_records:
             f.write(json.dumps(rec) + "\n")
 
-    summary_file = res_dir / "summary.json"
+    summary_file = res_run_dir / "summary.json"
     with open(summary_file, "w", encoding="utf-8") as f:
         f.write(json.dumps(results_summary, indent=2))
+
+    # Update latest pointer in res_base
+    latest_pointer_file = res_base / "latest.json"
+    with open(latest_pointer_file, "w", encoding="utf-8") as f:
+        json.dump(
+            {
+                "experiment_id": "E01_Expansion_Hardened",
+                "promoted_run_id": run_id,
+                "summary_path": str(summary_file.relative_to(res_base.parent.parent)),
+                "trials_path": str(trials_file.relative_to(res_base.parent.parent)),
+            },
+            f,
+            indent=2,
+        )
 
     return results_summary
 
