@@ -23,6 +23,8 @@ Reason:
 - **Stage:** scout / establish / causal / replicate / scale
 - **Reproduction level:** R0 / R1 / R2 / R3
 - **Evidence level:** behavior / representation / causal role / mechanism / cross-system analogy
+- **Measurement validity:** passed / conditional / failed
+- **Primary failure types:** target-process / task-design / tokenization-surface / noncompliance / scoring / unresolved
 - **Claim ceiling reached:**
 - **Confidence:** speculative / weak / mixed / moderate / strong
 

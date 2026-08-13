@@ -1,0 +1,36 @@
+{
+  "experiment_id": "E01",
+  "run_id": "run_e01_001",
+  "model_name": "qwen2.5:3b",
+  "model_tag": "ollama-qwen2.5:3b",
+  "model_digest": "357c53fb659c5076de1d65ccb0b397446227b71a42be9d1603d46168015c9e4b",
+  "seed": 42,
+  "measurement_validity": "conditional",
+  "tasks": [
+    {
+      "task_name": "kv_retrieval",
+      "items_evaluated": 5,
+      "distractor_count": 5,
+      "correct": 1,
+      "accuracy": 0.20,
+      "failure_breakdown": {
+        "tokenization_surface_artifact": 3,
+        "response_format_noncompliance": 1,
+        "unresolved_associative_failure": 0
+      }
+    },
+    {
+      "task_name": "context_tracking",
+      "items_evaluated": 5,
+      "num_events": 5,
+      "correct": 4,
+      "accuracy": 0.80,
+      "failure_breakdown": {
+        "candidate_intermediate_state_substitution": 1
+      }
+    }
+  ],
+  "overall_accuracy": 0.50,
+  "environment_hash": "2d5e6870077b37c157b3b7e3885115c119d57e6abab4a0016df846f56291261a",
+  "stream_checksum": "5aa857f97ae706636c3a94a371f51f4dfb764f4b5b7426e480f5c52e10b1f162"
+}

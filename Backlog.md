@@ -78,6 +78,10 @@ The following high-value design refinements are indexed to ensure they are incor
 5. **Developmental Competence Equivalence:** Require matched first-order competence across developmental histories before attributing differences to developmental trajectory. (Indexed in [`1. Charter.md`](1.%20Charter.md)).
 6. **RecurrentGemma Role Specification:** Treat RecurrentGemma as token-sequence recurrence control while developing event-time latent core $z_{t+1}=R(z_t, \varnothing)$ in parallel. (Targeted for S10–S12 execution).
 7. **Bibliography Infrastructure & OSF Preregistration:** Set up `references.bib`, Zotero integration, and OSF time-stamped preregistrations during S00 foundation sprint.
+8. **Forced-Choice vs. Free-Generation 2x2 Matrix (S02):** Implement a 2x2 factorial evaluation (`Meaningful vs. Opaque Identifiers` $\times$ `Forced-Choice vs. Free-Generation`) to separate associative availability from surface-realization / token-generation failure.
+9. **Tokenizer Strata Diagnostic (S02):** Stratify benchmark items by tokenization complexity (1–2 $\to$ 3–4 $\to$ 5–6 $\to$ 7+ tokens) to measure whether opaque failure rates scale directly with BPE fragmentation.
+10. **State Substitution Distribution (S02):** In multi-step tracking, record 50+ errors to classify whether failures systematically favor intermediate states (midpoint/previous) vs. initial states vs. random distractors.
+11. **Three-Tier Uncertainty Taxonomy (S02–S03):** Formally separate (A) First-Order Uncertainty (logprobs/entropy), (B) Explicit Metacognitive Confidence (calibration on 50+ trials), and (C) Privileged Access (PAI private state vs. non-recurrent observer).
 
 # Open Research Questions
 
