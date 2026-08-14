@@ -1,6 +1,6 @@
 {
   "experiment_id": "E02_Observer_Hardened",
-  "promoted_run_id": "run_e02_obs_002",
-  "summary_path": "results\\e02_observer\\run_e02_obs_002\\summary.json",
-  "trials_path": "results\\e02_observer\\run_e02_obs_002\\trials.jsonl"
+  "promoted_run_id": "run_e02_obs_003",
+  "summary_path": "results\\e02_observer\\run_e02_obs_003\\summary.json",
+  "trials_path": "results\\e02_observer\\run_e02_obs_003\\trials.jsonl"
 }
