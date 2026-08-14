@@ -1,6 +1,7 @@
 """Reconstruction Observer: Recomputes the task independently and looks up P(Target Selected Option) from complete 4-way distribution."""
 
 import json
+import math
 import re
 from typing import Dict, Any, Optional, Union
 from recurrence.backends.ollama import OllamaBackend
@@ -103,8 +104,10 @@ class ReconstructionObserver(BaseObserver):
                         if m:
                             opt = m.group(1).upper()
                             try:
-                                if isinstance(v, (int, float, str)):
-                                    num_m = re.search(r"([0-9]+(?:\.[0-9]+)?)", str(v))
+                                if isinstance(v, (int, float)):
+                                    dist[opt] = float(v)
+                                elif isinstance(v, str):
+                                    num_m = re.search(r"(-?[0-9]+(?:\.[0-9]+)?)", v.strip())
                                     if num_m:
                                         dist[opt] = float(num_m.group(1))
                             except (ValueError, TypeError):
@@ -115,7 +118,7 @@ class ReconstructionObserver(BaseObserver):
         # Regex fallback for distribution if JSON parsing failed or incomplete
         for opt in ["A", "B", "C", "D"]:
             if opt not in dist:
-                m = re.search(rf'["\']?{opt}["\']?\s*:\s*([0-9]+(?:\.[0-9]+)?)', raw_response, re.IGNORECASE)
+                m = re.search(rf'["\']?{opt}["\']?\s*:\s*(-?[0-9]+(?:\.[0-9]+)?)', raw_response, re.IGNORECASE)
                 if m:
                     try:
                         dist[opt] = float(m.group(1))
@@ -130,20 +133,20 @@ class ReconstructionObserver(BaseObserver):
         recon_answer: Optional[str] = None
         normalized_dist: Dict[str, float] = {}
 
-        # STRICT VALIDATION: Require all 4 options (A, B, C, D) to be present, finite, non-negative, and sum > 0
-        has_all_4 = all(opt in dist and dist[opt] >= 0.0 for opt in ["A", "B", "C", "D"])
+        # STRICT VALIDATION: Require all 4 options (A, B, C, D) to be present, finite, within [0, 100], and sum > 0
+        has_all_4 = all(
+            opt in dist and isinstance(dist[opt], (int, float)) and math.isfinite(dist[opt]) and 0.0 <= dist[opt] <= 100.0
+            for opt in ["A", "B", "C", "D"]
+        )
         total_mass = sum(dist[opt] for opt in ["A", "B", "C", "D"]) if has_all_4 else 0.0
 
         if has_all_4 and total_mass > 0.0:
             normalized_dist = {opt: float(dist[opt] / total_mass) for opt in ["A", "B", "C", "D"]}
             recon_answer = max(normalized_dist, key=lambda k: normalized_dist[k])
 
-            # Extract target choice
+            # Extract target choice strictly from target's actual response (NO ground-truth metadata fallback)
             target_letter = _extract_target_letter(target_answer)
-            if target_letter is None and item_metadata and "target_option_letter" in item_metadata:
-                target_letter = item_metadata["target_option_letter"]
-
-            if target_letter in normalized_dist:
+            if target_letter is not None and target_letter in normalized_dist:
                 target_prob = normalized_dist[target_letter]
 
         pred_correct = (target_prob >= 0.5) if target_prob is not None else None

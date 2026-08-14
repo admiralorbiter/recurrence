@@ -460,22 +460,38 @@ def run_e02_observer(
     with open(report_file, "w", encoding="utf-8") as f:
         f.write(generate_markdown_report(results_summary))
 
-    # Update latest pointer in res_base
-    latest_pointer_file = res_base / "latest.json"
-    with open(latest_pointer_file, "w", encoding="utf-8") as f:
-        json.dump(
-            {
-                "experiment_id": "E02_Observer_Hardened",
-                "latest_run_id": run_id,
-                "definitive_baseline": compliance_gate_passed,
-                "compliance_gate_passed": compliance_gate_passed,
-                "summary_path": str(summary_file.relative_to(res_base.parent.parent)),
-                "trials_path": str(trials_file.relative_to(res_base.parent.parent)),
-                "report_path": str(report_file.relative_to(res_base.parent.parent)),
-            },
-            f,
-            indent=2,
-        )
+    # Always record the latest attempt
+    attempt_pointer = {
+        "experiment_id": "E02_Observer_Hardened",
+        "attempted_run_id": run_id,
+        "measurement_valid": compliance_gate_passed,
+        "compliance_gate_passed": compliance_gate_passed,
+        "min_primary_compliance": min_primary_compliance,
+        "summary_path": str(summary_file.relative_to(res_base.parent.parent)),
+        "trials_path": str(trials_file.relative_to(res_base.parent.parent)),
+        "report_path": str(report_file.relative_to(res_base.parent.parent)),
+    }
+    latest_attempt_file = res_base / "latest_attempt.json"
+    with open(latest_attempt_file, "w", encoding="utf-8") as f:
+        json.dump(attempt_pointer, f, indent=2)
+
+    # Update promoted baseline pointer ONLY if compliance gate passed
+    if compliance_gate_passed:
+        promoted_pointer = {
+            "experiment_id": "E02_Observer_Hardened",
+            "promoted_run_id": run_id,
+            "measurement_valid": True,
+            "summary_path": str(summary_file.relative_to(res_base.parent.parent)),
+            "trials_path": str(trials_file.relative_to(res_base.parent.parent)),
+            "report_path": str(report_file.relative_to(res_base.parent.parent)),
+        }
+        promoted_file = res_base / "promoted.json"
+        with open(promoted_file, "w", encoding="utf-8") as f:
+            json.dump(promoted_pointer, f, indent=2)
+
+        latest_pointer_file = res_base / "latest.json"
+        with open(latest_pointer_file, "w", encoding="utf-8") as f:
+            json.dump(promoted_pointer, f, indent=2)
 
     return results_summary
 

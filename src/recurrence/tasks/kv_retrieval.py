@@ -1,6 +1,7 @@
 """Key-Value Retrieval task with paired item matrix, strict normalized scoring, and semantic randomization."""
 
 import json
+import math
 import random
 import re
 import string
@@ -56,7 +57,9 @@ def _extract_answer_from_value(ans_val: Any, mode: str = "forced_choice") -> str
 
 
 def _extract_probability_from_dict(data: dict) -> Optional[float]:
-    """Extract probability from dict or nested dict on strict 0-100 percentage scale."""
+    """Extract probability from dict or nested dict on strict 0-100 percentage scale.
+    Rejects out-of-range (<0 or >100) or non-finite values as invalid (returns None).
+    """
     clean_dict = {re.sub(r"[^a-zA-Z0-9_]", "", str(k)).lower(): v for k, v in data.items()}
     
     # Check top-level probability keys
@@ -84,15 +87,20 @@ def _extract_probability_from_dict(data: dict) -> Optional[float]:
         if isinstance(raw_val, (int, float, str)):
             try:
                 if isinstance(raw_val, str):
-                    m = re.search(r"([0-9]+(?:\.[0-9]+)?)", raw_val)
+                    cleaned_str = raw_val.strip()
+                    if cleaned_str.lower() in ["nan", "inf", "-inf", "infinity", "-infinity"]:
+                        return None
+                    m = re.search(r"(-?[0-9]+(?:\.[0-9]+)?)", cleaned_str)
                     if m:
                         val = float(m.group(1))
                     else:
                         return None
                 else:
                     val = float(raw_val)
-                # STRICT 0-100 scale contract: Always divide by 100.0
-                return max(0.0, min(1.0, float(val / 100.0)))
+                # STRICT 0-100 scale contract: Reject out-of-range or non-finite
+                if not math.isfinite(val) or val < 0.0 or val > 100.0:
+                    return None
+                return float(val / 100.0)
             except (ValueError, TypeError):
                 pass
     return None
@@ -329,12 +337,15 @@ class KVRetrievalTask(BaseTask):
 
         # 3. Probability parsing from text (if not already parsed from JSON)
         if probability is None:
-            prob_match = re.search(r"(?:Probability\s*(?:correct)?|Prob|p):\s*<?([0-9]+(?:\.[0-9]+)?)\s*\%?>?", cleaned_resp, re.IGNORECASE)
+            prob_match = re.search(r"(?:Probability\s*(?:correct)?|Prob|p):\s*<?(-?[0-9]+(?:\.[0-9]+)?)\s*\%?>?", cleaned_resp, re.IGNORECASE)
             if prob_match:
                 try:
                     val = float(prob_match.group(1))
-                    # Strict 0-100 scale contract
-                    probability = max(0.0, min(1.0, float(val / 100.0)))
+                    # Strict 0-100 scale contract: Reject out-of-range or non-finite
+                    if math.isfinite(val) and 0.0 <= val <= 100.0:
+                        probability = float(val / 100.0)
+                    else:
+                        probability = None
                 except ValueError:
                     probability = None
 

@@ -1,6 +1,7 @@
 """Visible-Evidence Observers: Evaluates visible transcript with standardized probability semantics."""
 
 import json
+import math
 import re
 from typing import Dict, Any, Optional, Union
 from recurrence.backends.ollama import OllamaBackend
@@ -10,7 +11,7 @@ from recurrence.observers.base import BaseObserver, ObserverEvaluation
 
 def _parse_probability_from_text(raw_response: str) -> Optional[float]:
     """Extract probability in [0.0, 1.0] from structured JSON or text response.
-    Strictly enforces 0-100 percentage scale without ambiguity.
+    Strictly enforces 0-100 percentage scale and rejects out-of-range (<0 or >100) or non-finite values.
     """
     cleaned = raw_response.strip()
 
@@ -44,23 +45,31 @@ def _parse_probability_from_text(raw_response: str) -> Optional[float]:
                     if isinstance(raw_val, (int, float, str)):
                         try:
                             if isinstance(raw_val, str):
-                                num_m = re.search(r"([0-9]+(?:\.[0-9]+)?)", raw_val)
-                                val = float(num_m.group(1)) if num_m else float(raw_val)
+                                cleaned_str = raw_val.strip()
+                                if cleaned_str.lower() in ["nan", "inf", "-inf", "infinity", "-infinity"]:
+                                    return None
+                                num_m = re.search(r"(-?[0-9]+(?:\.[0-9]+)?)", cleaned_str)
+                                if not num_m:
+                                    return None
+                                val = float(num_m.group(1))
                             else:
                                 val = float(raw_val)
-                            # Strict 0-100 scale contract: Always divide by 100.0
-                            return max(0.0, min(1.0, float(val / 100.0)))
+                            # Strict 0-100 scale contract: Reject out-of-range or non-finite
+                            if not math.isfinite(val) or val < 0.0 or val > 100.0:
+                                return None
+                            return float(val / 100.0)
                         except (ValueError, TypeError):
                             pass
         except Exception:
             pass
 
     # 2. Strict Probability regex
-    prob_match = re.search(r"(?:Probability\s*(?:correct)?|Prob|p):\s*<?([0-9]+(?:\.[0-9]+)?)\s*\%?>?", cleaned, re.IGNORECASE)
+    prob_match = re.search(r"(?:Probability\s*(?:correct)?|Prob|p):\s*<?(-?[0-9]+(?:\.[0-9]+)?)\s*\%?>?", cleaned, re.IGNORECASE)
     if prob_match:
         try:
             val = float(prob_match.group(1))
-            return max(0.0, min(1.0, float(val / 100.0)))
+            if math.isfinite(val) and 0.0 <= val <= 100.0:
+                return float(val / 100.0)
         except ValueError:
             pass
 

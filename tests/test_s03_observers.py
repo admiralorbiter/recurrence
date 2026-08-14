@@ -1,11 +1,16 @@
 """Unit and regression tests for Sprint S03 Observers, Structured JSON, Distribution Reconstruction, and Stratified Contrasts."""
 
-import pytest
+import math
 import shutil
 import numpy as np
+import pytest
 from pathlib import Path
 from recurrence.backends.toy import ToyBackend
-from recurrence.observers.visible import VisibleAnswerOnlyObserver, VisibleFullTranscriptObserver
+from recurrence.observers.visible import (
+    VisibleAnswerOnlyObserver,
+    VisibleFullTranscriptObserver,
+    _parse_probability_from_text,
+)
 from recurrence.observers.reconstruction import ReconstructionObserver, _extract_target_letter
 from recurrence.observers.ablated import (
     EqualComputeReviewObserver,
@@ -91,6 +96,75 @@ def test_reconstruction_rejects_incomplete_distribution():
     assert eval_res.metadata["distribution_complete"] is False
 
 
+def test_reconstruction_no_ground_truth_leakage_fallback():
+    """Verify ReconstructionObserver does NOT fall back to item_metadata ground-truth option when target answer is unparseable."""
+    backend = ToyBackend(seed=42)
+    obs = ReconstructionObserver(backend=backend)
+    
+    # Target answer is unparseable/garbled
+    target_answer = '{"garbled_field": "some_random_text"}'
+    item_metadata = {
+        "target_key": "key_gold",
+        "target_value": "val_falcon",
+        "target_option_letter": "B",  # Ground-truth letter that must NOT be leaked
+    }
+    
+    eval_res = obs.evaluate(
+        task_prompt="Prompt",
+        target_answer=target_answer,
+        item_metadata=item_metadata,
+        seed=42,
+    )
+    assert eval_res.predicted_probability is None
+    assert eval_res.predicted_correct is None
+    assert eval_res.metadata["target_answer_parsed"] is None
+
+
+def test_reconstruction_rejects_out_of_bounds_distribution():
+    """Verify ReconstructionObserver strictly rejects distributions containing numbers outside [0, 100]."""
+    backend = ToyBackend(seed=42)
+    obs = ReconstructionObserver(backend=backend)
+    
+    # Distribution with value > 100
+    obs.backend.step = lambda prompt: ('{"A": 150, "B": 20, "C": 10, "D": 10}', "hash", {})
+    eval_res = obs.evaluate(task_prompt="Prompt", target_answer='{"answer": "A"}', seed=42)
+    assert eval_res.predicted_probability is None
+    assert eval_res.metadata["distribution_complete"] is False
+
+    # Distribution with negative value
+    obs.backend.step = lambda prompt: ('{"A": -10, "B": 60, "C": 30, "D": 20}', "hash", {})
+    eval_res2 = obs.evaluate(task_prompt="Prompt", target_answer='{"answer": "A"}', seed=42)
+    assert eval_res2.predicted_probability is None
+    assert eval_res2.metadata["distribution_complete"] is False
+
+
+def test_reject_out_of_range_and_non_finite_probabilities():
+    """Verify that values <0, >100, NaN, and Inf are strictly rejected (None) rather than clamped."""
+    task = KVRetrievalTask(mode="forced_choice", ask_confidence=True, confidence_format="probability")
+    raw = task.generate_raw_pairs(count=1, seed=42)
+    item = task.generate_items_from_raw(raw, seed=42)[0]
+
+    # Negative values
+    assert task.score_response(item, '{"answer": "A", "probability": -5}')["probability"] is None
+    assert task.score_response(item, 'Answer: A\nProbability: -10')["probability"] is None
+
+    # Values > 100
+    assert task.score_response(item, '{"answer": "A", "probability": 101}')["probability"] is None
+    assert task.score_response(item, '{"answer": "A", "probability": 150}')["probability"] is None
+    assert task.score_response(item, 'Answer: A\nProbability: 500')["probability"] is None
+
+    # Non-finite values
+    assert task.score_response(item, '{"answer": "A", "probability": "nan"}')["probability"] is None
+    assert task.score_response(item, '{"answer": "A", "probability": "inf"}')["probability"] is None
+
+    # Observer parser directly
+    assert _parse_probability_from_text('{"probability": -5}') is None
+    assert _parse_probability_from_text('{"probability": 105}') is None
+    assert _parse_probability_from_text('{"probability": 150}') is None
+    assert _parse_probability_from_text('{"probability": "nan"}') is None
+    assert _parse_probability_from_text('{"probability": "infinity"}') is None
+
+
 def test_nested_dict_answer_resolution_and_probability():
     """Regression test for Trial 6 and Trial 11 failure shapes: nested dictionary answer structures."""
     task = KVRetrievalTask(mode="forced_choice", ask_confidence=True, confidence_format="probability")
@@ -139,6 +213,7 @@ def test_extract_target_letter_nested():
     assert _extract_target_letter('{"answer": {"letter": "C"}}') == "C"
     assert _extract_target_letter('{"answer": "D"}') == "D"
     assert _extract_target_letter('Answer: A') == "A"
+    assert _extract_target_letter('{"random": "junk"}') is None
 
 
 def test_equal_compute_review_observer():
