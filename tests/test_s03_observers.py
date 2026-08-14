@@ -327,7 +327,7 @@ def test_failed_compliance_gate_suppresses_inferential_claims():
     from experiments.e02_observer.run import generate_markdown_report
 
     mock_failed_summary = {
-        "sprint": "S03.3",
+        "sprint": "S03.4",
         "run_id": "run_e02_obs_test",
         "model_name": "qwen2.5:3b",
         "total_items": 40,
@@ -346,3 +346,35 @@ def test_failed_compliance_gate_suppresses_inferential_claims():
     assert "Measurement Validity Gate Failed" in report
     assert "do NOT support a Level-0 privileged-access conclusion" in report
     assert "Scientific Interpretation (Measurement Gate Passed)" not in report
+
+
+def test_joint_pai_includes_input_only_when_strongest():
+    """Verify that joint PAI includes observer_input_only in its 3-way comparator and selects it when strongest."""
+    from recurrence.analysis.privileged_access import compute_item_paired_contrasts
+
+    # 10 items: 5 correct, 5 incorrect
+    self_map = {f"item_{i}": (0.50, i < 5) for i in range(10)}
+    # VisAns: near chance (AUROC2 ~ 0.50)
+    vis_ans_map = {f"item_{i}": (0.50, i < 5) for i in range(10)}
+    # Recon: moderate discrimination (AUROC2 ~ 0.70)
+    recon_map = {f"item_{i}": (0.60 if i < 5 else 0.40, i < 5) for i in range(10)}
+    # Input-Only: perfect discrimination (AUROC2 = 1.00)
+    input_only_map = {f"item_{i}": (0.95 if i < 5 else 0.05, i < 5) for i in range(10)}
+
+    obs_maps = {
+        "observer_visible_answer_only": vis_ans_map,
+        "observer_reconstruction": recon_map,
+        "observer_input_only": input_only_map,
+    }
+
+    res = compute_item_paired_contrasts(self_map, obs_maps, sesoi=0.10, n_bootstraps=100, seed=42)
+    joint = res["joint_pai_summary"]
+
+    assert joint["joint_shared_items_count"] == 10
+    # Input-only AUROC2 is 1.0, Recon is 1.0/0.7, VisAns is 0.5
+    assert joint["max_benchmark_observer_auroc2"] == pytest.approx(1.0, abs=1e-3)
+    # Self AUROC2 is 0.5 (undifferentiated)
+    assert joint["self_auroc2"] == pytest.approx(0.5, abs=1e-3)
+    # Point PAI = 0.5 - 1.0 = -0.5
+    assert joint["point_pai"] == pytest.approx(-0.5, abs=1e-3)
+

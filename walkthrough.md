@@ -24,7 +24,7 @@ Sprint S03.4 hardened the measurement contract, resolved JSON schema non-complia
 
 ## 1. Strict Item-Paired Intersection Results Table ($N=40$ for all conditions)
 
-Evaluated on `qwen2.5:3b` across 40 counterbalanced 4-way Forced Choice KV retrieval trials (57.5% overall first-order accuracy; Semantic: 75.0%, Opaque: 40.0%):
+Evaluated on `qwen2.5:3b` across 40 counterbalanced 4-way Forced Choice KV retrieval trials (57.5% overall first-order accuracy; Semantic: 65.0%, Opaque: 50.0%):
 
 | Evaluator / Contrast | Information Vantage & Compute | Shared Items ($N$) | Self AUROC2 | Observer AUROC2 | $\Delta\text{AUROC2}$ (Self - Obs) | Stratified 95% Bootstrap CI | Self Brier | Observer Brier | Observer Accuracy |
 |---|---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|

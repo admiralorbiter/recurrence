@@ -3,7 +3,7 @@
   "sprint": "S03.4",
   "run_id": "run_e02_obs_005",
   "model_name": "qwen2.5:3b",
-  "model_digest": "304499d63f972de98436573c09b8de218c5e62c129e92ae446e5071190c1db35",
+  "model_digest": "357c53fb659c5076de1d65ccb0b397446227b71a42be9d1603d46168015c9e4b",
   "seed": 42,
   "total_items": 40,
   "compliance_rates": {

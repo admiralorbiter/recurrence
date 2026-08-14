@@ -15,6 +15,37 @@ from experiments.e02_observer.run import generate_markdown_report
 def recompute_run_005():
     run_dir = Path("results/e02_observer/run_e02_obs_005")
     trials_path = run_dir / "trials.jsonl"
+    summary_path = run_dir / "summary.json"
+    manifest_path = Path("artifacts/e02_observer/run_e02_obs_005/run_e02_obs_005_manifest.json")
+
+    # Load existing provenance metadata
+    existing_summary = {}
+    if summary_path.exists():
+        with open(summary_path, "r", encoding="utf-8") as f:
+            existing_summary = json.load(f)
+
+    existing_manifest = {}
+    if manifest_path.exists():
+        with open(manifest_path, "r", encoding="utf-8") as f:
+            existing_manifest = json.load(f)
+
+    model_digest = (
+        existing_manifest.get("model_digest")
+        or existing_summary.get("model_digest")
+        or "357c53fb659c5076de1d65ccb0b397446227b71a42be9d1603d46168015c9e4b"
+    )
+    environment_hash = (
+        existing_manifest.get("environment_hash")
+        or existing_summary.get("environment_hash")
+        or "ee73e35d02efcd5248ec0ccc21b4ecff5e532ba92bbfb893fa6580f7b734e11b"
+    )
+    checksum = existing_summary.get("checksum", "f9aa1553ef8d69011e0ecbed36e39e2e15417f0782e9398e2e4282418b64eb0f")
+    manifest_rel_path = existing_summary.get("manifest_path", "artifacts/e02_observer/run_e02_obs_005/run_e02_obs_005_manifest.json")
+    jsonl_rel_path = existing_summary.get("jsonl_path", "artifacts/e02_observer/run_e02_obs_005/run_e02_obs_005_events.jsonl")
+    parquet_rel_path = existing_summary.get("parquet_path", "artifacts/e02_observer/run_e02_obs_005/run_e02_obs_005_events.parquet")
+    seed = existing_manifest.get("seed", existing_summary.get("seed", 42))
+    model_name = existing_manifest.get("parameters", {}).get("model_name", existing_summary.get("model_name", "qwen2.5:3b"))
+    exp_id = existing_manifest.get("experiment_id", existing_summary.get("experiment_id", "E02_Observer_Hardened"))
 
     trials = []
     with open(trials_path, "r", encoding="utf-8") as f:
@@ -69,7 +100,7 @@ def recompute_run_005():
         observer_item_maps=observer_item_maps,
         sesoi=0.10,
         n_bootstraps=1000,
-        seed=42,
+        seed=seed,
     )
     contrasts = paired_contrasts_res["contrasts"]
     joint_pai_summary = paired_contrasts_res["joint_pai_summary"]
@@ -83,7 +114,7 @@ def recompute_run_005():
             name_b="observer_review_other",
             sesoi=0.10,
             n_bootstraps=1000,
-            seed=42,
+            seed=seed,
         ),
         "channel_answer_only_vs_full_transcript": compute_direct_pairwise_contrast(
             map_a=observer_item_maps["observer_visible_answer_only"],
@@ -92,7 +123,7 @@ def recompute_run_005():
             name_b="observer_visible_full_transcript",
             sesoi=0.10,
             n_bootstraps=1000,
-            seed=42,
+            seed=seed,
         ),
     }
 
@@ -118,12 +149,12 @@ def recompute_run_005():
     gate_passed = min_primary >= 0.90
 
     results_summary = {
-        "experiment_id": "E02_Observer_Hardened",
+        "experiment_id": exp_id,
         "sprint": "S03.4",
         "run_id": "run_e02_obs_005",
-        "model_name": "qwen2.5:3b",
-        "model_digest": "304499d63f972de98436573c09b8de218c5e62c129e92ae446e5071190c1db35",
-        "seed": 42,
+        "model_name": model_name,
+        "model_digest": model_digest,
+        "seed": seed,
         "total_items": total_items,
         "compliance_rates": {
             "self_valid_count": self_valid,
@@ -141,11 +172,11 @@ def recompute_run_005():
         "paired_intersection_contrasts": contrasts,
         "direct_pairwise_contrasts": direct_contrasts,
         "joint_pai_summary": joint_pai_summary,
-        "manifest_path": "artifacts/e02_observer/run_e02_obs_005/run_e02_obs_005_manifest.json",
-        "jsonl_path": "artifacts/e02_observer/run_e02_obs_005/run_e02_obs_005_events.jsonl",
-        "parquet_path": "artifacts/e02_observer/run_e02_obs_005/run_e02_obs_005_events.parquet",
-        "checksum": "f9aa1553ef8d69011e0ecbed36e39e2e15417f0782e9398e2e4282418b64eb0f",
-        "environment_hash": "ee73e35d02efcd5248ec0ccc21b4ecff5e532ba92bbfb893fa6580f7b734e11b",
+        "manifest_path": manifest_rel_path,
+        "jsonl_path": jsonl_rel_path,
+        "parquet_path": parquet_rel_path,
+        "checksum": checksum,
+        "environment_hash": environment_hash,
     }
 
     # Write summary.json
