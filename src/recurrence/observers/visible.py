@@ -15,25 +15,33 @@ def _parse_probability_from_text(raw_response: str) -> Optional[float]:
     cleaned = raw_response.strip()
 
     # 1. Try structured JSON extraction first
-    json_match = re.search(r"\{[^{}]*\}", cleaned)
+    json_match = re.search(r"\{.*\}", cleaned, re.DOTALL)
     if json_match:
         try:
             data = json.loads(json_match.group(0))
-            if isinstance(data, dict) and ("probability" in data or "prob" in data):
-                raw_val = data.get("probability", data.get("prob"))
-                if isinstance(raw_val, (int, float)):
-                    val = float(raw_val)
-                    if 0.0 <= val <= 1.0 and isinstance(raw_val, float):
-                        return float(val)
-                    elif 0.0 <= val <= 100.0:
-                        return float(val / 100.0)
-                    else:
-                        return max(0.0, min(1.0, float(val / 100.0)))
+            if isinstance(data, dict):
+                clean_dict = {re.sub(r"[^a-zA-Z0-9_]", "", str(k)).lower(): v for k, v in data.items()}
+                for k in ["probability", "prob", "probabilityprobability", "probabilitycorrect", "what", "p"]:
+                    if k in clean_dict:
+                        raw_val = clean_dict[k]
+                        if isinstance(raw_val, dict) and "probability" in raw_val:
+                            raw_val = raw_val["probability"]
+                        if isinstance(raw_val, (int, float, str)):
+                            try:
+                                val = float(raw_val)
+                                if 0.0 <= val <= 1.0 and ("." in str(raw_val) or val == 0.0 or val == 1.0):
+                                    return float(val)
+                                elif 0.0 <= val <= 100.0:
+                                    return float(val / 100.0)
+                                else:
+                                    return max(0.0, min(1.0, float(val / 100.0)))
+                            except (ValueError, TypeError):
+                                pass
         except Exception:
             pass
 
     # 2. Strict Probability regex
-    prob_match = re.search(r"(?:Probability\s*(?:correct)?|Prob):\s*<?([0-9]+(?:\.[0-9]+)?)\s*\%?>?", cleaned, re.IGNORECASE)
+    prob_match = re.search(r"(?:Probability\s*(?:correct)?|Prob|p):\s*<?([0-9]+(?:\.[0-9]+)?)\s*\%?>?", cleaned, re.IGNORECASE)
     if prob_match:
         try:
             val = float(prob_match.group(1))

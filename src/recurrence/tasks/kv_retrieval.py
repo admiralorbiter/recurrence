@@ -52,7 +52,7 @@ class KVRetrievalTask(BaseTask):
     @staticmethod
     def generate_raw_pairs(
         count: int = 10,
-        distractor_count: int = 3,
+        distractor_count: int = 5,
         identifier_type: str = "opaque",
         seed: int = 42,
     ) -> List[Tuple[str, str, List[Tuple[str, str]]]]:
@@ -224,23 +224,40 @@ class KVRetrievalTask(BaseTask):
         confidence: Optional[int] = None
 
         # 1. Try structured JSON extraction first
-        json_match = re.search(r"\{[^{}]*\}", cleaned_resp)
+        json_match = re.search(r"\{.*\}", cleaned_resp, re.DOTALL)
         if json_match:
             try:
                 data = json.loads(json_match.group(0))
                 if isinstance(data, dict):
-                    if "answer" in data:
-                        raw_answer = str(data["answer"]).strip()
-                    if "probability" in data or "prob" in data:
-                        raw_val = data.get("probability", data.get("prob"))
-                        if isinstance(raw_val, (int, float)):
-                            val = float(raw_val)
-                            if 0.0 <= val <= 1.0 and isinstance(raw_val, float):
-                                probability = float(val)
-                            elif 0.0 <= val <= 100.0:
-                                probability = float(val / 100.0)
-                            else:
-                                probability = max(0.0, min(1.0, float(val / 100.0)))
+                    clean_dict = {re.sub(r"[^a-zA-Z0-9_]", "", str(k)).lower(): v for k, v in data.items()}
+                    
+                    # Look for answer key
+                    for k in ["answer", "ans", "choice", "option", "in", "selected", "answeranswer"]:
+                        if k in clean_dict:
+                            ans_val = clean_dict[k]
+                            if isinstance(ans_val, dict):
+                                ans_val = list(ans_val.keys())[0] if ans_val else ""
+                            raw_answer = str(ans_val).strip()
+                            break
+                    
+                    # Look for probability key
+                    for k in ["probability", "prob", "probabilityprobability", "probabilitycorrect", "p"]:
+                        if k in clean_dict:
+                            raw_val = clean_dict[k]
+                            if isinstance(raw_val, dict) and "probability" in raw_val:
+                                raw_val = raw_val["probability"]
+                            if isinstance(raw_val, (int, float, str)):
+                                try:
+                                    val = float(raw_val)
+                                    if 0.0 <= val <= 1.0 and ("." in str(raw_val) or val == 0.0 or val == 1.0):
+                                        probability = float(val)
+                                    elif 0.0 <= val <= 100.0:
+                                        probability = float(val / 100.0)
+                                    else:
+                                        probability = max(0.0, min(1.0, float(val / 100.0)))
+                                except (ValueError, TypeError):
+                                    pass
+                            break
             except Exception:
                 pass
 
@@ -253,6 +270,12 @@ class KVRetrievalTask(BaseTask):
             )
             if ans_match:
                 raw_answer = ans_match.group(1).strip()
+
+        # For forced choice, extract option letter if raw_answer contains surrounding noise
+        if self.mode == "forced_choice":
+            opt_letter_match = re.search(r"\b([A-D])\b", raw_answer)
+            if opt_letter_match:
+                raw_answer = opt_letter_match.group(1)
 
         # 3. Probability parsing from text (if not already parsed from JSON)
         if probability is None:

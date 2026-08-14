@@ -46,29 +46,41 @@ class ReconstructionObserver(BaseObserver):
 
         # 2. Parse 4-way probability distribution
         dist: Dict[str, float] = {}
-        json_match = re.search(r"\{[^{}]*\}", raw_response)
+        json_match = re.search(r"\{.*\}", raw_response, re.DOTALL)
         if json_match:
             try:
                 data = json.loads(json_match.group(0))
                 if isinstance(data, dict):
-                    for opt in ["A", "B", "C", "D"]:
-                        if opt in data:
-                            dist[opt] = float(data[opt])
-                        elif opt.lower() in data:
-                            dist[opt] = float(data[opt.lower()])
+                    for k, v in data.items():
+                        m = re.search(r"([A-D])", str(k), re.IGNORECASE)
+                        if m:
+                            opt = m.group(1).upper()
+                            try:
+                                dist[opt] = float(v)
+                            except (ValueError, TypeError):
+                                pass
             except Exception:
                 pass
 
-        # Regex fallback for distribution if JSON parsing failed
-        if len(dist) < 4:
-            for opt in ["A", "B", "C", "D"]:
+        # Regex fallback for distribution if JSON parsing failed or incomplete
+        for opt in ["A", "B", "C", "D"]:
+            if opt not in dist:
                 m = re.search(rf'["\']?{opt}["\']?\s*:\s*([0-9]+(?:\.[0-9]+)?)', raw_response, re.IGNORECASE)
                 if m:
-                    dist[opt] = float(m.group(1))
+                    try:
+                        dist[opt] = float(m.group(1))
+                    except ValueError:
+                        pass
 
         # Toy backend simulation fallback
         if not dist and "action_" in raw_response:
             dist = {"A": 10.0, "B": 70.0, "C": 10.0, "D": 10.0}
+
+        # If at least one option was found, fill remaining with 0.0
+        if len(dist) >= 1:
+            for opt in ["A", "B", "C", "D"]:
+                if opt not in dist:
+                    dist[opt] = 0.0
 
         target_prob: Optional[float] = None
         recon_answer: Optional[str] = None
@@ -85,29 +97,30 @@ class ReconstructionObserver(BaseObserver):
 
             # 3. Extract clean target option letter
             clean_target = target_answer.strip()
-            # Try JSON extraction from target
-            t_json = re.search(r"\{[^{}]*\}", clean_target)
+            t_json = re.search(r"\{.*\}", clean_target, re.DOTALL)
             if t_json:
                 try:
                     t_data = json.loads(t_json.group(0))
-                    if "answer" in t_data:
-                        clean_target = str(t_data["answer"]).strip()
+                    if isinstance(t_data, dict):
+                        clean_dict = {re.sub(r"[^a-zA-Z0-9_]", "", str(k)).lower(): v for k, v in t_data.items()}
+                        for k in ["answer", "ans", "choice", "option", "in", "selected", "answeranswer"]:
+                            if k in clean_dict:
+                                ans_val = clean_dict[k]
+                                if isinstance(ans_val, dict):
+                                    ans_val = list(ans_val.keys())[0] if ans_val else ""
+                                clean_target = str(ans_val).strip()
+                                break
                 except Exception:
                     pass
 
-            target_match = re.search(
-                r"Answer:\s*(?:<[^>]+>:\s*)?<?([a-zA-Z0-9_\s]+?)>?(?:\s*(?:Probability|Confidence|Confident)|\%|;|\n|\r|$)",
-                clean_target,
-                re.IGNORECASE,
-            )
-            if target_match:
-                clean_target = target_match.group(1).strip()
+            target_letter_match = re.search(r"\b([A-D])\b", clean_target, re.IGNORECASE)
+            if target_letter_match:
+                target_letter = target_letter_match.group(1).upper()
+            else:
+                target_letter = clean_target.strip().upper()
 
-            target_letter = clean_target.upper()
             if target_letter in ["A", "B", "C", "D"]:
                 target_prob = normalized_dist[target_letter]
-            elif item_metadata and "target_option_letter" in item_metadata:
-                target_prob = normalized_dist.get(item_metadata["target_option_letter"].upper())
 
         pred_correct = (target_prob >= 0.5) if target_prob is not None else None
 

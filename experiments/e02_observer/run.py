@@ -137,10 +137,10 @@ def run_e02_observer(
         confidence_format="probability",
     )
 
-    raw_semantic = task_semantic.generate_raw_pairs(count=items_per_stratum, seed=seed)
+    raw_semantic = task_semantic.generate_raw_pairs(count=items_per_stratum, distractor_count=5, identifier_type="semantic", seed=seed)
     items_semantic = task_semantic.generate_items_from_raw(raw_semantic, seed=seed)
 
-    raw_opaque = task_opaque.generate_raw_pairs(count=items_per_stratum, seed=seed + 1000)
+    raw_opaque = task_opaque.generate_raw_pairs(count=items_per_stratum, distractor_count=5, identifier_type="opaque", seed=seed + 1000)
     items_opaque = task_opaque.generate_items_from_raw(raw_opaque, seed=seed + 1000)
 
     # 7 Evaluator conditions
