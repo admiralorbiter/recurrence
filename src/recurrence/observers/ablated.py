@@ -131,10 +131,12 @@ class InputOnlyObserver(BaseObserver):
         )
 
 
-class OutputOnlyObserver(BaseObserver):
-    """Observer that sees only the target answer string to score stylistic/fluency priors."""
+class OutputFullResponseOnlyObserver(BaseObserver):
+    """Observer that inspects the target's entire response string (including formatting and confidence cues)
+    without viewing the task prompt, measuring surface fluency/stylistic priors.
+    """
 
-    def __init__(self, backend: Union[OllamaBackend, ToyBackend], name: str = "observer_output_only"):
+    def __init__(self, backend: Union[OllamaBackend, ToyBackend], name: str = "observer_output_full_response_only"):
         super().__init__(backend=backend, name=name)
 
     def evaluate(
@@ -167,3 +169,7 @@ class OutputOnlyObserver(BaseObserver):
             raw_response=raw_response,
             metadata={"target_answer": target_answer},
         )
+
+
+# Backward compatibility alias
+OutputOnlyObserver = OutputFullResponseOnlyObserver

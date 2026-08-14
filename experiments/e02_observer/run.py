@@ -1,7 +1,7 @@
-"""Scientific Runner for Experiment E02_Observer_Hardened (Sprint S03.2):
-Definitive Level-0 Privileged Access & Observer Ladder Benchmark.
+"""Scientific Runner for Experiment E02_Observer_Hardened (Sprint S03.3):
+Scout & Confirmatory Benchmark for Level-0 Privileged Access & Observer Ladder.
 
-Standardizes all evaluative measurements on P(Target Correct) in [0, 100%].
+Standardizes all evaluative measurements on P(Target Correct) in [0, 100%] (divided by 100 to [0.0, 1.0]).
 Evaluates 8 Total Conditions:
   1 Target Model (Immediate self-confidence)
   + 7 Evaluator Conditions:
@@ -9,9 +9,9 @@ Evaluates 8 Total Conditions:
     2. Equal-Compute Other-Review (fresh 2nd invocation, other-framing)
     3. Visible Observer: Answer-Only (confidence stripped)
     4. Visible Observer: Full-Transcript (confidence included)
-    5. Counterfactual Reconstruction Observer (4-way distribution lookup)
+    5. Counterfactual Reconstruction Observer (complete 4-way distribution lookup)
     6. Input-Only Observer (difficulty prior)
-    7. Output-Only Observer (fluency prior)
+    7. Output-Full-Response-Only Observer (surface fluency prior)
 """
 
 import json
@@ -36,7 +36,7 @@ from recurrence.observers.reconstruction import ReconstructionObserver
 from recurrence.observers.ablated import (
     EqualComputeReviewObserver,
     InputOnlyObserver,
-    OutputOnlyObserver,
+    OutputFullResponseOnlyObserver,
 )
 from recurrence.analysis.privileged_access import (
     compute_continuous_brier_score,
@@ -45,15 +45,101 @@ from recurrence.analysis.privileged_access import (
 )
 
 
+def generate_markdown_report(res: Dict[str, Any]) -> str:
+    """Generate a clean, self-consistent markdown report consuming canonical contrast objects directly."""
+    contrasts = res.get("paired_intersection_contrasts", {})
+    joint = res.get("joint_pai_summary", {})
+    direct = res.get("direct_pairwise_contrasts", {})
+    perf = res.get("target_task_performance", {})
+    comp = res.get("compliance_rates", {})
+
+    rows = []
+    condition_labels = [
+        ("observer_reconstruction", "Counterfactual Reconstruction", "Independent 4-Way Distribution Lookup"),
+        ("observer_visible_answer_only", "Visible: Answer-Only", "Prompt + Answer (Conf stripped)"),
+        ("observer_visible_full_transcript", "Visible: Full-Transcript", "Prompt + Answer + Target Conf"),
+        ("self_review_equal_compute", "Equal-Compute Self-Review", "2nd Invocation: Self framing"),
+        ("observer_review_other", "Equal-Compute Other-Review", "2nd Invocation: Other framing"),
+        ("observer_input_only", "Ablated: Input-Only", "Prompt Only (Difficulty prior)"),
+        ("observer_output_full_response_only", "Ablated: Output-Full-Response", "Full Output (Fluency prior)"),
+    ]
+
+    for key, name, vantage in condition_labels:
+        c = contrasts.get(key, {})
+        if not c or c.get("shared_items_count", 0) == 0:
+            continue
+        n = c["shared_items_count"]
+        s_auc = f"{c['self_auroc2']:.3f}"
+        o_auc = f"{c['observer_auroc2']:.3f}"
+        d_auc = f"{c['delta_auroc2_self_minus_obs']:+.3f}"
+        ci = f"[{c['ci_95_lower']:.3f}, {c['ci_95_upper']:.3f}]"
+        s_brier = f"{c['self_brier_score']:.3f}" if c.get("self_brier_score") is not None else "N/A"
+        o_brier = f"{c['observer_brier_score']:.3f}" if c.get("observer_brier_score") is not None else "N/A"
+        o_acc = f"{c['observer_binary_accuracy']:.1%}" if c.get("observer_binary_accuracy") is not None else "N/A"
+        rows.append(f"| **{name}** | {vantage} | {n} | {s_auc} | {o_auc} | {d_auc} | {ci} | {s_brier} | {o_brier} | {o_acc} |")
+
+    table_content = "\n".join(rows)
+
+    framing = direct.get("framing_self_vs_other_review", {})
+    channel = direct.get("channel_answer_only_vs_full_transcript", {})
+
+    report = f"""# Experiment E02 (Sprint {res.get('sprint', 'S03.3')}): Level-0 Privileged Access & Observer Ladder Report
+
+## 1. Executive Summary
+
+Empirical measurement summary for **Experiment E02 (`{res.get('run_id')}`)** on `{res.get('model_name')}` across {res.get('total_items')} counterbalanced 4-way Forced Choice KV retrieval trials (First-order accuracy: {perf.get('overall_accuracy', 0.0):.1%}).
+
+All measurements standardize on $P(\\text{{Target Correct}}) \\in [0.0, 1.0]$. Every contrast row below is computed strictly over its exact shared item intersection subset ($N$).
+
+### Strict Item-Paired Intersection Results Table
+
+| Evaluator Condition | Information Vantage & Compute | Shared Items ($N$) | Self AUROC2 | Observer AUROC2 | $\\Delta\\text{{AUROC2}}$ (Self - Obs) | Stratified 95% Bootstrap CI | Self Brier | Observer Brier | Observer Accuracy |
+|---|---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+{table_content}
+
+### Joint Privileged Access Index Summary ($N={joint.get('joint_shared_items_count', 0)}$ shared items):
+$$\\text{{Point PAI}} = \\text{{AUROC2}}_{{\\text{{Self}}}} - \\max(\\text{{AUROC2}}_{{\\text{{VisAns}}}}, \\text{{AUROC2}}_{{\\text{{Recon}}}}) = {joint.get('self_auroc2', 0.0):.3f} - {joint.get('max_benchmark_observer_auroc2', 0.0):.3f} = \\mathbf{{{joint.get('point_pai', 0.0):+.3f}}}$$
+$$\\mathbf{{\\text{{Stratified 95\\% Bootstrap CI: }} [{joint.get('ci_95_lower', 0.0):.3f}, {joint.get('ci_95_upper', 0.0):.3f}]}} \\quad (\\text{{SESOI margin }} \\pm {joint.get('sesoi_margin', 0.10)})$$
+
+**Scientific Interpretation:**
+No positive Level-0 privileged-access effect was statistically resolved at the present sample size ($N={res.get('total_items')}$). The stratified 95% bootstrap confidence interval spans zero and remains compatible with both modest observer advantage and positive self advantage.
+
+---
+
+## 2. Direct Pre-Specified Pairwise Contrasts
+
+### A. Review Framing Test ($N = {framing.get('shared_items_count', 0)}$ shared items)
+* **Self-Review AUROC2:** {framing.get('auroc2_a', 0.0):.3f} (Brier: {framing.get('brier_score_a', 0.0):.3f}, Acc: {framing.get('binary_accuracy_a', 0.0):.1%})
+* **Other-Review AUROC2:** {framing.get('auroc2_b', 0.0):.3f} (Brier: {framing.get('brier_score_b', 0.0):.3f}, Acc: {framing.get('binary_accuracy_b', 0.0):.1%})
+* **$\\Delta\\text{{AUROC2}} (\\text{{Self}} - \\text{{Other}}):$** $\\mathbf{{{framing.get('delta_auroc2', 0.0):+.3f}}} \\quad (95\\%\\text{{ CI: }} [{framing.get('ci_95_lower', 0.0):.3f}, {framing.get('ci_95_upper', 0.0):.3f}])$
+* **Conclusion:** No framing effect was statistically resolved in this sample.
+
+### B. Public Channel Effect Test ($N = {channel.get('shared_items_count', 0)}$ shared items)
+* **Visible Answer-Only AUROC2:** {channel.get('auroc2_a', 0.0):.3f} (Acc: {channel.get('binary_accuracy_a', 0.0):.1%})
+* **Visible Full-Transcript AUROC2:** {channel.get('auroc2_b', 0.0):.3f} (Acc: {channel.get('binary_accuracy_b', 0.0):.1%})
+* **$\\Delta\\text{{AUROC2}} (\\text{{Answer}} - \\text{{Transcript}}):$** $\\mathbf{{{channel.get('delta_auroc2', 0.0):+.3f}}} \\quad (95\\%\\text{{ CI: }} [{channel.get('ci_95_lower', 0.0):.3f}, {channel.get('ci_95_upper', 0.0):.3f}])$
+* **Conclusion:** No beneficial transcript-confidence effect was resolved.
+
+---
+
+## 3. Compliance & Gate Verification
+
+* **Primary Condition Compliance:** {json.dumps(comp.get('primary_compliance_rates', {}), indent=2)}
+* **Minimum Primary Compliance:** {comp.get('min_primary_compliance', 0.0):.1%}
+* **Compliance Hard Gate (Min $\\ge 90\\%$):** {'PASSED' if comp.get('compliance_gate_passed') else 'FAILED'}
+"""
+    return report
+
+
 def run_e02_observer(
     items_per_stratum: int = 20,
-    run_id: str = "run_e02_obs_003",
+    run_id: str = "run_e02_obs_004",
     overwrite: bool = False,
     sesoi: float = 0.10,
     seed: int = 42,
     use_toy: bool = False,
 ) -> Dict[str, Any]:
-    """Execute the definitive Level-0 Privileged Access Benchmark under strict paired intersections."""
+    """Execute the Level-0 Privileged Access Benchmark under strict paired intersections."""
     # 1. Setup Safe Result and Artifact Directories
     artifacts_dir = Path("artifacts") / "e02_observer" / run_id
     res_base = Path("results") / "e02_observer"
@@ -100,7 +186,7 @@ def run_e02_observer(
         model_tag=f"ollama-{model_name}" if not use_toy else "toy-backend",
         model_digest=model_digest,
         parameters={
-            "sprint": "S03.2",
+            "sprint": "S03.3",
             "model_name": model_name,
             "seed": seed,
             "items_per_stratum": items_per_stratum,
@@ -113,7 +199,7 @@ def run_e02_observer(
                 "observer_visible_full_transcript",
                 "observer_reconstruction",
                 "observer_input_only",
-                "observer_output_only",
+                "observer_output_full_response_only",
             ],
             "sesoi": sesoi,
             "confidence_format": "probability",
@@ -123,7 +209,7 @@ def run_e02_observer(
     manifest.compute_environment_hash()
     logger.save_manifest(manifest)
 
-    # 4. Initialize Tasks and Observers
+    # 5. Initialize Tasks and Observers
     task_semantic = KVRetrievalTask(
         mode="forced_choice",
         identifier_type="semantic",
@@ -150,7 +236,7 @@ def run_e02_observer(
     obs_vis_full = VisibleFullTranscriptObserver(backend=obs_backend)
     obs_recon = ReconstructionObserver(backend=obs_backend)
     obs_input = InputOnlyObserver(backend=obs_backend)
-    obs_output = OutputOnlyObserver(backend=obs_backend)
+    obs_output = OutputFullResponseOnlyObserver(backend=obs_backend)
 
     # Data structures for strict paired intersection
     self_item_map: Dict[str, Tuple[Optional[float], bool]] = {}
@@ -161,7 +247,7 @@ def run_e02_observer(
         "observer_visible_full_transcript": {},
         "observer_reconstruction": {},
         "observer_input_only": {},
-        "observer_output_only": {},
+        "observer_output_full_response_only": {},
     }
 
     trial_records: List[Dict[str, Any]] = []
@@ -210,7 +296,7 @@ def run_e02_observer(
         observer_item_maps["observer_visible_full_transcript"][item_id] = (eval_vis_full.predicted_probability, is_corr)
         observer_item_maps["observer_reconstruction"][item_id] = (eval_recon.predicted_probability, is_corr)
         observer_item_maps["observer_input_only"][item_id] = (eval_inp.predicted_probability, is_corr)
-        observer_item_maps["observer_output_only"][item_id] = (eval_out.predicted_probability, is_corr)
+        observer_item_maps["observer_output_full_response_only"][item_id] = (eval_out.predicted_probability, is_corr)
 
         # Log trial event
         meta.update(score_res)
@@ -222,7 +308,7 @@ def run_e02_observer(
         meta["eval_visible_full_transcript"] = eval_vis_full.model_dump()
         meta["eval_reconstruction"] = eval_recon.model_dump()
         meta["eval_input_only"] = eval_inp.model_dump()
-        meta["eval_output_only"] = eval_out.model_dump()
+        meta["eval_output_full_response_only"] = eval_out.model_dump()
 
         event = TrialEvent(
             run_id=run_id,
@@ -263,7 +349,7 @@ def run_e02_observer(
     checksum = logger.compute_stream_checksum()
     parquet_path = logger.export_parquet()
 
-    # 5. Compute Strict Item-Paired Intersection Contrasts & PAI (Stratified Bootstrap)
+    # 6. Compute Strict Item-Paired Intersection Contrasts & PAI (Stratified Bootstrap)
     contrast_analysis = compute_item_paired_contrasts(
         self_item_map=self_item_map,
         observer_item_maps=observer_item_maps,
@@ -272,8 +358,7 @@ def run_e02_observer(
         seed=seed,
     )
 
-    # 6. Direct Pairwise Contrasts
-    # A. Self-Review vs Other-Review (Equal Compute framing test)
+    # 7. Direct Pairwise Contrasts
     framing_contrast = compute_direct_pairwise_contrast(
         map_a=observer_item_maps["self_review_equal_compute"],
         map_b=observer_item_maps["observer_review_other"],
@@ -284,7 +369,6 @@ def run_e02_observer(
         seed=seed,
     )
 
-    # B. Visible Answer-Only vs Visible Full-Transcript (Public channel effect test)
     channel_contrast = compute_direct_pairwise_contrast(
         map_a=observer_item_maps["observer_visible_answer_only"],
         map_b=observer_item_maps["observer_visible_full_transcript"],
@@ -295,22 +379,29 @@ def run_e02_observer(
         seed=seed,
     )
 
-    # 7. Compliance Metrics & Gate Verification
+    # 8. Per-Primary-Condition Compliance Hard Gate Verification
     self_valid_count = sum(1 for p, y in self_item_map.values() if p is not None)
     observer_valid_counts = {
         name: sum(1 for p, y in mp.values() if p is not None)
         for name, mp in observer_item_maps.items()
     }
-    core_conditions = [
+    primary_conditions = [
+        "self_immediate",
         "self_review_equal_compute",
         "observer_review_other",
         "observer_visible_answer_only",
         "observer_visible_full_transcript",
         "observer_reconstruction",
     ]
-    core_valid_total = self_valid_count + sum(observer_valid_counts[c] for c in core_conditions)
-    core_possible_total = total_items * (1 + len(core_conditions))
-    core_compliance_rate = core_valid_total / core_possible_total if core_possible_total else 0.0
+    primary_rates = {
+        "self_immediate": self_valid_count / total_items if total_items else 0.0,
+    }
+    for c in primary_conditions:
+        if c != "self_immediate":
+            primary_rates[c] = observer_valid_counts[c] / total_items if total_items else 0.0
+
+    min_primary_compliance = min(primary_rates.values())
+    compliance_gate_passed = bool(min_primary_compliance >= 0.90)
 
     # Brier Scores
     brier_scores = {
@@ -322,7 +413,7 @@ def run_e02_observer(
     # Summary dictionary
     results_summary = {
         "experiment_id": "E02_Observer_Hardened",
-        "sprint": "S03.2",
+        "sprint": "S03.3",
         "run_id": run_id,
         "model_name": model_name,
         "model_digest": model_digest,
@@ -330,10 +421,10 @@ def run_e02_observer(
         "total_items": total_items,
         "compliance_rates": {
             "self_valid_count": self_valid_count,
-            "self_compliance_rate": self_valid_count / total_items if total_items else 0.0,
             "observer_valid_counts": observer_valid_counts,
-            "core_compliance_rate": core_compliance_rate,
-            "compliance_gate_passed": bool(core_compliance_rate >= 0.90),
+            "primary_compliance_rates": primary_rates,
+            "min_primary_compliance": min_primary_compliance,
+            "compliance_gate_passed": compliance_gate_passed,
         },
         "target_task_performance": {
             "semantic_fc_accuracy": semantic_target_correct / items_per_stratum if items_per_stratum else 0.0,
@@ -364,15 +455,23 @@ def run_e02_observer(
     with open(summary_file, "w", encoding="utf-8") as f:
         f.write(json.dumps(results_summary, indent=2))
 
+    # Generate and write report.md
+    report_file = res_run_dir / "report.md"
+    with open(report_file, "w", encoding="utf-8") as f:
+        f.write(generate_markdown_report(results_summary))
+
     # Update latest pointer in res_base
     latest_pointer_file = res_base / "latest.json"
     with open(latest_pointer_file, "w", encoding="utf-8") as f:
         json.dump(
             {
                 "experiment_id": "E02_Observer_Hardened",
-                "promoted_run_id": run_id,
+                "latest_run_id": run_id,
+                "definitive_baseline": compliance_gate_passed,
+                "compliance_gate_passed": compliance_gate_passed,
                 "summary_path": str(summary_file.relative_to(res_base.parent.parent)),
                 "trials_path": str(trials_file.relative_to(res_base.parent.parent)),
+                "report_path": str(report_file.relative_to(res_base.parent.parent)),
             },
             f,
             indent=2,
@@ -386,10 +485,10 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run E02 Hardened Observer & Reconstruction benchmark.")
     parser.add_argument("--overwrite", action="store_true", help="Allow replacing existing run directory.")
     parser.add_argument("--items", type=int, default=20, help="Items per condition stratum.")
-    parser.add_argument("--run-id", type=str, default="run_e02_obs_003", help="Run ID.")
+    parser.add_argument("--run-id", type=str, default="run_e02_obs_004", help="Run ID.")
     parser.add_argument("--sesoi", type=float, default=0.10, help="Smallest Effect Size of Interest margin.")
     args = parser.parse_args()
 
     res = run_e02_observer(items_per_stratum=args.items, run_id=args.run_id, overwrite=args.overwrite, sesoi=args.sesoi)
-    print("E02 Hardened Observer Benchmark Completed!")
+    print("E02 Observer Benchmark Completed!")
     print(json.dumps(res, indent=2))

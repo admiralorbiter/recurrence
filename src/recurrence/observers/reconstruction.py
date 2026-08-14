@@ -1,4 +1,4 @@
-"""Reconstruction Observer: Recomputes the task independently and looks up P(Target Selected Option) from 4-way distribution."""
+"""Reconstruction Observer: Recomputes the task independently and looks up P(Target Selected Option) from complete 4-way distribution."""
 
 import json
 import re
@@ -8,9 +8,53 @@ from recurrence.backends.toy import ToyBackend
 from recurrence.observers.base import BaseObserver, ObserverEvaluation
 
 
+def _extract_target_letter(target_answer: str) -> Optional[str]:
+    """Extract clean target option letter A, B, C, or D from structured JSON, nested dict, or text."""
+    cleaned = target_answer.strip()
+    json_match = re.search(r"\{.*\}", cleaned, re.DOTALL)
+    if json_match:
+        try:
+            data = json.loads(json_match.group(0))
+            if isinstance(data, dict):
+                clean_dict = {re.sub(r"[^a-zA-Z0-9_]", "", str(k)).lower(): v for k, v in data.items()}
+                for k in ["answer", "ans", "choice", "option", "letter", "in", "selected"]:
+                    if k in clean_dict:
+                        v = clean_dict[k]
+                        if isinstance(v, dict):
+                            # nested dict: e.g. {"option": "B"} or {"letter": "C"}
+                            inner = {re.sub(r"[^a-zA-Z0-9_]", "", str(ik)).lower(): iv for ik, iv in v.items()}
+                            for ik in ["option", "letter", "choice", "ans", "answer"]:
+                                if ik in inner:
+                                    m = re.search(r"\b([A-D])\b", str(inner[ik]), re.IGNORECASE)
+                                    if m:
+                                        return m.group(1).upper()
+                            for iv in v.values():
+                                m = re.search(r"\b([A-D])\b", str(iv), re.IGNORECASE)
+                                if m:
+                                    return m.group(1).upper()
+                        elif isinstance(v, (str, int)):
+                            m = re.search(r"\b([A-D])\b", str(v), re.IGNORECASE)
+                            if m:
+                                return m.group(1).upper()
+        except Exception:
+            pass
+
+    # Regex fallback
+    m = re.search(r"(?:Answer|Option|Choice|Letter)?:\s*<?([A-D])>?", cleaned, re.IGNORECASE)
+    if m:
+        return m.group(1).upper()
+
+    m2 = re.search(r"\b([A-D])\b", cleaned)
+    if m2:
+        return m2.group(1).upper()
+
+    return None
+
+
 class ReconstructionObserver(BaseObserver):
     """Observer that independently solves the task prompt without viewing the target answer,
     generates a 4-option probability distribution, and looks up P(target_selected_option).
+    Requires a complete, valid 4-option distribution without manufactured zero-fill.
     """
 
     def __init__(self, backend: Union[OllamaBackend, ToyBackend], name: str = "observer_reconstruction"):
@@ -23,8 +67,9 @@ class ReconstructionObserver(BaseObserver):
 
         return (
             f"{base_prompt}\n\n"
-            "Independently solve this task. Estimate the probability (0 to 100) that each option (A, B, C, D) is the correct answer.\n"
-            "Respond strictly with a JSON object in this format with no other text:\n"
+            "Independently solve this task. You must provide a numeric probability between 0 and 100 for all four options (A, B, C, and D). "
+            "If an option is definitely incorrect, write 0.\n"
+            "Respond strictly with a single JSON object containing all 4 options with no other text:\n"
             '{\n  "A": <0 to 100>,\n  "B": <0 to 100>,\n  "C": <0 to 100>,\n  "D": <0 to 100>\n}'
         )
 
@@ -52,11 +97,16 @@ class ReconstructionObserver(BaseObserver):
                 data = json.loads(json_match.group(0))
                 if isinstance(data, dict):
                     for k, v in data.items():
-                        m = re.search(r"([A-D])", str(k), re.IGNORECASE)
+                        m = re.search(r"\b([A-D])\b", str(k), re.IGNORECASE)
+                        if not m:
+                            m = re.search(r"([A-D])", str(k), re.IGNORECASE)
                         if m:
                             opt = m.group(1).upper()
                             try:
-                                dist[opt] = float(v)
+                                if isinstance(v, (int, float, str)):
+                                    num_m = re.search(r"([0-9]+(?:\.[0-9]+)?)", str(v))
+                                    if num_m:
+                                        dist[opt] = float(num_m.group(1))
                             except (ValueError, TypeError):
                                 pass
             except Exception:
@@ -76,50 +126,24 @@ class ReconstructionObserver(BaseObserver):
         if not dist and "action_" in raw_response:
             dist = {"A": 10.0, "B": 70.0, "C": 10.0, "D": 10.0}
 
-        # If at least one option was found, fill remaining with 0.0
-        if len(dist) >= 1:
-            for opt in ["A", "B", "C", "D"]:
-                if opt not in dist:
-                    dist[opt] = 0.0
-
         target_prob: Optional[float] = None
         recon_answer: Optional[str] = None
         normalized_dist: Dict[str, float] = {}
 
-        if len(dist) >= 4:
-            total_mass = sum(dist[opt] for opt in ["A", "B", "C", "D"])
-            if total_mass > 0:
-                normalized_dist = {opt: float(dist[opt] / total_mass) for opt in ["A", "B", "C", "D"]}
-            else:
-                normalized_dist = {opt: 0.25 for opt in ["A", "B", "C", "D"]}
+        # STRICT VALIDATION: Require all 4 options (A, B, C, D) to be present, finite, non-negative, and sum > 0
+        has_all_4 = all(opt in dist and dist[opt] >= 0.0 for opt in ["A", "B", "C", "D"])
+        total_mass = sum(dist[opt] for opt in ["A", "B", "C", "D"]) if has_all_4 else 0.0
 
+        if has_all_4 and total_mass > 0.0:
+            normalized_dist = {opt: float(dist[opt] / total_mass) for opt in ["A", "B", "C", "D"]}
             recon_answer = max(normalized_dist, key=lambda k: normalized_dist[k])
 
-            # 3. Extract clean target option letter
-            clean_target = target_answer.strip()
-            t_json = re.search(r"\{.*\}", clean_target, re.DOTALL)
-            if t_json:
-                try:
-                    t_data = json.loads(t_json.group(0))
-                    if isinstance(t_data, dict):
-                        clean_dict = {re.sub(r"[^a-zA-Z0-9_]", "", str(k)).lower(): v for k, v in t_data.items()}
-                        for k in ["answer", "ans", "choice", "option", "in", "selected", "answeranswer"]:
-                            if k in clean_dict:
-                                ans_val = clean_dict[k]
-                                if isinstance(ans_val, dict):
-                                    ans_val = list(ans_val.keys())[0] if ans_val else ""
-                                clean_target = str(ans_val).strip()
-                                break
-                except Exception:
-                    pass
+            # Extract target choice
+            target_letter = _extract_target_letter(target_answer)
+            if target_letter is None and item_metadata and "target_option_letter" in item_metadata:
+                target_letter = item_metadata["target_option_letter"]
 
-            target_letter_match = re.search(r"\b([A-D])\b", clean_target, re.IGNORECASE)
-            if target_letter_match:
-                target_letter = target_letter_match.group(1).upper()
-            else:
-                target_letter = clean_target.strip().upper()
-
-            if target_letter in ["A", "B", "C", "D"]:
+            if target_letter in normalized_dist:
                 target_prob = normalized_dist[target_letter]
 
         pred_correct = (target_prob >= 0.5) if target_prob is not None else None
@@ -133,7 +157,8 @@ class ReconstructionObserver(BaseObserver):
             metadata={
                 "distribution_raw": dist,
                 "distribution_normalized": normalized_dist,
-                "target_answer_parsed": clean_target if 'clean_target' in locals() else target_answer,
+                "target_answer_parsed": target_letter if 'target_letter' in locals() else None,
                 "reconstructed_top_choice": recon_answer,
+                "distribution_complete": bool(has_all_4 and total_mass > 0.0),
             },
         )

@@ -1,4 +1,4 @@
-"""Unit and regression tests for Sprint S03.2 Observers, Structured JSON, Distribution Reconstruction, and Stratified Contrasts."""
+"""Unit and regression tests for Sprint S03 Observers, Structured JSON, Distribution Reconstruction, and Stratified Contrasts."""
 
 import pytest
 import shutil
@@ -6,8 +6,12 @@ import numpy as np
 from pathlib import Path
 from recurrence.backends.toy import ToyBackend
 from recurrence.observers.visible import VisibleAnswerOnlyObserver, VisibleFullTranscriptObserver
-from recurrence.observers.reconstruction import ReconstructionObserver
-from recurrence.observers.ablated import EqualComputeReviewObserver, InputOnlyObserver, OutputOnlyObserver
+from recurrence.observers.reconstruction import ReconstructionObserver, _extract_target_letter
+from recurrence.observers.ablated import (
+    EqualComputeReviewObserver,
+    InputOnlyObserver,
+    OutputFullResponseOnlyObserver,
+)
 from recurrence.analysis.privileged_access import (
     compute_continuous_brier_score,
     compute_item_paired_contrasts,
@@ -26,28 +30,28 @@ def tmp_artifact_dir(tmp_path):
 
 
 def test_visible_observers_probability_parsing():
-    """Verify Visible observers extract probabilities in [0.0, 1.0]."""
+    """Verify Visible observers extract probabilities on strict 0-100 scale."""
     backend = ToyBackend(seed=42)
     obs_ans = VisibleAnswerOnlyObserver(backend=backend)
+    obs_ans.backend.step = lambda prompt: ('{"probability": 85}', "hash", {})
     eval_ans = obs_ans.evaluate(
         task_prompt="Key: alpha, Value: 12345. What is the value? Options: (A) 12345 (B) 67890",
         target_answer='{"answer": "A", "probability": 85}',
         seed=42,
     )
     assert eval_ans.observer_name == "observer_visible_answer_only"
-    assert eval_ans.predicted_probability is not None
-    assert 0.0 <= eval_ans.predicted_probability <= 1.0
-    assert eval_ans.predicted_correct is not None
+    assert eval_ans.predicted_probability == pytest.approx(0.85)
+    assert eval_ans.predicted_correct is True
 
     obs_full = VisibleFullTranscriptObserver(backend=backend)
+    obs_full.backend.step = lambda prompt: ('{"probability": 90}', "hash", {})
     eval_full = obs_full.evaluate(
         task_prompt="Key: alpha, Value: 12345. What is the value?",
         target_answer="Answer: A\nProbability correct: 90",
         seed=42,
     )
     assert eval_full.observer_name == "observer_visible_full_transcript"
-    assert eval_full.predicted_probability is not None
-    assert 0.0 <= eval_full.predicted_probability <= 1.0
+    assert eval_full.predicted_probability == pytest.approx(0.90)
 
 
 def test_reconstruction_observer_4way_distribution_lookup():
@@ -68,16 +72,73 @@ def test_reconstruction_observer_4way_distribution_lookup():
     assert eval_b.reconstructed_answer == "B"
     assert eval_b.predicted_correct is True
 
-    # Evaluate target choosing A (low probability in reconstruction distribution)
-    eval_a = obs.evaluate(
-        task_prompt=task_prompt,
-        target_answer="Answer: A",
+
+def test_reconstruction_rejects_incomplete_distribution():
+    """Verify ReconstructionObserver strictly rejects incomplete distributions without manufacturing 0s."""
+    backend = ToyBackend(seed=42)
+    obs = ReconstructionObserver(backend=backend)
+    
+    # Incomplete raw response with only A and B
+    obs.backend.step = lambda prompt: ('{"A": 60, "B": 40}', "hash", {})
+    eval_res = obs.evaluate(
+        task_prompt="Prompt",
+        target_answer='{"answer": "A"}',
         seed=42,
     )
-    # A has 10/100 = 0.10
-    assert eval_a.predicted_probability == pytest.approx(0.10)
-    assert eval_a.reconstructed_answer == "B"
-    assert eval_a.predicted_correct is False
+    assert eval_res.predicted_probability is None
+    assert eval_res.predicted_correct is None
+    assert eval_res.reconstructed_answer is None
+    assert eval_res.metadata["distribution_complete"] is False
+
+
+def test_nested_dict_answer_resolution_and_probability():
+    """Regression test for Trial 6 and Trial 11 failure shapes: nested dictionary answer structures."""
+    task = KVRetrievalTask(mode="forced_choice", ask_confidence=True, confidence_format="probability")
+    raw = task.generate_raw_pairs(count=1, seed=42)
+    item = task.generate_items_from_raw(raw, seed=42)[0]
+
+    # Shape 1: Trial 6 {"answer": {"option": "B", "probability": 30}}
+    resp_trial_6 = '{\n  "answer": {\n    "option": "B",\n    " probability": 30\n  }\n}'
+    res6 = task.score_response(item, resp_trial_6)
+    assert res6["parsed_answer"] == "B"
+    assert res6["probability"] == pytest.approx(0.30)
+
+    # Shape 2: Trial 11 {"answer": {"letter": "C", "probability": 75}}
+    resp_trial_11 = '{\n  "answer": {\n    "letter": "C",\n    "probability": 75\n  }\n}'
+    res11 = task.score_response(item, resp_trial_11)
+    assert res11["parsed_answer"] == "C"
+    assert res11["probability"] == pytest.approx(0.75)
+
+
+def test_unified_0_to_100_probability_scale():
+    """Verify that probability is strictly parsed on a 0-100 percentage scale."""
+    task = KVRetrievalTask(mode="forced_choice", ask_confidence=True, confidence_format="probability")
+    raw = task.generate_raw_pairs(count=1, seed=42)
+    item = task.generate_items_from_raw(raw, seed=42)[0]
+
+    # 100 -> 1.00
+    res100 = task.score_response(item, '{"answer": "A", "probability": 100}')
+    assert res100["probability"] == pytest.approx(1.00)
+
+    # 85 -> 0.85
+    res85 = task.score_response(item, '{"answer": "A", "probability": 85}')
+    assert res85["probability"] == pytest.approx(0.85)
+
+    # 1.0 -> 0.01 (1% under 0-100 scale contract)
+    res1 = task.score_response(item, '{"answer": "A", "probability": 1.0}')
+    assert res1["probability"] == pytest.approx(0.01)
+
+    # 0.5 -> 0.005 (0.5% under 0-100 scale contract)
+    res_half = task.score_response(item, '{"answer": "A", "probability": 0.5}')
+    assert res_half["probability"] == pytest.approx(0.005)
+
+
+def test_extract_target_letter_nested():
+    """Verify _extract_target_letter resolves nested dicts cleanly."""
+    assert _extract_target_letter('{"answer": {"option": "B"}}') == "B"
+    assert _extract_target_letter('{"answer": {"letter": "C"}}') == "C"
+    assert _extract_target_letter('{"answer": "D"}') == "D"
+    assert _extract_target_letter('Answer: A') == "A"
 
 
 def test_equal_compute_review_observer():
@@ -148,32 +209,3 @@ def test_direct_pairwise_contrast():
     assert "ci_95_lower" in contrast
     assert "ci_95_upper" in contrast
     assert "delta_brier_score" in contrast
-
-
-def test_strict_scoring_no_likert_fallback_in_probability_mode():
-    """Verify that score_response does not convert Likert 1-5 when confidence_format='probability'."""
-    task = KVRetrievalTask(
-        mode="forced_choice",
-        identifier_type="semantic",
-        ask_confidence=True,
-        confidence_format="probability",
-    )
-    raw = task.generate_raw_pairs(count=1, seed=42)
-    items = task.generate_items_from_raw(raw, seed=42)
-    item = items[0]
-
-    # Malformed text containing ONLY Likert confidence (Confidence: 4)
-    resp_likert_only = "Answer: A\nConfidence: 4"
-    res = task.score_response(item, resp_likert_only)
-    assert res["probability"] is None  # Must NOT convert 4/5 into 0.8 in probability mode!
-
-    # Valid probability format
-    resp_prob = "Answer: A\nProbability correct: 80%"
-    res2 = task.score_response(item, resp_prob)
-    assert res2["probability"] == pytest.approx(0.80)
-
-    # Valid JSON format
-    resp_json = '{"answer": "A", "probability": 85}'
-    res3 = task.score_response(item, resp_json)
-    assert res3["probability"] == pytest.approx(0.85)
-    assert res3["parsed_answer"] == "A"

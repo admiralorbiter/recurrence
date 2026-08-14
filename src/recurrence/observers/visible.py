@@ -10,7 +10,7 @@ from recurrence.observers.base import BaseObserver, ObserverEvaluation
 
 def _parse_probability_from_text(raw_response: str) -> Optional[float]:
     """Extract probability in [0.0, 1.0] from structured JSON or text response.
-    Strictly enforces probability semantics without Likert fallbacks.
+    Strictly enforces 0-100 percentage scale without ambiguity.
     """
     cleaned = raw_response.strip()
 
@@ -21,22 +21,37 @@ def _parse_probability_from_text(raw_response: str) -> Optional[float]:
             data = json.loads(json_match.group(0))
             if isinstance(data, dict):
                 clean_dict = {re.sub(r"[^a-zA-Z0-9_]", "", str(k)).lower(): v for k, v in data.items()}
+                raw_val = None
                 for k in ["probability", "prob", "probabilityprobability", "probabilitycorrect", "what", "p"]:
                     if k in clean_dict:
                         raw_val = clean_dict[k]
-                        if isinstance(raw_val, dict) and "probability" in raw_val:
-                            raw_val = raw_val["probability"]
-                        if isinstance(raw_val, (int, float, str)):
-                            try:
+                        break
+                if raw_val is None:
+                    # check nested dicts
+                    for v in data.values():
+                        if isinstance(v, dict):
+                            inner = {re.sub(r"[^a-zA-Z0-9_]", "", str(ik)).lower(): iv for ik, iv in v.items()}
+                            for k in ["probability", "prob", "probabilityprobability", "probabilitycorrect", "p"]:
+                                if k in inner:
+                                    raw_val = inner[k]
+                                    break
+                            if raw_val is not None:
+                                break
+
+                if raw_val is not None:
+                    if isinstance(raw_val, dict) and "probability" in raw_val:
+                        raw_val = raw_val["probability"]
+                    if isinstance(raw_val, (int, float, str)):
+                        try:
+                            if isinstance(raw_val, str):
+                                num_m = re.search(r"([0-9]+(?:\.[0-9]+)?)", raw_val)
+                                val = float(num_m.group(1)) if num_m else float(raw_val)
+                            else:
                                 val = float(raw_val)
-                                if 0.0 <= val <= 1.0 and ("." in str(raw_val) or val == 0.0 or val == 1.0):
-                                    return float(val)
-                                elif 0.0 <= val <= 100.0:
-                                    return float(val / 100.0)
-                                else:
-                                    return max(0.0, min(1.0, float(val / 100.0)))
-                            except (ValueError, TypeError):
-                                pass
+                            # Strict 0-100 scale contract: Always divide by 100.0
+                            return max(0.0, min(1.0, float(val / 100.0)))
+                        except (ValueError, TypeError):
+                            pass
         except Exception:
             pass
 
@@ -45,12 +60,7 @@ def _parse_probability_from_text(raw_response: str) -> Optional[float]:
     if prob_match:
         try:
             val = float(prob_match.group(1))
-            if val <= 1.0 and ("." in prob_match.group(1) or val == 1.0 or val == 0.0):
-                return float(val)
-            elif 0.0 <= val <= 100.0:
-                return float(val / 100.0)
-            else:
-                return max(0.0, min(1.0, float(val / 100.0)))
+            return max(0.0, min(1.0, float(val / 100.0)))
         except ValueError:
             pass
 

@@ -25,16 +25,91 @@ def _normalize_string(text: str) -> str:
     return cleaned
 
 
+def _extract_answer_from_value(ans_val: Any, mode: str = "forced_choice") -> str:
+    """Extract clean answer string from string, number, or nested dict structure."""
+    if isinstance(ans_val, dict):
+        # 1. Look for known answer keys inside the nested dict
+        inner_clean = {re.sub(r"[^a-zA-Z0-9_]", "", str(k)).lower(): v for k, v in ans_val.items()}
+        for k in ["option", "letter", "choice", "ans", "answer", "value", "val", "selected"]:
+            if k in inner_clean:
+                v = inner_clean[k]
+                if isinstance(v, (str, int, float)):
+                    return str(v).strip()
+                if isinstance(v, dict):
+                    return _extract_answer_from_value(v, mode=mode)
+        # 2. Look for single option letter in values
+        for v in ans_val.values():
+            if isinstance(v, str):
+                m = re.search(r"\b([A-D])\b", v, re.IGNORECASE) if mode == "forced_choice" else None
+                if m:
+                    return m.group(1).upper()
+                if mode != "forced_choice" and len(v.strip()) > 0:
+                    return v.strip()
+        # 3. Fallback to first non-probability value
+        for k, v in ans_val.items():
+            if "prob" not in str(k).lower():
+                if isinstance(v, dict):
+                    return _extract_answer_from_value(v, mode=mode)
+                return str(v).strip()
+        return str(list(ans_val.values())[0]) if ans_val else ""
+    return str(ans_val).strip()
+
+
+def _extract_probability_from_dict(data: dict) -> Optional[float]:
+    """Extract probability from dict or nested dict on strict 0-100 percentage scale."""
+    clean_dict = {re.sub(r"[^a-zA-Z0-9_]", "", str(k)).lower(): v for k, v in data.items()}
+    
+    # Check top-level probability keys
+    raw_val = None
+    for k in ["probability", "prob", "probabilityprobability", "probabilitycorrect", "p"]:
+        if k in clean_dict:
+            raw_val = clean_dict[k]
+            break
+            
+    # If not found at top level, check inside nested dicts (e.g. data["answer"])
+    if raw_val is None:
+        for v in data.values():
+            if isinstance(v, dict):
+                inner = {re.sub(r"[^a-zA-Z0-9_]", "", str(ik)).lower(): iv for ik, iv in v.items()}
+                for k in ["probability", "prob", "probabilityprobability", "probabilitycorrect", "p"]:
+                    if k in inner:
+                        raw_val = inner[k]
+                        break
+                if raw_val is not None:
+                    break
+
+    if raw_val is not None:
+        if isinstance(raw_val, dict) and "probability" in raw_val:
+            raw_val = raw_val["probability"]
+        if isinstance(raw_val, (int, float, str)):
+            try:
+                if isinstance(raw_val, str):
+                    m = re.search(r"([0-9]+(?:\.[0-9]+)?)", raw_val)
+                    if m:
+                        val = float(m.group(1))
+                    else:
+                        return None
+                else:
+                    val = float(raw_val)
+                # STRICT 0-100 scale contract: Always divide by 100.0
+                return max(0.0, min(1.0, float(val / 100.0)))
+            except (ValueError, TypeError):
+                pass
+    return None
+
+
 class KVRetrievalTask(BaseTask):
-    """Generates Key-Value items across a 2x2 matrix with strict exact scoring."""
+    """Key-Value Retrieval Task with item-level distractor tracking, strict exact scoring,
+    and paired item generation support.
+    """
 
     def __init__(
         self,
-        identifier_type: Literal["opaque", "semantic"] = "opaque",
-        mode: Literal["free_generation", "forced_choice"] = "free_generation",
+        identifier_type: Literal["semantic", "opaque"] = "opaque",
+        mode: Literal["forced_choice", "free_generation"] = "forced_choice",
         distractor_count: int = 5,
         ask_confidence: bool = True,
-        confidence_format: Literal["probability", "likert"] = "probability",
+        confidence_format: Literal["likert", "probability"] = "probability",
     ):
         conf_tag = "_conf" if ask_confidence else "_noconf"
         name = f"kv_{identifier_type}_{mode}{conf_tag}"
@@ -234,34 +309,15 @@ class KVRetrievalTask(BaseTask):
                     # Look for answer key
                     for k in ["answer", "ans", "choice", "option", "in", "selected", "answeranswer"]:
                         if k in clean_dict:
-                            ans_val = clean_dict[k]
-                            if isinstance(ans_val, dict):
-                                ans_val = list(ans_val.keys())[0] if ans_val else ""
-                            raw_answer = str(ans_val).strip()
+                            raw_answer = _extract_answer_from_value(clean_dict[k], mode=self.mode)
                             break
                     
-                    # Look for probability key
-                    for k in ["probability", "prob", "probabilityprobability", "probabilitycorrect", "p"]:
-                        if k in clean_dict:
-                            raw_val = clean_dict[k]
-                            if isinstance(raw_val, dict) and "probability" in raw_val:
-                                raw_val = raw_val["probability"]
-                            if isinstance(raw_val, (int, float, str)):
-                                try:
-                                    val = float(raw_val)
-                                    if 0.0 <= val <= 1.0 and ("." in str(raw_val) or val == 0.0 or val == 1.0):
-                                        probability = float(val)
-                                    elif 0.0 <= val <= 100.0:
-                                        probability = float(val / 100.0)
-                                    else:
-                                        probability = max(0.0, min(1.0, float(val / 100.0)))
-                                except (ValueError, TypeError):
-                                    pass
-                            break
+                    # Look for probability
+                    probability = _extract_probability_from_dict(data)
             except Exception:
                 pass
 
-        # 2. Robust Regex Fallbacks for Answer
+        # 2. Robust Regex Fallbacks for Answer if still unresolved
         if raw_answer == cleaned_resp:
             ans_match = re.search(
                 r"Answer:\s*(?:<[^>]+>:\s*)?<?([a-zA-Z0-9_\s]+?)>?(?:\s*(?:Probability|Confidence|Confident)|\%|;|\n|\r|$)",
@@ -271,24 +327,14 @@ class KVRetrievalTask(BaseTask):
             if ans_match:
                 raw_answer = ans_match.group(1).strip()
 
-        # For forced choice, extract option letter if raw_answer contains surrounding noise
-        if self.mode == "forced_choice":
-            opt_letter_match = re.search(r"\b([A-D])\b", raw_answer)
-            if opt_letter_match:
-                raw_answer = opt_letter_match.group(1)
-
         # 3. Probability parsing from text (if not already parsed from JSON)
         if probability is None:
-            prob_match = re.search(r"(?:Probability\s*(?:correct)?|Prob):\s*<?([0-9]+(?:\.[0-9]+)?)\s*\%?>?", cleaned_resp, re.IGNORECASE)
+            prob_match = re.search(r"(?:Probability\s*(?:correct)?|Prob|p):\s*<?([0-9]+(?:\.[0-9]+)?)\s*\%?>?", cleaned_resp, re.IGNORECASE)
             if prob_match:
                 try:
                     val = float(prob_match.group(1))
-                    if val <= 1.0 and ("." in prob_match.group(1) or val == 1.0 or val == 0.0):
-                        probability = float(val)
-                    elif 0.0 <= val <= 100.0:
-                        probability = float(val / 100.0)
-                    else:
-                        probability = max(0.0, min(1.0, float(val / 100.0)))
+                    # Strict 0-100 scale contract
+                    probability = max(0.0, min(1.0, float(val / 100.0)))
                 except ValueError:
                     probability = None
 
