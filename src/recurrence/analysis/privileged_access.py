@@ -1,4 +1,4 @@
-"""Privileged Access Index (PAI) and Strict Item-Paired Intersection Analysis."""
+"""Privileged Access Index (PAI) and Strict Item-Paired Intersection Analysis with Stratified Bootstrap."""
 
 import numpy as np
 from typing import List, Tuple, Dict, Any, Optional
@@ -21,6 +21,104 @@ def compute_continuous_brier_score(predictions: List[Tuple[Optional[float], bool
     return float(np.mean(squared_errors))
 
 
+def _stratified_paired_bootstrap_indices(labels: List[bool], rng: np.random.RandomState) -> np.ndarray:
+    """Generate bootstrap sample indices stratified by label to preserve positive/negative proportions."""
+    arr_labels = np.array(labels, dtype=bool)
+    pos_idx = np.where(arr_labels)[0]
+    neg_idx = np.where(~arr_labels)[0]
+
+    if len(pos_idx) == 0 or len(neg_idx) == 0:
+        return rng.choice(len(labels), size=len(labels), replace=True)
+
+    boot_pos = rng.choice(pos_idx, size=len(pos_idx), replace=True)
+    boot_neg = rng.choice(neg_idx, size=len(neg_idx), replace=True)
+    return np.concatenate([boot_pos, boot_neg])
+
+
+def compute_direct_pairwise_contrast(
+    map_a: Dict[str, Tuple[Optional[float], bool]],
+    map_b: Dict[str, Tuple[Optional[float], bool]],
+    name_a: str = "evaluator_a",
+    name_b: str = "evaluator_b",
+    sesoi: float = 0.10,
+    n_bootstraps: int = 1000,
+    seed: int = 42,
+) -> Dict[str, Any]:
+    """Compute direct pairwise contrast between any two evaluators on their exact shared item intersection.
+    
+    Uses stratified paired bootstrap to eliminate single-class resampling artifacts.
+    """
+    rng = np.random.RandomState(seed)
+
+    shared_keys = [
+        k for k in map_a
+        if k in map_b and map_a[k][0] is not None and map_b[k][0] is not None
+    ]
+    n_shared = len(shared_keys)
+    if n_shared == 0:
+        return {
+            "name_a": name_a,
+            "name_b": name_b,
+            "shared_items_count": 0,
+            "error": f"No shared valid items between {name_a} and {name_b}",
+        }
+
+    probs_a = [float(map_a[k][0]) for k in shared_keys]
+    probs_b = [float(map_b[k][0]) for k in shared_keys]
+    labels = [bool(map_a[k][1]) for k in shared_keys]
+
+    disc_a = compute_post_decision_discrimination_from_pairs(list(zip(probs_a, labels)))
+    disc_b = compute_post_decision_discrimination_from_pairs(list(zip(probs_b, labels)))
+
+    auc_a = disc_a["auroc2"] if disc_a["auroc2"] is not None else 0.5
+    auc_b = disc_b["auroc2"] if disc_b["auroc2"] is not None else 0.5
+    delta_auc = float(auc_a - auc_b)
+
+    brier_a = compute_continuous_brier_score(list(zip(probs_a, labels)))
+    brier_b = compute_continuous_brier_score(list(zip(probs_b, labels)))
+    delta_brier = float(brier_a - brier_b) if brier_a is not None and brier_b is not None else None
+
+    acc_a = float(np.mean([(p >= 0.5) == y for p, y in zip(probs_a, labels)]))
+    acc_b = float(np.mean([(p >= 0.5) == y for p, y in zip(probs_b, labels)]))
+
+    # Stratified paired bootstrap for AUROC difference
+    boot_deltas: List[float] = []
+    for _ in range(n_bootstraps):
+        boot_idx = _stratified_paired_bootstrap_indices(labels, rng)
+        b_p_a = [probs_a[i] for i in boot_idx]
+        b_p_b = [probs_b[i] for i in boot_idx]
+        b_lbls = [labels[i] for i in boot_idx]
+
+        b_auc_a = compute_auroc2(b_p_a, b_lbls)
+        b_auc_b = compute_auroc2(b_p_b, b_lbls)
+
+        val_a = b_auc_a if b_auc_a is not None else 0.5
+        val_b = b_auc_b if b_auc_b is not None else 0.5
+        boot_deltas.append(val_a - val_b)
+
+    ci_lower = float(np.percentile(boot_deltas, 2.5))
+    ci_upper = float(np.percentile(boot_deltas, 97.5))
+
+    return {
+        "name_a": name_a,
+        "name_b": name_b,
+        "shared_items_count": n_shared,
+        "auroc2_a": auc_a,
+        "auroc2_b": auc_b,
+        "delta_auroc2": delta_auc,
+        "ci_95_lower": ci_lower,
+        "ci_95_upper": ci_upper,
+        "sesoi_margin": sesoi,
+        "brier_score_a": brier_a,
+        "brier_score_b": brier_b,
+        "delta_brier_score": delta_brier,
+        "binary_accuracy_a": acc_a,
+        "binary_accuracy_b": acc_b,
+        "discrimination_a": disc_a,
+        "discrimination_b": disc_b,
+    }
+
+
 def compute_item_paired_contrasts(
     self_item_map: Dict[str, Tuple[Optional[float], bool]],
     observer_item_maps: Dict[str, Dict[str, Tuple[Optional[float], bool]]],
@@ -28,18 +126,8 @@ def compute_item_paired_contrasts(
     n_bootstraps: int = 1000,
     seed: int = 42,
 ) -> Dict[str, Any]:
-    """Compute strict item-paired discrimination contrasts on exact pairwise intersection subsets.
-    
-    Parameters
-    ----------
-    self_item_map : Dict[item_id, (self_prob, actual_correct)]
-    observer_item_maps : Dict[observer_name, Dict[item_id, (obs_prob, actual_correct)]]
-    sesoi : float
-        Smallest Effect Size of Interest for equivalence margin (default +/- 0.10 AUROC2).
-    n_bootstraps : int
-        Number of paired bootstrap resamples.
-    seed : int
-        Random seed for reproducibility.
+    """Compute strict item-paired discrimination contrasts on exact pairwise intersection subsets
+    using stratified paired bootstrap.
     """
     rng = np.random.RandomState(seed)
     contrasts: Dict[str, Any] = {}
@@ -76,10 +164,10 @@ def compute_item_paired_contrasts(
         # Binary forecast accuracy (p >= 0.5)
         obs_pred_acc = float(np.mean([(p >= 0.5) == y for p, y in zip(obs_probs, labels)]))
 
-        # Paired Bootstrap CI over intersection subset
+        # Stratified Paired Bootstrap CI over intersection subset
         boot_deltas: List[float] = []
         for _ in range(n_bootstraps):
-            boot_idx = rng.choice(n_shared, size=n_shared, replace=True)
+            boot_idx = _stratified_paired_bootstrap_indices(labels, rng)
             b_self_p = [self_probs[i] for i in boot_idx]
             b_obs_p = [obs_probs[i] for i in boot_idx]
             b_labels = [labels[i] for i in boot_idx]
@@ -95,7 +183,6 @@ def compute_item_paired_contrasts(
         ci_upper = float(np.percentile(boot_deltas, 97.5))
 
         # Equivalence evaluation relative to SESOI
-        # Equivalence holds if the 95% CI is entirely within [-SESOI, +SESOI]
         equivalent_within_sesoi = bool(ci_lower >= -sesoi and ci_upper <= sesoi)
         no_positive_advantage = bool(ci_upper <= sesoi)
 
@@ -142,10 +229,10 @@ def compute_item_paired_contrasts(
         max_bench_auc = max(j_obs_aucs) if j_obs_aucs else 0.5
         point_pai = float(j_self_auc - max_bench_auc)
 
-        # Joint Bootstrap
+        # Stratified Joint Bootstrap
         joint_boot_pais: List[float] = []
         for _ in range(n_bootstraps):
-            boot_idx = rng.choice(n_joint, size=n_joint, replace=True)
+            boot_idx = _stratified_paired_bootstrap_indices(j_labels, rng)
             b_self_p = [j_self_p[i] for i in boot_idx]
             b_labels = [j_labels[i] for i in boot_idx]
             b_self_auc = compute_auroc2(b_self_p, b_labels) or 0.5

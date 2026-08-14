@@ -1,18 +1,32 @@
-"""Reconstruction Observer: Recomputes the task independently and maps counterfactual agreement to P(Target Correct)."""
+"""Reconstruction Observer: Recomputes the task independently and looks up P(Target Selected Option) from 4-way distribution."""
 
+import json
 import re
 from typing import Dict, Any, Optional, Union
 from recurrence.backends.ollama import OllamaBackend
 from recurrence.backends.toy import ToyBackend
 from recurrence.observers.base import BaseObserver, ObserverEvaluation
-from recurrence.observers.visible import _parse_probability_from_text
 
 
 class ReconstructionObserver(BaseObserver):
-    """Observer that independently solves the task prompt and maps counterfactual agreement onto P(Target Correct)."""
+    """Observer that independently solves the task prompt without viewing the target answer,
+    generates a 4-option probability distribution, and looks up P(target_selected_option).
+    """
 
     def __init__(self, backend: Union[OllamaBackend, ToyBackend], name: str = "observer_reconstruction"):
         super().__init__(backend=backend, name=name)
+
+    def format_prompt(self, task_prompt: str) -> str:
+        # Base task stimulus
+        base_prompt = re.sub(r"Respond strictly with a JSON object.*", "", task_prompt, flags=re.DOTALL).strip()
+        base_prompt = re.sub(r"Format your response strictly as:.*", "", base_prompt, flags=re.DOTALL).strip()
+
+        return (
+            f"{base_prompt}\n\n"
+            "Independently solve this task. Estimate the probability (0 to 100) that each option (A, B, C, D) is the correct answer.\n"
+            "Respond strictly with a JSON object in this format with no other text:\n"
+            '{\n  "A": <0 to 100>,\n  "B": <0 to 100>,\n  "C": <0 to 100>,\n  "D": <0 to 100>\n}'
+        )
 
     def evaluate(
         self,
@@ -21,61 +35,92 @@ class ReconstructionObserver(BaseObserver):
         item_metadata: Optional[Dict[str, Any]] = None,
         seed: int = 42,
     ) -> ObserverEvaluation:
-        # 1. Independently execute task prompt on a fresh invocation
+        prompt = self.format_prompt(task_prompt)
+
+        # 1. Independently execute task prompt on a fresh invocation with grammar-constrained JSON
         if isinstance(self.backend, OllamaBackend):
-            messages = [{"role": "user", "content": task_prompt}]
-            raw_response, meta = self.backend.chat(messages=messages, temperature=0.0, seed=seed)
+            messages = [{"role": "user", "content": prompt}]
+            raw_response, meta = self.backend.chat(messages=messages, temperature=0.0, seed=seed, format="json")
         else:
-            raw_response, state_hash, meta = self.backend.step(task_prompt)
+            raw_response, state_hash, meta = self.backend.step(prompt)
 
-        # 2. Parse reconstructed answer and reconstructed confidence/probability
-        ans_match = re.search(
-            r"Answer:\s*(?:<[^>]+>:\s*)?<?([a-zA-Z0-9_\s]+?)>?(?:\s*(?:Probability|Confidence|Confident)|\%|;|\n|\r|$)",
-            raw_response,
-            re.IGNORECASE,
-        )
-        recon_answer = ans_match.group(1).strip() if ans_match else raw_response.strip()
+        # 2. Parse 4-way probability distribution
+        dist: Dict[str, float] = {}
+        json_match = re.search(r"\{[^{}]*\}", raw_response)
+        if json_match:
+            try:
+                data = json.loads(json_match.group(0))
+                if isinstance(data, dict):
+                    for opt in ["A", "B", "C", "D"]:
+                        if opt in data:
+                            dist[opt] = float(data[opt])
+                        elif opt.lower() in data:
+                            dist[opt] = float(data[opt.lower()])
+            except Exception:
+                pass
 
-        recon_prob = _parse_probability_from_text(raw_response)
-        if recon_prob is None:
-            recon_prob = 0.70  # Standard default if not explicitly returned
+        # Regex fallback for distribution if JSON parsing failed
+        if len(dist) < 4:
+            for opt in ["A", "B", "C", "D"]:
+                m = re.search(rf'["\']?{opt}["\']?\s*:\s*([0-9]+(?:\.[0-9]+)?)', raw_response, re.IGNORECASE)
+                if m:
+                    dist[opt] = float(m.group(1))
 
-        # 3. Normalize answers for comparison
-        clean_target = target_answer.strip()
-        target_match = re.search(
-            r"Answer:\s*(?:<[^>]+>:\s*)?<?([a-zA-Z0-9_\s]+?)>?(?:\s*(?:Probability|Confidence|Confident)|\%|;|\n|\r|$)",
-            clean_target,
-            re.IGNORECASE,
-        )
-        if target_match:
-            clean_target = target_match.group(1).strip()
+        # Toy backend simulation fallback
+        if not dist and "action_" in raw_response:
+            dist = {"A": 10.0, "B": 70.0, "C": 10.0, "D": 10.0}
 
-        clean_recon = recon_answer.strip()
-        
-        # Compare (case-insensitive stripped)
-        agrees = (clean_target.upper() == clean_recon.upper())
+        target_prob: Optional[float] = None
+        recon_answer: Optional[str] = None
+        normalized_dist: Dict[str, float] = {}
 
-        # 4. Strict Directionality Mapping to P(Target Answer Correct)
-        # If agreement: P(Target Correct) = recon_prob
-        # If disagreement: P(Target Correct) = 1.0 - recon_prob
-        if agrees:
-            target_prob = recon_prob
-        else:
-            target_prob = float(max(0.0, min(1.0, 1.0 - recon_prob)))
+        if len(dist) >= 4:
+            total_mass = sum(dist[opt] for opt in ["A", "B", "C", "D"])
+            if total_mass > 0:
+                normalized_dist = {opt: float(dist[opt] / total_mass) for opt in ["A", "B", "C", "D"]}
+            else:
+                normalized_dist = {opt: 0.25 for opt in ["A", "B", "C", "D"]}
 
-        pred_correct = (target_prob >= 0.5)
+            recon_answer = max(normalized_dist, key=lambda k: normalized_dist[k])
+
+            # 3. Extract clean target option letter
+            clean_target = target_answer.strip()
+            # Try JSON extraction from target
+            t_json = re.search(r"\{[^{}]*\}", clean_target)
+            if t_json:
+                try:
+                    t_data = json.loads(t_json.group(0))
+                    if "answer" in t_data:
+                        clean_target = str(t_data["answer"]).strip()
+                except Exception:
+                    pass
+
+            target_match = re.search(
+                r"Answer:\s*(?:<[^>]+>:\s*)?<?([a-zA-Z0-9_\s]+?)>?(?:\s*(?:Probability|Confidence|Confident)|\%|;|\n|\r|$)",
+                clean_target,
+                re.IGNORECASE,
+            )
+            if target_match:
+                clean_target = target_match.group(1).strip()
+
+            target_letter = clean_target.upper()
+            if target_letter in ["A", "B", "C", "D"]:
+                target_prob = normalized_dist[target_letter]
+            elif item_metadata and "target_option_letter" in item_metadata:
+                target_prob = normalized_dist.get(item_metadata["target_option_letter"].upper())
+
+        pred_correct = (target_prob >= 0.5) if target_prob is not None else None
 
         return ObserverEvaluation(
             observer_name=self.name,
             predicted_probability=target_prob,
             predicted_correct=pred_correct,
-            reconstructed_answer=clean_recon,
+            reconstructed_answer=recon_answer,
             raw_response=raw_response,
             metadata={
-                "agrees": agrees,
-                "clean_target": clean_target,
-                "clean_recon": clean_recon,
-                "reconstructed_probability": recon_prob,
-                "target_probability": target_prob,
+                "distribution_raw": dist,
+                "distribution_normalized": normalized_dist,
+                "target_answer_parsed": clean_target if 'clean_target' in locals() else target_answer,
+                "reconstructed_top_choice": recon_answer,
             },
         )

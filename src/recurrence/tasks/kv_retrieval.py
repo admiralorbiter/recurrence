@@ -1,5 +1,6 @@
 """Key-Value Retrieval task with paired item matrix, strict normalized scoring, and semantic randomization."""
 
+import json
 import random
 import re
 import string
@@ -128,9 +129,8 @@ class KVRetrievalTask(BaseTask):
                             f"Below is a list of key-value pairs:\n\n{formatted_pairs}\n\n"
                             f"Question: What value is associated with '{target_key}'?\n\n"
                             f"Options:\n{options_text}\n\n"
-                            f"Format your response strictly as:\n"
-                            f"Answer: <Option letter, e.g. A>\n"
-                            f"Probability correct: <0 to 100, where 0 is definitely incorrect and 100 is definitely correct>"
+                            f"Respond strictly with a JSON object in this format with no other text:\n"
+                            f'{{\n  "answer": "<Option letter, e.g. A, B, C, or D>",\n  "probability": <0 to 100, where 0 is definitely incorrect and 100 is definitely correct>\n}}'
                         )
                     else:
                         prompt = (
@@ -167,9 +167,8 @@ class KVRetrievalTask(BaseTask):
                         prompt = (
                             f"Below is a list of key-value pairs:\n\n{formatted_pairs}\n\n"
                             f"Question: What is the exact value string associated with '{target_key}'?\n\n"
-                            f"Format your response strictly as:\n"
-                            f"Answer: <exact value string>\n"
-                            f"Probability correct: <0 to 100, where 0 is definitely incorrect and 100 is definitely correct>"
+                            f"Respond strictly with a JSON object in this format with no other text:\n"
+                            f'{{\n  "answer": "<exact value string>",\n  "probability": <0 to 100, where 0 is definitely incorrect and 100 is definitely correct>\n}}'
                         )
                     else:
                         prompt = (
@@ -220,44 +219,66 @@ class KVRetrievalTask(BaseTask):
     def score_response(self, item: TaskItem, response: str) -> Dict[str, Any]:
         """Parse structured answer and apply strict exact normalized comparison."""
         cleaned_resp = response.strip()
-
-        # Robust Answer extraction: stops before inline Confidence / Probability or newline
-        ans_match = re.search(
-            r"Answer:\s*(?:<[^>]+>:\s*)?<?([a-zA-Z0-9_\s]+?)>?(?:\s*(?:Probability|Confidence|Confident)|\%|;|\n|\r|$)",
-            cleaned_resp,
-            re.IGNORECASE,
-        )
-        raw_answer = ans_match.group(1).strip() if ans_match else cleaned_resp
-
-        # Parse Probability: ... (0 to 100) or Confidence: ... (1 to 5)
-        prob_match = re.search(r"(?:Probability\s*(?:correct)?|Prob):\s*<?([0-9]+(?:\.[0-9]+)?)\s*\%?>?", cleaned_resp, re.IGNORECASE)
-        conf_match = re.search(r"(?:Confidence|Confident):\s*<?([1-5])>?", cleaned_resp, re.IGNORECASE)
-
+        raw_answer: str = cleaned_resp
         probability: Optional[float] = None
         confidence: Optional[int] = None
 
-        if prob_match:
+        # 1. Try structured JSON extraction first
+        json_match = re.search(r"\{[^{}]*\}", cleaned_resp)
+        if json_match:
             try:
-                val = float(prob_match.group(1))
-                if val <= 1.0 and ("." in prob_match.group(1) or val == 1.0 or val == 0.0):
-                    # Value given as 0.0 to 1.0
-                    probability = float(val)
-                elif 0.0 <= val <= 100.0:
-                    # Value given as 0 to 100
-                    probability = float(val / 100.0)
-                else:
-                    probability = max(0.0, min(1.0, float(val / 100.0)))
-            except ValueError:
-                probability = None
+                data = json.loads(json_match.group(0))
+                if isinstance(data, dict):
+                    if "answer" in data:
+                        raw_answer = str(data["answer"]).strip()
+                    if "probability" in data or "prob" in data:
+                        raw_val = data.get("probability", data.get("prob"))
+                        if isinstance(raw_val, (int, float)):
+                            val = float(raw_val)
+                            if 0.0 <= val <= 1.0 and isinstance(raw_val, float):
+                                probability = float(val)
+                            elif 0.0 <= val <= 100.0:
+                                probability = float(val / 100.0)
+                            else:
+                                probability = max(0.0, min(1.0, float(val / 100.0)))
+            except Exception:
+                pass
 
-        if conf_match:
-            try:
-                confidence = int(conf_match.group(1))
-                if probability is None:
-                    # Map 1-5 to 0.2, 0.4, 0.6, 0.8, 1.0
-                    probability = float(confidence / 5.0)
-            except ValueError:
-                confidence = None
+        # 2. Robust Regex Fallbacks for Answer
+        if raw_answer == cleaned_resp:
+            ans_match = re.search(
+                r"Answer:\s*(?:<[^>]+>:\s*)?<?([a-zA-Z0-9_\s]+?)>?(?:\s*(?:Probability|Confidence|Confident)|\%|;|\n|\r|$)",
+                cleaned_resp,
+                re.IGNORECASE,
+            )
+            if ans_match:
+                raw_answer = ans_match.group(1).strip()
+
+        # 3. Probability parsing from text (if not already parsed from JSON)
+        if probability is None:
+            prob_match = re.search(r"(?:Probability\s*(?:correct)?|Prob):\s*<?([0-9]+(?:\.[0-9]+)?)\s*\%?>?", cleaned_resp, re.IGNORECASE)
+            if prob_match:
+                try:
+                    val = float(prob_match.group(1))
+                    if val <= 1.0 and ("." in prob_match.group(1) or val == 1.0 or val == 0.0):
+                        probability = float(val)
+                    elif 0.0 <= val <= 100.0:
+                        probability = float(val / 100.0)
+                    else:
+                        probability = max(0.0, min(1.0, float(val / 100.0)))
+                except ValueError:
+                    probability = None
+
+        # 4. Confidence Likert parsing ONLY if task confidence_format is 'likert'
+        if self.confidence_format != "probability":
+            conf_match = re.search(r"(?:Confidence|Confident):\s*<?([1-5])>?", cleaned_resp, re.IGNORECASE)
+            if conf_match:
+                try:
+                    confidence = int(conf_match.group(1))
+                    if probability is None:
+                        probability = float(confidence / 5.0)
+                except ValueError:
+                    confidence = None
 
         norm_answer = _normalize_string(raw_answer)
         norm_ground_truth = _normalize_string(item.ground_truth)

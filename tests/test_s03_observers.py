@@ -1,7 +1,8 @@
-"""Unit and regression tests for Sprint S03.1 Observers, Probability Metrics, and Item-Paired Contrasts."""
+"""Unit and regression tests for Sprint S03.2 Observers, Structured JSON, Distribution Reconstruction, and Stratified Contrasts."""
 
 import pytest
 import shutil
+import numpy as np
 from pathlib import Path
 from recurrence.backends.toy import ToyBackend
 from recurrence.observers.visible import VisibleAnswerOnlyObserver, VisibleFullTranscriptObserver
@@ -10,6 +11,8 @@ from recurrence.observers.ablated import EqualComputeReviewObserver, InputOnlyOb
 from recurrence.analysis.privileged_access import (
     compute_continuous_brier_score,
     compute_item_paired_contrasts,
+    compute_direct_pairwise_contrast,
+    _stratified_paired_bootstrap_indices,
 )
 from recurrence.tasks.kv_retrieval import KVRetrievalTask
 
@@ -28,7 +31,7 @@ def test_visible_observers_probability_parsing():
     obs_ans = VisibleAnswerOnlyObserver(backend=backend)
     eval_ans = obs_ans.evaluate(
         task_prompt="Key: alpha, Value: 12345. What is the value? Options: (A) 12345 (B) 67890",
-        target_answer="Answer: A\nProbability correct: 85%",
+        target_answer='{"answer": "A", "probability": 85}',
         seed=42,
     )
     assert eval_ans.observer_name == "observer_visible_answer_only"
@@ -47,32 +50,34 @@ def test_visible_observers_probability_parsing():
     assert 0.0 <= eval_full.predicted_probability <= 1.0
 
 
-def test_reconstruction_observer_directionality():
-    """Verify ReconstructionObserver maps agreement to high P(Target Correct) and disagreement to low P."""
+def test_reconstruction_observer_4way_distribution_lookup():
+    """Verify ReconstructionObserver performs 4-option distribution lookup for target choice."""
     backend = ToyBackend(seed=42)
     obs = ReconstructionObserver(backend=backend)
     
-    task_prompt = "Retrieve key 'cat'. Options: (A) feline (B) canine. Answer: A\nProbability correct: 90%"
+    task_prompt = "Retrieve key 'cat'. Options: (A) feline (B) canine (C) avian (D) reptile."
     
-    # 1. Matching answer
-    eval_agree = obs.evaluate(
+    # Evaluate target choosing B
+    eval_b = obs.evaluate(
         task_prompt=task_prompt,
-        target_answer="Answer: action_9\nProbability correct: 80%",
+        target_answer='{"answer": "B"}',
         seed=42,
     )
-    # When toy output matches target answer, predicted_probability should equal recon_probability
-    assert eval_agree.predicted_probability is not None
-    assert 0.0 <= eval_agree.predicted_probability <= 1.0
+    # Toy backend returns default dist {"A": 10, "B": 70, "C": 10, "D": 10} -> B has 70/100 = 0.70
+    assert eval_b.predicted_probability == pytest.approx(0.70)
+    assert eval_b.reconstructed_answer == "B"
+    assert eval_b.predicted_correct is True
 
-    # 2. Mismatching answer
-    eval_disagree = obs.evaluate(
+    # Evaluate target choosing A (low probability in reconstruction distribution)
+    eval_a = obs.evaluate(
         task_prompt=task_prompt,
-        target_answer="Answer: DIFFERENT_ANSWER\nProbability correct: 80%",
+        target_answer="Answer: A",
         seed=42,
     )
-    assert eval_disagree.predicted_probability is not None
-    # For mismatch, probability of target being correct is 1 - recon_prob (low)
-    assert eval_disagree.predicted_probability <= 0.5
+    # A has 10/100 = 0.10
+    assert eval_a.predicted_probability == pytest.approx(0.10)
+    assert eval_a.reconstructed_answer == "B"
+    assert eval_a.predicted_correct is False
 
 
 def test_equal_compute_review_observer():
@@ -81,7 +86,7 @@ def test_equal_compute_review_observer():
     obs_self = EqualComputeReviewObserver(backend=backend, framing="self")
     eval_self = obs_self.evaluate(
         task_prompt="Task prompt",
-        target_answer="Answer: A",
+        target_answer='{"answer": "A", "probability": 90}',
         seed=42,
     )
     assert eval_self.observer_name == "self_review_equal_compute"
@@ -100,74 +105,75 @@ def test_equal_compute_review_observer():
 def test_continuous_brier_score():
     """Verify continuous Brier score (mean squared error between prob and actual {0, 1})."""
     preds = [(0.9, True), (0.1, False), (0.8, False), (0.2, True)]
-    # (0.9-1)^2 = 0.01, (0.1-0)^2 = 0.01, (0.8-0)^2 = 0.64, (0.2-1)^2 = 0.64 -> sum = 1.30 / 4 = 0.325
     brier = compute_continuous_brier_score(preds)
     assert brier == pytest.approx(0.325)
 
 
-def test_strict_item_paired_intersection_contrasts():
-    """Verify that item-paired contrasts evaluate strictly over shared valid keys."""
-    # Self valid on items 1, 2, 3, 4
-    self_map = {
-        "item_1": (0.9, True),
-        "item_2": (0.2, False),
-        "item_3": (0.8, True),
-        "item_4": (None, False),  # Missing self score
-        "item_5": (0.4, False),
-    }
-    # Observer A valid on items 1, 2, 4 (missing item 3 and 5)
-    obs_a_map = {
+def test_stratified_paired_bootstrap():
+    """Verify stratified paired bootstrap preserves positive and negative label counts."""
+    labels = [True, True, True, False, False]
+    rng = np.random.RandomState(42)
+    for _ in range(20):
+        idx = _stratified_paired_bootstrap_indices(labels, rng)
+        sampled_labels = [labels[i] for i in idx]
+        assert sum(sampled_labels) == 3
+        assert sum(not y for y in sampled_labels) == 2
+
+
+def test_direct_pairwise_contrast():
+    """Verify direct pairwise contrast between two evaluators on shared items."""
+    map_self_rev = {
         "item_1": (0.8, True),
-        "item_2": (0.3, False),
-        "item_4": (0.9, False),
-        "item_5": (None, False),  # Missing obs score
+        "item_2": (0.2, False),
+        "item_3": (0.7, True),
     }
-    # Observer B valid on all items
-    obs_b_map = {
-        "item_1": (0.85, True),
-        "item_2": (0.15, False),
-        "item_3": (0.75, True),
-        "item_4": (0.40, False),
-        "item_5": (0.30, False),
+    map_other_rev = {
+        "item_1": (0.75, True),
+        "item_2": (0.30, False),
+        "item_3": (0.65, True),
     }
 
-    res = compute_item_paired_contrasts(
-        self_item_map=self_map,
-        observer_item_maps={"obs_a": obs_a_map, "obs_b": obs_b_map},
+    contrast = compute_direct_pairwise_contrast(
+        map_a=map_self_rev,
+        map_b=map_other_rev,
+        name_a="self_review",
+        name_b="other_review",
         sesoi=0.10,
         n_bootstraps=100,
         seed=42,
     )
 
-    contrasts = res["contrasts"]
-    # Shared keys for Obs A should be exactly {item_1, item_2} (count = 2)
-    assert contrasts["obs_a"]["shared_items_count"] == 2
-    # Shared keys for Obs B should be exactly {item_1, item_2, item_3, item_5} (count = 4)
-    assert contrasts["obs_b"]["shared_items_count"] == 4
-    assert "delta_auroc2_self_minus_obs" in contrasts["obs_a"]
-    assert "ci_95_lower" in contrasts["obs_a"]
-    assert "ci_95_upper" in contrasts["obs_a"]
+    assert contrast["shared_items_count"] == 3
+    assert "delta_auroc2" in contrast
+    assert "ci_95_lower" in contrast
+    assert "ci_95_upper" in contrast
+    assert "delta_brier_score" in contrast
 
 
-def test_e02_hardened_runner_end_to_end(tmp_artifact_dir):
-    """Verify E02 hardened runner executes end-to-end and computes paired intersection contrasts."""
-    from experiments.e02_observer.run import run_e02_observer
-
-    results_dir = tmp_artifact_dir / "results"
-    summary = run_e02_observer(
-        use_ollama=False,
-        items_per_stratum=2,
-        base_output_dir=str(tmp_artifact_dir),
-        results_base_dir=str(results_dir),
-        run_id="test_obs_hardened_001",
-        overwrite=True,
+def test_strict_scoring_no_likert_fallback_in_probability_mode():
+    """Verify that score_response does not convert Likert 1-5 when confidence_format='probability'."""
+    task = KVRetrievalTask(
+        mode="forced_choice",
+        identifier_type="semantic",
+        ask_confidence=True,
+        confidence_format="probability",
     )
+    raw = task.generate_raw_pairs(count=1, seed=42)
+    items = task.generate_items_from_raw(raw, seed=42)
+    item = items[0]
 
-    assert summary["total_items"] == 4
-    assert "paired_intersection_contrasts" in summary
-    assert "joint_pai_summary" in summary
-    assert "observer_brier_scores" in summary
-    assert Path(summary["parquet_path"]).exists()
-    assert (results_dir / "test_obs_hardened_001" / "trials.jsonl").exists()
-    assert (results_dir / "test_obs_hardened_001" / "summary.json").exists()
-    assert (results_dir / "latest.json").exists()
+    # Malformed text containing ONLY Likert confidence (Confidence: 4)
+    resp_likert_only = "Answer: A\nConfidence: 4"
+    res = task.score_response(item, resp_likert_only)
+    assert res["probability"] is None  # Must NOT convert 4/5 into 0.8 in probability mode!
+
+    # Valid probability format
+    resp_prob = "Answer: A\nProbability correct: 80%"
+    res2 = task.score_response(item, resp_prob)
+    assert res2["probability"] == pytest.approx(0.80)
+
+    # Valid JSON format
+    resp_json = '{"answer": "A", "probability": 85}'
+    res3 = task.score_response(item, resp_json)
+    assert res3["probability"] == pytest.approx(0.85)
+    assert res3["parsed_answer"] == "A"

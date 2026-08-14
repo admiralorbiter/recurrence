@@ -69,13 +69,14 @@ class OllamaBackend:
         messages: List[Dict[str, str]],
         temperature: Optional[float] = None,
         seed: Optional[int] = None,
+        format: Optional[str] = None,
     ) -> Tuple[str, Dict[str, Any]]:
         """Send chat messages to Ollama `/api/chat` with greedy deterministic options and retry."""
         temp = temperature if temperature is not None else self.temperature
         sd = seed if seed is not None else self.seed
 
         url = f"{self.base_url}/api/chat"
-        payload = {
+        payload: Dict[str, Any] = {
             "model": self.model_name,
             "messages": messages,
             "stream": False,
@@ -85,6 +86,8 @@ class OllamaBackend:
                 "top_p": 1.0 if temp == 0.0 else 0.9,
             },
         }
+        if format is not None:
+            payload["format"] = format
 
         data_bytes = json.dumps(payload).encode("utf-8")
         req = urllib.request.Request(
@@ -120,9 +123,9 @@ class OllamaBackend:
 
         return content, metadata
 
-    def step(self, prompt: str) -> Tuple[str, str, Dict[str, Any]]:
+    def step(self, prompt: str, format: Optional[str] = None) -> Tuple[str, str, Dict[str, Any]]:
         """Single-turn prompt execution."""
         messages = [{"role": "user", "content": prompt}]
-        content, metadata = self.chat(messages)
+        content, metadata = self.chat(messages, format=format)
         state_hash = self.get_digest()[:16]
         return content, state_hash, metadata

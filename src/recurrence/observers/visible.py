@@ -1,5 +1,6 @@
 """Visible-Evidence Observers: Evaluates visible transcript with standardized probability semantics."""
 
+import json
 import re
 from typing import Dict, Any, Optional, Union
 from recurrence.backends.ollama import OllamaBackend
@@ -8,8 +9,31 @@ from recurrence.observers.base import BaseObserver, ObserverEvaluation
 
 
 def _parse_probability_from_text(raw_response: str) -> Optional[float]:
-    """Extract probability in [0.0, 1.0] from model response text."""
-    prob_match = re.search(r"(?:Probability\s*(?:correct)?|Prob):\s*<?([0-9]+(?:\.[0-9]+)?)\s*\%?>?", raw_response, re.IGNORECASE)
+    """Extract probability in [0.0, 1.0] from structured JSON or text response.
+    Strictly enforces probability semantics without Likert fallbacks.
+    """
+    cleaned = raw_response.strip()
+
+    # 1. Try structured JSON extraction first
+    json_match = re.search(r"\{[^{}]*\}", cleaned)
+    if json_match:
+        try:
+            data = json.loads(json_match.group(0))
+            if isinstance(data, dict) and ("probability" in data or "prob" in data):
+                raw_val = data.get("probability", data.get("prob"))
+                if isinstance(raw_val, (int, float)):
+                    val = float(raw_val)
+                    if 0.0 <= val <= 1.0 and isinstance(raw_val, float):
+                        return float(val)
+                    elif 0.0 <= val <= 100.0:
+                        return float(val / 100.0)
+                    else:
+                        return max(0.0, min(1.0, float(val / 100.0)))
+        except Exception:
+            pass
+
+    # 2. Strict Probability regex
+    prob_match = re.search(r"(?:Probability\s*(?:correct)?|Prob):\s*<?([0-9]+(?:\.[0-9]+)?)\s*\%?>?", cleaned, re.IGNORECASE)
     if prob_match:
         try:
             val = float(prob_match.group(1))
@@ -22,16 +46,8 @@ def _parse_probability_from_text(raw_response: str) -> Optional[float]:
         except ValueError:
             pass
 
-    # Likert fallback
-    conf_match = re.search(r"(?:Confidence|Confident):\s*<?([1-5])>?", raw_response, re.IGNORECASE)
-    if conf_match:
-        try:
-            return float(int(conf_match.group(1)) / 5.0)
-        except ValueError:
-            pass
-
-    # Unstructured toy fallback
-    if "action_" in raw_response:
+    # 3. Unstructured toy fallback
+    if "action_" in cleaned:
         return 0.5
 
     return None
@@ -44,13 +60,16 @@ class VisibleAnswerOnlyObserver(BaseObserver):
         super().__init__(backend=backend, name=name)
 
     def format_prompt(self, task_prompt: str, target_answer_only: str) -> str:
+        base_prompt = re.sub(r"Respond strictly with a JSON object.*", "", task_prompt, flags=re.DOTALL).strip()
+        base_prompt = re.sub(r"Format your response strictly as:.*", "", base_prompt, flags=re.DOTALL).strip()
+
         return (
             "You are an external observer evaluating whether another AI agent's answer to a task is correct or incorrect.\n\n"
-            f"[Task Prompt]\n{task_prompt.strip()}\n\n"
+            f"[Task Prompt]\n{base_prompt}\n\n"
             f"[Agent's Proposed Answer]\n{target_answer_only.strip()}\n\n"
             "Estimate the probability (0 to 100%) that the proposed answer is correct.\n"
-            "Respond strictly in the format:\n"
-            "Probability correct: <0 to 100, where 0 is definitely incorrect and 100 is definitely correct>"
+            "Respond strictly with a JSON object in this format with no other text:\n"
+            '{\n  "probability": <0 to 100, where 0 is definitely incorrect and 100 is definitely correct>\n}'
         )
 
     def evaluate(
@@ -61,17 +80,28 @@ class VisibleAnswerOnlyObserver(BaseObserver):
         seed: int = 42,
     ) -> ObserverEvaluation:
         # Strip any confidence report from target_answer
-        ans_match = re.search(
-            r"Answer:\s*(?:<[^>]+>:\s*)?<?([a-zA-Z0-9_\s]+?)>?(?:\s*(?:Probability|Confidence|Confident)|\%|;|\n|\r|$)",
-            target_answer,
-            re.IGNORECASE,
-        )
-        clean_target_ans = f"Answer: {ans_match.group(1).strip()}" if ans_match else target_answer.strip()
+        clean_ans = target_answer.strip()
+        json_match = re.search(r"\{[^{}]*\}", clean_ans)
+        if json_match:
+            try:
+                data = json.loads(json_match.group(0))
+                if "answer" in data:
+                    clean_ans = f"Answer: {data['answer']}"
+            except Exception:
+                pass
 
-        prompt = self.format_prompt(task_prompt, clean_target_ans)
+        if clean_ans == target_answer.strip():
+            ans_match = re.search(
+                r"Answer:\s*(?:<[^>]+>:\s*)?<?([a-zA-Z0-9_\s]+?)>?(?:\s*(?:Probability|Confidence|Confident)|\%|;|\n|\r|$)",
+                target_answer,
+                re.IGNORECASE,
+            )
+            clean_ans = f"Answer: {ans_match.group(1).strip()}" if ans_match else target_answer.strip()
+
+        prompt = self.format_prompt(task_prompt, clean_ans)
         if isinstance(self.backend, OllamaBackend):
             messages = [{"role": "user", "content": prompt}]
-            raw_response, meta = self.backend.chat(messages=messages, temperature=0.0, seed=seed)
+            raw_response, meta = self.backend.chat(messages=messages, temperature=0.0, seed=seed, format="json")
         else:
             raw_response, state_hash, meta = self.backend.step(prompt)
 
@@ -85,7 +115,7 @@ class VisibleAnswerOnlyObserver(BaseObserver):
             raw_response=raw_response,
             metadata={
                 "task_prompt_len": len(task_prompt),
-                "target_answer_stripped": clean_target_ans,
+                "target_answer_stripped": clean_ans,
             },
         )
 
@@ -97,13 +127,16 @@ class VisibleFullTranscriptObserver(BaseObserver):
         super().__init__(backend=backend, name=name)
 
     def format_prompt(self, task_prompt: str, full_target_response: str) -> str:
+        base_prompt = re.sub(r"Respond strictly with a JSON object.*", "", task_prompt, flags=re.DOTALL).strip()
+        base_prompt = re.sub(r"Format your response strictly as:.*", "", base_prompt, flags=re.DOTALL).strip()
+
         return (
             "You are an external observer evaluating whether another AI agent's response to a task is correct or incorrect.\n\n"
-            f"[Task Prompt]\n{task_prompt.strip()}\n\n"
+            f"[Task Prompt]\n{base_prompt}\n\n"
             f"[Agent's Full Response]\n{full_target_response.strip()}\n\n"
             "Estimate the probability (0 to 100%) that the proposed answer is correct.\n"
-            "Respond strictly in the format:\n"
-            "Probability correct: <0 to 100, where 0 is definitely incorrect and 100 is definitely correct>"
+            "Respond strictly with a JSON object in this format with no other text:\n"
+            '{\n  "probability": <0 to 100, where 0 is definitely incorrect and 100 is definitely correct>\n}'
         )
 
     def evaluate(
@@ -116,7 +149,7 @@ class VisibleFullTranscriptObserver(BaseObserver):
         prompt = self.format_prompt(task_prompt, target_answer)
         if isinstance(self.backend, OllamaBackend):
             messages = [{"role": "user", "content": prompt}]
-            raw_response, meta = self.backend.chat(messages=messages, temperature=0.0, seed=seed)
+            raw_response, meta = self.backend.chat(messages=messages, temperature=0.0, seed=seed, format="json")
         else:
             raw_response, state_hash, meta = self.backend.step(prompt)
 

@@ -1,12 +1,32 @@
-"""E02 Hardened Observer & Reconstruction Benchmark Runner (S03.1)."""
+"""Scientific Runner for Experiment E02_Observer_Hardened (Sprint S03.2):
+Definitive Level-0 Privileged Access & Observer Ladder Benchmark.
+
+Standardizes all evaluative measurements on P(Target Correct) in [0, 100%].
+Evaluates 8 Total Conditions:
+  1 Target Model (Immediate self-confidence)
+  + 7 Evaluator Conditions:
+    1. Equal-Compute Self-Review (fresh 2nd invocation, self-framing)
+    2. Equal-Compute Other-Review (fresh 2nd invocation, other-framing)
+    3. Visible Observer: Answer-Only (confidence stripped)
+    4. Visible Observer: Full-Transcript (confidence included)
+    5. Counterfactual Reconstruction Observer (4-way distribution lookup)
+    6. Input-Only Observer (difficulty prior)
+    7. Output-Only Observer (fluency prior)
+"""
 
 import json
+import os
+import shutil
+import sys
 from pathlib import Path
-from typing import Dict, Any, List, Tuple, Union, Optional
-from recurrence.core.manifest import RunManifest
-from recurrence.core.logging import ExperimentLogger, TrialEvent
+from typing import Dict, Any, List, Optional, Tuple
+
+import numpy as np
+
 from recurrence.backends.ollama import OllamaBackend
 from recurrence.backends.toy import ToyBackend
+from recurrence.logging.manifest import ExperimentManifest
+from recurrence.logging.structured import ExperimentLogger, TrialEvent
 from recurrence.tasks.kv_retrieval import KVRetrievalTask
 from recurrence.observers.visible import (
     VisibleAnswerOnlyObserver,
@@ -21,59 +41,62 @@ from recurrence.observers.ablated import (
 from recurrence.analysis.privileged_access import (
     compute_continuous_brier_score,
     compute_item_paired_contrasts,
+    compute_direct_pairwise_contrast,
 )
 
 
 def run_e02_observer(
-    model_name: str = "qwen2.5:3b",
-    use_ollama: bool = True,
     items_per_stratum: int = 20,
-    seed: int = 42,
-    base_output_dir: str = "artifacts/e02_observer",
-    results_base_dir: str = "results/e02_observer",
-    run_id: str = "run_e02_obs_002",
+    run_id: str = "run_e02_obs_003",
     overwrite: bool = False,
     sesoi: float = 0.10,
+    seed: int = 42,
+    use_toy: bool = False,
 ) -> Dict[str, Any]:
-    """Execute E02 Hardened Observer Battery across counterbalanced Forced Choice KV retrieval."""
-    run_dir = Path(base_output_dir) / run_id
-    res_base = Path(results_base_dir)
+    """Execute the definitive Level-0 Privileged Access Benchmark under strict paired intersections."""
+    # 1. Initialize Backends
+    if use_toy:
+        target_backend = ToyBackend(name="toy_target")
+        obs_backend = ToyBackend(name="toy_observer")
+        model_name = "toy_model"
+        model_digest = "toy_digest_deterministic"
+    else:
+        target_backend = OllamaBackend(model_name="qwen2.5:3b", seed=seed)
+        obs_backend = OllamaBackend(model_name="qwen2.5:3b", seed=seed)
+        model_name = target_backend.model_name
+        model_digest = target_backend.get_digest()
+
+    # 2. Setup Safe Result and Artifact Directories
+    artifacts_dir = Path("artifacts") / "e02_observer" / run_id
+    res_base = Path("results") / "e02_observer"
     res_run_dir = res_base / run_id
+
+    if (artifacts_dir.exists() or res_run_dir.exists()) and not overwrite:
+        raise FileExistsError(
+            f"Run directory already exists. Use overwrite=True or a new run_id. Paths: {artifacts_dir}, {res_run_dir}"
+        )
+
+    if overwrite:
+        if artifacts_dir.exists():
+            shutil.rmtree(artifacts_dir)
+        if res_run_dir.exists():
+            shutil.rmtree(res_run_dir)
+
+    artifacts_dir.mkdir(parents=True, exist_ok=True)
     res_run_dir.mkdir(parents=True, exist_ok=True)
 
-    # 1. Initialize atomic collision-guarded logger
-    logger = ExperimentLogger(output_dir=run_dir, run_id=run_id, overwrite=overwrite)
-
-    # 2. Initialize backends (target and observers)
-    target_backend: Union[OllamaBackend, ToyBackend]
-    observer_backend: Union[OllamaBackend, ToyBackend]
-    if use_ollama:
-        target_backend = OllamaBackend(model_name=model_name, temperature=0.0, seed=seed)
-        observer_backend = OllamaBackend(model_name=model_name, temperature=0.0, seed=seed)
-        model_tag = f"ollama-{model_name}"
-        model_digest = target_backend.get_digest()
-    else:
-        target_backend = ToyBackend(seed=seed)
-        observer_backend = ToyBackend(seed=seed)
-        model_tag = "toy-backend"
-        model_digest = "toy-digest-sha256"
-
-    # 3. Preregistered Manifest
-    manifest = RunManifest(
+    # 3. Create Manifest and Logger
+    manifest = ExperimentManifest.create(
         experiment_id="E02_Observer_Hardened",
-        sprint="S03.1",
-        run_id=run_id,
-        seed=seed,
-        model_tag=model_tag,
-        model_digest=model_digest,
+        protocol_version="1.3.2",
         parameters={
-            "items_per_stratum": items_per_stratum,
-            "use_ollama": use_ollama,
+            "sprint": "S03.2",
             "model_name": model_name,
-            "metric": "probability_0_to_100_percent",
-            "sesoi_margin": sesoi,
-            "design": "6_condition_observer_battery_with_strict_paired_intersections",
-            "conditions": [
+            "model_digest": model_digest,
+            "seed": seed,
+            "items_per_stratum": items_per_stratum,
+            "total_items": items_per_stratum * 2,
+            "evaluator_conditions": [
                 "self_immediate",
                 "self_review_equal_compute",
                 "observer_review_other",
@@ -83,47 +106,50 @@ def run_e02_observer(
                 "observer_input_only",
                 "observer_output_only",
             ],
+            "sesoi": sesoi,
+            "confidence_format": "probability",
+            "decoding": "greedy_temperature_0.0",
         },
-    )
-    manifest.compute_environment_hash()
-    logger.save_manifest(manifest)
-
-    # 4. Generate Stimuli: Counterbalanced 4-way FC KV Retrieval (5 targets per letter A/B/C/D)
-    raw_semantic = KVRetrievalTask.generate_raw_pairs(
-        count=items_per_stratum, distractor_count=5, identifier_type="semantic", seed=seed
-    )
-    raw_opaque = KVRetrievalTask.generate_raw_pairs(
-        count=items_per_stratum, distractor_count=5, identifier_type="opaque", seed=seed
+        tags=["e02_observer", "s03_2", "level_0", "hardened", "stratified_bootstrap"],
     )
 
-    task_semantic_fc = KVRetrievalTask(
-        identifier_type="semantic", mode="forced_choice", ask_confidence=True, confidence_format="probability"
+    logger = ExperimentLogger(
+        manifest=manifest,
+        run_id=run_id,
+        output_dir=artifacts_dir,
+        overwrite=overwrite,
     )
-    task_opaque_fc = KVRetrievalTask(
-        identifier_type="opaque", mode="forced_choice", ask_confidence=True, confidence_format="probability"
+
+    # 4. Initialize Tasks and Observers
+    task_semantic = KVRetrievalTask(
+        mode="forced_choice",
+        identifier_type="semantic",
+        ask_confidence=True,
+        confidence_format="probability",
+    )
+    task_opaque = KVRetrievalTask(
+        mode="forced_choice",
+        identifier_type="opaque",
+        ask_confidence=True,
+        confidence_format="probability",
     )
 
-    items_semantic = task_semantic_fc.generate_items_from_raw(raw_semantic, seed=seed)
-    items_opaque = task_opaque_fc.generate_items_from_raw(raw_opaque, seed=seed)
+    raw_semantic = task_semantic.generate_raw_pairs(count=items_per_stratum, seed=seed)
+    items_semantic = task_semantic.generate_items_from_raw(raw_semantic, seed=seed)
 
-    all_test_items = [
-        (task_semantic_fc, item) for item in items_semantic
-    ] + [
-        (task_opaque_fc, item) for item in items_opaque
-    ]
+    raw_opaque = task_opaque.generate_raw_pairs(count=items_per_stratum, seed=seed + 1000)
+    items_opaque = task_opaque.generate_items_from_raw(raw_opaque, seed=seed + 1000)
 
-    # Instantiate Observers
-    obs_self_review = EqualComputeReviewObserver(backend=target_backend, framing="self", name="self_review_equal_compute")
-    obs_other_review = EqualComputeReviewObserver(backend=observer_backend, framing="other", name="observer_review_other")
-    obs_vis_ans = VisibleAnswerOnlyObserver(backend=observer_backend, name="observer_visible_answer_only")
-    obs_vis_full = VisibleFullTranscriptObserver(backend=observer_backend, name="observer_visible_full_transcript")
-    obs_recon = ReconstructionObserver(backend=observer_backend, name="observer_reconstruction")
-    obs_input = InputOnlyObserver(backend=observer_backend, name="observer_input_only")
-    obs_output = OutputOnlyObserver(backend=observer_backend, name="observer_output_only")
+    # 7 Evaluator conditions
+    obs_self_review = EqualComputeReviewObserver(backend=obs_backend, framing="self")
+    obs_other_review = EqualComputeReviewObserver(backend=obs_backend, framing="other")
+    obs_vis_ans = VisibleAnswerOnlyObserver(backend=obs_backend)
+    obs_vis_full = VisibleFullTranscriptObserver(backend=obs_backend)
+    obs_recon = ReconstructionObserver(backend=obs_backend)
+    obs_input = InputOnlyObserver(backend=obs_backend)
+    obs_output = OutputOnlyObserver(backend=obs_backend)
 
-    trial_records: List[Dict[str, Any]] = []
-    
-    # Item-level maps for strict pairwise intersection analysis
+    # Data structures for strict paired intersection
     self_item_map: Dict[str, Tuple[Optional[float], bool]] = {}
     observer_item_maps: Dict[str, Dict[str, Tuple[Optional[float], bool]]] = {
         "self_review_equal_compute": {},
@@ -135,18 +161,21 @@ def run_e02_observer(
         "observer_output_only": {},
     }
 
+    trial_records: List[Dict[str, Any]] = []
     semantic_target_correct = 0
     opaque_target_correct = 0
+
+    all_test_items = [(task_semantic, it) for it in items_semantic] + [(task_opaque, it) for it in items_opaque]
     step = 0
 
     for task, item in all_test_items:
         step += 1
         item_id = item.item_id
 
-        # Step A: Target model solves the item
+        # Step A: Target model solves the item with structured JSON decoding
         if isinstance(target_backend, OllamaBackend):
             messages = [{"role": "user", "content": item.prompt}]
-            target_response, meta = target_backend.chat(messages=messages, temperature=0.0, seed=seed)
+            target_response, meta = target_backend.chat(messages=messages, temperature=0.0, seed=seed, format="json")
             state_hash = meta.get("digest", "none")[:16]
         else:
             target_response, state_hash, meta = target_backend.step(item.prompt)
@@ -231,7 +260,7 @@ def run_e02_observer(
     checksum = logger.compute_stream_checksum()
     parquet_path = logger.export_parquet()
 
-    # 5. Compute Strict Item-Paired Intersection Contrasts & PAI
+    # 5. Compute Strict Item-Paired Intersection Contrasts & PAI (Stratified Bootstrap)
     contrast_analysis = compute_item_paired_contrasts(
         self_item_map=self_item_map,
         observer_item_maps=observer_item_maps,
@@ -240,12 +269,45 @@ def run_e02_observer(
         seed=seed,
     )
 
-    # 6. Overall Compliance Metrics
+    # 6. Direct Pairwise Contrasts
+    # A. Self-Review vs Other-Review (Equal Compute framing test)
+    framing_contrast = compute_direct_pairwise_contrast(
+        map_a=observer_item_maps["self_review_equal_compute"],
+        map_b=observer_item_maps["observer_review_other"],
+        name_a="self_review_equal_compute",
+        name_b="observer_review_other",
+        sesoi=sesoi,
+        n_bootstraps=1000,
+        seed=seed,
+    )
+
+    # B. Visible Answer-Only vs Visible Full-Transcript (Public channel effect test)
+    channel_contrast = compute_direct_pairwise_contrast(
+        map_a=observer_item_maps["observer_visible_answer_only"],
+        map_b=observer_item_maps["observer_visible_full_transcript"],
+        name_a="observer_visible_answer_only",
+        name_b="observer_visible_full_transcript",
+        sesoi=sesoi,
+        n_bootstraps=1000,
+        seed=seed,
+    )
+
+    # 7. Compliance Metrics & Gate Verification
     self_valid_count = sum(1 for p, y in self_item_map.values() if p is not None)
     observer_valid_counts = {
         name: sum(1 for p, y in mp.values() if p is not None)
         for name, mp in observer_item_maps.items()
     }
+    core_conditions = [
+        "self_review_equal_compute",
+        "observer_review_other",
+        "observer_visible_answer_only",
+        "observer_visible_full_transcript",
+        "observer_reconstruction",
+    ]
+    core_valid_total = self_valid_count + sum(observer_valid_counts[c] for c in core_conditions)
+    core_possible_total = total_items * (1 + len(core_conditions))
+    core_compliance_rate = core_valid_total / core_possible_total if core_possible_total else 0.0
 
     # Brier Scores
     brier_scores = {
@@ -257,7 +319,7 @@ def run_e02_observer(
     # Summary dictionary
     results_summary = {
         "experiment_id": "E02_Observer_Hardened",
-        "sprint": "S03.1",
+        "sprint": "S03.2",
         "run_id": run_id,
         "model_name": model_name,
         "model_digest": model_digest,
@@ -267,6 +329,8 @@ def run_e02_observer(
             "self_valid_count": self_valid_count,
             "self_compliance_rate": self_valid_count / total_items if total_items else 0.0,
             "observer_valid_counts": observer_valid_counts,
+            "core_compliance_rate": core_compliance_rate,
+            "compliance_gate_passed": bool(core_compliance_rate >= 0.90),
         },
         "target_task_performance": {
             "semantic_fc_accuracy": semantic_target_correct / items_per_stratum if items_per_stratum else 0.0,
@@ -275,6 +339,10 @@ def run_e02_observer(
         },
         "observer_brier_scores": brier_scores,
         "paired_intersection_contrasts": contrast_analysis["contrasts"],
+        "direct_pairwise_contrasts": {
+            "framing_self_vs_other_review": framing_contrast,
+            "channel_answer_only_vs_full_transcript": channel_contrast,
+        },
         "joint_pai_summary": contrast_analysis["joint_pai_summary"],
         "manifest_path": str(logger.manifest_path),
         "jsonl_path": str(logger.jsonl_path),
@@ -315,7 +383,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run E02 Hardened Observer & Reconstruction benchmark.")
     parser.add_argument("--overwrite", action="store_true", help="Allow replacing existing run directory.")
     parser.add_argument("--items", type=int, default=20, help="Items per condition stratum.")
-    parser.add_argument("--run-id", type=str, default="run_e02_obs_002", help="Run ID.")
+    parser.add_argument("--run-id", type=str, default="run_e02_obs_003", help="Run ID.")
     parser.add_argument("--sesoi", type=float, default=0.10, help="Smallest Effect Size of Interest margin.")
     args = parser.parse_args()
 
