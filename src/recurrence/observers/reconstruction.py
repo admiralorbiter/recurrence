@@ -1,14 +1,15 @@
-"""Reconstruction Observer: Recomputes the task independently and compares counterfactual answers."""
+"""Reconstruction Observer: Recomputes the task independently and maps counterfactual agreement to P(Target Correct)."""
 
 import re
 from typing import Dict, Any, Optional, Union
 from recurrence.backends.ollama import OllamaBackend
 from recurrence.backends.toy import ToyBackend
 from recurrence.observers.base import BaseObserver, ObserverEvaluation
+from recurrence.observers.visible import _parse_probability_from_text
 
 
 class ReconstructionObserver(BaseObserver):
-    """Observer that independently solves the task prompt and compares its counterfactual answer against the target."""
+    """Observer that independently solves the task prompt and maps counterfactual agreement onto P(Target Correct)."""
 
     def __init__(self, backend: Union[OllamaBackend, ToyBackend], name: str = "observer_reconstruction"):
         super().__init__(backend=backend, name=name)
@@ -27,23 +28,25 @@ class ReconstructionObserver(BaseObserver):
         else:
             raw_response, state_hash, meta = self.backend.step(task_prompt)
 
-        # 2. Parse reconstructed answer and confidence
-        ans_match = re.search(r"Answer:\s*([^\n\r]+)", raw_response, re.IGNORECASE)
-        conf_match = re.search(r"Confidence:\s*([1-5])", raw_response)
-
+        # 2. Parse reconstructed answer and reconstructed confidence/probability
+        ans_match = re.search(
+            r"Answer:\s*(?:<[^>]+>:\s*)?<?([a-zA-Z0-9_\s]+?)>?(?:\s*(?:Probability|Confidence|Confident)|\%|;|\n|\r|$)",
+            raw_response,
+            re.IGNORECASE,
+        )
         recon_answer = ans_match.group(1).strip() if ans_match else raw_response.strip()
-        recon_conf: Optional[int] = None
-        if conf_match:
-            try:
-                recon_conf = int(conf_match.group(1))
-            except ValueError:
-                recon_conf = None
-        else:
-            recon_conf = 3  # Neutral default if not parsed
+
+        recon_prob = _parse_probability_from_text(raw_response)
+        if recon_prob is None:
+            recon_prob = 0.70  # Standard default if not explicitly returned
 
         # 3. Normalize answers for comparison
         clean_target = target_answer.strip()
-        target_match = re.search(r"Answer:\s*([^\n\r]+)", clean_target, re.IGNORECASE)
+        target_match = re.search(
+            r"Answer:\s*(?:<[^>]+>:\s*)?<?([a-zA-Z0-9_\s]+?)>?(?:\s*(?:Probability|Confidence|Confident)|\%|;|\n|\r|$)",
+            clean_target,
+            re.IGNORECASE,
+        )
         if target_match:
             clean_target = target_match.group(1).strip()
 
@@ -52,20 +55,27 @@ class ReconstructionObserver(BaseObserver):
         # Compare (case-insensitive stripped)
         agrees = (clean_target.upper() == clean_recon.upper())
 
-        # If they agree, observer predicts target is CORRECT with confidence = recon_conf
-        # If they disagree, observer predicts target is INCORRECT with confidence = recon_conf
-        pred_correct = agrees
+        # 4. Strict Directionality Mapping to P(Target Answer Correct)
+        # If agreement: P(Target Correct) = recon_prob
+        # If disagreement: P(Target Correct) = 1.0 - recon_prob
+        if agrees:
+            target_prob = recon_prob
+        else:
+            target_prob = float(max(0.0, min(1.0, 1.0 - recon_prob)))
+
+        pred_correct = (target_prob >= 0.5)
 
         return ObserverEvaluation(
             observer_name=self.name,
+            predicted_probability=target_prob,
             predicted_correct=pred_correct,
-            observer_confidence=recon_conf,
             reconstructed_answer=clean_recon,
             raw_response=raw_response,
             metadata={
                 "agrees": agrees,
                 "clean_target": clean_target,
                 "clean_recon": clean_recon,
-                "reconstructed_confidence": recon_conf,
+                "reconstructed_probability": recon_prob,
+                "target_probability": target_prob,
             },
         )

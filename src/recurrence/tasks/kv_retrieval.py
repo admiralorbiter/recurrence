@@ -33,52 +33,52 @@ class KVRetrievalTask(BaseTask):
         mode: Literal["free_generation", "forced_choice"] = "free_generation",
         distractor_count: int = 5,
         ask_confidence: bool = True,
+        confidence_format: Literal["probability", "likert"] = "probability",
     ):
         conf_tag = "_conf" if ask_confidence else "_noconf"
         name = f"kv_{identifier_type}_{mode}{conf_tag}"
         desc = (
             f"Key-Value Retrieval ({identifier_type} identifiers, {mode} mode, "
-            f"{distractor_count} distractors, ask_confidence={ask_confidence})."
+            f"{distractor_count} distractors, ask_confidence={ask_confidence}, format={confidence_format})."
         )
         super().__init__(name=name, description=desc)
         self.identifier_type = identifier_type
         self.mode = mode
         self.distractor_count = distractor_count
         self.ask_confidence = ask_confidence
+        self.confidence_format = confidence_format
 
     @staticmethod
     def generate_raw_pairs(
-        count: int,
-        distractor_count: int,
-        identifier_type: str,
-        seed: int
+        count: int = 10,
+        distractor_count: int = 3,
+        identifier_type: str = "opaque",
+        seed: int = 42,
     ) -> List[Tuple[str, str, List[Tuple[str, str]]]]:
-        """Generate canonical underlying (target_key, target_value, all_pairs) instances.
-
-        Uses ordered lists to guarantee cross-process deterministic reproducibility.
-        """
+        """Generate structured key-value raw sets with fixed seed determinism."""
         rng = random.Random(seed)
         instances = []
 
         for _ in range(count):
             keys: List[str] = []
+            values: List[str] = []
             seen_keys = set()
-            while len(keys) < distractor_count + 1:
+            seen_values = set()
+
+            total_needed = distractor_count + 1
+            while len(keys) < total_needed:
                 if identifier_type == "opaque":
-                    cand = "key_" + "".join(rng.choices(string.ascii_lowercase + string.digits, k=6))
+                    cand = "key_" + "".join(rng.choices(string.ascii_lowercase + string.digits, k=5))
                 else:
                     cand = "key_" + rng.choice(_ADJECTIVES) + "_" + rng.choice(_NOUNS)
                 if cand not in seen_keys:
                     seen_keys.add(cand)
                     keys.append(cand)
 
-            values: List[str] = []
-            seen_values = set()
-            while len(values) < distractor_count + 1:
+            while len(values) < total_needed:
                 if identifier_type == "opaque":
-                    cand = "val_" + "".join(rng.choices(string.ascii_lowercase + string.digits, k=6))
+                    cand = "val_" + "".join(rng.choices(string.ascii_lowercase + string.digits, k=5))
                 else:
-                    # Random independent pairing to avoid semantic leakage
                     cand = "val_" + rng.choice(_ADJECTIVES) + "_" + rng.choice(_NOUNS)
                 if cand not in seen_values:
                     seen_values.add(cand)
@@ -123,14 +123,24 @@ class KVRetrievalTask(BaseTask):
                 options_text = "\n".join([f"({lbl}) {option_map[lbl]}" for lbl in option_labels])
                 
                 if self.ask_confidence:
-                    prompt = (
-                        f"Below is a list of key-value pairs:\n\n{formatted_pairs}\n\n"
-                        f"Question: What value is associated with '{target_key}'?\n\n"
-                        f"Options:\n{options_text}\n\n"
-                        f"Format your response strictly as:\n"
-                        f"Answer: <Option letter, e.g. A>\n"
-                        f"Confidence: <1 to 5, where 1 is total guess and 5 is absolutely certain>"
-                    )
+                    if self.confidence_format == "probability":
+                        prompt = (
+                            f"Below is a list of key-value pairs:\n\n{formatted_pairs}\n\n"
+                            f"Question: What value is associated with '{target_key}'?\n\n"
+                            f"Options:\n{options_text}\n\n"
+                            f"Format your response strictly as:\n"
+                            f"Answer: <Option letter, e.g. A>\n"
+                            f"Probability correct: <0 to 100, where 0 is definitely incorrect and 100 is definitely correct>"
+                        )
+                    else:
+                        prompt = (
+                            f"Below is a list of key-value pairs:\n\n{formatted_pairs}\n\n"
+                            f"Question: What value is associated with '{target_key}'?\n\n"
+                            f"Options:\n{options_text}\n\n"
+                            f"Format your response strictly as:\n"
+                            f"Answer: <Option letter, e.g. A>\n"
+                            f"Confidence: <1 to 5, where 1 is total guess and 5 is absolutely certain>"
+                        )
                 else:
                     prompt = (
                         f"Below is a list of key-value pairs:\n\n{formatted_pairs}\n\n"
@@ -149,16 +159,26 @@ class KVRetrievalTask(BaseTask):
                     "mode": self.mode,
                     "identifier_type": self.identifier_type,
                     "ask_confidence": self.ask_confidence,
+                    "confidence_format": self.confidence_format,
                 }
             else:
                 if self.ask_confidence:
-                    prompt = (
-                        f"Below is a list of key-value pairs:\n\n{formatted_pairs}\n\n"
-                        f"Question: What is the exact value string associated with '{target_key}'?\n\n"
-                        f"Format your response strictly as:\n"
-                        f"Answer: <exact value string>\n"
-                        f"Confidence: <1 to 5, where 1 is total guess and 5 is absolutely certain>"
-                    )
+                    if self.confidence_format == "probability":
+                        prompt = (
+                            f"Below is a list of key-value pairs:\n\n{formatted_pairs}\n\n"
+                            f"Question: What is the exact value string associated with '{target_key}'?\n\n"
+                            f"Format your response strictly as:\n"
+                            f"Answer: <exact value string>\n"
+                            f"Probability correct: <0 to 100, where 0 is definitely incorrect and 100 is definitely correct>"
+                        )
+                    else:
+                        prompt = (
+                            f"Below is a list of key-value pairs:\n\n{formatted_pairs}\n\n"
+                            f"Question: What is the exact value string associated with '{target_key}'?\n\n"
+                            f"Format your response strictly as:\n"
+                            f"Answer: <exact value string>\n"
+                            f"Confidence: <1 to 5, where 1 is total guess and 5 is absolutely certain>"
+                        )
                 else:
                     prompt = (
                         f"Below is a list of key-value pairs:\n\n{formatted_pairs}\n\n"
@@ -173,6 +193,7 @@ class KVRetrievalTask(BaseTask):
                     "mode": self.mode,
                     "identifier_type": self.identifier_type,
                     "ask_confidence": self.ask_confidence,
+                    "confidence_format": self.confidence_format,
                 }
 
             item = TaskItem(
@@ -200,17 +221,43 @@ class KVRetrievalTask(BaseTask):
         """Parse structured answer and apply strict exact normalized comparison."""
         cleaned_resp = response.strip()
 
-        # Robust Answer extraction: stops before inline Confidence or newline
+        # Robust Answer extraction: stops before inline Confidence / Probability or newline
         ans_match = re.search(
-            r"Answer:\s*(?:<[^>]+>:\s*)?<?([a-zA-Z0-9_\s]+?)>?(?:\s*Confidence|\s*Confident|;|\n|\r|$)",
+            r"Answer:\s*(?:<[^>]+>:\s*)?<?([a-zA-Z0-9_\s]+?)>?(?:\s*(?:Probability|Confidence|Confident)|\%|;|\n|\r|$)",
             cleaned_resp,
             re.IGNORECASE,
         )
         raw_answer = ans_match.group(1).strip() if ans_match else cleaned_resp
 
-        # Parse Confidence: ...
+        # Parse Probability: ... (0 to 100) or Confidence: ... (1 to 5)
+        prob_match = re.search(r"(?:Probability\s*(?:correct)?|Prob):\s*<?([0-9]+(?:\.[0-9]+)?)\s*\%?>?", cleaned_resp, re.IGNORECASE)
         conf_match = re.search(r"(?:Confidence|Confident):\s*<?([1-5])>?", cleaned_resp, re.IGNORECASE)
-        confidence = int(conf_match.group(1)) if conf_match else None
+
+        probability: Optional[float] = None
+        confidence: Optional[int] = None
+
+        if prob_match:
+            try:
+                val = float(prob_match.group(1))
+                if val <= 1.0 and ("." in prob_match.group(1) or val == 1.0 or val == 0.0):
+                    # Value given as 0.0 to 1.0
+                    probability = float(val)
+                elif 0.0 <= val <= 100.0:
+                    # Value given as 0 to 100
+                    probability = float(val / 100.0)
+                else:
+                    probability = max(0.0, min(1.0, float(val / 100.0)))
+            except ValueError:
+                probability = None
+
+        if conf_match:
+            try:
+                confidence = int(conf_match.group(1))
+                if probability is None:
+                    # Map 1-5 to 0.2, 0.4, 0.6, 0.8, 1.0
+                    probability = float(confidence / 5.0)
+            except ValueError:
+                confidence = None
 
         norm_answer = _normalize_string(raw_answer)
         norm_ground_truth = _normalize_string(item.ground_truth)
@@ -244,6 +291,7 @@ class KVRetrievalTask(BaseTask):
             "score": 1.0 if correct else 0.0,
             "parsed_answer": raw_answer,
             "normalized_answer": norm_answer,
+            "probability": probability,
             "confidence": confidence,
             "ground_truth": item.ground_truth,
             "normalized_ground_truth": norm_ground_truth,

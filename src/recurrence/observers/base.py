@@ -1,17 +1,17 @@
 """Base classes and data models for Observer and Reconstruction agents."""
 
 from abc import ABC, abstractmethod
-from typing import Dict, Any, Optional, Tuple, Union
+from typing import Dict, Any, Optional, Union
 from pydantic import BaseModel, Field
 from recurrence.backends.ollama import OllamaBackend
 from recurrence.backends.toy import ToyBackend
 
 
 class ObserverEvaluation(BaseModel):
-    """Result of an observer evaluation over a target trial."""
+    """Result of an observer evaluation over a target trial with standardized probability semantics."""
     observer_name: str
-    predicted_correct: Optional[bool] = None
-    observer_confidence: Optional[int] = Field(None, ge=1, le=5)
+    predicted_probability: Optional[float] = Field(None, ge=0.0, le=1.0, description="Estimated probability (0.0 to 1.0) that target answer is correct")
+    predicted_correct: Optional[bool] = Field(None, description="Binary prediction (True if p >= 0.5)")
     reconstructed_answer: Optional[str] = None
     raw_response: str = ""
     metadata: Dict[str, Any] = Field(default_factory=dict)
@@ -32,5 +32,5 @@ class BaseObserver(ABC):
         item_metadata: Optional[Dict[str, Any]] = None,
         seed: int = 42,
     ) -> ObserverEvaluation:
-        """Evaluate target response and predict correctness and confidence."""
+        """Evaluate target response and return standardized probability P(target_correct)."""
         pass

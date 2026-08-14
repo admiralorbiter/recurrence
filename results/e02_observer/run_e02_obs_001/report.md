@@ -1,13 +1,13 @@
 ---
-title: Result Report — S03: Observer & Reconstruction Controls / Level-0 Privileged Access Null Baseline
+title: Result Report — S03: Observer & Reconstruction Controls (Pilot & Ladder Validation)
 experiment_id: E02_Observer_Baseline
 run_id: run_e02_obs_001
-protocol_version: 1.3.0
-status: confirmatory-complete
+protocol_version: 1.3.0-pilot
+status: pilot-validation
 completed_at: 2026-08-14
 ---
 
-# Result Report — S03: Observer & Reconstruction Controls / Level-0 Privileged Access Null Baseline
+# Result Report — S03: Observer & Reconstruction Controls (Pilot & Ladder Validation)
 
 ## Executive result
 
