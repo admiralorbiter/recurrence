@@ -1,0 +1,6 @@
+{
+  "experiment_id": "E02_Observer_Baseline",
+  "promoted_run_id": "run_e02_obs_001",
+  "summary_path": "results\\e02_observer\\run_e02_obs_001\\summary.json",
+  "trials_path": "results\\e02_observer\\run_e02_obs_001\\trials.jsonl"
+}

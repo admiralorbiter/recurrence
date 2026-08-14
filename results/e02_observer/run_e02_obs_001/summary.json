@@ -1,0 +1,77 @@
+{
+  "experiment_id": "E02_Observer_Baseline",
+  "sprint": "S03",
+  "run_id": "run_e02_obs_001",
+  "model_name": "qwen2.5:3b",
+  "model_digest": "357c53fb659c5076de1d65ccb0b397446227b71a42be9d1603d46168015c9e4b",
+  "seed": 42,
+  "total_items": 40,
+  "target_task_performance": {
+    "semantic_fc_accuracy": 0.65,
+    "opaque_fc_accuracy": 0.6,
+    "overall_accuracy": 0.625
+  },
+  "privileged_access_index": {
+    "point_pai": -0.02516339869281048,
+    "self_auroc2": 0.4388888888888889,
+    "max_benchmark_observer_auroc2": 0.46405228758169936,
+    "ci_95_lower": -0.3253971171802054,
+    "ci_95_upper": 0.12965498737373737,
+    "bootstrap_p_value": 0.816,
+    "n_bootstraps": 1000,
+    "self_discrimination": {
+      "valid_confidence_count": 28,
+      "mean_confidence_correct": 3.5555555555555554,
+      "mean_confidence_incorrect": 3.9,
+      "confidence_separation": -0.34444444444444455,
+      "auroc2": 0.4388888888888889
+    },
+    "observer_discrimination": {
+      "observer_visible": {
+        "valid_confidence_count": 26,
+        "mean_confidence_correct": 2.764705882352941,
+        "mean_confidence_incorrect": 2.888888888888889,
+        "confidence_separation": -0.12418300653594772,
+        "auroc2": 0.46405228758169936
+      },
+      "observer_reconstruction": {
+        "valid_confidence_count": 40,
+        "mean_confidence_correct": 3.32,
+        "mean_confidence_incorrect": 3.7333333333333334,
+        "confidence_separation": -0.41333333333333355,
+        "auroc2": 0.4106666666666667
+      },
+      "observer_input_only": {
+        "valid_confidence_count": 40,
+        "mean_confidence_correct": 3.12,
+        "mean_confidence_incorrect": 3.7333333333333334,
+        "confidence_separation": -0.6133333333333333,
+        "auroc2": 0.328
+      },
+      "observer_output_only": {
+        "valid_confidence_count": 40,
+        "mean_confidence_correct": 3.04,
+        "mean_confidence_incorrect": 3.2666666666666666,
+        "confidence_separation": -0.22666666666666657,
+        "auroc2": 0.45866666666666667
+      }
+    }
+  },
+  "observer_brier_scores": {
+    "observer_visible": 0.42105263157894735,
+    "observer_reconstruction": 0.225,
+    "observer_input_only": 0.4,
+    "observer_output_only": 0.475
+  },
+  "observer_prediction_accuracies": {
+    "observer_visible": 0.5789473684210527,
+    "observer_reconstruction": 0.775,
+    "observer_input_only": 0.6,
+    "observer_output_only": 0.525
+  },
+  "manifest_path": "artifacts\\e02_observer\\run_e02_obs_001\\run_e02_obs_001_manifest.json",
+  "jsonl_path": "artifacts\\e02_observer\\run_e02_obs_001\\run_e02_obs_001_events.jsonl",
+  "parquet_path": "artifacts\\e02_observer\\run_e02_obs_001\\run_e02_obs_001_events.parquet",
+  "checksum": "f15780fb399f06430000ef4ba083e0b7c96f6c1fe1c70d907e098f52f1daa8af",
+  "environment_hash": "9c0b41907b56ed534fcbc2effdcf3f390d77029bf39b34e7d30c386a6a6db50f"
+}

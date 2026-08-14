@@ -15,6 +15,8 @@ This file indexes durable program decisions. Major future decisions should recei
 | **DR-0009** | Keep the first developmental world closed, symbolic, and bounded | accepted | inspectability and safety outweigh realism | core causal results replicate and a richer world tests a clear hypothesis |
 | **DR-0010** | Preserve nulls, killed ideas, and superseded drafts | accepted | prevents retrospective story rewriting | never; retention method may change |
 | **DR-0011** | Redirect S02 toward task validation and 2x2 factorial diagnostics before observer controls | accepted | S01 scout revealed construct contamination (BPE fragmentation vs binding, prompt recency); measurement validity must precede observer modeling | S02 task validation passes with verified exact scoring |
+| **DR-0012** | Select counterbalanced 4-way Forced Choice KV Retrieval as primary behavioral substrate | accepted | Operates in optimal psychophysical 55-65% accuracy regime with zero option-position bias | Replaced by multi-token state task at Level 1+ |
+| **DR-0013** | Establish Level-0 Privileged Access Null Baseline (PAI ≈ 0) via Observer Ladder | accepted | Stateless autoregressive models possess zero privileged self-access beyond transcript reconstruction (E02 PAI = -0.025, p = 0.816) | Native recurrent models (Level 2+) exhibit positive PAI |
 
 
 # Pending decisions
@@ -22,7 +24,6 @@ This file indexes durable program decisions. Major future decisions should recei
 | ID | Decision needed | Dependency | Target sprint |
 |---|---|---|---|
 | **PD-01** | Primary matched base/instruct model family | model inventory and profile | S01–S03 |
-| **PD-02** | Two core measurement tasks | prompt/observer pilots | S02–S03 |
 | **PD-03** | Level 1 state representation: JSON, free text, or hybrid | E03 pilot | S04 |
 | **PD-04** | First native recurrent substrate | state-access prototype | S10 |
 | **PD-05** | Recurrent adapter write/read locations | native-state findings | S13–S15 |
