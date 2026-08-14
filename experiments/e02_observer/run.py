@@ -25,8 +25,8 @@ import numpy as np
 
 from recurrence.backends.ollama import OllamaBackend
 from recurrence.backends.toy import ToyBackend
-from recurrence.logging.manifest import ExperimentManifest
-from recurrence.logging.structured import ExperimentLogger, TrialEvent
+from recurrence.core.manifest import ExperimentManifest
+from recurrence.core.logging import ExperimentLogger, TrialEvent
 from recurrence.tasks.kv_retrieval import KVRetrievalTask
 from recurrence.observers.visible import (
     VisibleAnswerOnlyObserver,
