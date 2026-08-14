@@ -1,9 +1,9 @@
 {
   "experiment_id": "E02_Observer_Hardened",
-  "sprint": "S03.3",
+  "sprint": "S03.4",
   "run_id": "run_e02_obs_005",
   "model_name": "qwen2.5:3b",
-  "model_digest": "357c53fb659c5076de1d65ccb0b397446227b71a42be9d1603d46168015c9e4b",
+  "model_digest": "304499d63f972de98436573c09b8de218c5e62c129e92ae446e5071190c1db35",
   "seed": 42,
   "total_items": 40,
   "compliance_rates": {
@@ -33,7 +33,7 @@
     "opaque_fc_accuracy": 0.5,
     "overall_accuracy": 0.575
   },
-  "observer_brier_scores": {
+  "brier_scores": {
     "self_immediate": 0.39566500000000004,
     "self_review_equal_compute": 0.48301250000000007,
     "observer_review_other": 0.47353000000000006,
@@ -309,12 +309,12 @@
     "self_auroc2": 0.5166240409207161,
     "max_benchmark_observer_auroc2": 0.6777493606138107,
     "ci_95_lower": -0.428420716112532,
-    "ci_95_upper": 0.07036445012787715,
+    "ci_95_upper": 0.054987212276214836,
     "sesoi_margin": 0.1
   },
-  "manifest_path": "artifacts\\e02_observer\\run_e02_obs_005\\run_e02_obs_005_manifest.json",
-  "jsonl_path": "artifacts\\e02_observer\\run_e02_obs_005\\run_e02_obs_005_events.jsonl",
-  "parquet_path": "artifacts\\e02_observer\\run_e02_obs_005\\run_e02_obs_005_events.parquet",
+  "manifest_path": "artifacts/e02_observer/run_e02_obs_005/run_e02_obs_005_manifest.json",
+  "jsonl_path": "artifacts/e02_observer/run_e02_obs_005/run_e02_obs_005_events.jsonl",
+  "parquet_path": "artifacts/e02_observer/run_e02_obs_005/run_e02_obs_005_events.parquet",
   "checksum": "f9aa1553ef8d69011e0ecbed36e39e2e15417f0782e9398e2e4282418b64eb0f",
   "environment_hash": "ee73e35d02efcd5248ec0ccc21b4ecff5e532ba92bbfb893fa6580f7b734e11b"
 }

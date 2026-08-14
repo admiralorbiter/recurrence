@@ -1,63 +1,69 @@
-# Walkthrough — Sprint S03.2: Definitive Level-0 Privileged Access & Observer Ladder Benchmark (`E02_Final_Hardened`)
+# Walkthrough — Sprint S03.4: Level-0 Reference Baseline (`run_e02_obs_005`)
 
 ## Executive Summary
-Sprint S03.2 implemented and executed the definitive **Experiment E02_Final_Hardened (`run_e02_obs_003`)**, establishing the frozen baseline for Level-0 privileged access prior to Sprint S04 recurrent state comparisons:
 
-1. **4-Option Reconstruction Distribution Lookup:** Prompted the independent solver for a full 4-option distribution (`A`, `B`, `C`, `D`), looking up $P(\text{Target Correct}) = P_{\text{recon}}(\text{Target Selected Option})$, eliminating both heuristic $1-p$ approximations and default imputations.
-2. **Grammar-Constrained Structured JSON:** Enforced native JSON decoding (`format="json"`) across target and observer backends, strictly removing Likert 1–5 fallbacks in probability mode.
-3. **Stratified Paired Bootstrap:** Implemented label-stratified bootstrap resampling (1,000 iterations) to guarantee positive/negative label representation on every iteration.
-4. **Direct Pre-Specified Contrasts:** Computed pairwise statistical tests for:
-   - Equal-Compute Review framing (`self_review_equal_compute` vs. `observer_review_other`).
-   - Public channel effect (`observer_visible_answer_only` vs. `observer_visible_full_transcript`).
-5. **Exact Paired Intersections:** Analyzed all observer conditions on their strict shared item subsets with continuous Brier scores, AUROC2 discrimination, and 95% bootstrap confidence intervals.
+Sprint S03.4 hardened the measurement contract, resolved JSON schema non-compliance, and established the frozen **Level-0 Privileged Access Reference Baseline (`run_e02_obs_005`)** on `qwen2.5:3b`:
+
+1. **Structured JSON Schemas with Bounded Enums (`src/recurrence/core/schemas.py`)**:
+   - Passed strict JSON schemas with integer ranges $[0, 100]$ directly to Ollama `/api/chat` via GBNF-constrained decoding.
+   - Enforced target forced-choice format: `{"answer": "A"|"B"|"C"|"D", "probability": 0..100}`.
+   - Enforced reconstruction format: `{"A": 0..100, "B": 0..100, "C": 0..100, "D": 0..100}`.
+2. **Decoupled Answer Parsing vs. Forecast/Schema Compliance**:
+   - Separated `answer_parse_valid`, `probability_parse_valid`, and `schema_valid`.
+   - Guaranteed accurate first-order task evaluation without conflating format quirks with task failure.
+3. **100% Measurement Compliance Across All Primary Conditions**:
+   - Every evaluator condition achieved **100.0% compliance (40/40 valid measurements)**.
+   - Compliance Hard Gate ($\min \ge 90\%$) passed cleanly (**100.0% vs. 90.0% threshold**).
+4. **Substantive Level-0 Findings (No Positive Advantage Resolved)**:
+   - Immediate self-confidence was essentially nondiscriminative ($\text{AUROC2} \approx 0.517$, Brier $\approx 0.396$).
+   - Visible Answer-Only observer performed substantially better descriptively ($\text{AUROC2} \approx 0.678$, Brier $\approx 0.290$, Binary Accuracy: 62.5%).
+   - Joint PAI: $\mathbf{-0.161}$ (Stratified 95% Bootstrap CI: $[-0.428, +0.055]$).
+   - The joint strongest-observer statistic excludes a $\ge 0.10$ self advantage, though individual paired contrasts remain imprecise.
 
 ---
 
-## 1. Definitive Strict Item-Paired Intersection Results Table
+## 1. Strict Item-Paired Intersection Results Table ($N=40$ for all conditions)
 
-Evaluated on `qwen2.5:3b` across 40 counterbalanced 4-way Forced Choice KV retrieval trials (57.5% overall first-order accuracy):
+Evaluated on `qwen2.5:3b` across 40 counterbalanced 4-way Forced Choice KV retrieval trials (57.5% overall first-order accuracy; Semantic: 75.0%, Opaque: 40.0%):
 
-| Evaluator / Contrast ($X$) | Information Vantage & Compute | Shared Items ($N$) | Self AUROC2 | Observer AUROC2 | $\Delta\text{AUROC2}$ (Self - Obs) | Stratified 95% Bootstrap CI | Self Brier | Observer Brier | Observer Accuracy |
-|---|---|---|---|---|---|---|---|---|---|
-| **Counterfactual Reconstruction** | Independent 4-Way Distribution Lookup | 25 | 0.703 | 0.593 | +0.110 | $[-0.153, +0.373]$ | 0.281 | 0.422 | 60.0% |
-| **Visible: Answer-Only** | Prompt + Answer (Conf stripped) | 21 | 0.685 | 0.634 | +0.051 | $[-0.199, +0.310]$ | 0.300 | 0.347 | 61.9% |
-| **Visible: Full-Transcript** | Prompt + Answer + Target Conf | 23 | 0.635 | 0.542 | +0.092 | $[-0.142, +0.312]$ | 0.318 | 0.353 | 52.2% |
-| **Equal-Compute Self-Review** | 2nd Invocation: Self framing | 17 | 0.715 | **0.785** | -0.069 | $[-0.403, +0.271]$ | 0.305 | **0.272** | 64.7% |
-| **Equal-Compute Other-Review** | 2nd Invocation: Other framing | 21 | 0.597 | 0.616 | -0.019 | $[-0.273, +0.245]$ | 0.348 | 0.342 | 57.1% |
-| **Ablated: Input-Only** | Prompt Only (Difficulty prior) | 18 | 0.600 | 0.569 | +0.031 | $[-0.350, +0.413]$ | 0.348 | 0.310 | 44.4% |
-| **Ablated: Output-Only** | Answer Only (Fluency prior) | 17 | 0.561 | 0.447 | +0.114 | $[-0.371, +0.546]$ | 0.322 | 0.554 | 41.2% |
+| Evaluator / Contrast | Information Vantage & Compute | Shared Items ($N$) | Self AUROC2 | Observer AUROC2 | $\Delta\text{AUROC2}$ (Self - Obs) | Stratified 95% Bootstrap CI | Self Brier | Observer Brier | Observer Accuracy |
+|---|---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| **Counterfactual Reconstruction** | Independent 4-Way Distribution Lookup | 40 | 0.517 | 0.573 | -0.056 | $[-0.272, +0.174]$ | 0.396 | 0.369 | 47.5% |
+| **Visible: Answer-Only** | Prompt + Answer (Conf stripped) | 40 | 0.517 | 0.678 | -0.161 | $[-0.428, +0.104]$ | 0.396 | 0.290 | 62.5% |
+| **Visible: Full-Transcript** | Prompt + Answer + Target Conf | 40 | 0.517 | 0.574 | -0.058 | $[-0.275, +0.160]$ | 0.396 | 0.348 | 60.0% |
+| **Equal-Compute Self-Review** | 2nd Invocation: Self framing | 40 | 0.517 | 0.428 | +0.088 | $[-0.168, +0.367]$ | 0.396 | 0.483 | 37.5% |
+| **Equal-Compute Other-Review** | 2nd Invocation: Other framing | 40 | 0.517 | 0.496 | +0.020 | $[-0.192, +0.221]$ | 0.396 | 0.474 | 47.5% |
+| **Ablated: Input-Only** | Prompt Only (Difficulty prior) | 40 | 0.517 | 0.527 | -0.010 | $[-0.265, +0.239]$ | 0.396 | 0.323 | 57.5% |
+| **Ablated: Output-Full-Response** | Full Output (Fluency prior) | 40 | 0.517 | 0.684 | -0.168 | $[-0.403, +0.109]$ | 0.396 | 0.276 | 65.0% |
 
-### Joint Privileged Access Index Summary ($N=20$ shared intersection items):
+### Joint Privileged Access Index Summary ($N=40$ shared items):
 
-$$\text{PAI}_{\text{Joint}} = \text{AUROC2}_{\text{Self}} - \max(\text{AUROC2}_{\text{VisibleAns}}, \text{AUROC2}_{\text{Recon}}) = 0.734 - 0.641 = \mathbf{+0.094}$$
-$$\mathbf{\text{95\% Stratified Bootstrap CI: } [-0.188, +0.318]} \quad (\text{SESOI} = \pm 0.10)$$
+$$\text{Point PAI} = \text{AUROC2}_{\text{Self}} - \max(\text{AUROC2}_{\text{VisAns}}, \text{AUROC2}_{\text{Recon}}, \text{AUROC2}_{\text{InputOnly}}) = 0.517 - 0.678 = \mathbf{-0.161}$$
+$$\mathbf{\text{Stratified 95\% Bootstrap CI: } [-0.428, +0.055]} \quad (\text{SESOI margin } \pm 0.10)$$
 
 ---
 
 ## 2. Direct Pre-Specified Contrasts
 
-### A. Review Framing Test ($N = 28$ shared items)
-* **Self-Review AUROC2:** $0.701$ (Brier: $0.270$, Accuracy: $67.9\%$)
-* **Other-Review AUROC2:** $0.732$ (Brier: $0.282$, Accuracy: $60.7\%$)
-* **$\Delta\text{AUROC2} (\text{Self} - \text{Other}):$** $\mathbf{-0.031} \quad (95\%\text{ CI: } [-0.323, +0.258])$
-* **Conclusion:** Framing manipulation is non-significant; monitoring gains are compute-driven.
+### A. Review Framing Test ($N = 40$ shared items)
+* **Self-Review AUROC2:** $0.428$ (Brier: $0.483$, Accuracy: $37.5\%$)
+* **Other-Review AUROC2:** $0.496$ (Brier: $0.474$, Accuracy: $47.5\%$)
+* **$\Delta\text{AUROC2} (\text{Self} - \text{Other}):$** $\mathbf{-0.068} \quad (95\%\text{ CI: } [-0.318, +0.198])$
+* **Conclusion:** No framing effect resolved.
 
-### B. Public Channel Effect Test ($N = 31$ shared items)
-* **Visible Answer-Only AUROC2:** $0.557$ (Accuracy: $58.1\%$)
-* **Visible Full-Transcript AUROC2:** $0.496$ (Accuracy: $51.6\%$)
-* **$\Delta\text{AUROC2} (\text{Answer} - \text{Transcript}):$** $\mathbf{+0.061} \quad (95\%\text{ CI: } [-0.195, +0.303])$
-* **Conclusion:** Including target confidence does not assist observer discrimination; stripped answer-only evaluation performs comparably or slightly better.
+### B. Public Channel Effect Test ($N = 40$ shared items)
+* **Visible Answer-Only AUROC2:** $0.678$ (Brier: $0.290$, Accuracy: $62.5\%$)
+* **Visible Full-Transcript AUROC2:** $0.574$ (Brier: $0.348$, Accuracy: $60.0\%$)
+* **$\Delta\text{AUROC2} (\text{Answer} - \text{Transcript}):$** $\mathbf{+0.104} \quad (95\%\text{ CI: } [-0.145, +0.354])$
+* **Conclusion:** Presenting the target's explicit confidence report does not improve observer AUROC2; stripped answer-only monitoring is slightly more discriminative.
 
 ---
 
-## 3. Data Lineage & Artifact Verification
+## 3. Provenance & Artifact Verification
 
-* **Promoted Run ID:** `run_e02_obs_003`
-* **Manifest Git Fingerprint:** Clean commit `1d610fa`
-* **Stream Checksum:** `737c17ae420391940957b51ff3035fba102ea13390135d491c7bcf7c251e53a4`
-* **Environment Hash:** `49a1299f5f2ba7779b0c4f5fb92ab1a9f5f77090a84a643f08f9b239829aed37`
-* **Canonical Artifacts:**
-  - `results/e02_observer/run_e02_obs_003/summary.json`
-  - `results/e02_observer/run_e02_obs_003/trials.jsonl`
-  - `results/e02_observer/run_e02_obs_003/report.md`
-  - `artifacts/e02_observer/run_e02_obs_003/run_e02_obs_003_events.parquet`
+* **Frozen Code Commit:** [`f4ace47`](file:///c:/Users/admir/Github/recurrence) (`feat(s03.4): enforce structured JSON schemas, decouple answer validity, and gate inferential claims`)
+* **Promoted Run Pointer:** [`results/e02_observer/promoted.json`](file:///c:/Users/admir/Github/recurrence/results/e02_observer/promoted.json) $\to$ `run_e02_obs_005`
+* **Latest Attempt Pointer:** [`results/e02_observer/latest_attempt.json`](file:///c:/Users/admir/Github/recurrence/results/e02_observer/latest_attempt.json) $\to$ `run_e02_obs_005`
+* **Artifact Hashes:**
+  - Stream Checksum: `f9aa1553ef8d69011e0ecbed36e39e2e15417f0782e9398e2e4282418b64eb0f`
+  - Environment Hash: `ee73e35d02efcd5248ec0ccc21b4ecff5e532ba92bbfb893fa6580f7b734e11b`

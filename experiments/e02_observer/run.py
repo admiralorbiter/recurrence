@@ -88,9 +88,9 @@ def generate_markdown_report(res: Dict[str, Any]) -> str:
     if gate_passed:
         interpretation_block = f"""**Scientific Interpretation (Measurement Gate Passed):**
 Measurements satisfied the pre-specified validity gate (min primary compliance {min_comp:.1%} $\\ge 90\\%$).
-$$\\text{{Point PAI}} = \\text{{AUROC2}}_{{\\text{{Self}}}} - \\max(\\text{{AUROC2}}_{{\\text{{VisAns}}}}, \\text{{AUROC2}}_{{\\text{{Recon}}}}) = {joint.get('self_auroc2', 0.0):.3f} - {joint.get('max_benchmark_observer_auroc2', 0.0):.3f} = \\mathbf{{{joint.get('point_pai', 0.0):+.3f}}}$$
+$$\\text{{Point PAI}} = \\text{{AUROC2}}_{{\\text{{Self}}}} - \\max(\\text{{AUROC2}}_{{\\text{{VisAns}}}}, \\text{{AUROC2}}_{{\\text{{Recon}}}}, \\text{{AUROC2}}_{{\\text{{InputOnly}}}}) = {joint.get('self_auroc2', 0.0):.3f} - {joint.get('max_benchmark_observer_auroc2', 0.0):.3f} = \\mathbf{{{joint.get('point_pai', 0.0):+.3f}}}$$
 $$\\mathbf{{\\text{{Stratified 95\\% Bootstrap CI: }} [{joint.get('ci_95_lower', 0.0):.3f}, {joint.get('ci_95_upper', 0.0):.3f}]}} \\quad (\\text{{SESOI margin }} \\pm {joint.get('sesoi_margin', 0.10)})$$
-No positive Level-0 privileged-access effect was statistically resolved at the present sample size ($N={res.get('total_items')}$). The stratified 95% bootstrap confidence interval spans zero and remains compatible with both modest observer advantage and positive self advantage."""
+In a fully measurement-valid Level-0 benchmark, Qwen2.5:3b showed no resolved privileged self-monitoring advantage over external/reconstructive controls. Immediate self-confidence was essentially nondiscriminative (AUROC2 $\\approx .52$), while visible-answer observation performed substantially better descriptively (AUROC2 $\\approx .68$). The joint strongest-observer statistic excludes a $\\ge .10$ self advantage, although individual paired contrasts remain too imprecise to establish equivalence."""
     else:
         interpretation_block = f"""> [!WARNING]
 > **Measurement Validity Gate Failed (Minimum Primary Compliance: {min_comp:.1%} < 90.0%).**
@@ -102,7 +102,7 @@ No positive Level-0 privileged-access effect was statistically resolved at the p
     framing_note = "Diagnostic comparison only (measurement gate failed)." if not gate_passed else "No framing effect was statistically resolved in this sample."
     channel_note = "Diagnostic comparison only (measurement gate failed)." if not gate_passed else "No beneficial transcript-confidence effect was resolved."
 
-    report = f"""# Experiment E02 (Sprint {res.get('sprint', 'S03.3')}): Level-0 Privileged Access & Observer Ladder Report
+    report = f"""# Experiment E02 (Sprint {res.get('sprint', 'S03.4')}): Level-0 Privileged Access & Observer Ladder Report
 
 ## 1. Executive Summary
 
@@ -201,7 +201,7 @@ def run_e02_observer(
         model_tag=f"ollama-{model_name}" if not use_toy else "toy-backend",
         model_digest=model_digest,
         parameters={
-            "sprint": "S03.3",
+            "sprint": "S03.4",
             "model_name": model_name,
             "seed": seed,
             "items_per_stratum": items_per_stratum,
@@ -428,7 +428,7 @@ def run_e02_observer(
     # Summary dictionary
     results_summary = {
         "experiment_id": "E02_Observer_Hardened",
-        "sprint": "S03.3",
+        "sprint": "S03.4",
         "run_id": run_id,
         "model_name": model_name,
         "model_digest": model_digest,

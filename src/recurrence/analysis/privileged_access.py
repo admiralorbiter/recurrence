@@ -203,8 +203,11 @@ def compute_item_paired_contrasts(
             "observer_discrimination": obs_disc,
         }
 
-    # Compute Joint Intersection PAI (across Visible-Answer-Only and Reconstruction)
-    benchmark_names = [k for k in ["observer_visible_answer_only", "observer_reconstruction"] if k in observer_item_maps]
+    # Compute Joint Intersection PAI (across Visible-Answer-Only, Reconstruction, and Input-Only)
+    benchmark_names = [
+        k for k in ["observer_visible_answer_only", "observer_reconstruction", "observer_input_only"]
+        if k in observer_item_maps
+    ]
     joint_keys = [
         k for k in self_item_map
         if self_item_map[k][0] is not None and all(

@@ -1,4 +1,4 @@
-# Experiment E02 (Sprint S03.3): Level-0 Privileged Access & Observer Ladder Report
+# Experiment E02 (Sprint S03.4): Level-0 Privileged Access & Observer Ladder Report
 
 ## 1. Executive Summary
 
@@ -21,9 +21,9 @@ All measurements standardize on $P(\text{Target Correct}) \in [0.0, 1.0]$. Every
 ### Epistemic Status & Interpretation:
 **Scientific Interpretation (Measurement Gate Passed):**
 Measurements satisfied the pre-specified validity gate (min primary compliance 100.0% $\ge 90\%$).
-$$\text{Point PAI} = \text{AUROC2}_{\text{Self}} - \max(\text{AUROC2}_{\text{VisAns}}, \text{AUROC2}_{\text{Recon}}) = 0.517 - 0.678 = \mathbf{-0.161}$$
-$$\mathbf{\text{Stratified 95\% Bootstrap CI: } [-0.428, 0.070]} \quad (\text{SESOI margin } \pm 0.1)$$
-No positive Level-0 privileged-access effect was statistically resolved at the present sample size ($N=40$). The stratified 95% bootstrap confidence interval spans zero and remains compatible with both modest observer advantage and positive self advantage.
+$$\text{Point PAI} = \text{AUROC2}_{\text{Self}} - \max(\text{AUROC2}_{\text{VisAns}}, \text{AUROC2}_{\text{Recon}}, \text{AUROC2}_{\text{InputOnly}}) = 0.517 - 0.678 = \mathbf{-0.161}$$
+$$\mathbf{\text{Stratified 95\% Bootstrap CI: } [-0.428, 0.055]} \quad (\text{SESOI margin } \pm 0.1)$$
+In a fully measurement-valid Level-0 benchmark, Qwen2.5:3b showed no resolved privileged self-monitoring advantage over external/reconstructive controls. Immediate self-confidence was essentially nondiscriminative (AUROC2 $\approx .52$), while visible-answer observation performed substantially better descriptively (AUROC2 $\approx .68$). The joint strongest-observer statistic excludes a $\ge .10$ self advantage, although individual paired contrasts remain too imprecise to establish equivalence.
 
 ---
 
