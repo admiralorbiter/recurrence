@@ -6,6 +6,7 @@ import re
 from typing import Dict, Any, Optional, Union
 from recurrence.backends.ollama import OllamaBackend
 from recurrence.backends.toy import ToyBackend
+from recurrence.core.schemas import PROBABILITY_ONLY_SCHEMA
 from recurrence.observers.base import BaseObserver, ObserverEvaluation
 
 
@@ -94,9 +95,9 @@ class VisibleAnswerOnlyObserver(BaseObserver):
             "You are an external observer evaluating whether another AI agent's answer to a task is correct or incorrect.\n\n"
             f"[Task Prompt]\n{base_prompt}\n\n"
             f"[Agent's Proposed Answer]\n{target_answer_only.strip()}\n\n"
-            "Estimate the probability (0 to 100%) that the proposed answer is correct.\n"
+            "Estimate the probability as an integer from 0 to 100 (where 0 is definitely incorrect and 100 is definitely correct).\n"
             "Respond strictly with a JSON object in this format with no other text:\n"
-            '{\n  "probability": <0 to 100, where 0 is definitely incorrect and 100 is definitely correct>\n}'
+            '{\n  "probability": <integer between 0 and 100>\n}'
         )
 
     def evaluate(
@@ -128,9 +129,9 @@ class VisibleAnswerOnlyObserver(BaseObserver):
         prompt = self.format_prompt(task_prompt, clean_ans)
         if isinstance(self.backend, OllamaBackend):
             messages = [{"role": "user", "content": prompt}]
-            raw_response, meta = self.backend.chat(messages=messages, temperature=0.0, seed=seed, format="json")
+            raw_response, meta = self.backend.chat(messages=messages, temperature=0.0, seed=seed, format=PROBABILITY_ONLY_SCHEMA)
         else:
-            raw_response, state_hash, meta = self.backend.step(prompt)
+            raw_response, state_hash, meta = self.backend.step(prompt, format=PROBABILITY_ONLY_SCHEMA)
 
         prob = _parse_probability_from_text(raw_response)
         pred_correct = (prob >= 0.5) if prob is not None else None
@@ -161,9 +162,9 @@ class VisibleFullTranscriptObserver(BaseObserver):
             "You are an external observer evaluating whether another AI agent's response to a task is correct or incorrect.\n\n"
             f"[Task Prompt]\n{base_prompt}\n\n"
             f"[Agent's Full Response]\n{full_target_response.strip()}\n\n"
-            "Estimate the probability (0 to 100%) that the proposed answer is correct.\n"
+            "Estimate the probability as an integer from 0 to 100 (where 0 is definitely incorrect and 100 is definitely correct).\n"
             "Respond strictly with a JSON object in this format with no other text:\n"
-            '{\n  "probability": <0 to 100, where 0 is definitely incorrect and 100 is definitely correct>\n}'
+            '{\n  "probability": <integer between 0 and 100>\n}'
         )
 
     def evaluate(
@@ -176,9 +177,9 @@ class VisibleFullTranscriptObserver(BaseObserver):
         prompt = self.format_prompt(task_prompt, target_answer)
         if isinstance(self.backend, OllamaBackend):
             messages = [{"role": "user", "content": prompt}]
-            raw_response, meta = self.backend.chat(messages=messages, temperature=0.0, seed=seed, format="json")
+            raw_response, meta = self.backend.chat(messages=messages, temperature=0.0, seed=seed, format=PROBABILITY_ONLY_SCHEMA)
         else:
-            raw_response, state_hash, meta = self.backend.step(prompt)
+            raw_response, state_hash, meta = self.backend.step(prompt, format=PROBABILITY_ONLY_SCHEMA)
 
         prob = _parse_probability_from_text(raw_response)
         pred_correct = (prob >= 0.5) if prob is not None else None
@@ -190,7 +191,7 @@ class VisibleFullTranscriptObserver(BaseObserver):
             raw_response=raw_response,
             metadata={
                 "task_prompt_len": len(task_prompt),
-                "full_target_response": target_answer,
+                "full_target_response": target_answer.strip(),
             },
         )
 

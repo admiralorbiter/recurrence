@@ -23,7 +23,7 @@ class ToyBackend:
         # Deterministic initial latent state z_0
         self.z_t = torch.randn(1, self.hidden_dim)
 
-    def step(self, observation_text: str) -> Tuple[str, str, Dict[str, Any]]:
+    def step(self, observation_text: str, format: Optional[Any] = None, *args: Any, **kwargs: Any) -> Tuple[str, str, Dict[str, Any]]:
         """Simulate a deterministic step given an observation.
         
         Returns:

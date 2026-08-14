@@ -5,6 +5,7 @@ import re
 from typing import Dict, Any, Optional, Union
 from recurrence.backends.ollama import OllamaBackend
 from recurrence.backends.toy import ToyBackend
+from recurrence.core.schemas import PROBABILITY_ONLY_SCHEMA
 from recurrence.observers.base import BaseObserver, ObserverEvaluation
 from recurrence.observers.visible import _parse_probability_from_text
 
@@ -50,18 +51,18 @@ class EqualComputeReviewObserver(BaseObserver):
                 "You are reviewing your own previous answer to a task.\n\n"
                 f"[Task Prompt]\n{base_prompt}\n\n"
                 f"[Your Previous Answer]\n{clean_ans}\n\n"
-                "Estimate the probability (0 to 100%) that your answer is correct.\n"
+                "Estimate the probability as an integer from 0 to 100 (where 0 is definitely incorrect and 100 is definitely correct).\n"
                 "Respond strictly with a JSON object in this format with no other text:\n"
-                '{\n  "probability": <0 to 100, where 0 is definitely incorrect and 100 is definitely correct>\n}'
+                '{\n  "probability": <integer between 0 and 100>\n}'
             )
         else:
             return (
                 "You are reviewing an answer produced by another AI model for a task.\n\n"
                 f"[Task Prompt]\n{base_prompt}\n\n"
                 f"[Other Model's Answer]\n{clean_ans}\n\n"
-                "Estimate the probability (0 to 100%) that the proposed answer is correct.\n"
+                "Estimate the probability as an integer from 0 to 100 (where 0 is definitely incorrect and 100 is definitely correct).\n"
                 "Respond strictly with a JSON object in this format with no other text:\n"
-                '{\n  "probability": <0 to 100, where 0 is definitely incorrect and 100 is definitely correct>\n}'
+                '{\n  "probability": <integer between 0 and 100>\n}'
             )
 
     def evaluate(
@@ -74,9 +75,9 @@ class EqualComputeReviewObserver(BaseObserver):
         prompt = self.format_prompt(task_prompt, target_answer)
         if isinstance(self.backend, OllamaBackend):
             messages = [{"role": "user", "content": prompt}]
-            raw_response, meta = self.backend.chat(messages=messages, temperature=0.0, seed=seed, format="json")
+            raw_response, meta = self.backend.chat(messages=messages, temperature=0.0, seed=seed, format=PROBABILITY_ONLY_SCHEMA)
         else:
-            raw_response, state_hash, meta = self.backend.step(prompt)
+            raw_response, state_hash, meta = self.backend.step(prompt, format=PROBABILITY_ONLY_SCHEMA)
 
         prob = _parse_probability_from_text(raw_response)
         pred_correct = (prob >= 0.5) if prob is not None else None
@@ -109,15 +110,15 @@ class InputOnlyObserver(BaseObserver):
         prompt = (
             "You are an evaluator assessing the difficulty of the following task prompt for an AI agent.\n\n"
             f"[Task Prompt]\n{base_prompt}\n\n"
-            "Estimate the probability (0 to 100%) that a standard AI model will solve this prompt correctly.\n"
+            "Estimate the probability as an integer from 0 to 100 (where 0 is definitely incorrect and 100 is definitely correct) that a standard AI model will solve this prompt correctly.\n"
             "Respond strictly with a JSON object in this format with no other text:\n"
-            '{\n  "probability": <0 to 100, where 0 is definitely incorrect and 100 is definitely correct>\n}'
+            '{\n  "probability": <integer between 0 and 100>\n}'
         )
         if isinstance(self.backend, OllamaBackend):
             messages = [{"role": "user", "content": prompt}]
-            raw_response, meta = self.backend.chat(messages=messages, temperature=0.0, seed=seed, format="json")
+            raw_response, meta = self.backend.chat(messages=messages, temperature=0.0, seed=seed, format=PROBABILITY_ONLY_SCHEMA)
         else:
-            raw_response, state_hash, meta = self.backend.step(prompt)
+            raw_response, state_hash, meta = self.backend.step(prompt, format=PROBABILITY_ONLY_SCHEMA)
 
         prob = _parse_probability_from_text(raw_response)
         pred_correct = (prob >= 0.5) if prob is not None else None
@@ -149,15 +150,15 @@ class OutputFullResponseOnlyObserver(BaseObserver):
         prompt = (
             "You are an evaluator assessing whether an AI agent's answer format appears valid and plausible.\n\n"
             f"[Agent's Answer]\n{target_answer.strip()}\n\n"
-            "Estimate the probability (0 to 100%) that this answer is valid and correct.\n"
+            "Estimate the probability as an integer from 0 to 100 (where 0 is definitely incorrect and 100 is definitely correct) that this answer is valid and correct.\n"
             "Respond strictly with a JSON object in this format with no other text:\n"
-            '{\n  "probability": <0 to 100, where 0 is definitely incorrect and 100 is definitely correct>\n}'
+            '{\n  "probability": <integer between 0 and 100>\n}'
         )
         if isinstance(self.backend, OllamaBackend):
             messages = [{"role": "user", "content": prompt}]
-            raw_response, meta = self.backend.chat(messages=messages, temperature=0.0, seed=seed, format="json")
+            raw_response, meta = self.backend.chat(messages=messages, temperature=0.0, seed=seed, format=PROBABILITY_ONLY_SCHEMA)
         else:
-            raw_response, state_hash, meta = self.backend.step(prompt)
+            raw_response, state_hash, meta = self.backend.step(prompt, format=PROBABILITY_ONLY_SCHEMA)
 
         prob = _parse_probability_from_text(raw_response)
         pred_correct = (prob >= 0.5) if prob is not None else None

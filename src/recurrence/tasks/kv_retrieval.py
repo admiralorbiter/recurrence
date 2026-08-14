@@ -300,11 +300,15 @@ class KVRetrievalTask(BaseTask):
         return self.generate_items_from_raw(raw, seed=seed)
 
     def score_response(self, item: TaskItem, response: str) -> Dict[str, Any]:
-        """Parse structured answer and apply strict exact normalized comparison."""
+        """Parse structured answer and apply strict exact normalized comparison,
+        explicitly separating answer validity from probability forecast and schema compliance.
+        """
         cleaned_resp = response.strip()
         raw_answer: str = cleaned_resp
         probability: Optional[float] = None
         confidence: Optional[int] = None
+        schema_valid: bool = False
+        answer_parse_valid: bool = False
 
         # 1. Try structured JSON extraction first
         json_match = re.search(r"\{.*\}", cleaned_resp, re.DOTALL)
@@ -317,25 +321,56 @@ class KVRetrievalTask(BaseTask):
                     # Look for answer key
                     for k in ["answer", "ans", "choice", "option", "in", "selected", "answeranswer"]:
                         if k in clean_dict:
-                            raw_answer = _extract_answer_from_value(clean_dict[k], mode=self.mode)
+                            ans_extracted = _extract_answer_from_value(clean_dict[k], mode=self.mode)
+                            if ans_extracted:
+                                raw_answer = ans_extracted
+                                answer_parse_valid = True
                             break
                     
                     # Look for probability
                     probability = _extract_probability_from_dict(data)
+                    
+                    # Check schema validity
+                    if self.mode == "forced_choice":
+                        if (
+                            answer_parse_valid
+                            and raw_answer.upper() in ["A", "B", "C", "D"]
+                            and probability is not None
+                            and len(data) == 2
+                        ):
+                            schema_valid = True
+                    else:
+                        if answer_parse_valid and probability is not None:
+                            schema_valid = True
             except Exception:
                 pass
 
-        # 2. Robust Regex Fallbacks for Answer if still unresolved
-        if raw_answer == cleaned_resp:
+        # 2. JSON-like unclosed/malformed regex fallback for answer (e.g. Trial 21: {"answer": "A", " ": "probability")
+        if not answer_parse_valid and self.mode == "forced_choice":
+            json_ans_match = re.search(r'["\']answer["\']\s*:\s*["\']?([A-D])["\']?', cleaned_resp, re.IGNORECASE)
+            if json_ans_match:
+                raw_answer = json_ans_match.group(1).upper()
+                answer_parse_valid = True
+
+        # 3. Robust Natural-Language Regex Fallbacks for Answer if still unresolved
+        if not answer_parse_valid:
             ans_match = re.search(
                 r"Answer:\s*(?:<[^>]+>:\s*)?<?([a-zA-Z0-9_\s]+?)>?(?:\s*(?:Probability|Confidence|Confident)|\%|;|\n|\r|$)",
                 cleaned_resp,
                 re.IGNORECASE,
             )
             if ans_match:
-                raw_answer = ans_match.group(1).strip()
+                extracted = ans_match.group(1).strip()
+                raw_answer = extracted
+                if self.mode == "forced_choice":
+                    if re.fullmatch(r"[A-D]", extracted, re.IGNORECASE):
+                        answer_parse_valid = True
+                    else:
+                        answer_parse_valid = False
+                else:
+                    answer_parse_valid = True
 
-        # 3. Probability parsing from text (if not already parsed from JSON)
+        # 4. Probability parsing from text (if not already parsed from JSON)
         if probability is None:
             prob_match = re.search(r"(?:Probability\s*(?:correct)?|Prob|p):\s*<?(-?[0-9]+(?:\.[0-9]+)?)\s*\%?>?", cleaned_resp, re.IGNORECASE)
             if prob_match:
@@ -349,7 +384,7 @@ class KVRetrievalTask(BaseTask):
                 except ValueError:
                     probability = None
 
-        # 4. Confidence Likert parsing ONLY if task confidence_format is 'likert'
+        # 5. Confidence Likert parsing ONLY if task confidence_format is 'likert'
         if self.confidence_format != "probability":
             conf_match = re.search(r"(?:Confidence|Confident):\s*<?([1-5])>?", cleaned_resp, re.IGNORECASE)
             if conf_match:
@@ -363,22 +398,24 @@ class KVRetrievalTask(BaseTask):
         norm_answer = _normalize_string(raw_answer)
         norm_ground_truth = _normalize_string(item.ground_truth)
 
-        # STRICT SCORING
+        # STRICT SCORING: Must be answer_parse_valid and match ground truth exactly
         if self.mode == "forced_choice":
-            # Exact option letter match OR exact option value string match
             target_val = _normalize_string(item.metadata.get("target_value", ""))
-            correct = (
-                norm_answer.upper() == item.ground_truth.upper() or
-                norm_answer == target_val
+            correct = bool(
+                answer_parse_valid and (
+                    norm_answer.upper() == item.ground_truth.upper() or
+                    norm_answer == target_val
+                )
             )
         else:
-            # STRICT EXACT EQUALITY for free generation
-            correct = (norm_answer == norm_ground_truth)
+            correct = bool(answer_parse_valid and (norm_answer == norm_ground_truth))
+
+        probability_parse_valid = (probability is not None)
 
         # Classify failure type if incorrect
         failure_type = None
         if not correct:
-            if not norm_answer or norm_answer in ["none", "null", "unknown"]:
+            if not norm_answer or norm_answer in ["none", "null", "unknown"] or not answer_parse_valid:
                 failure_type = "response_format_noncompliance"
             elif self.mode == "free_generation" and any(_normalize_string(d) == norm_answer for d in item.distractors):
                 failure_type = "target_process_distractor_confusion"
@@ -392,7 +429,10 @@ class KVRetrievalTask(BaseTask):
             "score": 1.0 if correct else 0.0,
             "parsed_answer": raw_answer,
             "normalized_answer": norm_answer,
+            "answer_parse_valid": answer_parse_valid,
             "probability": probability,
+            "probability_parse_valid": probability_parse_valid,
+            "schema_valid": schema_valid,
             "confidence": confidence,
             "ground_truth": item.ground_truth,
             "normalized_ground_truth": norm_ground_truth,

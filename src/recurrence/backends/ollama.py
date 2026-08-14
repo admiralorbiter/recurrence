@@ -4,7 +4,7 @@ import json
 import time
 import urllib.error
 import urllib.request
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional, Tuple, Union
 
 
 class OllamaBackend:
@@ -69,9 +69,9 @@ class OllamaBackend:
         messages: List[Dict[str, str]],
         temperature: Optional[float] = None,
         seed: Optional[int] = None,
-        format: Optional[str] = None,
+        format: Optional[Union[str, Dict[str, Any]]] = None,
     ) -> Tuple[str, Dict[str, Any]]:
-        """Send chat messages to Ollama `/api/chat` with greedy deterministic options and retry."""
+        """Send chat messages to Ollama `/api/chat` with greedy deterministic options, optional JSON schema format, and retry."""
         temp = temperature if temperature is not None else self.temperature
         sd = seed if seed is not None else self.seed
 
@@ -123,8 +123,8 @@ class OllamaBackend:
 
         return content, metadata
 
-    def step(self, prompt: str, format: Optional[str] = None) -> Tuple[str, str, Dict[str, Any]]:
-        """Single-turn prompt execution."""
+    def step(self, prompt: str, format: Optional[Union[str, Dict[str, Any]]] = None) -> Tuple[str, str, Dict[str, Any]]:
+        """Single-turn prompt execution with optional JSON schema format."""
         messages = [{"role": "user", "content": prompt}]
         content, metadata = self.chat(messages, format=format)
         state_hash = self.get_digest()[:16]

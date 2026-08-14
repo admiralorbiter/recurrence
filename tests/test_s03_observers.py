@@ -38,7 +38,7 @@ def test_visible_observers_probability_parsing():
     """Verify Visible observers extract probabilities on strict 0-100 scale."""
     backend = ToyBackend(seed=42)
     obs_ans = VisibleAnswerOnlyObserver(backend=backend)
-    obs_ans.backend.step = lambda prompt: ('{"probability": 85}', "hash", {})
+    obs_ans.backend.step = lambda prompt, *args, **kwargs: ('{"probability": 85}', "hash", {})
     eval_ans = obs_ans.evaluate(
         task_prompt="Key: alpha, Value: 12345. What is the value? Options: (A) 12345 (B) 67890",
         target_answer='{"answer": "A", "probability": 85}',
@@ -49,7 +49,7 @@ def test_visible_observers_probability_parsing():
     assert eval_ans.predicted_correct is True
 
     obs_full = VisibleFullTranscriptObserver(backend=backend)
-    obs_full.backend.step = lambda prompt: ('{"probability": 90}', "hash", {})
+    obs_full.backend.step = lambda prompt, *args, **kwargs: ('{"probability": 90}', "hash", {})
     eval_full = obs_full.evaluate(
         task_prompt="Key: alpha, Value: 12345. What is the value?",
         target_answer="Answer: A\nProbability correct: 90",
@@ -84,7 +84,7 @@ def test_reconstruction_rejects_incomplete_distribution():
     obs = ReconstructionObserver(backend=backend)
     
     # Incomplete raw response with only A and B
-    obs.backend.step = lambda prompt: ('{"A": 60, "B": 40}', "hash", {})
+    obs.backend.step = lambda prompt, *args, **kwargs: ('{"A": 60, "B": 40}', "hash", {})
     eval_res = obs.evaluate(
         task_prompt="Prompt",
         target_answer='{"answer": "A"}',
@@ -126,13 +126,13 @@ def test_reconstruction_rejects_out_of_bounds_distribution():
     obs = ReconstructionObserver(backend=backend)
     
     # Distribution with value > 100
-    obs.backend.step = lambda prompt: ('{"A": 150, "B": 20, "C": 10, "D": 10}', "hash", {})
+    obs.backend.step = lambda prompt, *args, **kwargs: ('{"A": 150, "B": 20, "C": 10, "D": 10}', "hash", {})
     eval_res = obs.evaluate(task_prompt="Prompt", target_answer='{"answer": "A"}', seed=42)
     assert eval_res.predicted_probability is None
     assert eval_res.metadata["distribution_complete"] is False
 
     # Distribution with negative value
-    obs.backend.step = lambda prompt: ('{"A": -10, "B": 60, "C": 30, "D": 20}', "hash", {})
+    obs.backend.step = lambda prompt, *args, **kwargs: ('{"A": -10, "B": 60, "C": 30, "D": 20}', "hash", {})
     eval_res2 = obs.evaluate(task_prompt="Prompt", target_answer='{"answer": "A"}', seed=42)
     assert eval_res2.predicted_probability is None
     assert eval_res2.metadata["distribution_complete"] is False
@@ -284,3 +284,65 @@ def test_direct_pairwise_contrast():
     assert "ci_95_lower" in contrast
     assert "ci_95_upper" in contrast
     assert "delta_brier_score" in contrast
+
+
+def test_decoupled_validity_flags_and_trial_21_shape():
+    """Verify that answer parse validity, probability parse validity, and schema validity are decoupled."""
+    task = KVRetrievalTask(mode="forced_choice", ask_confidence=True, confidence_format="probability")
+    raw = task.generate_raw_pairs(count=1, seed=42)
+    item = task.generate_items_from_raw(raw, seed=42)[0]
+    # Set ground truth to 'A' for test
+    item.ground_truth = "A"
+
+    # Shape 1: Trial 21 malformed envelope with clean "answer": "A"
+    resp_trial_21 = '{\n  "answer": "A",\n  " ": "probability"'
+    score21 = task.score_response(item, resp_trial_21)
+    assert score21["parsed_answer"] == "A"
+    assert score21["correct"] is True
+    assert score21["answer_parse_valid"] is True
+    assert score21["probability"] is None
+    assert score21["probability_parse_valid"] is False
+    assert score21["schema_valid"] is False
+
+    # Shape 2: Clean valid schema output
+    resp_clean = '{"answer": "A", "probability": 85}'
+    score_clean = task.score_response(item, resp_clean)
+    assert score_clean["parsed_answer"] == "A"
+    assert score_clean["correct"] is True
+    assert score_clean["answer_parse_valid"] is True
+    assert score_clean["probability"] == pytest.approx(0.85)
+    assert score_clean["probability_parse_valid"] is True
+    assert score_clean["schema_valid"] is True
+
+    # Shape 3: Strict rejection of trailing text / invalid option strings
+    resp_trailing = '{"answer": "C_bronze_tiger", "probability": 50}'
+    score_trailing = task.score_response(item, resp_trailing)
+    assert score_trailing["parsed_answer"] == "C_bronze_tiger"
+    assert score_trailing["correct"] is False
+    assert score_trailing["schema_valid"] is False
+
+
+def test_failed_compliance_gate_suppresses_inferential_claims():
+    """Verify that generate_markdown_report suppresses confirmatory claims when compliance gate fails."""
+    from experiments.e02_observer.run import generate_markdown_report
+
+    mock_failed_summary = {
+        "sprint": "S03.3",
+        "run_id": "run_e02_obs_test",
+        "model_name": "qwen2.5:3b",
+        "total_items": 40,
+        "compliance_rates": {
+            "primary_compliance_rates": {"self_immediate": 0.70, "observer_reconstruction": 0.35},
+            "min_primary_compliance": 0.35,
+            "compliance_gate_passed": False,
+        },
+        "target_task_performance": {"overall_accuracy": 0.45},
+        "joint_pai_summary": {"joint_shared_items_count": 4, "point_pai": -0.375, "ci_95_lower": -0.75, "ci_95_upper": 0.0},
+        "paired_intersection_contrasts": {},
+        "direct_pairwise_contrasts": {},
+    }
+
+    report = generate_markdown_report(mock_failed_summary)
+    assert "Measurement Validity Gate Failed" in report
+    assert "do NOT support a Level-0 privileged-access conclusion" in report
+    assert "Scientific Interpretation (Measurement Gate Passed)" not in report

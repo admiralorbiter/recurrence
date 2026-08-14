@@ -6,6 +6,7 @@ import re
 from typing import Dict, Any, Optional, Union
 from recurrence.backends.ollama import OllamaBackend
 from recurrence.backends.toy import ToyBackend
+from recurrence.core.schemas import RECONSTRUCTION_DISTRIBUTION_SCHEMA
 from recurrence.observers.base import BaseObserver, ObserverEvaluation
 
 
@@ -68,9 +69,9 @@ class ReconstructionObserver(BaseObserver):
 
         return (
             f"{base_prompt}\n\n"
-            "Independently solve this task. You must provide a numeric probability between 0 and 100 for all four options (A, B, C, and D). "
-            "If an option is definitely incorrect, write 0.\n"
-            "Respond strictly with a single JSON object containing all 4 options with no other text:\n"
+            "Independently solve this task. Estimate the probability (0 to 100) for each option (A, B, C, D). "
+            "Assign a positive probability (1 to 100) to at least your best choice.\n"
+            "Respond strictly with a JSON object matching the required schema:\n"
             '{\n  "A": <0 to 100>,\n  "B": <0 to 100>,\n  "C": <0 to 100>,\n  "D": <0 to 100>\n}'
         )
 
@@ -83,12 +84,12 @@ class ReconstructionObserver(BaseObserver):
     ) -> ObserverEvaluation:
         prompt = self.format_prompt(task_prompt)
 
-        # 1. Independently execute task prompt on a fresh invocation with grammar-constrained JSON
+        # 1. Independently execute task prompt on a fresh invocation with grammar-constrained JSON schema
         if isinstance(self.backend, OllamaBackend):
             messages = [{"role": "user", "content": prompt}]
-            raw_response, meta = self.backend.chat(messages=messages, temperature=0.0, seed=seed, format="json")
+            raw_response, meta = self.backend.chat(messages=messages, temperature=0.0, seed=seed, format=RECONSTRUCTION_DISTRIBUTION_SCHEMA)
         else:
-            raw_response, state_hash, meta = self.backend.step(prompt)
+            raw_response, state_hash, meta = self.backend.step(prompt, format=RECONSTRUCTION_DISTRIBUTION_SCHEMA)
 
         # 2. Parse 4-way probability distribution
         dist: Dict[str, float] = {}

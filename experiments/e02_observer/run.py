@@ -38,6 +38,7 @@ from recurrence.observers.ablated import (
     InputOnlyObserver,
     OutputFullResponseOnlyObserver,
 )
+from recurrence.core.schemas import TARGET_FORCED_CHOICE_SCHEMA
 from recurrence.analysis.privileged_access import (
     compute_continuous_brier_score,
     compute_item_paired_contrasts,
@@ -79,9 +80,27 @@ def generate_markdown_report(res: Dict[str, Any]) -> str:
         rows.append(f"| **{name}** | {vantage} | {n} | {s_auc} | {o_auc} | {d_auc} | {ci} | {s_brier} | {o_brier} | {o_acc} |")
 
     table_content = "\n".join(rows)
-
     framing = direct.get("framing_self_vs_other_review", {})
     channel = direct.get("channel_answer_only_vs_full_transcript", {})
+    gate_passed = bool(comp.get("compliance_gate_passed", False))
+    min_comp = comp.get("min_primary_compliance", 0.0)
+
+    if gate_passed:
+        interpretation_block = f"""**Scientific Interpretation (Measurement Gate Passed):**
+Measurements satisfied the pre-specified validity gate (min primary compliance {min_comp:.1%} $\\ge 90\\%$).
+$$\\text{{Point PAI}} = \\text{{AUROC2}}_{{\\text{{Self}}}} - \\max(\\text{{AUROC2}}_{{\\text{{VisAns}}}}, \\text{{AUROC2}}_{{\\text{{Recon}}}}) = {joint.get('self_auroc2', 0.0):.3f} - {joint.get('max_benchmark_observer_auroc2', 0.0):.3f} = \\mathbf{{{joint.get('point_pai', 0.0):+.3f}}}$$
+$$\\mathbf{{\\text{{Stratified 95\\% Bootstrap CI: }} [{joint.get('ci_95_lower', 0.0):.3f}, {joint.get('ci_95_upper', 0.0):.3f}]}} \\quad (\\text{{SESOI margin }} \\pm {joint.get('sesoi_margin', 0.10)})$$
+No positive Level-0 privileged-access effect was statistically resolved at the present sample size ($N={res.get('total_items')}$). The stratified 95% bootstrap confidence interval spans zero and remains compatible with both modest observer advantage and positive self advantage."""
+    else:
+        interpretation_block = f"""> [!WARNING]
+> **Measurement Validity Gate Failed (Minimum Primary Compliance: {min_comp:.1%} < 90.0%).**
+> Inferential Privileged Access Index (PAI) and observer contrasts are reported for diagnostic/scouting purposes only and do NOT support a Level-0 privileged-access conclusion.
+>
+> **Diagnostic PAI (Unpromoted, Shared $N={joint.get('joint_shared_items_count', 0)}$):**
+> $\\text{{Diagnostic PAI}} = {joint.get('point_pai', 0.0):+.3f} \\quad (95\\%\\text{{ CI: }} [{joint.get('ci_95_lower', 0.0):.3f}, {joint.get('ci_95_upper', 0.0):.3f}])$"""
+
+    framing_note = "Diagnostic comparison only (measurement gate failed)." if not gate_passed else "No framing effect was statistically resolved in this sample."
+    channel_note = "Diagnostic comparison only (measurement gate failed)." if not gate_passed else "No beneficial transcript-confidence effect was resolved."
 
     report = f"""# Experiment E02 (Sprint {res.get('sprint', 'S03.3')}): Level-0 Privileged Access & Observer Ladder Report
 
@@ -97,12 +116,8 @@ All measurements standardize on $P(\\text{{Target Correct}}) \\in [0.0, 1.0]$. E
 |---|---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
 {table_content}
 
-### Joint Privileged Access Index Summary ($N={joint.get('joint_shared_items_count', 0)}$ shared items):
-$$\\text{{Point PAI}} = \\text{{AUROC2}}_{{\\text{{Self}}}} - \\max(\\text{{AUROC2}}_{{\\text{{VisAns}}}}, \\text{{AUROC2}}_{{\\text{{Recon}}}}) = {joint.get('self_auroc2', 0.0):.3f} - {joint.get('max_benchmark_observer_auroc2', 0.0):.3f} = \\mathbf{{{joint.get('point_pai', 0.0):+.3f}}}$$
-$$\\mathbf{{\\text{{Stratified 95\\% Bootstrap CI: }} [{joint.get('ci_95_lower', 0.0):.3f}, {joint.get('ci_95_upper', 0.0):.3f}]}} \\quad (\\text{{SESOI margin }} \\pm {joint.get('sesoi_margin', 0.10)})$$
-
-**Scientific Interpretation:**
-No positive Level-0 privileged-access effect was statistically resolved at the present sample size ($N={res.get('total_items')}$). The stratified 95% bootstrap confidence interval spans zero and remains compatible with both modest observer advantage and positive self advantage.
+### Epistemic Status & Interpretation:
+{interpretation_block}
 
 ---
 
@@ -112,21 +127,21 @@ No positive Level-0 privileged-access effect was statistically resolved at the p
 * **Self-Review AUROC2:** {framing.get('auroc2_a', 0.0):.3f} (Brier: {framing.get('brier_score_a', 0.0):.3f}, Acc: {framing.get('binary_accuracy_a', 0.0):.1%})
 * **Other-Review AUROC2:** {framing.get('auroc2_b', 0.0):.3f} (Brier: {framing.get('brier_score_b', 0.0):.3f}, Acc: {framing.get('binary_accuracy_b', 0.0):.1%})
 * **$\\Delta\\text{{AUROC2}} (\\text{{Self}} - \\text{{Other}}):$** $\\mathbf{{{framing.get('delta_auroc2', 0.0):+.3f}}} \\quad (95\\%\\text{{ CI: }} [{framing.get('ci_95_lower', 0.0):.3f}, {framing.get('ci_95_upper', 0.0):.3f}])$
-* **Conclusion:** No framing effect was statistically resolved in this sample.
+* **Status:** {framing_note}
 
 ### B. Public Channel Effect Test ($N = {channel.get('shared_items_count', 0)}$ shared items)
 * **Visible Answer-Only AUROC2:** {channel.get('auroc2_a', 0.0):.3f} (Acc: {channel.get('binary_accuracy_a', 0.0):.1%})
 * **Visible Full-Transcript AUROC2:** {channel.get('auroc2_b', 0.0):.3f} (Acc: {channel.get('binary_accuracy_b', 0.0):.1%})
 * **$\\Delta\\text{{AUROC2}} (\\text{{Answer}} - \\text{{Transcript}}):$** $\\mathbf{{{channel.get('delta_auroc2', 0.0):+.3f}}} \\quad (95\\%\\text{{ CI: }} [{channel.get('ci_95_lower', 0.0):.3f}, {channel.get('ci_95_upper', 0.0):.3f}])$
-* **Conclusion:** No beneficial transcript-confidence effect was resolved.
+* **Status:** {channel_note}
 
 ---
 
 ## 3. Compliance & Gate Verification
 
 * **Primary Condition Compliance:** {json.dumps(comp.get('primary_compliance_rates', {}), indent=2)}
-* **Minimum Primary Compliance:** {comp.get('min_primary_compliance', 0.0):.1%}
-* **Compliance Hard Gate (Min $\\ge 90\\%$):** {'PASSED' if comp.get('compliance_gate_passed') else 'FAILED'}
+* **Minimum Primary Compliance:** {min_comp:.1%}
+* **Compliance Hard Gate (Min $\\ge 90\\%$):** {'PASSED' if gate_passed else 'FAILED'}
 """
     return report
 
@@ -261,13 +276,13 @@ def run_e02_observer(
         step += 1
         item_id = item.item_id
 
-        # Step A: Target model solves the item with structured JSON decoding
+        # Step A: Target model solves the item with structured JSON schema decoding
         if isinstance(target_backend, OllamaBackend):
             messages = [{"role": "user", "content": item.prompt}]
-            target_response, meta = target_backend.chat(messages=messages, temperature=0.0, seed=seed, format="json")
+            target_response, meta = target_backend.chat(messages=messages, temperature=0.0, seed=seed, format=TARGET_FORCED_CHOICE_SCHEMA)
             state_hash = meta.get("digest", "none")[:16]
         else:
-            target_response, state_hash, meta = target_backend.step(item.prompt)
+            target_response, state_hash, meta = target_backend.step(item.prompt, format=TARGET_FORCED_CHOICE_SCHEMA)
 
         score_res = task.score_response(item, target_response)
         is_corr = score_res["correct"]
