@@ -1,10 +1,10 @@
 {
   "experiment_id": "E02_Observer_Hardened",
-  "attempted_run_id": "run_e02_obs_004",
-  "measurement_valid": false,
-  "compliance_gate_passed": false,
-  "min_primary_compliance": 0.375,
-  "summary_path": "results\\e02_observer\\run_e02_obs_004\\summary.json",
-  "trials_path": "results\\e02_observer\\run_e02_obs_004\\trials.jsonl",
-  "report_path": "results\\e02_observer\\run_e02_obs_004\\report.md"
+  "attempted_run_id": "run_e02_obs_005",
+  "measurement_valid": true,
+  "compliance_gate_passed": true,
+  "min_primary_compliance": 1.0,
+  "summary_path": "results\\e02_observer\\run_e02_obs_005\\summary.json",
+  "trials_path": "results\\e02_observer\\run_e02_obs_005\\trials.jsonl",
+  "report_path": "results\\e02_observer\\run_e02_obs_005\\report.md"
 }
