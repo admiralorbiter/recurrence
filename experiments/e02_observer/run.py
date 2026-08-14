@@ -25,7 +25,7 @@ import numpy as np
 
 from recurrence.backends.ollama import OllamaBackend
 from recurrence.backends.toy import ToyBackend
-from recurrence.core.manifest import ExperimentManifest
+from recurrence.core.manifest import RunManifest
 from recurrence.core.logging import ExperimentLogger, TrialEvent
 from recurrence.tasks.kv_retrieval import KVRetrievalTask
 from recurrence.observers.visible import (
@@ -54,19 +54,7 @@ def run_e02_observer(
     use_toy: bool = False,
 ) -> Dict[str, Any]:
     """Execute the definitive Level-0 Privileged Access Benchmark under strict paired intersections."""
-    # 1. Initialize Backends
-    if use_toy:
-        target_backend = ToyBackend(name="toy_target")
-        obs_backend = ToyBackend(name="toy_observer")
-        model_name = "toy_model"
-        model_digest = "toy_digest_deterministic"
-    else:
-        target_backend = OllamaBackend(model_name="qwen2.5:3b", seed=seed)
-        obs_backend = OllamaBackend(model_name="qwen2.5:3b", seed=seed)
-        model_name = target_backend.model_name
-        model_digest = target_backend.get_digest()
-
-    # 2. Setup Safe Result and Artifact Directories
+    # 1. Setup Safe Result and Artifact Directories
     artifacts_dir = Path("artifacts") / "e02_observer" / run_id
     res_base = Path("results") / "e02_observer"
     res_run_dir = res_base / run_id
@@ -85,14 +73,35 @@ def run_e02_observer(
     artifacts_dir.mkdir(parents=True, exist_ok=True)
     res_run_dir.mkdir(parents=True, exist_ok=True)
 
-    # 3. Create Manifest and Logger
-    manifest = ExperimentManifest.create(
+    # 2. Initialize collision-safe logger
+    logger = ExperimentLogger(
+        output_dir=artifacts_dir,
+        run_id=run_id,
+        overwrite=overwrite,
+    )
+
+    # 3. Initialize Backends
+    if use_toy:
+        target_backend = ToyBackend(name="toy_target")
+        obs_backend = ToyBackend(name="toy_observer")
+        model_name = "toy_model"
+        model_digest = "toy_digest_deterministic"
+    else:
+        target_backend = OllamaBackend(model_name="qwen2.5:3b", seed=seed)
+        obs_backend = OllamaBackend(model_name="qwen2.5:3b", seed=seed)
+        model_name = target_backend.model_name
+        model_digest = target_backend.get_digest()
+
+    # 4. Create and Save Manifest
+    manifest = RunManifest(
         experiment_id="E02_Observer_Hardened",
-        protocol_version="1.3.2",
+        run_id=run_id,
+        seed=seed,
+        model_tag=f"ollama-{model_name}" if not use_toy else "toy-backend",
+        model_digest=model_digest,
         parameters={
             "sprint": "S03.2",
             "model_name": model_name,
-            "model_digest": model_digest,
             "seed": seed,
             "items_per_stratum": items_per_stratum,
             "total_items": items_per_stratum * 2,
@@ -110,15 +119,9 @@ def run_e02_observer(
             "confidence_format": "probability",
             "decoding": "greedy_temperature_0.0",
         },
-        tags=["e02_observer", "s03_2", "level_0", "hardened", "stratified_bootstrap"],
     )
-
-    logger = ExperimentLogger(
-        manifest=manifest,
-        run_id=run_id,
-        output_dir=artifacts_dir,
-        overwrite=overwrite,
-    )
+    manifest.compute_environment_hash()
+    logger.save_manifest(manifest)
 
     # 4. Initialize Tasks and Observers
     task_semantic = KVRetrievalTask(
