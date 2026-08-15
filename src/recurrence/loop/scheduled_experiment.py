@@ -1,4 +1,4 @@
-"""Execution harness for Sprint S06 Scheduled versus Replay Experiment (E05).
+"""Hardened execution harness for Sprint S06.1 Scheduled versus Replay Experiment (E05b).
 
 Executes the 5 strictly controlled experimental conditions:
 1. incremental_state: Scheduled online deterministic state maintenance
@@ -7,8 +7,12 @@ Executes the 5 strictly controlled experimental conditions:
 4. replay_state_model: Single-pass model retrospective state reconstruction (bottleneck control)
 5. fresh: Lower empirical floor without history
 
-Enforces the canonical state-hash equality invariant:
-canonical_hash(S_T_incremental) == canonical_hash(S_T_replay_deterministic)
+Enforces:
+- canonical_hash(S_T_incremental) == canonical_hash(S_T_replay_deterministic)
+- hash(serialized_state_online) == hash(serialized_state_replay)
+- hash(full_final_probe_prompt_online) == hash(full_final_probe_prompt_replay)
+
+Separates one-time reconstruction costs and measures object-level state fidelity.
 """
 
 from dataclasses import asdict, dataclass, field
@@ -63,14 +67,26 @@ class ScheduledTrialResult:
     correct_letter: str
     predicted_letter: str
     is_correct: bool
-    prompt_tokens: int
-    completion_tokens: int
-    latency_ms: float
+    prompt_tokens: int  # Probe-specific query prompt tokens
+    completion_tokens: int  # Probe-specific completion tokens
+    latency_ms: float  # Probe-specific query latency
+    amortized_prompt_tokens: int  # Including amortized reconstruction tokens for replay_state_model
+    amortized_latency_ms: float  # Including amortized reconstruction latency for replay_state_model
     context_chars: int
     state_hash: Optional[str] = None
+    prompt_hash: Optional[str] = None
     reconstruction_valid: Optional[bool] = None
     error_message: Optional[str] = None
     metadata: Dict[str, Any] = field(default_factory=dict)
+
+
+@dataclass
+class ReconstructionFidelityStats:
+    """Direct object-level fidelity of model-reconstructed state against Oracle terminal state."""
+    working_memory_retention_rate: float
+    goal_status_match_rate: float
+    source_ledger_accuracy: float
+    raw_reconstructed_state: Dict[str, Any]
 
 
 class ScheduledReplayHarness:
@@ -98,14 +114,15 @@ class ScheduledReplayHarness:
         return "\n".join(lines)
 
     def _build_state_text(self, state: StructuredSelfState) -> str:
-        """Format structured state into clean JSON representation."""
-        return f"=== CURRENT STRUCTURED STATE ===\n{json.dumps(state.model_dump(), indent=2)}"
+        """Format structured state into clean, canonical JSON representation."""
+        # Use sort_keys=True for strict string reproducibility
+        return f"=== CURRENT STRUCTURED STATE ===\n{json.dumps(state.model_dump(), indent=2, sort_keys=True)}"
 
     def _query_probe(
         self,
         context_str: str,
         probe: ScheduledReplayProbe,
-    ) -> Tuple[str, bool, int, int, float, Optional[str]]:
+    ) -> Tuple[str, bool, int, int, float, str, Optional[str]]:
         """Query LLM backend for a forced-choice probe under strict JSON schema."""
         opts_str = "\n".join([f"{l}. {text}" for l, text in sorted(probe.options.items())])
         target_schema = TARGET_3AFC_SCHEMA if len(probe.options) == 3 else TARGET_4AFC_SCHEMA
@@ -119,6 +136,7 @@ class ScheduledReplayHarness:
             f"{opts_str}\n\n"
             f"Select the single correct option letter ({opts_letters_str}). Return strictly JSON matching schema."
         )
+        prompt_hash = hashlib.sha256(prompt.encode("utf-8")).hexdigest()
 
         start_time = time.perf_counter()
         try:
@@ -140,11 +158,11 @@ class ScheduledReplayHarness:
             data = json.loads(raw_text)
             pred_letter = str(data.get("answer") or data.get("target_answer") or "").strip().upper()
             is_corr = (pred_letter == probe.correct_letter.upper())
-            return pred_letter, is_corr, p_tok, c_tok, latency_ms, None
+            return pred_letter, is_corr, p_tok, c_tok, latency_ms, prompt_hash, None
 
         except Exception as e:
             latency_ms = (time.perf_counter() - start_time) * 1000.0
-            return "ERROR", False, len(prompt) // 4, 0, latency_ms, str(e)
+            return "ERROR", False, len(prompt) // 4, 0, latency_ms, prompt_hash, str(e)
 
     def execute_episode(
         self,
@@ -181,6 +199,7 @@ class ScheduledReplayHarness:
         loop_inc.run_for_ticks(total_ticks=episode.total_ticks)
         online_state = mgr_inc.current_state.model_copy(deep=True)
         hash_online = canonical_state_hash(online_state)
+        context_online = self._build_state_text(online_state)
 
         # -------------------------------------------------------------
         # Condition 2: replay_state_deterministic (Retrospective Timing Control)
@@ -191,7 +210,6 @@ class ScheduledReplayHarness:
         mgr_rep = StateManager(capacity_config=self.capacity_config)
         upd_rep = OracleStateUpdater(state_manager=mgr_rep)
         
-        # Single-pass replay of all events at t=T
         for t in range(episode.total_ticks):
             evs = queue_rep.pop_events_for_tick(t)
             for ev in evs:
@@ -206,14 +224,16 @@ class ScheduledReplayHarness:
 
         replay_det_state = mgr_rep.current_state.model_copy(deep=True)
         hash_replay_det = canonical_state_hash(replay_det_state)
+        context_replay_det = self._build_state_text(replay_det_state)
 
-        # CRITICAL MANIPULATION CHECK: State-Hash Invariant
+        # CRITICAL HARDENED INVARIANT: State-Hash & Serialized State String Equality
         assert hash_online == hash_replay_det, (
             f"State Hash Mismatch in Episode {episode.episode_id}!\n"
             f"Online Hash:     {hash_online}\n"
-            f"Replay Det Hash: {hash_replay_det}\n"
-            f"Online WM: {online_state.working_memory}\n"
-            f"Replay WM: {replay_det_state.working_memory}"
+            f"Replay Det Hash: {hash_replay_det}"
+        )
+        assert context_online == context_replay_det, (
+            f"Serialized State String Mismatch in Episode {episode.episode_id}!"
         )
         episode_metadata["canonical_state_hash"] = hash_online
 
@@ -229,14 +249,14 @@ class ScheduledReplayHarness:
         recon_valid = True
         recon_prompt_tok = 0
         recon_comp_tok = 0
-        recon_lat = 0.0
+        recon_lat_ms = 0.0
 
         if "replay_state_model" in eval_conditions:
             recon_prompt = (
                 f"{transcript_text}\n\n"
                 f"You are a state reconstruction agent. Read the full episodic event log transcript above.\n"
                 f"Extract all active entities into working_memory, determine source_ledger origins, and identify goal statuses.\n"
-                f"Output the complete StructuredSelfState conforming to schema."
+                f"Output the complete StructuredSelfState conforming strictly to JSON schema."
             )
             recon_start = time.perf_counter()
             try:
@@ -254,22 +274,55 @@ class ScheduledReplayHarness:
                     recon_prompt_tok = len(recon_prompt) // 4
                     recon_comp_tok = len(raw_recon) // 4
 
-                recon_lat = (time.perf_counter() - recon_start) * 1000.0
+                recon_lat_ms = (time.perf_counter() - recon_start) * 1000.0
                 recon_data = json.loads(raw_recon)
                 model_recon_state = StructuredSelfState.model_validate(recon_data)
             except Exception:
                 recon_valid = False
                 model_recon_state = StructuredSelfState()
 
+            # Compute Direct Object-Level State Fidelity against Oracle
+            oracle_wm = online_state.working_memory
+            recon_wm = model_recon_state.working_memory
+            wm_matches = sum(1 for k, v in oracle_wm.items() if recon_wm.get(k) == v)
+            wm_retention = wm_matches / max(1, len(oracle_wm))
+
+            oracle_goals = {g.goal_id: (g.status.value if hasattr(g.status, "value") else str(g.status)) for g in online_state.goals}
+            recon_goals = {g.goal_id: (g.status.value if hasattr(g.status, "value") else str(g.status)) for g in model_recon_state.goals}
+            goal_matches = sum(1 for gid, st in oracle_goals.items() if recon_goals.get(gid) == st)
+            goal_match_rate = goal_matches / max(1, len(oracle_goals))
+
+            oracle_src = online_state.source_ledger
+            recon_src = model_recon_state.source_ledger
+            src_matches = sum(1 for k, s in oracle_src.items() if str(recon_src.get(k, "")).lower() == str(s).lower())
+            src_match_rate = src_matches / max(1, len(oracle_src))
+
+            episode_metadata["model_reconstruction_cost"] = {
+                "prompt_tokens_once": recon_prompt_tok,
+                "completion_tokens_once": recon_comp_tok,
+                "latency_ms_once": recon_lat_ms,
+            }
+            episode_metadata["model_reconstruction_fidelity"] = {
+                "working_memory_retention_rate": wm_retention,
+                "goal_status_match_rate": goal_match_rate,
+                "source_ledger_accuracy": src_match_rate,
+            }
+
+        num_probes = len(episode.probes)
+        amort_recon_tok = recon_prompt_tok // max(1, num_probes)
+        amort_recon_lat = recon_lat_ms / max(1, num_probes)
+
         # -------------------------------------------------------------
         # Evaluate Probe Battery across Conditions
         # -------------------------------------------------------------
+        online_prompt_hashes: Dict[str, str] = {}
+
         for cond in eval_conditions:
             if cond == "incremental_state":
-                context_str = self._build_state_text(online_state)
+                context_str = context_online
                 st_hash = hash_online
             elif cond == "replay_state_deterministic":
-                context_str = self._build_state_text(replay_det_state)
+                context_str = context_replay_det
                 st_hash = hash_replay_det
             elif cond == "replay_transcript":
                 context_str = transcript_text
@@ -284,10 +337,18 @@ class ScheduledReplayHarness:
                 raise ValueError(f"Unknown evaluation condition: {cond}")
 
             for probe in episode.probes:
-                pred_l, is_corr, p_tok, c_tok, lat_ms, err_msg = self._query_probe(
+                pred_l, is_corr, p_tok, c_tok, lat_ms, p_hash, err_msg = self._query_probe(
                     context_str=context_str,
                     probe=probe,
                 )
+
+                if cond == "incremental_state":
+                    online_prompt_hashes[probe.probe_id] = p_hash
+                elif cond == "replay_state_deterministic":
+                    # HARDENED PROMPT-HASH INVARIANT
+                    assert p_hash == online_prompt_hashes[probe.probe_id], (
+                        f"Prompt Hash Mismatch between incremental and replay in probe {probe.probe_id}!"
+                    )
 
                 trial_id = f"{episode.episode_id}_{cond}_{probe.probe_id}"
                 trial_results.append(ScheduledTrialResult(
@@ -302,11 +363,14 @@ class ScheduledReplayHarness:
                     correct_letter=probe.correct_letter,
                     predicted_letter=pred_l,
                     is_correct=is_corr,
-                    prompt_tokens=p_tok + (recon_prompt_tok if cond == "replay_state_model" else 0),
-                    completion_tokens=c_tok + (recon_comp_tok if cond == "replay_state_model" else 0),
-                    latency_ms=lat_ms + (recon_lat if cond == "replay_state_model" else 0.0),
+                    prompt_tokens=p_tok,
+                    completion_tokens=c_tok,
+                    latency_ms=lat_ms,
+                    amortized_prompt_tokens=p_tok + (amort_recon_tok if cond == "replay_state_model" else 0),
+                    amortized_latency_ms=lat_ms + (amort_recon_lat if cond == "replay_state_model" else 0.0),
                     context_chars=len(context_str),
                     state_hash=st_hash,
+                    prompt_hash=p_hash,
                     reconstruction_valid=recon_valid if cond == "replay_state_model" else None,
                     error_message=err_msg,
                     metadata=dict(probe.metadata),
