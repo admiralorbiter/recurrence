@@ -1,5 +1,6 @@
 """Unit and integration tests for Horizon 0 v2 2AFC psychophysics, task generators, and difficulty mapping."""
 
+import json
 import shutil
 from pathlib import Path
 import pytest
@@ -83,7 +84,8 @@ def test_foil_properties():
     assert opt_map["A"] == item.metadata["target_val"]
     assert opt_map["B"] == item.metadata["foil_val"]
     assert opt_map["A"] != opt_map["B"]
-    assert "(A)" in item.prompt and "(B)" in item.prompt
+    assert opt_map["A"] in item.prompt and opt_map["B"] in item.prompt
+
 
 
 def test_multi_hop_chain_integrity():
@@ -474,5 +476,111 @@ def test_nested_paired_transitions():
     assert t["degraded_1_to_0"] == 1          # k2
     assert t["persisted_wrong_0_to_0"] == 0
     assert t["rebounded_0_to_1"] == 1         # k4
+
+
+def test_direct_value_schema_and_scoring():
+    """Verify dynamic direct-value candidate string schema generation and parsing."""
+    from recurrence.core.schemas import make_2afc_direct_value_schema
+    from recurrence.tasks.adaptive_metacognition import AdaptiveMetacognition2AFCTask
+
+    # 1. Schema generation
+    s_conf = make_2afc_direct_value_schema("val_crimson_anchor", "val_azure_harbor", ask_confidence=True)
+    assert s_conf["properties"]["answer"]["enum"] == ["val_crimson_anchor", "val_azure_harbor"]
+    assert "probability" in s_conf["properties"]
+
+    s_noconf = make_2afc_direct_value_schema("val_crimson_anchor", "val_azure_harbor", ask_confidence=False)
+    assert s_noconf["properties"]["answer"]["enum"] == ["val_crimson_anchor", "val_azure_harbor"]
+    assert "probability" not in s_noconf["properties"]
+
+    # 2. Task prompt generation
+    task = AdaptiveMetacognition2AFCTask(
+        task_family="multi_hop",
+        ask_confidence=True,
+        response_mode="direct_value",
+    )
+    item = task.generate_multi_hop_item(hop_depth=3, seed=42, target_option_letter="A")
+    val_a = item.metadata["option_map"]["A"]
+    val_b = item.metadata["option_map"]["B"]
+
+    assert f'Candidate Values:\n- "{val_a}"\n- "{val_b}"' in item.prompt
+
+    # 3. Correct score when answering with exact candidate string
+    resp_correct = json.dumps({"answer": val_a, "probability": 80})
+    score_c = task.score_response(item, resp_correct)
+    assert score_c["correct"] is True
+    assert score_c["parsed_answer"] == "A"
+    assert score_c["schema_valid"] is True
+
+    # 4. Foil score when answering with foil candidate string
+    resp_foil = json.dumps({"answer": val_b, "probability": 70})
+    score_f = task.score_response(item, resp_foil)
+    assert score_f["correct"] is False
+    assert score_f["parsed_answer"] == "B"
+    assert score_f["schema_valid"] is True
+
+
+def test_exact_mcnemar_binomial_test():
+    """Verify exact two-tailed binomial McNemar calculation for discordant pairs."""
+    from recurrence.analysis.psychophysics import compute_exact_mcnemar_p_value, compute_elicitation_reactivity
+
+    # 10 vs 1 discordant pairs (as observed in Qwen 3B short-context reactivity)
+    p_exact = compute_exact_mcnemar_p_value(10, 1)
+    # Binomial(11, 0.5): P(X <= 1) = (1 + 11) * 0.5^11 = 12 / 2048 = 0.005859
+    # Two-tailed = 2 * 0.005859 = 0.01171875
+    assert p_exact == pytest.approx(0.01171875, abs=1e-5)
+
+    # Balanced 5 vs 5 discordant pairs -> p = 1.0
+    p_balanced = compute_exact_mcnemar_p_value(5, 5)
+    assert p_balanced == pytest.approx(1.0)
+
+
+def test_evaluate_calibration_gate():
+    """Verify multi-criteria calibration gate logic (d', c, accuracy, compliance)."""
+    from recurrence.analysis.psychophysics import evaluate_calibration_gate
+
+    # Passing stratum: d' = 1.15, c = 0.10, acc = 72%, compliance = 100%
+    m_pass = {
+        "sdt_d_prime": 1.15,
+        "sdt_criterion_c": 0.10,
+        "accuracy": 0.72,
+        "schema_compliance_rate": 1.0,
+    }
+    g_pass = evaluate_calibration_gate(m_pass)
+    assert g_pass["gate_passed"] is True
+
+    # Failing stratum: high c (category collapse: c = 1.45)
+    m_bias = {
+        "sdt_d_prime": 1.15,
+        "sdt_criterion_c": 1.45,
+        "accuracy": 0.72,
+        "schema_compliance_rate": 1.0,
+    }
+    g_bias = evaluate_calibration_gate(m_bias)
+    assert g_bias["gate_passed"] is False
+    assert g_bias["criterion_pass"] is False
+
+
+def test_multi_hop_depth_sweep_h1_to_h7():
+    """Verify dual matched pointer chains across relational depth H=1..7."""
+    task = AdaptiveMetacognition2AFCTask(
+        task_family="multi_hop",
+        ask_confidence=True,
+        response_mode="direct_value",
+    )
+    items = task.generate_multi_hop_sweep(
+        levels=[1, 2, 3, 4, 5, 6, 7],
+        count_per_level=4,
+        distractor_count=16,
+        base_seed=42,
+    )
+    assert len(items) == 7 * 4
+    for it in items:
+        h = it.metadata["hop_depth"]
+        assert len(it.metadata["target_chain_keys"]) == h
+        assert len(it.metadata["foil_chain_keys"]) == h
+        # Both terminal values must be present in prompt text
+        assert it.metadata["target_terminal_val"] in it.prompt
+        assert it.metadata["foil_terminal_val"] in it.prompt
+
 
 

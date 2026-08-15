@@ -111,16 +111,18 @@ class AdaptiveMetacognition2AFCTask(BaseTask):
         task_family: Literal["distractor_load", "multi_hop", "overwrite_load"] = "distractor_load",
         ask_confidence: bool = True,
         confidence_format: Literal["probability", "likert_1_4", "none"] = "probability",
+        response_mode: Literal["direct_value", "symbolic_letter"] = "direct_value",
     ):
-        name = f"h0v2_2afc_{task_family}_{'conf' if ask_confidence else 'noconf'}"
+        name = f"h0v2_2afc_{task_family}_{'conf' if ask_confidence else 'noconf'}_{response_mode}"
         desc = (
             f"H0-v2 Matched 2AFC Task ({task_family}, ask_confidence={ask_confidence}, "
-            f"confidence_format={confidence_format})"
+            f"confidence_format={confidence_format}, response_mode={response_mode})"
         )
         super().__init__(name=name, description=desc)
         self.task_family = task_family
         self.ask_confidence = ask_confidence
         self.confidence_format = confidence_format
+        self.response_mode = response_mode
 
     @staticmethod
     def _generate_semantic_identifiers(rng: random.Random, count: int) -> Tuple[List[str], List[str]]:
@@ -463,31 +465,56 @@ class AdaptiveMetacognition2AFCTask(BaseTask):
         ask_confidence: bool,
     ) -> str:
         """Construct strict 2AFC prompt with JSON schema format constraints."""
-        options_block = f"(A) {option_a}\n(B) {option_b}"
-
-        if not ask_confidence:
-            schema_block = (
-                'Respond strictly with a JSON object in this format with no other text:\n'
-                '{\n'
-                '  "answer": "<A or B>"\n'
-                '}'
-            )
-        elif self.confidence_format == "likert_1_4":
-            schema_block = (
-                'Respond strictly with a JSON object in this format with no other text:\n'
-                '{\n'
-                '  "answer": "<A or B>",\n'
-                '  "confidence": <1 to 4, where 1 is definitely guessing and 4 is definitely certain>\n'
-                '}'
-            )
-        else:  # probability 0-100
-            schema_block = (
-                'Respond strictly with a JSON object in this format with no other text:\n'
-                '{\n'
-                '  "answer": "<A or B>",\n'
-                '  "probability": <0 to 100, where 0 is definitely incorrect, 50 is even odds / guess, and 100 is definitely correct>\n'
-                '}'
-            )
+        if getattr(self, "response_mode", "direct_value") == "direct_value":
+            options_block = f"Candidate Values:\n- \"{option_a}\"\n- \"{option_b}\""
+            if not ask_confidence:
+                schema_block = (
+                    'Respond strictly with a JSON object in this format with no other text:\n'
+                    '{\n'
+                    f'  "answer": "<exact candidate value string: \\"{option_a}\\" or \\"{option_b}\\">"\n'
+                    '}'
+                )
+            elif self.confidence_format == "likert_1_4":
+                schema_block = (
+                    'Respond strictly with a JSON object in this format with no other text:\n'
+                    '{\n'
+                    f'  "answer": "<exact candidate value string: \\"{option_a}\\" or \\"{option_b}\\">",\n'
+                    '  "confidence": <1 to 4, where 1 is definitely guessing and 4 is definitely certain>\n'
+                    '}'
+                )
+            else:  # probability 0-100
+                schema_block = (
+                    'Respond strictly with a JSON object in this format with no other text:\n'
+                    '{\n'
+                    f'  "answer": "<exact candidate value string: \\"{option_a}\\" or \\"{option_b}\\">",\n'
+                    '  "probability": <0 to 100, where 0 is definitely incorrect, 50 is even odds / guess, and 100 is definitely correct>\n'
+                    '}'
+                )
+        else:  # symbolic_letter (A / B)
+            options_block = f"(A) {option_a}\n(B) {option_b}"
+            if not ask_confidence:
+                schema_block = (
+                    'Respond strictly with a JSON object in this format with no other text:\n'
+                    '{\n'
+                    '  "answer": "<A or B>"\n'
+                    '}'
+                )
+            elif self.confidence_format == "likert_1_4":
+                schema_block = (
+                    'Respond strictly with a JSON object in this format with no other text:\n'
+                    '{\n'
+                    '  "answer": "<A or B>",\n'
+                    '  "confidence": <1 to 4, where 1 is definitely guessing and 4 is definitely certain>\n'
+                    '}'
+                )
+            else:  # probability 0-100
+                schema_block = (
+                    'Respond strictly with a JSON object in this format with no other text:\n'
+                    '{\n'
+                    '  "answer": "<A or B>",\n'
+                    '  "probability": <0 to 100, where 0 is definitely incorrect, 50 is even odds / guess, and 100 is definitely correct>\n'
+                    '}'
+                )
 
         return (
             f"Context Information:\n{context_text}\n\n"
@@ -649,16 +676,39 @@ class AdaptiveMetacognition2AFCTask(BaseTask):
         schema_valid: bool = False
         answer_parse_valid: bool = False
 
+        opt_map = item.metadata.get("option_map", {})
+        val_a = opt_map.get("A")
+        val_b = opt_map.get("B")
+
         # 1. JSON parsing
         json_match = re.search(r"\{.*\}", cleaned_resp, re.DOTALL)
         if json_match:
             try:
                 data = json.loads(json_match.group(0))
                 if isinstance(data, dict):
-                    ans_extracted = _extract_answer_from_json_dict(data)
-                    if ans_extracted in ["A", "B"]:
-                        raw_answer = ans_extracted
-                        answer_parse_valid = True
+                    raw_val = data.get("answer")
+                    if raw_val is not None:
+                        raw_str = str(raw_val).strip()
+                        if raw_str.upper() in ["A", "B"]:
+                            raw_answer = raw_str.upper()
+                            answer_parse_valid = True
+                        elif val_a and raw_str == str(val_a):
+                            raw_answer = "A"
+                            answer_parse_valid = True
+                        elif val_b and raw_str == str(val_b):
+                            raw_answer = "B"
+                            answer_parse_valid = True
+                        elif val_a and raw_str.lower() == str(val_a).lower():
+                            raw_answer = "A"
+                            answer_parse_valid = True
+                        elif val_b and raw_str.lower() == str(val_b).lower():
+                            raw_answer = "B"
+                            answer_parse_valid = True
+                        else:
+                            ans_extracted = _extract_answer_from_json_dict(data)
+                            if ans_extracted in ["A", "B"]:
+                                raw_answer = ans_extracted
+                                answer_parse_valid = True
 
                     if self.ask_confidence:
                         if self.confidence_format == "likert_1_4":
@@ -680,10 +730,17 @@ class AdaptiveMetacognition2AFCTask(BaseTask):
 
         # 2. JSON-like unclosed regex fallback for answer
         if not answer_parse_valid:
-            ans_match = re.search(r'["\']answer["\']\s*:\s*["\']?([AB])["\']?', cleaned_resp, re.IGNORECASE)
-            if ans_match:
-                raw_answer = ans_match.group(1).upper()
+            if val_a and str(val_a) in cleaned_resp and not (val_b and str(val_b) in cleaned_resp):
+                raw_answer = "A"
                 answer_parse_valid = True
+            elif val_b and str(val_b) in cleaned_resp and not (val_a and str(val_a) in cleaned_resp):
+                raw_answer = "B"
+                answer_parse_valid = True
+            else:
+                ans_match = re.search(r'["\']answer["\']\s*:\s*["\']?([AB])["\']?', cleaned_resp, re.IGNORECASE)
+                if ans_match:
+                    raw_answer = ans_match.group(1).upper()
+                    answer_parse_valid = True
 
         # 3. Text fallback for answer
         if not answer_parse_valid:

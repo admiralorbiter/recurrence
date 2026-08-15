@@ -26,7 +26,11 @@ from recurrence.backends.ollama import OllamaBackend
 from recurrence.backends.toy import ToyBackend
 from recurrence.core.manifest import RunManifest
 from recurrence.core.logging import ExperimentLogger
-from recurrence.core.schemas import TARGET_2AFC_CONFIDENCE_SCHEMA, TARGET_2AFC_SCHEMA
+from recurrence.core.schemas import (
+    TARGET_2AFC_CONFIDENCE_SCHEMA,
+    TARGET_2AFC_SCHEMA,
+    make_2afc_direct_value_schema,
+)
 from recurrence.tasks.adaptive_metacognition import (
     AdaptiveMetacognition2AFCTask,
     DifficultyConfig,
@@ -35,6 +39,7 @@ from recurrence.analysis.psychophysics import (
     compute_psychometric_curve,
     compute_monotonicity_diagnostics,
     compute_elicitation_reactivity,
+    evaluate_calibration_gate,
 )
 
 
@@ -56,13 +61,16 @@ class Mock2AFCBackend:
         format: Optional[Any] = None,
     ) -> Tuple[str, Dict[str, Any]]:
         content = messages[0]["content"] if messages else ""
-        # Check if probability schema is requested
         is_conf = "probability" in content or (isinstance(format, dict) and "probability" in format.get("properties", {}))
         
-        # Simulate high accuracy on small context, lower on large context
-        prob_val = 80
-        ans_val = "A" if "Question:" in content else "B"
+        # Pick from schema enum if available
+        if isinstance(format, dict) and "properties" in format and "answer" in format["properties"]:
+            enum_vals = format["properties"]["answer"].get("enum", ["A", "B"])
+            ans_val = enum_vals[0] if "Question:" in content else enum_vals[-1]
+        else:
+            ans_val = "A" if "Question:" in content else "B"
         
+        prob_val = 80
         if is_conf:
             resp = json.dumps({"answer": ans_val, "probability": prob_val})
         else:
@@ -83,15 +91,15 @@ def generate_e02b_markdown_report(
         f"**Run ID:** `{manifest.get('run_id')}`  ",
         f"**Target Model:** `{manifest.get('target_model')}` (`{manifest.get('model_digest', 'N/A')[:12]}...`)  ",
         f"**Date:** {manifest.get('start_time', datetime.now(timezone.utc).isoformat())}  ",
-        f"**Response Format:** Matched 2-Alternative Forced Choice (2AFC) with 50/50 Counterbalancing  ",
+        f"**Response Format:** Matched 2-Alternative Forced Choice (2AFC, response_mode=`{manifest.get('response_mode', 'direct_value')}`)  ",
         f"**Total Trials:** {manifest.get('total_trials', 0)}  ",
         f"",
         f"---",
         f"",
-        f"## 1. Executive Summary & Staircase Readiness",
+        f"## 1. Executive Summary & Calibration Gate Status",
         f"",
-        f"| Sweep / Task Family | Monotonicity (Spearman $\\rho$) | Kendall $\\tau$ | Min Acc | Max Acc | Acc Span | Readiness Verdict |",
-        f"| :--- | :---: | :---: | :---: | :---: | :---: | :--- |",
+        f"| Sweep / Task Family | Monotonicity (Spearman $\\rho$) | Kendall $\\tau$ | Min Acc | Max Acc | Acc Span | Readiness Verdict | Calibration Gate Pass |",
+        f"| :--- | :---: | :---: | :---: | :---: | :---: | :--- | :---: |",
     ]
 
     for name, res in sweep_results.items():
@@ -105,8 +113,16 @@ def generate_e02b_markdown_report(
         max_a = f"{mono.get('max_accuracy', 0.0):.1%}"
         span = f"{mono.get('max_accuracy_drop', 0.0):.1%}"
         verdict = mono.get("staircase_readiness", "unknown").replace("_", " ").title()
+        
+        # Check if any level passed the calibration gate (d' in 0.9..1.4, |c| < 0.5, acc in 60..80%)
+        gate_passed_levels = [
+            lvl for lvl, m in res.get("level_metrics", {}).items()
+            if evaluate_calibration_gate(m)["gate_passed"]
+        ]
+        gate_str = f"Yes (`{', '.join(gate_passed_levels)}`)" if gate_passed_levels else "No (None)"
+
         lines.append(
-            f"| **{name.replace('_', ' ').title()}** | {rho_str} | {tau_str} | {min_a} | {max_a} | {span} | **{verdict}** |"
+            f"| **{name.replace('_', ' ').title()}** | {rho_str} | {tau_str} | {min_a} | {max_a} | {span} | **{verdict}** | {gate_str} |"
         )
 
     lines.extend([
@@ -121,7 +137,7 @@ def generate_e02b_markdown_report(
         lines.extend([
             f"### Sweep: {name.replace('_', ' ').title()}",
             f"",
-            f"| Level | Trials | Correct | Accuracy | 95% Wilson CI | P(Chose 'A') | SDT $d'$ [95% CI] | SDT $c$ [95% CI] | Mean Conf | Conf Sep | Brier | Prompt Tok | Compliance |",
+            f"| Level | Trials | Correct | Accuracy | 95% Wilson CI | P(Chose 'A') | SDT $d'$ [95% CI] | SDT $c$ [95% CI] | Gate Pass | Mean Conf | Conf Sep | Brier | Prompt Tok |",
             f"| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |",
         ])
         for lvl_str, m in res.get("level_metrics", {}).items():
@@ -152,13 +168,15 @@ def generate_e02b_markdown_report(
             else:
                 sc = "N/A"
 
+            gate_res = evaluate_calibration_gate(m)
+            gate_tag = "PASS" if gate_res["gate_passed"] else "FAIL"
+
             mc = f"{m['mean_confidence']:.1%}" if m.get("mean_confidence") is not None else "N/A"
             cs = f"{m['confidence_separation']:+.1%}" if m.get("confidence_separation") is not None else "N/A"
             br = f"{m['brier_score']:.3f}" if m.get("brier_score") is not None else "N/A"
             tok = f"{m['mean_estimated_tokens']:.0f}"
-            comp = f"{m['schema_compliance_rate']:.1%}"
             lines.append(
-                f"| `{lvl}` | {tot} | {cor} | **{acc}** | {ci} | {pa} | {dp} | {sc} | {mc} | {cs} | {br} | {tok} | {comp} |"
+                f"| `{lvl}` | {tot} | {cor} | **{acc}** | {ci} | {pa} | {dp} | {sc} | **{gate_tag}** | {mc} | {cs} | {br} | {tok} |"
             )
         lines.append("")
 
@@ -178,19 +196,21 @@ def generate_e02b_markdown_report(
             lines.append("")
 
     if reactivity_results:
+        p_exact = reactivity_results.get("exact_mcnemar_p_value", reactivity_results.get("mcnemar_p_value", 1.0))
         lines.extend([
             f"---",
             f"",
-            f"## 3. Elicitation Reactivity Control (Answer-Only vs. Answer+Confidence)",
+            f"## 3. Elicitation Policy Reactivity Analysis",
             f"",
             f"- **Paired Trials Evaluated:** {reactivity_results.get('paired_trials_count')}",
             f"- **Answer-Only Accuracy:** {reactivity_results.get('answer_only_accuracy', 0.0):.1%}",
             f"- **Answer+Confidence Accuracy:** {reactivity_results.get('answer_conf_accuracy', 0.0):.1%}",
             f"- **Delta Accuracy (Confidence - Only):** {reactivity_results.get('delta_accuracy_conf_minus_only', 0.0):+.1%}",
             f"- **Exact Option Concordance Rate:** {reactivity_results.get('exact_answer_concordance_rate', 0.0):.1%}",
-            f"- **McNemar Chi2 Statistic:** {reactivity_results.get('mcnemar_chi2_statistic', 0.0):.3f} (p = {reactivity_results.get('mcnemar_p_value', 1.0):.4f})",
+            f"- **McNemar Chi2 Statistic:** {reactivity_results.get('mcnemar_chi2_statistic', 0.0):.3f} (Asymptotic p = {reactivity_results.get('mcnemar_p_value', 1.0):.4f})",
+            f"- **Exact Binomial McNemar Test:** p = {p_exact:.4f}",
             f"- **Reactivity Verdict:** `{reactivity_results.get('reactivity_status')}`",
-            f"- **Policy Reactivity Note:** Concordance below 85% reflects item-level decision changes even if net accuracy difference is small.",
+            f"- **Policy Reactivity Note:** Exact p < 0.05 or Concordance < 85% demonstrates causal perturbation of the first-order choice policy by confidence elicitation.",
             f"",
         ])
 
@@ -211,6 +231,7 @@ def run_e02b_difficulty_mapping(
     model_name: str = "qwen2.5:3b",
     sweeps: str = "all",
     trials_per_level: int = 16,
+    response_mode: str = "direct_value",
     paired_reactivity: bool = True,
     seed: int = 42,
     temperature: float = 0.0,
@@ -235,34 +256,48 @@ def run_e02b_difficulty_mapping(
 
     print(f"\n{'='*60}")
     print(f"EXPERIMENT E02b: H0-v2 DIFFICULTY-GRID MAPPING PILOT")
-    print(f"Run ID: {run_id} | Model: {model_name} | Trials/Level: {trials_per_level}")
+    print(f"Run ID: {run_id} | Model: {model_name} | Mode: {response_mode} | Trials/Level: {trials_per_level}")
     print(f"{'='*60}\n")
 
     trial_records: List[Dict[str, Any]] = []
     sweep_results: Dict[str, Dict[str, Any]] = {}
     paired_reactivity_records: List[Tuple[Dict[str, Any], Dict[str, Any]]] = []
 
+    # Helper for schema creation
+    def _get_schema(it, ask_conf: bool):
+        if response_mode == "direct_value":
+            oa = it.metadata["option_map"]["A"]
+            ob = it.metadata["option_map"]["B"]
+            return make_2afc_direct_value_schema(oa, ob, ask_confidence=ask_conf)
+        return TARGET_2AFC_CONFIDENCE_SCHEMA if ask_conf else TARGET_2AFC_SCHEMA
+
     # 1. Distractor Load Sweep
     if sweeps in ["all", "distractors", "distractor_load"]:
         print("\n[Sweep 1/3]: Distractor Load Sweep (D in [4, 8, 16, 32, 64, 128, 256])...")
         d_levels = [4, 8, 16, 32, 64, 128, 256]
-        d_task = AdaptiveMetacognition2AFCTask(task_family="distractor_load", ask_confidence=True)
+        d_task = AdaptiveMetacognition2AFCTask(
+            task_family="distractor_load",
+            ask_confidence=True,
+            response_mode=response_mode,
+        )
         d_items = d_task.generate_distractor_sweep(
             levels=d_levels,
             count_per_level=trials_per_level,
             base_seed=seed,
             ask_confidence=True,
+            nested=True,
         )
 
         d_records: List[Dict[str, Any]] = []
         for idx, item in enumerate(d_items):
             messages = [{"role": "user", "content": item.prompt}]
+            schema = _get_schema(item, ask_conf=True)
             t0 = time.perf_counter()
             raw_text, meta = backend.chat(
                 messages=messages,
                 temperature=temperature,
                 seed=seed,
-                format=TARGET_2AFC_CONFIDENCE_SCHEMA,
+                format=schema,
             )
             latency_ms = (time.perf_counter() - t0) * 1000.0
             score = d_task.score_response(item, raw_text)
@@ -287,6 +322,7 @@ def run_e02b_difficulty_mapping(
                 "prompt": item.prompt,
                 "raw_response": raw_text,
                 "ask_confidence": True,
+                "response_mode": response_mode,
                 "is_reactivity_control": False,
             }
             d_records.append(rec)
@@ -296,11 +332,15 @@ def run_e02b_difficulty_mapping(
         sweep_results["distractor_load"] = d_curve
         print(f"  -> Distractor Sweep Accuracy: {d_curve['overall_summary']['overall_accuracy']:.1%} | Readiness: {d_curve['monotonicity_diagnostics']['staircase_readiness']}")
 
-    # 2. Multi-Hop Pointer Depth Sweep
+    # 2. Multi-Hop Pointer Depth Sweep (H = 1..7)
     if sweeps in ["all", "hops", "multi_hop"]:
-        print("\n[Sweep 2/3]: Multi-Hop Pointer Depth Sweep (H in [1, 2, 3, 4, 5])...")
-        h_levels = [1, 2, 3, 4, 5]
-        h_task = AdaptiveMetacognition2AFCTask(task_family="multi_hop", ask_confidence=True)
+        print("\n[Sweep 2/3]: Multi-Hop Pointer Depth Sweep (H in [1, 2, 3, 4, 5, 6, 7], D=16)...")
+        h_levels = [1, 2, 3, 4, 5, 6, 7]
+        h_task = AdaptiveMetacognition2AFCTask(
+            task_family="multi_hop",
+            ask_confidence=True,
+            response_mode=response_mode,
+        )
         h_items = h_task.generate_multi_hop_sweep(
             levels=h_levels,
             count_per_level=trials_per_level,
@@ -312,12 +352,13 @@ def run_e02b_difficulty_mapping(
         h_records: List[Dict[str, Any]] = []
         for idx, item in enumerate(h_items):
             messages = [{"role": "user", "content": item.prompt}]
+            schema = _get_schema(item, ask_conf=True)
             t0 = time.perf_counter()
             raw_text, meta = backend.chat(
                 messages=messages,
                 temperature=temperature,
                 seed=seed,
-                format=TARGET_2AFC_CONFIDENCE_SCHEMA,
+                format=schema,
             )
             latency_ms = (time.perf_counter() - t0) * 1000.0
             score = h_task.score_response(item, raw_text)
@@ -342,6 +383,7 @@ def run_e02b_difficulty_mapping(
                 "prompt": item.prompt,
                 "raw_response": raw_text,
                 "ask_confidence": True,
+                "response_mode": response_mode,
                 "is_reactivity_control": False,
             }
             h_records.append(rec)
@@ -355,7 +397,11 @@ def run_e02b_difficulty_mapping(
     if sweeps in ["all", "overwrites", "overwrite_load"]:
         print("\n[Sweep 3/3]: Overwrite Load Sweep (U in [0, 1, 2, 3, 4])...")
         u_levels = [0, 1, 2, 3, 4]
-        u_task = AdaptiveMetacognition2AFCTask(task_family="overwrite_load", ask_confidence=True)
+        u_task = AdaptiveMetacognition2AFCTask(
+            task_family="overwrite_load",
+            ask_confidence=True,
+            response_mode=response_mode,
+        )
         u_items = u_task.generate_overwrite_sweep(
             levels=u_levels,
             count_per_level=trials_per_level,
@@ -367,12 +413,13 @@ def run_e02b_difficulty_mapping(
         u_records: List[Dict[str, Any]] = []
         for idx, item in enumerate(u_items):
             messages = [{"role": "user", "content": item.prompt}]
+            schema = _get_schema(item, ask_conf=True)
             t0 = time.perf_counter()
             raw_text, meta = backend.chat(
                 messages=messages,
                 temperature=temperature,
                 seed=seed,
-                format=TARGET_2AFC_CONFIDENCE_SCHEMA,
+                format=schema,
             )
             latency_ms = (time.perf_counter() - t0) * 1000.0
             score = u_task.score_response(item, raw_text)
@@ -397,6 +444,7 @@ def run_e02b_difficulty_mapping(
                 "prompt": item.prompt,
                 "raw_response": raw_text,
                 "ask_confidence": True,
+                "response_mode": response_mode,
                 "is_reactivity_control": False,
             }
             u_records.append(rec)
@@ -410,9 +458,15 @@ def run_e02b_difficulty_mapping(
     reactivity_summary = None
     if paired_reactivity:
         print("\nEvaluating Paired Elicitation Reactivity Control (Answer-Only vs Answer+Confidence)...")
-        reactivity_items_conf = d_items[:trials_per_level] if "distractor_load" in sweep_results else []
-        if reactivity_items_conf:
-            react_task_only = AdaptiveMetacognition2AFCTask(task_family="distractor_load", ask_confidence=False)
+        # Run subset from distractor_load if present, otherwise multi_hop
+        base_fam = "distractor_load" if "distractor_load" in sweep_results else ("multi_hop" if "multi_hop" in sweep_results else None)
+        if base_fam == "distractor_load":
+            reactivity_items_conf = d_items[:trials_per_level]
+            react_task_only = AdaptiveMetacognition2AFCTask(
+                task_family="distractor_load",
+                ask_confidence=False,
+                response_mode=response_mode,
+            )
             react_items_only = react_task_only.generate_distractor_sweep(
                 levels=[d_levels[0]],
                 count_per_level=trials_per_level,
@@ -420,26 +474,44 @@ def run_e02b_difficulty_mapping(
                 ask_confidence=False,
                 nested=True,
             )
+            matching_source_records = d_records
+        elif base_fam == "multi_hop":
+            reactivity_items_conf = h_items[:trials_per_level]
+            react_task_only = AdaptiveMetacognition2AFCTask(
+                task_family="multi_hop",
+                ask_confidence=False,
+                response_mode=response_mode,
+            )
+            react_items_only = react_task_only.generate_multi_hop_sweep(
+                levels=[h_levels[0]],
+                count_per_level=trials_per_level,
+                distractor_count=16,
+                base_seed=seed,
+                ask_confidence=False,
+            )
+            matching_source_records = h_records
+        else:
+            reactivity_items_conf = []
+            matching_source_records = []
 
+        if reactivity_items_conf:
             for item_only, item_conf in zip(react_items_only, reactivity_items_conf):
                 messages = [{"role": "user", "content": item_only.prompt}]
+                schema = _get_schema(item_only, ask_conf=False)
                 t0 = time.perf_counter()
                 raw_only, meta_only = backend.chat(
                     messages=messages,
                     temperature=temperature,
                     seed=seed,
-                    format=TARGET_2AFC_SCHEMA,
+                    format=schema,
                 )
                 latency_ms = (time.perf_counter() - t0) * 1000.0
                 score_only = react_task_only.score_response(item_only, raw_only)
                 rec_only = {
                     "run_id": run_id,
-                    "task_family": "distractor_load",
+                    "task_family": base_fam,
                     "item_id": item_only.item_id,
-                    "difficulty_level": item_only.metadata["distractor_count"],
-                    "distractor_count": item_only.metadata["distractor_count"],
-                    "hop_depth": 1,
-                    "overwrite_count": 0,
+                    "difficulty_level": item_only.metadata.get("distractor_count") or item_only.metadata.get("hop_depth"),
                     "ground_truth": item_only.ground_truth,
                     "parsed_answer": score_only["parsed_answer"],
                     "correct": score_only["correct"],
@@ -452,16 +524,18 @@ def run_e02b_difficulty_mapping(
                     "prompt": item_only.prompt,
                     "raw_response": raw_only,
                     "ask_confidence": False,
+                    "response_mode": response_mode,
                     "is_reactivity_control": True,
                 }
                 trial_records.append(rec_only)
 
                 # Find corresponding conf record
-                matching_conf = next(r for r in d_records if r["item_id"] == item_conf.item_id)
+                matching_conf = next(r for r in matching_source_records if r["item_id"] == item_conf.item_id)
                 paired_reactivity_records.append((rec_only, matching_conf))
 
             reactivity_summary = compute_elicitation_reactivity(paired_reactivity_records)
-            print(f"  -> Reactivity Status: {reactivity_summary['reactivity_status']} | Delta Acc: {reactivity_summary['delta_accuracy_conf_minus_only']:+.1%}")
+            p_exact = reactivity_summary.get("exact_mcnemar_p_value", reactivity_summary.get("mcnemar_p_value", 1.0))
+            print(f"  -> Reactivity Status: {reactivity_summary['reactivity_status']} | Delta Acc: {reactivity_summary['delta_accuracy_conf_minus_only']:+.1%} (Exact p = {p_exact:.4f})")
 
     # Output Serialization
     manifest_dict = {
@@ -469,6 +543,7 @@ def run_e02b_difficulty_mapping(
         "target_model": model_name,
         "model_digest": model_digest,
         "start_time": datetime.now(timezone.utc).isoformat(),
+        "response_mode": response_mode,
         "sweeps_evaluated": list(sweep_results.keys()),
         "trials_per_level": trials_per_level,
         "total_trials": len(trial_records),
@@ -526,6 +601,7 @@ def main():
     parser.add_argument("--model", type=str, default="qwen2.5:3b", help="Target model identifier")
     parser.add_argument("--sweeps", type=str, default="all", choices=["all", "distractors", "hops", "overwrites"], help="Sweeps to run")
     parser.add_argument("--trials-per-level", type=int, default=16, help="Fresh trials per difficulty level (default: 16)")
+    parser.add_argument("--response-mode", type=str, default="direct_value", choices=["direct_value", "symbolic_letter"], help="Response format: direct candidate values vs symbolic A/B (default: direct_value)")
     parser.add_argument("--seed", type=int, default=42, help="Random seed (default: 42)")
     parser.add_argument("--temperature", type=float, default=0.0, help="Generation temperature (default: 0.0)")
     parser.add_argument("--toy", action="store_true", help="Run with mock 2AFC backend for fast verification")
@@ -538,12 +614,14 @@ def main():
         model_name=args.model,
         sweeps=args.sweeps,
         trials_per_level=args.trials_per_level,
+        response_mode=args.response_mode,
         paired_reactivity=not args.no_reactivity,
         seed=args.seed,
         temperature=args.temperature,
         dry_run=args.toy,
         output_dir=out_path,
     )
+
 
 
 if __name__ == "__main__":

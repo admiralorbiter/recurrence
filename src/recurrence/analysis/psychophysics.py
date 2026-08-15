@@ -4,6 +4,7 @@ import math
 from collections import defaultdict
 from typing import Any, Dict, List, Optional, Tuple
 import numpy as np
+from scipy.stats import binom
 
 
 def compute_wilson_score_interval(
@@ -514,19 +515,21 @@ def compute_elicitation_reactivity(
     delta_acc = float(acc_conf - acc_only)
     concordance = float(exact_concordance_count / n)
 
-    # McNemar test with continuity correction
+    # McNemar test with continuity correction and exact binomial test
     discordant_total = n10 + n01
     if discordant_total > 0:
         mcnemar_stat = float(((abs(n10 - n01) - 1.0) ** 2) / discordant_total)
-        # Approximate p-value from chi2(1)
-        # p = 2 * (1 - Phi(sqrt(stat)))
         z = math.sqrt(mcnemar_stat)
-        p_val = float(math.erfc(z / math.sqrt(2.0)))
+        p_val_asymptotic = float(math.erfc(z / math.sqrt(2.0)))
+        # Exact two-tailed binomial p-value
+        k = min(n10, n01)
+        p_val_exact = min(1.0, 2.0 * float(binom.cdf(k, discordant_total, 0.5)))
     else:
         mcnemar_stat = 0.0
-        p_val = 1.0
+        p_val_asymptotic = 1.0
+        p_val_exact = 1.0
 
-    if abs(delta_acc) <= 0.05 and p_val > 0.05 and concordance >= 0.85:
+    if abs(delta_acc) <= 0.05 and p_val_exact > 0.05 and concordance >= 0.85:
         status = "negligible_reactivity"
     elif abs(delta_acc) <= 0.12 and concordance >= 0.70:
         status = "moderate_reactivity"
@@ -546,6 +549,57 @@ def compute_elicitation_reactivity(
             "only_conf_correct_n01": n01,
         },
         "mcnemar_chi2_statistic": mcnemar_stat,
-        "mcnemar_p_value": p_val,
+        "mcnemar_p_value": p_val_asymptotic,
+        "exact_mcnemar_p_value": p_val_exact,
         "reactivity_status": status,
     }
+
+
+def compute_exact_mcnemar_p_value(b: int, c: int) -> float:
+    """Compute exact two-tailed binomial p-value for discordant pairs in paired 2x2 data."""
+    n = b + c
+    if n == 0:
+        return 1.0
+    k = min(b, c)
+    return min(1.0, 2.0 * float(binom.cdf(k, n, 0.5)))
+
+
+def evaluate_calibration_gate(
+    level_metrics: Dict[str, Any],
+    target_d_prime_range: Tuple[float, float] = (0.9, 1.4),
+    target_accuracy_range: Tuple[float, float] = (0.60, 0.80),
+    max_absolute_criterion: float = 0.50,
+    min_compliance_rate: float = 0.95,
+) -> Dict[str, Any]:
+    """Evaluate whether a mini-block / difficulty stratum satisfies the multi-criteria calibration gate.
+    
+    Gate Requirements:
+    1. Sensitivity d' in target operating window (default: ~1.0 to 1.3).
+    2. Accuracy in target operating window (default: ~60% to 80%).
+    3. Low response bias: |c| < 0.50 (no category collapse / extreme letter preference).
+    4. Near-perfect schema compliance: >= 95%.
+    """
+    d_prime = level_metrics.get("sdt_d_prime")
+    criterion_c = level_metrics.get("sdt_criterion_c")
+    acc = level_metrics.get("accuracy", 0.0)
+    compliance = level_metrics.get("schema_compliance_rate", 1.0)
+
+    d_prime_pass = bool(d_prime is not None and (target_d_prime_range[0] <= d_prime <= target_d_prime_range[1]))
+    acc_pass = bool(target_accuracy_range[0] <= acc <= target_accuracy_range[1])
+    criterion_pass = bool(criterion_c is not None and (abs(criterion_c) <= max_absolute_criterion))
+    compliance_pass = bool(compliance >= min_compliance_rate)
+
+    gate_passed = bool(d_prime_pass and acc_pass and criterion_pass and compliance_pass)
+
+    return {
+        "gate_passed": gate_passed,
+        "d_prime_pass": d_prime_pass,
+        "accuracy_pass": acc_pass,
+        "criterion_pass": criterion_pass,
+        "compliance_pass": compliance_pass,
+        "observed_d_prime": d_prime,
+        "observed_criterion_c": criterion_c,
+        "observed_accuracy": acc,
+        "observed_compliance": compliance,
+    }
+

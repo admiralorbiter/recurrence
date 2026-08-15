@@ -215,3 +215,36 @@ STATE_DELTA_SCHEMA: Dict[str, Any] = {
 }
 
 
+def make_2afc_direct_value_schema(val_a: str, val_b: str, ask_confidence: bool = True) -> Dict[str, Any]:
+    """Construct dynamic JSON schema restricting answer to exact candidate values."""
+    if not ask_confidence:
+        return {
+            "type": "object",
+            "properties": {
+                "answer": {
+                    "type": "string",
+                    "enum": [val_a, val_b],
+                },
+            },
+            "required": ["answer"],
+            "additionalProperties": False,
+        }
+    return {
+        "type": "object",
+        "properties": {
+            "answer": {
+                "type": "string",
+                "enum": [val_a, val_b],
+            },
+            "probability": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 100,
+            },
+        },
+        "required": ["answer", "probability"],
+        "additionalProperties": False,
+    }
+
+
+
