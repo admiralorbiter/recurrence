@@ -296,3 +296,42 @@ def test_loop_level_recency_integration_eviction():
     # B must be evicted because it was least-recently updated!
     assert "key_B" not in final_wm
 
+
+def test_phantom_split_and_offline_closeout_derivation():
+    """Verify offline phantom splitting distinguishes never-seen from stale/evicted keys."""
+    from recurrence.analysis.drift_metrics import evaluate_tick_state
+    from experiments.e04_update_loop.recompute_e04_closeout import recompute_e04_closeout
+    from pathlib import Path
+
+    # Case 1: evaluated state has key_X (seen earlier in stream) and key_Y (never seen in stream)
+    # Oracle state only has key_Z
+    ora_st = StructuredSelfState(working_memory={"key_Z": "val_Z"})
+    eval_st = StructuredSelfState(working_memory={"key_X": "val_X", "key_Y": "val_Y"})
+    seen_keys = {"key_X", "key_Z"}  # key_X was seen in stream, key_Y was never seen
+
+    metric = evaluate_tick_state(
+        tick=1,
+        evaluated_state=eval_st,
+        oracle_state=ora_st,
+        schema_valid=True,
+        seen_keys_so_far=seen_keys,
+    )
+
+    assert metric.never_seen_keys_count == 1
+    assert metric.never_seen_keys_list == ["key_Y"]
+    assert metric.stale_evicted_keys_count == 1
+    assert metric.stale_evicted_keys_list == ["key_X"]
+    assert metric.phantom_keys_count == 2
+    assert "Phantom Intrusion" in metric.failure_categories
+    assert "Stale Key Retention" in metric.failure_categories
+
+    # Case 2: verify recompute_e04_closeout runs cleanly on existing canonical run directory
+    canonical_dir = Path("results/e04_update_loop/run_e04_loop_20260815_180935")
+    if canonical_dir.exists():
+        derived = recompute_e04_closeout(canonical_dir)
+        assert "derived_condition_summaries" in derived
+        delta_sum = derived["derived_condition_summaries"]["model_delta"]
+        assert delta_sum["unique_never_seen_keys_count"] == 45
+        assert delta_sum["active_inferences_count"] == 69
+
+

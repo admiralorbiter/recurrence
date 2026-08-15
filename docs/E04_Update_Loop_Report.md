@@ -1,6 +1,6 @@
-# Experiment E04 Research Report: Scaffolded Autonomous Update Loop Benchmark (S05.2 Closeout)
+# Experiment E04 Research Report: Scaffolded Autonomous Update Loop Benchmark (S05.3 Closeout)
 
-**Sprint:** S05.2 (Horizon 1: Scaffolded Persistence Closeout)  
+**Sprint:** S05.3 (Horizon 1: Scaffolded Persistence Closeout & Provenance Freeze)  
 **Experiment ID:** `E04_Autonomous_Update_Loop_Benchmark`  
 **Run ID:** `run_e04_loop_20260815_180935`  
 **Model:** `qwen2.5:3b` (`357c53fb659c...`)  
@@ -57,10 +57,10 @@ The Level-1 explicit persistence architecture is fully functional, auditable, an
 - Operates deterministically across active and quiet ticks.
 - Enforces strict capacity bounding ($K_{\max}=16$, LRU eviction).
 - Enforces goal lifecycle transition invariants and hash-chained audit logging (`state_trace.jsonl`).
-- Passes all 65 unit and regression tests in `tests/`.
+- Passes all 66 unit and regression tests in `tests/`.
 
 ### 2. S05 Model-Autonomous Maintenance Gate: **FAIL**
-`qwen2.5:3b` is not yet reliable as an unassisted semantic state maintainer ($13.2\%$ macro retention, $80.6\%$ omission, $42.8\%$ goal coherence). Small models cannot reliably parse and maintain multi-slot state without dedicated fine-tuning or deterministic parsing constraints.
+Under this benchmark and update protocol, Qwen2.5-3B could not reliably maintain multi-slot state without deterministic transition scaffolding ($13.2\%$ macro retention, $80.6\%$ omission, $42.8\%$ goal coherence).
 
 ### 3. Roadmap Fallback Formally Activated
 As designed in the Horizon 1 roadmap (*"Use deterministic state-transition constraints or smaller state until the system is stable"*):
@@ -73,5 +73,7 @@ As designed in the Horizon 1 roadmap (*"Use deterministic state-transition const
 
 - **S05.1 Code Freeze Commit:** `9cf2c3c`
 - **S05.1 Canonical Results Commit:** `d2d816b`
-- **S05.2 Closeout Documentation Commit:** (Current)
+- **S05.2 Closeout Refinement Commit:** `e4335dc`
+- **S05.3 Machine-Readable Derivation Freeze Commit:** (Current)
 - **Canonical Artifacts Directory:** [`results/e04_update_loop/run_e04_loop_20260815_180935/`](file:///c:/Users/admir/Github/recurrence/results/e04_update_loop/run_e04_loop_20260815_180935/)
+- **Machine-Readable Derived Summary:** [`results/e04_update_loop/run_e04_loop_20260815_180935/derived_summary.json`](file:///c:/Users/admir/Github/recurrence/results/e04_update_loop/run_e04_loop_20260815_180935/derived_summary.json)
