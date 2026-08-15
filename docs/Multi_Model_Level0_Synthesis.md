@@ -1,66 +1,88 @@
-# Horizon 0 (Level 0) Multi-Model Comparative Panel Synthesis
+# Horizon 0 ($H_0$) Multi-Model Comparative Panel Synthesis
 
-## 1. Executive Overview
+## 1. Executive Summary & Core Diagnostic Insight
 
-To test whether the Level-0 baseline findings from `Qwen2.5:3B` ($\text{PAI} = -0.161$, Self $\text{AUROC2} \approx 0.52$) were an artifact of a single model architecture or a general property of autoregressive generative models lacking recurrent state access, we executed the frozen Level-0 Privileged Access Benchmark (`E02_Observer_Hardened`) across a **6-model comparative panel**:
+To test whether the Level-0 reference baseline findings on `Qwen2.5:3B` ($\text{PAI} = -0.161$, Self $\text{AUROC2} \approx 0.52$) were specific to that checkpoint or represent a general property of autoregressive models lacking recurrent state access, we executed the frozen Level-0 Privileged Access Benchmark (`E02_Observer_Hardened`) across a **6-model comparative panel**:
+- **Scale Axis (Qwen 2.5):** `1.5B`, `3B` (Reference Baseline), `7B`, `14B`
+- **Model-Family / Post-Training Axis (Matched Scales):** `Llama-3.2:3B`, `Mistral:7B`
 
-1. **Scale Axis (Qwen 2.5 Family):** `Qwen2.5:1.5B`, `Qwen2.5:3B`, `Qwen2.5:7B`, `Qwen2.5:14B`
-2. **Cross-Family Architecture Axis (Matched Scales):** `Llama-3.2:3B`, `Mistral:7B`
+### The Primary Scientific Finding: Benchmark-Regime Saturation
+The most important result of this multi-model exploration is **methodological rather than metric-scaling**: the fixed-difficulty 40-item Forced-Choice KV task ceases to function as a common psychophysical instrument across model families and scales:
+* `Qwen 1.5B` and `7B` operate at **$30.0\%$** first-order accuracy.
+* `Qwen 3B` operates at **$57.5\%$** first-order accuracy.
+* `Qwen 14B`, `Llama 3.2 3B`, and `Mistral 7B` immediately saturate the task at **$100.0\%$** accuracy ($0$ error trials).
 
-Every evaluation was conducted under the identical, strictly counterbalanced 40-item 4-way forced-choice Key-Value retrieval protocol (20 Semantic, 20 Opaque) with schema-constrained JSON outputs.
-
----
-
-## 2. Multi-Model Results Summary Table
-
-| Model | Family | Scale | 1st-Order Accuracy (Sem / Opq / All) | Self $\text{AUROC2}$ | Visible Answer $\text{AUROC2}$ | Visible Transcript $\text{AUROC2}$ | Observer Other Review $\text{AUROC2}$ | Joint PAI (95% CI) | Framing $\Delta$ (Self - Other Review) | Compliance Gate ($\ge 90\%$) |
-| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **Qwen 2.5** | Qwen | 1.5B | 25.0% / 35.0% / **30.0%** | **0.527** | 0.518 | 0.555 | **0.680** | **+0.032** `[-0.187, +0.158]` | **-0.149** | FAILED (72.5%) |
-| **Qwen 2.5** (Ref) | Qwen | 3B | 65.0% / 50.0% / **57.5%** | **0.517** | **0.678** | 0.574 | 0.609 | **-0.161** `[-0.428, +0.055]` | **-0.068** | **PASSED** (100.0%) |
-| **Qwen 2.5** | Qwen | 7B | 25.0% / 35.0% / **30.0%** | **0.522** | 0.537 | **0.667** | **0.673** | **+0.006** `[-0.300, +0.218]` | **-0.229** | FAILED (67.5%) |
-| **Qwen 2.5** | Qwen | 14B | 100% / 100% / **100.0%** | *0.500\** | *0.500\** | *0.500\** | *0.500\** | **+0.000** `[0.000, 0.000]` | +0.000 | **PASSED** (100.0%) |
-| **Llama 3.2** | Llama | 3B | 100% / 100% / **100.0%** | *0.500\** | *0.500\** | *0.500\** | *0.500\** | **+0.000** `[0.000, 0.000]` | +0.000 | **PASSED** (95.0%) |
-| **Mistral** | Mistral | 7B | 100% / 100% / **100.0%** | *0.500\** | *0.500\** | *0.500\** | *0.500\** | **+0.000** `[0.000, 0.000]` | +0.000 | **PASSED** (92.5%) |
-
-*\* Note: In Signal Detection Theory (Fleming & Lau 2014), when first-order accuracy reaches 100.0% ceiling ($N_{\text{incorrect}} = 0$), Type-2 AUROC2 is mathematically degenerate (defaulted to 0.500).*
+In human psychophysics and Signal Detection Theory ([Fleming & Lau 2014](https://doi.org/10.3389/fnhum.2014.00443)), Type-2 metacognitive sensitivity ($\text{AUROC2}$) depends on first-order performance and is mathematically non-identifiable when error trials are absent ($N_{\text{error}} = 0$). Comparing uncalibrated models across non-overlapping accuracy regimes conflates first-order capacity with metacognitive access. A true comparative psychophysical evaluation requires performance-staircased item banks (e.g. targeting $60\% - 75\%$ accuracy per model).
 
 ---
 
-## 3. Core Empirical Findings
+## 2. Canonical Comparative Panel Table
 
-### Finding 1: Invariant Near-Chance Self-Discrimination Across the Scale Axis
-Across all models operating in the non-ceiling performance regime (Qwen 1.5B, 3B, 7B), **immediate explicit self-confidence fails to discriminate correct from incorrect responses**:
-* `Qwen 1.5B`: $\text{AUROC2}_{\text{Self}} = 0.527$
-* `Qwen 3B`: $\text{AUROC2}_{\text{Self}} = 0.517$
-* `Qwen 7B`: $\text{AUROC2}_{\text{Self}} = 0.522$
+*Generated directly from underlying run summaries and trial logs (`results/e02_observer/`):*
 
-Despite varying first-order task performance ($30.0\%$ to $57.5\%$), the model's explicit self-confidence channel remains consistently uncoupled from answer veracity at the single-turn generation point.
-
-### Finding 2: External & Other-Framed Observers Consistently Outperform Self-Introspection
-In every non-ceiling model, external observation or third-person reframing achieves metacognitive discrimination substantially superior to immediate self-assessment:
-* On `Qwen 1.5B`: Observer Evaluating "Other" achieves $\text{AUROC2} = 0.680$ ($\Delta = +0.153$ over Self).
-* On `Qwen 3B`: Observer on Visible Answer achieves $\text{AUROC2} = 0.678$ ($\Delta = +0.161$ over Self).
-* On `Qwen 7B`: Observer Evaluating "Other" achieves $\text{AUROC2} = 0.673$ ($\Delta = +0.151$ over Self), and Visible Transcript achieves $\text{AUROC2} = 0.667$.
-
-### Finding 3: The Metacognitive Framing Effect ($\text{Self}$ vs $\text{Other}$)
-A striking finding across all three sub-ceiling Qwen models is the **negative framing delta** ($\text{AUROC2}_{\text{Self Review}} - \text{AUROC2}_{\text{Other Review}}$):
-* `1.5B`: $\Delta = -0.149$
-* `3B`: $\Delta = -0.068$
-* `7B`: $\Delta = -0.229$
-
-When an identical model with identical context evaluates the exact same answer transcript, framing the answer as *generated by another agent* yields markedly better discrimination than framing it as *self-generated*. This mirrors psychological findings on cognitive dissonance and confirmation bias in human self-evaluation.
-
-### Finding 4: The 100% First-Order Accuracy Ceiling Regime
-Higher-capacity checkpoints (`Qwen 14B`, `Llama 3.2 3B`, `Mistral 7B`) demonstrated perfect $100\%$ retrieval on the 40-item KV task. While this renders Type-2 AUROC2 degenerate ($N_{\text{error}} = 0$), inspecting the confidence distributions reveals significant behavioral dynamics:
-* On `Llama 3.2 3B`:
-  * Immediate self-confidence was $1.00$ ($\text{Brier} = 0.000$).
-  * When prompted for **Equal-Compute Self-Review**, mean confidence collapsed to $0.388$ ($\text{Brier} = 0.606$, Accuracy $40\%$), showing severe self-doubt degradation under recurrent review.
-  * When prompted for **Equal-Compute Other-Review**, mean confidence remained high at $0.812$ ($\text{Brier} = 0.169$, Accuracy $85\%$).
+| Model Checkpoint | Model Family | Scale | 1st-Order Accuracy | Self AUROC2 | Vis-Ans AUROC2 | Vis-Full AUROC2 | Other Review AUROC2 | Joint PAI (95% CI) | Framing $\Delta$ (Self $-$ Other) | Measurement Status |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
+| **`Qwen2.5:1.5B`** | Qwen 2.5 | 1.5B | **30.0%** | **0.527** | 0.518 | 0.555 | **0.680** | +0.032 `[-0.187, +0.158]` | **-0.149** `[-0.315, +0.039]` | Diagnostic Only (72.5% min comp) |
+| **`Qwen2.5:3B`** | Qwen 2.5 | 3B | **57.5%** | **0.517** | **0.678** | 0.574 | **0.496** | **-0.161** `[-0.428, +0.055]` | **-0.068** `[-0.318, +0.198]` | **PASSED** (Confirmatory Reference) |
+| **`Qwen2.5:7B`** | Qwen 2.5 | 7B | **30.0%** | **0.522** | 0.537 | **0.667** | **0.673** | +0.006 `[-0.300, +0.218]` | **-0.229** `[-0.518, +0.080]` | Diagnostic Only (67.5% min comp) |
+| **`Qwen2.5:14B`** | Qwen 2.5 | 14B | **100.0%** | N/A (no errors) | N/A (no errors) | N/A (no errors) | N/A (no errors) | N/A (no errors) | N/A (no errors) | **PASSED** (Ceiling: Type-2 N/A) |
+| **`Llama3.2:3B`** | Llama 3.2 | 3B | **100.0%** | N/A (no errors) | N/A (no errors) | N/A (no errors) | N/A (no errors) | N/A (no errors) | N/A (no errors) | **PASSED** (Ceiling: Type-2 N/A) |
+| **`Mistral:7B`** | Mistral | 7B | **100.0%** | N/A (no errors) | N/A (no errors) | N/A (no errors) | N/A (no errors) | N/A (no errors) | N/A (no errors) | **PASSED** (Ceiling: Type-2 N/A) |
 
 ---
 
-## 4. Synthesis & Scientific Implications for Horizon 1
+## 3. Detailed Empirical Analysis
 
-1. **Privileged Access is Genuinely Absent at Level 0**: Across scales (1.5B–7B) and condition permutations, no model exhibited positive privileged self-access ($\text{PAI} > 0$). Standard feedforward autoregression produces token generation without an internal introspective confidence monitor.
-2. **Generative Commitment Bias is Ubiquitous**: The consistent advantage of "Other" framing over "Self" framing ($\Delta \text{AUROC2} < 0$) suggests that self-evaluation prompts induce anchoring/commitment to previously emitted tokens, whereas observer prompts permit objective evaluation.
-3. **Transition to Horizon 1 (Level 1 Explicit State Recurrence)**: Level 0 establishes the definitive baseline across model families. Advancing to Level 1 (Explicit Memory State Recurrence) will test whether providing models with recurrent state buffers allows them to bridge this metacognitive gap and develop true privileged access.
+### A. Sub-Ceiling Regime (Qwen 1.5B, 3B, 7B)
+
+1. **Near-Chance Self-Introspection ($\text{AUROC2} \approx 0.52$)**:
+   - Across the three sub-ceiling checkpoints, single-turn explicit self-confidence remained clustered near the chance line ($0.517 - 0.527$).
+   - This provides hypothesis-generating replication evidence that explicit confidence in standard feedforward generation does not naturally discriminate correct from incorrect responses.
+   - *Governance Caveat:* `1.5B` and `7B` failed the $\ge 90\%$ compliance hard gate on the 4-way reconstruction condition ($72.5\%$ and $67.5\%$ compliance respectively). Consequently, their full PAI statistics are diagnostic/exploratory and cannot be used as confirmatory baselines.
+
+2. **Heterogeneous External Comparator Superiority**:
+   - Rather than a uniform observer advantage, the identity of the strongest external/second-pass comparator varied across checkpoints:
+     - On `Qwen 3B`: **Visible Answer-Only** achieved the strongest discrimination ($\text{AUROC2} = 0.678$).
+     - On `Qwen 1.5B`: **Other-Review** achieved the strongest discrimination ($\text{AUROC2} = 0.680$), while Visible Answer was near chance ($0.518$).
+     - On `Qwen 7B`: **Other-Review** ($0.673$) and **Visible Full-Transcript** ($0.667$) showed the highest point discrimination.
+
+3. **Directionally Consistent Review Framing ($\text{Self}$ vs $\text{Other}$)**:
+   - All three sub-ceiling Qwen models exhibited a negative framing delta ($\text{AUROC2}_{\text{Self Review}} - \text{AUROC2}_{\text{Other Review}}$):
+     - `1.5B`: $\Delta = -0.149$, $95\%\text{ CI } [-0.315, +0.039]$
+     - `3B`: $\Delta = -0.068$, $95\%\text{ CI } [-0.318, +0.198]$
+     - `7B`: $\Delta = -0.229$, $95\%\text{ CI } [-0.518, +0.080]$
+   - While all three confidence intervals cross zero (preventing a definitive statistical claim), the consistent negative direction suggests an intriguing hypothesis: evaluating an answer attributed to another agent may bypass generative commitment/anchoring biases that impair self-review.
+
+---
+
+### B. Ceiling Regime Dynamics (`Llama-3.2:3B`, `Mistral:7B`, `Qwen:14B`)
+
+When models achieve $100\%$ accuracy, Type-2 discrimination is non-identifiable ($0$ negative cases). However, analyzing continuous Brier scores and mean confidence across review framings exposes dramatic behavioral shifts:
+
+* **`Llama-3.2:3B` Review Confidence Collapse**:
+  - Immediate generation confidence: Mean = $1.000$, $\text{Brier} = 0.000$ (all 40 correct).
+  - Prompted for **Self-Review** (second invocation): Mean confidence dropped sharply to $0.388$ ($\text{Brier} = 0.606$, Forecast Classification Accuracy = $40.0\%$). The model exhibited pronounced self-doubt on its own correct answers.
+  - Prompted for **Other-Review** (evaluating the exact same correct answer as another agent's): Mean confidence remained robust at $0.812$ ($\text{Brier} = 0.169$, Forecast Classification Accuracy = $85.0\%$).
+* **`Mistral:7B` & `Qwen:14B` High Confidence Stability**:
+  - Both models maintained near-unity confidence across immediate ($1.000$) and review conditions ($0.950 - 0.986$).
+
+---
+
+## 4. Requirements for a Psychophysically Matched Comparative $H_0$ v2
+
+The exploratory panel proves that a static 40-item prompt set is insufficient for comparative metacognitive benchmarking across architectures. Future comparative work must follow psychophysical standards:
+
+1. **Performance-Matched Item Bank**:
+   - Construct a difficulty-graded corpus (e.g. 200+ items spanning varying context lengths, distraction keys, and semantic interference).
+   - Staircase or calibrate item subsets per model to establish matched first-order baseline accuracy ($60\% - 75\%$), ensuring sufficient positive and negative trials for reliable Type-2 estimation.
+2. **Formal 2AFC Metacognitive Modeling**:
+   - Implement true Maniscalco & Lau $\text{meta-}d'$ and $\text{M-ratio}$ under a standardized 2-alternative forced choice (2AFC) battery where the underlying Gaussian equal-variance assumptions and standard metacognitive packages are validated.
+3. **Dedicated Review Framing Study**:
+   - Design high-powered experiments specifically testing the Self vs Other review contrast across diverse tasks to isolate whether commitment bias is a genuine generative mechanism in LLMs.
+
+---
+
+## 5. Summary Status
+
+* `Qwen2.5:3B` (`run_e02_obs_005`) remains the **promoted, measurement-valid Level-0 Reference Baseline** ($\text{PAI} = -0.161$, $95\%\text{ CI } [-0.428, +0.055]$).
+* The 5 exploratory runs are preserved in `results/e02_observer/` as valuable diagnostic data defining the need for performance-matched psychophysical instruments in Horizon 0 v2.

@@ -46,7 +46,8 @@ def compute_direct_pairwise_contrast(
 ) -> Dict[str, Any]:
     """Compute direct pairwise contrast between any two evaluators on their exact shared item intersection.
     
-    Uses stratified paired bootstrap to eliminate single-class resampling artifacts.
+    Uses stratified paired bootstrap. When labels contain only a single class (all correct or all incorrect),
+    Type-2 AUROC2 is mathematically non-identifiable and returns None.
     """
     rng = np.random.RandomState(seed)
 
@@ -61,6 +62,7 @@ def compute_direct_pairwise_contrast(
             "name_b": name_b,
             "shared_items_count": 0,
             "error": f"No shared valid items between {name_a} and {name_b}",
+            "status": "no_shared_items",
         }
 
     probs_a = [float(map_a[k][0]) for k in shared_keys]
@@ -70,16 +72,41 @@ def compute_direct_pairwise_contrast(
     disc_a = compute_post_decision_discrimination_from_pairs(list(zip(probs_a, labels)))
     disc_b = compute_post_decision_discrimination_from_pairs(list(zip(probs_b, labels)))
 
-    auc_a = disc_a["auroc2"] if disc_a["auroc2"] is not None else 0.5
-    auc_b = disc_b["auroc2"] if disc_b["auroc2"] is not None else 0.5
-    delta_auc = float(auc_a - auc_b)
+    auc_a = disc_a["auroc2"]
+    auc_b = disc_b["auroc2"]
 
     brier_a = compute_continuous_brier_score(list(zip(probs_a, labels)))
     brier_b = compute_continuous_brier_score(list(zip(probs_b, labels)))
     delta_brier = float(brier_a - brier_b) if brier_a is not None and brier_b is not None else None
 
+    # Forecast classification accuracy (thresholded at p >= 0.5)
     acc_a = float(np.mean([(p >= 0.5) == y for p, y in zip(probs_a, labels)]))
     acc_b = float(np.mean([(p >= 0.5) == y for p, y in zip(probs_b, labels)]))
+
+    if auc_a is None or auc_b is None:
+        return {
+            "name_a": name_a,
+            "name_b": name_b,
+            "shared_items_count": n_shared,
+            "auroc2_a": auc_a,
+            "auroc2_b": auc_b,
+            "delta_auroc2": None,
+            "ci_95_lower": None,
+            "ci_95_upper": None,
+            "sesoi_margin": sesoi,
+            "brier_score_a": brier_a,
+            "brier_score_b": brier_b,
+            "delta_brier_score": delta_brier,
+            "forecast_classification_accuracy_a": acc_a,
+            "forecast_classification_accuracy_b": acc_b,
+            "binary_accuracy_a": acc_a,
+            "binary_accuracy_b": acc_b,
+            "discrimination_a": disc_a,
+            "discrimination_b": disc_b,
+            "status": "undefined_single_class",
+        }
+
+    delta_auc = float(auc_a - auc_b)
 
     # Stratified paired bootstrap for AUROC difference
     boot_deltas: List[float] = []
@@ -92,12 +119,14 @@ def compute_direct_pairwise_contrast(
         b_auc_a = compute_auroc2(b_p_a, b_lbls)
         b_auc_b = compute_auroc2(b_p_b, b_lbls)
 
-        val_a = b_auc_a if b_auc_a is not None else 0.5
-        val_b = b_auc_b if b_auc_b is not None else 0.5
-        boot_deltas.append(val_a - val_b)
+        if b_auc_a is not None and b_auc_b is not None:
+            boot_deltas.append(b_auc_a - b_auc_b)
 
-    ci_lower = float(np.percentile(boot_deltas, 2.5))
-    ci_upper = float(np.percentile(boot_deltas, 97.5))
+    if boot_deltas:
+        ci_lower = float(np.percentile(boot_deltas, 2.5))
+        ci_upper = float(np.percentile(boot_deltas, 97.5))
+    else:
+        ci_lower, ci_upper = None, None
 
     return {
         "name_a": name_a,
@@ -112,10 +141,13 @@ def compute_direct_pairwise_contrast(
         "brier_score_a": brier_a,
         "brier_score_b": brier_b,
         "delta_brier_score": delta_brier,
+        "forecast_classification_accuracy_a": acc_a,
+        "forecast_classification_accuracy_b": acc_b,
         "binary_accuracy_a": acc_a,
         "binary_accuracy_b": acc_b,
         "discrimination_a": disc_a,
         "discrimination_b": disc_b,
+        "status": "valid",
     }
 
 
@@ -127,7 +159,7 @@ def compute_item_paired_contrasts(
     seed: int = 42,
 ) -> Dict[str, Any]:
     """Compute strict item-paired discrimination contrasts on exact pairwise intersection subsets
-    using stratified paired bootstrap.
+    using stratified paired bootstrap. Returns None for AUROC2/PAI if single-class (e.g. 100% accuracy).
     """
     rng = np.random.RandomState(seed)
     contrasts: Dict[str, Any] = {}
@@ -143,6 +175,7 @@ def compute_item_paired_contrasts(
             contrasts[obs_name] = {
                 "shared_items_count": 0,
                 "error": "No shared valid items between self and observer",
+                "status": "no_shared_items",
             }
             continue
 
@@ -153,16 +186,38 @@ def compute_item_paired_contrasts(
         self_disc = compute_post_decision_discrimination_from_pairs(list(zip(self_probs, labels)))
         obs_disc = compute_post_decision_discrimination_from_pairs(list(zip(obs_probs, labels)))
 
-        self_auroc = self_disc["auroc2"] if self_disc["auroc2"] is not None else 0.5
-        obs_auroc = obs_disc["auroc2"] if obs_disc["auroc2"] is not None else 0.5
-        delta_auroc = float(self_auroc - obs_auroc)
+        self_auroc = self_disc["auroc2"]
+        obs_auroc = obs_disc["auroc2"]
 
         # Continuous Brier Scores
         self_brier = compute_continuous_brier_score(list(zip(self_probs, labels)))
         obs_brier = compute_continuous_brier_score(list(zip(obs_probs, labels)))
 
-        # Binary forecast accuracy (p >= 0.5)
+        # Forecast classification accuracy (thresholded at p >= 0.5)
         obs_pred_acc = float(np.mean([(p >= 0.5) == y for p, y in zip(obs_probs, labels)]))
+
+        if self_auroc is None or obs_auroc is None:
+            contrasts[obs_name] = {
+                "shared_items_count": n_shared,
+                "self_auroc2": self_auroc,
+                "observer_auroc2": obs_auroc,
+                "delta_auroc2_self_minus_obs": None,
+                "ci_95_lower": None,
+                "ci_95_upper": None,
+                "sesoi_margin": sesoi,
+                "equivalent_within_sesoi": None,
+                "no_positive_advantage_detected": None,
+                "self_brier_score": self_brier,
+                "observer_brier_score": obs_brier,
+                "forecast_classification_accuracy": obs_pred_acc,
+                "observer_binary_accuracy": obs_pred_acc,
+                "self_discrimination": self_disc,
+                "observer_discrimination": obs_disc,
+                "status": "undefined_single_class",
+            }
+            continue
+
+        delta_auroc = float(self_auroc - obs_auroc)
 
         # Stratified Paired Bootstrap CI over intersection subset
         boot_deltas: List[float] = []
@@ -175,16 +230,18 @@ def compute_item_paired_contrasts(
             b_self_auc = compute_auroc2(b_self_p, b_labels)
             b_obs_auc = compute_auroc2(b_obs_p, b_labels)
 
-            b_self_val = b_self_auc if b_self_auc is not None else 0.5
-            b_obs_val = b_obs_auc if b_obs_auc is not None else 0.5
-            boot_deltas.append(b_self_val - b_obs_val)
+            if b_self_auc is not None and b_obs_auc is not None:
+                boot_deltas.append(b_self_auc - b_obs_auc)
 
-        ci_lower = float(np.percentile(boot_deltas, 2.5))
-        ci_upper = float(np.percentile(boot_deltas, 97.5))
-
-        # Equivalence evaluation relative to SESOI
-        equivalent_within_sesoi = bool(ci_lower >= -sesoi and ci_upper <= sesoi)
-        no_positive_advantage = bool(ci_upper <= sesoi)
+        if boot_deltas:
+            ci_lower = float(np.percentile(boot_deltas, 2.5))
+            ci_upper = float(np.percentile(boot_deltas, 97.5))
+            equivalent_within_sesoi = bool(ci_lower >= -sesoi and ci_upper <= sesoi)
+            no_positive_advantage = bool(ci_upper <= sesoi)
+        else:
+            ci_lower, ci_upper = None, None
+            equivalent_within_sesoi = None
+            no_positive_advantage = None
 
         contrasts[obs_name] = {
             "shared_items_count": n_shared,
@@ -198,9 +255,11 @@ def compute_item_paired_contrasts(
             "no_positive_advantage_detected": no_positive_advantage,
             "self_brier_score": self_brier,
             "observer_brier_score": obs_brier,
+            "forecast_classification_accuracy": obs_pred_acc,
             "observer_binary_accuracy": obs_pred_acc,
             "self_discrimination": self_disc,
             "observer_discrimination": obs_disc,
+            "status": "valid",
         }
 
     # Compute Joint Intersection PAI (across Visible-Answer-Only, Reconstruction, and Input-Only)
@@ -221,127 +280,67 @@ def compute_item_paired_contrasts(
         n_joint = len(joint_keys)
         j_self_p = [float(self_item_map[k][0]) for k in joint_keys]
         j_labels = [bool(self_item_map[k][1]) for k in joint_keys]
-        j_self_auc = compute_auroc2(j_self_p, j_labels) or 0.5
+        j_self_auc = compute_auroc2(j_self_p, j_labels)
 
         j_obs_aucs = []
         for b in benchmark_names:
             b_p = [float(observer_item_maps[b][k][0]) for k in joint_keys]
-            b_auc = compute_auroc2(b_p, j_labels) or 0.5
+            b_auc = compute_auroc2(b_p, j_labels)
             j_obs_aucs.append(b_auc)
 
-        max_bench_auc = max(j_obs_aucs) if j_obs_aucs else 0.5
-        point_pai = float(j_self_auc - max_bench_auc)
+        if j_self_auc is None or any(a is None for a in j_obs_aucs):
+            joint_pai_summary = {
+                "joint_shared_items_count": n_joint,
+                "point_pai": None,
+                "self_auroc2": None,
+                "max_benchmark_observer_auroc2": None,
+                "ci_95_lower": None,
+                "ci_95_upper": None,
+                "sesoi_margin": sesoi,
+                "status": "undefined_single_class",
+            }
+        else:
+            max_bench_auc = max(j_obs_aucs)
+            point_pai = float(j_self_auc - max_bench_auc)
 
-        # Stratified Joint Bootstrap
-        joint_boot_pais: List[float] = []
-        for _ in range(n_bootstraps):
-            boot_idx = _stratified_paired_bootstrap_indices(j_labels, rng)
-            b_self_p = [j_self_p[i] for i in boot_idx]
-            b_labels = [j_labels[i] for i in boot_idx]
-            b_self_auc = compute_auroc2(b_self_p, b_labels) or 0.5
+            # Stratified Joint Bootstrap
+            joint_boot_pais: List[float] = []
+            for _ in range(n_bootstraps):
+                boot_idx = _stratified_paired_bootstrap_indices(j_labels, rng)
+                b_self_p = [j_self_p[i] for i in boot_idx]
+                b_labels = [j_labels[i] for i in boot_idx]
+                b_self_auc = compute_auroc2(b_self_p, b_labels)
 
-            b_obs_aucs = []
-            for b in benchmark_names:
-                b_p = [float(observer_item_maps[b][joint_keys[i]][0]) for i in boot_idx]
-                b_auc = compute_auroc2(b_p, b_labels) or 0.5
-                b_obs_aucs.append(b_auc)
+                b_obs_aucs = []
+                for b in benchmark_names:
+                    b_p = [float(observer_item_maps[b][joint_keys[i]][0]) for i in boot_idx]
+                    b_auc = compute_auroc2(b_p, b_labels)
+                    b_obs_aucs.append(b_auc)
 
-            b_max = max(b_obs_aucs) if b_obs_aucs else 0.5
-            joint_boot_pais.append(b_self_auc - b_max)
+                if b_self_auc is not None and all(a is not None for a in b_obs_aucs):
+                    b_max = max(b_obs_aucs)
+                    joint_boot_pais.append(b_self_auc - b_max)
 
-        joint_pai_summary = {
-            "joint_shared_items_count": n_joint,
-            "point_pai": point_pai,
-            "self_auroc2": j_self_auc,
-            "max_benchmark_observer_auroc2": max_bench_auc,
-            "ci_95_lower": float(np.percentile(joint_boot_pais, 2.5)),
-            "ci_95_upper": float(np.percentile(joint_boot_pais, 97.5)),
-            "sesoi_margin": sesoi,
-        }
+            if joint_boot_pais:
+                ci_l = float(np.percentile(joint_boot_pais, 2.5))
+                ci_u = float(np.percentile(joint_boot_pais, 97.5))
+            else:
+                ci_l, ci_u = None, None
+
+            joint_pai_summary = {
+                "joint_shared_items_count": n_joint,
+                "point_pai": point_pai,
+                "self_auroc2": j_self_auc,
+                "max_benchmark_observer_auroc2": max_bench_auc,
+                "ci_95_lower": ci_l,
+                "ci_95_upper": ci_u,
+                "sesoi_margin": sesoi,
+                "status": "valid",
+            }
 
     return {
         "contrasts": contrasts,
         "joint_pai_summary": joint_pai_summary,
-    }
-
-
-def compute_sdt_metacognition(
-    predictions: List[Tuple[Optional[float], bool]],
-    n_alternatives: int = 4,
-) -> Dict[str, Any]:
-    """Compute Signal Detection Theory (SDT) metacognitive metrics including first-order d',
-    Type-2 d'_2, AUROC2, empirical meta-d', and M-ratio (metacognitive efficiency).
-    
-    predictions: List of (confidence_float in [0.0, 1.0], is_correct_bool)
-    n_alternatives: Number of forced choice options (e.g. 4 for 4AFC, 2 for 2AFC)
-    """
-    from scipy.stats import norm
-
-    valid = [(float(p), bool(y)) for p, y in predictions if p is not None]
-    if len(valid) < 4:
-        return {
-            "valid_items_count": len(valid),
-            "first_order_accuracy": None,
-            "d_prime_1": None,
-            "type2_d_prime": None,
-            "meta_d_prime": None,
-            "m_ratio": None,
-            "auroc2": None,
-        }
-
-    n = len(valid)
-    probs = [p for p, _ in valid]
-    labels = [y for _, y in valid]
-    n_corr = sum(1 for y in labels if y)
-    n_incorr = n - n_corr
-
-    acc = n_corr / n
-    # Log-linear bound for 1st-order accuracy to avoid z(0) or z(1)
-    bounded_acc = np.clip(acc, 0.5 / (n + 1.0), (n + 0.5) / (n + 1.0))
-    # 1st-order d'
-    if n_alternatives == 4:
-        d_prime_1 = float(np.sqrt(2) * norm.ppf(bounded_acc))
-    else:
-        d_prime_1 = float(2.0 * norm.ppf(bounded_acc))
-
-    # Type-2 Signal Detection: evaluate separation between correct and incorrect
-    if n_corr == 0 or n_incorr == 0:
-        return {
-            "valid_items_count": n,
-            "first_order_accuracy": acc,
-            "d_prime_1": d_prime_1,
-            "type2_d_prime": 0.0,
-            "meta_d_prime": 0.0,
-            "m_ratio": 0.0,
-            "auroc2": 0.5,
-        }
-
-    # Type-2 criteria split: use median confidence
-    median_conf = float(np.median(probs))
-    hits_2 = sum(1 for p, y in valid if p >= median_conf and y)
-    fas_2 = sum(1 for p, y in valid if p >= median_conf and not y)
-
-    # Log-linear smoothed Type-2 hit rate and false alarm rate
-    hr_2 = (hits_2 + 0.5) / (n_corr + 1.0)
-    far_2 = (fas_2 + 0.5) / (n_incorr + 1.0)
-    type2_d_prime = float(norm.ppf(hr_2) - norm.ppf(far_2))
-
-    # Non-parametric AUROC2
-    disc = compute_post_decision_discrimination_from_pairs(valid)
-    auroc2_val = disc.get("auroc2") or 0.5
-
-    # Empirical meta-d' and M-ratio
-    meta_d_prime = float(type2_d_prime * (np.sqrt(2) if n_alternatives == 4 else 1.0))
-    m_ratio = float(meta_d_prime / max(d_prime_1, 1e-3))
-
-    return {
-        "valid_items_count": n,
-        "first_order_accuracy": acc,
-        "d_prime_1": d_prime_1,
-        "type2_d_prime": type2_d_prime,
-        "meta_d_prime": meta_d_prime,
-        "m_ratio": m_ratio,
-        "auroc2": auroc2_val,
     }
 
 
@@ -361,10 +360,10 @@ def compute_privileged_access_index(
     res = compute_item_paired_contrasts(self_map, obs_maps, n_bootstraps=n_bootstraps, seed=seed)
     joint = res.get("joint_pai_summary", {})
     return {
-        "point_pai": joint.get("point_pai", 0.0),
-        "self_auroc2": joint.get("self_auroc2", 0.5),
-        "max_benchmark_observer_auroc2": joint.get("max_benchmark_observer_auroc2", 0.5),
-        "ci_95_lower": joint.get("ci_95_lower", 0.0),
-        "ci_95_upper": joint.get("ci_95_upper", 0.0),
+        "point_pai": joint.get("point_pai"),
+        "self_auroc2": joint.get("self_auroc2"),
+        "max_benchmark_observer_auroc2": joint.get("max_benchmark_observer_auroc2"),
+        "ci_95_lower": joint.get("ci_95_lower"),
+        "ci_95_upper": joint.get("ci_95_upper"),
         "contrasts": res.get("contrasts", {}),
     }

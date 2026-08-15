@@ -8,7 +8,7 @@ All measurements standardize on $P(\text{Target Correct}) \in [0.0, 1.0]$. Every
 
 ### Strict Item-Paired Intersection Results Table
 
-| Evaluator Condition | Information Vantage & Compute | Shared Items ($N$) | Self AUROC2 | Observer AUROC2 | $\Delta\text{AUROC2}$ (Self - Obs) | Stratified 95% Bootstrap CI | Self Brier | Observer Brier | Observer Accuracy |
+| Evaluator Condition | Information Vantage & Compute | Shared Items ($N$) | Self AUROC2 | Observer AUROC2 | $\Delta\text{AUROC2}$ (Self - Obs) | Stratified 95% Bootstrap CI | Self Brier | Observer Brier | Forecast Classification Acc |
 |---|---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
 | **Counterfactual Reconstruction** | Independent 4-Way Distribution Lookup | 27 | 0.600 | 0.594 | +0.006 | [-0.297, 0.312] | 0.341 | 0.316 | 63.0% |
 | **Visible: Answer-Only** | Prompt + Answer (Conf stripped) | 40 | 0.522 | 0.537 | -0.015 | [-0.263, 0.246] | 0.293 | 0.325 | 62.5% |
@@ -31,14 +31,14 @@ All measurements standardize on $P(\text{Target Correct}) \in [0.0, 1.0]$. Every
 ## 2. Direct Pre-Specified Pairwise Contrasts
 
 ### A. Review Framing Test ($N = 40$ shared items)
-* **Self-Review AUROC2:** 0.443 (Brier: 0.310, Acc: 62.5%)
-* **Other-Review AUROC2:** 0.673 (Brier: 0.235, Acc: 72.5%)
+* **Self-Review AUROC2:** 0.443 (Brier: 0.310, Forecast Acc: 62.5%)
+* **Other-Review AUROC2:** 0.673 (Brier: 0.235, Forecast Acc: 72.5%)
 * **$\Delta\text{AUROC2} (\text{Self} - \text{Other}):$** $\mathbf{-0.229} \quad (95\%\text{ CI: } [-0.518, 0.080])$
 * **Status:** Diagnostic comparison only (measurement gate failed).
 
 ### B. Public Channel Effect Test ($N = 40$ shared items)
-* **Visible Answer-Only AUROC2:** 0.537 (Acc: 62.5%)
-* **Visible Full-Transcript AUROC2:** 0.667 (Acc: 72.5%)
+* **Visible Answer-Only AUROC2:** 0.537 (Forecast Acc: 62.5%)
+* **Visible Full-Transcript AUROC2:** 0.667 (Forecast Acc: 72.5%)
 * **$\Delta\text{AUROC2} (\text{Answer} - \text{Transcript}):$** $\mathbf{-0.129} \quad (95\%\text{ CI: } [-0.375, 0.115])$
 * **Status:** Diagnostic comparison only (measurement gate failed).
 

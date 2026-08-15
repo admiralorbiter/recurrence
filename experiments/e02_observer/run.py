@@ -70,13 +70,15 @@ def generate_markdown_report(res: Dict[str, Any]) -> str:
         if not c or c.get("shared_items_count", 0) == 0:
             continue
         n = c["shared_items_count"]
-        s_auc = f"{c['self_auroc2']:.3f}"
-        o_auc = f"{c['observer_auroc2']:.3f}"
-        d_auc = f"{c['delta_auroc2_self_minus_obs']:+.3f}"
-        ci = f"[{c['ci_95_lower']:.3f}, {c['ci_95_upper']:.3f}]"
+        s_auc = f"{c['self_auroc2']:.3f}" if c.get("self_auroc2") is not None else "N/A (no errors)"
+        o_auc = f"{c['observer_auroc2']:.3f}" if c.get("observer_auroc2") is not None else "N/A (no errors)"
+        d_auc = f"{c['delta_auroc2_self_minus_obs']:+.3f}" if c.get("delta_auroc2_self_minus_obs") is not None else "N/A"
+        ci = f"[{c['ci_95_lower']:.3f}, {c['ci_95_upper']:.3f}]" if c.get("ci_95_lower") is not None else "N/A"
         s_brier = f"{c['self_brier_score']:.3f}" if c.get("self_brier_score") is not None else "N/A"
         o_brier = f"{c['observer_brier_score']:.3f}" if c.get("observer_brier_score") is not None else "N/A"
-        o_acc = f"{c['observer_binary_accuracy']:.1%}" if c.get("observer_binary_accuracy") is not None else "N/A"
+        o_acc = f"{c['forecast_classification_accuracy']:.1%}" if c.get("forecast_classification_accuracy") is not None else (
+            f"{c['observer_binary_accuracy']:.1%}" if c.get("observer_binary_accuracy") is not None else "N/A"
+        )
         rows.append(f"| **{name}** | {vantage} | {n} | {s_auc} | {o_auc} | {d_auc} | {ci} | {s_brier} | {o_brier} | {o_acc} |")
 
     table_content = "\n".join(rows)
@@ -84,23 +86,58 @@ def generate_markdown_report(res: Dict[str, Any]) -> str:
     channel = direct.get("channel_answer_only_vs_full_transcript", {})
     gate_passed = bool(comp.get("compliance_gate_passed", False))
     min_comp = comp.get("min_primary_compliance", 0.0)
+    overall_acc = perf.get("overall_accuracy", 0.0)
 
-    if gate_passed:
+    if overall_acc >= 1.0 or joint.get("status") == "undefined_single_class":
+        interpretation_block = f"""> [!NOTE]
+> **Ceiling Performance Regime (1st-Order Accuracy: {overall_acc:.1%}):**
+> With 0 error trials ($N_{{\\text{{incorrect}}}} = 0$), Type-2 Signal Detection discrimination ($\\text{{AUROC2}}$) and the Privileged Access Index ($\\text{{PAI}}$) are mathematically non-identifiable / undefined.
+> 
+> **Metacognitive Sensitivity:** $\\text{{AUROC2}} = \\text{{N/A}}$ (Cannot discriminate correct from incorrect when all items are correct).
+> **Privileged Access Index:** $\\text{{PAI}} = \\text{{N/A}}$
+> 
+> **Informative Calibration & Confidence Dynamics:** Continuous Brier scores and review confidence shifts remain valid for analyzing belief updates under review framing."""
+    elif gate_passed:
+        s_auc_str = f"{joint.get('self_auroc2'):.3f}" if joint.get('self_auroc2') is not None else "N/A"
+        m_auc_str = f"{joint.get('max_benchmark_observer_auroc2'):.3f}" if joint.get('max_benchmark_observer_auroc2') is not None else "N/A"
+        p_pai_str = f"{joint.get('point_pai'):+.3f}" if joint.get('point_pai') is not None else "N/A"
+        ci_l_str = f"{joint.get('ci_95_lower'):.3f}" if joint.get('ci_95_lower') is not None else "N/A"
+        ci_u_str = f"{joint.get('ci_95_upper'):.3f}" if joint.get('ci_95_upper') is not None else "N/A"
         interpretation_block = f"""**Scientific Interpretation (Measurement Gate Passed):**
 Measurements satisfied the pre-specified validity gate (min primary compliance {min_comp:.1%} $\\ge 90\\%$).
-$$\\text{{Point PAI}} = \\text{{AUROC2}}_{{\\text{{Self}}}} - \\max(\\text{{AUROC2}}_{{\\text{{VisAns}}}}, \\text{{AUROC2}}_{{\\text{{Recon}}}}, \\text{{AUROC2}}_{{\\text{{InputOnly}}}}) = {joint.get('self_auroc2', 0.0):.3f} - {joint.get('max_benchmark_observer_auroc2', 0.0):.3f} = \\mathbf{{{joint.get('point_pai', 0.0):+.3f}}}$$
-$$\\mathbf{{\\text{{Stratified 95\\% Bootstrap CI: }} [{joint.get('ci_95_lower', 0.0):.3f}, {joint.get('ci_95_upper', 0.0):.3f}]}} \\quad (\\text{{SESOI margin }} \\pm {joint.get('sesoi_margin', 0.10)})$$
+$$\\text{{Point PAI}} = \\text{{AUROC2}}_{{\\text{{Self}}}} - \\max(\\text{{AUROC2}}_{{\\text{{VisAns}}}}, \\text{{AUROC2}}_{{\\text{{Recon}}}}, \\text{{AUROC2}}_{{\\text{{InputOnly}}}}) = {s_auc_str} - {m_auc_str} = \\mathbf{{{p_pai_str}}}$$
+$$\\mathbf{{\\text{{Stratified 95\\% Bootstrap CI: }} [{ci_l_str}, {ci_u_str}]}} \\quad (\\text{{SESOI margin }} \\pm {joint.get('sesoi_margin', 0.10)})$$
 In a fully measurement-valid Level-0 benchmark, Qwen2.5:3b showed no resolved privileged self-monitoring advantage over external/reconstructive controls. Immediate self-confidence was essentially nondiscriminative (AUROC2 $\\approx .52$), while visible-answer observation performed substantially better descriptively (AUROC2 $\\approx .68$). The joint strongest-observer statistic excludes a $\\ge .10$ self advantage, although individual paired contrasts remain too imprecise to establish equivalence."""
     else:
+        p_pai_str = f"{joint.get('point_pai'):+.3f}" if joint.get('point_pai') is not None else "N/A"
+        ci_l_str = f"{joint.get('ci_95_lower'):.3f}" if joint.get('ci_95_lower') is not None else "N/A"
+        ci_u_str = f"{joint.get('ci_95_upper'):.3f}" if joint.get('ci_95_upper') is not None else "N/A"
         interpretation_block = f"""> [!WARNING]
 > **Measurement Validity Gate Failed (Minimum Primary Compliance: {min_comp:.1%} < 90.0%).**
 > Inferential Privileged Access Index (PAI) and observer contrasts are reported for diagnostic/scouting purposes only and do NOT support a Level-0 privileged-access conclusion.
 >
 > **Diagnostic PAI (Unpromoted, Shared $N={joint.get('joint_shared_items_count', 0)}$):**
-> $\\text{{Diagnostic PAI}} = {joint.get('point_pai', 0.0):+.3f} \\quad (95\\%\\text{{ CI: }} [{joint.get('ci_95_lower', 0.0):.3f}, {joint.get('ci_95_upper', 0.0):.3f}])$"""
+> $\\text{{Diagnostic PAI}} = {p_pai_str} \\quad (95\\%\\text{{ CI: }} [{ci_l_str}, {ci_u_str}])$"""
 
-    framing_note = "Diagnostic comparison only (measurement gate failed)." if not gate_passed else "No framing effect was statistically resolved in this sample."
-    channel_note = "Diagnostic comparison only (measurement gate failed)." if not gate_passed else "No beneficial transcript-confidence effect was resolved."
+    if overall_acc >= 1.0:
+        framing_note = "Type-2 AUROC2 undefined at 100% accuracy ceiling. Compare continuous Brier scores and mean confidence shifts instead."
+        channel_note = "Type-2 AUROC2 undefined at 100% accuracy ceiling."
+    elif not gate_passed:
+        framing_note = "Diagnostic comparison only (measurement gate failed)."
+        channel_note = "Diagnostic comparison only (measurement gate failed)."
+    else:
+        framing_note = "No framing effect was statistically resolved in this sample."
+        channel_note = "No beneficial transcript-confidence effect was resolved."
+
+    f_auc_a = f"{framing.get('auroc2_a'):.3f}" if framing.get('auroc2_a') is not None else "N/A"
+    f_auc_b = f"{framing.get('auroc2_b'):.3f}" if framing.get('auroc2_b') is not None else "N/A"
+    f_delta = f"{framing.get('delta_auroc2'):+.3f}" if framing.get('delta_auroc2') is not None else "N/A"
+    f_ci = f"[{framing.get('ci_95_lower'):.3f}, {framing.get('ci_95_upper'):.3f}]" if framing.get('ci_95_lower') is not None else "N/A"
+
+    c_auc_a = f"{channel.get('auroc2_a'):.3f}" if channel.get('auroc2_a') is not None else "N/A"
+    c_auc_b = f"{channel.get('auroc2_b'):.3f}" if channel.get('auroc2_b') is not None else "N/A"
+    c_delta = f"{channel.get('delta_auroc2'):+.3f}" if channel.get('delta_auroc2') is not None else "N/A"
+    c_ci = f"[{channel.get('ci_95_lower'):.3f}, {channel.get('ci_95_upper'):.3f}]" if channel.get('ci_95_lower') is not None else "N/A"
 
     report = f"""# Experiment E02 (Sprint {res.get('sprint', 'S03.4')}): Level-0 Privileged Access & Observer Ladder Report
 
@@ -112,7 +149,7 @@ All measurements standardize on $P(\\text{{Target Correct}}) \\in [0.0, 1.0]$. E
 
 ### Strict Item-Paired Intersection Results Table
 
-| Evaluator Condition | Information Vantage & Compute | Shared Items ($N$) | Self AUROC2 | Observer AUROC2 | $\\Delta\\text{{AUROC2}}$ (Self - Obs) | Stratified 95% Bootstrap CI | Self Brier | Observer Brier | Observer Accuracy |
+| Evaluator Condition | Information Vantage & Compute | Shared Items ($N$) | Self AUROC2 | Observer AUROC2 | $\\Delta\\text{{AUROC2}}$ (Self - Obs) | Stratified 95% Bootstrap CI | Self Brier | Observer Brier | Forecast Classification Acc |
 |---|---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
 {table_content}
 
@@ -124,15 +161,15 @@ All measurements standardize on $P(\\text{{Target Correct}}) \\in [0.0, 1.0]$. E
 ## 2. Direct Pre-Specified Pairwise Contrasts
 
 ### A. Review Framing Test ($N = {framing.get('shared_items_count', 0)}$ shared items)
-* **Self-Review AUROC2:** {framing.get('auroc2_a', 0.0):.3f} (Brier: {framing.get('brier_score_a', 0.0):.3f}, Acc: {framing.get('binary_accuracy_a', 0.0):.1%})
-* **Other-Review AUROC2:** {framing.get('auroc2_b', 0.0):.3f} (Brier: {framing.get('brier_score_b', 0.0):.3f}, Acc: {framing.get('binary_accuracy_b', 0.0):.1%})
-* **$\\Delta\\text{{AUROC2}} (\\text{{Self}} - \\text{{Other}}):$** $\\mathbf{{{framing.get('delta_auroc2', 0.0):+.3f}}} \\quad (95\\%\\text{{ CI: }} [{framing.get('ci_95_lower', 0.0):.3f}, {framing.get('ci_95_upper', 0.0):.3f}])$
+* **Self-Review AUROC2:** {f_auc_a} (Brier: {framing.get('brier_score_a', 0.0):.3f}, Forecast Acc: {framing.get('forecast_classification_accuracy_a', framing.get('binary_accuracy_a', 0.0)):.1%})
+* **Other-Review AUROC2:** {f_auc_b} (Brier: {framing.get('brier_score_b', 0.0):.3f}, Forecast Acc: {framing.get('forecast_classification_accuracy_b', framing.get('binary_accuracy_b', 0.0)):.1%})
+* **$\\Delta\\text{{AUROC2}} (\\text{{Self}} - \\text{{Other}}):$** $\\mathbf{{{f_delta}}} \\quad (95\\%\\text{{ CI: }} {f_ci})$
 * **Status:** {framing_note}
 
 ### B. Public Channel Effect Test ($N = {channel.get('shared_items_count', 0)}$ shared items)
-* **Visible Answer-Only AUROC2:** {channel.get('auroc2_a', 0.0):.3f} (Acc: {channel.get('binary_accuracy_a', 0.0):.1%})
-* **Visible Full-Transcript AUROC2:** {channel.get('auroc2_b', 0.0):.3f} (Acc: {channel.get('binary_accuracy_b', 0.0):.1%})
-* **$\\Delta\\text{{AUROC2}} (\\text{{Answer}} - \\text{{Transcript}}):$** $\\mathbf{{{channel.get('delta_auroc2', 0.0):+.3f}}} \\quad (95\\%\\text{{ CI: }} [{channel.get('ci_95_lower', 0.0):.3f}, {channel.get('ci_95_upper', 0.0):.3f}])$
+* **Visible Answer-Only AUROC2:** {c_auc_a} (Forecast Acc: {channel.get('forecast_classification_accuracy_a', channel.get('binary_accuracy_a', 0.0)):.1%})
+* **Visible Full-Transcript AUROC2:** {c_auc_b} (Forecast Acc: {channel.get('forecast_classification_accuracy_b', channel.get('binary_accuracy_b', 0.0)):.1%})
+* **$\\Delta\\text{{AUROC2}} (\\text{{Answer}} - \\text{{Transcript}}):$** $\\mathbf{{{c_delta}}} \\quad (95\\%\\text{{ CI: }} {c_ci})$
 * **Status:** {channel_note}
 
 ---

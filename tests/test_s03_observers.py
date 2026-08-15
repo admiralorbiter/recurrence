@@ -379,22 +379,51 @@ def test_joint_pai_includes_input_only_when_strongest():
     assert joint["point_pai"] == pytest.approx(-0.5, abs=1e-3)
 
 
-def test_compute_sdt_metacognition():
-    """Verify Signal Detection Theory metacognitive calculations."""
-    from recurrence.analysis.privileged_access import compute_sdt_metacognition
+def test_single_class_undefined_auroc_and_pai():
+    """Verify that ceiling performance (100% correct, 0 errors) correctly yields None for AUROC2 and PAI,
+    rather than substituting a false 0.500 or 0.000.
+    """
+    from recurrence.analysis.privileged_access import compute_item_paired_contrasts, compute_direct_pairwise_contrast
 
-    # Perfect discrimination: high confidence on all correct, low on all incorrect
-    pairs_perfect = [(0.90, True) for _ in range(10)] + [(0.10, False) for _ in range(10)]
-    sdt_perf = compute_sdt_metacognition(pairs_perfect, n_alternatives=4)
-    assert sdt_perf["first_order_accuracy"] == 0.50
-    assert sdt_perf["type2_d_prime"] > 1.5
-    assert sdt_perf["m_ratio"] > 0.0
-    assert sdt_perf["auroc2"] == pytest.approx(1.0, abs=1e-2)
+    # 10 items: all correct (100% accuracy, 0 incorrect)
+    self_map_ceiling = {f"item_{i}": (1.0, True) for i in range(10)}
+    obs_map_ceiling = {f"item_{i}": (0.9, True) for i in range(10)}
+    obs_maps = {
+        "observer_visible_answer_only": obs_map_ceiling,
+        "observer_reconstruction": obs_map_ceiling,
+        "observer_input_only": obs_map_ceiling,
+    }
 
-    # Flat confidence: zero discrimination
-    pairs_flat = [(0.75, True) for _ in range(10)] + [(0.75, False) for _ in range(10)]
-    sdt_flat = compute_sdt_metacognition(pairs_flat, n_alternatives=4)
-    assert sdt_flat["first_order_accuracy"] == 0.50
-    assert sdt_flat["auroc2"] == pytest.approx(0.50, abs=1e-2)
+    res = compute_item_paired_contrasts(self_map_ceiling, obs_maps, sesoi=0.10, n_bootstraps=100, seed=42)
+    
+    # 1. Condition level contrasts must be undefined
+    vis_contrast = res["contrasts"]["observer_visible_answer_only"]
+    assert vis_contrast["self_auroc2"] is None
+    assert vis_contrast["observer_auroc2"] is None
+    assert vis_contrast["delta_auroc2_self_minus_obs"] is None
+    assert vis_contrast["ci_95_lower"] is None
+    assert vis_contrast["ci_95_upper"] is None
+    assert vis_contrast["equivalent_within_sesoi"] is None
+    assert vis_contrast["status"] == "undefined_single_class"
+    # Brier and forecast classification accuracy remain defined
+    assert vis_contrast["self_brier_score"] == pytest.approx(0.0)
+    assert vis_contrast["forecast_classification_accuracy"] == pytest.approx(1.0)
+
+    # 2. Joint PAI must be undefined
+    joint = res["joint_pai_summary"]
+    assert joint["point_pai"] is None
+    assert joint["self_auroc2"] is None
+    assert joint["max_benchmark_observer_auroc2"] is None
+    assert joint["ci_95_lower"] is None
+    assert joint["ci_95_upper"] is None
+    assert joint["status"] == "undefined_single_class"
+
+    # 3. Direct pairwise contrast must also be undefined
+    direct = compute_direct_pairwise_contrast(self_map_ceiling, obs_map_ceiling, name_a="self", name_b="other")
+    assert direct["auroc2_a"] is None
+    assert direct["auroc2_b"] is None
+    assert direct["delta_auroc2"] is None
+    assert direct["status"] == "undefined_single_class"
+
 
 
