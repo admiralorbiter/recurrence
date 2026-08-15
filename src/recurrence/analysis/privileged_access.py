@@ -265,6 +265,86 @@ def compute_item_paired_contrasts(
     }
 
 
+def compute_sdt_metacognition(
+    predictions: List[Tuple[Optional[float], bool]],
+    n_alternatives: int = 4,
+) -> Dict[str, Any]:
+    """Compute Signal Detection Theory (SDT) metacognitive metrics including first-order d',
+    Type-2 d'_2, AUROC2, empirical meta-d', and M-ratio (metacognitive efficiency).
+    
+    predictions: List of (confidence_float in [0.0, 1.0], is_correct_bool)
+    n_alternatives: Number of forced choice options (e.g. 4 for 4AFC, 2 for 2AFC)
+    """
+    from scipy.stats import norm
+
+    valid = [(float(p), bool(y)) for p, y in predictions if p is not None]
+    if len(valid) < 4:
+        return {
+            "valid_items_count": len(valid),
+            "first_order_accuracy": None,
+            "d_prime_1": None,
+            "type2_d_prime": None,
+            "meta_d_prime": None,
+            "m_ratio": None,
+            "auroc2": None,
+        }
+
+    n = len(valid)
+    probs = [p for p, _ in valid]
+    labels = [y for _, y in valid]
+    n_corr = sum(1 for y in labels if y)
+    n_incorr = n - n_corr
+
+    acc = n_corr / n
+    # Log-linear bound for 1st-order accuracy to avoid z(0) or z(1)
+    bounded_acc = np.clip(acc, 0.5 / (n + 1.0), (n + 0.5) / (n + 1.0))
+    # 1st-order d'
+    if n_alternatives == 4:
+        d_prime_1 = float(np.sqrt(2) * norm.ppf(bounded_acc))
+    else:
+        d_prime_1 = float(2.0 * norm.ppf(bounded_acc))
+
+    # Type-2 Signal Detection: evaluate separation between correct and incorrect
+    if n_corr == 0 or n_incorr == 0:
+        return {
+            "valid_items_count": n,
+            "first_order_accuracy": acc,
+            "d_prime_1": d_prime_1,
+            "type2_d_prime": 0.0,
+            "meta_d_prime": 0.0,
+            "m_ratio": 0.0,
+            "auroc2": 0.5,
+        }
+
+    # Type-2 criteria split: use median confidence
+    median_conf = float(np.median(probs))
+    hits_2 = sum(1 for p, y in valid if p >= median_conf and y)
+    fas_2 = sum(1 for p, y in valid if p >= median_conf and not y)
+
+    # Log-linear smoothed Type-2 hit rate and false alarm rate
+    hr_2 = (hits_2 + 0.5) / (n_corr + 1.0)
+    far_2 = (fas_2 + 0.5) / (n_incorr + 1.0)
+    type2_d_prime = float(norm.ppf(hr_2) - norm.ppf(far_2))
+
+    # Non-parametric AUROC2
+    disc = compute_post_decision_discrimination_from_pairs(valid)
+    auroc2_val = disc.get("auroc2") or 0.5
+
+    # Empirical meta-d' and M-ratio
+    meta_d_prime = float(type2_d_prime * (np.sqrt(2) if n_alternatives == 4 else 1.0))
+    m_ratio = float(meta_d_prime / max(d_prime_1, 1e-3))
+
+    return {
+        "valid_items_count": n,
+        "first_order_accuracy": acc,
+        "d_prime_1": d_prime_1,
+        "type2_d_prime": type2_d_prime,
+        "meta_d_prime": meta_d_prime,
+        "m_ratio": m_ratio,
+        "auroc2": auroc2_val,
+    }
+
+
 # Backwards compatibility helper
 def compute_privileged_access_index(
     self_pairs: List[Tuple[Optional[int], bool]],

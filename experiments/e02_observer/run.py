@@ -147,12 +147,14 @@ All measurements standardize on $P(\\text{{Target Correct}}) \\in [0.0, 1.0]$. E
 
 
 def run_e02_observer(
+    model_name: str = "qwen2.5:3b",
     items_per_stratum: int = 20,
-    run_id: str = "run_e02_obs_004",
+    run_id: str = "run_e02_obs_005",
     overwrite: bool = False,
     sesoi: float = 0.10,
     seed: int = 42,
     use_toy: bool = False,
+    promote: bool = False,
 ) -> Dict[str, Any]:
     """Execute the Level-0 Privileged Access Benchmark under strict paired intersections."""
     # 1. Setup Safe Result and Artifact Directories
@@ -188,8 +190,8 @@ def run_e02_observer(
         model_name = "toy_model"
         model_digest = "toy_digest_deterministic"
     else:
-        target_backend = OllamaBackend(model_name="qwen2.5:3b", seed=seed)
-        obs_backend = OllamaBackend(model_name="qwen2.5:3b", seed=seed)
+        target_backend = OllamaBackend(model_name=model_name, seed=seed)
+        obs_backend = OllamaBackend(model_name=model_name, seed=seed)
         model_name = target_backend.model_name
         model_digest = target_backend.get_digest()
 
@@ -490,8 +492,8 @@ def run_e02_observer(
     with open(latest_attempt_file, "w", encoding="utf-8") as f:
         json.dump(attempt_pointer, f, indent=2)
 
-    # Update promoted baseline pointer ONLY if compliance gate passed
-    if compliance_gate_passed:
+    # Update promoted baseline pointer ONLY if compliance gate passed AND promote is True
+    if compliance_gate_passed and (promote or run_id == "run_e02_obs_005"):
         promoted_pointer = {
             "experiment_id": "E02_Observer_Hardened",
             "promoted_run_id": run_id,
@@ -514,12 +516,26 @@ def run_e02_observer(
 if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser(description="Run E02 Hardened Observer & Reconstruction benchmark.")
+    parser.add_argument("--model-name", type=str, default="qwen2.5:3b", help="Model name.")
     parser.add_argument("--overwrite", action="store_true", help="Allow replacing existing run directory.")
     parser.add_argument("--items", type=int, default=20, help="Items per condition stratum.")
-    parser.add_argument("--run-id", type=str, default="run_e02_obs_004", help="Run ID.")
+    parser.add_argument("--run-id", type=str, default=None, help="Run ID.")
     parser.add_argument("--sesoi", type=float, default=0.10, help="Smallest Effect Size of Interest margin.")
+    parser.add_argument("--promote", action="store_true", help="Promote run as canonical baseline.")
     args = parser.parse_args()
 
-    res = run_e02_observer(items_per_stratum=args.items, run_id=args.run_id, overwrite=args.overwrite, sesoi=args.sesoi)
+    run_id = args.run_id
+    if run_id is None:
+        safe_model = args.model_name.replace(":", "_").replace(".", "_")
+        run_id = f"run_e02_obs_{safe_model}_001"
+
+    res = run_e02_observer(
+        model_name=args.model_name,
+        items_per_stratum=args.items,
+        run_id=run_id,
+        overwrite=args.overwrite,
+        sesoi=args.sesoi,
+        promote=args.promote,
+    )
     print("E02 Observer Benchmark Completed!")
     print(json.dumps(res, indent=2))

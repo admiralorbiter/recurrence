@@ -378,3 +378,23 @@ def test_joint_pai_includes_input_only_when_strongest():
     # Point PAI = 0.5 - 1.0 = -0.5
     assert joint["point_pai"] == pytest.approx(-0.5, abs=1e-3)
 
+
+def test_compute_sdt_metacognition():
+    """Verify Signal Detection Theory metacognitive calculations."""
+    from recurrence.analysis.privileged_access import compute_sdt_metacognition
+
+    # Perfect discrimination: high confidence on all correct, low on all incorrect
+    pairs_perfect = [(0.90, True) for _ in range(10)] + [(0.10, False) for _ in range(10)]
+    sdt_perf = compute_sdt_metacognition(pairs_perfect, n_alternatives=4)
+    assert sdt_perf["first_order_accuracy"] == 0.50
+    assert sdt_perf["type2_d_prime"] > 1.5
+    assert sdt_perf["m_ratio"] > 0.0
+    assert sdt_perf["auroc2"] == pytest.approx(1.0, abs=1e-2)
+
+    # Flat confidence: zero discrimination
+    pairs_flat = [(0.75, True) for _ in range(10)] + [(0.75, False) for _ in range(10)]
+    sdt_flat = compute_sdt_metacognition(pairs_flat, n_alternatives=4)
+    assert sdt_flat["first_order_accuracy"] == 0.50
+    assert sdt_flat["auroc2"] == pytest.approx(0.50, abs=1e-2)
+
+
