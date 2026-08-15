@@ -51,7 +51,7 @@ In human psychophysics and Signal Detection Theory ([Fleming & Lau 2014](https:/
      - `1.5B`: $\Delta = -0.149$, $95\%\text{ CI } [-0.315, +0.039]$
      - `3B`: $\Delta = -0.068$, $95\%\text{ CI } [-0.318, +0.198]$
      - `7B`: $\Delta = -0.229$, $95\%\text{ CI } [-0.518, +0.080]$
-   - While all three confidence intervals cross zero (preventing a definitive statistical claim), the consistent negative direction suggests an intriguing hypothesis: evaluating an answer attributed to another agent may bypass generative commitment/anchoring biases that impair self-review.
+   - While all three confidence intervals cross zero (preventing a definitive statistical claim), the consistent negative direction motivates testing whether self/other attribution changes evaluation policy; commitment or anchoring effects are candidate mechanisms.
 
 ---
 
