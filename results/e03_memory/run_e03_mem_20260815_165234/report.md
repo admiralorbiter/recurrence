@@ -44,21 +44,22 @@ Controlling for 'Lost-in-the-Middle' positional attention artifacts across early
 Model autobiographical summaries were generated in an isolated consolidation phase prior to evaluation probe trials.
 
 - **Total Target Facts Evaluated:** 18
-- **Retained Target Facts (Correct Key-Value Association):** 2 (11.1%)
-- **Omission Rate (Facts Forgotten in Summary):** 72.2% (13/18)
-- **Retrospective Mutation Rate (Key Present but Value Altered):** 16.7% (3/18)
-- **Unsupported Entity Intrusions:** 12
+- **Retained Target Facts (Exact Key-Value Association):** 2 (11.1%)
+- **Exact KV Omission Rate (Target Key String Absent from Summary):** 72.2% (13/18)
+- **Exact Association Mutation Rate (Key Present but Bound Value Altered):** 16.7% (3/18)
+- **Unsupported val_* Strings Detected:** 12
 - **Partition Invariant Verified:** Retained (2) + Mutated (3) + Omitted (13) == Total (18)
 - **Mean Consolidation Prompt Tokens:** 416.5
 - **Mean Consolidation Output Tokens:** 345.7
+- **Memory Fidelity vs. Utility Note:** While exact-string KV reproduction was low (2/18), Model Summary achieved 77.8% on Delayed KV forced choice, indicating that noisy or lossy narrative traces still preserve recognition cues.
 
 ---
 
 ## 4. Scientific Takeaways for Level 1 & Horizon 1
 
-1. **Observed Static Explicit-Memory Profile:** Explicit external memory provides a massive first-order advantage over fresh invocation on this synthetic battery.
+1. **Observed Static Explicit-Memory Profile:** Explicit external history substantially improves first-order performance over fresh invocation on this synthetic battery.
 2. **Information Selection Policy:** The 6 conditions represent distinct memory-system configurations with differing information selection policies (e.g. deterministic summary focuses on factual bindings, while structured state includes an oracle goal registry), not pure encodings of identical information.
-3. **Structured State Performance:** Structured State achieved similar overall accuracy to full transcripts while utilizing significantly fewer prompt tokens.
-4. **Autobiographical Narrative Reliability:** Unconstrained narrative consolidation was substantially less reliable than externally constructed structured state due to high omission and mutation rates.
-5. **Combined Condition Observation:** Combined state underperformed Structured State despite additional context; whether this reflects context length, ordering, redundancy, or conflicting narrative information remains unresolved.
-6. **Transition to Sprint S05:** S04 establishes static read capability from an externally constructed state; Sprint S05 will test whether an autonomous agent can maintain and update that state over time.
+3. **Structured State Trade-off:** Structured State traded static read performance for a smaller, explicitly typed and manipulable representation. It is selected for S05 for semantic coverage and experimental controllability rather than static superiority.
+4. **Autobiographical Narrative Reliability:** Unconstrained narrative consolidation showed high exact-string omission and mutation, though recognition remained viable under forced choice, demonstrating that exact fidelity and recognition utility diverge.
+5. **Combined Condition Observation:** Combined modestly exceeded Structured State on aggregate accuracy (66.7% vs 64.3%), but at 730 prompt tokens it was Pareto-dominated by Full Transcript (81.0% at 499 tokens); the contributions of length, redundancy, ordering, and narrative conflict remain unresolved.
+6. **Transition to Sprint S05:** S04 measured whether a model can read state; Sprint S05 will measure whether an autonomous system can maintain and update that state over time.

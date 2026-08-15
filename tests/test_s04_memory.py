@@ -277,3 +277,32 @@ def test_compute_memory_format_benchmarks():
     assert benchmarks["transcript"].accuracy_by_probe_type["source_attribution"] == pytest.approx(1.0)
     assert benchmarks["transcript"].delayed_kv_accuracy_by_position["early"] == pytest.approx(1.0)
     assert benchmarks["transcript"].is_pareto_optimal is True
+
+
+def test_score_response_schema_boundaries():
+    task = MemoryBatteryTask()
+    ep = task.generate_episode(episode_idx=0, seed=42)
+    items = task.generate_probe_items([ep], memory_format=MemoryFormat.FRESH)
+
+    source_probe = [it for it in items if it.probe_type == "source_attribution"][0]
+    kv_probe = [it for it in items if it.probe_type == "delayed_kv"][0]
+
+    assert source_probe.metadata["schema_type"] == "3afc"
+    assert kv_probe.metadata["schema_type"] == "4afc"
+
+    # 1. 3AFC probe receiving 'D' (impossible under 3AFC schema)
+    score_3afc_d = task.score_response(source_probe, '{"answer": "D"}')
+    assert score_3afc_d["schema_valid"] is False
+    assert score_3afc_d["answer_parse_valid"] is False
+    assert score_3afc_d["correct"] is False
+
+    # 2. 3AFC probe receiving valid letter 'A'
+    score_3afc_a = task.score_response(source_probe, '{"answer": "A"}')
+    assert score_3afc_a["schema_valid"] is True
+    assert score_3afc_a["answer_parse_valid"] is True
+
+    # 3. 4AFC probe receiving 'D' (valid under 4AFC schema)
+    score_4afc_d = task.score_response(kv_probe, '{"answer": "D"}')
+    assert score_4afc_d["schema_valid"] is True
+    assert score_4afc_d["answer_parse_valid"] is True
+

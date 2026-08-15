@@ -20,13 +20,13 @@ Experiment E03 quantifies how much cognitive retention, delayed retrieval, sourc
    - The 6 conditions represent distinct memory-system configurations with differing information selection policies, not pure encodings of identical information:
      - `Deterministic Summary` losslessly extracts factual key-value bindings and source assertions ($88.9\%$ Delayed KV), but excludes suspended goals by construction ($33.3\%$ Goal Resumption).
      - `Structured State` is an oracle state containing working memory, goal registry, and source ledgers ($72.2\%$ Delayed KV, $50.0\%$ Source Attribution, $83.3\%$ Goal Resumption).
-     - `Full Transcript` retains complete chronological history, achieving $81.0\%$ micro-accuracy ($85.2\%$ macro-accuracy) at the highest token footprint ($499$ prompt tokens).
+     - `Full Transcript` retains complete chronological history, achieving $81.0\%$ micro-accuracy ($85.2\%$ macro-accuracy) at a comparatively high token footprint ($499$ prompt tokens, surpassed only by Combined at $730$ tokens).
 3. **Autobiographical Narrative Consolidation Reliability**:
-   - In the offline two-stage consolidation step, model-written summaries exhibited a **$72.2\%$ Omission Rate** (13/18 key-values omitted from narrative) and a **$16.7\%$ Retrospective Mutation Rate** (3/18 key-values altered), verifying the partition invariant:
+   - In the offline two-stage consolidation step, model-written summaries exhibited a **$72.2\%$ Exact KV Omission Rate** (13/18 target keys absent from narrative) and a **$16.7\%$ Exact Association Mutation Rate** (3/18 target keys bound to altered values), verifying the partition invariant:
      $$\text{Retained } (2) + \text{Mutated } (3) + \text{Omitted } (13) = \text{Total Facts } (18)$$
-   - Unconstrained narrative consolidation was substantially less reliable than externally constructed structured state.
+   - While exact-string reproduction was low (2/18), Model Summary achieved 77.8% on Delayed KV forced choice, demonstrating that memory fidelity (exact string reproduction) and memory utility (recognition under forced choice) diverge.
 4. **Combined Condition Observation**:
-   - Appending model narrative to structured state (`Combined`: $66.7\%$ Micro, $74.1\%$ Macro) increased prompt size to $730$ tokens (Pareto-dominated) without exceeding Transcript; whether this reflects context length, ordering, redundancy, or conflicting narrative information remains unresolved.
+   - Appending model narrative to structured state (`Combined`: $66.7\%$ Micro, $74.1\%$ Macro) modestly exceeded Structured State ($64.3\%$ Micro, $68.5\%$ Macro), but at $730$ prompt tokens it was Pareto-dominated by Full Transcript ($81.0\%$ at $499$ tokens); the contributions of length, redundancy, ordering, and narrative conflict remain unresolved.
 
 ---
 
@@ -71,10 +71,10 @@ To control for positional attention degradation ("Lost-in-the-Middle"), key-valu
 
 In Stage 1, `qwen2.5:3b` generated autobiographical summaries from the raw event stream at temperature 0.0:
 * **Total Target Facts Evaluated:** 18
-* **Retained Target Facts (Correct Key-Value Association):** 2 / 18 ($11.1\%$)
-* **Omission Rate (Facts Forgotten in Summary):** **$72.2\%$** (13 / 18 facts omitted)
-* **Retrospective Mutation Rate (Facts Altered in Summary):** **$16.7\%$** (3 / 18 facts mutated)
-* **Unsupported Intrusions:** 12 hallucinated entities
+* **Retained Target Facts (Exact Key-Value Association):** 2 / 18 ($11.1\%$)
+* **Exact KV Omission Rate (Target Key String Absent from Summary):** **$72.2\%$** (13 / 18 facts omitted)
+* **Exact Association Mutation Rate (Key Present but Bound Value Altered):** **$16.7\%$** (3 / 18 facts mutated)
+* **Unsupported val_* Strings Detected:** 12
 * **Strict Partition Invariant:** $2 + 3 + 13 = 18$ ($\text{Retained} + \text{Mutated} + \text{Omitted} \equiv \text{Total}$)
 * **Mean Consolidation Compute Overhead:** 416.5 prompt tokens + 345.7 completion tokens per consolidation step.
 
@@ -83,11 +83,15 @@ In Stage 1, `qwen2.5:3b` generated autobiographical summaries from the raw event
 ## 5. Architectural Implications & Roadmap Alignment
 
 1. **Selection of `StructuredSelfState` as S05 Carrier**:
-   - `StructuredSelfState` is carried into Sprint S05 not because of a marginal point-estimate accuracy difference, but because it provides the required semantic coverage, inspectability, and modularity (working memory, goal registry, source ledger, unresolved queue, logical clock) needed for dynamic updates.
+   - `StructuredSelfState` traded static read performance for a smaller, explicitly typed and manipulable representation. It is selected for S05 for semantic coverage and experimental controllability (working memory, goal registry, source ledger, unresolved queue, logical clock) rather than static superiority.
 2. **Conceptual Distinction for Horizon 1**:
-   - **Sprint S04:** Tests whether a model can *read* useful information from an externally constructed state.
-   - **Sprint S05:** Tests whether an autonomous agent can *maintain and evolve* that state over multi-tick quiet intervals.
-3. **Exit Gate for Sprint S04**:
+   - **Sprint S04:** Measured whether a model can *read* state from an externally constructed configuration.
+   - **Sprint S05:** Will measure whether an autonomous system can *maintain and evolve* that state over multi-tick quiet intervals.
+3. **Three Reference Controls for S05**:
+   - **Oracle Updater:** Deterministic perfect update baseline.
+   - **Model Updater:** Autonomous model-driven update loop subject to maintenance drift.
+   - **Transcript Reference:** Raw event replay reference baseline.
+4. **Exit Gate for Sprint S04**:
    - ✅ Task option leakage eliminated with format-matched morphological distractors.
    - ✅ Dynamic native JSON Schemas (`TARGET_4AFC_SCHEMA` & `TARGET_3AFC_SCHEMA`) enforced with 100% compliance.
    - ✅ Consolidation distortion calculation made association-aware and mathematically invariant.

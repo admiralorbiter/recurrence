@@ -481,6 +481,9 @@ class MemoryBatteryTask(BaseTask):
 
     def score_response(self, item: TaskItem, response_text: str) -> Dict[str, Any]:
         """Score the response using strict schema validation and answer extraction."""
+        schema_type = item.metadata.get("schema_type", "4afc") if hasattr(item, "metadata") and item.metadata else "4afc"
+        valid_letters = {"A", "B", "C"} if schema_type == "3afc" else {"A", "B", "C", "D"}
+
         score_dict: Dict[str, Any] = {
             "parsed_answer": None,
             "correct": False,
@@ -494,25 +497,27 @@ class MemoryBatteryTask(BaseTask):
             parsed = json.loads(response_text.strip())
             if isinstance(parsed, dict) and "answer" in parsed:
                 ans_str = str(parsed["answer"]).strip().upper()
-                if len(ans_str) == 1 and ans_str in "ABCD":
+                if len(ans_str) == 1 and ans_str in valid_letters:
                     score_dict["parsed_answer"] = ans_str
                     score_dict["answer_parse_valid"] = True
                     score_dict["correct"] = (ans_str == item.ground_truth)
-
-                # Strict schema validity check (no unexpected extra keys)
-                score_dict["schema_valid"] = (
-                    score_dict["answer_parse_valid"] and
-                    len(parsed.keys()) == 1
-                )
+                    # Strict schema validity check (no unexpected extra keys)
+                    score_dict["schema_valid"] = len(parsed.keys()) == 1
+                else:
+                    score_dict["parsed_answer"] = ans_str
+                    score_dict["answer_parse_valid"] = False
+                    score_dict["schema_valid"] = False
+                    score_dict["correct"] = False
         except Exception:
             # Fallback heuristic parser if JSON parsing failed
             text = response_text.strip()
             for line in text.split("\n"):
                 clean = line.strip().upper()
-                if clean in ["A", "B", "C", "D"]:
+                if clean in valid_letters:
                     score_dict["parsed_answer"] = clean
                     score_dict["answer_parse_valid"] = True
                     score_dict["correct"] = (clean == item.ground_truth)
+                    score_dict["schema_valid"] = False
                     break
 
         return score_dict
