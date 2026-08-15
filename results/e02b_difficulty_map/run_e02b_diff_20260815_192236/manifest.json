@@ -1,0 +1,13 @@
+{
+  "run_id": "run_e02b_diff_20260815_192236",
+  "target_model": "llama3.2:3b",
+  "model_digest": "a80c4f17acd55265feec403c7aef86be0c25983ab279d83f3bcd3abbcb5b8b72",
+  "start_time": "2026-08-15T19:34:22.343031+00:00",
+  "sweeps_evaluated": [
+    "distractor_load"
+  ],
+  "trials_per_level": 32,
+  "total_trials": 256,
+  "temperature": 0.0,
+  "seed": 42
+}
