@@ -72,7 +72,7 @@ class ImmutableEventLog:
 
 
 class StateManager:
-    """Manages explicit StructuredSelfState, capacity bounding, and versioned snapshots."""
+    """Manages explicit StructuredSelfState, capacity bounding, deterministic delta merging, and versioned snapshots."""
 
     VALID_GOAL_TRANSITIONS = {
         "pending": {"active", "suspended", "completed"},
@@ -90,6 +90,7 @@ class StateManager:
         self._current_state = initial_state or StructuredSelfState()
         self._event_log = ImmutableEventLog()
         self._snapshots: List[StateSnapshotRecord] = []
+        # Least-Recently-Updated order of keys (oldest updated first, newest updated last)
         self._access_order: List[str] = list(self._current_state.working_memory.keys())
 
     @property
@@ -111,13 +112,117 @@ class StateManager:
         """Append an incoming event to the immutable log."""
         return self._event_log.append(event, tick)
 
+    def record_key_updates(self, keys: List[str]) -> None:
+        """Update recency order only when keys are explicitly written or updated."""
+        for k in keys:
+            if k in self._access_order:
+                self._access_order.remove(k)
+            self._access_order.append(k)
+
+    def record_key_deletions(self, keys: List[str]) -> None:
+        """Remove keys from internal recency tracking."""
+        for k in keys:
+            if k in self._access_order:
+                self._access_order.remove(k)
+
+    def validate_goal_transition(self, current_status: str, new_status: str) -> bool:
+        """Check if a goal transition is permissible under the goal lifecycle state machine."""
+        if current_status == new_status:
+            return True
+        allowed = self.VALID_GOAL_TRANSITIONS.get(current_status, set())
+        return new_status in allowed
+
+    def apply_delta(
+        self,
+        prev_state: StructuredSelfState,
+        delta: Dict[str, Any],
+        tick: int,
+    ) -> Tuple[StructuredSelfState, List[str]]:
+        """Deterministically merge a structured delta into previous state."""
+        state = prev_state.model_copy(deep=True)
+        validation_warnings: List[str] = []
+
+        # 1. Working Memory Upserts
+        wm_upserts = delta.get("working_memory_upserts", {})
+        if isinstance(wm_upserts, dict) and wm_upserts:
+            for k, v in wm_upserts.items():
+                state.working_memory[str(k)] = str(v)
+            self.record_key_updates(list(wm_upserts.keys()))
+
+        # 2. Working Memory Deletions
+        wm_deletions = delta.get("working_memory_deletions", [])
+        if isinstance(wm_deletions, list) and wm_deletions:
+            for k in wm_deletions:
+                str_k = str(k)
+                state.working_memory.pop(str_k, None)
+                state.source_ledger.pop(str_k, None)
+            self.record_key_deletions([str(k) for k in wm_deletions])
+
+        # 3. Source Ledger Upserts
+        src_upserts = delta.get("source_upserts", {})
+        if isinstance(src_upserts, dict) and src_upserts:
+            for k, v in src_upserts.items():
+                if str(k) in state.working_memory:
+                    state.source_ledger[str(k)] = str(v)
+
+        # 4. Goal Updates with Lifecycle Validation
+        goal_updates = delta.get("goal_updates", [])
+        if isinstance(goal_updates, list):
+            for g_dict in goal_updates:
+                gid = str(g_dict.get("goal_id", ""))
+                desc = str(g_dict.get("description", ""))
+                new_st = str(g_dict.get("status", "active"))
+                
+                existing = [g for g in state.goals if g.goal_id == gid]
+                if existing:
+                    target_g = existing[0]
+                    if self.validate_goal_transition(target_g.status, new_st):
+                        target_g.status = new_st
+                        target_g.updated_at_step = tick
+                        if desc:
+                            target_g.description = desc
+                    else:
+                        warning_msg = (
+                            f"Illegal goal transition rejected for '{gid}': "
+                            f"'{target_g.status}' -> '{new_st}'"
+                        )
+                        validation_warnings.append(warning_msg)
+                else:
+                    # New goal assertion
+                    state.goals.append(GoalState(
+                        goal_id=gid,
+                        description=desc,
+                        status=new_st,
+                        created_at_step=tick,
+                        updated_at_step=tick,
+                    ))
+
+        # 5. Unresolved Items Add / Remove
+        unresolved_set = set(state.unresolved_items)
+        for item in delta.get("unresolved_items_add", []):
+            unresolved_set.add(str(item))
+        for item in delta.get("unresolved_items_remove", []):
+            unresolved_set.discard(str(item))
+
+        # Auto-sync unresolved with pending/suspended goals
+        for g in state.goals:
+            if g.status in ("pending", "suspended"):
+                unresolved_set.add(g.goal_id)
+            elif g.status == "completed":
+                unresolved_set.discard(g.goal_id)
+
+        state.unresolved_items = sorted(list(unresolved_set))
+        state.last_updated_step = tick
+
+        return state, validation_warnings
+
     def apply_capacity_bounds(self, state: StructuredSelfState) -> StructuredSelfState:
         """Enforce maximum item limits on working memory, goals, and unresolved items."""
         # 1. Bounded Working Memory (LRU eviction based on access order)
         if len(state.working_memory) > self.capacity.max_working_memory_items:
-            # Keep the most recently accessed items
+            # Keep the most recently updated items
             keys_to_keep = set(self._access_order[-self.capacity.max_working_memory_items:])
-            # If access order doesn't cover all keys, keep arbitrary trailing keys
+            # If access order doesn't cover all keys, keep arbitrary keys
             if len(keys_to_keep) < self.capacity.max_working_memory_items:
                 remaining = [k for k in state.working_memory if k not in keys_to_keep]
                 for k in remaining:
@@ -125,13 +230,15 @@ class StateManager:
                         break
                     keys_to_keep.add(k)
             
+            evicted_keys = [k for k in state.working_memory if k not in keys_to_keep]
             state.working_memory = {
                 k: v for k, v in state.working_memory.items() if k in keys_to_keep
             }
-            # Also clean source ledger for evicted keys
+            # Clean source ledger and access order for evicted keys
             state.source_ledger = {
                 k: v for k, v in state.source_ledger.items() if k in keys_to_keep
             }
+            self.record_key_deletions(evicted_keys)
 
         # 2. Bounded Goals (Keep active/suspended goals preferentially over completed)
         if len(state.goals) > self.capacity.max_goals:
@@ -158,13 +265,11 @@ class StateManager:
         latency_ms: float = 0.0,
         updater_mode: str = "oracle",
         error_message: Optional[str] = None,
+        explicit_written_keys: Optional[List[str]] = None,
     ) -> StateSnapshotRecord:
-        """Apply new state, enforce capacity bounds, touch access order, and record snapshot."""
-        # Update internal access tracking
-        for k in new_state.working_memory.keys():
-            if k in self._access_order:
-                self._access_order.remove(k)
-            self._access_order.append(k)
+        """Apply new state, enforce capacity bounds, record recency on written keys, and record snapshot."""
+        if explicit_written_keys:
+            self.record_key_updates(explicit_written_keys)
 
         # Enforce capacity bounds
         bounded_state = self.apply_capacity_bounds(new_state)
@@ -191,3 +296,4 @@ class StateManager:
             if snap.tick == tick:
                 return snap
         return None
+

@@ -1,7 +1,7 @@
 """Quantitative metrics for autonomous state maintenance, drift, mutation, and stability."""
 
 from dataclasses import dataclass, field
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Set
 from recurrence.memory.schemas import StateSnapshotRecord, StructuredSelfState
 from recurrence.tasks.stream_scenarios import StreamScenario
 
@@ -16,6 +16,7 @@ class TickStabilityMetric:
     mutated_keys_count: int
     omitted_keys_count: int
     phantom_keys_count: int
+    phantom_keys_list: List[str]
     retention_fidelity: float
     omission_rate: float
     mutation_rate: float
@@ -24,6 +25,7 @@ class TickStabilityMetric:
     prompt_tokens: int
     completion_tokens: int
     state_size_chars: int
+    failure_categories: List[str] = field(default_factory=list)
     error_message: Optional[str] = None
 
 
@@ -38,12 +40,14 @@ class ScenarioStabilitySummary:
     terminal_retention_fidelity: float
     mean_omission_rate: float
     mean_mutation_rate: float
-    total_phantom_intrusions: int
+    phantom_key_tick_count: int
+    unique_phantom_keys_count: int
     mean_goal_coherence: float
     terminal_goal_coherence: float
     is_ossified: bool
     total_prompt_tokens: int
     total_completion_tokens: int
+    failure_category_counts: Dict[str, int] = field(default_factory=dict)
     tick_metrics: List[TickStabilityMetric] = field(default_factory=list)
 
 
@@ -64,7 +68,7 @@ def evaluate_tick_state(
     retained = 0
     mutated = 0
     omitted = 0
-    phantom = 0
+    phantom_keys: List[str] = []
 
     if total_gt == 0:
         retention_fid = 1.0
@@ -80,7 +84,6 @@ def evaluate_tick_state(
             else:
                 omitted += 1
 
-        # Check invariant
         assert retained + mutated + omitted == total_gt
         retention_fid = retained / total_gt
         omission_r = omitted / total_gt
@@ -89,7 +92,9 @@ def evaluate_tick_state(
     # Phantom keys (keys in evaluated state that never appeared in ground truth)
     for k in eval_wm.keys():
         if k not in gt_wm:
-            phantom += 1
+            phantom_keys.append(k)
+
+    phantom_count = len(phantom_keys)
 
     # Source attribution accuracy on present keys
     src_matches = 0
@@ -115,6 +120,19 @@ def evaluate_tick_state(
 
     state_chars = len(evaluated_state.model_dump_json())
 
+    # Independent Non-Exclusive Failure Categories
+    failures: List[str] = []
+    if not schema_valid:
+        failures.append("Schema Violation")
+    if omitted > 0:
+        failures.append("Exact KV Omission")
+    if mutated > 0:
+        failures.append("Exact Association Mutation")
+    if phantom_count > 0:
+        failures.append("Phantom Intrusion")
+    if goal_coh < 1.0:
+        failures.append("Goal Desynchronization")
+
     return TickStabilityMetric(
         tick=tick,
         schema_valid=schema_valid,
@@ -122,7 +140,8 @@ def evaluate_tick_state(
         retained_keys_count=retained,
         mutated_keys_count=mutated,
         omitted_keys_count=omitted,
-        phantom_keys_count=phantom,
+        phantom_keys_count=phantom_count,
+        phantom_keys_list=phantom_keys,
         retention_fidelity=retention_fid,
         omission_rate=omission_r,
         mutation_rate=mutation_r,
@@ -131,6 +150,7 @@ def evaluate_tick_state(
         prompt_tokens=prompt_tokens,
         completion_tokens=completion_tokens,
         state_size_chars=state_chars,
+        failure_categories=failures,
         error_message=error_message,
     )
 
@@ -142,8 +162,15 @@ def compute_scenario_stability(
 ) -> ScenarioStabilitySummary:
     """Compute comprehensive stability summary across all snapshots for a scenario."""
     tick_metrics: List[TickStabilityMetric] = []
+    unique_phantoms: Set[str] = set()
+    failure_counts: Dict[str, int] = {
+        "Schema Violation": 0,
+        "Exact KV Omission": 0,
+        "Exact Association Mutation": 0,
+        "Phantom Intrusion": 0,
+        "Goal Desynchronization": 0,
+    }
     
-    # Track state changes for ossification detection
     state_changed_at_least_once = False
     prev_wm: Optional[Dict[str, str]] = None
 
@@ -161,6 +188,12 @@ def compute_scenario_stability(
         )
         tick_metrics.append(metric)
 
+        for p_key in metric.phantom_keys_list:
+            unique_phantoms.add(p_key)
+
+        for f_cat in metric.failure_categories:
+            failure_counts[f_cat] = failure_counts.get(f_cat, 0) + 1
+
         if prev_wm is not None and snap.state.working_memory != prev_wm:
             state_changed_at_least_once = True
         prev_wm = dict(snap.state.working_memory)
@@ -176,12 +209,14 @@ def compute_scenario_stability(
             terminal_retention_fidelity=1.0,
             mean_omission_rate=0.0,
             mean_mutation_rate=0.0,
-            total_phantom_intrusions=0,
+            phantom_key_tick_count=0,
+            unique_phantom_keys_count=0,
             mean_goal_coherence=1.0,
             terminal_goal_coherence=1.0,
             is_ossified=False,
             total_prompt_tokens=0,
             total_completion_tokens=0,
+            failure_category_counts=failure_counts,
         )
 
     valid_count = sum(1 for m in tick_metrics if m.schema_valid)
@@ -201,7 +236,6 @@ def compute_scenario_stability(
     total_prompt_tok = sum(m.prompt_tokens for m in tick_metrics)
     total_comp_tok = sum(m.completion_tokens for m in tick_metrics)
 
-    # Ossified if multiple ticks with events occurred but state never updated once
     is_ossified = (total_ticks > 3 and not state_changed_at_least_once)
 
     return ScenarioStabilitySummary(
@@ -213,11 +247,13 @@ def compute_scenario_stability(
         terminal_retention_fidelity=terminal_retention,
         mean_omission_rate=mean_omission,
         mean_mutation_rate=mean_mutation,
-        total_phantom_intrusions=total_phantoms,
+        phantom_key_tick_count=total_phantoms,
+        unique_phantom_keys_count=len(unique_phantoms),
         mean_goal_coherence=mean_goal_coh,
         terminal_goal_coherence=terminal_goal_coh,
         is_ossified=is_ossified,
         total_prompt_tokens=total_prompt_tok,
         total_completion_tokens=total_comp_tok,
+        failure_category_counts=failure_counts,
         tick_metrics=tick_metrics,
     )

@@ -156,3 +156,62 @@ STATE_UPDATE_SCHEMA: Dict[str, Any] = {
     "additionalProperties": False,
 }
 
+STATE_DELTA_SCHEMA: Dict[str, Any] = {
+    "type": "object",
+    "properties": {
+        "working_memory_upserts": {
+            "type": "object",
+            "additionalProperties": {"type": "string"},
+            "description": "Key-value bindings to insert or update in working memory",
+        },
+        "working_memory_deletions": {
+            "type": "array",
+            "items": {"type": "string"},
+            "description": "Keys to remove from working memory",
+        },
+        "source_upserts": {
+            "type": "object",
+            "additionalProperties": {
+                "type": "string",
+                "enum": ["environment", "self", "experimenter"],
+            },
+            "description": "Source attribution updates for target entity keys",
+        },
+        "goal_updates": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "goal_id": {"type": "string"},
+                    "description": {"type": "string"},
+                    "status": {
+                        "type": "string",
+                        "enum": ["pending", "active", "completed", "suspended"],
+                    },
+                },
+                "required": ["goal_id", "description", "status"],
+                "additionalProperties": False,
+            },
+            "description": "Goal status transitions or new goals asserted in this tick",
+        },
+        "unresolved_items_add": {
+            "type": "array",
+            "items": {"type": "string"},
+        },
+        "unresolved_items_remove": {
+            "type": "array",
+            "items": {"type": "string"},
+        },
+    },
+    "required": [
+        "working_memory_upserts",
+        "working_memory_deletions",
+        "source_upserts",
+        "goal_updates",
+        "unresolved_items_add",
+        "unresolved_items_remove",
+    ],
+    "additionalProperties": False,
+}
+
+
