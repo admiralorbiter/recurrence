@@ -14,12 +14,12 @@ Experiment E04 evaluates whether an autonomous agent can incrementally maintain 
 
 ### Multi-Condition Update Stability Table
 
-| Condition / Updater | Active Schema Compliance | Scenario-Macro Retention | Tick-Micro Retention | Terminal Retention | Macro Omission Rate | Macro Mutation Rate | Never-Seen Phantoms (Ticks / Unique) | Stale / Evicted Keys | Macro Goal Coherence | Tokens / Active Inference | Tokens / Logical Tick |
+| Condition / Updater | Active Transition / Schema Validity | Scenario-Macro Retention | Tick-Micro Retention | Terminal Retention | Macro Omission Rate | Macro Mutation Rate | Never-Seen Phantoms (Ticks / Unique) | Stale / Evicted Keys | Macro Goal Coherence | Tokens / Active Inference | Tokens / Logical Tick |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **`Oracle Grounded Update`** | **100.0%** (69/69) | **100.0%** | **100.0%** | **100.0%** | 0.0% | 0.0% | 0 / 0 | 0 | **100.0%** | 0.0 tok | 0.0 tok |
+| **`Oracle Grounded Update`** | **100.0% (Deterministic)** | **100.0%** | **100.0%** | **100.0%** | 0.0% | 0.0% | 0 / 0 | 0 | **100.0%** | 0.0 tok | 0.0 tok |
 | **`Model Delta Updater (S05.1)`** | **100.0%** (69/69) | **13.2%** | **9.0%** | **11.1%** | 80.6% | 6.2% | 452 / 45 | 0 | **42.8%** | 848.5 tok | 309.8 tok |
 | **`Model Full-State Updater (E04a)`** | **100.0%** (69/69) | **6.3%** | **5.4%** | **0.0%** | 92.0% | 1.7% | 56 / 25 | 0 | **16.7%** | 338.4 tok | 123.5 tok |
-| **`Deterministic Grounded Reference`** | **100.0%** (69/69) | **100.0%** | **100.0%** | **100.0%** | 0.0% | 0.0% | 0 / 0 | 0 | **100.0%** | 0.0 tok | 0.0 tok |
+| **`Deterministic Grounded Reference`** | **100.0% (Deterministic)** | **100.0%** | **100.0%** | **100.0%** | 0.0% | 0.0% | 0 / 0 | 0 | **100.0%** | 0.0 tok | 0.0 tok |
 
 *Note on Grounded Reference:* In E04b, this condition executes deterministic event processing identically to Oracle. Genuine retrospective replay (reconstructing from accumulated history at query time) is formally reserved for Sprint S06.
 
@@ -56,8 +56,8 @@ Experiment E04 evaluates whether an autonomous agent can incrementally maintain 
 The Level-1 explicit persistence architecture is fully functional, auditable, and robust:
 - Operates deterministically across active and quiet ticks.
 - Enforces strict capacity bounding ($K_{\max}=16$, LRU eviction).
-- Enforces goal lifecycle transition invariants and hash-chained audit logging (`state_trace.jsonl`).
-- Passes all 66 unit and regression tests in `tests/`.
+- Enforces goal lifecycle transition invariants, hash-chained immutable event logging (`ImmutableEventLog`), and tick-by-tick execution audit tracing (`state_trace.jsonl`).
+- Passes all 72 unit and regression tests in `tests/`.
 
 ### 2. S05 Model-Autonomous Maintenance Gate: **FAIL**
 Under this benchmark and update protocol, Qwen2.5-3B could not reliably maintain multi-slot state without deterministic transition scaffolding ($13.2\%$ macro retention, $80.6\%$ omission, $42.8\%$ goal coherence).

@@ -198,10 +198,20 @@ def recompute_e04_closeout(run_dir: Path) -> Dict[str, Any]:
             "prompt_tokens_per_logical_tick": p_tok_per_tick,
         }
 
+    import hashlib
+    with open(trace_file, "rb") as tf:
+        trace_sha256 = hashlib.sha256(tf.read()).hexdigest()
+
+    try:
+        rel_trace_path = str(trace_file.resolve().relative_to(Path.cwd().resolve())).replace("\\", "/")
+    except ValueError:
+        rel_trace_path = str(trace_file).replace("\\", "/")
+
     derived_payload = {
         "manifest": manifest,
         "derivation_timestamp": datetime.now(timezone.utc).isoformat(),
-        "derivation_source": str(trace_file.resolve()),
+        "derivation_source": rel_trace_path,
+        "derivation_source_sha256": trace_sha256,
         "derived_condition_summaries": derived_summaries,
     }
 
