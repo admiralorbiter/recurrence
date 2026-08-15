@@ -394,3 +394,85 @@ def test_sdt_indices_calculation():
     sdt_liberal = compute_sdt_indices(records_liberal, signal_target="A")
     assert sdt_liberal["criterion_c"] < -0.5  # Liberal -> negative c
 
+
+def test_true_prefix_distractor_nesting():
+    """Verify that distractor pairs in smaller levels are exact prefixes of larger levels and target needle is at D//2."""
+    task = AdaptiveMetacognition2AFCTask()
+    levels = [4, 8, 16, 32]
+    items = task.generate_nested_distractor_sweep(levels=levels, count_per_level=2, base_seed=100)
+
+    for i in range(2):
+        it_4 = items[0 * 2 + i]
+        it_8 = items[1 * 2 + i]
+        it_16 = items[2 * 2 + i]
+        it_32 = items[3 * 2 + i]
+
+        # Verify needle position is exactly D // 2
+        assert it_4.metadata["needle_index"] == 4 // 2
+        assert it_8.metadata["needle_index"] == 8 // 2
+        assert it_16.metadata["needle_index"] == 16 // 2
+        assert it_32.metadata["needle_index"] == 32 // 2
+
+        # Extract context lines (excluding target needle)
+        def _get_distractor_lines(item):
+            lines = [l for l in item.prompt.split("Context Information:\n")[1].split("\n\nQuestion:")[0].split("\n") if l.strip()]
+            t_key = item.metadata["target_key"]
+            return [l for l in lines if f"'{t_key}'" not in l and f"- {t_key} =" not in l]
+
+        dlines_4 = _get_distractor_lines(it_4)
+        dlines_8 = _get_distractor_lines(it_8)
+        dlines_16 = _get_distractor_lines(it_16)
+        dlines_32 = _get_distractor_lines(it_32)
+
+        # Distractor lines must be strict prefixes!
+        assert dlines_8[:4] == dlines_4
+        assert dlines_16[:8] == dlines_8
+        assert dlines_32[:16] == dlines_16
+
+
+def test_sdt_bootstrap_ci():
+    """Verify bootstrap confidence intervals for SDT d' and c."""
+    from recurrence.analysis.psychophysics import compute_sdt_bootstrap_ci
+
+    records = (
+        [{"ground_truth": "A", "parsed_answer": "A"} for _ in range(20)] +
+        [{"ground_truth": "A", "parsed_answer": "B"} for _ in range(5)] +
+        [{"ground_truth": "B", "parsed_answer": "B"} for _ in range(20)] +
+        [{"ground_truth": "B", "parsed_answer": "A"} for _ in range(5)]
+    )
+    ci_res = compute_sdt_bootstrap_ci(records, signal_target="A", n_bootstraps=200, seed=42)
+    assert ci_res["d_prime_ci_lower"] is not None
+    assert ci_res["d_prime_ci_upper"] is not None
+    assert ci_res["d_prime_ci_lower"] < ci_res["d_prime_ci_upper"]
+    assert ci_res["criterion_c_ci_lower"] < ci_res["criterion_c_ci_upper"]
+
+
+def test_nested_paired_transitions():
+    """Verify adjacent-level paired transitions matrix calculation."""
+    from recurrence.analysis.psychophysics import compute_nested_paired_transitions
+
+    records = [
+        # Level 4: 4 items (3 correct, 1 wrong)
+        {"difficulty_level": 4, "item_id": "h0v2_dist_0004_s1_A", "target_key": "k1", "correct": True},
+        {"difficulty_level": 4, "item_id": "h0v2_dist_0004_s2_B", "target_key": "k2", "correct": True},
+        {"difficulty_level": 4, "item_id": "h0v2_dist_0004_s3_A", "target_key": "k3", "correct": True},
+        {"difficulty_level": 4, "item_id": "h0v2_dist_0004_s4_B", "target_key": "k4", "correct": False},
+        # Level 8: same 4 items (k1 correct, k2 degraded, k3 correct, k4 rebounded)
+        {"difficulty_level": 8, "item_id": "h0v2_dist_0008_s1_A", "target_key": "k1", "correct": True},
+        {"difficulty_level": 8, "item_id": "h0v2_dist_0008_s2_B", "target_key": "k2", "correct": False},
+        {"difficulty_level": 8, "item_id": "h0v2_dist_0008_s3_A", "target_key": "k3", "correct": True},
+        {"difficulty_level": 8, "item_id": "h0v2_dist_0008_s4_B", "target_key": "k4", "correct": True},
+    ]
+
+    transitions = compute_nested_paired_transitions(records)
+    assert len(transitions) == 1
+    t = transitions[0]
+    assert t["from_level"] == 4
+    assert t["to_level"] == 8
+    assert t["paired_items_count"] == 4
+    assert t["retained_correct_1_to_1"] == 2  # k1, k3
+    assert t["degraded_1_to_0"] == 1          # k2
+    assert t["persisted_wrong_0_to_0"] == 0
+    assert t["rebounded_0_to_1"] == 1         # k4
+
+

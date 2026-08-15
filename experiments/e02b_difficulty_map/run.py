@@ -121,7 +121,7 @@ def generate_e02b_markdown_report(
         lines.extend([
             f"### Sweep: {name.replace('_', ' ').title()}",
             f"",
-            f"| Level | Trials | Correct | Accuracy | 95% Wilson CI | P(Chose 'A') | SDT $d'$ | SDT $c$ | Mean Conf | Conf Sep | Brier | Prompt Tok | Compliance |",
+            f"| Level | Trials | Correct | Accuracy | 95% Wilson CI | P(Chose 'A') | SDT $d'$ [95% CI] | SDT $c$ [95% CI] | Mean Conf | Conf Sep | Brier | Prompt Tok | Compliance |",
             f"| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |",
         ])
         for lvl_str, m in res.get("level_metrics", {}).items():
@@ -131,8 +131,27 @@ def generate_e02b_markdown_report(
             acc = f"{m['accuracy']:.1%}"
             ci = f"[{m['ci_95_lower']:.1%}, {m['ci_95_upper']:.1%}]"
             pa = f"{m['option_a_selection_rate']:.1%}"
-            dp = f"{m['sdt_d_prime']:+.2f}" if m.get("sdt_d_prime") is not None else "N/A"
-            sc = f"{m['sdt_criterion_c']:+.2f}" if m.get("sdt_criterion_c") is not None else "N/A"
+            
+            dp_val = m.get("sdt_d_prime")
+            dp_l = m.get("sdt_d_prime_ci_lower")
+            dp_u = m.get("sdt_d_prime_ci_upper")
+            if dp_val is not None and dp_l is not None and dp_u is not None:
+                dp = f"{dp_val:+.2f} [{dp_l:+.2f}, {dp_u:+.2f}]"
+            elif dp_val is not None:
+                dp = f"{dp_val:+.2f}"
+            else:
+                dp = "N/A"
+
+            sc_val = m.get("sdt_criterion_c")
+            sc_l = m.get("sdt_criterion_c_ci_lower")
+            sc_u = m.get("sdt_criterion_c_ci_upper")
+            if sc_val is not None and sc_l is not None and sc_u is not None:
+                sc = f"{sc_val:+.2f} [{sc_l:+.2f}, {sc_u:+.2f}]"
+            elif sc_val is not None:
+                sc = f"{sc_val:+.2f}"
+            else:
+                sc = "N/A"
+
             mc = f"{m['mean_confidence']:.1%}" if m.get("mean_confidence") is not None else "N/A"
             cs = f"{m['confidence_separation']:+.1%}" if m.get("confidence_separation") is not None else "N/A"
             br = f"{m['brier_score']:.3f}" if m.get("brier_score") is not None else "N/A"
@@ -142,6 +161,21 @@ def generate_e02b_markdown_report(
                 f"| `{lvl}` | {tot} | {cor} | **{acc}** | {ci} | {pa} | {dp} | {sc} | {mc} | {cs} | {br} | {tok} | {comp} |"
             )
         lines.append("")
+
+        # Add adjacent level paired transitions if present
+        transitions = res.get("paired_transitions", [])
+        if transitions:
+            lines.extend([
+                f"#### Within-Item Paired Transitions (Adjacent Levels):",
+                f"",
+                f"| Transition ($D_k \\to D_{{k+1}}$) | Retained ($1 \\to 1$) | Degraded ($1 \\to 0$) | Persisted Wrong ($0 \\to 0$) | Rebounded ($0 \\to 1$) | Degradation Rate | Rebound Rate | Net $\\Delta$ Acc |",
+                f"| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |",
+            ])
+            for t in transitions:
+                lines.append(
+                    f"| `{t['from_level']} -> {t['to_level']}` | {t['retained_correct_1_to_1']} | {t['degraded_1_to_0']} | {t['persisted_wrong_0_to_0']} | {t['rebounded_0_to_1']} | {t['degradation_rate']:.1%} | {t['rebound_rate']:.1%} | {t['net_accuracy_delta']:+.1%} |"
+                )
+            lines.append("")
 
     if reactivity_results:
         lines.extend([
@@ -156,6 +190,7 @@ def generate_e02b_markdown_report(
             f"- **Exact Option Concordance Rate:** {reactivity_results.get('exact_answer_concordance_rate', 0.0):.1%}",
             f"- **McNemar Chi2 Statistic:** {reactivity_results.get('mcnemar_chi2_statistic', 0.0):.3f} (p = {reactivity_results.get('mcnemar_p_value', 1.0):.4f})",
             f"- **Reactivity Verdict:** `{reactivity_results.get('reactivity_status')}`",
+            f"- **Policy Reactivity Note:** Concordance below 85% reflects item-level decision changes even if net accuracy difference is small.",
             f"",
         ])
 
@@ -164,9 +199,9 @@ def generate_e02b_markdown_report(
         f"",
         f"## 4. Scientific Takeaways for Adaptive Calibration",
         f"",
-        f"1. **Monotonicity Assessment:** A difficulty axis is staircase-ready if it exhibits a consistent negative rank correlation (rho <= -0.70) and spans the operational target window (~55-90%).",
-        f"2. **Context vs. Structure:** If distractor count saturates at ceiling for larger models, multi-hop pointer depth (H) provides a structural composition bottleneck.",
-        f"3. **Reactivity Stability:** Confidence elicitation must maintain high concordance (>= 85%) with pure answer-only behavior to avoid perturbing first-order policy during metacognitive readout.",
+        f"1. **Monotonicity Assessment:** A difficulty axis is staircase-ready if it exhibits a consistent negative rank correlation (rho <= -0.70, negative_step_ratio >= 0.70) and spans the operational target window (~55-90%).",
+        f"2. **Response Bias (Criterion $c$):** Positive $c$ indicates an Option-B selection bias under Signal=A conventions. Extreme criterion shifts ($|c| > 1.0$) indicate response collapse rather than sensitivity loss.",
+        f"3. **Within-Item Transitions:** High rebound rates ($0 \\to 1$) indicate order/placement sensitivity or item noise, whereas high degradation ($1 \\to 0$) confirms true capacity degradation.",
     ])
 
     return "\n".join(lines)

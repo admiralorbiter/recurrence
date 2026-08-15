@@ -120,14 +120,134 @@ def compute_sdt_indices(
     }
 
 
+def compute_sdt_bootstrap_ci(
+    records: List[Dict[str, Any]],
+    signal_target: str = "A",
+    n_bootstraps: int = 1000,
+    ci: float = 0.95,
+    seed: int = 42,
+) -> Dict[str, Optional[float]]:
+    """Compute stratified bootstrap confidence intervals for SDT d' and criterion c."""
+    sig_records = [r for r in records if str(r.get("ground_truth", "")).upper() == signal_target]
+    noise_records = [r for r in records if str(r.get("ground_truth", "")).upper() != signal_target]
+    n_sig = len(sig_records)
+    n_noise = len(noise_records)
+
+    if n_sig < 2 or n_noise < 2:
+        return {
+            "d_prime_ci_lower": None,
+            "d_prime_ci_upper": None,
+            "criterion_c_ci_lower": None,
+            "criterion_c_ci_upper": None,
+        }
+
+    rng = np.random.RandomState(seed)
+    boot_d_primes = []
+    boot_cs = []
+
+    alpha = (1.0 - ci) / 2.0
+    for _ in range(n_bootstraps):
+        boot_sig = [sig_records[idx] for idx in rng.choice(n_sig, size=n_sig, replace=True)]
+        boot_noise = [noise_records[idx] for idx in rng.choice(n_noise, size=n_noise, replace=True)]
+        boot_sdt = compute_sdt_indices(boot_sig + boot_noise, signal_target=signal_target)
+        if boot_sdt["d_prime"] is not None and boot_sdt["criterion_c"] is not None:
+            boot_d_primes.append(boot_sdt["d_prime"])
+            boot_cs.append(boot_sdt["criterion_c"])
+
+    if not boot_d_primes:
+        return {
+            "d_prime_ci_lower": None,
+            "d_prime_ci_upper": None,
+            "criterion_c_ci_lower": None,
+            "criterion_c_ci_upper": None,
+        }
+
+    return {
+        "d_prime_ci_lower": float(np.percentile(boot_d_primes, alpha * 100)),
+        "d_prime_ci_upper": float(np.percentile(boot_d_primes, (1.0 - alpha) * 100)),
+        "criterion_c_ci_lower": float(np.percentile(boot_cs, alpha * 100)),
+        "criterion_c_ci_upper": float(np.percentile(boot_cs, (1.0 - alpha) * 100)),
+    }
+
+
+def compute_nested_paired_transitions(
+    records: List[Dict[str, Any]],
+    difficulty_key: str = "difficulty_level"
+) -> List[Dict[str, Any]]:
+    """Compute adjacent-level paired transitions (correct->wrong vs wrong->correct) across difficulty levels.
+    
+    Identifies item identity by metadata seed / target_key to evaluate within-item stability.
+    """
+    grouped_by_level: Dict[Any, Dict[str, Dict[str, Any]]] = defaultdict(dict)
+    
+    for idx, r in enumerate(records):
+        lvl = r.get(difficulty_key, r.get("distractor_count", r.get("hop_depth", r.get("overwrite_count", 0))))
+        t_key = r.get("target_key") or (r.get("metadata", {}).get("target_key") if isinstance(r.get("metadata"), dict) else None)
+        if t_key:
+            item_key = str(t_key)
+        else:
+            item_id = str(r.get("item_id", idx))
+            if "_s" in item_id:
+                item_key = "s" + item_id.split("_s")[-1]
+            else:
+                item_key = item_id
+        grouped_by_level[lvl][item_key] = r
+
+    sorted_levels = sorted(grouped_by_level.keys())
+    transitions = []
+
+    for i in range(len(sorted_levels) - 1):
+        lvl1 = sorted_levels[i]
+        lvl2 = sorted_levels[i + 1]
+        recs1 = grouped_by_level[lvl1]
+        recs2 = grouped_by_level[lvl2]
+
+        common_keys = set(recs1.keys()) & set(recs2.keys())
+        if not common_keys:
+            continue
+
+        both_correct = 0
+        degraded_1_to_0 = 0
+        persisted_wrong_0_to_0 = 0
+        rebounded_0_to_1 = 0
+
+        for k in common_keys:
+            c1 = bool(recs1[k].get("correct", False))
+            c2 = bool(recs2[k].get("correct", False))
+            if c1 and c2:
+                both_correct += 1
+            elif c1 and not c2:
+                degraded_1_to_0 += 1
+            elif not c1 and not c2:
+                persisted_wrong_0_to_0 += 1
+            else:  # not c1 and c2
+                rebounded_0_to_1 += 1
+
+        n_pairs = len(common_keys)
+        transitions.append({
+            "from_level": lvl1,
+            "to_level": lvl2,
+            "paired_items_count": n_pairs,
+            "retained_correct_1_to_1": both_correct,
+            "degraded_1_to_0": degraded_1_to_0,
+            "persisted_wrong_0_to_0": persisted_wrong_0_to_0,
+            "rebounded_0_to_1": rebounded_0_to_1,
+            "net_accuracy_delta": (rebounded_0_to_1 - degraded_1_to_0) / n_pairs if n_pairs > 0 else 0.0,
+            "degradation_rate": degraded_1_to_0 / (both_correct + degraded_1_to_0) if (both_correct + degraded_1_to_0) > 0 else 0.0,
+            "rebound_rate": rebounded_0_to_1 / (persisted_wrong_0_to_0 + rebounded_0_to_1) if (persisted_wrong_0_to_0 + rebounded_0_to_1) > 0 else 0.0,
+        })
+
+    return transitions
+
+
 def compute_psychometric_curve(
     records: List[Dict[str, Any]],
     difficulty_key: str = "difficulty_level"
 ) -> Dict[str, Any]:
     """Compute empirical psychometric curve statistics grouped by difficulty level.
     
-    Calculates accuracy, Wilson 95% CIs, SDT d', SDT criterion c, A/B position bias,
-    confidence separation, continuous Brier score, and prompt token footprint per difficulty stratum.
+    Calculates accuracy, Wilson 95% CIs, SDT d', SDT criterion c with bootstrap CIs,
+    A/B position bias, confidence separation, continuous Brier score, and prompt token footprint.
     """
     if not records:
         return {"levels": [], "level_metrics": {}, "overall_summary": {}}
@@ -138,8 +258,7 @@ def compute_psychometric_curve(
         grouped[d_val].append(r)
 
     sorted_levels = sorted(grouped.keys())
-    level_metrics: Dict[str, Any] = {}
-
+    level_metrics: Dict[str, Dict[str, Any]] = {}
     all_accuracies: List[float] = []
     all_levels_numeric: List[float] = []
 
@@ -148,64 +267,48 @@ def compute_psychometric_curve(
         n_total = len(lvl_recs)
         correct_count = sum(1 for r in lvl_recs if r.get("correct", False))
         acc = float(correct_count / n_total) if n_total > 0 else 0.0
-        ci_l, ci_u = compute_wilson_score_interval(correct_count, n_total, confidence=0.95)
+        ci_l, ci_u = compute_wilson_score_interval(correct_count, n_total)
 
-        # Position bias: P(Chose 'A')
+        # Position bias: P(A chosen)
         a_count = sum(1 for r in lvl_recs if str(r.get("parsed_answer", "")).upper() == "A")
         p_a = float(a_count / n_total) if n_total > 0 else 0.5
         pos_bias = float(p_a - 0.5)
 
-        # SDT Sensitivity (d') and Decision Criterion (c)
+        # SDT sensitivity and criterion
         sdt = compute_sdt_indices(lvl_recs, signal_target="A")
+        sdt_ci = compute_sdt_bootstrap_ci(lvl_recs, signal_target="A")
 
-        # Compliance
-        schema_valid_count = sum(1 for r in lvl_recs if r.get("schema_valid", False))
-        schema_compliance = float(schema_valid_count / n_total) if n_total > 0 else 0.0
+        # Schema & parsing compliance
+        schema_compliance = float(sum(1 for r in lvl_recs if r.get("schema_valid", False)) / n_total) if n_total > 0 else 0.0
+        answer_parse_compliance = float(sum(1 for r in lvl_recs if r.get("answer_parse_valid", True)) / n_total) if n_total > 0 else 0.0
 
-        parse_valid_count = sum(1 for r in lvl_recs if r.get("answer_parse_valid", False))
-        answer_parse_compliance = float(parse_valid_count / n_total) if n_total > 0 else 0.0
+        # Confidence and Brier
+        conf_vals = [r.get("probability") for r in lvl_recs if r.get("probability") is not None]
+        mean_conf = float(np.mean(conf_vals)) if conf_vals else None
 
-        # Confidence & Separation
-        valid_probs = [
-            (float(r["probability"]), bool(r.get("correct", False)))
-            for r in lvl_recs
-            if r.get("probability") is not None and math.isfinite(float(r["probability"]))
-        ]
-        if valid_probs:
-            all_p = [p for p, _ in valid_probs]
-            correct_p = [p for p, y in valid_probs if y]
-            incorrect_p = [p for p, y in valid_probs if not y]
+        conf_corr = [r.get("probability") for r in lvl_recs if r.get("correct", False) and r.get("probability") is not None]
+        conf_inc = [r.get("probability") for r in lvl_recs if not r.get("correct", False) and r.get("probability") is not None]
+        mean_conf_corr = float(np.mean(conf_corr)) if conf_corr else None
+        mean_conf_inc = float(np.mean(conf_inc)) if conf_inc else None
+        conf_sep = (mean_conf_corr - mean_conf_inc) if (mean_conf_corr is not None and mean_conf_inc is not None) else None
 
-            mean_conf = float(np.mean(all_p))
-            mean_conf_corr = float(np.mean(correct_p)) if correct_p else None
-            mean_conf_inc = float(np.mean(incorrect_p)) if incorrect_p else None
-            conf_sep = (
-                float(mean_conf_corr - mean_conf_inc)
-                if (mean_conf_corr is not None and mean_conf_inc is not None)
-                else None
-            )
-            brier = float(np.mean([((p) - (1.0 if y else 0.0)) ** 2 for p, y in valid_probs]))
-        else:
-            mean_conf = None
-            mean_conf_corr = None
-            mean_conf_inc = None
-            conf_sep = None
-            brier = None
+        # Continuous Brier score
+        brier_sq_diffs = []
+        for r in lvl_recs:
+            if r.get("probability") is not None:
+                p_c = float(r["probability"])
+                o_c = 1.0 if r.get("correct", False) else 0.0
+                brier_sq_diffs.append((p_c - o_c) ** 2)
+        brier = float(np.mean(brier_sq_diffs)) if brier_sq_diffs else None
 
-        # Prompt lengths & token evaluation
-        prompt_chars = [len(str(r.get("prompt", ""))) for r in lvl_recs]
-        mean_chars = float(np.mean(prompt_chars)) if prompt_chars else 0.0
-        
-        # Prefer exact prompt_eval_count if present in metadata
+        # Token footprint
+        mean_chars = float(np.mean([len(r.get("prompt", "")) for r in lvl_recs])) if lvl_recs else 0.0
         actual_tokens = [
             r.get("metadata", {}).get("prompt_eval_count") or r.get("prompt_eval_count")
             for r in lvl_recs
             if (r.get("metadata", {}).get("prompt_eval_count") or r.get("prompt_eval_count")) is not None
         ]
-        if actual_tokens:
-            mean_est_tokens = float(np.mean(actual_tokens))
-        else:
-            mean_est_tokens = float(mean_chars / 4.0)
+        mean_est_tokens = float(np.mean(actual_tokens)) if actual_tokens else float(mean_chars / 4.0)
 
         level_metrics[str(lvl)] = {
             "difficulty_level": lvl,
@@ -217,7 +320,11 @@ def compute_psychometric_curve(
             "option_a_selection_rate": p_a,
             "position_bias": pos_bias,
             "sdt_d_prime": sdt.get("d_prime"),
+            "sdt_d_prime_ci_lower": sdt_ci.get("d_prime_ci_lower"),
+            "sdt_d_prime_ci_upper": sdt_ci.get("d_prime_ci_upper"),
             "sdt_criterion_c": sdt.get("criterion_c"),
+            "sdt_criterion_c_ci_lower": sdt_ci.get("criterion_c_ci_lower"),
+            "sdt_criterion_c_ci_upper": sdt_ci.get("criterion_c_ci_upper"),
             "schema_compliance_rate": schema_compliance,
             "answer_parse_compliance_rate": answer_parse_compliance,
             "mean_confidence": mean_conf,
@@ -235,8 +342,9 @@ def compute_psychometric_curve(
         except (ValueError, TypeError):
             all_levels_numeric.append(float(len(all_levels_numeric)))
 
-    # Monotonicity diagnostics
+    # Monotonicity diagnostics & paired transitions
     mono_diag = compute_monotonicity_diagnostics(all_levels_numeric, all_accuracies)
+    paired_transitions = compute_nested_paired_transitions(records, difficulty_key=difficulty_key)
 
     total_records = len(records)
     total_correct = sum(1 for r in records if r.get("correct", False))
@@ -247,6 +355,7 @@ def compute_psychometric_curve(
         "levels": sorted_levels,
         "level_metrics": level_metrics,
         "monotonicity_diagnostics": mono_diag,
+        "paired_transitions": paired_transitions,
         "overall_summary": {
             "total_trials": total_records,
             "overall_accuracy": overall_acc,

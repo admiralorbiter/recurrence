@@ -166,14 +166,17 @@ class AdaptiveMetacognition2AFCTask(BaseTask):
         if pre_generated_distractors is not None and pre_generated_target is not None and pre_generated_foil is not None:
             target_key, target_val = pre_generated_target
             foil_key, foil_val = pre_generated_foil
-            # Truncate distractors to distractor_count
+            # Truncate distractors to distractor_count without reshuffling (preserves exact prefix order)
             distractor_pairs = list(pre_generated_distractors[:distractor_count])
             # Ensure foil_key pair is present in distractor_pairs
             if (foil_key, foil_val) not in distractor_pairs:
                 if distractor_pairs:
-                    distractor_pairs[-1] = (foil_key, foil_val)
+                    distractor_pairs[0] = (foil_key, foil_val)
                 else:
                     distractor_pairs.append((foil_key, foil_val))
+            shuffled_distractors = list(distractor_pairs)
+            # Deterministic normalized middle insertion: D // 2
+            insert_idx = len(shuffled_distractors) // 2
         else:
             total_pairs = max(distractor_count + 5, 10)
             keys, values = self._generate_semantic_identifiers(rng, total_pairs + 5)
@@ -183,20 +186,19 @@ class AdaptiveMetacognition2AFCTask(BaseTask):
             distractor_pairs = list(zip(keys[1:1 + distractor_count], values[1:1 + distractor_count]))
             # Foil is the value belonging to the first distractor key
             foil_key, foil_val = distractor_pairs[0]
+            # Shuffle distractor pairs
+            shuffled_distractors = list(distractor_pairs)
+            rng.shuffle(shuffled_distractors)
 
-        # Shuffle distractor pairs
-        shuffled_distractors = list(distractor_pairs)
-        rng.shuffle(shuffled_distractors)
-
-        # Place target needle according to position stratum
-        if target_position == "early":
-            insert_idx = rng.randint(0, max(0, len(shuffled_distractors) // 4))
-        elif target_position == "late":
-            insert_idx = rng.randint(max(0, 3 * len(shuffled_distractors) // 4), len(shuffled_distractors))
-        else:  # middle 40-60%
-            mid_start = int(0.4 * len(shuffled_distractors))
-            mid_end = max(mid_start, int(0.6 * len(shuffled_distractors)))
-            insert_idx = rng.randint(mid_start, mid_end) if mid_end >= mid_start else 0
+            # Place target needle according to position stratum
+            if target_position == "early":
+                insert_idx = rng.randint(0, max(0, len(shuffled_distractors) // 4))
+            elif target_position == "late":
+                insert_idx = rng.randint(max(0, 3 * len(shuffled_distractors) // 4), len(shuffled_distractors))
+            else:  # middle 40-60%
+                mid_start = int(0.4 * len(shuffled_distractors))
+                mid_end = max(mid_start, int(0.6 * len(shuffled_distractors)))
+                insert_idx = rng.randint(mid_start, mid_end) if mid_end >= mid_start else 0
 
         context_pairs = list(shuffled_distractors)
         context_pairs.insert(insert_idx, (target_key, target_val))
@@ -518,10 +520,11 @@ class AdaptiveMetacognition2AFCTask(BaseTask):
         for i in range(count_per_level):
             item_seed = base_seed + i
             rng = random.Random(item_seed)
-            keys, values = self._generate_semantic_identifiers(rng, max_d + 15)
+            keys, values = self._generate_semantic_identifiers(rng, max_d + 20)
             target = (keys[0], values[0])
             foil = (keys[1], values[1])
-            distractor_pool = list(zip(keys[1:1 + max_d], values[1:1 + max_d]))
+            # Foil is at index 0; additional distractors are fixed in order
+            distractor_pool = [(keys[1], values[1])] + list(zip(keys[2:2 + max_d], values[2:2 + max_d]))
             base_episodes.append((item_seed, target, foil, distractor_pool))
 
         for lvl_idx, d_count in enumerate(levels):
@@ -530,7 +533,7 @@ class AdaptiveMetacognition2AFCTask(BaseTask):
                 item_seed, target, foil, distractor_pool = base_episodes[i]
                 item = self.generate_distractor_item(
                     distractor_count=d_count,
-                    seed=item_seed + (lvl_idx * 10000),
+                    seed=item_seed,
                     ask_confidence=conf,
                     target_option_letter=target_letter,
                     pre_generated_distractors=distractor_pool,
