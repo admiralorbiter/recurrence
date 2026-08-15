@@ -263,3 +263,36 @@ def test_stream_scenario_generator_stress_scenarios():
     scen_100 = gen.generate_long_horizon_scenario(scenario_idx=301, num_ticks=100)
     assert scen_100.total_ticks == 100
     assert len(scen_100.oracle_states) == 100
+
+
+def test_loop_level_recency_integration_eviction():
+    """Loop-level regression test: insert A/B/C -> update A -> add D with capacity 3 -> B must be evicted."""
+    capacity_cfg = StateCapacityConfig(max_working_memory_items=3)
+    clock = SimulatedClock()
+    queue = EventQueue()
+    manager = StateManager(capacity_config=capacity_cfg)
+    updater = OracleStateUpdater(state_manager=manager)
+
+    # Tick 0: Add A
+    queue.schedule(MemoryEvent(event_id="ev_0", step_index=0, source=EventSource.ENVIRONMENT, event_type="obs", content="A", key_bindings={"key_A": "val_A"}), tick=0)
+    # Tick 1: Add B
+    queue.schedule(MemoryEvent(event_id="ev_1", step_index=1, source=EventSource.ENVIRONMENT, event_type="obs", content="B", key_bindings={"key_B": "val_B"}), tick=1)
+    # Tick 2: Add C
+    queue.schedule(MemoryEvent(event_id="ev_2", step_index=2, source=EventSource.ENVIRONMENT, event_type="obs", content="C", key_bindings={"key_C": "val_C"}), tick=2)
+    # Tick 3: Update A (making A more recently updated than B and C)
+    queue.schedule(MemoryEvent(event_id="ev_3", step_index=3, source=EventSource.SELF, event_type="action", content="Update A", key_bindings={"key_A": "val_A_updated"}), tick=3)
+    # Tick 4: Add D (capacity is 3 -> B was updated at t=1, C at t=2, A at t=3 -> B must be evicted!)
+    queue.schedule(MemoryEvent(event_id="ev_4", step_index=4, source=EventSource.ENVIRONMENT, event_type="obs", content="D", key_bindings={"key_D": "val_D"}), tick=4)
+
+    loop = AutonomousUpdateLoop(clock, queue, manager, updater, mode_name="oracle")
+    snapshots = loop.run_for_ticks(total_ticks=5)
+
+    final_wm = manager.current_state.working_memory
+    assert len(final_wm) == 3
+    assert "key_A" in final_wm
+    assert final_wm["key_A"] == "val_A_updated"
+    assert "key_C" in final_wm
+    assert "key_D" in final_wm
+    # B must be evicted because it was least-recently updated!
+    assert "key_B" not in final_wm
+

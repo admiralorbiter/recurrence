@@ -345,7 +345,16 @@ class AutonomousUpdateLoop:
                 parsed_data,
             ) = self.updater.update(prev_state, events, current_tick)
 
-            explicit_keys = list(new_state.working_memory.keys()) if hasattr(self.updater, "backend") else None
+            # For FullModelStateUpdater, recency updates apply only to newly added or mutated keys.
+            # For DeltaModelStateUpdater and OracleStateUpdater, apply_delta already tracked upsert recency.
+            if isinstance(self.updater, FullModelStateUpdater):
+                explicit_keys = [
+                    k for k, v in new_state.working_memory.items()
+                    if prev_state.working_memory.get(k) != v
+                ]
+            else:
+                explicit_keys = None
+
             snapshot = self.state_manager.update_state(
                 new_state=new_state,
                 tick=current_tick,
