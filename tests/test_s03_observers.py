@@ -426,4 +426,50 @@ def test_single_class_undefined_auroc_and_pai():
     assert direct["status"] == "undefined_single_class"
 
 
+def test_answer_only_scoring_and_paired_alignment():
+    """Verify that pure Answer-Only (ask_confidence=False) is schema-valid and shares identical
+    ground truth and option maps with the paired confidence items.
+    """
+    task_conf = KVRetrievalTask(identifier_type="semantic", mode="forced_choice", ask_confidence=True, confidence_format="probability")
+    task_noconf = KVRetrievalTask(identifier_type="semantic", mode="forced_choice", ask_confidence=False, confidence_format="probability")
+
+    raw = task_conf.generate_raw_pairs(count=10, distractor_count=5, identifier_type="semantic", seed=42)
+    items_conf = task_conf.generate_items_from_raw(raw, seed=42)
+    items_noconf = task_noconf.generate_items_from_raw(raw, seed=42)
+
+    assert len(items_conf) == 10
+    assert len(items_noconf) == 10
+
+    for i in range(10):
+        it_c = items_conf[i]
+        it_nc = items_noconf[i]
+
+        # 1. Ground truth and options must be strictly identical across paired conditions
+        assert it_c.ground_truth == it_nc.ground_truth
+        assert it_c.metadata["target_key"] == it_nc.metadata["target_key"]
+        assert it_c.metadata["target_value"] == it_nc.metadata["target_value"]
+        assert it_c.metadata["option_map"] == it_nc.metadata["option_map"]
+
+        # 2. Prompt schemas must reflect the format difference
+        assert '"probability": <0 to 100' in it_c.prompt
+        assert '"probability"' not in it_nc.prompt
+        assert '"answer": "<Option letter, e.g. A, B, C, or D>"' in it_nc.prompt
+
+        # 3. Scoring behavior for clean JSON answer-only responses
+        resp_clean_noconf = f'{{"answer": "{it_nc.ground_truth}"}}'
+        score_noconf = task_noconf.score_response(it_nc, resp_clean_noconf)
+        assert score_noconf["parsed_answer"] == it_nc.ground_truth
+        assert score_noconf["correct"] is True
+        assert score_noconf["schema_valid"] is True
+        assert score_noconf["probability"] is None
+        assert score_noconf["answer_parse_valid"] is True
+
+        # 4. Extra fields in answer-only schema should fail strict schema_valid
+        resp_extra_noconf = f'{{"answer": "{it_nc.ground_truth}", "extra": 123}}'
+        score_extra = task_noconf.score_response(it_nc, resp_extra_noconf)
+        assert score_extra["correct"] is True
+        assert score_extra["schema_valid"] is False
+
+
+
 
