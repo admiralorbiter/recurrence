@@ -1,0 +1,14 @@
+{
+  "run_id": "run_e02b_diff_20260815_212030",
+  "target_model": "qwen2.5:14b",
+  "model_digest": "7cdf5a0187d5c58cc5d369b255592f7841d1c4696d45a8c8a9489440385b22f6",
+  "start_time": "2026-08-15T21:52:04.974791+00:00",
+  "response_mode": "direct_value",
+  "sweeps_evaluated": [
+    "multi_hop"
+  ],
+  "trials_per_level": 24,
+  "total_trials": 192,
+  "temperature": 0.0,
+  "seed": 42
+}
