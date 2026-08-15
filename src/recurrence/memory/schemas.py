@@ -72,3 +72,24 @@ class ConsolidationRecord(BaseModel):
     prompt_tokens: int
     completion_tokens: int
     created_at: str
+
+
+class StateCapacityConfig(BaseModel):
+    """Configuration limits on explicit self-state capacity to prevent unbounded expansion."""
+    max_working_memory_items: int = 16
+    max_goals: int = 8
+    max_unresolved_items: int = 16
+
+
+class StateSnapshotRecord(BaseModel):
+    """Record of a state snapshot at discrete tick t."""
+    tick: int
+    state: StructuredSelfState
+    incoming_event_count: int
+    schema_valid: bool
+    prompt_tokens: int = 0
+    completion_tokens: int = 0
+    latency_ms: float = 0.0
+    updater_mode: str = "oracle"
+    error_message: Optional[str] = None
+
