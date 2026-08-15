@@ -108,7 +108,9 @@ class MemoryBatteryTask(BaseTask):
                 return f"key_0x{rng.randint(0x1000, 0xffff):04x}", f"val_0x{rng.randint(0x1000, 0xffff):04x}"
 
         # 2. Build target key-value pairs with source assignments
+        # Uncouple source from position: independently shuffle sources across strata
         sources_pool = [EventSource.ENVIRONMENT, EventSource.SELF, EventSource.EXPERIMENTER]
+        rng.shuffle(sources_pool)
         kv_targets: Dict[str, Dict[str, Any]] = {}
         strata: List[Literal["early", "middle", "late"]] = ["early", "middle", "late"]
 
@@ -124,17 +126,15 @@ class MemoryBatteryTask(BaseTask):
             }
 
         # 3. Interleave target events and distractor events into a chronological timeline
-        total_steps = target_kv_count + distractor_count + 2  # plus goal events
+        total_steps = target_kv_count + distractor_count + 2
         events: List[MemoryEvent] = []
         step = 1
 
-        # Target placement by stratum
         target_keys = list(kv_targets.keys())
         early_target = target_keys[0] if len(target_keys) > 0 else None
         mid_target = target_keys[1] if len(target_keys) > 1 else None
         late_target = target_keys[2] if len(target_keys) > 2 else None
 
-        # Helper to format event content based on source
         def format_event_content(k: str, v: str, src: EventSource) -> str:
             if src == EventSource.ENVIRONMENT:
                 return f"Sensor telemetry observed that {k} is mapped to {v}."
@@ -143,17 +143,37 @@ class MemoryBatteryTask(BaseTask):
             else:
                 return f"Experimenter instruction declared that {k} must resolve to {v}."
 
-        # Early Goal Assertion
+        # Diverse Goal Catalog
+        active_goals_catalog = [
+            "Calibrate optical sensor array parameters",
+            "Perform diagnostic kernel subsystem self-test",
+            "Synchronize logical clock with master beacon",
+            "Compile execution trace records for audit",
+            "Initialize background memory sandbox parameters",
+            "Tune interoceptive sensor noise thresholds",
+        ]
+        suspended_goals_catalog = [
+            "Process background telemetry archive stream",
+            "Verify secondary network routing integrity",
+            "Audit historical state transition ledgers",
+            "Reconstruct prior session runtime checkpoints",
+            "Consolidate episodic memory partition blocks",
+            "Purge obsolete temporary scratch partitions",
+        ]
+
+        active_desc = active_goals_catalog[episode_idx % len(active_goals_catalog)]
+        suspended_desc = suspended_goals_catalog[episode_idx % len(suspended_goals_catalog)]
+
         active_goal = GoalState(
             goal_id=f"goal_ep{episode_idx:02d}_alpha",
-            description="Calibrate sensor array parameters",
+            description=active_desc,
             status="completed",
             created_at_step=step,
             updated_at_step=step + 4,
         )
         suspended_goal = GoalState(
             goal_id=f"goal_ep{episode_idx:02d}_beta",
-            description="Process background telemetry archive",
+            description=suspended_desc,
             status="suspended",
             created_at_step=step + 2,
             updated_at_step=step + 2,
@@ -170,7 +190,7 @@ class MemoryBatteryTask(BaseTask):
         ))
         step += 1
 
-        # Step 2: Early target (if any)
+        # Step 2: Early target
         if early_target:
             t = kv_targets[early_target]
             events.append(MemoryEvent(
@@ -259,7 +279,7 @@ class MemoryBatteryTask(BaseTask):
             ))
             step += 1
 
-        # 4. Construct Structured Self-State
+        # 4. Construct Structured Self-State (Oracle State)
         working_bindings = {t["key"]: t["value"] for t in kv_targets.values()}
         source_ledger = {t["key"]: t["source"] for t in kv_targets.values()}
         structured_state = StructuredSelfState(
@@ -292,6 +312,21 @@ class MemoryBatteryTask(BaseTask):
 
         cached_summaries = cached_summaries or {}
 
+        # Semantic distractor pool (morphologically identical to targets: val_<adj>_<noun>)
+        nouns = [
+            "falcon", "canyon", "river", "glacier", "prism", "tempest", "harbor", "citadel",
+            "volcano", "compass", "meadow", "cascade", "spire", "cavern", "lagoon", "monolith"
+        ]
+        adjectives = [
+            "obsidian", "velvet", "golden", "emerald", "crimson", "sapphire", "amber", "silver",
+            "celestial", "shadow", "radiant", "frozen", "solar", "lunar", "mystic", "ancient"
+        ]
+
+        def make_morphological_distractor(ep_i: int, d_i: int) -> str:
+            v_adj = adjectives[(ep_i * 13 + d_i * 7 + 3) % len(adjectives)]
+            v_noun = nouns[(ep_i * 17 + d_i * 11 + 5) % len(nouns)]
+            return f"val_{v_adj}_{v_noun}"
+
         for ep_idx, ep in enumerate(episodes):
             context_text = adapter.build_context_prompt(
                 events=ep.events,
@@ -299,14 +334,17 @@ class MemoryBatteryTask(BaseTask):
                 cached_summary=cached_summaries.get(ep.episode_id),
             )
 
-            # Probe Type 1: Delayed KV Retrieval (For each target)
-            for k, target_info in ep.kv_targets.items():
+            # Probe Type 1: Delayed KV Retrieval (For each target) - 4AFC
+            for k_idx, (k, target_info) in enumerate(ep.kv_targets.items()):
                 correct_val = target_info["value"]
-                # 3 distractors
-                distractors = [
-                    f"val_distractor_{ep_idx}_{rng.randint(100, 999)}"
-                    for _ in range(3)
-                ]
+                # Generate 3 morphologically matched distractors
+                distractors = []
+                for d_i in range(3):
+                    d_val = make_morphological_distractor(ep_idx, k_idx * 3 + d_i)
+                    if d_val == correct_val:
+                        d_val = f"val_astral_pyramid"
+                    distractors.append(d_val)
+
                 options = [correct_val] + distractors
                 rng.shuffle(options)
                 correct_letter = chr(65 + options.index(correct_val))
@@ -342,13 +380,13 @@ class MemoryBatteryTask(BaseTask):
                         "target_key": k,
                         "correct_value": correct_val,
                         "option_map": option_map,
+                        "schema_type": "4afc",
                     }
                 ))
 
-            # Probe Type 2: Source Memory Attribution (For each target)
+            # Probe Type 2: Source Memory Attribution (For each target) - 3AFC
             for k, target_info in ep.kv_targets.items():
                 true_src = target_info["source"]
-                # 3AFC Source options: environment, self, experimenter
                 src_options = ["environment", "self", "experimenter"]
                 rng.shuffle(src_options)
                 correct_letter = chr(65 + src_options.index(true_src))
@@ -384,17 +422,26 @@ class MemoryBatteryTask(BaseTask):
                         "target_key": k,
                         "true_source": true_src,
                         "option_map": option_map,
+                        "schema_type": "3afc",
                     }
                 ))
 
-            # Probe Type 3: Interrupted Goal Resumption
+            # Probe Type 3: Interrupted Goal Resumption - 4AFC
             suspended_goal = [g for g in ep.goals if g.status == "suspended"][0]
-            distractor_goals = [
-                "Deploy security certificate update",
-                "Archive obsolete diagnostic logs",
-                "Synchronize clock with reference server",
+            distractor_goals_pool = [
+                "Deploy security certificate update to cluster",
+                "Archive obsolete diagnostic telemetry logs",
+                "Synchronize clock with external reference server",
+                "Recompile intermediate shader execution binaries",
+                "Refresh dynamic domain name configuration tables",
+                "Format local high-speed scratch partition volume",
             ]
-            goal_options = [suspended_goal.description] + distractor_goals
+            # Pick 3 distractors
+            d_goals = [
+                distractor_goals_pool[(ep_idx * 3 + i) % len(distractor_goals_pool)]
+                for i in range(3)
+            ]
+            goal_options = [suspended_goal.description] + d_goals
             rng.shuffle(goal_options)
             correct_letter = chr(65 + goal_options.index(suspended_goal.description))
             option_map = {chr(65 + i): opt for i, opt in enumerate(goal_options)}
@@ -426,6 +473,7 @@ class MemoryBatteryTask(BaseTask):
                     "target_goal_id": suspended_goal.goal_id,
                     "correct_description": suspended_goal.description,
                     "option_map": option_map,
+                    "schema_type": "4afc",
                 }
             ))
 

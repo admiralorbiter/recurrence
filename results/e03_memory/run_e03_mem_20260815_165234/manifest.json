@@ -1,0 +1,11 @@
+{
+  "run_id": "run_e03_mem_20260815_165234",
+  "target_model": "qwen2.5:3b",
+  "model_digest": "357c53fb659c5076de1d65ccb0b397446227b71a42be9d1603d46168015c9e4b",
+  "start_time": "2026-08-15T17:04:28.750134+00:00",
+  "episode_count": 6,
+  "distractor_count": 6,
+  "total_trials": 252,
+  "temperature": 0.0,
+  "seed": 42
+}

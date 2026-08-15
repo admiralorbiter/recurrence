@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>S03 · Instruments That Lied — H0 · The Mirror and the Hundred Eyes</title>
+<meta name="description" content="A step-by-step archaeology of measurement failures, fixes, and the rules they produced.">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body data-page="archaeology.html">
+<header class="topbar">
+  <a class="site-brand" href="index.html"><span>RECURRENCE · H0</span><strong>The Mirror and the Hundred Eyes</strong></a>
+  <div class="top-actions">
+    <button id="plain-toggle" class="top-button" type="button">Plain-English recap</button>
+    <button id="glossary-open" class="top-button" type="button">Glossary ?</button>
+  </div>
+</header>
+<div class="shell">
+  <nav class="side-nav">
+    <div class="nav-kicker">Guided tour</div>
+    <a class="" href="index.html"><span>00</span>Start Here</a><a class="" href="question.html"><span>01</span>The Question</a><a class="" href="toolkit.html"><span>02</span>How to Read H0</a><a class="" href="s01.html"><span>03</span>S01 · The First Reflection</a><a class="" href="s02.html"><span>04</span>S02 · A Distorted Mirror</a><a class="" href="observers.html"><span>05</span>The Hundred Eyes</a><a class="active" href="archaeology.html"><span>06</span>S03 · Instruments That Lied</a><a class="" href="result.html"><span>07</span>The Reference Result</a><a class="" href="stress-test.html"><span>08</span>Stress-Testing the Ruler</a><a class="" href="meaning.html"><span>09</span>What H0 Means</a><a class="" href="h1.html"><span>10</span>Mnemosyne Waits</a>
+  </nav>
+  <main class="page">
+    <div class="page-intro">
+      <div class="progress">Chapter 7 of 11</div>
+      <p>A step-by-step archaeology of measurement failures, fixes, and the rules they produced.</p>
+    </div>
+    <aside id="plain-recap" class="plain-recap" hidden>
+      <div class="eyebrow">In plain English</div>
+      <p>Most of S03 was not discovering introspection. It was discovering ways the measurement could accidentally manufacture it.</p>
+    </aside>
+    <aside class="reader-note"><strong>What to notice</strong><p>Each bug is a scientific problem because it changes the mapping from observed output to the construct being claimed.</p></aside>
+    <article class="prose"><h1>VI. Instruments That Lied</h1>
+<h2>S03 — Why the Final Result Required Several Failed Versions</h2>
+<p>The S03 story is unusual.</p>
+<p>The important result is not only what the model did.</p>
+<p>It is how often the experiment itself produced an answer that looked more trustworthy than it was.</p>
+<p>H0 eventually adopted a rule:</p>
+<blockquote>
+<p><strong>If a measurement failure changes what can be claimed, that failure belongs in the scientific narrative.</strong></p>
+</blockquote>
+<p>This page is therefore an archaeology of the instrument.</p>
+<hr/>
+<h1>Failure 1 — The probability meant the wrong thing</h1>
+<p>An early <button class="term" data-term="observer" type="button">observer</button> might respond:</p>
+<pre><code class="language-text">Evaluation: INCORRECT
+Confidence: 5 / 5
+</code></pre>
+<p>A naïve parser sees a high <button class="term" data-term="confidence" type="button">confidence</button> number.</p>
+<p>But high confidence in <strong>"incorrect"</strong> means low probability that the target is correct.</p>
+<p>If we accidentally treat <code>5/5</code> as high <code>P(Target Correct)</code>, the sign of the measurement is reversed.</p>
+<h2>General lesson</h2>
+<p>Numbers cannot be compared merely because they share a scale.</p>
+<p>They must refer to the same event.</p>
+<h2>Repair</h2>
+<p>Every condition was standardized to:</p>
+<blockquote>
+<p><strong>P(Target Correct)</strong></p>
+</blockquote>
+<hr/>
+<h1>Failure 2 — Different items survived in different conditions</h1>
+<p>Suppose Self produces valid confidence on 35 items.</p>
+<p>Observer produces valid confidence on 28 items.</p>
+<p>If the two sets differ, comparing:</p>
+<p><code>Self AUROC on its 35 items</code></p>
+<p>against:</p>
+<p><code>Observer AUROC on its 28 items</code></p>
+<p>is not a clean paired comparison.</p>
+<p>Maybe the observer's missing items were unusually difficult.</p>
+<h2>Repair</h2>
+<p>Every contrast uses the exact intersection of items valid for both conditions.</p>
+<p>The same underlying trials must be compared.</p>
+<hr/>
+<h1>Failure 3 — A hard label was treated like a probability</h1>
+<p>A <button class="term" data-term="brier" type="button">Brier</button> score requires a probability.</p>
+<p>The difference between:</p>
+<blockquote>
+<p>"I predict CORRECT"</p>
+</blockquote>
+<p>and:</p>
+<blockquote>
+<p>"I assign 62% probability that the target is correct"</p>
+</blockquote>
+<p>matters.</p>
+<p>The first gives only a binary decision.</p>
+<p>The second gives a calibrated probabilistic forecast.</p>
+<h2>Repair</h2>
+<p>Continuous probability forecasts were required for probability metrics.</p>
+<hr/>
+<h1>Failure 4 — The <code>1 - p</code> reconstruction shortcut</h1>
+<p>Suppose a <button class="term" data-term="reconstruction" type="button">reconstruction</button> observer says:</p>
+<pre><code class="language-text">A: 10%
+B: 70%
+C: 15%
+D: 5%
+</code></pre>
+<p>The target selected C.</p>
+<p>If B is the reconstruction's favorite answer, it is wrong to say:</p>
+<p><code>P(target C correct) = 1 - 0.70 = 0.30</code></p>
+<p>The true reconstructed probability for C is:</p>
+<p><code>0.15</code></p>
+<p>The remaining 30% is distributed among A, C, and D.</p>
+<h2>Repair</h2>
+<p>Reconstruction must provide the full 4-way distribution.</p>
+<hr/>
+<h1>Failure 5 — Missing options were filled with zero</h1>
+<p>A malformed reconstruction might return:</p>
+<pre><code class="language-text">A: 60
+B: 30
+</code></pre>
+<p>with C and D missing.</p>
+<p>Filling C and D with zero seems convenient.</p>
+<p>But it creates numbers the model never gave us.</p>
+<h2>Repair</h2>
+<p>Incomplete reconstructions are invalid.</p>
+<p>Missing data stays missing.</p>
+<hr/>
+<h1>Failure 6 — Metadata leaked ground truth</h1>
+<p>One parser fallback could not recover the option the target actually selected.</p>
+<p>It then consulted metadata containing the correct option.</p>
+<p>That is catastrophic for a benchmark about what information an observer can infer.</p>
+<p>The observer has effectively been handed part of the answer key.</p>
+<h2>Repair</h2>
+<p>If target choice cannot be recovered from the target output, the reconstruction comparison is missing for that item.</p>
+<hr/>
+<h1>Failure 7 — Probability scale ambiguity</h1>
+<p>What does <code>1</code> mean?</p>
+<ul>
+<li>1%?</li>
+<li>100%?</li>
+<li>a 1-to-5 confidence rating?</li>
+<li>a probability written on a 0-to-1 scale?</li>
+</ul>
+<p>If the parser guesses after seeing the output, the researcher becomes part of the measurement.</p>
+<h2>Repair</h2>
+<p>A single explicit percentage contract:</p>
+<p><code>0 to 100</code></p>
+<p>Out-of-range values are rejected.</p>
+<hr/>
+<h1>Failure 8 — Strict parsing made the experiment look worse</h1>
+<p>After several repairs, <code>run_e02_obs_004</code> reached only <strong>37.5% minimum primary <button class="term" data-term="compliance" type="button">compliance</button></strong>.</p>
+<p>That sounds like failure.</p>
+<p>It was actually progress.</p>
+<p>Earlier code had made malformed measurements look usable.</p>
+<p>The stricter instrument exposed that the model was not reliably producing the structured measurements the benchmark required.</p>
+<h2>What the project did not do</h2>
+<p>It did not say:</p>
+<blockquote>
+<p>"The effect still looks interesting, so let's analyze the valid subset."</p>
+</blockquote>
+<p>Instead, the run failed the measurement gate.</p>
+<p>It was kept as diagnostic evidence.</p>
+<hr/>
+<h1>Failure 9 — Generic JSON was not enough</h1>
+<p>The system had been asked to produce JSON.</p>
+<p>That did not guarantee:</p>
+<ul>
+<li>the right keys;</li>
+<li>all required keys;</li>
+<li>valid ranges;</li>
+<li>no extra text;</li>
+<li>consistent structure.</li>
+</ul>
+<h2>Repair</h2>
+<p>The final benchmark passed actual JSON Schemas to the backend.</p>
+<p>The target had to produce:</p>
+<ul>
+<li>an answer in <code>{A, B, C, D}</code>;</li>
+<li>an integer probability from <code>0</code> to <code>100</code>.</li>
+</ul>
+<p>The reconstruction observer had to produce all four option probabilities.</p>
+<hr/>
+<h1>The epistemic gate</h1>
+<p>The benchmark adopted a governance rule:</p>
+<blockquote>
+<p>A run that fails the measurement-validity gate cannot become the promoted scientific baseline.</p>
+</blockquote>
+<p>This is bigger than a software validation check.</p>
+<p>It connects <strong>data quality</strong> to <strong>language strength</strong>.</p>
+<p>A failed-gate report can say:</p>
+<blockquote>
+<p>The measurement interface failed.</p>
+</blockquote>
+<p>It cannot say:</p>
+<blockquote>
+<p>The model has or lacks privileged access.</p>
+</blockquote>
+<hr/>
+<h1>Why S03 matters beyond H0</h1>
+<p>Future recurrence experiments will be more complicated.</p>
+<p>They may include:</p>
+<ul>
+<li>persistent memory;</li>
+<li>hidden state;</li>
+<li>branch swaps;</li>
+<li>resets;</li>
+<li>long trajectories;</li>
+<li>source attribution;</li>
+<li>autonomous updates.</li>
+</ul>
+<p>Each new system component creates new ways for information to leak or for a control to become unmatched.</p>
+<p>S03 therefore produced a reusable habit:</p>
+<blockquote>
+<p>Before asking what a result means about cognition, ask what the instrument itself is capable of manufacturing.</p>
+</blockquote>
+</article>
+    
+<section class="interactive-lab">
+  <div class="eyebrow">Museum of Dead Interpretations</div>
+  <h2>What looked reasonable before the next control?</h2>
+  <div id="museum-grid" class="museum-grid"></div>
+</section>
+    <div class="prevnext"><a class="prev" href="observers.html">← Previous</a><a class="next" href="result.html">Next →</a></div>
+  </main>
+</div>
+
+<button id="floating-help" class="floating-help" type="button" aria-label="Open glossary">?</button>
+
+<div id="tooltip" class="tooltip" role="tooltip" hidden></div>
+<div id="glossary-drawer" class="drawer" aria-hidden="true">
+  <div class="drawer-head">
+    <div><div class="eyebrow">Reader's glossary</div><h2>What does that mean?</h2></div>
+    <button id="glossary-close" class="close" type="button">×</button>
+  </div>
+  <input id="glossary-search" class="glossary-search" placeholder="Search terms…">
+  <div id="glossary-list"></div>
+</div>
+<div id="scrim" class="scrim" hidden></div>
+
+<script>window.GLOSSARY={"level0": {"term": "Level 0", "short": "The episodic reference condition: no experimental persistent memory or latent recurrent state is added.", "long": "Level 0 is the baseline architecture used before the project introduces explicit memory (H1) or persistent hidden state (H2). It tells us what the ordinary episodic system can already do."}, "firstorder": {"term": "first-order", "short": "The task the system is directly trying to solve, such as choosing the correct answer.", "long": "First-order performance is ordinary task performance. In H0, that usually means whether the model selected the correct key-value option. It is distinct from a second-order judgment about whether that answer is correct."}, "metacognition": {"term": "metacognition", "short": "A judgment about another cognitive process\u2014here, whether the system can monitor the likely correctness of its own answer.", "long": "H0 operationalizes metacognition narrowly. It does not assume a philosophical theory of self-awareness. It asks whether confidence or another second-order report tracks first-order success."}, "confidence": {"term": "confidence", "short": "The system's reported probability that its own answer is correct.", "long": "Confidence is useful data, but it is not automatically introspection. It may reflect task difficulty, learned language patterns, public answer cues, or the prompting format itself."}, "calibration": {"term": "calibration", "short": "Whether stated probabilities match long-run success frequencies.", "long": "A calibrated system that says 70% on many trials should be correct about 70% of the time. Calibration is different from discrimination: a system can be well calibrated overall yet poor at ranking which individual answers are correct."}, "discrimination": {"term": "discrimination", "short": "Whether confidence tends to be higher on correct trials than on incorrect trials.", "long": "Metacognitive discrimination is the trial-by-trial separation between correct and incorrect answers. H0 measures this mainly with AUROC2."}, "auroc2": {"term": "AUROC2", "short": "A score for how well confidence ranks correct answers above incorrect answers.", "long": "Imagine randomly choosing one correct trial and one incorrect trial. AUROC2 is closely related to how often the correct trial receives higher confidence. About 0.50 is chance-like ranking; 1.00 is perfect separation. It is undefined if there are no correct or no incorrect trials."}, "brier": {"term": "Brier", "short": "A probability-accuracy score; lower is better.", "long": "For each trial, the Brier contribution is (predicted probability \u2212 actual outcome)^2, where the outcome is 1 for correct and 0 for incorrect. Confidently wrong forecasts are penalized heavily."}, "ci": {"term": "confidence interval", "short": "A range that communicates uncertainty in an estimated effect.", "long": "H0 uses bootstrap confidence intervals. The exact effect estimate would change with a different sample of items. The interval makes that uncertainty visible and helps prevent a point estimate from being treated as exact truth."}, "bootstrap": {"term": "bootstrap", "short": "A resampling method used to estimate how much an effect might vary across samples.", "long": "The observed trials are repeatedly resampled with replacement to create many synthetic datasets. H0 uses paired and stratified resampling so self and observer stay matched on the same items and both correctness classes remain represented."}, "pai": {"term": "PAI", "short": "Privileged Access Index: Self discrimination minus the strongest prespecified public/reconstructive comparator.", "long": "PAI asks whether the target's self-monitoring contains information that strong observers cannot reconstruct from public evidence. A positive PAI is necessary for a behavioral privileged-access claim, but would still not prove a causal introspection mechanism."}, "observer": {"term": "observer", "short": "A matched outside evaluator asked to predict whether the target model's answer is correct.", "long": "Observers receive different information vantages: prompt only, prompt plus answer, full transcript, independent reconstruction, or second-pass review. They are controls for simpler public-information explanations."}, "reconstruction": {"term": "reconstruction", "short": "An independent solve that estimates a full probability distribution over the answer options.", "long": "The reconstruction observer does not simply accept the target's answer. It solves the task independently and assigns probability to A/B/C/D. The probability assigned to the target's chosen option becomes its estimate of target correctness."}, "compliance": {"term": "compliance", "short": "Whether the model produced a measurement that satisfies the experiment's required format and range.", "long": "If a probability is malformed, missing, or outside the allowed range, the measurement may be invalid. H0 uses a hard compliance gate so a run with unreliable measurements cannot become a confirmatory baseline."}, "confound": {"term": "confound", "short": "Another variable that changes along with the variable of interest, making the cause of a result ambiguous.", "long": "S01 compared tasks that differed in semanticity, response mode, output length, candidate space, and prompt structure. That meant the observed performance difference could not be attributed cleanly to any single mechanism."}, "shortcut": {"term": "shortcut", "short": "A feature that lets the model score well without using the cognitive ability the researcher intended to measure.", "long": "For example, a state-tracking task may accidentally be solvable by repeating the most recent location rather than tracking all transitions. High accuracy would then overstate the intended ability."}, "forcedchoice": {"term": "forced choice", "short": "The model selects from a fixed set of candidate answers instead of generating the answer freely.", "long": "Forced choice shifts the task toward recognition and away from exact surface reproduction. H0 used a counterbalanced four-option task as the main Level-0 substrate."}, "mcnemar": {"term": "McNemar", "short": "A paired test focused on cases where two conditions disagree.", "long": "For the same items under two conditions, McNemar's test compares how often condition A alone succeeds versus condition B alone succeeds. It is useful when outcomes are paired correct/incorrect judgments."}, "sesoi": {"term": "SESOI", "short": "Smallest Effect Size of Interest: the minimum effect the project decided would count as meaningfully positive.", "long": "H0 used +0.10 AUROC2 as a meaningful positive PAI margin in the joint statistic. This helps distinguish 'not statistically different from zero' from 'large enough to matter'."}, "ceiling": {"term": "ceiling", "short": "A task is too easy for a system, leaving too few or no errors to distinguish stronger performance.", "long": "If a model gets 100% correct, AUROC2 cannot be estimated because there are no incorrect trials. The same fixed test may therefore be unsuitable for cross-model metacognitive comparison."}, "floor": {"term": "floor", "short": "A task is too hard for a system, leaving performance near the minimum useful level.", "long": "Near-floor performance can also make metacognitive comparison unstable or uninterpretable. Comparative psychophysics tries to place systems in a shared mixed-error regime."}, "explicitmemory": {"term": "explicit memory", "short": "Externally stored, inspectable history such as a transcript, summary, or structured state object.", "long": "H1 studies explicit memory before hidden recurrence so the project can determine what ordinary access to history already solves."}, "latentstate": {"term": "latent state", "short": "A non-text internal representation carried by the system, such as a recurrent hidden state.", "long": "H2 is designed to manipulate genuine hidden state while controlling visible context. That is necessary for causal claims about recurrence beyond explicit memory."}, "persistentstate": {"term": "persistent state", "short": "State whose later value causally depends on its earlier value rather than being reconstructed only from an external record.", "long": "The project reserves strong persistence claims for systems where intervening on prior state changes later behavior while current observations and explicit memory are held fixed."}};</script>
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body></html>

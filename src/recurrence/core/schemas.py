@@ -20,7 +20,7 @@ TARGET_FORCED_CHOICE_SCHEMA: Dict[str, Any] = {
     "additionalProperties": False,
 }
 
-TARGET_ANSWER_ONLY_SCHEMA: Dict[str, Any] = {
+TARGET_4AFC_SCHEMA: Dict[str, Any] = {
     "type": "object",
     "properties": {
         "answer": {
@@ -31,6 +31,20 @@ TARGET_ANSWER_ONLY_SCHEMA: Dict[str, Any] = {
     "required": ["answer"],
     "additionalProperties": False,
 }
+
+TARGET_3AFC_SCHEMA: Dict[str, Any] = {
+    "type": "object",
+    "properties": {
+        "answer": {
+            "type": "string",
+            "enum": ["A", "B", "C"],
+        },
+    },
+    "required": ["answer"],
+    "additionalProperties": False,
+}
+
+TARGET_ANSWER_ONLY_SCHEMA: Dict[str, Any] = TARGET_4AFC_SCHEMA
 
 PROBABILITY_ONLY_SCHEMA: Dict[str, Any] = {
     "type": "object",

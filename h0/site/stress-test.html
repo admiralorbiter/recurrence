@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Stress-Testing the Ruler — H0 · The Mirror and the Hundred Eyes</title>
+<meta name="description" content="What cross-model saturation, position bias, and confidence reactivity taught us about the limits of H0.">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body data-page="stress-test.html">
+<header class="topbar">
+  <a class="site-brand" href="index.html"><span>RECURRENCE · H0</span><strong>The Mirror and the Hundred Eyes</strong></a>
+  <div class="top-actions">
+    <button id="plain-toggle" class="top-button" type="button">Plain-English recap</button>
+    <button id="glossary-open" class="top-button" type="button">Glossary ?</button>
+  </div>
+</header>
+<div class="shell">
+  <nav class="side-nav">
+    <div class="nav-kicker">Guided tour</div>
+    <a class="" href="index.html"><span>00</span>Start Here</a><a class="" href="question.html"><span>01</span>The Question</a><a class="" href="toolkit.html"><span>02</span>How to Read H0</a><a class="" href="s01.html"><span>03</span>S01 · The First Reflection</a><a class="" href="s02.html"><span>04</span>S02 · A Distorted Mirror</a><a class="" href="observers.html"><span>05</span>The Hundred Eyes</a><a class="" href="archaeology.html"><span>06</span>S03 · Instruments That Lied</a><a class="" href="result.html"><span>07</span>The Reference Result</a><a class="active" href="stress-test.html"><span>08</span>Stress-Testing the Ruler</a><a class="" href="meaning.html"><span>09</span>What H0 Means</a><a class="" href="h1.html"><span>10</span>Mnemosyne Waits</a>
+  </nav>
+  <main class="page">
+    <div class="page-intro">
+      <div class="progress">Chapter 9 of 11</div>
+      <p>What cross-model saturation, position bias, and confidence reactivity taught us about the limits of H0.</p>
+    </div>
+    <aside id="plain-recap" class="plain-recap" hidden>
+      <div class="eyebrow">In plain English</div>
+      <p>The same fixed test did not create a fair comparison across models. It also revealed that asking for confidence can change the actual choice policy.</p>
+    </aside>
+    <aside class="reader-note"><strong>What to notice</strong><p>Cross-model comparison failed for a productive reason: the task stopped producing a shared correct/incorrect regime.</p></aside>
+    <article class="prose"><h1>VIII. More Mirrors, Different Glass</h1>
+<h2>What Happened When H0 Was Run Across More Models?</h2>
+<p>Once <code>run_005</code> existed, a natural question appeared:</p>
+<blockquote>
+<p>Is the result specific to Qwen2.5 3B?</p>
+</blockquote>
+<p>The frozen benchmark was run across six checkpoints.</p>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th style="text-align:right"><button class="term" data-term="firstorder" type="button">First-order</button> accuracy</th>
+<th style="text-align:right">Self <button class="term" data-term="auroc2" type="button">AUROC2</button></th>
+<th>Measurement status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Qwen2.5 1.5B</td>
+<td style="text-align:right">30.0%</td>
+<td style="text-align:right">0.527</td>
+<td>Diagnostic</td>
+</tr>
+<tr>
+<td>Qwen2.5 3B</td>
+<td style="text-align:right">57.5%</td>
+<td style="text-align:right">0.517</td>
+<td>Confirmatory reference</td>
+</tr>
+<tr>
+<td>Qwen2.5 7B</td>
+<td style="text-align:right">30.0%</td>
+<td style="text-align:right">0.522</td>
+<td>Diagnostic</td>
+</tr>
+<tr>
+<td>Qwen2.5 14B</td>
+<td style="text-align:right">100.0%</td>
+<td style="text-align:right">N/A</td>
+<td><button class="term" data-term="ceiling" type="button">Ceiling</button></td>
+</tr>
+<tr>
+<td>Llama3.2 3B</td>
+<td style="text-align:right">100.0%</td>
+<td style="text-align:right">N/A</td>
+<td>Ceiling</td>
+</tr>
+<tr>
+<td>Mistral 7B</td>
+<td style="text-align:right">100.0%</td>
+<td style="text-align:right">N/A</td>
+<td>Ceiling</td>
+</tr>
+</tbody>
+</table>
+<p>At first glance, this seems disappointing.</p>
+<p>The models are not sitting in comparable performance regimes.</p>
+<p>That turned out to be the result.</p>
+<hr/>
+<h1>A fixed benchmark is not automatically a fair ruler</h1>
+<p>Suppose we compare two students using the same arithmetic worksheet.</p>
+<p>Student A gets 60%.</p>
+<p>Student B gets 100%.</p>
+<p>Can we compare how well each student's <button class="term" data-term="confidence" type="button">confidence</button> separates their correct and incorrect answers?</p>
+<p>For Student B, there are no incorrect answers.</p>
+<p>The second-order <button class="term" data-term="discrimination" type="button">discrimination</button> question cannot be computed.</p>
+<p>The same problem appears here.</p>
+<p>For the 14B, Llama, and Mistral checkpoints:</p>
+<blockquote>
+<p>Every target answer was correct.</p>
+</blockquote>
+<p>That means AUROC2 is <strong>undefined</strong>.</p>
+<p>Not 0.5.</p>
+<p>Not 1.0.</p>
+<p>Undefined.</p>
+<p>There is no correct-vs-incorrect ranking problem left to measure.</p>
+<hr/>
+<h1>Why performance matching matters</h1>
+<p>Human psychophysics often deliberately tunes task difficulty so participants operate in a mixed regime such as 65–75% accuracy.</p>
+<p>Why?</p>
+<p>Because then we get:</p>
+<ul>
+<li>enough successes;</li>
+<li>enough failures;</li>
+<li>meaningful confidence variation;</li>
+<li>a fairer basis for comparing <button class="term" data-term="metacognition" type="button">metacognitive</button> sensitivity.</li>
+</ul>
+<p>Future cross-model H0 work should do the same.</p>
+<p>Instead of asking every model exactly the same forty fixed items, construct a difficulty-graded item bank and select items that place each model in a comparable first-order range.</p>
+<p>This is a <strong>comparative H0 v2</strong> problem.</p>
+<p>It does not block H1.</p>
+<hr/>
+<h1>The surprising Qwen pattern</h1>
+<p>The three sub-ceiling Qwen checkpoints had remarkably similar immediate Self AUROC2:</p>
+<ul>
+<li>1.5B: <code>0.527</code></li>
+<li>3B: <code>0.517</code></li>
+<li>7B: <code>0.522</code></li>
+</ul>
+<p>That is interesting.</p>
+<p>It is not yet a scaling law.</p>
+<p>Why not?</p>
+<p>Because:</p>
+<ul>
+<li>1.5B and 7B failed the full <button class="term" data-term="reconstruction" type="button">reconstruction</button> compliance gate;</li>
+<li>first-order accuracy differs;</li>
+<li>the models show different answer policies;</li>
+<li>the sample is small.</li>
+</ul>
+<p>The pattern is best preserved as:</p>
+<blockquote>
+<p><strong>Hypothesis-generating evidence that contemporaneous verbal confidence in these Qwen checkpoints carries little trial-by-trial correctness information under this task format.</strong></p>
+</blockquote>
+<hr/>
+<h1>Same score, different failure</h1>
+<p>Qwen1.5B and Qwen7B both scored 30%.</p>
+<p>An item-level analysis showed they got there differently.</p>
+<h2>Qwen1.5B</h2>
+<p>Selected option A on:</p>
+<p><strong>36 of 40 trials</strong></p>
+<p>The ground-truth options were exactly counterbalanced:</p>
+<ul>
+<li>10 A</li>
+<li>10 B</li>
+<li>10 C</li>
+<li>10 D</li>
+</ul>
+<p>So the model had a severe option-position bias.</p>
+<h2>Qwen7B</h2>
+<p>Its option selections were comparatively balanced.</p>
+<p>Its 30% accuracy was not explained by the same collapse.</p>
+<p>This matters because:</p>
+<blockquote>
+<p><strong>The same scalar score can hide different underlying behavioral regimes.</strong></p>
+</blockquote>
+<p>That is another reason comparative cognition needs more than a leaderboard number.</p>
+<hr/>
+<h1>The Act of Looking</h1>
+<h2>Does Asking for Confidence Change the First-Order Answer?</h2>
+<p>H0 then ran a paired control.</p>
+<p>Each model received the same items under two output requirements.</p>
+<h3>Answer only</h3>
+<pre><code class="language-json">{"answer": "A"}
+</code></pre>
+<h3>Answer plus confidence</h3>
+<pre><code class="language-json">{"answer": "A", "probability": 73}
+</code></pre>
+<p>The aggregate accuracies were:</p>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th style="text-align:right">Answer only</th>
+<th style="text-align:right">Answer + confidence</th>
+<th style="text-align:right">Same exact answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Qwen1.5B</td>
+<td style="text-align:right">37.5%</td>
+<td style="text-align:right">30.0%</td>
+<td style="text-align:right">55.0%</td>
+</tr>
+<tr>
+<td>Qwen3B</td>
+<td style="text-align:right">55.0%</td>
+<td style="text-align:right">57.5%</td>
+<td style="text-align:right">75.0%</td>
+</tr>
+<tr>
+<td>Qwen7B</td>
+<td style="text-align:right">37.5%</td>
+<td style="text-align:right">30.0%</td>
+<td style="text-align:right">62.5%</td>
+</tr>
+<tr>
+<td>Qwen14B</td>
+<td style="text-align:right">100.0%</td>
+<td style="text-align:right">100.0%</td>
+<td style="text-align:right">100.0%</td>
+</tr>
+<tr>
+<td>Llama3.2 3B</td>
+<td style="text-align:right">100.0%</td>
+<td style="text-align:right">100.0%</td>
+<td style="text-align:right">100.0%</td>
+</tr>
+<tr>
+<td>Mistral 7B</td>
+<td style="text-align:right">100.0%</td>
+<td style="text-align:right">100.0%</td>
+<td style="text-align:right">100.0%</td>
+</tr>
+</tbody>
+</table>
+<p>The paired <button class="term" data-term="mcnemar" type="button">McNemar</button> tests did not resolve a statistically significant net accuracy effect in the forty-item samples.</p>
+<p>But the answer identities tell another story.</p>
+<ul>
+<li>Qwen1.5B changed 18 answers.</li>
+<li>Qwen3B changed 10.</li>
+<li>Qwen7B changed 15.</li>
+</ul>
+<p>So the correct interpretation is not:</p>
+<blockquote>
+<p>"Confidence prompting is behaviorally inert."</p>
+</blockquote>
+<p>It is:</p>
+<blockquote>
+<p><strong>Confidence prompting did not produce a statistically resolved net accuracy change, but it substantially altered item-level choice policy in the sub-ceiling Qwen models.</strong></p>
+</blockquote>
+<hr/>
+<h1>Why this matters conceptually</h1>
+<p>We often imagine the sequence:</p>
+<ol>
+<li>model decides;</li>
+<li>decision is fixed;</li>
+<li>model reads out confidence.</li>
+</ol>
+<p>The paired experiment shows that this mental model can be wrong.</p>
+<p>Changing the required output changes the generation problem.</p>
+<p>The model may jointly construct:</p>
+<ul>
+<li>the answer;</li>
+<li>the probability;</li>
+<li>and the relationship between them.</li>
+</ul>
+<p>Therefore "Immediate Self" is not a pure sensor attached after the first-order decision.</p>
+<p>It is a specific <strong>joint answer-and-confidence behavior</strong>.</p>
+<hr/>
+<h1>What changes in H1 because of this?</h1>
+<p>For S04, the primary question is:</p>
+<blockquote>
+<p>Which <button class="term" data-term="explicitmemory" type="button">explicit memory</button> representation helps the system preserve and use information?</p>
+</blockquote>
+<p>So first-order <strong>answer-only accuracy</strong> should be the primary measurement.</p>
+<p>Confidence can be tested as a secondary matched condition.</p>
+<p>Later, when H1 explicitly studies metacognition and ownership, the experimental design should distinguish:</p>
+<ul>
+<li>first-order answer generation;</li>
+<li>second-order monitoring;</li>
+<li>and whether the act of monitoring changes the first-order answer.</li>
+</ul>
+<p>This is a direct methodological inheritance from H0.</p>
+</article>
+    
+<section class="interactive-lab">
+  <div class="eyebrow">Interactive stress test</div>
+  <h2>When the ruler leaves its useful range</h2>
+  <div id="model-buttons" class="chip-row"></div>
+  <div id="model-stage" class="observer-demo"></div>
+  <hr>
+  <h2>The act of looking</h2>
+  <p>Select a sub-ceiling Qwen model. Red cells are items whose selected answer changed when confidence was requested.</p>
+  <div id="reactivity-buttons" class="chip-row"></div>
+  <div id="reactivity-stage" class="evidence-card"></div>
+</section>
+    <div class="prevnext"><a class="prev" href="result.html">← Previous</a><a class="next" href="meaning.html">Next →</a></div>
+  </main>
+</div>
+
+<button id="floating-help" class="floating-help" type="button" aria-label="Open glossary">?</button>
+
+<div id="tooltip" class="tooltip" role="tooltip" hidden></div>
+<div id="glossary-drawer" class="drawer" aria-hidden="true">
+  <div class="drawer-head">
+    <div><div class="eyebrow">Reader's glossary</div><h2>What does that mean?</h2></div>
+    <button id="glossary-close" class="close" type="button">×</button>
+  </div>
+  <input id="glossary-search" class="glossary-search" placeholder="Search terms…">
+  <div id="glossary-list"></div>
+</div>
+<div id="scrim" class="scrim" hidden></div>
+
+<script>window.GLOSSARY={"level0": {"term": "Level 0", "short": "The episodic reference condition: no experimental persistent memory or latent recurrent state is added.", "long": "Level 0 is the baseline architecture used before the project introduces explicit memory (H1) or persistent hidden state (H2). It tells us what the ordinary episodic system can already do."}, "firstorder": {"term": "first-order", "short": "The task the system is directly trying to solve, such as choosing the correct answer.", "long": "First-order performance is ordinary task performance. In H0, that usually means whether the model selected the correct key-value option. It is distinct from a second-order judgment about whether that answer is correct."}, "metacognition": {"term": "metacognition", "short": "A judgment about another cognitive process\u2014here, whether the system can monitor the likely correctness of its own answer.", "long": "H0 operationalizes metacognition narrowly. It does not assume a philosophical theory of self-awareness. It asks whether confidence or another second-order report tracks first-order success."}, "confidence": {"term": "confidence", "short": "The system's reported probability that its own answer is correct.", "long": "Confidence is useful data, but it is not automatically introspection. It may reflect task difficulty, learned language patterns, public answer cues, or the prompting format itself."}, "calibration": {"term": "calibration", "short": "Whether stated probabilities match long-run success frequencies.", "long": "A calibrated system that says 70% on many trials should be correct about 70% of the time. Calibration is different from discrimination: a system can be well calibrated overall yet poor at ranking which individual answers are correct."}, "discrimination": {"term": "discrimination", "short": "Whether confidence tends to be higher on correct trials than on incorrect trials.", "long": "Metacognitive discrimination is the trial-by-trial separation between correct and incorrect answers. H0 measures this mainly with AUROC2."}, "auroc2": {"term": "AUROC2", "short": "A score for how well confidence ranks correct answers above incorrect answers.", "long": "Imagine randomly choosing one correct trial and one incorrect trial. AUROC2 is closely related to how often the correct trial receives higher confidence. About 0.50 is chance-like ranking; 1.00 is perfect separation. It is undefined if there are no correct or no incorrect trials."}, "brier": {"term": "Brier", "short": "A probability-accuracy score; lower is better.", "long": "For each trial, the Brier contribution is (predicted probability \u2212 actual outcome)^2, where the outcome is 1 for correct and 0 for incorrect. Confidently wrong forecasts are penalized heavily."}, "ci": {"term": "confidence interval", "short": "A range that communicates uncertainty in an estimated effect.", "long": "H0 uses bootstrap confidence intervals. The exact effect estimate would change with a different sample of items. The interval makes that uncertainty visible and helps prevent a point estimate from being treated as exact truth."}, "bootstrap": {"term": "bootstrap", "short": "A resampling method used to estimate how much an effect might vary across samples.", "long": "The observed trials are repeatedly resampled with replacement to create many synthetic datasets. H0 uses paired and stratified resampling so self and observer stay matched on the same items and both correctness classes remain represented."}, "pai": {"term": "PAI", "short": "Privileged Access Index: Self discrimination minus the strongest prespecified public/reconstructive comparator.", "long": "PAI asks whether the target's self-monitoring contains information that strong observers cannot reconstruct from public evidence. A positive PAI is necessary for a behavioral privileged-access claim, but would still not prove a causal introspection mechanism."}, "observer": {"term": "observer", "short": "A matched outside evaluator asked to predict whether the target model's answer is correct.", "long": "Observers receive different information vantages: prompt only, prompt plus answer, full transcript, independent reconstruction, or second-pass review. They are controls for simpler public-information explanations."}, "reconstruction": {"term": "reconstruction", "short": "An independent solve that estimates a full probability distribution over the answer options.", "long": "The reconstruction observer does not simply accept the target's answer. It solves the task independently and assigns probability to A/B/C/D. The probability assigned to the target's chosen option becomes its estimate of target correctness."}, "compliance": {"term": "compliance", "short": "Whether the model produced a measurement that satisfies the experiment's required format and range.", "long": "If a probability is malformed, missing, or outside the allowed range, the measurement may be invalid. H0 uses a hard compliance gate so a run with unreliable measurements cannot become a confirmatory baseline."}, "confound": {"term": "confound", "short": "Another variable that changes along with the variable of interest, making the cause of a result ambiguous.", "long": "S01 compared tasks that differed in semanticity, response mode, output length, candidate space, and prompt structure. That meant the observed performance difference could not be attributed cleanly to any single mechanism."}, "shortcut": {"term": "shortcut", "short": "A feature that lets the model score well without using the cognitive ability the researcher intended to measure.", "long": "For example, a state-tracking task may accidentally be solvable by repeating the most recent location rather than tracking all transitions. High accuracy would then overstate the intended ability."}, "forcedchoice": {"term": "forced choice", "short": "The model selects from a fixed set of candidate answers instead of generating the answer freely.", "long": "Forced choice shifts the task toward recognition and away from exact surface reproduction. H0 used a counterbalanced four-option task as the main Level-0 substrate."}, "mcnemar": {"term": "McNemar", "short": "A paired test focused on cases where two conditions disagree.", "long": "For the same items under two conditions, McNemar's test compares how often condition A alone succeeds versus condition B alone succeeds. It is useful when outcomes are paired correct/incorrect judgments."}, "sesoi": {"term": "SESOI", "short": "Smallest Effect Size of Interest: the minimum effect the project decided would count as meaningfully positive.", "long": "H0 used +0.10 AUROC2 as a meaningful positive PAI margin in the joint statistic. This helps distinguish 'not statistically different from zero' from 'large enough to matter'."}, "ceiling": {"term": "ceiling", "short": "A task is too easy for a system, leaving too few or no errors to distinguish stronger performance.", "long": "If a model gets 100% correct, AUROC2 cannot be estimated because there are no incorrect trials. The same fixed test may therefore be unsuitable for cross-model metacognitive comparison."}, "floor": {"term": "floor", "short": "A task is too hard for a system, leaving performance near the minimum useful level.", "long": "Near-floor performance can also make metacognitive comparison unstable or uninterpretable. Comparative psychophysics tries to place systems in a shared mixed-error regime."}, "explicitmemory": {"term": "explicit memory", "short": "Externally stored, inspectable history such as a transcript, summary, or structured state object.", "long": "H1 studies explicit memory before hidden recurrence so the project can determine what ordinary access to history already solves."}, "latentstate": {"term": "latent state", "short": "A non-text internal representation carried by the system, such as a recurrent hidden state.", "long": "H2 is designed to manipulate genuine hidden state while controlling visible context. That is necessary for causal claims about recurrence beyond explicit memory."}, "persistentstate": {"term": "persistent state", "short": "State whose later value causally depends on its earlier value rather than being reconstructed only from an external record.", "long": "The project reserves strong persistence claims for systems where intervening on prior state changes later behavior while current observations and explicit memory are held fixed."}};</script>
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body></html>

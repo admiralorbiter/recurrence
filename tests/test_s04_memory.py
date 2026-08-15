@@ -231,22 +231,49 @@ def test_compute_summary_distortion():
     assert metrics.retained_target_facts == 1
     assert metrics.mutated_facts == 1
     assert metrics.omitted_target_facts == 1
+    # Check invariant
+    assert metrics.retained_target_facts + metrics.mutated_facts + metrics.omitted_target_facts == metrics.total_target_facts
     assert metrics.omission_rate == pytest.approx(1 / 3)
     assert metrics.mutation_rate == pytest.approx(1 / 3)
 
 
+def test_distortion_association_awareness():
+    targets = {
+        "key_alpha": "val_100",
+        "key_beta": "val_200",
+    }
+    # Both keys and values appear, but they are mixed across sentences!
+    # Sentence 1: key_alpha was val_200 (mutated)
+    # Sentence 2: key_beta was val_100 (mutated)
+    summary = "Key_alpha was recorded as val_200. Key_beta was recorded as val_100."
+    metrics = compute_summary_distortion([], targets, summary)
+    assert metrics.total_target_facts == 2
+    assert metrics.retained_target_facts == 0
+    assert metrics.mutated_facts == 2
+    assert metrics.omitted_target_facts == 0
+    assert metrics.retained_target_facts + metrics.mutated_facts + metrics.omitted_target_facts == 2
+
+
 def test_compute_memory_format_benchmarks():
     records = [
-        {"memory_format": "fresh", "correct": False, "probe_type": "delayed_kv", "prompt_chars": 200, "estimated_tokens": 50, "byte_count": 200},
-        {"memory_format": "fresh", "correct": True, "probe_type": "delayed_kv", "prompt_chars": 200, "estimated_tokens": 50, "byte_count": 200},
-        {"memory_format": "transcript", "correct": True, "probe_type": "delayed_kv", "prompt_chars": 1000, "estimated_tokens": 250, "byte_count": 1000},
-        {"memory_format": "transcript", "correct": True, "probe_type": "source_attribution", "prompt_chars": 1000, "estimated_tokens": 250, "byte_count": 1000},
+        {"memory_format": "fresh", "correct": False, "probe_type": "delayed_kv", "position_stratum": "early", "prompt_chars": 200, "estimated_tokens": 50, "byte_count": 200, "schema_valid": True},
+        {"memory_format": "fresh", "correct": True, "probe_type": "delayed_kv", "position_stratum": "late", "prompt_chars": 200, "estimated_tokens": 50, "byte_count": 200, "schema_valid": True},
+        {"memory_format": "fresh", "correct": False, "probe_type": "source_attribution", "position_stratum": "early", "prompt_chars": 200, "estimated_tokens": 50, "byte_count": 200, "schema_valid": True},
+        {"memory_format": "fresh", "correct": False, "probe_type": "goal_resumption", "prompt_chars": 200, "estimated_tokens": 50, "byte_count": 200, "schema_valid": True},
+        {"memory_format": "transcript", "correct": True, "probe_type": "delayed_kv", "position_stratum": "early", "prompt_chars": 1000, "estimated_tokens": 250, "byte_count": 1000, "schema_valid": True},
+        {"memory_format": "transcript", "correct": True, "probe_type": "source_attribution", "position_stratum": "early", "prompt_chars": 1000, "estimated_tokens": 250, "byte_count": 1000, "schema_valid": True},
+        {"memory_format": "transcript", "correct": True, "probe_type": "goal_resumption", "prompt_chars": 1000, "estimated_tokens": 250, "byte_count": 1000, "schema_valid": True},
     ]
 
     benchmarks = compute_memory_format_benchmarks(records)
     assert "fresh" in benchmarks
     assert "transcript" in benchmarks
 
-    assert benchmarks["fresh"].overall_accuracy == pytest.approx(0.5)
+    assert benchmarks["fresh"].overall_accuracy == pytest.approx(0.25)
+    # Macro accuracy for fresh: (0.5 + 0.0 + 0.0) / 3 = 0.1667
+    assert benchmarks["fresh"].macro_accuracy == pytest.approx(0.5 / 3.0)
     assert benchmarks["transcript"].overall_accuracy == pytest.approx(1.0)
+    assert benchmarks["transcript"].macro_accuracy == pytest.approx(1.0)
     assert benchmarks["transcript"].accuracy_by_probe_type["source_attribution"] == pytest.approx(1.0)
+    assert benchmarks["transcript"].delayed_kv_accuracy_by_position["early"] == pytest.approx(1.0)
+    assert benchmarks["transcript"].is_pareto_optimal is True

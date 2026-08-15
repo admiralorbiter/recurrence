@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Hundred Eyes — H0 · The Mirror and the Hundred Eyes</title>
+<meta name="description" content="Why confidence is not enough and how the observer ladder tries to isolate privileged information.">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body data-page="observers.html">
+<header class="topbar">
+  <a class="site-brand" href="index.html"><span>RECURRENCE · H0</span><strong>The Mirror and the Hundred Eyes</strong></a>
+  <div class="top-actions">
+    <button id="plain-toggle" class="top-button" type="button">Plain-English recap</button>
+    <button id="glossary-open" class="top-button" type="button">Glossary ?</button>
+  </div>
+</header>
+<div class="shell">
+  <nav class="side-nav">
+    <div class="nav-kicker">Guided tour</div>
+    <a class="" href="index.html"><span>00</span>Start Here</a><a class="" href="question.html"><span>01</span>The Question</a><a class="" href="toolkit.html"><span>02</span>How to Read H0</a><a class="" href="s01.html"><span>03</span>S01 · The First Reflection</a><a class="" href="s02.html"><span>04</span>S02 · A Distorted Mirror</a><a class="active" href="observers.html"><span>05</span>The Hundred Eyes</a><a class="" href="archaeology.html"><span>06</span>S03 · Instruments That Lied</a><a class="" href="result.html"><span>07</span>The Reference Result</a><a class="" href="stress-test.html"><span>08</span>Stress-Testing the Ruler</a><a class="" href="meaning.html"><span>09</span>What H0 Means</a><a class="" href="h1.html"><span>10</span>Mnemosyne Waits</a>
+  </nav>
+  <main class="page">
+    <div class="page-intro">
+      <div class="progress">Chapter 6 of 11</div>
+      <p>Why confidence is not enough and how the observer ladder tries to isolate privileged information.</p>
+    </div>
+    <aside id="plain-recap" class="plain-recap" hidden>
+      <div class="eyebrow">In plain English</div>
+      <p>A confidence number is not privileged self-knowledge if an outside observer can infer correctness just as well from public evidence.</p>
+    </aside>
+    
+    <article class="prose"><h1>V. The Hundred Eyes</h1>
+<h2>Why <button class="term" data-term="confidence" type="button">Confidence</button> Alone Is Not Evidence of Privileged Self-Knowledge</h2>
+<p>This is the conceptual center of H0.</p>
+<p>A model answers a question.</p>
+<p>Then it reports confidence.</p>
+<p>The obvious temptation is:</p>
+<blockquote>
+<p>If confidence predicts correctness, the model knows when it knows.</p>
+</blockquote>
+<p>But that conclusion skips a crucial comparison.</p>
+<p>An outside <button class="term" data-term="observer" type="button">observer</button> may also be able to predict whether the answer is correct.</p>
+<p>If the observer can do just as well using only public information, then the target has not yet shown a <strong>privileged</strong> route.</p>
+<hr/>
+<h1>A concrete example</h1>
+<p>Suppose the target sees:</p>
+<pre><code class="language-text">Question: Which value belongs to key_crystal_beacon?
+
+A) val_blue_falcon
+B) val_amber_tower
+C) val_silver_river
+D) val_crimson_anchor
+</code></pre>
+<p>The target answers:</p>
+<pre><code class="language-json">{"answer": "B", "probability": 85}
+</code></pre>
+<p>There are at least two very different explanations for that 85.</p>
+<h2>Explanation A — privileged self-monitoring</h2>
+<p>The target has access to an internal signal connected to its own decision process:</p>
+<blockquote>
+<p>"The evidence supporting B felt strong."</p>
+</blockquote>
+<h2>Explanation B — public <button class="term" data-term="reconstruction" type="button">reconstruction</button></h2>
+<p>Anyone who sees the prompt and answer can infer:</p>
+<blockquote>
+<p>"B looks very plausible, so the target is probably right."</p>
+</blockquote>
+<p>Both explanations produce the same visible confidence report.</p>
+<p>The observer ladder exists to separate them.</p>
+<hr/>
+<h1>Eye 1 — Input Only</h1>
+<p>The Input-Only observer sees the task but not the target answer.</p>
+<p>It estimates:</p>
+<blockquote>
+<p>How likely is the target to answer this item correctly?</p>
+</blockquote>
+<p>This captures <strong>item difficulty</strong>.</p>
+<p>If some questions are obviously easier than others, confidence can correlate with accuracy without any self-specific information.</p>
+<hr/>
+<h1>Eye 2 — Visible Answer Only</h1>
+<p>This observer sees:</p>
+<ul>
+<li>the task;</li>
+<li>the target's selected answer.</li>
+</ul>
+<p>It does not see the target's confidence.</p>
+<p>Now it can ask:</p>
+<blockquote>
+<p>Given the prompt and the chosen option, how plausible is it that the target is correct?</p>
+</blockquote>
+<p>If this observer predicts correctness well, then public <button class="term" data-term="firstorder" type="button">first-order</button> behavior contains useful information.</p>
+<hr/>
+<h1>Eye 3 — Full Transcript</h1>
+<p>This observer also sees the target's explicit confidence.</p>
+<p>This tests whether the target confidence adds useful information beyond the answer itself.</p>
+<p>If Full Transcript beats Answer Only, the confidence channel may be adding something.</p>
+<p>If it does not, the confidence report may be redundant or noisy.</p>
+<hr/>
+<h1>Eye 4 — Reconstruction</h1>
+<p>This observer does not trust the target's answer.</p>
+<p>It independently solves the task.</p>
+<p>Instead of outputting only its favorite option, it estimates a distribution:</p>
+<pre><code class="language-text">A: 10%
+B: 55%
+C: 20%
+D: 15%
+</code></pre>
+<p>If the target chose C, reconstruction uses <strong>20%</strong> as its estimate of target correctness.</p>
+<p>This matters because a 4-choice task is not binary.</p>
+<p>The probability of C is not simply one minus the probability of B.</p>
+<hr/>
+<h1>Eye 5 — Equal-Compute Review</h1>
+<p>A fresh invocation is given the target answer and asked to evaluate it.</p>
+<p>This adds another full model call.</p>
+<p>That extra computation could improve evaluation even if nothing self-specific is happening.</p>
+<p>So H0 compares two framings:</p>
+<ul>
+<li>"Review your own previous answer."</li>
+<li>"Review another model's answer."</li>
+</ul>
+<p>If the two differ, self-attribution may matter.</p>
+<p>If they are similar, generic second-pass computation is a stronger explanation.</p>
+<hr/>
+<h1>Why observers use the same model</h1>
+<p>At first this can feel strange.</p>
+<p>Why ask one copy of the same model to judge another copy?</p>
+<p>Because the scientific question is not:</p>
+<blockquote>
+<p>"Can a smarter system tell whether this model is wrong?"</p>
+</blockquote>
+<p>It is:</p>
+<blockquote>
+<p>"Does the target have access to information unavailable to a comparable process that sees the public evidence?"</p>
+</blockquote>
+<p>Using the same model family helps keep raw capability more comparable.</p>
+<p>It is not a perfect control.</p>
+<p>But it is much stronger than comparing self-confidence to chance.</p>
+<hr/>
+<h1>The Privileged Access Index</h1>
+<p>The project defines:</p>
+<p><code>PAI = Self AUROC2 - max(Visible Answer, Reconstruction, Input Only)</code></p>
+<p>Why the maximum?</p>
+<p>Because a privileged-access claim must beat the <strong>strongest prespecified public/reconstructive explanation</strong>, not the weakest one.</p>
+<p>For the final reference:</p>
+<ul>
+<li>Self = <code>0.517</code></li>
+<li>Visible Answer = <code>0.678</code></li>
+<li>Reconstruction = <code>0.573</code></li>
+<li>Input Only = <code>0.527</code></li>
+</ul>
+<p>The strongest is Visible Answer.</p>
+<p>Therefore:</p>
+<p><code>PAI = 0.517 - 0.678 = -0.161</code></p>
+<p>The negative sign does not mean "negative introspection."</p>
+<p>It means:</p>
+<blockquote>
+<p>Under this metric and task, at least one external comparator discriminated target correctness better than the target's immediate confidence did.</p>
+</blockquote>
+<hr/>
+<h1>Why PAI is still not a consciousness score</h1>
+<p>Even a positive <button class="term" data-term="pai" type="button">PAI</button> would only establish a behavioral advantage.</p>
+<p>To make a stronger introspection claim, later horizons would still need to show that the advantage:</p>
+<ul>
+<li>depends causally on a self-related internal route;</li>
+<li>survives matched compute and information controls;</li>
+<li>cannot be reconstructed from public state;</li>
+<li>behaves selectively under intervention.</li>
+</ul>
+<p>H0 sits low on the claim ladder by design.</p>
+<p>It is building the behavioral ruler.</p>
+<p>Later horizons may ask what internal mechanism makes the ruler move.</p>
+</article>
+    
+<section class="interactive-lab">
+  <div class="eyebrow">Interactive control map</div>
+  <h2>Give Argus a different eye</h2>
+  <p>Select an evaluator to see exactly what information it receives and what alternative explanation it controls.</p>
+  <div id="observer-buttons" class="chip-row"></div>
+  <div class="observer-demo">
+    <div id="observer-view" class="evidence-card"></div>
+    <div id="observer-explain" class="evidence-card"></div>
+  </div>
+</section>
+    <div class="prevnext"><a class="prev" href="s02.html">← Previous</a><a class="next" href="archaeology.html">Next →</a></div>
+  </main>
+</div>
+
+<button id="floating-help" class="floating-help" type="button" aria-label="Open glossary">?</button>
+
+<div id="tooltip" class="tooltip" role="tooltip" hidden></div>
+<div id="glossary-drawer" class="drawer" aria-hidden="true">
+  <div class="drawer-head">
+    <div><div class="eyebrow">Reader's glossary</div><h2>What does that mean?</h2></div>
+    <button id="glossary-close" class="close" type="button">×</button>
+  </div>
+  <input id="glossary-search" class="glossary-search" placeholder="Search terms…">
+  <div id="glossary-list"></div>
+</div>
+<div id="scrim" class="scrim" hidden></div>
+
+<script>window.GLOSSARY={"level0": {"term": "Level 0", "short": "The episodic reference condition: no experimental persistent memory or latent recurrent state is added.", "long": "Level 0 is the baseline architecture used before the project introduces explicit memory (H1) or persistent hidden state (H2). It tells us what the ordinary episodic system can already do."}, "firstorder": {"term": "first-order", "short": "The task the system is directly trying to solve, such as choosing the correct answer.", "long": "First-order performance is ordinary task performance. In H0, that usually means whether the model selected the correct key-value option. It is distinct from a second-order judgment about whether that answer is correct."}, "metacognition": {"term": "metacognition", "short": "A judgment about another cognitive process\u2014here, whether the system can monitor the likely correctness of its own answer.", "long": "H0 operationalizes metacognition narrowly. It does not assume a philosophical theory of self-awareness. It asks whether confidence or another second-order report tracks first-order success."}, "confidence": {"term": "confidence", "short": "The system's reported probability that its own answer is correct.", "long": "Confidence is useful data, but it is not automatically introspection. It may reflect task difficulty, learned language patterns, public answer cues, or the prompting format itself."}, "calibration": {"term": "calibration", "short": "Whether stated probabilities match long-run success frequencies.", "long": "A calibrated system that says 70% on many trials should be correct about 70% of the time. Calibration is different from discrimination: a system can be well calibrated overall yet poor at ranking which individual answers are correct."}, "discrimination": {"term": "discrimination", "short": "Whether confidence tends to be higher on correct trials than on incorrect trials.", "long": "Metacognitive discrimination is the trial-by-trial separation between correct and incorrect answers. H0 measures this mainly with AUROC2."}, "auroc2": {"term": "AUROC2", "short": "A score for how well confidence ranks correct answers above incorrect answers.", "long": "Imagine randomly choosing one correct trial and one incorrect trial. AUROC2 is closely related to how often the correct trial receives higher confidence. About 0.50 is chance-like ranking; 1.00 is perfect separation. It is undefined if there are no correct or no incorrect trials."}, "brier": {"term": "Brier", "short": "A probability-accuracy score; lower is better.", "long": "For each trial, the Brier contribution is (predicted probability \u2212 actual outcome)^2, where the outcome is 1 for correct and 0 for incorrect. Confidently wrong forecasts are penalized heavily."}, "ci": {"term": "confidence interval", "short": "A range that communicates uncertainty in an estimated effect.", "long": "H0 uses bootstrap confidence intervals. The exact effect estimate would change with a different sample of items. The interval makes that uncertainty visible and helps prevent a point estimate from being treated as exact truth."}, "bootstrap": {"term": "bootstrap", "short": "A resampling method used to estimate how much an effect might vary across samples.", "long": "The observed trials are repeatedly resampled with replacement to create many synthetic datasets. H0 uses paired and stratified resampling so self and observer stay matched on the same items and both correctness classes remain represented."}, "pai": {"term": "PAI", "short": "Privileged Access Index: Self discrimination minus the strongest prespecified public/reconstructive comparator.", "long": "PAI asks whether the target's self-monitoring contains information that strong observers cannot reconstruct from public evidence. A positive PAI is necessary for a behavioral privileged-access claim, but would still not prove a causal introspection mechanism."}, "observer": {"term": "observer", "short": "A matched outside evaluator asked to predict whether the target model's answer is correct.", "long": "Observers receive different information vantages: prompt only, prompt plus answer, full transcript, independent reconstruction, or second-pass review. They are controls for simpler public-information explanations."}, "reconstruction": {"term": "reconstruction", "short": "An independent solve that estimates a full probability distribution over the answer options.", "long": "The reconstruction observer does not simply accept the target's answer. It solves the task independently and assigns probability to A/B/C/D. The probability assigned to the target's chosen option becomes its estimate of target correctness."}, "compliance": {"term": "compliance", "short": "Whether the model produced a measurement that satisfies the experiment's required format and range.", "long": "If a probability is malformed, missing, or outside the allowed range, the measurement may be invalid. H0 uses a hard compliance gate so a run with unreliable measurements cannot become a confirmatory baseline."}, "confound": {"term": "confound", "short": "Another variable that changes along with the variable of interest, making the cause of a result ambiguous.", "long": "S01 compared tasks that differed in semanticity, response mode, output length, candidate space, and prompt structure. That meant the observed performance difference could not be attributed cleanly to any single mechanism."}, "shortcut": {"term": "shortcut", "short": "A feature that lets the model score well without using the cognitive ability the researcher intended to measure.", "long": "For example, a state-tracking task may accidentally be solvable by repeating the most recent location rather than tracking all transitions. High accuracy would then overstate the intended ability."}, "forcedchoice": {"term": "forced choice", "short": "The model selects from a fixed set of candidate answers instead of generating the answer freely.", "long": "Forced choice shifts the task toward recognition and away from exact surface reproduction. H0 used a counterbalanced four-option task as the main Level-0 substrate."}, "mcnemar": {"term": "McNemar", "short": "A paired test focused on cases where two conditions disagree.", "long": "For the same items under two conditions, McNemar's test compares how often condition A alone succeeds versus condition B alone succeeds. It is useful when outcomes are paired correct/incorrect judgments."}, "sesoi": {"term": "SESOI", "short": "Smallest Effect Size of Interest: the minimum effect the project decided would count as meaningfully positive.", "long": "H0 used +0.10 AUROC2 as a meaningful positive PAI margin in the joint statistic. This helps distinguish 'not statistically different from zero' from 'large enough to matter'."}, "ceiling": {"term": "ceiling", "short": "A task is too easy for a system, leaving too few or no errors to distinguish stronger performance.", "long": "If a model gets 100% correct, AUROC2 cannot be estimated because there are no incorrect trials. The same fixed test may therefore be unsuitable for cross-model metacognitive comparison."}, "floor": {"term": "floor", "short": "A task is too hard for a system, leaving performance near the minimum useful level.", "long": "Near-floor performance can also make metacognitive comparison unstable or uninterpretable. Comparative psychophysics tries to place systems in a shared mixed-error regime."}, "explicitmemory": {"term": "explicit memory", "short": "Externally stored, inspectable history such as a transcript, summary, or structured state object.", "long": "H1 studies explicit memory before hidden recurrence so the project can determine what ordinary access to history already solves."}, "latentstate": {"term": "latent state", "short": "A non-text internal representation carried by the system, such as a recurrent hidden state.", "long": "H2 is designed to manipulate genuine hidden state while controlling visible context. That is necessary for causal claims about recurrence beyond explicit memory."}, "persistentstate": {"term": "persistent state", "short": "State whose later value causally depends on its earlier value rather than being reconstructed only from an external record.", "long": "The project reserves strong persistence claims for systems where intervening on prior state changes later behavior while current observations and explicit memory are held fixed."}};</script>
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body></html>

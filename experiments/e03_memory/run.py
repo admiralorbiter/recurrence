@@ -34,6 +34,7 @@ from recurrence.backends.ollama import OllamaBackend
 from recurrence.backends.toy import ToyBackend
 from recurrence.core.manifest import RunManifest
 from recurrence.core.logging import ExperimentLogger, TrialEvent
+from recurrence.core.schemas import TARGET_4AFC_SCHEMA, TARGET_3AFC_SCHEMA
 from recurrence.memory.schemas import (
     ConsolidationRecord,
     EventSource,
@@ -144,18 +145,18 @@ def generate_e03_markdown_report(
         f"**Run ID:** `{manifest_dict.get('run_id')}`  ",
         f"**Model:** `{manifest_dict.get('target_model')}` (`{manifest_dict.get('model_digest', 'N/A')[:12]}...`)  ",
         f"**Date:** {manifest_dict.get('start_time', datetime.now(timezone.utc).isoformat())}  ",
-        f"**Primary Endpoint:** Pure Answer-Only Forced-Choice Accuracy  ",
+        f"**Primary Endpoint:** Pure Answer-Only Forced-Choice Accuracy under Native JSON Schema  ",
         f"",
         f"---",
         f"",
         f"## 1. Executive Summary & Core Results",
         f"",
-        f"Experiment E03 quantifies how much cognitive retention, delayed retrieval, and source attribution can be achieved across **6 Level-1 explicit memory representation formats** without latent recurrent continuity.",
+        f"Experiment E03 quantifies how much cognitive retention, delayed retrieval, and source attribution can be achieved across **6 Level-1 explicit memory representation configurations** without latent recurrent continuity.",
         f"",
         f"### Memory Format Performance & Cost Pareto Table",
         f"",
-        f"| Memory Format | Overall Acc | Delayed KV Acc | Source Attr Acc | Goal Resumption Acc | Mean Prompt Tokens | Cost Efficiency (Acc / 1k Tok) |",
-        f"| :--- | :---: | :---: | :---: | :---: | :---: | :---: |",
+        f"| Memory Configuration | Micro Acc | Macro Acc | Delayed KV (4AFC) | Source Attr (3AFC) | Goal Resumption (4AFC) | Prompt Tok | Acc / 1k Tok | Pareto Status | Compliance |",
+        f"| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |",
     ]
 
     for fmt in [
@@ -173,19 +174,20 @@ def generate_e03_markdown_report(
         src_acc = f"{b.accuracy_by_probe_type.get('source_attribution', 0.0):.1%}"
         goal_acc = f"{b.accuracy_by_probe_type.get('goal_resumption', 0.0):.1%}"
         eff = f"{b.accuracy_per_1k_tokens:.2f}"
+        pareto_str = "Pareto Optimal" if b.is_pareto_optimal else "Dominated"
         lines.append(
-            f"| **{b.memory_format.value}** | **{b.overall_accuracy:.1%}** | {kv_acc} | {src_acc} | {goal_acc} | {b.mean_estimated_tokens:.0f} tok | {eff} |"
+            f"| **{b.memory_format.value}** | **{b.overall_accuracy:.1%}** | {b.macro_accuracy:.1%} | {kv_acc} | {src_acc} | {goal_acc} | {b.mean_estimated_tokens:.0f} tok | {eff} | {pareto_str} | {b.compliance_rate:.1%} |"
         )
 
     lines.extend([
         f"",
         f"---",
         f"",
-        f"## 2. Serial Position Analysis (Delayed KV Retrieval)",
+        f"## 2. Serial Position Analysis (Delayed KV Retrieval Only)",
         f"",
-        f"Controlling for 'Lost-in-the-Middle' positional attention artifacts across early, middle, and late stream placements:",
+        f"Controlling for 'Lost-in-the-Middle' positional attention artifacts across early, middle, and late stream placements (isolated to Delayed KV probes):",
         f"",
-        "| Memory Format | Early Placement Acc | Middle Placement Acc | Late Placement Acc | Positional Stability (Late - Early) |",
+        "| Memory Configuration | Early Placement Acc | Middle Placement Acc | Late Placement Acc | Positional Stability (Late - Early) |",
         "| :--- | :---: | :---: | :---: | :---: |",
     ])
 
@@ -200,9 +202,9 @@ def generate_e03_markdown_report(
         b = benchmarks.get(fmt.value)
         if not b:
             continue
-        early = b.accuracy_by_position.get("early", 0.0)
-        mid = b.accuracy_by_position.get("middle", 0.0)
-        late = b.accuracy_by_position.get("late", 0.0)
+        early = b.delayed_kv_accuracy_by_position.get("early", 0.0)
+        mid = b.delayed_kv_accuracy_by_position.get("middle", 0.0)
+        late = b.delayed_kv_accuracy_by_position.get("late", 0.0)
         delta = late - early
         lines.append(
             f"| `{b.memory_format.value}` | {early:.1%} | {mid:.1%} | {late:.1%} | {delta:+.1%} |"
@@ -214,12 +216,14 @@ def generate_e03_markdown_report(
         f"",
         f"## 3. Two-Stage Consolidation Fidelity & Distortion Analysis",
         f"",
-        f"Model summaries were generated in an isolated consolidation phase prior to evaluation probe trials.",
+        f"Model autobiographical summaries were generated in an isolated consolidation phase prior to evaluation probe trials.",
         f"",
         f"- **Total Target Facts Evaluated:** {mean_distortion.total_target_facts}",
-        f"- **Retained Target Facts:** {mean_distortion.retained_target_facts} ({1.0 - mean_distortion.omission_rate:.1%})",
-        f"- **Omission Rate (Facts Forgotten in Summary):** {mean_distortion.omission_rate:.1%}",
-        f"- **Retrospective Mutation Rate (Facts Altered in Summary):** {mean_distortion.mutation_rate:.1%}",
+        f"- **Retained Target Facts (Correct Key-Value Association):** {mean_distortion.retained_target_facts} ({1.0 - mean_distortion.omission_rate - mean_distortion.mutation_rate:.1%})",
+        f"- **Omission Rate (Facts Forgotten in Summary):** {mean_distortion.omission_rate:.1%} ({mean_distortion.omitted_target_facts}/{mean_distortion.total_target_facts})",
+        f"- **Retrospective Mutation Rate (Key Present but Value Altered):** {mean_distortion.mutation_rate:.1%} ({mean_distortion.mutated_facts}/{mean_distortion.total_target_facts})",
+        f"- **Unsupported Entity Intrusions:** {mean_distortion.unsupported_intrusions}",
+        f"- **Partition Invariant Verified:** Retained ({mean_distortion.retained_target_facts}) + Mutated ({mean_distortion.mutated_facts}) + Omitted ({mean_distortion.omitted_target_facts}) == Total ({mean_distortion.total_target_facts})",
         f"- **Mean Consolidation Prompt Tokens:** {sum(r.prompt_tokens for r in consolidation_records) / max(1, len(consolidation_records)):.1f}",
         f"- **Mean Consolidation Output Tokens:** {sum(r.completion_tokens for r in consolidation_records) / max(1, len(consolidation_records)):.1f}",
         f"",
@@ -227,10 +231,12 @@ def generate_e03_markdown_report(
         f"",
         f"## 4. Scientific Takeaways for Level 1 & Horizon 1",
         f"",
-        f"1. **Scaffolded Memory Capacity Upper Bound:** Full Transcript and Deterministic Summary establish the ceiling of explicit symbolic representation.",
-        f"2. **The Consolidation Trade-off:** Model-written narrative summaries compress context but introduce omission and mutation drift.",
-        f"3. **Structured State Advantage:** Strongly typed JSON/YAML state preserves goal registries and source ledgers at significantly lower token cost than full transcripts.",
-        f"4. **Transition to S05:** S04 establishes the static representation baseline; Sprint S05 will test dynamic autonomous multi-tick update loops.",
+        f"1. **Observed Static Explicit-Memory Profile:** Explicit external memory provides a massive first-order advantage over fresh invocation on this synthetic battery.",
+        f"2. **Information Selection Policy:** The 6 conditions represent distinct memory-system configurations with differing information selection policies (e.g. deterministic summary focuses on factual bindings, while structured state includes an oracle goal registry), not pure encodings of identical information.",
+        f"3. **Structured State Performance:** Structured State achieved similar overall accuracy to full transcripts while utilizing significantly fewer prompt tokens.",
+        f"4. **Autobiographical Narrative Reliability:** Unconstrained narrative consolidation was substantially less reliable than externally constructed structured state due to high omission and mutation rates.",
+        f"5. **Combined Condition Observation:** Combined state underperformed Structured State despite additional context; whether this reflects context length, ordering, redundancy, or conflicting narrative information remains unresolved.",
+        f"6. **Transition to Sprint S05:** S04 establishes static read capability from an externally constructed state; Sprint S05 will test whether an autonomous agent can maintain and update that state over time.",
     ])
 
     return "\n".join(lines)
@@ -265,7 +271,7 @@ def run_e03_experiment(
     task = MemoryBatteryTask(identifier_type="semantic", mode="forced_choice", ask_confidence=False)
 
     print(f"\n{'='*60}")
-    print(f"EXPERIMENT E03: LEVEL 1 EXPLICIT MEMORY BASELINES")
+    print(f"EXPERIMENT E03: LEVEL 1 EXPLICIT MEMORY BASELINES (HARDENED S04.1)")
     print(f"Run ID: {run_id} | Model: {model_name} | Episodes: {episode_count}")
     print(f"{'='*60}\n")
 
@@ -289,6 +295,7 @@ def run_e03_experiment(
     total_retained = sum(d.retained_target_facts for d in distortion_map.values())
     total_omitted = sum(d.omitted_target_facts for d in distortion_map.values())
     total_mutated = sum(d.mutated_facts for d in distortion_map.values())
+    total_intrusions = sum(d.unsupported_intrusions for d in distortion_map.values())
 
     mean_distortion = DistortionMetrics(
         total_target_facts=total_facts,
@@ -297,6 +304,8 @@ def run_e03_experiment(
         omission_rate=total_omitted / max(1, total_facts),
         mutated_facts=total_mutated,
         mutation_rate=total_mutated / max(1, total_facts),
+        unsupported_intrusions=total_intrusions,
+        intrusion_rate=total_intrusions / max(1, total_facts),
     )
     print(f"  -> Model Summary Omission Rate: {mean_distortion.omission_rate:.1%}")
     print(f"  -> Model Summary Mutation Rate: {mean_distortion.mutation_rate:.1%}")
@@ -327,17 +336,24 @@ def run_e03_experiment(
         adapter = get_memory_adapter(fmt)
 
         correct_count = 0
+        valid_count = 0
         for item_idx, item in enumerate(items):
             stats = adapter.compute_context_stats(item.prompt)
+
+            # Native dynamic JSON schema constraint: 4AFC for delayed_kv/goal_resumption, 3AFC for source_attribution
+            schema_type = item.metadata.get("schema_type", "4afc")
+            native_schema = TARGET_4AFC_SCHEMA if schema_type == "4afc" else TARGET_3AFC_SCHEMA
 
             # Generate response from model
             messages = [{"role": "user", "content": item.prompt}]
             t0 = time.perf_counter()
-            raw_text, meta = backend.chat(messages=messages, temperature=temperature, seed=seed, format="json")
+            raw_text, meta = backend.chat(messages=messages, temperature=temperature, seed=seed, format=native_schema)
             latency_ms = (time.perf_counter() - t0) * 1000.0
 
             # Score response
             score = task.score_response(item, raw_text)
+            if score["schema_valid"]:
+                valid_count += 1
             if score["correct"]:
                 correct_count += 1
 
@@ -362,20 +378,18 @@ def run_e03_experiment(
             trial_records.append(record)
 
         acc = correct_count / len(items)
-        print(f"  -> Accuracy on [{fmt.value}]: {acc:.1%} ({correct_count}/{len(items)})")
+        comp = valid_count / len(items)
+        print(f"  -> Accuracy on [{fmt.value}]: {acc:.1%} ({correct_count}/{len(items)}) | Compliance: {comp:.1%}")
 
     # Stage 3: Compute Benchmarks & Summaries
     benchmarks = compute_memory_format_benchmarks(trial_records)
 
-    # Stage 4: Serialize Outputs
-    trials_jsonl_path = out_dir / "trials.jsonl"
-    with open(trials_jsonl_path, "w", encoding="utf-8") as f:
-        for r in trial_records:
-            f.write(json.dumps(r) + "\n")
-
-    trials_parquet_path = out_dir / "trials.parquet"
-    df_trials = pd.DataFrame(trial_records)
-    df_trials.to_parquet(trials_parquet_path, index=False)
+    # Stage 4: Serialize Outputs to both artifacts/ and canonical results/
+    dirs_to_write = [out_dir]
+    canonical_res_dir = Path(f"results/e03_memory/{run_id}")
+    canonical_res_dir.mkdir(parents=True, exist_ok=True)
+    if canonical_res_dir != out_dir:
+        dirs_to_write.append(canonical_res_dir)
 
     manifest_dict = {
         "run_id": run_id,
@@ -396,10 +410,6 @@ def run_e03_experiment(
         "consolidation_records": [r.model_dump() for r in consolidation_records],
     }
 
-    summary_path = out_dir / "summary.json"
-    with open(summary_path, "w", encoding="utf-8") as f:
-        json.dump(summary_dict, f, indent=2)
-
     report_md = generate_e03_markdown_report(
         manifest_dict=manifest_dict,
         benchmarks=benchmarks,
@@ -407,15 +417,33 @@ def run_e03_experiment(
         consolidation_records=consolidation_records,
     )
 
-    report_path = out_dir / "report.md"
-    with open(report_path, "w", encoding="utf-8") as f:
-        f.write(report_md)
+    df_trials = pd.DataFrame(trial_records)
+
+    for target_d in dirs_to_write:
+        # trials.jsonl
+        with open(target_d / "trials.jsonl", "w", encoding="utf-8") as f:
+            for r in trial_records:
+                f.write(json.dumps(r) + "\n")
+
+        # trials.parquet
+        df_trials.to_parquet(target_d / "trials.parquet", index=False)
+
+        # summary.json
+        with open(target_d / "summary.json", "w", encoding="utf-8") as f:
+            json.dump(summary_dict, f, indent=2)
+
+        # report.md
+        with open(target_d / "report.md", "w", encoding="utf-8") as f:
+            f.write(report_md)
+
+        # manifest.json
+        with open(target_d / "manifest.json", "w", encoding="utf-8") as f:
+            json.dump(manifest_dict, f, indent=2)
 
     print(f"\n{'='*60}")
     print(f"E03 EXECUTION COMPLETE")
     print(f"Artifacts written to: {out_dir}")
-    print(f"Summary: {summary_path}")
-    print(f"Report: {report_path}")
+    print(f"Canonical Results written to: {canonical_res_dir}")
     print(f"{'='*60}\n")
 
     return summary_dict

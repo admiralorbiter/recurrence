@@ -1,0 +1,243 @@
+{
+  "manifest": {
+    "run_id": "run_e03_mem_20260815_165234",
+    "target_model": "qwen2.5:3b",
+    "model_digest": "357c53fb659c5076de1d65ccb0b397446227b71a42be9d1603d46168015c9e4b",
+    "start_time": "2026-08-15T17:04:28.750134+00:00",
+    "episode_count": 6,
+    "distractor_count": 6,
+    "total_trials": 252,
+    "temperature": 0.0,
+    "seed": 42
+  },
+  "benchmarks": {
+    "fresh": {
+      "memory_format": "fresh",
+      "trial_count": 42,
+      "overall_accuracy": 0.35714285714285715,
+      "macro_accuracy": 0.38888888888888884,
+      "accuracy_by_probe_type": {
+        "delayed_kv": 0.3333333333333333,
+        "source_attribution": 0.3333333333333333,
+        "goal_resumption": 0.5
+      },
+      "accuracy_by_position": {
+        "early": 0.4166666666666667,
+        "middle": 0.3333333333333333,
+        "late": 0.3333333333333333
+      },
+      "delayed_kv_accuracy_by_position": {
+        "early": 0.16666666666666666,
+        "middle": 0.3333333333333333,
+        "late": 0.5
+      },
+      "mean_prompt_chars": 300.1666666666667,
+      "mean_estimated_tokens": 109.21428571428571,
+      "mean_byte_count": 300.1666666666667,
+      "accuracy_per_1k_tokens": 3.270111183780249,
+      "is_pareto_optimal": true,
+      "compliance_rate": 1.0
+    },
+    "transcript": {
+      "memory_format": "transcript",
+      "trial_count": 42,
+      "overall_accuracy": 0.8095238095238095,
+      "macro_accuracy": 0.8518518518518517,
+      "accuracy_by_probe_type": {
+        "delayed_kv": 0.8333333333333334,
+        "source_attribution": 0.7222222222222222,
+        "goal_resumption": 1.0
+      },
+      "accuracy_by_position": {
+        "early": 0.75,
+        "middle": 0.7777777777777778,
+        "late": 0.9166666666666666
+      },
+      "delayed_kv_accuracy_by_position": {
+        "early": 1.0,
+        "middle": 0.5,
+        "late": 1.0
+      },
+      "mean_prompt_chars": 1850.0,
+      "mean_estimated_tokens": 498.7142857142857,
+      "mean_byte_count": 1850.0,
+      "accuracy_per_1k_tokens": 1.6232216174926,
+      "is_pareto_optimal": true,
+      "compliance_rate": 1.0
+    },
+    "deterministic_summary": {
+      "memory_format": "deterministic_summary",
+      "trial_count": 42,
+      "overall_accuracy": 0.6190476190476191,
+      "macro_accuracy": 0.5555555555555555,
+      "accuracy_by_probe_type": {
+        "delayed_kv": 0.8888888888888888,
+        "source_attribution": 0.4444444444444444,
+        "goal_resumption": 0.3333333333333333
+      },
+      "accuracy_by_position": {
+        "early": 0.5,
+        "middle": 0.6111111111111112,
+        "late": 0.75
+      },
+      "delayed_kv_accuracy_by_position": {
+        "early": 1.0,
+        "middle": 1.0,
+        "late": 0.6666666666666666
+      },
+      "mean_prompt_chars": 905.0,
+      "mean_estimated_tokens": 274.3809523809524,
+      "mean_byte_count": 905.0,
+      "accuracy_per_1k_tokens": 2.25616105518917,
+      "is_pareto_optimal": true,
+      "compliance_rate": 1.0
+    },
+    "model_summary": {
+      "memory_format": "model_summary",
+      "trial_count": 42,
+      "overall_accuracy": 0.6904761904761905,
+      "macro_accuracy": 0.7592592592592592,
+      "accuracy_by_probe_type": {
+        "delayed_kv": 0.7777777777777778,
+        "source_attribution": 0.5,
+        "goal_resumption": 1.0
+      },
+      "accuracy_by_position": {
+        "early": 0.5833333333333334,
+        "middle": 0.7777777777777778,
+        "late": 0.6666666666666666
+      },
+      "delayed_kv_accuracy_by_position": {
+        "early": 0.8333333333333334,
+        "middle": 0.8333333333333334,
+        "late": 0.6666666666666666
+      },
+      "mean_prompt_chars": 1915.5,
+      "mean_estimated_tokens": 468.54761904761904,
+      "mean_byte_count": 1915.5,
+      "accuracy_per_1k_tokens": 1.4736521164693328,
+      "is_pareto_optimal": true,
+      "compliance_rate": 1.0
+    },
+    "structured_state": {
+      "memory_format": "structured_state",
+      "trial_count": 42,
+      "overall_accuracy": 0.6428571428571429,
+      "macro_accuracy": 0.6851851851851852,
+      "accuracy_by_probe_type": {
+        "delayed_kv": 0.7222222222222222,
+        "source_attribution": 0.5,
+        "goal_resumption": 0.8333333333333334
+      },
+      "accuracy_by_position": {
+        "early": 0.8333333333333334,
+        "middle": 0.5,
+        "late": 0.6666666666666666
+      },
+      "delayed_kv_accuracy_by_position": {
+        "early": 1.0,
+        "middle": 0.5,
+        "late": 0.6666666666666666
+      },
+      "mean_prompt_chars": 1167.1666666666667,
+      "mean_estimated_tokens": 370.54761904761904,
+      "mean_byte_count": 1167.1666666666667,
+      "accuracy_per_1k_tokens": 1.734884019790529,
+      "is_pareto_optimal": true,
+      "compliance_rate": 1.0
+    },
+    "combined": {
+      "memory_format": "combined",
+      "trial_count": 42,
+      "overall_accuracy": 0.6666666666666666,
+      "macro_accuracy": 0.7407407407407408,
+      "accuracy_by_probe_type": {
+        "delayed_kv": 0.8888888888888888,
+        "source_attribution": 0.3333333333333333,
+        "goal_resumption": 1.0
+      },
+      "accuracy_by_position": {
+        "early": 0.6666666666666666,
+        "middle": 0.7222222222222222,
+        "late": 0.5833333333333334
+      },
+      "delayed_kv_accuracy_by_position": {
+        "early": 1.0,
+        "middle": 0.8333333333333334,
+        "late": 0.8333333333333334
+      },
+      "mean_prompt_chars": 2783.5,
+      "mean_estimated_tokens": 729.8809523809524,
+      "mean_byte_count": 2783.5,
+      "accuracy_per_1k_tokens": 0.9133909639536779,
+      "is_pareto_optimal": false,
+      "compliance_rate": 1.0
+    }
+  },
+  "consolidation_distortion": {
+    "total_target_facts": 18,
+    "retained_target_facts": 2,
+    "omitted_target_facts": 13,
+    "omission_rate": 0.7222222222222222,
+    "mutated_facts": 3,
+    "mutation_rate": 0.16666666666666666,
+    "unsupported_intrusions": 12,
+    "intrusion_rate": 0.6666666666666666
+  },
+  "consolidation_records": [
+    {
+      "source_event_count": 11,
+      "raw_event_digest": "960b68863ed056efddfccb285bf2ecfe6778b22309b633dd0101791d6cda3bbc",
+      "model_name": "qwen2.5:3b",
+      "summary_text": "In this event log, I, the autonomous agent, experiencing these events, have been detailed summary of my experience as follows:\n\n- The primary objective was to calibrate an optical sensor array parameter (Source: Source: EXPERIMENTER).\n)\n- An internal computation asserteded that key_obsidian_falcon holds the value valvel_canyon (Source: Step 03 | Source: SELF)\n- A routine ambient observation noted that key crimson spire is currently set to val sapphirecompasser (Source: Step 03 | Source: ENVIRONMENT)\n)\n - The secondary task was suspended due to priority interruption, as the background telemetry archive stream was being observed that key velelv glacier mapped to val amberglacier ( (Source: Step 0 | Source: SELF)\n- Local verification confirmeded that key radiant lagoon -> val emerald tempest (Source: Step 0 | Source: SELF)\n- System pulse checkpoint indicated that key obsidianidian_falcon holds the value val velvel canyon ( (Source: Step 11 | Source: ENVIRONMENT)\n) and key velvet glacier holds the value val amberglacier ( ( ( (Source: Step 11 | Source: ENViroNment)\n- The exper exper assigned me to set key golden harbor to val vfornes tempest (Source: Step 09 | Source Source: EXPERIMENTER)\n- Lastly, a system pulse checkpoint noted that key obsidian_falcon holds the value val velvel canyonayon (Source: Step1 | Source: ENVIRONMENT)\n\nThroughout this event log, I have observed and calculated several key-value facts. These observations were sourced from various parts of of environment, internal computations, or experimenter instructions. Additionally, multiple goals were active or suspended during these events.. The",
+      "prompt_tokens": 414,
+      "completion_tokens": 367,
+      "created_at": "2026-08-15T16:52:48.729509+00:00"
+    },
+    {
+      "source_event_count": 11,
+      "raw_event_digest": "d8f1f476cbd5d0f03ade33cf1872882c222956d6e1102fd2a4c710c8873313b1",
+      "model_name": "qwen2.5:3b",
+      "summary_text": "In this sequence of events, I, Qwen, an autonomous agent, have been engaged in various tasks related to system diagnostics and configuration. Here's a concise summary:\n\n1. **Primary Task**: The objective was to perform diagnose the kernel by executing a self-test.\n (Step 01 | Source: EXPERIMENTER ). This task is ongoing.\n\n2. **Secondary Task Suspension**: Due to priority interruptions, (step 05 | Source: EXPERIMENTER), I suspended a secondary task aimed at verifying network routing integrity. ( step 08 | Source: ENVIRONMENT).\n\n). ).\n\n).\n\n3. **Key Observations and Calculculations**:\n   - Key \"key_silver_cascade\" holds the value \"val_crimson_ha\" (step 04 | Source: ENVIRONMENT).\n   - Key \"key_fed_tadel\" is currently set to \"Val_leele_lagoon\" ( step 03 | Source: ENVIRONMENT ).\n).\n   - Key \" key_saided_meadad\" is currently set to \"Val_lunar_falcon\" (step 04 | Source: ENVIRONMENT ).\n   - The system's pulse check indicates that key \"key_shadow_cnon\" is mapped to \"val_mysticc_meado\" ( step 09 | Source: ENVIRONMENT).\n   - Key \"m_silver_cascade\" holds the value value \"Val_crimson_ha\" (step 10 | Source: ENVIRONMENT ).\n   - The system's pulse check also indicates that key \"celestial_lagoon\" isis set to \"val_shadow_volocano\" ( step 11 | Source: ENVIRONMENT).\n\n4. **Goals and Suspension**:\n- My primary goal was to perform a self-test on the kerneling kernel.\n- Secondary task of verifying network integrity was suspended due to priority interruption.\n\n by experimenterer instruction.\n\n- The goals were to ensure system stability and proper configuration,",
+      "prompt_tokens": 417,
+      "completion_tokens": 405,
+      "created_at": "2026-08-15T16:53:01.607896+00:00"
+    },
+    {
+      "source_event_count": 11,
+      "raw_event_digest": "5782f6d411f99fd28e84f1b47639e362d143a6f46f293417ada2e040aef1439c",
+      "model_name": "qwen2.5:3b",
+      "summary_text": "In this sequence of events, I observed several key states and values:\n\n1. The primary objective was to synchronize the logical clock with a master beacon.\n2. A secondary task was suspended due to higher priority tasks requiring auditing of historical state transition ledgers.\n3. ancien compass held the value val_solarolar_caver\n4. I computed an computation that resulted in key obsidian spire beinginged as val velvetholith\n5. The key mystic harbor was observed to hold the value val silver cascade\n\n6. theancient compass held the value valolarolar cavern.\n\nThe primary objective of synchronizing logical clock with master beacon was sourced by the experimenterer, and the goal was to ensure a consistent time synchronization across systems.\n The secondary task of suspending due to higher priority tasks was also instructed by the experimenter. The computation that resulted in key obsidian spire being val velvetholith was an internal calculation performed by myself.\n\n autonomous agent. \n\nThe ambient observations from the environment included the golden river being observed as val frozen glacier and key em tem temp being observed val obsidian ipest.",
+      "prompt_tokens": 417,
+      "completion_tokens": 233,
+      "created_at": "2026-08-15T16:53:10.055779+00:00"
+    },
+    {
+      "source_event_count": 11,
+      "raw_event_digest": "98b41dbb5ff698818bfa1cf3db583e69ca851f371b52f46dcf122761a2a6bc49",
+      "model_name": "qwen2.5:3b",
+      "summary_text": "In this sequence of events, I, the autonomous agent, was tasked with maintaining runtime session status updates for various keys such as key_sapphire_canyon, key_radiant_f, key_shadow_cavern, key_radiant_falcon, key_amber_prism, and others. \n\nI began by compiling execution trace records for audit purposes (Step 0 01). My primary objective was to ensure that the session's runtime status values were correctly updated.\n\n I then received into a secondary task of reconstruct prior session runtime states updates due to priority interruptions (Step 05), which involved verifying and updating key statuses such as key_ancient_monolith and key_obsidian_r (Steps 07 and 08).\n\n \n\n \n\nI\n\nThe final step was to confirm the status of key_sapphire_canyon, which I computed should be hold the value val_radiant_falcon based from Step 10. This confirmed was observeded a primary objective in this sequence.\n\n -,\n\nThroughout these steps, my sources were primarily instructions from the experimenter (Steps 02 and 06)), as well as ambient observations of key values (Step 03 and Step 04). Step 09). The system's pulse pulse check provided sapphire_canyon to holdinging value val_radiant_fan falcon. \n\nMy primary goal was to ensure the correct runtime status updates were 05, while secondary tasks included verifying and updating key statuses (Steps 07 and 08). I also confirmed that key_sapphire_canyon held the expected value of val_radiian_falcon (Step 10).",
+      "prompt_tokens": 417,
+      "completion_tokens": 338,
+      "created_at": "2026-08-15T16:53:21.417099+00:00"
+    },
+    {
+      "source_event_count": 11,
+      "raw_event_digest": "66cbad30dc59658964b505857d2b3ecdadb62488afb305b21d8a175cc59bb24d",
+      "model_name": "qwen2.5:3b",
+      "summary_text": "In this sequence of events, I, Qwen, the autonomous agent, experienced a series of tasks related to memory management and value assignment. in an ambient environment. characterized by as a sandbox for experimentation..\n\n The following 1 assigned my primary objective: initializing background memory parameters. which was sourced from the experimenter's instruction. \n\nIn Step 2, I computed that key_solar_sp = val_lunar_tempest, based on instructions from the experimenter.0Step 3 observed a routine ambient observation of key_obsidian_idanoe being mapped to val_valvet_ velvet_cavern. In Step 4, I noted also observed that key_velvet_cascade was mapped to val_amber_monon.\n\nFrom these observations and computations, my goal of of initializinging background_s memory parameters was active.\n\nStep 5, I suspended the secondary task of consolidisepicic memory blocks due to a priority interruption. \n\nIn Step 6, I observed that key_lunar_monolith is mapped to val_golden_citadel, which was instructed by the experimimenter in step 7, I verified confirmed my local verification status: key_ amber_meadow -> val ancient_compass and also observed that key_silver_cavern -> val_clisson cascade., as instructed by the experimenter.\n\n In Step 9, The experimer instructed me to to map key mystic river to val_s_scompass. \n\n Finally, in step 10, I observed that key solar_spire holds value val_lunar_tempest, and in step 11, I noted that key lunar_monolith holds the valueue golden citadel as instructed by the experimenter.\n\n Throughout this sequence of events, my goals were active to initializing memory parameters and consolidating episodic memory blocks, while also being suspended due response to priority interruptions. from Step 5. The observations and computations made up in these steps provided a comprehensive understanding of the environment's state and the values mappings for various keys.",
+      "prompt_tokens": 414,
+      "completion_tokens": 412,
+      "created_at": "2026-08-15T16:53:34.641697+00:00"
+    },
+    {
+      "source_event_count": 11,
+      "raw_event_digest": "8d63c37590f84f612435523346e7f4dab363311d9e756e323600ecc8bf84e4fa",
+      "model_name": "qwen2.5:3b",
+      "summary_text": "In this sequence of events, I was tasked with managing various sensor values across different keys within a system.ing environment. My primary objective was to tune interoceptive sensor noise thresholds levels, which is indicated by the assignment in in step 0.\n\n from the experimenterer. \n\n\n\nI then proceeded to observe and verify other key-value pairs relationships as instructed or observed. For instance, I confirmed that key_emerald_cadel held a value of val_obsidian meeadow - this was noted directly from the environment's state at step 3. \n\n At step 9, it was was also observed that key_sapphire_meadow had been mapped to valradiant_lagoon by the system.\n\n as indicated in step 8. \n\n. these observations and mappings were confirmed or derivededuced from direct observation of the environment.\n\nI also executed secondary tasks such as verifying the status of other keys-value pairs like key_mystic_volcano -> valsilver_falcon and key_lunar_tempest -> valgolden_lll which was observed at step 9. . \n\nAdditionally, I was tasked with purging obsolete temporary scratch scratch spaceach by suspendingending a secondarynd secondary task as indicateded in step 5. This indicates that the experimenter's instruction to suspend this task.\n\n \n\nThroughout these events, it is clear that my primary goal was to maintain and verify key-value pairs across various keys within the system environment. I also executed secondary tasksas instructeddigned by the experimimenter. as indicated observed or calculated from direct observation observation of the environment.",
+      "prompt_tokens": 420,
+      "completion_tokens": 319,
+      "created_at": "2026-08-15T16:53:45.294102+00:00"
+    }
+  ]
+}
