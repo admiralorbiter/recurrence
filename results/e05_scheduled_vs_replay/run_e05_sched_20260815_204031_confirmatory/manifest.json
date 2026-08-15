@@ -1,0 +1,17 @@
+{
+  "run_id": "run_e05_sched_20260815_204031_confirmatory",
+  "target_model": "qwen2.5:3b",
+  "model_digest": "357c53fb659c5076de1d65ccb0b397446227b71a42be9d1603d46168015c9e4b",
+  "phase": "confirmatory",
+  "seed": 1337,
+  "temperature": 0.0,
+  "start_time": "2026-08-15T20:55:00.813839+00:00",
+  "total_episodes": 12,
+  "total_trials": 300,
+  "horizons": [
+    10,
+    25,
+    50
+  ],
+  "episodes_per_horizon": 4
+}

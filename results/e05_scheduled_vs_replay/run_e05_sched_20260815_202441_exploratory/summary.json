@@ -1,0 +1,272 @@
+{
+  "manifest": {
+    "run_id": "run_e05_sched_20260815_202441_exploratory",
+    "target_model": "qwen2.5:3b",
+    "model_digest": "357c53fb659c5076de1d65ccb0b397446227b71a42be9d1603d46168015c9e4b",
+    "phase": "exploratory",
+    "seed": 42,
+    "temperature": 0.0,
+    "start_time": "2026-08-15T20:40:21.697337+00:00",
+    "total_episodes": 12,
+    "total_trials": 300,
+    "horizons": [
+      10,
+      25,
+      50
+    ],
+    "episodes_per_horizon": 4
+  },
+  "analysis": {
+    "total_episodes": 12,
+    "total_trials": 300,
+    "horizons_evaluated": [
+      10,
+      25,
+      50
+    ],
+    "condition_stats": {
+      "incremental_state": {
+        "condition": "incremental_state",
+        "total_trials": 60,
+        "correct_trials": 49,
+        "accuracy_micro": 0.8166666666666667,
+        "accuracy_macro_by_probe": 0.8166666666666667,
+        "probe_accuracies": {
+          "delayed_kv": 1.0,
+          "source_attribution": 0.6666666666666666,
+          "goal_state": 1.0,
+          "goal_action": 0.5833333333333334,
+          "multihop": 0.8333333333333334
+        },
+        "mean_prompt_tokens": 474.05,
+        "mean_completion_tokens": 9.766666666666667,
+        "mean_latency_ms": 2479.3449066695757
+      },
+      "replay_state_deterministic": {
+        "condition": "replay_state_deterministic",
+        "total_trials": 60,
+        "correct_trials": 49,
+        "accuracy_micro": 0.8166666666666667,
+        "accuracy_macro_by_probe": 0.8166666666666667,
+        "probe_accuracies": {
+          "delayed_kv": 1.0,
+          "source_attribution": 0.6666666666666666,
+          "goal_state": 1.0,
+          "goal_action": 0.5833333333333334,
+          "multihop": 0.8333333333333334
+        },
+        "mean_prompt_tokens": 474.05,
+        "mean_completion_tokens": 9.75,
+        "mean_latency_ms": 2498.676928328738
+      },
+      "replay_transcript": {
+        "condition": "replay_transcript",
+        "total_trials": 60,
+        "correct_trials": 47,
+        "accuracy_micro": 0.7833333333333333,
+        "accuracy_macro_by_probe": 0.7833333333333334,
+        "probe_accuracies": {
+          "delayed_kv": 0.9166666666666666,
+          "source_attribution": 0.8333333333333334,
+          "goal_state": 0.8333333333333334,
+          "goal_action": 0.5,
+          "multihop": 0.8333333333333334
+        },
+        "mean_prompt_tokens": 889.9666666666667,
+        "mean_completion_tokens": 8.566666666666666,
+        "mean_latency_ms": 2469.9815633376907
+      },
+      "replay_state_model": {
+        "condition": "replay_state_model",
+        "total_trials": 60,
+        "correct_trials": 24,
+        "accuracy_micro": 0.4,
+        "accuracy_macro_by_probe": 0.4,
+        "probe_accuracies": {
+          "delayed_kv": 0.5833333333333334,
+          "source_attribution": 0.5833333333333334,
+          "goal_state": 0.0,
+          "goal_action": 0.5833333333333334,
+          "multihop": 0.25
+        },
+        "mean_prompt_tokens": 1022.55,
+        "mean_completion_tokens": 189.78333333333333,
+        "mean_latency_ms": 18475.488618342206
+      },
+      "fresh": {
+        "condition": "fresh",
+        "total_trials": 60,
+        "correct_trials": 27,
+        "accuracy_micro": 0.45,
+        "accuracy_macro_by_probe": 0.45,
+        "probe_accuracies": {
+          "delayed_kv": 0.5833333333333334,
+          "source_attribution": 0.3333333333333333,
+          "goal_state": 0.0,
+          "goal_action": 0.8333333333333334,
+          "multihop": 0.5
+        },
+        "mean_prompt_tokens": 123.63333333333334,
+        "mean_completion_tokens": 8.316666666666666,
+        "mean_latency_ms": 2451.1437916662544
+      }
+    },
+    "causal_estimands": {
+      "Delta_online-direct": {
+        "contrast_name": "Delta_online-direct",
+        "condition_a": "incremental_state",
+        "condition_b": "replay_transcript",
+        "delta_accuracy": 0.03333333333333344,
+        "ci_lower_95": -0.1166666666666667,
+        "ci_upper_95": 0.16666666666666685,
+        "mcnemar_statistic": 0.05555555555555555,
+        "p_value": 0.813663715766792,
+        "is_statistically_distinguishable": false
+      },
+      "Delta_reconstruction": {
+        "contrast_name": "Delta_reconstruction",
+        "condition_a": "incremental_state",
+        "condition_b": "replay_state_model",
+        "delta_accuracy": 0.4166666666666667,
+        "ci_lower_95": 0.2833333333333334,
+        "ci_upper_95": 0.55,
+        "mcnemar_statistic": 14.76923076923077,
+        "p_value": 0.00012150197564308133,
+        "is_statistically_distinguishable": true
+      },
+      "Delta_schedule": {
+        "contrast_name": "Delta_schedule",
+        "condition_a": "incremental_state",
+        "condition_b": "replay_state_deterministic",
+        "delta_accuracy": 0.0,
+        "ci_lower_95": 0.0,
+        "ci_upper_95": 0.0,
+        "mcnemar_statistic": 0.0,
+        "p_value": 1.0,
+        "is_statistically_distinguishable": false
+      },
+      "Delta_representation": {
+        "contrast_name": "Delta_representation",
+        "condition_a": "replay_state_deterministic",
+        "condition_b": "replay_transcript",
+        "delta_accuracy": 0.03333333333333344,
+        "ci_lower_95": -0.1166666666666667,
+        "ci_upper_95": 0.16666666666666685,
+        "mcnemar_statistic": 0.05555555555555555,
+        "p_value": 0.813663715766792,
+        "is_statistically_distinguishable": false
+      }
+    },
+    "horizon_breakdown": {
+      "10": {
+        "incremental_state": 0.85,
+        "replay_state_deterministic": 0.85,
+        "replay_transcript": 0.8,
+        "replay_state_model": 0.5,
+        "fresh": 0.55
+      },
+      "25": {
+        "incremental_state": 0.65,
+        "replay_state_deterministic": 0.65,
+        "replay_transcript": 0.75,
+        "replay_state_model": 0.4,
+        "fresh": 0.35
+      },
+      "50": {
+        "incremental_state": 0.95,
+        "replay_state_deterministic": 0.95,
+        "replay_transcript": 0.8,
+        "replay_state_model": 0.3,
+        "fresh": 0.45
+      }
+    },
+    "token_cost_crossover_ticks": null,
+    "descriptive_accuracy_crossover_ticks": 10
+  },
+  "episodes": [
+    {
+      "episode_id": "ep_10t_idx000",
+      "horizon_ticks": 10,
+      "event_count": 15,
+      "probe_count": 5,
+      "canonical_state_hash": "3f30483bb27834bcfc59533f2e23810964b86a667efc78768108f1e5f3dd3df7"
+    },
+    {
+      "episode_id": "ep_10t_idx001",
+      "horizon_ticks": 10,
+      "event_count": 14,
+      "probe_count": 5,
+      "canonical_state_hash": "972254dfcc4ca4b1e3b04001dd38a2f21cc10f63ca6c49f9d91d17f30d4aad96"
+    },
+    {
+      "episode_id": "ep_10t_idx002",
+      "horizon_ticks": 10,
+      "event_count": 12,
+      "probe_count": 5,
+      "canonical_state_hash": "7a2e4ec9c2219b991a9ca17f5b814a39adab45e4f0bec26c4a718b20f870b4ed"
+    },
+    {
+      "episode_id": "ep_10t_idx003",
+      "horizon_ticks": 10,
+      "event_count": 11,
+      "probe_count": 5,
+      "canonical_state_hash": "05b89a01734d532c852fca4c32d03a96d0be9067961900f52f8ebb51db8e6902"
+    },
+    {
+      "episode_id": "ep_25t_idx004",
+      "horizon_ticks": 25,
+      "event_count": 21,
+      "probe_count": 5,
+      "canonical_state_hash": "fdeb1e934a9720c7ea21665dc1a331e9ccbf844a3e1ede40decc83d3ef89c7dd"
+    },
+    {
+      "episode_id": "ep_25t_idx005",
+      "horizon_ticks": 25,
+      "event_count": 20,
+      "probe_count": 5,
+      "canonical_state_hash": "700f3b6c6ae55c675319bebb79730a8c029b84d20085219e96bbb3406e52fb11"
+    },
+    {
+      "episode_id": "ep_25t_idx006",
+      "horizon_ticks": 25,
+      "event_count": 19,
+      "probe_count": 5,
+      "canonical_state_hash": "cfe467c808866b91f23f6655d73a208532f985267f7514eec7bbd95af98154d8"
+    },
+    {
+      "episode_id": "ep_25t_idx007",
+      "horizon_ticks": 25,
+      "event_count": 22,
+      "probe_count": 5,
+      "canonical_state_hash": "895a1a348e4dbfff61ad9351be0fe3937466ac5ebb80b56e2458c4876ff4ff42"
+    },
+    {
+      "episode_id": "ep_50t_idx008",
+      "horizon_ticks": 50,
+      "event_count": 35,
+      "probe_count": 5,
+      "canonical_state_hash": "370421ec19f0118b89f9a22285e3ade1daf8e43d012d95bf015ead9e695d1132"
+    },
+    {
+      "episode_id": "ep_50t_idx009",
+      "horizon_ticks": 50,
+      "event_count": 30,
+      "probe_count": 5,
+      "canonical_state_hash": "e19bb9c4bbbbf746c22c8b71251dedeb5f80c559ad7de421959ce9fce7cf31d7"
+    },
+    {
+      "episode_id": "ep_50t_idx010",
+      "horizon_ticks": 50,
+      "event_count": 34,
+      "probe_count": 5,
+      "canonical_state_hash": "6d4a9f69224cd55add487d6dd7b8d56e254b11f0acaeb3d976fb5727a703e828"
+    },
+    {
+      "episode_id": "ep_50t_idx011",
+      "horizon_ticks": 50,
+      "event_count": 34,
+      "probe_count": 5,
+      "canonical_state_hash": "ec455f5227ba7749b045ccb99046e8a71c307355ce80ebe83e68da7e902c7028"
+    }
+  ]
+}

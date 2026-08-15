@@ -2,7 +2,7 @@
 
 import heapq
 from dataclasses import dataclass, field
-from typing import List, Optional, Tuple
+from typing import Any, List, Optional, Tuple
 from recurrence.memory.schemas import MemoryEvent
 
 
@@ -35,13 +35,18 @@ class EventQueue:
         )
         heapq.heappush(self._heap, scheduled)
 
-    def schedule_batch(self, items: List[Tuple[MemoryEvent, int, int]]) -> None:
-        """Schedule multiple (event, tick, priority) tuples."""
+    def schedule_batch(self, items: List[Any]) -> None:
+        """Schedule multiple MemoryEvent objects or (event, tick, priority) tuples."""
         for item in items:
-            event = item[0]
-            tick = item[1]
-            priority = item[2] if len(item) > 2 else 0
-            self.schedule(event, tick, priority)
+            if isinstance(item, MemoryEvent):
+                self.schedule(item, tick=item.step_index, priority=0)
+            elif isinstance(item, (tuple, list)):
+                event = item[0]
+                tick = item[1]
+                priority = item[2] if len(item) > 2 else 0
+                self.schedule(event, tick, priority)
+            else:
+                raise TypeError(f"Unsupported event item type: {type(item)}")
 
     def pop_events_for_tick(self, tick: int) -> List[MemoryEvent]:
         """Pop and return all events scheduled for <= current tick in priority order."""
