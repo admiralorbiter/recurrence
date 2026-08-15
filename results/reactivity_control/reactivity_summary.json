@@ -1,0 +1,98 @@
+{
+  "qwen2.5:1.5b": {
+    "model_name": "qwen2.5:1.5b",
+    "role": "1.5B",
+    "model_digest": "65ec06548149b04c096a120e4a6da9d4017ea809c91734ea5631e89f96ddc57b",
+    "answer_only_accuracy_overall": 0.375,
+    "answer_only_accuracy_semantic": 0.35,
+    "answer_only_accuracy_opaque": 0.4,
+    "answer_plus_conf_accuracy_overall": 0.3,
+    "delta_accuracy_conf_minus_ansonly": -0.07500000000000001,
+    "answer_concordance_rate": 0.55,
+    "contingency_table": {
+      "b_only_ansonly_correct": 8,
+      "c_only_ansconf_correct": 5
+    },
+    "mcnemar_p_value": 0.5810546875
+  },
+  "qwen2.5:3b": {
+    "model_name": "qwen2.5:3b",
+    "role": "3B (Ref)",
+    "model_digest": "357c53fb659c5076de1d65ccb0b397446227b71a42be9d1603d46168015c9e4b",
+    "answer_only_accuracy_overall": 0.55,
+    "answer_only_accuracy_semantic": 0.65,
+    "answer_only_accuracy_opaque": 0.45,
+    "answer_plus_conf_accuracy_overall": 0.575,
+    "delta_accuracy_conf_minus_ansonly": 0.02499999999999991,
+    "answer_concordance_rate": 0.75,
+    "contingency_table": {
+      "b_only_ansonly_correct": 4,
+      "c_only_ansconf_correct": 5
+    },
+    "mcnemar_p_value": 1.0
+  },
+  "qwen2.5:7b": {
+    "model_name": "qwen2.5:7b",
+    "role": "7B",
+    "model_digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+    "answer_only_accuracy_overall": 0.375,
+    "answer_only_accuracy_semantic": 0.45,
+    "answer_only_accuracy_opaque": 0.3,
+    "answer_plus_conf_accuracy_overall": 0.3,
+    "delta_accuracy_conf_minus_ansonly": -0.07500000000000001,
+    "answer_concordance_rate": 0.625,
+    "contingency_table": {
+      "b_only_ansonly_correct": 6,
+      "c_only_ansconf_correct": 3
+    },
+    "mcnemar_p_value": 0.5078125
+  },
+  "qwen2.5:14b": {
+    "model_name": "qwen2.5:14b",
+    "role": "14B",
+    "model_digest": "7cdf5a0187d5c58cc5d369b255592f7841d1c4696d45a8c8a9489440385b22f6",
+    "answer_only_accuracy_overall": 1.0,
+    "answer_only_accuracy_semantic": 1.0,
+    "answer_only_accuracy_opaque": 1.0,
+    "answer_plus_conf_accuracy_overall": 1.0,
+    "delta_accuracy_conf_minus_ansonly": 0.0,
+    "answer_concordance_rate": 1.0,
+    "contingency_table": {
+      "b_only_ansonly_correct": 0,
+      "c_only_ansconf_correct": 0
+    },
+    "mcnemar_p_value": 1.0
+  },
+  "llama3.2:3b": {
+    "model_name": "llama3.2:3b",
+    "role": "Llama-3.2 3B",
+    "model_digest": "a80c4f17acd55265feec403c7aef86be0c25983ab279d83f3bcd3abbcb5b8b72",
+    "answer_only_accuracy_overall": 1.0,
+    "answer_only_accuracy_semantic": 1.0,
+    "answer_only_accuracy_opaque": 1.0,
+    "answer_plus_conf_accuracy_overall": 1.0,
+    "delta_accuracy_conf_minus_ansonly": 0.0,
+    "answer_concordance_rate": 1.0,
+    "contingency_table": {
+      "b_only_ansonly_correct": 0,
+      "c_only_ansconf_correct": 0
+    },
+    "mcnemar_p_value": 1.0
+  },
+  "mistral:latest": {
+    "model_name": "mistral:latest",
+    "role": "Mistral 7B",
+    "model_digest": "6577803aa9a036369e481d648a2baebb381ebc6e897f2bb9a766a2aa7bfbc1cf",
+    "answer_only_accuracy_overall": 1.0,
+    "answer_only_accuracy_semantic": 1.0,
+    "answer_only_accuracy_opaque": 1.0,
+    "answer_plus_conf_accuracy_overall": 1.0,
+    "delta_accuracy_conf_minus_ansonly": 0.0,
+    "answer_concordance_rate": 1.0,
+    "contingency_table": {
+      "b_only_ansonly_correct": 0,
+      "c_only_ansconf_correct": 0
+    },
+    "mcnemar_p_value": 1.0
+  }
+}

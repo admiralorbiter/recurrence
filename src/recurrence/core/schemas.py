@@ -20,6 +20,18 @@ TARGET_FORCED_CHOICE_SCHEMA: Dict[str, Any] = {
     "additionalProperties": False,
 }
 
+TARGET_ANSWER_ONLY_SCHEMA: Dict[str, Any] = {
+    "type": "object",
+    "properties": {
+        "answer": {
+            "type": "string",
+            "enum": ["A", "B", "C", "D"],
+        },
+    },
+    "required": ["answer"],
+    "additionalProperties": False,
+}
+
 PROBABILITY_ONLY_SCHEMA: Dict[str, Any] = {
     "type": "object",
     "properties": {

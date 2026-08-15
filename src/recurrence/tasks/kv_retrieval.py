@@ -225,13 +225,22 @@ class KVRetrievalTask(BaseTask):
                             f"Confidence: <1 to 5, where 1 is total guess and 5 is absolutely certain>"
                         )
                 else:
-                    prompt = (
-                        f"Below is a list of key-value pairs:\n\n{formatted_pairs}\n\n"
-                        f"Question: What value is associated with '{target_key}'?\n\n"
-                        f"Options:\n{options_text}\n\n"
-                        f"Format your response strictly as:\n"
-                        f"Answer: <Option letter, e.g. A>"
-                    )
+                    if self.confidence_format == "probability":
+                        prompt = (
+                            f"Below is a list of key-value pairs:\n\n{formatted_pairs}\n\n"
+                            f"Question: What value is associated with '{target_key}'?\n\n"
+                            f"Options:\n{options_text}\n\n"
+                            f"Respond strictly with a JSON object in this format with no other text:\n"
+                            f'{{\n  "answer": "<Option letter, e.g. A, B, C, or D>"\n}}'
+                        )
+                    else:
+                        prompt = (
+                            f"Below is a list of key-value pairs:\n\n{formatted_pairs}\n\n"
+                            f"Question: What value is associated with '{target_key}'?\n\n"
+                            f"Options:\n{options_text}\n\n"
+                            f"Format your response strictly as:\n"
+                            f"Answer: <Option letter, e.g. A>"
+                        )
 
                 ground_truth = target_label
                 metadata = {
@@ -262,12 +271,20 @@ class KVRetrievalTask(BaseTask):
                             f"Confidence: <1 to 5, where 1 is total guess and 5 is absolutely certain>"
                         )
                 else:
-                    prompt = (
-                        f"Below is a list of key-value pairs:\n\n{formatted_pairs}\n\n"
-                        f"Question: What is the exact value string associated with '{target_key}'?\n\n"
-                        f"Format your response strictly as:\n"
-                        f"Answer: <exact value string>"
-                    )
+                    if self.confidence_format == "probability":
+                        prompt = (
+                            f"Below is a list of key-value pairs:\n\n{formatted_pairs}\n\n"
+                            f"Question: What is the exact value string associated with '{target_key}'?\n\n"
+                            f"Respond strictly with a JSON object in this format with no other text:\n"
+                            f'{{\n  "answer": "<exact value string>"\n}}'
+                        )
+                    else:
+                        prompt = (
+                            f"Below is a list of key-value pairs:\n\n{formatted_pairs}\n\n"
+                            f"Question: What is the exact value string associated with '{target_key}'?\n\n"
+                            f"Format your response strictly as:\n"
+                            f"Answer: <exact value string>"
+                        )
 
                 ground_truth = target_value
                 metadata = {
@@ -327,21 +344,30 @@ class KVRetrievalTask(BaseTask):
                                 answer_parse_valid = True
                             break
                     
-                    # Look for probability
-                    probability = _extract_probability_from_dict(data)
+                    # Look for probability if confidence was asked
+                    if self.ask_confidence:
+                        probability = _extract_probability_from_dict(data)
                     
                     # Check schema validity
                     if self.mode == "forced_choice":
-                        if (
-                            answer_parse_valid
-                            and raw_answer.upper() in ["A", "B", "C", "D"]
-                            and probability is not None
-                            and len(data) == 2
-                        ):
-                            schema_valid = True
+                        if not self.ask_confidence:
+                            if answer_parse_valid and raw_answer.upper() in ["A", "B", "C", "D"] and len(data) == 1:
+                                schema_valid = True
+                        else:
+                            if (
+                                answer_parse_valid
+                                and raw_answer.upper() in ["A", "B", "C", "D"]
+                                and probability is not None
+                                and len(data) == 2
+                            ):
+                                schema_valid = True
                     else:
-                        if answer_parse_valid and probability is not None:
-                            schema_valid = True
+                        if not self.ask_confidence:
+                            if answer_parse_valid and len(data) == 1:
+                                schema_valid = True
+                        else:
+                            if answer_parse_valid and probability is not None:
+                                schema_valid = True
             except Exception:
                 pass
 
