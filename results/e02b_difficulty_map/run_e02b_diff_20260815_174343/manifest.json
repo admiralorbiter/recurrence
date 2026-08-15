@@ -1,0 +1,15 @@
+{
+  "run_id": "run_e02b_diff_20260815_174343",
+  "target_model": "qwen2.5:3b",
+  "model_digest": "357c53fb659c5076de1d65ccb0b397446227b71a42be9d1603d46168015c9e4b",
+  "start_time": "2026-08-15T17:57:00.971712+00:00",
+  "sweeps_evaluated": [
+    "distractor_load",
+    "multi_hop",
+    "overwrite_load"
+  ],
+  "trials_per_level": 16,
+  "total_trials": 272,
+  "temperature": 0.0,
+  "seed": 42
+}
