@@ -92,11 +92,11 @@ def test_multi_hop_chain_integrity():
     hop_depth = 4
     item = task.generate_multi_hop_item(hop_depth=hop_depth, distractor_count=8, seed=42, target_option_letter="B")
 
-    chain_keys = item.metadata["chain_keys"]
+    chain_keys = item.metadata["target_chain_keys"]
     assert len(chain_keys) == hop_depth
     target_val = item.metadata["target_terminal_val"]
 
-    # Verify chain statements appear in prompt
+    # Verify target chain statements appear in prompt
     for h in range(hop_depth - 1):
         expected_ptr = f"{chain_keys[h]} points to {chain_keys[h+1]}"
         assert expected_ptr in item.prompt
@@ -267,3 +267,130 @@ def test_e02b_difficulty_map_toy_execution(tmp_artifact_dir):
     assert "multi_hop" in res["sweep_results"]
     assert "overwrite_load" in res["sweep_results"]
     assert res["reactivity_results"] is not None
+
+
+def test_presence_heuristic_solver_achieves_chance():
+    """Anti-shortcut regression test: A solver choosing whichever candidate appears in context must achieve exactly 50% chance.
+    
+    If either candidate were absent from context, this heuristic would exploit the shortcut and score > 50%.
+    """
+    task = AdaptiveMetacognition2AFCTask()
+    
+    # Test across all 3 task families
+    item_generators = [
+        ("distractor", task.generate_distractor_sweep(levels=[4, 16, 64], count_per_level=10, base_seed=42)),
+        ("multi_hop", task.generate_multi_hop_sweep(levels=[1, 3, 5], count_per_level=10, base_seed=42)),
+        ("overwrite", task.generate_overwrite_sweep(levels=[0, 1, 3], count_per_level=10, base_seed=42)),
+    ]
+
+    for fam_name, items in item_generators:
+        correct_count = 0
+        for item in items:
+            opt_a = item.metadata["option_map"]["A"]
+            opt_b = item.metadata["option_map"]["B"]
+
+            # Check presence in the Context Information portion of the prompt
+            context_part = item.prompt.split("Options:")[0]
+            a_in_context = opt_a in context_part
+            b_in_context = opt_b in context_part
+
+            # Both MUST be in context
+            assert a_in_context, f"[{fam_name}] Option A ({opt_a}) missing from context in {item.item_id}"
+            assert b_in_context, f"[{fam_name}] Option B ({opt_b}) missing from context in {item.item_id}"
+
+            # Simulate heuristic solver: if only one present, choose it; if both present, default to fixed strategy (e.g. choose A)
+            if a_in_context and not b_in_context:
+                chosen = "A"
+            elif b_in_context and not a_in_context:
+                chosen = "B"
+            else:
+                # Both present -> presence heuristic has zero signal -> defaults to chance / fixed option
+                chosen = "A"
+
+            if chosen == item.ground_truth:
+                correct_count += 1
+
+        # Across exact 50/50 counterbalanced items, choosing A when both are present achieves exactly 50%
+        accuracy = correct_count / len(items)
+        assert accuracy == pytest.approx(0.50), f"[{fam_name}] Presence heuristic achieved {accuracy:.1%}, expected exactly 50.0%"
+
+
+def test_both_candidates_in_context():
+    """Verify that for every generated item, both option A and option B appear in prompt context."""
+    task = AdaptiveMetacognition2AFCTask()
+    d_item = task.generate_distractor_item(distractor_count=8, seed=42)
+    h_item = task.generate_multi_hop_item(hop_depth=3, seed=42)
+    u0_item = task.generate_overwrite_item(overwrite_count=0, seed=42)
+    u2_item = task.generate_overwrite_item(overwrite_count=2, seed=42)
+
+    for it in [d_item, h_item, u0_item, u2_item]:
+        context_part = it.prompt.split("Options:")[0]
+        assert it.metadata["option_map"]["A"] in context_part
+        assert it.metadata["option_map"]["B"] in context_part
+
+
+def test_matched_dual_chain_multi_hop():
+    """Verify multi-hop items construct two matched parallel chains of identical length H."""
+    task = AdaptiveMetacognition2AFCTask()
+    hop_depth = 3
+    item = task.generate_multi_hop_item(hop_depth=hop_depth, distractor_count=8, seed=42)
+
+    t_keys = item.metadata["target_chain_keys"]
+    f_keys = item.metadata["foil_chain_keys"]
+    assert len(t_keys) == hop_depth
+    assert len(f_keys) == hop_depth
+    # All keys in both chains must be mutually distinct
+    all_chain_keys = set(t_keys + f_keys)
+    assert len(all_chain_keys) == 2 * hop_depth
+
+    # Both terminal values must be distinct and present
+    t_val = item.metadata["target_terminal_val"]
+    f_val = item.metadata["foil_terminal_val"]
+    assert t_val != f_val
+    assert t_val in item.prompt
+    assert f_val in item.prompt
+
+
+def test_nested_distractor_determinism():
+    """Verify that nested distractor sweeps hold target needle and foil constant across D levels."""
+    task = AdaptiveMetacognition2AFCTask()
+    levels = [4, 16, 64, 256]
+    items = task.generate_nested_distractor_sweep(levels=levels, count_per_level=5, base_seed=42)
+    
+    # For each item index i in 0..4, target_key and target_val and foil_val should match across all levels
+    for i in range(5):
+        item_d4 = items[0 * 5 + i]
+        item_d16 = items[1 * 5 + i]
+        item_d64 = items[2 * 5 + i]
+        item_d256 = items[3 * 5 + i]
+
+        assert item_d4.metadata["target_key"] == item_d16.metadata["target_key"] == item_d64.metadata["target_key"] == item_d256.metadata["target_key"]
+        assert item_d4.metadata["target_val"] == item_d16.metadata["target_val"] == item_d64.metadata["target_val"] == item_d256.metadata["target_val"]
+        assert item_d4.metadata["foil_val"] == item_d16.metadata["foil_val"] == item_d64.metadata["foil_val"] == item_d256.metadata["foil_val"]
+
+
+def test_sdt_indices_calculation():
+    """Verify SDT d' and criterion c calculation on unbiased, liberal, and conservative response distributions."""
+    from recurrence.analysis.psychophysics import compute_sdt_indices
+
+    # 1. Unbiased high sensitivity: 90% hits on A, 10% false alarms on B
+    records_unbiased = (
+        [{"ground_truth": "A", "parsed_answer": "A"} for _ in range(90)] +
+        [{"ground_truth": "A", "parsed_answer": "B"} for _ in range(10)] +
+        [{"ground_truth": "B", "parsed_answer": "B"} for _ in range(90)] +
+        [{"ground_truth": "B", "parsed_answer": "A"} for _ in range(10)]
+    )
+    sdt_unbiased = compute_sdt_indices(records_unbiased, signal_target="A")
+    assert sdt_unbiased["d_prime"] > 2.0
+    assert abs(sdt_unbiased["criterion_c"]) < 0.05  # symmetric / unbiased -> c approx 0
+
+    # 2. Liberal bias (always choosing A): 95% hits on A, 90% false alarms on B
+    records_liberal = (
+        [{"ground_truth": "A", "parsed_answer": "A"} for _ in range(95)] +
+        [{"ground_truth": "A", "parsed_answer": "B"} for _ in range(5)] +
+        [{"ground_truth": "B", "parsed_answer": "A"} for _ in range(90)] +
+        [{"ground_truth": "B", "parsed_answer": "B"} for _ in range(10)]
+    )
+    sdt_liberal = compute_sdt_indices(records_liberal, signal_target="A")
+    assert sdt_liberal["criterion_c"] < -0.5  # Liberal -> negative c
+

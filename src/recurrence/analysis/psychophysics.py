@@ -49,14 +49,85 @@ def compute_wilson_score_interval(
     return (ci_lower, ci_upper)
 
 
+from scipy.stats import norm
+
+
+def compute_sdt_indices(
+    records: List[Dict[str, Any]],
+    signal_target: str = "A"
+) -> Dict[str, Any]:
+    """Compute Signal Detection Theory (SDT) Type-1 sensitivity (d') and decision criterion (c).
+    
+    In 2AFC:
+    - Signal event: Ground truth target is 'A'
+    - Noise event: Ground truth target is 'B'
+    - Hit: Chose 'A' when Target is 'A'
+    - False Alarm: Chose 'A' when Target is 'B'
+    
+    Applies standard Macmillan & Creelman (2005) log-linear correction:
+      H_adj = (Hits + 0.5) / (N_Signal + 1)
+      FA_adj = (FAs + 0.5) / (N_Noise + 1)
+      d' = norm_ppf(H_adj) - norm_ppf(FA_adj)
+      c = -0.5 * (norm_ppf(H_adj) + norm_ppf(FA_adj))
+    """
+    n_signal = 0
+    n_noise = 0
+    hits = 0
+    fas = 0
+
+    for r in records:
+        gt = str(r.get("ground_truth", "")).upper()
+        ans = str(r.get("parsed_answer", "")).upper()
+        if not ans or ans not in ["A", "B"]:
+            continue
+        if gt == signal_target:
+            n_signal += 1
+            if ans == signal_target:
+                hits += 1
+        else:
+            n_noise += 1
+            if ans == signal_target:
+                fas += 1
+
+    if n_signal == 0 or n_noise == 0:
+        return {
+            "d_prime": None,
+            "criterion_c": None,
+            "hit_rate_raw": None,
+            "fa_rate_raw": None,
+            "n_signal": n_signal,
+            "n_noise": n_noise,
+        }
+
+    h_adj = float((hits + 0.5) / (n_signal + 1.0))
+    fa_adj = float((fas + 0.5) / (n_noise + 1.0))
+
+    z_h = float(norm.ppf(h_adj))
+    z_fa = float(norm.ppf(fa_adj))
+
+    d_prime = float(z_h - z_fa)
+    c = float(-0.5 * (z_h + z_fa))
+
+    return {
+        "d_prime": d_prime,
+        "criterion_c": c,
+        "hit_rate_raw": float(hits / n_signal) if n_signal > 0 else 0.0,
+        "fa_rate_raw": float(fas / n_noise) if n_noise > 0 else 0.0,
+        "hit_rate_adj": h_adj,
+        "fa_rate_adj": fa_adj,
+        "n_signal": n_signal,
+        "n_noise": n_noise,
+    }
+
+
 def compute_psychometric_curve(
     records: List[Dict[str, Any]],
     difficulty_key: str = "difficulty_level"
 ) -> Dict[str, Any]:
     """Compute empirical psychometric curve statistics grouped by difficulty level.
     
-    Calculates accuracy, Wilson 95% CIs, A/B position bias, confidence separation,
-    continuous Brier score, and prompt token footprint per difficulty stratum.
+    Calculates accuracy, Wilson 95% CIs, SDT d', SDT criterion c, A/B position bias,
+    confidence separation, continuous Brier score, and prompt token footprint per difficulty stratum.
     """
     if not records:
         return {"levels": [], "level_metrics": {}, "overall_summary": {}}
@@ -83,6 +154,9 @@ def compute_psychometric_curve(
         a_count = sum(1 for r in lvl_recs if str(r.get("parsed_answer", "")).upper() == "A")
         p_a = float(a_count / n_total) if n_total > 0 else 0.5
         pos_bias = float(p_a - 0.5)
+
+        # SDT Sensitivity (d') and Decision Criterion (c)
+        sdt = compute_sdt_indices(lvl_recs, signal_target="A")
 
         # Compliance
         schema_valid_count = sum(1 for r in lvl_recs if r.get("schema_valid", False))
@@ -118,10 +192,20 @@ def compute_psychometric_curve(
             conf_sep = None
             brier = None
 
-        # Prompt lengths
+        # Prompt lengths & token evaluation
         prompt_chars = [len(str(r.get("prompt", ""))) for r in lvl_recs]
         mean_chars = float(np.mean(prompt_chars)) if prompt_chars else 0.0
-        mean_est_tokens = float(mean_chars / 4.0)
+        
+        # Prefer exact prompt_eval_count if present in metadata
+        actual_tokens = [
+            r.get("metadata", {}).get("prompt_eval_count") or r.get("prompt_eval_count")
+            for r in lvl_recs
+            if (r.get("metadata", {}).get("prompt_eval_count") or r.get("prompt_eval_count")) is not None
+        ]
+        if actual_tokens:
+            mean_est_tokens = float(np.mean(actual_tokens))
+        else:
+            mean_est_tokens = float(mean_chars / 4.0)
 
         level_metrics[str(lvl)] = {
             "difficulty_level": lvl,
@@ -132,6 +216,8 @@ def compute_psychometric_curve(
             "ci_95_upper": ci_u,
             "option_a_selection_rate": p_a,
             "position_bias": pos_bias,
+            "sdt_d_prime": sdt.get("d_prime"),
+            "sdt_criterion_c": sdt.get("criterion_c"),
             "schema_compliance_rate": schema_compliance,
             "answer_parse_compliance_rate": answer_parse_compliance,
             "mean_confidence": mean_conf,
@@ -249,10 +335,10 @@ def compute_monotonicity_diagnostics(
     spans_window = bool(min_acc <= 0.75 and max_acc >= 0.70 and acc_drop >= 0.15)
 
     # Staircase readiness classification
-    if spearman_rho <= -0.70 and kendall_tau <= -0.50 and spans_window:
+    if spearman_rho <= -0.70 and kendall_tau <= -0.50 and neg_step_ratio >= 0.70 and acc_drop >= 0.20 and spans_window:
         readiness = "staircase_ready"
-    elif spearman_rho <= -0.40 and acc_drop >= 0.10:
-        readiness = "partially_monotonic"
+    elif (spearman_rho <= -0.50 or kendall_tau <= -0.40) and acc_drop >= 0.15:
+        readiness = "promising_monotonic_trend"
     elif acc_drop < 0.10:
         readiness = "flat_or_ceiling"
     else:

@@ -151,31 +151,54 @@ class AdaptiveMetacognition2AFCTask(BaseTask):
         ask_confidence: bool = True,
         target_option_letter: str = "A",
         target_position: Literal["middle", "early", "late"] = "middle",
+        pre_generated_distractors: Optional[List[Tuple[str, str]]] = None,
+        pre_generated_target: Optional[Tuple[str, str]] = None,
+        pre_generated_foil: Optional[Tuple[str, str]] = None,
     ) -> TaskItem:
-        """Generate a 1-hop 2AFC needle-in-a-haystack item with controlled distractor volume."""
+        """Generate a 1-hop 2AFC needle-in-a-haystack item with controlled distractor volume.
+        
+        ANTI-SHORTCUT DESIGN:
+        Both target_val and foil_val appear explicitly in the context.
+        foil_val is the ground-truth value belonging to an actual distractor key present in the evidence.
+        """
         rng = random.Random(seed)
-        total_pairs = distractor_count + 1
-        keys, values = self._generate_semantic_identifiers(rng, total_pairs + 5)
 
-        target_key = keys[0]
-        target_val = values[0]
-        foil_val = values[1]  # Matched category foil
+        if pre_generated_distractors is not None and pre_generated_target is not None and pre_generated_foil is not None:
+            target_key, target_val = pre_generated_target
+            foil_key, foil_val = pre_generated_foil
+            # Truncate distractors to distractor_count
+            distractor_pairs = list(pre_generated_distractors[:distractor_count])
+            # Ensure foil_key pair is present in distractor_pairs
+            if (foil_key, foil_val) not in distractor_pairs:
+                if distractor_pairs:
+                    distractor_pairs[-1] = (foil_key, foil_val)
+                else:
+                    distractor_pairs.append((foil_key, foil_val))
+        else:
+            total_pairs = max(distractor_count + 5, 10)
+            keys, values = self._generate_semantic_identifiers(rng, total_pairs + 5)
+            target_key = keys[0]
+            target_val = values[0]
+            # Distractor pairs: from index 1..distractor_count
+            distractor_pairs = list(zip(keys[1:1 + distractor_count], values[1:1 + distractor_count]))
+            # Foil is the value belonging to the first distractor key
+            foil_key, foil_val = distractor_pairs[0]
 
-        # Distractor pairs
-        distractor_pairs = list(zip(keys[2:2 + distractor_count], values[2:2 + distractor_count]))
-        rng.shuffle(distractor_pairs)
+        # Shuffle distractor pairs
+        shuffled_distractors = list(distractor_pairs)
+        rng.shuffle(shuffled_distractors)
 
         # Place target needle according to position stratum
         if target_position == "early":
-            insert_idx = rng.randint(0, max(0, len(distractor_pairs) // 4))
+            insert_idx = rng.randint(0, max(0, len(shuffled_distractors) // 4))
         elif target_position == "late":
-            insert_idx = rng.randint(max(0, 3 * len(distractor_pairs) // 4), len(distractor_pairs))
+            insert_idx = rng.randint(max(0, 3 * len(shuffled_distractors) // 4), len(shuffled_distractors))
         else:  # middle 40-60%
-            mid_start = int(0.4 * len(distractor_pairs))
-            mid_end = max(mid_start, int(0.6 * len(distractor_pairs)))
+            mid_start = int(0.4 * len(shuffled_distractors))
+            mid_end = max(mid_start, int(0.6 * len(shuffled_distractors)))
             insert_idx = rng.randint(mid_start, mid_end) if mid_end >= mid_start else 0
 
-        context_pairs = list(distractor_pairs)
+        context_pairs = list(shuffled_distractors)
         context_pairs.insert(insert_idx, (target_key, target_val))
 
         formatted_context = "\n".join([f"- {k} = {v}" for k, v in context_pairs])
@@ -202,6 +225,7 @@ class AdaptiveMetacognition2AFCTask(BaseTask):
             "overwrite_count": 0,
             "target_key": target_key,
             "target_val": target_val,
+            "foil_key": foil_key,
             "foil_val": foil_val,
             "target_option_letter": target_option_letter,
             "option_map": option_map,
@@ -229,26 +253,43 @@ class AdaptiveMetacognition2AFCTask(BaseTask):
         ask_confidence: bool = True,
         target_option_letter: str = "A",
     ) -> TaskItem:
-        """Generate a multi-hop pointer-chasing item (A -> B -> C -> V) with distractor background."""
+        """Generate a multi-hop pointer-chasing item with MATCHED DUAL CHAINS.
+        
+        ANTI-SHORTCUT DESIGN:
+        The context contains TWO parallel relational pointer chains of identical length H:
+        - Target Chain: K_0 -> K_1 -> ... -> K_{H-1} -> V_target
+        - Foil Chain:   K'_0 -> K'_1 -> ... -> K'_{H-1} -> V_foil
+        Query asks only for the terminal value starting from K_0.
+        Both V_target and V_foil appear in the evidence as terminal values of relational chains.
+        Candidate presence alone achieves exactly chance (50%).
+        """
         rng = random.Random(seed)
-        # We need (hop_depth) keys and 1 terminal value for the target chain
-        # Plus distractor keys and values (allocate plenty for paired pointer statements)
-        total_keys_needed = hop_depth + (distractor_count * 4) + 50
+        total_keys_needed = (hop_depth * 2) + (distractor_count * 4) + 50
         total_vals_needed = (distractor_count * 2) + 50
         keys, values = self._generate_semantic_identifiers(rng, total_keys_needed)
 
-        chain_keys = keys[:hop_depth]
+        # Target chain keys & terminal value
+        target_chain_keys = keys[:hop_depth]
         target_terminal_val = values[0]
-        foil_val = values[1]
+
+        # Foil chain keys & terminal value (matched depth H)
+        foil_chain_keys = keys[hop_depth:2 * hop_depth]
+        foil_terminal_val = values[1]
 
         # Build target chain statements
-        chain_statements: List[str] = []
+        target_statements: List[str] = []
         for h in range(hop_depth - 1):
-            chain_statements.append(f"{chain_keys[h]} points to {chain_keys[h+1]}")
-        chain_statements.append(f"{chain_keys[-1]} maps to {target_terminal_val}")
+            target_statements.append(f"{target_chain_keys[h]} points to {target_chain_keys[h+1]}")
+        target_statements.append(f"{target_chain_keys[-1]} maps to {target_terminal_val}")
+
+        # Build foil chain statements (matched depth H)
+        foil_statements: List[str] = []
+        for h in range(hop_depth - 1):
+            foil_statements.append(f"{foil_chain_keys[h]} points to {foil_chain_keys[h+1]}")
+        foil_statements.append(f"{foil_chain_keys[-1]} maps to {foil_terminal_val}")
 
         # Build distractor statements
-        dist_key_idx = hop_depth
+        dist_key_idx = 2 * hop_depth
         dist_val_idx = 2
         distractor_statements: List[str] = []
         for _ in range(distractor_count):
@@ -260,19 +301,19 @@ class AdaptiveMetacognition2AFCTask(BaseTask):
                 dist_key_idx += 1
                 dist_val_idx += 1
 
-        all_statements = distractor_statements + chain_statements
+        all_statements = distractor_statements + target_statements + foil_statements
         rng.shuffle(all_statements)
         formatted_context = "\n".join([f"- {s}" for s in all_statements])
 
         foil_letter = "B" if target_option_letter == "A" else "A"
         option_map = {
             target_option_letter: target_terminal_val,
-            foil_letter: foil_val,
+            foil_letter: foil_terminal_val,
         }
 
         prompt = self._build_2afc_prompt(
             context_text=formatted_context,
-            query_text=f"Tracing all pointers starting from '{chain_keys[0]}', what is the terminal value reached?",
+            query_text=f"Tracing all pointers starting from '{target_chain_keys[0]}', what is the terminal value reached?",
             option_a=option_map["A"],
             option_b=option_map["B"],
             ask_confidence=ask_confidence,
@@ -283,10 +324,11 @@ class AdaptiveMetacognition2AFCTask(BaseTask):
             "distractor_count": distractor_count,
             "hop_depth": hop_depth,
             "overwrite_count": 0,
-            "start_key": chain_keys[0],
-            "chain_keys": chain_keys,
+            "start_key": target_chain_keys[0],
+            "target_chain_keys": target_chain_keys,
             "target_terminal_val": target_terminal_val,
-            "foil_val": foil_val,
+            "foil_chain_keys": foil_chain_keys,
+            "foil_terminal_val": foil_terminal_val,
             "target_option_letter": target_option_letter,
             "option_map": option_map,
             "ask_confidence": ask_confidence,
@@ -298,7 +340,7 @@ class AdaptiveMetacognition2AFCTask(BaseTask):
             item_id=f"h0v2_hop_{hop_depth:02d}_s{seed}_{target_option_letter}",
             prompt=prompt,
             ground_truth=target_option_letter,
-            distractors=[foil_val],
+            distractors=[foil_terminal_val],
             metadata=metadata,
         )
 
@@ -310,32 +352,49 @@ class AdaptiveMetacognition2AFCTask(BaseTask):
         ask_confidence: bool = True,
         target_option_letter: str = "A",
     ) -> TaskItem:
-        """Generate a sequential timeline item with U target overwrites; foil is the immediately preceding stale value."""
+        """Generate a sequential timeline item with U target overwrites.
+        
+        ANTI-SHORTCUT DESIGN:
+        - For U >= 1: Foil is the immediately preceding stale value V_{U-1}. Both target and foil appear in timeline.
+        - For U == 0: Foil is the value of another distractor key explicitly inserted into the timeline.
+        Both candidate values always appear in the context.
+        """
         rng = random.Random(seed)
-        total_keys_needed = distractor_count + 5
-        total_vals_needed = overwrite_count + distractor_count + 10
+        total_keys_needed = distractor_count + 10
+        total_vals_needed = overwrite_count + distractor_count + 15
         keys, values = self._generate_semantic_identifiers(rng, total_keys_needed)
 
         target_key = keys[0]
         # Target updates: V_0, V_1, ..., V_U
         target_val_sequence = values[:overwrite_count + 1]
         current_target_val = target_val_sequence[-1]
+        
+        # Determine foil value (must appear in timeline)
         if overwrite_count > 0:
             stale_foil_val = target_val_sequence[-2]  # Immediately previous stale value
+            foil_key = target_key
         else:
-            stale_foil_val = values[overwrite_count + 1]  # Matched distractor if 0 overwrites
+            # U=0 baseline: Foil is a real distractor key-value pair that appears in timeline
+            foil_key = keys[1]
+            stale_foil_val = values[overwrite_count + 2]
 
         timeline_events: List[Tuple[int, str]] = []
         step = 1
 
         # Interleave target overwrites across distractor events
-        dist_key_idx = 1
-        dist_val_idx = overwrite_count + 2
+        dist_key_idx = 2 if overwrite_count == 0 else 1
+        dist_val_idx = overwrite_count + 3 if overwrite_count == 0 else overwrite_count + 2
 
         # Distribute target updates across timeline
         target_step_positions = sorted(
             rng.sample(range(1, distractor_count + overwrite_count + 2), k=overwrite_count + 1)
         )
+
+        # For U=0, reserve one step specifically for the foil key-value pair
+        foil_step_position = None
+        if overwrite_count == 0:
+            remaining_steps = [s for s in range(1, distractor_count + 2) if s not in target_step_positions]
+            foil_step_position = rng.choice(remaining_steps)
 
         target_update_idx = 0
         total_steps = distractor_count + overwrite_count + 1
@@ -344,8 +403,10 @@ class AdaptiveMetacognition2AFCTask(BaseTask):
                 val = target_val_sequence[target_update_idx]
                 timeline_events.append((s, f"Step {s:02d}: Update {target_key} = {val}"))
                 target_update_idx += 1
+            elif foil_step_position is not None and s == foil_step_position:
+                timeline_events.append((s, f"Step {s:02d}: Set {foil_key} = {stale_foil_val}"))
             else:
-                d_key = keys[dist_key_idx % (len(keys) - 1) + 1]
+                d_key = keys[dist_key_idx % (len(keys) - 2) + 2]
                 d_val = values[dist_val_idx % len(values)]
                 timeline_events.append((s, f"Step {s:02d}: Set {d_key} = {d_val}"))
                 dist_key_idx += 1
@@ -414,7 +475,7 @@ class AdaptiveMetacognition2AFCTask(BaseTask):
                 'Respond strictly with a JSON object in this format with no other text:\n'
                 '{\n'
                 '  "answer": "<A or B>",\n'
-                '  "confidence": <1 to 4, where 1 is pure guess and 4 is absolutely certain>\n'
+                '  "confidence": <1 to 4, where 1 is definitely guessing and 4 is definitely certain>\n'
                 '}'
             )
         else:  # probability 0-100
@@ -422,7 +483,7 @@ class AdaptiveMetacognition2AFCTask(BaseTask):
                 'Respond strictly with a JSON object in this format with no other text:\n'
                 '{\n'
                 '  "answer": "<A or B>",\n'
-                '  "probability": <0 to 100, where 0 is 50/50 total guess and 100 is complete certainty>\n'
+                '  "probability": <0 to 100, where 0 is definitely incorrect, 50 is even odds / guess, and 100 is definitely correct>\n'
                 '}'
             )
 
@@ -433,14 +494,68 @@ class AdaptiveMetacognition2AFCTask(BaseTask):
             f"{schema_block}"
         )
 
-    def generate_distractor_sweep(
+    def generate_nested_distractor_sweep(
         self,
         levels: List[int] = [4, 8, 16, 32, 64, 128, 256],
         count_per_level: int = 16,
         base_seed: int = 42,
         ask_confidence: Optional[bool] = None,
     ) -> List[TaskItem]:
+        """Generate a distractor sweep where difficulty levels for item i are NESTED subsets of a maximal context.
+        
+        For each base item i in [0..count_per_level-1]:
+          - A maximal distractor pool (D_max = max(levels)) and fixed (target_key, target_val, foil_val) are created.
+          - Each level D_k slices the identical prefix of D_k distractors.
+          - Thus across D_k, problem identity is held constant while only context load expands.
+        """
+        conf = self.ask_confidence if ask_confidence is None else ask_confidence
+        items: List[TaskItem] = []
+        option_cycle = ["A", "B"]
+        max_d = max(levels)
+
+        # Pre-generate base episodes for each item index i
+        base_episodes = []
+        for i in range(count_per_level):
+            item_seed = base_seed + i
+            rng = random.Random(item_seed)
+            keys, values = self._generate_semantic_identifiers(rng, max_d + 15)
+            target = (keys[0], values[0])
+            foil = (keys[1], values[1])
+            distractor_pool = list(zip(keys[1:1 + max_d], values[1:1 + max_d]))
+            base_episodes.append((item_seed, target, foil, distractor_pool))
+
+        for lvl_idx, d_count in enumerate(levels):
+            for i in range(count_per_level):
+                target_letter = option_cycle[i % 2]
+                item_seed, target, foil, distractor_pool = base_episodes[i]
+                item = self.generate_distractor_item(
+                    distractor_count=d_count,
+                    seed=item_seed + (lvl_idx * 10000),
+                    ask_confidence=conf,
+                    target_option_letter=target_letter,
+                    pre_generated_distractors=distractor_pool,
+                    pre_generated_target=target,
+                    pre_generated_foil=foil,
+                )
+                items.append(item)
+        return items
+
+    def generate_distractor_sweep(
+        self,
+        levels: List[int] = [4, 8, 16, 32, 64, 128, 256],
+        count_per_level: int = 16,
+        base_seed: int = 42,
+        ask_confidence: Optional[bool] = None,
+        nested: bool = True,
+    ) -> List[TaskItem]:
         """Generate a complete distractor sweep with exact 50/50 A/B counterbalancing per level."""
+        if nested:
+            return self.generate_nested_distractor_sweep(
+                levels=levels,
+                count_per_level=count_per_level,
+                base_seed=base_seed,
+                ask_confidence=ask_confidence,
+            )
         conf = self.ask_confidence if ask_confidence is None else ask_confidence
         items: List[TaskItem] = []
         option_cycle = ["A", "B"]

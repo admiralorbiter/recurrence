@@ -121,8 +121,8 @@ def generate_e02b_markdown_report(
         lines.extend([
             f"### Sweep: {name.replace('_', ' ').title()}",
             f"",
-            f"| Level | Trials | Correct | Accuracy | 95% Wilson CI | P(Chose 'A') | Mean Conf | Conf Sep | Brier | Prompt Tok | Compliance |",
-            f"| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |",
+            f"| Level | Trials | Correct | Accuracy | 95% Wilson CI | P(Chose 'A') | SDT $d'$ | SDT $c$ | Mean Conf | Conf Sep | Brier | Prompt Tok | Compliance |",
+            f"| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |",
         ])
         for lvl_str, m in res.get("level_metrics", {}).items():
             lvl = m["difficulty_level"]
@@ -131,13 +131,15 @@ def generate_e02b_markdown_report(
             acc = f"{m['accuracy']:.1%}"
             ci = f"[{m['ci_95_lower']:.1%}, {m['ci_95_upper']:.1%}]"
             pa = f"{m['option_a_selection_rate']:.1%}"
+            dp = f"{m['sdt_d_prime']:+.2f}" if m.get("sdt_d_prime") is not None else "N/A"
+            sc = f"{m['sdt_criterion_c']:+.2f}" if m.get("sdt_criterion_c") is not None else "N/A"
             mc = f"{m['mean_confidence']:.1%}" if m.get("mean_confidence") is not None else "N/A"
             cs = f"{m['confidence_separation']:+.1%}" if m.get("confidence_separation") is not None else "N/A"
             br = f"{m['brier_score']:.3f}" if m.get("brier_score") is not None else "N/A"
             tok = f"{m['mean_estimated_tokens']:.0f}"
             comp = f"{m['schema_compliance_rate']:.1%}"
             lines.append(
-                f"| `{lvl}` | {tot} | {cor} | **{acc}** | {ci} | {pa} | {mc} | {cs} | {br} | {tok} | {comp} |"
+                f"| `{lvl}` | {tot} | {cor} | **{acc}** | {ci} | {pa} | {dp} | {sc} | {mc} | {cs} | {br} | {tok} | {comp} |"
             )
         lines.append("")
 
@@ -245,9 +247,12 @@ def run_e02b_difficulty_mapping(
                 "schema_valid": score["schema_valid"],
                 "answer_parse_valid": score["answer_parse_valid"],
                 "latency_ms": latency_ms,
+                "prompt_eval_count": meta.get("prompt_eval_count"),
+                "eval_count": meta.get("eval_count"),
                 "prompt": item.prompt,
                 "raw_response": raw_text,
                 "ask_confidence": True,
+                "is_reactivity_control": False,
             }
             d_records.append(rec)
             trial_records.append(rec)
@@ -297,9 +302,12 @@ def run_e02b_difficulty_mapping(
                 "schema_valid": score["schema_valid"],
                 "answer_parse_valid": score["answer_parse_valid"],
                 "latency_ms": latency_ms,
+                "prompt_eval_count": meta.get("prompt_eval_count"),
+                "eval_count": meta.get("eval_count"),
                 "prompt": item.prompt,
                 "raw_response": raw_text,
                 "ask_confidence": True,
+                "is_reactivity_control": False,
             }
             h_records.append(rec)
             trial_records.append(rec)
@@ -349,9 +357,12 @@ def run_e02b_difficulty_mapping(
                 "schema_valid": score["schema_valid"],
                 "answer_parse_valid": score["answer_parse_valid"],
                 "latency_ms": latency_ms,
+                "prompt_eval_count": meta.get("prompt_eval_count"),
+                "eval_count": meta.get("eval_count"),
                 "prompt": item.prompt,
                 "raw_response": raw_text,
                 "ask_confidence": True,
+                "is_reactivity_control": False,
             }
             u_records.append(rec)
             trial_records.append(rec)
@@ -364,7 +375,6 @@ def run_e02b_difficulty_mapping(
     reactivity_summary = None
     if paired_reactivity:
         print("\nEvaluating Paired Elicitation Reactivity Control (Answer-Only vs Answer+Confidence)...")
-        # Run subset of distractor items with ask_confidence=False
         reactivity_items_conf = d_items[:trials_per_level] if "distractor_load" in sweep_results else []
         if reactivity_items_conf:
             react_task_only = AdaptiveMetacognition2AFCTask(task_family="distractor_load", ask_confidence=False)
@@ -373,23 +383,43 @@ def run_e02b_difficulty_mapping(
                 count_per_level=trials_per_level,
                 base_seed=seed,
                 ask_confidence=False,
+                nested=True,
             )
 
             for item_only, item_conf in zip(react_items_only, reactivity_items_conf):
                 messages = [{"role": "user", "content": item_only.prompt}]
-                raw_only, _ = backend.chat(
+                t0 = time.perf_counter()
+                raw_only, meta_only = backend.chat(
                     messages=messages,
                     temperature=temperature,
                     seed=seed,
                     format=TARGET_2AFC_SCHEMA,
                 )
+                latency_ms = (time.perf_counter() - t0) * 1000.0
                 score_only = react_task_only.score_response(item_only, raw_only)
                 rec_only = {
+                    "run_id": run_id,
+                    "task_family": "distractor_load",
                     "item_id": item_only.item_id,
+                    "difficulty_level": item_only.metadata["distractor_count"],
+                    "distractor_count": item_only.metadata["distractor_count"],
+                    "hop_depth": 1,
+                    "overwrite_count": 0,
+                    "ground_truth": item_only.ground_truth,
                     "parsed_answer": score_only["parsed_answer"],
                     "correct": score_only["correct"],
+                    "probability": None,
                     "schema_valid": score_only["schema_valid"],
+                    "answer_parse_valid": score_only["answer_parse_valid"],
+                    "latency_ms": latency_ms,
+                    "prompt_eval_count": meta_only.get("prompt_eval_count"),
+                    "eval_count": meta_only.get("eval_count"),
+                    "prompt": item_only.prompt,
+                    "raw_response": raw_only,
+                    "ask_confidence": False,
+                    "is_reactivity_control": True,
                 }
+                trial_records.append(rec_only)
 
                 # Find corresponding conf record
                 matching_conf = next(r for r in d_records if r["item_id"] == item_conf.item_id)
