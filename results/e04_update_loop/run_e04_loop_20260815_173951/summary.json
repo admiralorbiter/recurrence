@@ -1,0 +1,56 @@
+{
+  "manifest": {
+    "run_id": "run_e04_loop_20260815_173951",
+    "target_model": "qwen2.5:3b",
+    "model_digest": "357c53fb659c5076de1d65ccb0b397446227b71a42be9d1603d46168015c9e4b",
+    "start_time": "2026-08-15T17:45:29.746549+00:00",
+    "scenario_count": 5,
+    "ticks_per_scenario": 15,
+    "total_ticks": 183,
+    "target_keys_count": 6,
+    "temperature": 0.0,
+    "seed": 42
+  },
+  "condition_summaries": {
+    "oracle": {
+      "updater_mode": "oracle",
+      "total_ticks": 61,
+      "schema_compliance_rate": 1.0,
+      "mean_retention_fidelity": 1.0,
+      "terminal_retention_fidelity": 1.0,
+      "mean_omission_rate": 0.0,
+      "mean_mutation_rate": 0.0,
+      "total_phantom_intrusions": 0,
+      "mean_goal_coherence": 1.0,
+      "total_prompt_tokens": 0,
+      "mean_prompt_tokens_per_tick": 0.0
+    },
+    "model": {
+      "updater_mode": "model",
+      "total_ticks": 61,
+      "schema_compliance_rate": 1.0,
+      "mean_retention_fidelity": 0.08246753246753247,
+      "terminal_retention_fidelity": 0.0,
+      "mean_omission_rate": 0.9175324675324674,
+      "mean_mutation_rate": 0.0,
+      "total_phantom_intrusions": 36,
+      "mean_goal_coherence": 0.075,
+      "total_prompt_tokens": 23829,
+      "mean_prompt_tokens_per_tick": 390.6393442622951
+    },
+    "replay": {
+      "updater_mode": "replay",
+      "total_ticks": 61,
+      "schema_compliance_rate": 1.0,
+      "mean_retention_fidelity": 1.0,
+      "terminal_retention_fidelity": 1.0,
+      "mean_omission_rate": 0.0,
+      "mean_mutation_rate": 0.0,
+      "total_phantom_intrusions": 0,
+      "mean_goal_coherence": 1.0,
+      "total_prompt_tokens": 0,
+      "mean_prompt_tokens_per_tick": 0.0
+    }
+  },
+  "failure_count": 56
+}

@@ -1,0 +1,12 @@
+{
+  "run_id": "run_e04_loop_20260815_173951",
+  "target_model": "qwen2.5:3b",
+  "model_digest": "357c53fb659c5076de1d65ccb0b397446227b71a42be9d1603d46168015c9e4b",
+  "start_time": "2026-08-15T17:45:29.746549+00:00",
+  "scenario_count": 5,
+  "ticks_per_scenario": 15,
+  "total_ticks": 183,
+  "target_keys_count": 6,
+  "temperature": 0.0,
+  "seed": 42
+}
