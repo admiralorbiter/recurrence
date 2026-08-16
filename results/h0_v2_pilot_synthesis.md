@@ -1,63 +1,59 @@
-# Horizon 0 v2 Phase A: Empirical Difficulty-Mapping Synthesis & Cross-Scale Scaling Laws
+# Horizon 0 v2: Psychophysical Calibration Synthesis & Confirmatory Metacognitive Protocol
 
-**Benchmark:** Experiment E02b (Sprint S04 Parallel Track)  
+**Benchmark:** Experiments E02b (Exploratory Grid Mapping) & E02c (Local 2D Calibration & Held-Out Validation)  
 **Evaluated Panel:** `qwen2.5:3b`, `llama3.2:3b`, `qwen2.5:14b`  
-**Total Empirical Trials:** 816 trials across 3 independent sweeps and paired reactivity controls  
-**Decoding:** Deterministic Greedy (`temperature=0.0`, `seed=42`) under native JSON schema constraints  
+**Total Empirical Trials:** 1,824 trials across 4 iterative hardening generations (v2.1 $\to$ v2.4)  
+**Interface:** Dynamic Direct-Value 2-Alternative Forced Choice (2AFC) under constrained JSON schema enums  
+**Theoretical Framework:** Type-2 Signal Detection Theory (Fleming & Lau 2014) & Multi-Criteria Operating Point Calibration (Levitt 1971)
 
 ---
 
-## 1. Cross-Scale Empirical Summary Table
+## 1. Executive Summary & Scientific Headline
 
-| Model | Size | Distractor Sweep ($D=4\dots256$) | Multi-Hop Sweep ($H=1\dots5$) | Overwrite Sweep ($U=0\dots4$) | Reactivity ($\Delta \text{Acc}$) | Overall Compliance |
-|---|:---:|:---:|:---:|:---:|:---:|:---:|
-| **`qwen2.5:3b`** | 1.9 GB | **$100\% \to 43.8\%$** ($\rho = -0.893$) | $81.2\% \to 56.2\%$ ($\rho = -0.616$) | $75.0\% \to 62.5\%$ ($\rho = -0.718$) | $+6.2\%$ (Moderate) | **$100.0\%$** |
-| **`llama3.2:3b`** | 2.0 GB | **$93.8\% \to 68.8\%$** ($\rho = -0.847$) | $56.2\% \to 50.0\%$ (Floor/Bias) | $56.2\% \to 50.0\%$ (Floor/Bias) | $-6.2\%$ (Moderate) | **$100.0\%$** |
-| **`qwen2.5:14b`** | 9.0 GB | **$100.0\%$ (Saturated Ceiling)** | **$100\% \to 93.8\%$** ($15/16$ at $H=5$) | **$100.0\%$ (Saturated Ceiling)** | $+0.0\%$ (Negligible) | **$100.0\%$** |
+> **Scientific Headline:**  
+> Relational-depth tolerance increases substantially with Qwen model scale ($H^* \approx 1$ for 3B vs $H^* \approx 3$ for 14B), but the degradation function remains model-specific rather than a universal monotonic staircase. Under direct-value matching, `qwen2.5:14b` and `qwen2.5:3b` achieve stable, psychophysically equated first-order operating points ($d' \approx 0.75\dots 1.03$, $|c| \le 0.37$, accuracy $64\text{--}70\%$), whereas `llama3.2:3b` is diagnostic of severe positional primacy collapse ($|c| > 0.50$) under cognitive load.
 
 ---
 
-## 2. Key Scientific Findings
+## 2. Cross-Scale Held-Out Coordinate Validation ($N=64$ per Model)
 
-### Finding 1: Distractor Load is the Cleanest 1D Psychometric Dial for 3B Models
-For both `qwen2.5:3b` and `llama3.2:3b`, stepping distractor volume logarithmically ($\log_2 D$) produces a monotonic decline in first-order accuracy:
-- **`qwen2.5:3b`:** Perfectly spans $100\% \to 43.8\%$, crossing the target $70.7\%$ threshold at $D^* \approx 32\dots64$ distractors.
-- **`llama3.2:3b`:** Spans $93.8\% \to 56.2\%$, crossing $70.7\%$ at $D^* \approx 64\dots128$ distractors.
-- Both models maintain zero formatting errors ($100\%$ compliance) and near-zero positional bias ($c \approx 0$).
-
-### Finding 2: The 14B Ceiling Confirms the Need for Relational Composition
-On single-hop Distractor Load and Overwrite Load, `qwen2.5:14b` achieved **$100.0\%$ accuracy across all 192 trials** (up to $D=256$ items, ~2,650 tokens). It did not drop a single item.
-
-The **only** condition that produced a first-order error in the 14B model across the entire benchmark was **Multi-Hop Pointer Depth at $H=5$ ($93.8\%$)**.
-
-This empirically validates the RULER thesis (Hsieh et al. 2024):
-> Simple single-hop needle retrieval saturates for $>10\text{B}$ frontier models at moderate context lengths. To create a psychophysically equated $70\%$ operating point across scale, larger models require **Multi-Hop Relational Pointer Chasing ($H \ge 4$)** combined with background distractor load.
-
-### Finding 3: Elicitation Reactivity is Bounded
-Paired testing (Answer-Only vs Answer+Confidence on matched item seeds) revealed:
-- `qwen2.5:3b`: Exact answer concordance = $93.8\%$, McNemar $p = 1.0000$.
-- `llama3.2:3b`: Exact answer concordance = $93.8\%$, McNemar $p = 1.0000$.
-- `qwen2.5:14b`: Exact answer concordance = $100.0\%$, McNemar $p = 1.0000$.
-
-Confidence elicitation under strict schema constraints causes negligible perturbation to the first-order decision policy.
+| Model | Frozen Coordinate `(H, D)` | Validation Accuracy (95% CI) | SDT $d'$ [95% CI] | SDT Criterion $c$ [95% CI] | Calibration Gate Status | Type-2 Confidence Regime | Meta-$d'$ Status |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **`qwen2.5:3b`** | `(H=1, D=16)` | **64.1%** [51.8%, 74.7%] | $+0.75$ [$+0.08, +1.41$] | $-0.37$ [$-0.72, -0.08$] | **Operational Target** | Variable ($\bar{C} = 69.2\%$) | `estimable` |
+| **`qwen2.5:14b`** | `(H=3, D=16)` | **70.3%** [58.2%, 80.1%] | **$+1.03$** [$+0.47, +1.70$] | **$-0.04$** [$-0.36, +0.27$] | **PASS (All 4 Criteria)** | Invariant ($\bar{C} = 100.0\%$) | `confidence_degenerate` |
+| **`llama3.2:3b`** | `N/A` (Incompatible) | 58.3% – 83.3% | $+0.47 \dots +1.81$ | **$-0.63 \dots -1.08$** | **FAIL (Positional Bias)** | High ($\bar{C} = 95.8\%$) | `positional_collapse` |
 
 ---
 
-## 3. Recommended Multi-Scale Calibration Strategy for Phase B
+## 3. Key Scientific Findings Across the v2 Pilot Lineage
 
-Based on these empirical psychometric curves, we formulate a two-tier calibration architecture:
+### Finding 1: Direct-Value Responses Decouple Symbolic Bias from Positional Bias
+Replacing abstract letter tokens (`"answer": "A"`) with dynamic schema enums requiring literal candidate strings (`"answer": "val_crimson_anchor"`) eliminated Llama's symbolic `"B"` preference, but revealed an underlying **first-option primacy bias** in small models when cognitive capacity is exceeded ($P(\text{Chose Option 1}) = 75\%\text{--}83\%$, $c < -0.60$ for $H \ge 2$).
 
-```
-┌────────────────────────────────────────────────────────────────────────┐
-│               H0-v2 ADAPTIVE CALIBRATION LADDER                        │
-│                                                                        │
-│  TIER 1 (Models <= 7B: 1.5B, 3B, 7B):                                 │
-│  - Primary Dial: Distractor Load D in [4, 8, 16, 32, 64, 128, 256]    │
-│  - 2-down / 1-up staircase on log2(D) converges to D* in 35-45 trials │
-│                                                                        │
-│  TIER 2 (Models >= 14B: 14B, 32B, 70B):                               │
-│  - Primary Dial: Multi-Hop Relational Depth H in [3, 4, 5, 6, 7]      │
-│    combined with Haystack Distractors D in [64, 128, 256, 512]        │
-│  - 2-down / 1-up staircase on composite (H, log2 D)                    │
-└────────────────────────────────────────────────────────────────────────┘
-```
+### Finding 2: Relational Tracking Capacity Scales with Model Size
+- For **`qwen2.5:3b`**, multi-hop tracking degrades beyond $H=1$. At $(H=1, D=16)$, it operates cleanly in held-out validation at $64.1\%$ accuracy ($d'=0.75, c=-0.37$).
+- For **`qwen2.5:14b`**, scale expands working memory tracking up to $H=3$. In held-out validation at $(H=3, D=16)$, it achieves **$70.3\%$ accuracy, $d'=1.03$, and $c=-0.04$**, cleanly satisfying the strict 4-point calibration gate.
+
+### Finding 3: Degenerate Confidence is a Primary Phenomenon
+In direct elicitation, `qwen2.5:14b` reports $100\%$ confidence on all trials (even when accuracy drops to $54\%$ or $25\%$). Rather than coercing artificial variance or fitting a spurious $\text{meta-}d'$, the confirmatory pipeline explicitly classifies this as `confidence_degenerate`, reporting non-parametric AUROC2 ($0.500$) and quadratic Brier score ($0.297$).
+
+### Finding 4: Directional Reactivity vs Item Choice-Policy Reactivity
+- **Directional Accuracy Shift (Exact Binomial McNemar):** Eliciting confidence produces no statistically significant net directional accuracy shift in Qwen 3B ($p=1.00$) or Qwen 14B ($p=1.00$).
+- **Choice-Policy Concordance:** In Qwen 3B, requesting confidence flips $16.7\%$ of individual item choices ($83.3\%$ concordance), demonstrating that confidence elicitation acts as an active cognitive intervention rather than a passive observer. In contrast, Qwen 14B exhibits $100.0\%$ option concordance ($0\%$ flips).
+
+---
+
+## 4. Confirmatory Protocol & Observer Battery Contract
+
+With the model-specific coordinates frozen:
+- **`qwen2.5:3b`**: $(H=1, D=16)$
+- **`qwen2.5:14b`**: $(H=3, D=16)$
+- **`llama3.2:3b`**: Evaluated as diagnostic control for positional collapse
+
+### Experimental Design ($N=200$ Held-Out Trials per Model)
+1. **Immediate Self Observer:** Target model generates direct-value answer and contemporaneous confidence rating.
+2. **Input-Only Observer:** Independent external model evaluates only prompt context to establish item-difficulty baseline ($\text{AUROC2}_{\text{InputOnly}}$).
+3. **Visible Answer Observer:** Observer model receives prompt + target model's choice (confidence stripped).
+4. **Reconstruction Observer:** Observer independently solves the matched 2-value task.
+5. **Privileged Access Index (PAI):**
+   $$\text{PAI} = \text{AUROC2}_{\text{Self}} - \max\left(\text{AUROC2}_{\text{InputOnly}}, \text{AUROC2}_{\text{Reconstruct}}\right)$$
