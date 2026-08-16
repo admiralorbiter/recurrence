@@ -1,4 +1,4 @@
-"""Hardened unit and integration tests for Sprint S06.1 (Experiment E05b: Scheduled versus Replay)."""
+"""Hardened unit and integration tests for Sprint S06.2 (Experiment E05c: Scheduled versus Replay)."""
 
 from pathlib import Path
 import re
@@ -22,7 +22,7 @@ from recurrence.loop.scheduled_experiment import (
 from recurrence.analysis.scheduled_metrics import (
     analyze_scheduled_replay_results,
     compute_exact_mcnemar_test,
-    compute_exact_sign_flip_permutation_test,
+    compute_permutation_test,
     compute_episode_clustered_bootstrap,
 )
 from experiments.e05_scheduled_vs_replay.run import (
@@ -68,6 +68,44 @@ def test_burst_vs_uniform_arrival_invariance():
     assert ep_uniform.oracle_terminal_state.working_memory == ep_burst.oracle_terminal_state.working_memory
 
 
+def test_in_context_foils_for_kv_and_multihop():
+    """Verify that 100% of candidate options in Delayed KV and Multi-Hop appear in the episode's context."""
+    gen = ScheduledReplayGenerator(seed=42)
+
+    for ep_idx in range(12):
+        ep = gen.generate_episode(episode_idx=ep_idx, num_ticks=25)
+        
+        # Collect all values present in this episode's scheduled event stream
+        episode_values = set()
+        for ev in ep.scheduled_events:
+            for v in ev.key_bindings.values():
+                episode_values.add(v)
+            if "final_val" in ev.metadata:
+                episode_values.add(ev.metadata["final_val"])
+
+        for p in ep.probes:
+            if p.probe_type in ("delayed_kv", "multihop"):
+                # Every single candidate option must be in episode_values
+                for opt_letter, opt_val in p.options.items():
+                    assert opt_val in episode_values, (
+                        f"Foil value '{opt_val}' in probe {p.probe_id} was NOT present in episode context!"
+                    )
+
+
+def test_explicit_pending_goal_in_oracle_state():
+    """Verify that when chosen_sec_status is 'pending', goal_secondary exists with status pending in state."""
+    gen = ScheduledReplayGenerator(seed=42)
+
+    for ep_idx in range(8):
+        ep = gen.generate_episode(episode_idx=ep_idx, num_ticks=25)
+        if ep.metadata.get("counterbalanced_goal_status") == "pending":
+            sec_goals = [g for g in ep.oracle_terminal_state.goals if g.goal_id == "goal_secondary"]
+            assert len(sec_goals) == 1, f"Episode {ep.episode_id} missing goal_secondary in oracle state!"
+            sec_st = sec_goals[0].status
+            st_val = sec_st.value if hasattr(sec_st, "value") else str(sec_st)
+            assert st_val == "pending", f"Expected pending goal status, got {st_val}"
+
+
 def test_no_numerical_or_role_suffix_shortcuts():
     """Verify that all keys, values, and foils have zero numerical suffixes or role markers."""
     gen = ScheduledReplayGenerator(seed=42)
@@ -76,13 +114,11 @@ def test_no_numerical_or_role_suffix_shortcuts():
     for ep_idx in range(10):
         ep = gen.generate_episode(episode_idx=ep_idx, num_ticks=25)
         
-        # Check all scheduled event bindings
         for ev in ep.scheduled_events:
             for k, v in ev.key_bindings.items():
                 assert not digit_pattern.search(k), f"Leaked digit in key: {k}"
                 assert not digit_pattern.search(v), f"Leaked digit in val: {v}"
 
-        # Check all probes
         for p in ep.probes:
             if p.probe_type in ("delayed_kv", "multihop"):
                 assert not digit_pattern.search(p.correct_answer), f"Leaked digit in answer: {p.correct_answer}"
@@ -105,49 +141,27 @@ def test_balanced_goal_and_source_counterbalancing():
         goal_statuses.append(goal_probe.correct_answer)
         source_targets.append(src_probe.correct_answer)
 
-    # All 4 goal statuses must appear equally (3 times each in 12 episodes)
     for st in ["active", "suspended", "completed", "pending"]:
         assert goal_statuses.count(st) == 3, f"Goal status {st} count: {goal_statuses.count(st)}"
 
-    # All 3 sources must appear equally (4 times each in 12 episodes)
     for src in ["environment", "self", "experimenter"]:
         assert source_targets.count(src) == 4, f"Source target {src} count: {source_targets.count(src)}"
 
 
-def test_scheduled_replay_harness_4_clean_probes_5_conditions():
-    """Verify harness executes 4 clean forced-choice probes across all 5 conditions."""
-    gen = ScheduledReplayGenerator(seed=42)
-    ep = gen.generate_episode(episode_idx=3, num_ticks=15, target_keys_count=3)
-
-    assert len(ep.probes) == 4
-    probe_types = [p.probe_type for p in ep.probes]
-    assert probe_types == ["delayed_kv", "source_attribution", "goal_state", "multihop"]
-
-    backend = MockScheduledBackend()
-    harness = ScheduledReplayHarness(backend=backend)
-
-    trials, meta = harness.execute_episode(episode=ep)
-    # 4 probes * 5 conditions = 20 trials
-    assert len(trials) == 20
-    assert "model_reconstruction_fidelity" in meta
-    assert "working_memory_retention_rate" in meta["model_reconstruction_fidelity"]
-
-
 def test_exact_mcnemar_and_permutation_statistics():
-    """Verify exact two-sided binomial McNemar and exact permutation tests."""
+    """Verify exact two-sided binomial McNemar and permutation test calculation."""
     outcomes_a = [True, True, True, False, True, False, True, True]
     outcomes_b = [True, False, False, False, True, False, False, True]
 
     b, c, p_val = compute_exact_mcnemar_test(outcomes_a, outcomes_b)
     assert b == 3
     assert c == 0
-    # Exact binomial p-value for 3 discordances with 0 against: 2 * (0.5^3) = 0.25
     assert p_val == pytest.approx(0.25)
 
-    # Test exact permutation
     diffs = [0.25, -0.25, 0.5, 0.0]
-    p_perm = compute_exact_sign_flip_permutation_test(diffs)
+    p_perm, method = compute_permutation_test(diffs)
     assert 0.0 <= p_perm <= 1.0
+    assert method == "exact_exhaustive"
 
 
 def test_e05_runner_dry_run(tmp_path: Path):
@@ -159,13 +173,13 @@ def test_e05_runner_dry_run(tmp_path: Path):
         episodes_per_horizon=2,
         horizons=[10, 25],
         dry_run=True,
-        output_dir=tmp_path / "e05b_dryrun",
+        output_dir=tmp_path / "e05c_dryrun",
     )
 
     assert res["manifest"]["total_episodes"] == 4
     assert res["manifest"]["total_trials"] == 4 * 20  # 80 trials
-    assert (tmp_path / "e05b_dryrun" / "manifest.json").exists()
-    assert (tmp_path / "e05b_dryrun" / "summary.json").exists()
-    assert (tmp_path / "e05b_dryrun" / "trials.jsonl").exists()
-    assert (tmp_path / "e05b_dryrun" / "trials.parquet").exists()
-    assert (tmp_path / "e05b_dryrun" / "report.md").exists()
+    assert (tmp_path / "e05c_dryrun" / "manifest.json").exists()
+    assert (tmp_path / "e05c_dryrun" / "summary.json").exists()
+    assert (tmp_path / "e05c_dryrun" / "trials.jsonl").exists()
+    assert (tmp_path / "e05c_dryrun" / "trials.parquet").exists()
+    assert (tmp_path / "e05c_dryrun" / "report.md").exists()

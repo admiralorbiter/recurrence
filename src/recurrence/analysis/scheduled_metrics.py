@@ -1,4 +1,4 @@
-"""Statistical analysis, causal estimands, and exact statistical estimators for Experiment E05b.
+"""Statistical analysis, causal estimands, and exact statistical estimators for Experiment E05c.
 
 Computes:
 1. Delta_online-direct (incremental_state vs replay_transcript)
@@ -7,8 +7,8 @@ Computes:
 4. Delta_representation (replay_state_deterministic vs replay_transcript)
 5. Episode-clustered paired bootstrap (95% CI)
 6. True exact two-sided McNemar binomial tests
-7. Exact episode-level sign-flip permutation tests
-8. Direct object-level reconstruction fidelity metrics
+7. Exact sign-flip permutation tests (N <= 16) / Monte Carlo permutation tests (N > 16)
+8. Horizon-specific paired contrasts and scaling statistics
 """
 
 from collections import defaultdict
@@ -51,19 +51,34 @@ class CausalEstimandSummary:
     discordance_b: int  # A correct, B incorrect
     discordance_c: int  # A incorrect, B correct
     exact_mcnemar_p_value: float
-    exact_permutation_p_value: float
+    permutation_p_value: float
+    permutation_method: str  # 'exact_exhaustive' or 'monte_carlo_50k'
     is_statistically_distinguishable: bool
 
 
 @dataclass
+class HorizonContrastSummary:
+    """Paired contrast summary evaluated specifically within a single horizon."""
+    horizon_ticks: int
+    contrast_name: str
+    condition_a: str
+    condition_b: str
+    delta_accuracy: float
+    ci_lower_95: float
+    ci_upper_95: float
+    exact_mcnemar_p_value: float
+
+
+@dataclass
 class ScheduledReplayAnalysisSummary:
-    """Comprehensive S06.1 benchmark analysis summary across horizons and conditions."""
+    """Comprehensive S06.2 benchmark analysis summary across horizons and conditions."""
     total_episodes: int
     total_trials: int
     horizons_evaluated: List[int]
     condition_stats: Dict[str, ConditionAccuracyStats]
     causal_estimands: Dict[str, CausalEstimandSummary]
     horizon_breakdown: Dict[int, Dict[str, float]]
+    horizon_contrasts: List[HorizonContrastSummary]
     token_cost_crossover_ticks: Optional[float]
     descriptive_accuracy_crossover_ticks: Optional[int]
 
@@ -96,17 +111,17 @@ def compute_exact_mcnemar_test(
     return b, c, float(p_val)
 
 
-def compute_exact_sign_flip_permutation_test(
+def compute_permutation_test(
     diffs: List[float],
-) -> float:
-    """Compute exact episode-level two-sided sign-flip permutation p-value."""
+) -> Tuple[float, str]:
+    """Compute sign-flip permutation p-value (exact for N <= 16, Monte Carlo for N > 16)."""
     n = len(diffs)
     if n == 0:
-        return 1.0
+        return 1.0, "exact_exhaustive"
     
     obs_stat = abs(sum(diffs))
     if obs_stat == 0.0:
-        return 1.0
+        return 1.0, "exact_exhaustive"
 
     if n <= 16:
         # Full exhaustive exact permutation
@@ -116,9 +131,9 @@ def compute_exact_sign_flip_permutation_test(
             perm_stat = abs(sum(s * d for s, d in zip(signs, diffs)))
             if perm_stat >= obs_stat - 1e-9:
                 extreme_count += 1
-        return float(extreme_count / total_assignments)
+        return float(extreme_count / total_assignments), "exact_exhaustive"
     else:
-        # Monte Carlo permutation test for n > 16
+        # Monte Carlo permutation test for n > 16 (B=50,000)
         rng = random.Random(42)
         n_perms = 50000
         extreme_count = 0
@@ -127,7 +142,7 @@ def compute_exact_sign_flip_permutation_test(
             perm_stat = abs(sum(s * d for s, d in zip(signs, diffs)))
             if perm_stat >= obs_stat - 1e-9:
                 extreme_count += 1
-        return float(extreme_count / n_perms)
+        return float(extreme_count / n_perms), "monte_carlo_50k"
 
 
 def compute_episode_clustered_bootstrap(
@@ -179,7 +194,7 @@ def analyze_scheduled_replay_results(
     num_bootstrap: int = 2000,
     seed: int = 42,
 ) -> ScheduledReplayAnalysisSummary:
-    """Perform comprehensive statistical and causal analysis of Experiment E05b trials."""
+    """Perform comprehensive statistical and causal analysis of Experiment E05c trials."""
     df = pd.DataFrame([asdict(t) for t in trials])
     
     episodes = df["episode_id"].unique().tolist()
@@ -241,7 +256,7 @@ def analyze_scheduled_replay_results(
                 df_a["is_correct"].tolist(),
                 df_b["is_correct"].tolist(),
             )
-            perm_p = compute_exact_sign_flip_permutation_test(ep_diffs)
+            perm_p, perm_method = compute_permutation_test(ep_diffs)
             is_dist = (ci_l > 0.0 or ci_u < 0.0) or (mcnemar_p < 0.05) or (perm_p < 0.05)
 
             causal_estimands[name] = CausalEstimandSummary(
@@ -254,18 +269,41 @@ def analyze_scheduled_replay_results(
                 discordance_b=b,
                 discordance_c=c,
                 exact_mcnemar_p_value=mcnemar_p,
-                exact_permutation_p_value=perm_p,
+                permutation_p_value=perm_p,
+                permutation_method=perm_method,
                 is_statistically_distinguishable=is_dist,
             )
 
-    # 3. Horizon Breakdown
+    # 3. Horizon Breakdown & Horizon-Specific Contrasts
     horizon_breakdown: Dict[int, Dict[str, float]] = {}
+    horizon_contrasts: List[HorizonContrastSummary] = []
+
     for h in horizons:
         df_h = df[df["horizon_ticks"] == h]
         h_dict: Dict[str, float] = {}
         for cond in conditions:
             h_dict[cond] = float(df_h[df_h["condition"] == cond]["is_correct"].mean())
         horizon_breakdown[h] = h_dict
+
+        # Compute horizon-specific Delta_online-direct
+        if "incremental_state" in conditions and "replay_transcript" in conditions:
+            pt_d, ci_l, ci_u, _ = compute_episode_clustered_bootstrap(
+                df=df_h, cond_a="incremental_state", cond_b="replay_transcript", num_bootstrap=num_bootstrap, seed=seed
+            )
+            df_h_a = df_h[df_h["condition"] == "incremental_state"].sort_values(["episode_id", "probe_id"])
+            df_h_b = df_h[df_h["condition"] == "replay_transcript"].sort_values(["episode_id", "probe_id"])
+            _, _, mcn_p = compute_exact_mcnemar_test(df_h_a["is_correct"].tolist(), df_h_b["is_correct"].tolist())
+            
+            horizon_contrasts.append(HorizonContrastSummary(
+                horizon_ticks=h,
+                contrast_name="Delta_online-direct",
+                condition_a="incremental_state",
+                condition_b="replay_transcript",
+                delta_accuracy=pt_d,
+                ci_lower_95=ci_l,
+                ci_upper_95=ci_u,
+                exact_mcnemar_p_value=mcn_p,
+            ))
 
     # 4. Token Cost Crossover Point (Interpolated)
     t_star_cost: Optional[float] = None
@@ -302,6 +340,7 @@ def analyze_scheduled_replay_results(
         condition_stats=condition_stats,
         causal_estimands=causal_estimands,
         horizon_breakdown=horizon_breakdown,
+        horizon_contrasts=horizon_contrasts,
         token_cost_crossover_ticks=t_star_cost,
         descriptive_accuracy_crossover_ticks=t_cross_acc,
     )

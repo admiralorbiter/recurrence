@@ -1,11 +1,11 @@
-"""Hardened episodic stream and probe battery generator for Sprint S06.1 (Experiment E05b).
+"""Hardened episodic stream and probe battery generator for Sprint S06.2 (Experiment E05c).
 
 Generates strictly controlled multi-stage streams across parameterized horizons,
 counterbalanced arrival dynamics, distraction densities, and 4 clean forced-choice evaluation probes:
-1. Delayed Key-Value Retrieval (4AFC) - Zero suffix shortcuts
+1. Delayed Key-Value Retrieval (4AFC) - All 3 foils are in-context values from other keys in the same episode
 2. Source Attribution (3AFC) - Strictly counterbalanced across environment/self/experimenter
-3. Goal State Identification (4AFC) - Strictly counterbalanced across active/suspended/completed/pending
-4. Multi-Hop Associative Retrieval (4AFC) - Zero role-coded index tags
+3. Goal State Identification (4AFC) - Explicitly represents pending/active/suspended/completed goals
+4. Multi-Hop Associative Retrieval (4AFC) - All 3 foils are in-context values from the same episode
 """
 
 from dataclasses import dataclass, field
@@ -51,7 +51,7 @@ class ScheduledReplayEpisode:
 
 
 class ScheduledReplayGenerator:
-    """Generator for hardened scheduled-vs-replay benchmark episodes with eradicated shortcuts."""
+    """Generator for hardened scheduled-vs-replay benchmark episodes with in-context foils."""
 
     NOUNS = [
         "falcon", "canyon", "river", "glacier", "prism", "tempest", "harbor", "citadel",
@@ -89,16 +89,6 @@ class ScheduledReplayGenerator:
 
         return k, v
 
-    def _make_foil_val(self, rng: random.Random, used_vals: set) -> str:
-        """Generate a distractor value with identical vocabulary structure and NO numerical suffix."""
-        while True:
-            adj = rng.choice(self.ADJECTIVES)
-            noun = rng.choice(self.NOUNS)
-            v = f"val_{adj}_{noun}"
-            if v not in used_vals:
-                used_vals.add(v)
-                return v
-
     def generate_episode(
         self,
         episode_idx: int,
@@ -109,7 +99,7 @@ class ScheduledReplayGenerator:
         capacity_overflow: bool = False,
         seed: Optional[int] = None,
     ) -> ScheduledReplayEpisode:
-        """Generate a single controlled episodic stream with 4 clean counterbalanced probes."""
+        """Generate a single controlled episodic stream with in-context foils and explicit pending goals."""
         ep_seed = (seed or self.seed) + episode_idx * 10007
         rng = random.Random(ep_seed)
         episode_id = f"ep_{num_ticks}t_idx{episode_idx:03d}"
@@ -117,10 +107,10 @@ class ScheduledReplayGenerator:
         used_keys: set = set()
         used_vals: set = set()
 
-        total_targets = 24 if capacity_overflow else target_keys_count
+        # Ensure at least 4 distinct target key-value pairs so in-context foils always exist
+        total_targets = max(4, 24 if capacity_overflow else target_keys_count)
         
         # 1. Counterbalance Source Allocation across targets
-        # Ensure at least 1 target from environment, self, and experimenter
         sources_cycle = [EventSource.ENVIRONMENT, EventSource.SELF, EventSource.EXPERIMENTER]
         sources_list = [sources_cycle[i % 3] for i in range(total_targets)]
         rng.shuffle(sources_list)
@@ -162,7 +152,7 @@ class ScheduledReplayGenerator:
         ))
         ev_counter += 1
 
-        # 4. Schedule Secondary Goal with Counterbalanced Terminal Status
+        # 4. Schedule Secondary Goal with Explicit Counterbalanced Status
         # Counterbalance across active, suspended, completed, pending
         target_goal_statuses = ["active", "suspended", "completed", "pending"]
         chosen_sec_status = target_goal_statuses[episode_idx % 4]
@@ -170,7 +160,23 @@ class ScheduledReplayGenerator:
         t_sec_start = max(2, num_ticks // 4)
         t_sec_mod = max(t_sec_start + 2, (num_ticks * 2) // 4)
 
-        if chosen_sec_status != "pending":
+        if chosen_sec_status == "pending":
+            # Explicitly assert goal_secondary as pending
+            scheduled_events.append(MemoryEvent(
+                event_id=f"ev_{ev_counter:04d}",
+                step_index=t_sec_start,
+                source=EventSource.SELF,
+                event_type="goal_update",
+                content=f"Secondary objective queued as pending: {sec_goal_desc}",
+                key_bindings={},
+                metadata={
+                    "goal_id": "goal_secondary",
+                    "goal_description": sec_goal_desc,
+                    "goal_status": "pending",
+                }
+            ))
+            ev_counter += 1
+        else:
             scheduled_events.append(MemoryEvent(
                 event_id=f"ev_{ev_counter:04d}",
                 step_index=t_sec_start,
@@ -221,7 +227,6 @@ class ScheduledReplayGenerator:
             ev_counter += 1
 
         # 6. Schedule Multi-Hop Associative Link (K_hop_A -> K_hop_B, K_hop_B -> V_hop_final)
-        # Eradicate role-coded IDs (901/902); use clean dictionary strings
         t_hop_1 = max(1, num_ticks // 5)
         t_hop_2 = max(t_hop_1 + 3, (num_ticks * 3) // 5)
         hop_k1, hop_pointer = self._make_key_val(rng, used_keys, used_vals)
@@ -289,19 +294,29 @@ class ScheduledReplayGenerator:
 
         terminal_state = manager.current_state.model_copy(deep=True)
 
-        # 9. Generate 4 Clean Forced-Choice Probes
+        # 9. Generate 4 Clean Forced-Choice Probes with IN-CONTEXT FOILS
         probes: List[ScheduledReplayProbe] = []
         letters_4 = ["A", "B", "C", "D"]
         letters_3 = ["A", "B", "C"]
 
-        # Probe 1: Delayed KV Retrieval (4AFC) - Zero Suffix Shortcut
+        # Collect all real entity values present in this episode
+        all_episode_values = [p[1] for p in target_pairs] + [hop_final_val]
+
+        # Probe 1: Delayed KV Retrieval (4AFC) - All 3 Foils are IN-CONTEXT Values from other keys
         valid_targets = [p for p in target_pairs if p[0] in terminal_state.working_memory]
         if valid_targets:
-            # Rotate target selection across episodes
             t_idx = episode_idx % len(valid_targets)
             t_key, t_val, _, _ = valid_targets[t_idx]
             
-            foils_kv = [self._make_foil_val(rng, used_vals) for _ in range(3)]
+            # Select 3 foils from OTHER values present in the same episode
+            other_in_context_vals = [p[1] for p in valid_targets if p[1] != t_val]
+            if len(other_in_context_vals) < 3:
+                # Supplement from other episode values
+                for v in all_episode_values:
+                    if v != t_val and v not in other_in_context_vals:
+                        other_in_context_vals.append(v)
+            
+            foils_kv = other_in_context_vals[:3]
             opts_kv_list = [t_val] + foils_kv
             rng.shuffle(opts_kv_list)
             opts_kv = {letters_4[i]: opts_kv_list[i] for i in range(4)}
@@ -320,7 +335,6 @@ class ScheduledReplayGenerator:
 
         # Probe 2: Source Attribution (3AFC) - Counterbalanced Source Target
         if valid_targets:
-            # Pick target whose source matches episode_idx % 3
             target_source = sources_cycle[episode_idx % 3]
             matching_targets = [p for p in valid_targets if p[2] == target_source]
             if not matching_targets:
@@ -343,7 +357,7 @@ class ScheduledReplayGenerator:
                 metadata={"ground_truth_key": t_key_src, "ground_truth_source": true_src.value}
             ))
 
-        # Probe 3: Goal State Identification (4AFC) - Counterbalanced Status & Randomized Options
+        # Probe 3: Goal State Identification (4AFC) - Counterbalanced Status & Explicit Pending
         status_opts_list = ["active", "suspended", "completed", "pending"]
         rng.shuffle(status_opts_list)
         opts_goal = {letters_4[i]: status_opts_list[i] for i in range(4)}
@@ -360,8 +374,9 @@ class ScheduledReplayGenerator:
             metadata={"goal_id": "goal_secondary", "true_status": chosen_sec_status}
         ))
 
-        # Probe 4: Multi-Hop Associative Probe (4AFC) - Zero Role Suffix
-        foils_hop = [self._make_foil_val(rng, used_vals) for _ in range(3)]
+        # Probe 4: Multi-Hop Associative Probe (4AFC) - All 3 Foils are IN-CONTEXT Values from this episode
+        other_hop_context_vals = [p[1] for p in target_pairs if p[1] != hop_final_val]
+        foils_hop = other_hop_context_vals[:3]
         opts_hop_list = [hop_final_val] + foils_hop
         rng.shuffle(opts_hop_list)
         opts_hop = {letters_4[i]: opts_hop_list[i] for i in range(4)}
