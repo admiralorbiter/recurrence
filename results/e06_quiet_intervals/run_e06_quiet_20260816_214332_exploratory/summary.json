@@ -1,0 +1,513 @@
+{
+  "manifest": {
+    "run_id": "run_e06_quiet_20260816_214332_exploratory",
+    "target_model": "qwen2.5:3b",
+    "model_digest": "357c53fb659c5076de1d65ccb0b397446227b71a42be9d1603d46168015c9e4b",
+    "phase": "exploratory",
+    "seed": 42,
+    "temperature": 0.0,
+    "start_time": "2026-08-16T22:11:05.168770+00:00",
+    "total_episodes": 4,
+    "total_trials": 416,
+    "intervals": [
+      0,
+      1,
+      3,
+      6,
+      12
+    ]
+  },
+  "analysis": {
+    "total_episodes": 4,
+    "total_trials": 416,
+    "intervals_evaluated": [
+      0,
+      1,
+      3,
+      6,
+      12
+    ],
+    "condition_stats": {
+      "strict_identity": {
+        "condition": "strict_identity",
+        "total_trials": 80,
+        "correct_trials": 54,
+        "accuracy_micro": 0.675,
+        "probe_accuracies": {
+          "derivation_multihop": 0.45,
+          "source_conflict": 0.5,
+          "unresolved_goal": 1.0,
+          "stable_kv": 0.75
+        },
+        "mean_query_prompt_tokens": 510.375,
+        "mean_amortized_prompt_tokens": 510.375,
+        "mean_query_latency_ms": 2489.114739993238,
+        "mean_amortized_latency_ms": 2489.114739993238
+      },
+      "replay_transcript": {
+        "condition": "replay_transcript",
+        "total_trials": 80,
+        "correct_trials": 46,
+        "accuracy_micro": 0.575,
+        "probe_accuracies": {
+          "derivation_multihop": 0.45,
+          "source_conflict": 0.15,
+          "unresolved_goal": 0.9,
+          "stable_kv": 0.8
+        },
+        "mean_query_prompt_tokens": 631.675,
+        "mean_amortized_prompt_tokens": 631.675,
+        "mean_query_latency_ms": 2494.171676255064,
+        "mean_amortized_latency_ms": 2494.171676255064
+      },
+      "clock_only": {
+        "condition": "clock_only",
+        "total_trials": 64,
+        "correct_trials": 42,
+        "accuracy_micro": 0.65625,
+        "probe_accuracies": {
+          "derivation_multihop": 0.375,
+          "source_conflict": 0.5,
+          "unresolved_goal": 1.0,
+          "stable_kv": 0.75
+        },
+        "mean_query_prompt_tokens": 510.875,
+        "mean_amortized_prompt_tokens": 510.875,
+        "mean_query_latency_ms": 2485.4936515584996,
+        "mean_amortized_latency_ms": 2485.4936515584996
+      },
+      "semantic_no_write": {
+        "condition": "semantic_no_write",
+        "total_trials": 64,
+        "correct_trials": 41,
+        "accuracy_micro": 0.640625,
+        "probe_accuracies": {
+          "derivation_multihop": 0.3125,
+          "source_conflict": 0.5,
+          "unresolved_goal": 1.0,
+          "stable_kv": 0.75
+        },
+        "mean_query_prompt_tokens": 510.875,
+        "mean_amortized_prompt_tokens": 913.875,
+        "mean_query_latency_ms": 2469.8714484347875,
+        "mean_amortized_latency_ms": 6753.523879673594
+      },
+      "selective_reflection": {
+        "condition": "selective_reflection",
+        "total_trials": 64,
+        "correct_trials": 37,
+        "accuracy_micro": 0.578125,
+        "probe_accuracies": {
+          "derivation_multihop": 0.5,
+          "source_conflict": 0.3125,
+          "unresolved_goal": 0.8125,
+          "stable_kv": 0.6875
+        },
+        "mean_query_prompt_tokens": 595.375,
+        "mean_amortized_prompt_tokens": 1368.4375,
+        "mean_query_latency_ms": 2498.180723438054,
+        "mean_amortized_latency_ms": 7831.074439054646
+      },
+      "unconstrained_reflection": {
+        "condition": "unconstrained_reflection",
+        "total_trials": 64,
+        "correct_trials": 40,
+        "accuracy_micro": 0.625,
+        "probe_accuracies": {
+          "derivation_multihop": 0.5,
+          "source_conflict": 0.625,
+          "unresolved_goal": 0.9375,
+          "stable_kv": 0.4375
+        },
+        "mean_query_prompt_tokens": 473.375,
+        "mean_amortized_prompt_tokens": 1144.3125,
+        "mean_query_latency_ms": 2489.1672312514856,
+        "mean_amortized_latency_ms": 11335.72561093024
+      }
+    },
+    "causal_estimands": {
+      "Delta_derivation-selective": {
+        "contrast_name": "Delta_derivation-selective",
+        "target_probe_domain": "derivation_multihop",
+        "condition_a": "selective_reflection",
+        "condition_b": "strict_identity",
+        "delta_accuracy": 0.0,
+        "ci_lower_95": -0.375,
+        "ci_upper_95": 0.375,
+        "discordance_b": 3,
+        "discordance_c": 3,
+        "exact_mcnemar_p_value": 1.0,
+        "permutation_p_value": 1.0,
+        "permutation_method": "exact_exhaustive",
+        "is_statistically_distinguishable": false
+      },
+      "Delta_derivation-nowrite": {
+        "contrast_name": "Delta_derivation-nowrite",
+        "target_probe_domain": "derivation_multihop",
+        "condition_a": "selective_reflection",
+        "condition_b": "semantic_no_write",
+        "delta_accuracy": 0.1875,
+        "ci_lower_95": -0.125,
+        "ci_upper_95": 0.4375,
+        "discordance_b": 4,
+        "discordance_c": 1,
+        "exact_mcnemar_p_value": 0.375,
+        "permutation_p_value": 0.5,
+        "permutation_method": "exact_exhaustive",
+        "is_statistically_distinguishable": false
+      },
+      "Delta_conflict-consolidation": {
+        "contrast_name": "Delta_conflict-consolidation",
+        "target_probe_domain": "source_conflict",
+        "condition_a": "selective_reflection",
+        "condition_b": "strict_identity",
+        "delta_accuracy": -0.1875,
+        "ci_lower_95": -0.625,
+        "ci_upper_95": 0.25,
+        "discordance_b": 2,
+        "discordance_c": 5,
+        "exact_mcnemar_p_value": 0.453125,
+        "permutation_p_value": 0.625,
+        "permutation_method": "exact_exhaustive",
+        "is_statistically_distinguishable": false
+      },
+      "Delta_clock-cue": {
+        "contrast_name": "Delta_clock-cue",
+        "target_probe_domain": "all",
+        "condition_a": "clock_only",
+        "condition_b": "strict_identity",
+        "delta_accuracy": -0.03125,
+        "ci_lower_95": -0.09375,
+        "ci_upper_95": 0.0,
+        "discordance_b": 0,
+        "discordance_c": 2,
+        "exact_mcnemar_p_value": 0.5,
+        "permutation_p_value": 1.0,
+        "permutation_method": "exact_exhaustive",
+        "is_statistically_distinguishable": false
+      },
+      "Delta_evidence-integrity": {
+        "contrast_name": "Delta_evidence-integrity",
+        "target_probe_domain": "stable_kv",
+        "condition_a": "selective_reflection",
+        "condition_b": "strict_identity",
+        "delta_accuracy": -0.0625,
+        "ci_lower_95": -0.5625,
+        "ci_upper_95": 0.375,
+        "discordance_b": 2,
+        "discordance_c": 3,
+        "exact_mcnemar_p_value": 1.0,
+        "permutation_p_value": 1.0,
+        "permutation_method": "exact_exhaustive",
+        "is_statistically_distinguishable": false
+      },
+      "Delta_unconstrained-drift": {
+        "contrast_name": "Delta_unconstrained-drift",
+        "target_probe_domain": "all",
+        "condition_a": "unconstrained_reflection",
+        "condition_b": "strict_identity",
+        "delta_accuracy": -0.0625,
+        "ci_lower_95": -0.34375,
+        "ci_upper_95": 0.21875,
+        "discordance_b": 9,
+        "discordance_c": 13,
+        "exact_mcnemar_p_value": 0.5234670639038086,
+        "permutation_p_value": 1.0,
+        "permutation_method": "exact_exhaustive",
+        "is_statistically_distinguishable": false
+      }
+    },
+    "interval_breakdown": {
+      "0": {
+        "strict_identity": 0.625,
+        "replay_transcript": 0.6875
+      },
+      "1": {
+        "strict_identity": 0.6875,
+        "replay_transcript": 0.5,
+        "clock_only": 0.6875,
+        "semantic_no_write": 0.6875,
+        "selective_reflection": 0.5625,
+        "unconstrained_reflection": 0.5
+      },
+      "3": {
+        "strict_identity": 0.6875,
+        "replay_transcript": 0.5625,
+        "clock_only": 0.6875,
+        "semantic_no_write": 0.625,
+        "selective_reflection": 0.625,
+        "unconstrained_reflection": 0.75
+      },
+      "6": {
+        "strict_identity": 0.6875,
+        "replay_transcript": 0.5,
+        "clock_only": 0.625,
+        "semantic_no_write": 0.625,
+        "selective_reflection": 0.6875,
+        "unconstrained_reflection": 0.625
+      },
+      "12": {
+        "strict_identity": 0.6875,
+        "replay_transcript": 0.625,
+        "clock_only": 0.625,
+        "semantic_no_write": 0.625,
+        "selective_reflection": 0.4375,
+        "unconstrained_reflection": 0.625
+      }
+    },
+    "interval_probe_breakdown": {
+      "0": {
+        "strict_identity": {
+          "derivation_multihop": 0.25,
+          "source_conflict": 0.5,
+          "unresolved_goal": 1.0,
+          "stable_kv": 0.75
+        },
+        "replay_transcript": {
+          "derivation_multihop": 0.75,
+          "source_conflict": 0.0,
+          "unresolved_goal": 1.0,
+          "stable_kv": 1.0
+        }
+      },
+      "1": {
+        "strict_identity": {
+          "derivation_multihop": 0.5,
+          "source_conflict": 0.5,
+          "unresolved_goal": 1.0,
+          "stable_kv": 0.75
+        },
+        "replay_transcript": {
+          "derivation_multihop": 0.25,
+          "source_conflict": 0.0,
+          "unresolved_goal": 1.0,
+          "stable_kv": 0.75
+        },
+        "clock_only": {
+          "derivation_multihop": 0.5,
+          "source_conflict": 0.5,
+          "unresolved_goal": 1.0,
+          "stable_kv": 0.75
+        },
+        "semantic_no_write": {
+          "derivation_multihop": 0.5,
+          "source_conflict": 0.5,
+          "unresolved_goal": 1.0,
+          "stable_kv": 0.75
+        },
+        "selective_reflection": {
+          "derivation_multihop": 0.75,
+          "source_conflict": 0.25,
+          "unresolved_goal": 0.5,
+          "stable_kv": 0.75
+        },
+        "unconstrained_reflection": {
+          "derivation_multihop": 0.25,
+          "source_conflict": 0.25,
+          "unresolved_goal": 1.0,
+          "stable_kv": 0.5
+        }
+      },
+      "3": {
+        "strict_identity": {
+          "derivation_multihop": 0.5,
+          "source_conflict": 0.5,
+          "unresolved_goal": 1.0,
+          "stable_kv": 0.75
+        },
+        "replay_transcript": {
+          "derivation_multihop": 0.25,
+          "source_conflict": 0.25,
+          "unresolved_goal": 0.75,
+          "stable_kv": 1.0
+        },
+        "clock_only": {
+          "derivation_multihop": 0.5,
+          "source_conflict": 0.5,
+          "unresolved_goal": 1.0,
+          "stable_kv": 0.75
+        },
+        "semantic_no_write": {
+          "derivation_multihop": 0.25,
+          "source_conflict": 0.5,
+          "unresolved_goal": 1.0,
+          "stable_kv": 0.75
+        },
+        "selective_reflection": {
+          "derivation_multihop": 0.25,
+          "source_conflict": 0.5,
+          "unresolved_goal": 1.0,
+          "stable_kv": 0.75
+        },
+        "unconstrained_reflection": {
+          "derivation_multihop": 0.75,
+          "source_conflict": 0.5,
+          "unresolved_goal": 1.0,
+          "stable_kv": 0.75
+        }
+      },
+      "6": {
+        "strict_identity": {
+          "derivation_multihop": 0.5,
+          "source_conflict": 0.5,
+          "unresolved_goal": 1.0,
+          "stable_kv": 0.75
+        },
+        "replay_transcript": {
+          "derivation_multihop": 0.25,
+          "source_conflict": 0.25,
+          "unresolved_goal": 1.0,
+          "stable_kv": 0.5
+        },
+        "clock_only": {
+          "derivation_multihop": 0.25,
+          "source_conflict": 0.5,
+          "unresolved_goal": 1.0,
+          "stable_kv": 0.75
+        },
+        "semantic_no_write": {
+          "derivation_multihop": 0.25,
+          "source_conflict": 0.5,
+          "unresolved_goal": 1.0,
+          "stable_kv": 0.75
+        },
+        "selective_reflection": {
+          "derivation_multihop": 0.5,
+          "source_conflict": 0.5,
+          "unresolved_goal": 1.0,
+          "stable_kv": 0.75
+        },
+        "unconstrained_reflection": {
+          "derivation_multihop": 0.25,
+          "source_conflict": 0.75,
+          "unresolved_goal": 1.0,
+          "stable_kv": 0.5
+        }
+      },
+      "12": {
+        "strict_identity": {
+          "derivation_multihop": 0.5,
+          "source_conflict": 0.5,
+          "unresolved_goal": 1.0,
+          "stable_kv": 0.75
+        },
+        "replay_transcript": {
+          "derivation_multihop": 0.75,
+          "source_conflict": 0.25,
+          "unresolved_goal": 0.75,
+          "stable_kv": 0.75
+        },
+        "clock_only": {
+          "derivation_multihop": 0.25,
+          "source_conflict": 0.5,
+          "unresolved_goal": 1.0,
+          "stable_kv": 0.75
+        },
+        "semantic_no_write": {
+          "derivation_multihop": 0.25,
+          "source_conflict": 0.5,
+          "unresolved_goal": 1.0,
+          "stable_kv": 0.75
+        },
+        "selective_reflection": {
+          "derivation_multihop": 0.5,
+          "source_conflict": 0.0,
+          "unresolved_goal": 0.75,
+          "stable_kv": 0.5
+        },
+        "unconstrained_reflection": {
+          "derivation_multihop": 0.75,
+          "source_conflict": 1.0,
+          "unresolved_goal": 0.75,
+          "stable_kv": 0.0
+        }
+      }
+    },
+    "interval_contrasts": [
+      {
+        "interval_k": 1,
+        "contrast_name": "Delta_derivation-selective",
+        "target_probe_domain": "derivation_multihop",
+        "condition_a": "selective_reflection",
+        "condition_b": "strict_identity",
+        "delta_accuracy": 0.25,
+        "ci_lower_95": 0.0,
+        "ci_upper_95": 0.75,
+        "exact_mcnemar_p_value": 1.0,
+        "permutation_p_value": 1.0,
+        "permutation_method": "exact_exhaustive"
+      },
+      {
+        "interval_k": 3,
+        "contrast_name": "Delta_derivation-selective",
+        "target_probe_domain": "derivation_multihop",
+        "condition_a": "selective_reflection",
+        "condition_b": "strict_identity",
+        "delta_accuracy": -0.25,
+        "ci_lower_95": -0.75,
+        "ci_upper_95": 0.0,
+        "exact_mcnemar_p_value": 1.0,
+        "permutation_p_value": 1.0,
+        "permutation_method": "exact_exhaustive"
+      },
+      {
+        "interval_k": 6,
+        "contrast_name": "Delta_derivation-selective",
+        "target_probe_domain": "derivation_multihop",
+        "condition_a": "selective_reflection",
+        "condition_b": "strict_identity",
+        "delta_accuracy": 0.0,
+        "ci_lower_95": -0.75,
+        "ci_upper_95": 0.75,
+        "exact_mcnemar_p_value": 1.0,
+        "permutation_p_value": 1.0,
+        "permutation_method": "exact_exhaustive"
+      },
+      {
+        "interval_k": 12,
+        "contrast_name": "Delta_derivation-selective",
+        "target_probe_domain": "derivation_multihop",
+        "condition_a": "selective_reflection",
+        "condition_b": "strict_identity",
+        "delta_accuracy": 0.0,
+        "ci_lower_95": -0.75,
+        "ci_upper_95": 0.75,
+        "exact_mcnemar_p_value": 1.0,
+        "permutation_p_value": 1.0,
+        "permutation_method": "exact_exhaustive"
+      }
+    ],
+    "unconstrained_evidence_drift_rate": 1.0,
+    "selective_evidence_drift_rate": 0.0
+  },
+  "episodes": [
+    {
+      "episode_id": "ep_s07_000",
+      "prefix_event_count": 7,
+      "continuation_event_count": 3,
+      "probe_count": 4,
+      "evidence_hash_prefix": "113c18434a65c60d174af85e85119b9c89271907cbe6c065cf63df395c371584"
+    },
+    {
+      "episode_id": "ep_s07_001",
+      "prefix_event_count": 7,
+      "continuation_event_count": 3,
+      "probe_count": 4,
+      "evidence_hash_prefix": "0434a5ce140f8b70c7bd9a35c6fa78740257d0fae9e25a100789c5a87b12987c"
+    },
+    {
+      "episode_id": "ep_s07_002",
+      "prefix_event_count": 7,
+      "continuation_event_count": 3,
+      "probe_count": 4,
+      "evidence_hash_prefix": "704efe6c4dac53f6fb2200d817235dcefa5381b538fc45aa37797682430436f6"
+    },
+    {
+      "episode_id": "ep_s07_003",
+      "prefix_event_count": 7,
+      "continuation_event_count": 3,
+      "probe_count": 4,
+      "evidence_hash_prefix": "913145b64c34784cdd670dd82cd4dca9b26659cba7ec00cf11cab4c754a0a012"
+    }
+  ]
+}
