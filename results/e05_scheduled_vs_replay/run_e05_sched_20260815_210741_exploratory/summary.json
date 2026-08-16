@@ -127,7 +127,8 @@
         "discordance_b": 8,
         "discordance_c": 9,
         "exact_mcnemar_p_value": 1.0,
-        "exact_permutation_p_value": 1.0,
+        "permutation_p_value": 1.0,
+        "permutation_method": "exact_exhaustive",
         "is_statistically_distinguishable": false
       },
       "Delta_reconstruction": {
@@ -140,7 +141,8 @@
         "discordance_b": 23,
         "discordance_c": 10,
         "exact_mcnemar_p_value": 0.03508203336969018,
-        "exact_permutation_p_value": 0.04296875,
+        "permutation_p_value": 0.04296875,
+        "permutation_method": "exact_exhaustive",
         "is_statistically_distinguishable": true
       },
       "Delta_schedule": {
@@ -153,7 +155,8 @@
         "discordance_b": 0,
         "discordance_c": 1,
         "exact_mcnemar_p_value": 1.0,
-        "exact_permutation_p_value": 1.0,
+        "permutation_p_value": 1.0,
+        "permutation_method": "exact_exhaustive",
         "is_statistically_distinguishable": false
       },
       "Delta_representation": {
@@ -166,7 +169,8 @@
         "discordance_b": 8,
         "discordance_c": 8,
         "exact_mcnemar_p_value": 1.0,
-        "exact_permutation_p_value": 1.0,
+        "permutation_p_value": 1.0,
+        "permutation_method": "exact_exhaustive",
         "is_statistically_distinguishable": false
       }
     },
@@ -193,6 +197,44 @@
         "fresh": 0.25
       }
     },
+    "horizon_contrasts": [
+      {
+        "horizon_ticks": 10,
+        "contrast_name": "Delta_online-direct",
+        "condition_a": "incremental_state",
+        "condition_b": "replay_transcript",
+        "delta_accuracy": -0.125,
+        "ci_lower_95": -0.375,
+        "ci_upper_95": 0.125,
+        "exact_mcnemar_p_value": 0.625,
+        "permutation_p_value": 0.75,
+        "permutation_method": "exact_exhaustive"
+      },
+      {
+        "horizon_ticks": 25,
+        "contrast_name": "Delta_online-direct",
+        "condition_a": "incremental_state",
+        "condition_b": "replay_transcript",
+        "delta_accuracy": -0.0625,
+        "ci_lower_95": -0.375,
+        "ci_upper_95": 0.3125,
+        "exact_mcnemar_p_value": 1.0,
+        "permutation_p_value": 1.0,
+        "permutation_method": "exact_exhaustive"
+      },
+      {
+        "horizon_ticks": 50,
+        "contrast_name": "Delta_online-direct",
+        "condition_a": "incremental_state",
+        "condition_b": "replay_transcript",
+        "delta_accuracy": 0.125,
+        "ci_lower_95": -0.125,
+        "ci_upper_95": 0.375,
+        "exact_mcnemar_p_value": 0.7265625,
+        "permutation_p_value": 0.75,
+        "permutation_method": "exact_exhaustive"
+      }
+    ],
     "token_cost_crossover_ticks": null,
     "descriptive_accuracy_crossover_ticks": 50
   },

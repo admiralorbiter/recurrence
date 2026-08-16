@@ -1,4 +1,4 @@
-# Experiment E05c: Scheduled versus Replay Benchmark Report (Sprint S06.2 Final Freeze)
+# Experiment E05d: Scheduled versus Replay Benchmark Report (Sprint S06.3 Final)
 
 **Run ID:** `run_e05_sched_20260816_033735_exploratory`  
 **Model:** `qwen2.5:3b` (`357c53fb659c...`)  
@@ -9,47 +9,44 @@
 
 ---
 
-## 1. Executive Summary & Hardened Results
+## 1. Executive Summary & Benchmark Results
 
-Experiment E05c evaluates whether an autonomous agent maintaining an explicit Level-1 state incrementally across discrete arrival ticks achieves superior accuracy, lower retrieval error, or computational efficiency compared to matched retrospective replay of uncompressed event history.
+Experiment E05d evaluates whether an autonomous agent maintaining an explicit Level-1 state incrementally across discrete arrival ticks achieves superior accuracy, lower retrieval error, or computational efficiency compared to matched retrospective replay of uncompressed event history.
 
-All probe measurement shortcuts have been completely eradicated:
-- **In-Context Foils:** All candidate foils for Delayed KV and Multi-Hop are drawn from other actual values in the same episode (isolating binding and path traversal from candidate familiarity).
-- **Explicit Pending Goal:** Pending secondary goals are explicitly queued in state and transcripts.
-- **Exact Prompt Equality:** Literal prompt hashes match bit-for-bit between online and deterministic replay.
+All measurement validity checks passed (in-context foils, explicit pending goal construct, exact prompt invariants, repaired reconstruction interface).
 
-### Multi-Condition Performance & Cost Summary Table
+### Multi-Condition Performance & Cost Summary Table (Pooled across Horizons)
 
-| Condition | Micro Accuracy | Macro Accuracy | Delayed KV (4AFC) | Source Attr (3AFC) | Goal State (4AFC) | Multi-Hop (4AFC) | Query Prompt Tok | Amortized Prompt Tok | Mean Latency |
-| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **Scheduled Incremental State** | **60.4%** | 60.4% | 75.0% | 33.3% | 75.0% | 58.3% | 421.4 tok | 421.4 tok | 6250.1 ms |
-| **Deterministic Replay State** | **58.3%** | 58.3% | 66.7% | 33.3% | 75.0% | 58.3% | 421.4 tok | 421.4 tok | 6410.9 ms |
-| **Replay Transcript (Raw)** | **70.8%** | 70.8% | 100.0% | 58.3% | 66.7% | 58.3% | 806.3 tok | 806.3 tok | 6385.0 ms |
-| **Model Reconstructed Replay** | **31.2%** | 31.2% | 33.3% | 41.7% | 25.0% | 25.0% | 144.9 tok | 306.9 tok | 6327.4 ms |
-| **Fresh (No History Floor)** | **31.2%** | 31.2% | 41.7% | 33.3% | 16.7% | 33.3% | 113.9 tok | 113.9 tok | 5957.8 ms |
+| Condition | Micro Accuracy | Macro Accuracy | Delayed KV (4AFC) | Source Attr (3AFC) | Goal State (4AFC) | Multi-Hop (4AFC) | Query Prompt Tok | Amortized Prompt Tok | Query Latency | Amortized Latency |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **Scheduled Incremental State** | **60.4%** | 60.4% | 75.0% | 33.3% | 75.0% | 58.3% | 421.4 tok | 421.4 tok | 6250.1 ms | 6250.1 ms |
+| **Deterministic Replay State** | **58.3%** | 58.3% | 66.7% | 33.3% | 75.0% | 58.3% | 421.4 tok | 421.4 tok | 6410.9 ms | 6410.9 ms |
+| **Replay Transcript (Raw)** | **70.8%** | 70.8% | 100.0% | 58.3% | 66.7% | 58.3% | 806.3 tok | 806.3 tok | 6385.0 ms | 6385.0 ms |
+| **Model Reconstructed Replay** | **31.2%** | 31.2% | 33.3% | 41.7% | 25.0% | 25.0% | 144.9 tok | 306.9 tok | 6327.4 ms | 8870.9 ms |
+| **Fresh (No History Floor)** | **31.2%** | 31.2% | 41.7% | 33.3% | 16.7% | 33.3% | 113.9 tok | 113.9 tok | 5957.8 ms | 5957.8 ms |
 
 ---
 
 ## 2. Causal Estimand Contrasts & Statistical Inference
 
-Episode-clustered paired bootstrap 95% confidence intervals (B=2,000), exact two-sided binomial McNemar tests, and sign-flip permutation tests:
+Episode-clustered paired bootstrap 95% confidence intervals (B=2,000), exact two-sided binomial McNemar tests, and episode-level sign-flip permutation tests (Primary Inferential Decision):
 
 | Causal Contrast | Contrast Definition | $\Delta$ Accuracy | 95% Bootstrap CI | Discordance ($b / c$) | Exact McNemar $p$ | Permutation $p$ (Method) | Scientific Inference |
 | :--- | :--- | :---: | :---: | :---: | :---: | :---: | :--- |
-| **`Delta_online-direct`** | Online State vs Raw Transcript | **-10.4%** | [-27.1%, +4.2%] | 9 / 14 | 0.4049 | 0.3750 (`exact_exhaustive`) | **Null / Indistinguishable** |
-| **`Delta_reconstruction`** | Online State vs Model Recon State | **+29.2%** | [+12.5%, +45.8%] | 20 / 6 | 0.0094 | 0.0156 (`exact_exhaustive`) | **Statistically Significant** |
-| **`Delta_schedule`** | Online State vs Retrospective State | **+2.1%** | [+0.0%, +6.2%] | 1 / 0 | 1.0000 | 1.0000 (`exact_exhaustive`) | **Null / Indistinguishable** |
-| **`Delta_representation`** | Retrospective State vs Transcript | **-12.5%** | [-29.2%, +2.1%] | 9 / 15 | 0.3075 | 0.2656 (`exact_exhaustive`) | **Null / Indistinguishable** |
+| **`Delta_online-direct`** | Online State vs Raw Transcript | **-10.4%** | [-27.1%, +4.2%] | 9 / 14 | 0.4049 | 0.3750 (`exact_exhaustive`) | **No Resolved Pooled Difference** |
+| **`Delta_reconstruction`** | Online State vs Model Recon State | **+29.2%** | [+12.5%, +45.8%] | 20 / 6 | 0.0094 | 0.0156 (`exact_exhaustive`) | **Statistically Significant (Reconstruction Bottleneck)** |
+| **`Delta_schedule`** | Online State vs Retrospective State | **+2.1%** | [+0.0%, +6.2%] | 1 / 0 | 1.0000 | 1.0000 (`exact_exhaustive`) | **Null / Architectural Invariant Verified** |
+| **`Delta_representation`** | Retrospective State vs Transcript | **-12.5%** | [-29.2%, +2.1%] | 9 / 15 | 0.3075 | 0.2656 (`exact_exhaustive`) | **Transcript-favoring point estimate with conflicting inferential evidence; not resolved by primary permutation test** |
 
 ---
 
-## 3. Horizon Breakdown & Horizon-Specific Contrasts
+## 3. Horizon Breakdown & Scaling Analysis
 
-| Horizon ($T$ ticks) | Incremental State | Replay Det State | Replay Transcript | Replay Model State | Fresh Floor | $\Delta_{\text{online-direct}}$ [95% CI] | Exact McNemar $p$ |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **$T=10$ ticks** | 68.8% | 62.5% | 81.2% | 31.2% | 31.2% | -12.5% [-37.5%, +0.0%] | 0.7266 |
-| **$T=25$ ticks** | 50.0% | 50.0% | 68.8% | 25.0% | 25.0% | -18.8% [-56.2%, +12.5%] | 0.4531 |
-| **$T=50$ ticks** | 62.5% | 62.5% | 62.5% | 37.5% | 37.5% | +0.0% [-18.8%, +18.8%] | 1.0000 |
+| Horizon ($T$ ticks) | Incremental State | Replay Det State | Replay Transcript | Replay Model State | Fresh Floor | Incremental Prompt Tok | Transcript Prompt Tok | $\Delta_{\text{online-direct}}$ [95% CI] | Exact McNemar $p$ | Permutation $p$ (Method) |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **$T=10$ ticks** | 68.8% | 62.5% | 81.2% | 31.2% | 31.2% | 417.7 tok | 572.4 tok | -12.5% [-37.5%, +0.0%] | 0.7266 | 1.0000 (`exact_exhaustive`) |
+| **$T=25$ ticks** | 50.0% | 50.0% | 68.8% | 25.0% | 25.0% | 423.6 tok | 783.9 tok | -18.8% [-56.2%, +12.5%] | 0.4531 | 0.7500 (`exact_exhaustive`) |
+| **$T=50$ ticks** | 62.5% | 62.5% | 62.5% | 37.5% | 37.5% | 422.8 tok | 1062.5 tok | +0.0% [-18.8%, +18.8%] | 1.0000 | 1.0000 (`exact_exhaustive`) |
 
 ---
 
@@ -64,6 +61,6 @@ Episode-clustered paired bootstrap 95% confidence intervals (B=2,000), exact two
 ## 5. Key Scientific Conclusions & Gate Assessment
 
 1. **Deterministic Replay Invariant:** Online incremental state maintenance and retrospective deterministic replay state achieve bit-for-bit identical terminal state hashes and literal evaluation prompt hashes ($\Delta_{\text{state}} \equiv 0$, $\Delta_{\text{prompt}} \equiv 0$). Residual trial-level discordance reflects backend sampling stochasticity rather than a cognitive scheduling effect.
-2. **The Model Retrospective Reconstruction Bottleneck:** When compact structured state is required, maintaining it incrementally avoids the severe multi-slot information loss produced by this single-pass Qwen2.5-3B retrospective reconstruction procedure.
-3. **Horizon Scaling & Token Bounding:** Incremental structured state querying maintains a bounded prompt size ($O(K)$) and preserves memory fidelity over extended horizons.
+2. **The Model Retrospective Reconstruction Bottleneck:** When a compact structured state is required, incremental maintenance avoids the reconstruction loss observed with this single-pass Qwen2.5-3B retrospective procedure.
+3. **Horizon Scaling & Token Bounding:** Incremental structured state querying maintains a bounded prompt size ($O(K)$) across horizons, reducing prompt token costs relative to uncompressed history ($O(T)$).
 4. **Horizon 1 Program Progression:** These findings confirm that explicit Level-1 persistence is transcript-reconstructible under deterministic transition rules. The research program continues inside Horizon 1 with Sprint S07 (Quiet Interval & Null-Tick Screen), S08 (State Swap/Reset), and S09 (Metacognitive Readout).

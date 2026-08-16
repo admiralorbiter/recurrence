@@ -329,7 +329,10 @@ class ScheduledReplayHarness:
             except Exception as e:
                 recon_valid = False
                 recon_err = str(e)
-                model_recon_state = StructuredSelfState()
+                raise RuntimeError(
+                    f"Reconstruction failed validation in episode {episode.episode_id}: {recon_err}\n"
+                    f"Raw output:\n{raw_recon_text}"
+                ) from e
 
             # Compute Direct Object-Level State Fidelity against Oracle
             oracle_wm = online_state.working_memory

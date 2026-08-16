@@ -1,4 +1,4 @@
-"""Statistical analysis, causal estimands, and exact statistical estimators for Experiment E05c.
+"""Statistical analysis, causal estimands, and exact statistical estimators for Experiment E05d.
 
 Computes:
 1. Delta_online-direct (incremental_state vs replay_transcript)
@@ -8,7 +8,7 @@ Computes:
 5. Episode-clustered paired bootstrap (95% CI)
 6. True exact two-sided McNemar binomial tests
 7. Exact sign-flip permutation tests (N <= 16) / Monte Carlo permutation tests (N > 16)
-8. Horizon-specific paired contrasts and scaling statistics
+8. Horizon-specific paired contrasts and permutation statistics
 """
 
 from collections import defaultdict
@@ -67,11 +67,13 @@ class HorizonContrastSummary:
     ci_lower_95: float
     ci_upper_95: float
     exact_mcnemar_p_value: float
+    permutation_p_value: float
+    permutation_method: str
 
 
 @dataclass
 class ScheduledReplayAnalysisSummary:
-    """Comprehensive S06.2 benchmark analysis summary across horizons and conditions."""
+    """Comprehensive S06.3 benchmark analysis summary across horizons and conditions."""
     total_episodes: int
     total_trials: int
     horizons_evaluated: List[int]
@@ -194,7 +196,7 @@ def analyze_scheduled_replay_results(
     num_bootstrap: int = 2000,
     seed: int = 42,
 ) -> ScheduledReplayAnalysisSummary:
-    """Perform comprehensive statistical and causal analysis of Experiment E05c trials."""
+    """Perform comprehensive statistical and causal analysis of Experiment E05d trials."""
     df = pd.DataFrame([asdict(t) for t in trials])
     
     episodes = df["episode_id"].unique().tolist()
@@ -235,7 +237,7 @@ def analyze_scheduled_replay_results(
             mean_amortized_latency_ms=amort_lat,
         )
 
-    # 2. Causal Estimands & Exact Inferences
+    # 2. Causal Estimands & Primary Episode-Level Inferences
     contrasts = [
         ("Delta_online-direct", "incremental_state", "replay_transcript"),
         ("Delta_reconstruction", "incremental_state", "replay_state_model"),
@@ -249,15 +251,16 @@ def analyze_scheduled_replay_results(
             point_d, ci_l, ci_u, ep_diffs = compute_episode_clustered_bootstrap(
                 df=df, cond_a=c_a, cond_b=c_b, num_bootstrap=num_bootstrap, seed=seed
             )
-            # Exact paired tests
+            # Exact paired McNemar on trial level (supplementary)
             df_a = df[df["condition"] == c_a].sort_values(["episode_id", "probe_id"])
             df_b = df[df["condition"] == c_b].sort_values(["episode_id", "probe_id"])
             b, c, mcnemar_p = compute_exact_mcnemar_test(
                 df_a["is_correct"].tolist(),
                 df_b["is_correct"].tolist(),
             )
+            # Primary inferential criterion: episode-level sign-flip permutation test
             perm_p, perm_method = compute_permutation_test(ep_diffs)
-            is_dist = (ci_l > 0.0 or ci_u < 0.0) or (mcnemar_p < 0.05) or (perm_p < 0.05)
+            is_dist = (perm_p < 0.05)
 
             causal_estimands[name] = CausalEstimandSummary(
                 contrast_name=name,
@@ -287,12 +290,13 @@ def analyze_scheduled_replay_results(
 
         # Compute horizon-specific Delta_online-direct
         if "incremental_state" in conditions and "replay_transcript" in conditions:
-            pt_d, ci_l, ci_u, _ = compute_episode_clustered_bootstrap(
+            pt_d, ci_l, ci_u, ep_diffs_h = compute_episode_clustered_bootstrap(
                 df=df_h, cond_a="incremental_state", cond_b="replay_transcript", num_bootstrap=num_bootstrap, seed=seed
             )
             df_h_a = df_h[df_h["condition"] == "incremental_state"].sort_values(["episode_id", "probe_id"])
             df_h_b = df_h[df_h["condition"] == "replay_transcript"].sort_values(["episode_id", "probe_id"])
             _, _, mcn_p = compute_exact_mcnemar_test(df_h_a["is_correct"].tolist(), df_h_b["is_correct"].tolist())
+            perm_p_h, perm_method_h = compute_permutation_test(ep_diffs_h)
             
             horizon_contrasts.append(HorizonContrastSummary(
                 horizon_ticks=h,
@@ -303,6 +307,8 @@ def analyze_scheduled_replay_results(
                 ci_lower_95=ci_l,
                 ci_upper_95=ci_u,
                 exact_mcnemar_p_value=mcn_p,
+                permutation_p_value=perm_p_h,
+                permutation_method=perm_method_h,
             ))
 
     # 4. Token Cost Crossover Point (Interpolated)

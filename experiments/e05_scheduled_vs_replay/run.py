@@ -87,8 +87,8 @@ def generate_e05_markdown_report(
         f"",
         f"### Multi-Condition Performance & Cost Summary Table (Pooled across Horizons)",
         f"",
-        f"| Condition | Micro Accuracy | Macro Accuracy | Delayed KV (4AFC) | Source Attr (3AFC) | Goal State (4AFC) | Multi-Hop (4AFC) | Mean Query Prompt Tok | Mean Amortized Prompt Tok | Mean Latency |",
-        f"| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |",
+        f"| Condition | Micro Accuracy | Macro Accuracy | Delayed KV (4AFC) | Source Attr (3AFC) | Goal State (4AFC) | Multi-Hop (4AFC) | Query Prompt Tok | Amortized Prompt Tok | Query Latency | Amortized Latency |",
+        f"| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |",
     ]
 
     for cond, stats in analysis.condition_stats.items():
@@ -107,7 +107,7 @@ def generate_e05_markdown_report(
         }.get(cond, cond)
 
         lines.append(
-            f"| {cond_label} | **{stats.accuracy_micro:.1%}** | {stats.accuracy_macro_by_probe:.1%} | {kv_acc} | {src_acc} | {gs_acc} | {hop_acc} | {stats.mean_prompt_tokens:.1f} tok | {stats.mean_amortized_prompt_tokens:.1f} tok | {stats.mean_latency_ms:.1f} ms |"
+            f"| {cond_label} | **{stats.accuracy_micro:.1%}** | {stats.accuracy_macro_by_probe:.1%} | {kv_acc} | {src_acc} | {gs_acc} | {hop_acc} | {stats.mean_prompt_tokens:.1f} tok | {stats.mean_amortized_prompt_tokens:.1f} tok | {stats.mean_latency_ms:.1f} ms | {stats.mean_amortized_latency_ms:.1f} ms |"
         )
 
     lines.extend([
@@ -116,14 +116,24 @@ def generate_e05_markdown_report(
         f"",
         f"## 2. Causal Estimand Contrasts & Statistical Inference",
         f"",
-        f"Episode-clustered paired bootstrap 95% confidence intervals (B=2,000), exact two-sided binomial McNemar tests, and sign-flip permutation tests:",
+        f"Episode-clustered paired bootstrap 95% confidence intervals (B=2,000), exact two-sided binomial McNemar tests, and episode-level sign-flip permutation tests (Primary Inferential Decision):",
         f"",
         f"| Causal Contrast | Contrast Definition | $\\Delta$ Accuracy | 95% Bootstrap CI | Discordance ($b / c$) | Exact McNemar $p$ | Permutation $p$ (Method) | Scientific Inference |",
         f"| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :--- |",
     ])
 
     for name, est in analysis.causal_estimands.items():
-        sig_str = "Statistically Significant" if est.is_statistically_distinguishable else "Null / Indistinguishable"
+        if name == "Delta_schedule":
+            inference_desc = "**Null / Architectural Invariant Verified**"
+        elif name == "Delta_reconstruction":
+            inference_desc = "**Statistically Significant (Reconstruction Bottleneck)**"
+        elif name == "Delta_online-direct":
+            inference_desc = "**No Resolved Pooled Difference**"
+        elif name == "Delta_representation":
+            inference_desc = "**Transcript-favoring point estimate with conflicting inferential evidence; not resolved by primary permutation test**"
+        else:
+            inference_desc = "**Statistically Significant**" if est.is_statistically_distinguishable else "**No Resolved Difference**"
+
         desc = {
             "Delta_online-direct": "Online State vs Raw Transcript",
             "Delta_reconstruction": "Online State vs Model Recon State",
@@ -132,7 +142,7 @@ def generate_e05_markdown_report(
         }.get(name, name)
 
         lines.append(
-            f"| **`{name}`** | {desc} | **{est.delta_accuracy:+.1%}** | [{est.ci_lower_95:+.1%}, {est.ci_upper_95:+.1%}] | {est.discordance_b} / {est.discordance_c} | {est.exact_mcnemar_p_value:.4f} | {est.permutation_p_value:.4f} (`{est.permutation_method}`) | **{sig_str}** |"
+            f"| **`{name}`** | {desc} | **{est.delta_accuracy:+.1%}** | [{est.ci_lower_95:+.1%}, {est.ci_upper_95:+.1%}] | {est.discordance_b} / {est.discordance_c} | {est.exact_mcnemar_p_value:.4f} | {est.permutation_p_value:.4f} (`{est.permutation_method}`) | {inference_desc} |"
         )
 
     lines.extend([
@@ -141,21 +151,22 @@ def generate_e05_markdown_report(
         f"",
         f"## 3. Horizon Breakdown & Scaling Analysis",
         f"",
-        f"| Horizon ($T$ ticks) | Incremental State | Replay Det State | Replay Transcript | Replay Model State | Fresh Floor | Incremental Prompt Tok | Transcript Prompt Tok | $\\Delta_{{\\text{{online-direct}}}}$ [95% CI] | Exact McNemar $p$ |",
-        f"| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |",
+        f"| Horizon ($T$ ticks) | Incremental State | Replay Det State | Replay Transcript | Replay Model State | Fresh Floor | Incremental Prompt Tok | Transcript Prompt Tok | $\\Delta_{{\\text{{online-direct}}}}$ [95% CI] | Exact McNemar $p$ | Permutation $p$ (Method) |",
+        f"| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |",
     ])
 
     for h, h_stats in sorted(analysis.horizon_breakdown.items()):
         hc = [c for c in analysis.horizon_contrasts if c.horizon_ticks == h]
         hc_str = f"{hc[0].delta_accuracy:+.1%} [{hc[0].ci_lower_95:+.1%}, {hc[0].ci_upper_95:+.1%}]" if hc else "N/A"
         hc_p = f"{hc[0].exact_mcnemar_p_value:.4f}" if hc else "N/A"
+        hc_perm = f"{hc[0].permutation_p_value:.4f} (`{hc[0].permutation_method}`)" if hc else "N/A"
         
         df_h = raw_df[raw_df["horizon_ticks"] == h]
         p_inc_h = df_h[df_h["condition"] == "incremental_state"]["prompt_tokens"].mean()
         p_rep_h = df_h[df_h["condition"] == "replay_transcript"]["prompt_tokens"].mean()
 
         lines.append(
-            f"| **$T={h}$ ticks** | {h_stats.get('incremental_state', 0.0):.1%} | {h_stats.get('replay_state_deterministic', 0.0):.1%} | {h_stats.get('replay_transcript', 0.0):.1%} | {h_stats.get('replay_state_model', 0.0):.1%} | {h_stats.get('fresh', 0.0):.1%} | {p_inc_h:.1f} tok | {p_rep_h:.1f} tok | {hc_str} | {hc_p} |"
+            f"| **$T={h}$ ticks** | {h_stats.get('incremental_state', 0.0):.1%} | {h_stats.get('replay_state_deterministic', 0.0):.1%} | {h_stats.get('replay_transcript', 0.0):.1%} | {h_stats.get('replay_state_model', 0.0):.1%} | {h_stats.get('fresh', 0.0):.1%} | {p_inc_h:.1f} tok | {p_rep_h:.1f} tok | {hc_str} | {hc_p} | {hc_perm} |"
         )
 
     fidelities = [ep.get("model_reconstruction_fidelity") for ep in episode_manifests if ep.get("model_reconstruction_fidelity")]
