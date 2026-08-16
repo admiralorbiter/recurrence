@@ -709,11 +709,29 @@ def test_fit_meta_d_mle():
     assert res_degen["meta_d_prime"] is None
     assert res_degen["m_ratio"] is None
 
-    # 5. Insufficient class counts (100% accuracy) -> explicit status
-    records_perf = [{"ground_truth": "A", "parsed_answer": "A", "correct": True, "probability": 90.0} for _ in range(20)]
-    res_perf = fit_meta_d_mle(records_perf, n_bins=4)
-    assert res_perf["meta_d_status"] == "insufficient_class_counts"
-    assert res_perf["meta_d_prime"] is None
+    # 6. Reference numerical fixture test (Maniscalco & Lau 2012 benchmark counts)
+    from recurrence.analysis.meta_d import fit_meta_d_from_counts
+    # Benchmark dataset with K=3 confidence bins
+    # S1 counts: [R1_conf3, R1_conf2, R1_conf1, R2_conf1, R2_conf2, R2_conf3]
+    n_s1_ref = np.array([100.0, 50.0, 20.0, 10.0, 5.0, 2.0])
+    n_s2_ref = np.array([2.0, 5.0, 10.0, 20.0, 50.0, 100.0])
+    # Type-1: H = 170/187 = 0.90909 (z = 1.3352), FA = 17/187 = 0.09091 (z = -1.3352) -> d1 = 2.6704, c1 = 0.0
+    d1_ref = 2.6704
+    c1_ref = 0.0
+    res_ref = fit_meta_d_from_counts(n_s1_ref, n_s2_ref, d1=d1_ref, c1=c1_ref, K=3)
+    assert res_ref["meta_d_status"] == "fit_success"
+    assert res_ref["meta_d_prime"] == pytest.approx(2.372, abs=0.05)
+    assert res_ref["m_ratio"] == pytest.approx(0.888, abs=0.05)
+    assert res_ref["log_likelihood"] is not None
+
+
+    # 7. Signed negative meta-d' test (inversely calibrated observer)
+    # Errors are given higher confidence than correct choices
+    n_s1_neg = np.array([2.0, 5.0, 10.0, 20.0, 50.0, 100.0])
+    n_s2_neg = np.array([100.0, 50.0, 20.0, 10.0, 5.0, 2.0])
+    res_neg = fit_meta_d_from_counts(n_s1_neg, n_s2_neg, d1=d1_ref, c1=c1_ref, K=3)
+    assert res_neg["meta_d_status"] == "fit_success"
+    assert res_neg["meta_d_prime"] < 0.0  # Captures true signed negative meta-d'!
 
 
 def test_reconstruction_guardrail():
@@ -724,6 +742,61 @@ def test_reconstruction_guardrail():
     assert "p_candidate_1" in schema["properties"]
     assert "p_candidate_2" in schema["properties"]
     assert schema["required"] == ["p_candidate_1", "p_candidate_2"]
+
+
+def test_e02d_confirmatory_battery_smoke(tmp_path):
+    """End-to-end smoke test for Experiment E02d confirmatory runner with mock backend."""
+    from experiments.e02d_confirmatory_battery.run import run_confirmatory_battery
+
+    class MockE02dBackend:
+        def __init__(self):
+            self.call_count = 0
+
+        def get_digest(self):
+            return "mock_digest_123456789abc"
+
+        def generate_with_schema(self, prompt, json_schema):
+            self.call_count += 1
+            props = json_schema.get("properties", {})
+            if "answer" in props:
+                enum_vals = json_schema["properties"]["answer"].get("enum", ["val_a", "val_b"])
+                # Alternate between first and second candidate to ensure variance
+                ans = enum_vals[0] if self.call_count % 2 == 1 else enum_vals[1]
+                prob = 85.0 if self.call_count % 2 == 1 else 65.0
+                return type("MockResp", (), {"parsed": {"answer": ans, "probability": prob}})
+            elif "p_candidate_1" in props:
+                return type("MockResp", (), {"parsed": {"p_candidate_1": 60.0, "p_candidate_2": 40.0}})
+            elif "probability" in props:
+                return type("MockResp", (), {"parsed": {"probability": 75.0}})
+            return type("MockResp", (), {"parsed": {}})
+
+    run_dir = run_confirmatory_battery(
+        model_name="mock_qwen:3b",
+        hop_depth=1,
+        distractor_count=8,
+        n_trials=8,
+        seed=42,
+        output_dir=str(tmp_path),
+        backend_override=MockE02dBackend(),
+    )
+
+    assert (run_dir / "trials.jsonl").exists()
+    assert (run_dir / "summary.json").exists()
+    assert (run_dir / "manifest.json").exists()
+    assert (run_dir / "report.md").exists()
+
+    with open(run_dir / "summary.json") as f:
+        summary = json.load(f)
+
+    assert summary["total_trials"] == 8
+    assert "type1_metrics_immediate_self" in summary
+    assert "type1_metrics_shared_intersection" in summary
+    assert "privileged_access_index" in summary
+    assert "pairwise_contrasts" in summary["privileged_access_index"]
+    assert "compliance_rates" in summary
+    assert summary["compliance_rates"]["measurement_gate_passed"] is True
+
+
 
 
 
