@@ -1,0 +1,25 @@
+{
+  "experiment_id": "e02d.1_repaired_observers",
+  "run_id": "run_e02d1_repaired_qwen2_5_14b_20260816_133242",
+  "seed": 1000,
+  "model_tag": "qwen2.5:14b",
+  "model_digest": "7cdf5a0187d5c58cc5d369b255592f7841d1c4696d45a8c8a9489440385b22f6",
+  "hardware": {
+    "pytorch_version": "2.5.1+cu121",
+    "cuda_available": true,
+    "device_name": "NVIDIA GeForce RTX 3060",
+    "python_version": "3.12.0",
+    "os_platform": "Windows-11",
+    "git_commit": "037b3a4523ded3a47c31ac798956e08cb8659718"
+  },
+  "parameters": {
+    "hop_depth": 3,
+    "distractor_count": 16,
+    "total_trials": 200,
+    "valid_trials": 199,
+    "frozen_source": "results/e02d_confirmatory_battery/run_e02d_qwen2_5_14b_20260816_093151/trials.jsonl",
+    "temperature": 0.0,
+    "measurement_gate_passed": true
+  },
+  "environment_hash": "53a79b2fb335516bb4df6e430ed0d29c694f3909430285f79263f08a580cd29c"
+}

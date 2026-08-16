@@ -1,0 +1,146 @@
+{
+  "run_id": "run_e02d1_repaired_qwen2_5_14b_20260816_133242",
+  "experiment": "e02d.1_frozen_target_observer_repair",
+  "model_name": "qwen2.5:14b",
+  "model_digest": "7cdf5a0187d5c58cc5d369b255592f7841d1c4696d45a8c8a9489440385b22f6",
+  "hop_depth": 3,
+  "distractor_count": 16,
+  "total_trials": 200,
+  "frozen_trials_source": "results/e02d_confirmatory_battery/run_e02d_qwen2_5_14b_20260816_093151/trials.jsonl",
+  "valid_immediate_self_trials": 200,
+  "valid_shared_intersection_trials": 199,
+  "compliance_rates": {
+    "self": 1.0,
+    "input_only": 1.0,
+    "visible_answer": 0.995,
+    "reconstruction": 1.0,
+    "minimum_compliance_rate": 0.995,
+    "measurement_gate_passed": true
+  },
+  "type1_metrics_immediate_self": {
+    "accuracy": 0.635,
+    "accuracy_ci": [
+      0.566317026527406,
+      0.698594735350732
+    ],
+    "sdt_d_prime": 0.6903926597127029,
+    "sdt_d_prime_ci": [
+      0.3496640665849794,
+      1.0687691838149815
+    ],
+    "sdt_criterion_c": -0.14532876542441137,
+    "sdt_criterion_c_ci": [
+      -0.3192696957301404,
+      0.02789445250749047
+    ]
+  },
+  "type1_metrics_shared_intersection": {
+    "accuracy": 0.6331658291457286,
+    "accuracy_ci": [
+      0.564273096266506,
+      0.6970147110098676
+    ],
+    "sdt_d_prime": 0.6815944140166705,
+    "sdt_d_prime_ci": [
+      0.32215212131969284,
+      1.0838613039469882
+    ],
+    "sdt_criterion_c": -0.14092964257639518,
+    "sdt_criterion_c_ci": [
+      -0.3213546268158005,
+      0.03097714166743815
+    ]
+  },
+  "descriptive_self_all_trials": {
+    "meta_d_status": "confidence_degenerate",
+    "auroc2": 0.5,
+    "meta_d_prime": null,
+    "m_ratio": null,
+    "brier_score": 0.365,
+    "unique_confidence_levels": 1,
+    "mean_confidence": 100.0
+  },
+  "type2_metrics_shared_intersection": {
+    "self": {
+      "meta_d_status": "confidence_degenerate",
+      "auroc2": 0.5,
+      "meta_d_prime": null,
+      "m_ratio": null,
+      "brier_score": 0.36683417085427134,
+      "unique_confidence_levels": 1,
+      "mean_confidence": 100.0
+    },
+    "input_only": {
+      "meta_d_status": "eligible_for_fit",
+      "auroc2": 0.5313111545988258,
+      "meta_d_prime": null,
+      "m_ratio": null,
+      "brier_score": 0.268643216080402,
+      "unique_confidence_levels": 5,
+      "mean_confidence": 49.64824120603015,
+      "mean_conf_correct": 50.15873015873016,
+      "mean_conf_incorrect": 48.76712328767123,
+      "confidence_separation": 1.3916068710589258
+    },
+    "visible_answer": {
+      "meta_d_status": "eligible_for_fit",
+      "auroc2": 0.5762665796912372,
+      "meta_d_prime": null,
+      "m_ratio": null,
+      "brier_score": 0.3206030150753769,
+      "unique_confidence_levels": 9,
+      "mean_confidence": 80.50251256281408,
+      "mean_conf_correct": 81.98412698412699,
+      "mean_conf_incorrect": 77.94520547945206,
+      "confidence_separation": 4.038921504674931
+    },
+    "reconstruction": {
+      "meta_d_status": "eligible_for_fit",
+      "auroc2": 0.455805609915199,
+      "meta_d_prime": null,
+      "m_ratio": null,
+      "brier_score": 0.44351758793969853,
+      "unique_confidence_levels": 7,
+      "mean_confidence": 75.37688442211055,
+      "mean_conf_correct": 72.85714285714286,
+      "mean_conf_incorrect": 79.72602739726027,
+      "confidence_separation": -6.868884540117406
+    }
+  },
+  "privileged_access_index": {
+    "point_estimate": -0.07626657969123718,
+    "bootstrap_95_ci": [
+      -0.15373586649271584,
+      -0.016033376821048082
+    ],
+    "max_external_auroc": 0.5762665796912372,
+    "prespecified_sesoi_passed": false,
+    "historical_sesoi_010_passed": false,
+    "pairwise_contrasts": {
+      "self_minus_input_only": {
+        "point_estimate": -0.03131115459882583,
+        "mean_bootstrap": -0.03222871819960862,
+        "bootstrap_95_ci": [
+          -0.10752745161991734,
+          0.05170145683844312
+        ]
+      },
+      "self_minus_visible_answer": {
+        "point_estimate": -0.07626657969123718,
+        "mean_bootstrap": -0.07660048380082626,
+        "bootstrap_95_ci": [
+          -0.15226136116547073,
+          -0.00027043922591872733
+        ]
+      },
+      "self_minus_reconstruction": {
+        "point_estimate": 0.04419439008480103,
+        "mean_bootstrap": 0.04335100021743858,
+        "bootstrap_95_ci": [
+          -0.02207001522070018,
+          0.10665769732550555
+        ]
+      }
+    }
+  }
+}
