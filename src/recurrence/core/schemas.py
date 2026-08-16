@@ -156,6 +156,9 @@ STATE_UPDATE_SCHEMA: Dict[str, Any] = {
     "additionalProperties": False,
 }
 
+# Schema for single-pass retrospective state reconstruction (Experiment E05d)
+STATE_RECONSTRUCTION_SCHEMA: Dict[str, Any] = STATE_UPDATE_SCHEMA
+
 STATE_DELTA_SCHEMA: Dict[str, Any] = {
     "type": "object",
     "properties": {
@@ -245,6 +248,3 @@ def make_2afc_direct_value_schema(val_a: str, val_b: str, ask_confidence: bool =
         "required": ["answer", "probability"],
         "additionalProperties": False,
     }
-
-
-

@@ -1,4 +1,4 @@
-"""Hardened execution harness for Sprint S06.1 Scheduled versus Replay Experiment (E05b).
+"""Hardened execution harness for Sprint S06.3 Scheduled versus Replay Experiment (E05d).
 
 Executes the 5 strictly controlled experimental conditions:
 1. incremental_state: Scheduled online deterministic state maintenance
@@ -12,17 +12,20 @@ Enforces:
 - hash(serialized_state_online) == hash(serialized_state_replay)
 - hash(full_final_probe_prompt_online) == hash(full_final_probe_prompt_replay)
 
-Separates one-time reconstruction costs and measures object-level state fidelity.
+Repairs reconstruction schema interface, separates one-time reconstruction costs, and measures object-level state fidelity.
 """
 
 from dataclasses import asdict, dataclass, field
 import hashlib
 import json
 import time
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Literal, Optional, Tuple
+from pydantic import BaseModel, Field
 
-from recurrence.core.schemas import TARGET_3AFC_SCHEMA, TARGET_4AFC_SCHEMA, STATE_UPDATE_SCHEMA
+from recurrence.core.schemas import TARGET_3AFC_SCHEMA, TARGET_4AFC_SCHEMA, STATE_RECONSTRUCTION_SCHEMA
 from recurrence.memory.schemas import (
+    EventSource,
+    GoalState,
     MemoryEvent,
     StructuredSelfState,
     StateCapacityConfig,
@@ -36,6 +39,40 @@ from recurrence.tasks.scheduled_replay import (
     ScheduledReplayEpisode,
     ScheduledReplayProbe,
 )
+
+
+class ReconstructedGoal(BaseModel):
+    """Pydantic model representing reconstructed goal without internal step metadata."""
+    goal_id: str
+    description: str
+    status: Literal["pending", "active", "completed", "suspended"] = "active"
+
+
+class ReconstructedSelfState(BaseModel):
+    """Pydantic model representing model-reconstructed cognitive state."""
+    working_memory: Dict[str, str] = Field(default_factory=dict)
+    goals: List[ReconstructedGoal] = Field(default_factory=list)
+    source_ledger: Dict[str, str] = Field(default_factory=dict)
+    unresolved_items: List[str] = Field(default_factory=list)
+
+    def to_structured_self_state(self, terminal_tick: int = 0) -> StructuredSelfState:
+        """Convert to canonical StructuredSelfState with populated timestamp fields."""
+        return StructuredSelfState(
+            working_memory=self.working_memory,
+            goals=[
+                GoalState(
+                    goal_id=g.goal_id,
+                    description=g.description,
+                    status=g.status,
+                    created_at_step=0,
+                    updated_at_step=terminal_tick,
+                )
+                for g in self.goals
+            ],
+            source_ledger=self.source_ledger,
+            unresolved_items=self.unresolved_items,
+            last_updated_step=terminal_tick,
+        )
 
 
 def canonical_state_hash(state: StructuredSelfState) -> str:
@@ -115,7 +152,6 @@ class ScheduledReplayHarness:
 
     def _build_state_text(self, state: StructuredSelfState) -> str:
         """Format structured state into clean, canonical JSON representation."""
-        # Use sort_keys=True for strict string reproducibility
         return f"=== CURRENT STRUCTURED STATE ===\n{json.dumps(state.model_dump(), indent=2, sort_keys=True)}"
 
     def _query_probe(
@@ -250,6 +286,8 @@ class ScheduledReplayHarness:
         recon_prompt_tok = 0
         recon_comp_tok = 0
         recon_lat_ms = 0.0
+        raw_recon_text = ""
+        recon_err = None
 
         if "replay_state_model" in eval_conditions:
             recon_prompt = (
@@ -261,24 +299,36 @@ class ScheduledReplayHarness:
             recon_start = time.perf_counter()
             try:
                 if hasattr(self.backend, "step"):
-                    raw_recon, _, meta_recon = self.backend.step(recon_prompt, format=STATE_UPDATE_SCHEMA)
+                    raw_recon_text, _, meta_recon = self.backend.step(recon_prompt, format=STATE_RECONSTRUCTION_SCHEMA)
                     recon_prompt_tok = meta_recon.get("prompt_eval_count", len(recon_prompt) // 4)
-                    recon_comp_tok = meta_recon.get("eval_count", len(raw_recon) // 4)
+                    recon_comp_tok = meta_recon.get("eval_count", len(raw_recon_text) // 4)
                 elif hasattr(self.backend, "generate"):
-                    resp_r = self.backend.generate(prompt=recon_prompt, schema=STATE_UPDATE_SCHEMA)
-                    raw_recon = resp_r.text
+                    resp_r = self.backend.generate(prompt=recon_prompt, schema=STATE_RECONSTRUCTION_SCHEMA)
+                    raw_recon_text = resp_r.text
                     recon_prompt_tok = getattr(resp_r, "prompt_tokens", len(recon_prompt) // 4)
-                    recon_comp_tok = getattr(resp_r, "completion_tokens", len(raw_recon) // 4)
+                    recon_comp_tok = getattr(resp_r, "completion_tokens", len(raw_recon_text) // 4)
                 else:
-                    raw_recon = json.dumps(online_state.model_dump())
+                    raw_recon_dict = {
+                        "working_memory": online_state.working_memory,
+                        "goals": [
+                            {"goal_id": g.goal_id, "description": g.description, "status": g.status}
+                            for g in online_state.goals
+                        ],
+                        "source_ledger": online_state.source_ledger,
+                        "unresolved_items": online_state.unresolved_items,
+                    }
+                    raw_recon_text = json.dumps(raw_recon_dict)
                     recon_prompt_tok = len(recon_prompt) // 4
-                    recon_comp_tok = len(raw_recon) // 4
+                    recon_comp_tok = len(raw_recon_text) // 4
 
                 recon_lat_ms = (time.perf_counter() - recon_start) * 1000.0
-                recon_data = json.loads(raw_recon)
-                model_recon_state = StructuredSelfState.model_validate(recon_data)
-            except Exception:
+                recon_data = json.loads(raw_recon_text)
+                reconstructed_self = ReconstructedSelfState.model_validate(recon_data)
+                model_recon_state = reconstructed_self.to_structured_self_state(terminal_tick=episode.total_ticks)
+                recon_valid = True
+            except Exception as e:
                 recon_valid = False
+                recon_err = str(e)
                 model_recon_state = StructuredSelfState()
 
             # Compute Direct Object-Level State Fidelity against Oracle
@@ -287,8 +337,8 @@ class ScheduledReplayHarness:
             wm_matches = sum(1 for k, v in oracle_wm.items() if recon_wm.get(k) == v)
             wm_retention = wm_matches / max(1, len(oracle_wm))
 
-            oracle_goals = {g.goal_id: (g.status.value if hasattr(g.status, "value") else str(g.status)) for g in online_state.goals}
-            recon_goals = {g.goal_id: (g.status.value if hasattr(g.status, "value") else str(g.status)) for g in model_recon_state.goals}
+            oracle_goals = {g.goal_id: g.status for g in online_state.goals}
+            recon_goals = {g.goal_id: g.status for g in model_recon_state.goals}
             goal_matches = sum(1 for gid, st in oracle_goals.items() if recon_goals.get(gid) == st)
             goal_match_rate = goal_matches / max(1, len(oracle_goals))
 
@@ -307,6 +357,9 @@ class ScheduledReplayHarness:
                 "goal_status_match_rate": goal_match_rate,
                 "source_ledger_accuracy": src_match_rate,
             }
+            episode_metadata["raw_reconstruction_text"] = raw_recon_text
+            episode_metadata["reconstruction_validation_error"] = recon_err
+            episode_metadata["reconstruction_valid"] = recon_valid
 
         num_probes = len(episode.probes)
         amort_recon_tok = recon_prompt_tok // max(1, num_probes)

@@ -1,4 +1,4 @@
-"""Hardened unit and integration tests for Sprint S06.2 (Experiment E05c: Scheduled versus Replay)."""
+"""Hardened unit and integration tests for Sprint S06.3 (Experiment E05d: Scheduled versus Replay)."""
 
 from pathlib import Path
 import re
@@ -16,6 +16,8 @@ from recurrence.tasks.scheduled_replay import (
     ScheduledReplayProbe,
 )
 from recurrence.loop.scheduled_experiment import (
+    ReconstructedGoal,
+    ReconstructedSelfState,
     ScheduledReplayHarness,
     canonical_state_hash,
 )
@@ -29,6 +31,30 @@ from experiments.e05_scheduled_vs_replay.run import (
     MockScheduledBackend,
     run_e05_experiment,
 )
+
+
+def test_reconstructed_self_state_validation():
+    """Verify ReconstructedSelfState parses goal schema without step timestamps and converts cleanly."""
+    recon_dict = {
+        "working_memory": {"key_topaz_canyon": "val_amber_spire"},
+        "goals": [
+            {"goal_id": "goal_primary", "description": "Execute diagnostic", "status": "active"},
+            {"goal_id": "goal_secondary", "description": "Calibrate matrix", "status": "pending"},
+        ],
+        "source_ledger": {"key_topaz_canyon": "environment"},
+        "unresolved_items": [],
+    }
+
+    recon_obj = ReconstructedSelfState.model_validate(recon_dict)
+    assert len(recon_obj.goals) == 2
+    assert recon_obj.goals[1].status == "pending"
+
+    st = recon_obj.to_structured_self_state(terminal_tick=25)
+    assert isinstance(st, StructuredSelfState)
+    assert st.last_updated_step == 25
+    assert len(st.goals) == 2
+    assert st.goals[0].created_at_step == 0
+    assert st.goals[0].updated_at_step == 25
 
 
 def test_canonical_state_hash_and_prompt_equality_invariant():
@@ -53,6 +79,23 @@ def test_canonical_state_hash_and_prompt_equality_invariant():
         assert t_inc.prompt_hash == t_rep.prompt_hash
 
 
+def test_reconstruction_validity_gate_passed():
+    """Verify that model reconstruction condition produces valid state without silent fallbacks."""
+    gen = ScheduledReplayGenerator(seed=42)
+    ep = gen.generate_episode(episode_idx=0, num_ticks=25)
+
+    backend = MockScheduledBackend()
+    harness = ScheduledReplayHarness(backend=backend)
+
+    trials, meta = harness.execute_episode(episode=ep)
+    assert meta["reconstruction_valid"] is True
+    assert meta["reconstruction_validation_error"] is None
+
+    recon_trials = [t for t in trials if t.condition == "replay_state_model"]
+    assert len(recon_trials) == 4
+    assert all(t.reconstruction_valid is True for t in recon_trials)
+
+
 def test_burst_vs_uniform_arrival_invariance():
     """Verify that event arrival timing with unchanged event order produces identical terminal state."""
     gen = ScheduledReplayGenerator(seed=100)
@@ -63,7 +106,6 @@ def test_burst_vs_uniform_arrival_invariance():
     hash_u = canonical_state_hash(ep_uniform.oracle_terminal_state)
     hash_b = canonical_state_hash(ep_burst.oracle_terminal_state)
 
-    # State hashes must be strictly identical
     assert hash_u == hash_b
     assert ep_uniform.oracle_terminal_state.working_memory == ep_burst.oracle_terminal_state.working_memory
 
@@ -75,7 +117,6 @@ def test_in_context_foils_for_kv_and_multihop():
     for ep_idx in range(12):
         ep = gen.generate_episode(episode_idx=ep_idx, num_ticks=25)
         
-        # Collect all values present in this episode's scheduled event stream
         episode_values = set()
         for ev in ep.scheduled_events:
             for v in ev.key_bindings.values():
@@ -85,7 +126,6 @@ def test_in_context_foils_for_kv_and_multihop():
 
         for p in ep.probes:
             if p.probe_type in ("delayed_kv", "multihop"):
-                # Every single candidate option must be in episode_values
                 for opt_letter, opt_val in p.options.items():
                     assert opt_val in episode_values, (
                         f"Foil value '{opt_val}' in probe {p.probe_id} was NOT present in episode context!"
@@ -173,13 +213,13 @@ def test_e05_runner_dry_run(tmp_path: Path):
         episodes_per_horizon=2,
         horizons=[10, 25],
         dry_run=True,
-        output_dir=tmp_path / "e05c_dryrun",
+        output_dir=tmp_path / "e05d_dryrun",
     )
 
     assert res["manifest"]["total_episodes"] == 4
     assert res["manifest"]["total_trials"] == 4 * 20  # 80 trials
-    assert (tmp_path / "e05c_dryrun" / "manifest.json").exists()
-    assert (tmp_path / "e05c_dryrun" / "summary.json").exists()
-    assert (tmp_path / "e05c_dryrun" / "trials.jsonl").exists()
-    assert (tmp_path / "e05c_dryrun" / "trials.parquet").exists()
-    assert (tmp_path / "e05c_dryrun" / "report.md").exists()
+    assert (tmp_path / "e05d_dryrun" / "manifest.json").exists()
+    assert (tmp_path / "e05d_dryrun" / "summary.json").exists()
+    assert (tmp_path / "e05d_dryrun" / "trials.jsonl").exists()
+    assert (tmp_path / "e05d_dryrun" / "trials.parquet").exists()
+    assert (tmp_path / "e05d_dryrun" / "report.md").exists()
