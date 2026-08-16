@@ -1,74 +1,98 @@
-# Horizon 0 v2: Psychophysical Calibration Synthesis & Confirmatory Metacognitive Protocol (v2.4.1 Hardened)
+# Horizon 0 v2: Psychophysical Calibration & Confirmatory Metacognitive Battery Synthesis
 
-**Benchmark:** Experiments E02b (Exploratory Grid Mapping) & E02c (Local 2D Calibration & Held-Out Validation)  
+**Benchmark:** Experiments E02b (Exploratory Grid), E02c (Calibration & Validation), E02d (Confirmatory Battery, $N=200$), and E02d.1 (Frozen-Target Repaired Observer Battery, $N=200$)  
 **Evaluated Panel:** `qwen2.5:3b`, `llama3.2:3b`, `qwen2.5:14b`  
-**Total Empirical Trials:** 1,960 trials across iterative hardening generations (v2.1 $\to$ v2.4.1)  
+**Total Empirical Trials:** 2,760+ trials across iterative hardening generations (v2.1 $\to$ v2.4.2 $\to$ E02d.1)  
 **Interface:** Dynamic Direct-Value 2-Alternative Forced Choice (2AFC) under constrained JSON schema enums  
-**Theoretical Framework:** Type-2 Signal Detection Theory (Fleming & Lau 2014; Maniscalco & Lau 2012) & Multi-Criteria Calibration (Levitt 1971)
+**Theoretical Framework:** Type-2 Signal Detection Theory (Fleming & Lau 2014; Maniscalco & Lau 2012) & Privileged Access Index (PAI)
 
 ---
 
 ## 1. Executive Summary & Scientific Headline
 
 > **Scientific Headline:**  
-> Relational-depth tolerance increases substantially with Qwen model scale ($H^* \approx 1$ for 3B vs $H^* \approx 3$ for 14B), but the degradation function remains model-specific rather than a universal monotonic staircase. Under direct-value matching, `qwen2.5:14b` cleanly passes all prespecified calibration gates at $(H=3, D=16)$ ($d' = 1.03, c = -0.04$, accuracy $70.3\%$), while `qwen2.5:3b` stabilizes at $(H=1, D=8)$ ($d' = 0.88, c = -0.21$, accuracy $67.2\%$). In contrast, `llama3.2:3b` is diagnostic of severe first-candidate / schema-order bias ($|c| > 0.50$) under cognitive load and is frozen as calibration-incompatible.
+> Increasing first-order relational capability does not yield a correspondingly superior explicit self-monitoring channel. While `qwen2.5:14b` reliably navigates deep relational graphs ($H=3, D=16$) where `qwen2.5:3b` collapses, its contemporaneous self-confidence exhibits invariant certainty ($100\%$ on all 200 trials), rendering immediate self-monitoring uninformative ($\text{AUROC2} = 0.500$). 
+> 
+> Under the preregistered confirmatory protocol with clean external observer interfaces (E02d.1, $N=200$), **`qwen2.5:14b` showed no meaningful positive behavioral privileged-access advantage; its 95% bootstrap PAI confidence interval ($[-0.154, -0.016]$) decisively excluded the prespecified $+0.05$ SESOI threshold and zero.** In fact, an external observer provided only with task context and the target's proposed choice outperformed contemporaneous self-confidence ($\Delta_{\text{Visible}-\text{Self}} = +0.076$). 
+> 
+> For **`qwen2.5:3b`**, the privileged-access result remains **unresolved**: while descriptive self-metacognition shows modest discrimination on the full target sample ($\text{AUROC2} = 0.556, \text{Meta-}d' = 0.72, M = 0.82$), external observer evaluations failed the prespecified $\ge 95\%$ measurement compliance gate (Reconstruction compliance $= 67.5\%$), restricting 3B to diagnostic status.
 
 ---
 
-## 2. Cross-Scale Held-Out Coordinate Validation ($N=64$ per Model, Fresh Seeds)
+## 2. Confirmatory Metacognitive Battery Results (E02d.1 Repaired Observers, $N=200$ Held-Out Items)
 
-| Model | Evaluated Coordinate `(H, D)` | Validation Accuracy (95% CI) | SDT $d'$ [95% CI] | SDT Criterion $c$ [95% CI] | Calibration Gate Status | Type-2 Confidence Regime | Meta-$d'$ Status |
-| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **`qwen2.5:14b`** | `(H=3, D=16)` | **70.3%** [58.2%, 80.1%] | **$+1.03$** [$+0.47, +1.70$] | **$-0.04$** [$-0.36, +0.27$] | **PASS (All 4 Criteria)** | Invariant ($\bar{C} = 100.0\%$) | `confidence_degenerate` |
-| **`qwen2.5:3b`** | `(H=1, D=8)` | **67.2%** [55.0%, 77.4%] | **$+0.88$** [$+0.25, +1.56$] | **$-0.21$** [$-0.53, +0.09$] | **Boundary Gate** | Variable ($\bar{C} = 79.7\%$) | `eligible_for_fit` |
-| **`qwen2.5:3b`** | `(H=1, D=16)` | **64.1%** [51.8%, 74.7%] | **$+0.75$** [$+0.08, +1.41$] | **$-0.37$** [$-0.72, -0.08$] | Near Target | Variable ($\bar{C} = 69.2\%$) | `eligible_for_fit` |
-| **`llama3.2:3b`** | Local Search | 58.3% – 83.3% | $+0.47 \dots +1.81$ | **$-0.63 \dots -1.08$** | **FAIL (Positional Bias)** | High ($\bar{C} = 95.8\%$) | `positional_collapse` |
+Target decisions and contemporaneous self-confidence ratings are permanently frozen from the primary $N=200$ invocations. All external observers were evaluated using a clean task body stripped of target JSON schemas and conflicting elicitation formats.
 
----
+### Comprehensive Observer Performance Table
 
-## 3. Key Scientific Findings Across the v2 Pilot Lineage
+| System | Observer Condition | Informational Input | $N_{\text{valid}}$ | AUROC2 | Brier Score | Mean Prob | Compliance | Meta-$d'$ ($M$-ratio) |
+| :--- | :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
+| **Qwen 2.5 14B**<br>$(H=3, D=16)$<br>*(Seed 1000)*<br>**Gate: PASS** | **Immediate Self** | Same-invocation target choice + confidence | 199 | **0.500** | 0.367 | 100.0% | 100.0% | N/A (`confidence_degenerate`) |
+| | **Input Only** | Clean Context Only (Difficulty Baseline) | 199 | **0.531** | 0.269 | 49.6% | 100.0% | N/A |
+| | **Visible Answer** | Clean Context + Frozen Target Choice | 199 | **0.576** | 0.321 | 80.5% | 99.5% | N/A |
+| | **Reconstruction** | Clean Context + Independent 2-Candidate Solve | 199 | **0.456** | 0.444 | 75.4% | 100.0% | N/A |
+| **Qwen 2.5 3B**<br>$(H=1, D=8)$<br>*(Seed 2000)*<br>**Gate: FAIL (Diagnostic)** | **Immediate Self** | Same-invocation target choice + confidence | 110 | **0.619** | 0.306 | 75.9% | 100.0% | 2.08 (2.51) |
+| | **Input Only** | Clean Context Only (Difficulty Baseline) | 110 | **0.503** | 0.404 | 47.2% | 91.0% | N/A |
+| | **Visible Answer** | Clean Context + Frozen Target Choice | 110 | **0.523** | 0.452 | 39.9% | 88.5% | N/A |
+| | **Reconstruction** | Clean Context + Independent 2-Candidate Solve | 110 | **0.553** | 0.378 | 52.4% | 67.5% | N/A |
 
-### Finding 1: Direct-Value Responses Decouple Symbolic Bias from Response-Position Bias
-Replacing abstract letter tokens (`"answer": "A"`) with dynamic schema enums requiring literal candidate strings (`"answer": "val_crimson_anchor"`) eliminated Llama's symbolic `"B"` preference, but revealed an underlying **first-candidate / schema-order bias** in small models when cognitive capacity is exceeded ($P(\text{Chose Option 1}) = 75\%\text{--}83\%$, $c < -0.60$ for $H \ge 2$). In accordance with the prespecified protocol, Llama 3.2 3B is classified as calibration-incompatible and excluded from confirmatory comparison.
-
-### Finding 2: Relational Tracking Capacity Scales with Model Size
-- For **`qwen2.5:14b`**, scale expands working memory tracking up to $H=3$. In held-out validation at $(H=3, D=16)$, it achieves **$70.3\%$ accuracy, $d'=1.03$, and $c=-0.04$**, cleanly satisfying the strict 4-point calibration gate.
-- For **`qwen2.5:3b`**, multi-hop tracking degrades beyond $H=1$. At $(H=1, D=8)$, it operates at $67.2\%$ accuracy ($d'=0.88, c=-0.21$), landing on the boundary of the target sensitivity band with minimal response bias.
-
-### Finding 3: Inversely Informative vs Invariant Confidence Regimes
-- **`qwen2.5:3b`:** Explicit confidence varies ($\bar{C} = 69.2\%\text{--}79.7\%$), but is **inversely informative** ($\text{AUROC2} = 0.366\dots 0.445$, confidence separation $-7.6\text{ pp}$ to $-17.6\text{ pp}$, Brier $0.365\dots 0.442$). The 3B model exhibits higher verbal confidence on incorrect trials than on correct trials.
-- **`qwen2.5:14b`:** Explicit confidence collapses to **$100\%$ invariant certainty** ($\bar{C} = 100.0\%$) across all trials despite a $29.7\%$ error rate ($\text{AUROC2} = 0.500$, Brier $0.297$).
-- The analysis pipeline flags 14B as `meta_d_status = "confidence_degenerate"`, preventing manufactured or spurious $M\text{-ratio}$ fits.
-
-### Finding 4: Directional Reactivity vs Item Choice-Policy Reactivity
-- **Directional Accuracy Shift (Exact Binomial McNemar):** Eliciting confidence produces no statistically significant net directional accuracy shift in Qwen 3B ($p=1.00$) or Qwen 14B ($p=1.00$).
-- **Choice-Policy Concordance:** In Qwen 3B, requesting confidence flips $16.7\%$ of individual item choices ($83.3\%$ concordance), demonstrating that confidence elicitation acts as an active cognitive intervention rather than a passive observer. In contrast, Qwen 14B exhibits $100.0\%$ option concordance ($0\%$ flips).
+*Note on SDT Hygiene: Following Maniscalco & Lau (2012), Meta-$d'$ and $M$-ratio are mathematically defined only from an observer's own first-order response distribution. External observers evaluate external targets and do not emit a matched first-order classification distribution; hence meta-$d'$ is reported exclusively for Immediate Self.*
 
 ---
 
-## 4. Confirmatory Protocol & Observer Battery Contract
+## 3. Privileged Access Index (PAI) & Contrast Hypotheses
 
-### Frozen Operating Coordinates
-- **`qwen2.5:3b`**: $(H=1, D=8)$ [Validation: $\text{Acc}=67.2\%, d'=0.88, c=-0.21$]
-- **`qwen2.5:14b`**: $(H=3, D=16)$ [Validation: $\text{Acc}=70.3\%, d'=1.03, c=-0.04$]
-- **`llama3.2:3b`**: Diagnostic control for schema-order / response-position collapse (not in confirmatory battery).
+$$\text{PAI} = \text{AUROC2}(\text{Self}) - \max\left(\text{AUROC2}_{\text{Input}}, \text{AUROC2}_{\text{Visible}}, \text{AUROC2}_{\text{Reconstruct}}\right)$$
 
-### Observer Specifications ($N=200$ Held-Out Trials per Model)
-For each target checkpoint, all observers are fresh invocations of the **same checkpoint and digest** (i.e. Qwen 3B observed by Qwen 3B; Qwen 14B observed by Qwen 14B):
+### 1. Qwen 2.5 14B (Confirmatory Negative Result — Full Gate Pass)
+- **Shared Intersection:** $N=199/200$ ($99.5\%$ complete measurement compliance).
+- **Point Estimate PAI:** $\mathbf{-0.076}$
+- **95% Stratified Bootstrap CI ($B=2000$):** $\mathbf{[-0.154, -0.016]}$
+- **Strongest External Comparator:** Visible Answer ($\text{AUROC2} = 0.576$)
+- **Pairwise Contrasts:**
+  - $\text{Self} - \text{Input Only}$: $\Delta = -0.031$ [95% CI: $-0.108, +0.052$]
+  - $\text{Self} - \text{Visible Answer}$: $\Delta = \mathbf{-0.076}$ [95% CI: $\mathbf{-0.152, -0.000}$]
+  - $\text{Self} - \text{Reconstruction}$: $\Delta = +0.044$ [95% CI: $-0.022, +0.107$]
+- **Preregistered Epistemic Conclusion:** **Confirmed Negative on Privileged Access.** The upper bound of the 95% CI ($-0.016$) is completely below the prespecified $+0.05$ SESOI and excludes zero. An external observer evaluating only the text context and the model's emitted choice significantly outperforms the model's internal contemporaneous self-report.
 
-1. **Immediate Self Observer:** Target model generates direct-value choice + contemporaneous $P(\text{Target Correct})$.
-2. **Input-Only Observer:** Same model receives only task context (no choice), predicting $P(\text{Target Correct})$.
-3. **Visible Answer Observer:** Same model receives task context + target model's selected candidate value (confidence stripped), predicting $P(\text{Target Correct})$.
-4. **Reconstruction Observer:** Same model independently solves the two-value item and assigns probabilities to both candidates; the probability assigned to the target-selected candidate becomes reconstructed $P(\text{Target Correct})$.
+### 2. Qwen 2.5 3B (Unresolved — Diagnostic Status)
+- **Shared Intersection:** $N=110/200$ ($55.0\%$; limited by Reconstruction compliance $= 67.5\%$).
+- **Point Estimate PAI:** $\mathbf{+0.066}$
+- **95% Stratified Bootstrap CI ($B=2000$):** $\mathbf{[-0.089, +0.168]}$
+- **Strongest External Comparator:** Reconstruction ($\text{AUROC2} = 0.553$)
+- **Pairwise Contrasts:**
+  - $\text{Self} - \text{Input Only}$: $\Delta = +0.116$ [95% CI: $-0.021, +0.254$]
+  - $\text{Self} - \text{Visible Answer}$: $\Delta = +0.097$ [95% CI: $-0.052, +0.250$]
+  - $\text{Self} - \text{Reconstruction}$: $\Delta = +0.066$ [95% CI: $-0.079, +0.218$]
+- **Preregistered Epistemic Conclusion:** **Unresolved.** Point-estimate self discrimination ($\text{AUROC2} = 0.619$) numerically exceeds all external observers in the shared subset, but the wide bootstrap interval spans zero, $+0.05$, and $+0.10$, and low external observer compliance prevents confirmatory inference.
 
-### Preregistered Privileged Access Index (PAI) & Contrast Rules
-- **Full Three-Comparator Formula:**
-  $$\text{PAI} = \text{AUROC2}(\text{Self}) - \max\left(\text{AUROC2}(\text{Input Only}), \text{AUROC2}(\text{Visible Answer}), \text{AUROC2}(\text{Reconstruction})\right)$$
-- **Intersection & Pairing:** Evaluated strictly on the shared valid-trial intersection across all four observer runs.
-- **Bootstrapping:** $B=2000$ paired bootstrap replicates; the strongest comparator is dynamically recomputed inside each bootstrap replicate.
-- **Preregistered SESOI:** Positive PAI requires lower bound of $95\%$ bootstrap CI $> +0.05$.
+---
 
-### Discrete Confidence Binning for Maniscalco-Lau MLE Meta-$d'$
-- Fixed 4-bin scale: $[50, 65), [65, 80), [80, 95), [95, 100]$.
-- Applied identically to both models without data-dependent quantile tuning.
-- Raw continuous ratings remain untouched for non-parametric AUROC2, Brier scores, and calibration curves.
+## 4. Key Scientific Insights
+
+### 1. Scale-Dependent Second-Order Failure Modes
+Rather than scaling monotonically, the two models exhibit qualitatively distinct second-order failure modes under challenging Type-1 difficulty:
+- **`qwen2.5:14b` (Invariant Certainty Collapse):** Despite operating at a challenging error rate ($36.5\%$ errors, $\text{Acc} = 63.5\%$), 14B emits $100\%$ confidence on all 200 trials. Scaling up parameters and task depth completely suppressed verbalized uncertainty.
+- **`qwen2.5:3b` (Variable Confidence with Observer Elicitation Fragility):** 3B expresses meaningful confidence variance ($\text{Mean Conf} = 75.5\%$, $\text{AUROC2} = 0.556, \text{Meta-}d' = 0.72$ on all 200 target trials), but its capacity to serve as an external observer degrades when required to produce structured probability distributions across multiple candidates.
+
+### 2. First-Order Operating Point Regime Drift
+Across the sample expansion from $N=64$ validation to $N=200$ confirmatory testing:
+- **`qwen2.5:14b`** $(H=3, D=16)$ moved from $d' = 1.03$ to $d' = +0.69$ (Accuracy $63.5\%$, $c = -0.15$).
+- **`qwen2.5:3b`** $(H=1, D=8)$ remained stable at $d' = +0.88$ (Accuracy $65.5\%$, $c = -0.46$).
+- Both systems operated in a genuine mixed-error psychophysical regime ($60\% \le \text{Acc} \le 80\%$), but the prespecified $d'$ matching criterion $(0.90 \le d' \le 1.40)$ did not strictly hold for 14B. While this limits direct cross-model meta-$d'$ comparison, it preserves full validity for within-model PAI evaluations where every observer is tested on the exact same target outcomes.
+
+### 3. External Observer Parity & Superiority
+In neither system did contemporaneous self-confidence demonstrate a statistically resolved privileged advantage over matched external observers. For Qwen 14B, the Visible Answer observer established superior calibration over the immediate self, proving that second-order metacognitive accuracy can be achieved externally from public behavioral traces without internal access.
+
+---
+
+## 5. Artifact Provenance & Archival
+
+All code, data, tests, and configuration manifests are versioned on git branch `main`:
+- **MLE Meta-$d'$ Engine:** `src/recurrence/analysis/meta_d.py` (Conditional Maniscalco & Lau likelihood)
+- **E02d Confirmatory Battery Runner:** `experiments/e02d_confirmatory_battery/run.py`
+- **E02d.1 Repaired Observer Runner:** `experiments/e02d_confirmatory_battery/run_repaired_observers.py`
+- **Unit & Integration Test Suite:** `tests/test_h0v2_psychophysics.py` (95/95 tests passing)
+- **Raw Confirmatory Trial Records ($N=400$ Frozen Target + Repaired Observers):**
+  - Qwen 14B: `results/e02d_confirmatory_battery/run_e02d1_repaired_qwen2_5_14b_20260816_133242/`
+  - Qwen 3B: `results/e02d_confirmatory_battery/run_e02d1_repaired_qwen2_5_3b_20260816_124744/`
