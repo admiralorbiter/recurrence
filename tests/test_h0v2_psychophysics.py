@@ -609,25 +609,61 @@ def test_compute_type2_sdt_metrics():
 
     # 1. Invariant confidence (e.g. 100% on all trials) -> confidence_degenerate
     recs_degen = [
-        {"correct": True, "probability": 1.0} for _ in range(15)
+        {"correct": True, "probability": 100.0} for _ in range(15)
     ] + [
-        {"correct": False, "probability": 1.0} for _ in range(5)
+        {"correct": False, "probability": 100.0} for _ in range(5)
     ]
     t2_degen = compute_type2_sdt_metrics(recs_degen)
     assert t2_degen["meta_d_status"] == "confidence_degenerate"
     assert t2_degen["auroc2"] == 0.50
     assert t2_degen["brier_score"] == pytest.approx(0.25)
+    assert t2_degen["meta_d_prime"] is None
+    assert t2_degen["m_ratio"] is None
 
-    # 2. Variable confidence with high metacognitive separation -> estimable
+    # 2. Variable confidence with high metacognitive separation -> eligible_for_fit
     recs_valid = [
-        {"correct": True, "probability": 0.90} for _ in range(15)
+        {"correct": True, "probability": 90.0} for _ in range(15)
     ] + [
-        {"correct": False, "probability": 0.30} for _ in range(5)
+        {"correct": False, "probability": 30.0} for _ in range(5)
     ]
     t2_valid = compute_type2_sdt_metrics(recs_valid)
-    assert t2_valid["meta_d_status"] == "estimable"
+    assert t2_valid["meta_d_status"] == "eligible_for_fit"
     assert t2_valid["auroc2"] == 1.0
-    assert t2_valid["confidence_separation"] == pytest.approx(0.60)
+    assert t2_valid["confidence_separation"] == pytest.approx(60.0)
+    assert t2_valid["meta_d_prime"] is None
+    assert t2_valid["m_ratio"] is None
+
+
+def test_fit_meta_d_mle():
+    """Verify Maniscalco & Lau (2012) Maximum Likelihood Estimation of meta-d'."""
+    from recurrence.analysis.meta_d import fit_meta_d_mle
+
+    # Create synthetic 2AFC dataset with clear sensitivity and confidence separation
+    records = []
+    # 20 Signal trials (Target=A):
+    # - 15 Hits: chose A with high conf (90)
+    # - 5 Misses: chose B with lower conf (60)
+    for _ in range(15):
+        records.append({"ground_truth": "A", "parsed_answer": "A", "correct": True, "probability": 90.0})
+    for _ in range(5):
+        records.append({"ground_truth": "A", "parsed_answer": "B", "correct": False, "probability": 60.0})
+
+    # 20 Noise trials (Target=B):
+    # - 15 Correct Rejections: chose B with high conf (90)
+    # - 5 False Alarms: chose A with lower conf (60)
+    for _ in range(15):
+        records.append({"ground_truth": "B", "parsed_answer": "B", "correct": True, "probability": 90.0})
+    for _ in range(5):
+        records.append({"ground_truth": "B", "parsed_answer": "A", "correct": False, "probability": 60.0})
+
+    res = fit_meta_d_mle(records, n_bins=4)
+    assert res["meta_d_status"] == "fit_success"
+    assert res["meta_d_prime"] is not None
+    assert res["meta_d_prime"] > 0.5
+    assert res["m_ratio"] is not None
+    assert res["type1_d_prime"] is not None
+    assert res["log_likelihood"] is not None
+
 
 
 

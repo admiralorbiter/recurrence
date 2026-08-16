@@ -150,8 +150,9 @@ def run_e02c_calibration(
         elif "llama" in model_name:
             cells = [(1, 16), (1, 32), (2, 4), (2, 8), (2, 16)]
         else:  # 3b default
-            cells = [(1, 8), (1, 16), (1, 32), (2, 4), (2, 8)]
+            cells = [(1, 8), (1, 12), (1, 16)]
         n_trials = trials_per_cell
+
 
     print(f"\n{'='*60}")
     print(f"EXPERIMENT E02c: LOCAL 2D CALIBRATION & VALIDATION")

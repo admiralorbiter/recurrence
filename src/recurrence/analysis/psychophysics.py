@@ -606,14 +606,19 @@ def evaluate_calibration_gate(
 
 def compute_type2_sdt_metrics(
     records: List[Dict[str, Any]],
+    fit_meta_d: bool = False,
+    n_bins: int = 4,
+    signal_target: str = "A",
 ) -> Dict[str, Any]:
-    """Compute Type-2 Signal Detection metrics (AUROC2, meta-d' proxy, Brier) with degenerate confidence detection.
+    """Compute Type-2 Signal Detection metrics (AUROC2, Brier, confidence separation) with degenerate confidence detection.
     
     Status Codes:
-    - 'estimable': Non-degenerate confidence variation across correct/incorrect items; Type-2 metrics estimable.
-    - 'confidence_degenerate': Invariant confidence ratings (e.g. 100% or 50% on all items); Type-2 criteria undefined.
+    - 'fit_success': Non-degenerate confidence; MLE meta-d' converged.
+    - 'eligible_for_fit': Non-degenerate confidence variation present; eligible for MLE meta-d' fitting.
+    - 'confidence_degenerate': Invariant confidence ratings (e.g. 100% on all items); Type-2 criteria undefined.
     - 'insufficient_class_counts': No errors (100% acc) or no correct trials (0% acc).
     - 'insufficient_data': Fewer than 5 valid trials.
+    - 'fit_failure': Numerical optimization failed to converge.
     """
     valid_recs = [r for r in records if r.get("probability") is not None and r.get("correct") is not None]
     if len(valid_recs) < 5:
@@ -626,12 +631,16 @@ def compute_type2_sdt_metrics(
             "unique_confidence_levels": 0,
         }
 
-    confidences = np.array([r["probability"] for r in valid_recs], dtype=float)
+    confidences = np.array([float(r["probability"]) for r in valid_recs], dtype=float)
     corrects = np.array([1 if r["correct"] else 0 for r in valid_recs], dtype=int)
     n_corr = int(np.sum(corrects))
     n_inc = len(corrects) - n_corr
 
-    brier = float(np.mean((confidences - corrects) ** 2))
+    # Probability scale adjustment for Brier (ensure 0..1 scale)
+    max_conf = float(np.nanmax(confidences)) if len(confidences) > 0 else 1.0
+    p_unit = (confidences / 100.0) if max_conf > 1.5 else confidences
+    brier = float(np.mean((p_unit - corrects) ** 2))
+
     unique_confs = np.unique(confidences)
     n_unique = len(unique_confs)
 
@@ -650,7 +659,7 @@ def compute_type2_sdt_metrics(
     if n_unique <= 1 or np.std(confidences) < 1e-4:
         return {
             "meta_d_status": "confidence_degenerate",
-            "auroc2": 0.50,  # Constant ranking yields chance AUROC2
+            "auroc2": 0.50,  # Invariant confidence yields chance AUROC2
             "meta_d_prime": None,
             "m_ratio": None,
             "brier_score": brier,
@@ -665,14 +674,11 @@ def compute_type2_sdt_metrics(
     ties = sum(0.5 for c in r_corr for i in r_inc if c == i)
     auroc2 = float((concordant + ties) / (n_corr * n_inc))
 
-    sdt_t1 = compute_sdt_indices(valid_recs)
-    d1 = sdt_t1.get("d_prime")
-
-    return {
-        "meta_d_status": "estimable",
+    res: Dict[str, Any] = {
+        "meta_d_status": "eligible_for_fit",
         "auroc2": auroc2,
-        "meta_d_prime": (d1 * auroc2 * 2.0) if d1 is not None else None,
-        "m_ratio": (auroc2 * 2.0) if (d1 and d1 > 0) else None,
+        "meta_d_prime": None,
+        "m_ratio": None,
         "brier_score": brier,
         "unique_confidence_levels": n_unique,
         "mean_confidence": float(np.mean(confidences)),
@@ -680,5 +686,16 @@ def compute_type2_sdt_metrics(
         "mean_conf_incorrect": float(np.mean(r_inc)),
         "confidence_separation": float(np.mean(r_corr) - np.mean(r_inc)),
     }
+
+    if fit_meta_d:
+        from recurrence.analysis.meta_d import fit_meta_d_mle
+        fit_res = fit_meta_d_mle(valid_recs, n_bins=n_bins, signal_target=signal_target)
+        res["meta_d_status"] = fit_res.get("meta_d_status", "fit_failure")
+        res["meta_d_prime"] = fit_res.get("meta_d_prime")
+        res["m_ratio"] = fit_res.get("m_ratio")
+        res["meta_criterion_c2"] = fit_res.get("meta_criterion_c2")
+
+    return res
+
 
 
