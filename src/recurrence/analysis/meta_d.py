@@ -20,8 +20,9 @@ from recurrence.analysis.psychophysics import compute_sdt_indices
 
 
 # Fixed preregistered confidence bin edges for probability ratings in [0, 100] or [0.0, 1.0]
-DEFAULT_CONFIDENCE_BINS_100 = [50.0, 65.0, 80.0, 95.0, 100.0]
-DEFAULT_CONFIDENCE_BINS_UNIT = [0.50, 0.65, 0.80, 0.95, 1.00]
+# 4 ordered categories: [0, 65), [65, 80), [80, 95), [95, 100]
+DEFAULT_CONFIDENCE_BINS_100 = [0.0, 65.0, 80.0, 95.0, 100.0]
+DEFAULT_CONFIDENCE_BINS_UNIT = [0.0, 0.65, 0.80, 0.95, 1.00]
 
 
 def discretize_confidence_ratings(
@@ -30,7 +31,7 @@ def discretize_confidence_ratings(
 ) -> np.ndarray:
     """Discretize continuous confidence / probability ratings into ordered integer bins (1..K).
     
-    Uses fixed, preregistered threshold binning rather than data-dependent quantiles.
+    Uses fixed, preregistered threshold binning covering the entire legal probability space [0, 100].
     """
     confs = np.asarray(confidences, dtype=float)
     max_val = np.nanmax(confs) if len(confs) > 0 else 1.0
@@ -40,10 +41,12 @@ def discretize_confidence_ratings(
     else:
         edges = bin_edges
 
-    # Assign each value into a bin 1..K
-    # np.digitize returns 1 for values between edges[0] and edges[1]
+    # Assign each value into a bin 1..K (np.digitize on inner thresholds)
+    # [0, 65) -> 1, [65, 80) -> 2, [80, 95) -> 3, [95, 100] -> 4
     bins = np.digitize(confs, edges[1:-1]) + 1
-    return bins
+    k_max = len(edges) - 1
+    return np.clip(bins, 1, k_max)
+
 
 
 def build_type2_contingency_table(

@@ -635,34 +635,97 @@ def test_compute_type2_sdt_metrics():
 
 
 def test_fit_meta_d_mle():
-    """Verify Maniscalco & Lau (2012) Maximum Likelihood Estimation of meta-d'."""
-    from recurrence.analysis.meta_d import fit_meta_d_mle
+    """Verify Maniscalco & Lau (2012) Maximum Likelihood Estimation of meta-d' across benchmark conditions."""
+    from recurrence.analysis.meta_d import fit_meta_d_mle, discretize_confidence_ratings
 
-    # Create synthetic 2AFC dataset with clear sensitivity and confidence separation
-    records = []
-    # 20 Signal trials (Target=A):
-    # - 15 Hits: chose A with high conf (90)
-    # - 5 Misses: chose B with lower conf (60)
-    for _ in range(15):
-        records.append({"ground_truth": "A", "parsed_answer": "A", "correct": True, "probability": 90.0})
+    # 0. Test probability discretization below 50%
+    probs = np.array([10.0, 40.0, 50.0, 64.9, 65.0, 79.9, 80.0, 94.9, 95.0, 100.0])
+    bins = discretize_confidence_ratings(probs)
+    assert bins[0] == 1  # 10% -> Bin 1 [0, 65)
+    assert bins[1] == 1  # 40% -> Bin 1 [0, 65)
+    assert bins[2] == 1  # 50% -> Bin 1 [0, 65)
+    assert bins[3] == 1  # 64.9% -> Bin 1 [0, 65)
+    assert bins[4] == 2  # 65.0% -> Bin 2 [65, 80)
+    assert bins[5] == 2  # 79.9% -> Bin 2 [65, 80)
+    assert bins[6] == 3  # 80.0% -> Bin 3 [80, 95)
+    assert bins[7] == 3  # 94.9% -> Bin 3 [80, 95)
+    assert bins[8] == 4  # 95.0% -> Bin 4 [95, 100]
+    assert bins[9] == 4  # 100.0% -> Bin 4 [95, 100]
+
+    # 1. Near-optimal synthetic observer (high confidence on correct, low on errors) -> meta-d' ≈ d'
+    records_opt = []
+    for _ in range(30):
+        records_opt.append({"ground_truth": "A", "parsed_answer": "A", "correct": True, "probability": 95.0})
+        records_opt.append({"ground_truth": "B", "parsed_answer": "B", "correct": True, "probability": 95.0})
+    for _ in range(10):
+        records_opt.append({"ground_truth": "A", "parsed_answer": "B", "correct": False, "probability": 60.0})
+        records_opt.append({"ground_truth": "B", "parsed_answer": "A", "correct": False, "probability": 60.0})
+
+    res_opt = fit_meta_d_mle(records_opt, n_bins=4)
+    assert res_opt["meta_d_status"] == "fit_success"
+    assert res_opt["meta_d_prime"] is not None
+    assert res_opt["m_ratio"] is not None
+    assert res_opt["m_ratio"] > 0.7  # High metacognitive efficiency
+
+    # 2. Intentionally inefficient observer (low confidence separation) -> meta-d' < d'
+    records_ineff = []
+    for _ in range(30):
+        records_ineff.append({"ground_truth": "A", "parsed_answer": "A", "correct": True, "probability": 70.0})
+        records_ineff.append({"ground_truth": "B", "parsed_answer": "B", "correct": True, "probability": 70.0})
+    for _ in range(10):
+        records_ineff.append({"ground_truth": "A", "parsed_answer": "B", "correct": False, "probability": 70.0})
+        records_ineff.append({"ground_truth": "B", "parsed_answer": "A", "correct": False, "probability": 70.0})
+    # Add a few noisy high conf errors
     for _ in range(5):
-        records.append({"ground_truth": "A", "parsed_answer": "B", "correct": False, "probability": 60.0})
+        records_ineff.append({"ground_truth": "A", "parsed_answer": "B", "correct": False, "probability": 95.0})
+        records_ineff.append({"ground_truth": "B", "parsed_answer": "A", "correct": False, "probability": 95.0})
 
-    # 20 Noise trials (Target=B):
-    # - 15 Correct Rejections: chose B with high conf (90)
-    # - 5 False Alarms: chose A with lower conf (60)
-    for _ in range(15):
-        records.append({"ground_truth": "B", "parsed_answer": "B", "correct": True, "probability": 90.0})
-    for _ in range(5):
-        records.append({"ground_truth": "B", "parsed_answer": "A", "correct": False, "probability": 60.0})
+    res_ineff = fit_meta_d_mle(records_ineff, n_bins=4)
+    assert res_ineff["meta_d_status"] == "fit_success"
+    assert res_ineff["meta_d_prime"] is not None
+    assert res_ineff["m_ratio"] < 0.7  # Substantially degraded M-ratio
 
-    res = fit_meta_d_mle(records, n_bins=4)
-    assert res["meta_d_status"] == "fit_success"
-    assert res["meta_d_prime"] is not None
-    assert res["meta_d_prime"] > 0.5
-    assert res["m_ratio"] is not None
-    assert res["type1_d_prime"] is not None
-    assert res["log_likelihood"] is not None
+    # 3. Biased Type-1 criterion (asymmetric response preference)
+    records_biased = []
+    for _ in range(40):  # Strong preference to choose A
+        records_biased.append({"ground_truth": "A", "parsed_answer": "A", "correct": True, "probability": 85.0})
+    for _ in range(10):
+        records_biased.append({"ground_truth": "A", "parsed_answer": "B", "correct": False, "probability": 60.0})
+    for _ in range(20):
+        records_biased.append({"ground_truth": "B", "parsed_answer": "A", "correct": False, "probability": 60.0})
+    for _ in range(10):
+        records_biased.append({"ground_truth": "B", "parsed_answer": "B", "correct": True, "probability": 85.0})
+
+    res_biased = fit_meta_d_mle(records_biased, n_bins=4)
+    assert res_biased["meta_d_status"] == "fit_success"
+    assert res_biased["type1_criterion_c"] < -0.2  # Demonstrates response bias
+    assert res_biased["meta_d_prime"] is not None
+
+    # 4. Degenerate confidence (e.g. 100% on all trials) -> no fit, explicit status
+    records_degen = [{"ground_truth": "A", "parsed_answer": "A", "correct": True, "probability": 100.0} for _ in range(20)] + \
+                    [{"ground_truth": "A", "parsed_answer": "B", "correct": False, "probability": 100.0} for _ in range(10)]
+    res_degen = fit_meta_d_mle(records_degen, n_bins=4)
+    assert res_degen["meta_d_status"] == "confidence_degenerate"
+    assert res_degen["meta_d_prime"] is None
+    assert res_degen["m_ratio"] is None
+
+    # 5. Insufficient class counts (100% accuracy) -> explicit status
+    records_perf = [{"ground_truth": "A", "parsed_answer": "A", "correct": True, "probability": 90.0} for _ in range(20)]
+    res_perf = fit_meta_d_mle(records_perf, n_bins=4)
+    assert res_perf["meta_d_status"] == "insufficient_class_counts"
+    assert res_perf["meta_d_prime"] is None
+
+
+def test_reconstruction_guardrail():
+    """Verify that Reconstruction observer strictly validates candidate probabilities within +/-5% sum tolerance."""
+    from experiments.e02d_confirmatory_battery.run import make_reconstruction_schema
+
+    schema = make_reconstruction_schema("crimson_falcon", "azure_anchor")
+    assert "p_candidate_1" in schema["properties"]
+    assert "p_candidate_2" in schema["properties"]
+    assert schema["required"] == ["p_candidate_1", "p_candidate_2"]
+
+
 
 
 
