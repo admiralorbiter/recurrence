@@ -5,6 +5,7 @@ import shutil
 from pathlib import Path
 import pytest
 import numpy as np
+import pandas as pd
 
 from recurrence.tasks.adaptive_metacognition import (
     AdaptiveMetacognition2AFCTask,
@@ -795,6 +796,97 @@ def test_e02d_confirmatory_battery_smoke(tmp_path):
     assert "pairwise_contrasts" in summary["privileged_access_index"]
     assert "compliance_rates" in summary
     assert summary["compliance_rates"]["measurement_gate_passed"] is True
+
+
+def test_e02d1_repaired_observers_smoke(tmp_path):
+    """Smoke test for Experiment E02d.1 observer repair runner against mock frozen target data."""
+    from experiments.e02d_confirmatory_battery.run_repaired_observers import (
+        extract_clean_task_body,
+        run_e02d1_repaired_observers,
+    )
+
+    # 1. Test clean task body extraction
+    dirty_prompt = (
+        "Context Information:\n- node_a points to node_b\n\n"
+        "Question: Tracing all pointers starting from 'node_a', what is the terminal value reached?\n\n"
+        "Options:\nCandidate Values:\n- \"val_1\"\n- \"val_2\"\n\n"
+        "Respond strictly with a JSON object in this format with no other text:\n"
+        "{\n  \"answer\": \"val_1\"\n}"
+    )
+    clean = extract_clean_task_body(dirty_prompt)
+    assert "Respond strictly with a JSON object" not in clean
+    assert "Context Information:" in clean
+    assert "Candidate Values:" in clean
+
+    # 2. Create mock frozen trials file (8 trials)
+    import pandas as pd
+    from recurrence.tasks.adaptive_metacognition import AdaptiveMetacognition2AFCTask
+    task = AdaptiveMetacognition2AFCTask(task_family="multi_hop", ask_confidence=True, response_mode="direct_value")
+
+    items = task.generate_multi_hop_grid([(1, 8)], count_per_cell=8, base_seed=42)
+
+    frozen_trials = []
+    for idx, it in enumerate(items):
+        opt_map = it.metadata["option_map"]
+        ans = opt_map["A"] if idx % 2 == 0 else opt_map["B"]
+        corr = bool(ans == opt_map[it.ground_truth])
+        frozen_trials.append({
+            "trial_id": it.item_id,
+            "hop_depth": 1,
+            "distractor_count": 8,
+            "ground_truth_letter": it.ground_truth,
+            "ground_truth_value": opt_map[it.ground_truth],
+            "selected_value": ans,
+            "parsed_answer": "A" if ans == opt_map["A"] else "B",
+            "ground_truth": it.ground_truth,
+            "correct": corr,
+            "compliance_self": True,
+            "probability_self": 85.0 if corr else 50.0,
+            "latency_self": 0.5,
+        })
+    frozen_path = tmp_path / "mock_frozen_trials.jsonl"
+    pd.DataFrame(frozen_trials).to_json(frozen_path, orient="records", lines=True)
+
+    class MockRepairedBackend:
+        def __init__(self):
+            self.call_count = 0
+
+        def get_digest(self):
+            return "mock_digest_repaired_123"
+
+        def generate_with_schema(self, prompt, json_schema):
+            self.call_count += 1
+            props = json_schema.get("properties", {})
+            if "p_candidate_1" in props:
+                return type("MockResp", (), {"parsed": {"p_candidate_1": 60.0, "p_candidate_2": 40.0}})
+            elif "probability" in props:
+                return type("MockResp", (), {"parsed": {"probability": 70.0}})
+            return type("MockResp", (), {"parsed": {}})
+
+    run_dir = run_e02d1_repaired_observers(
+        model_name="mock_qwen:3b",
+        hop_depth=1,
+        distractor_count=8,
+        frozen_trials_path=str(frozen_path),
+        n_trials=8,
+        seed=42,
+        output_dir=str(tmp_path),
+        backend_override=MockRepairedBackend(),
+    )
+
+    assert (run_dir / "trials.jsonl").exists()
+    assert (run_dir / "summary.json").exists()
+    assert (run_dir / "manifest.json").exists()
+    assert (run_dir / "report.md").exists()
+
+    with open(run_dir / "summary.json") as f:
+        summary = json.load(f)
+
+    assert summary["total_trials"] == 8
+    assert summary["compliance_rates"]["measurement_gate_passed"] is True
+    assert "descriptive_self_all_trials" in summary
+    assert "type2_metrics_shared_intersection" in summary
+
 
 
 
