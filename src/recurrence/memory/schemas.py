@@ -60,6 +60,10 @@ class StructuredSelfState(BaseModel):
         default_factory=list,
         description="List of suspended or pending task IDs"
     )
+    derived_inferences: Dict[str, str] = Field(
+        default_factory=dict,
+        description="Consolidated multi-hop deductions and derived hypotheses"
+    )
     last_updated_step: int = 0
 
 

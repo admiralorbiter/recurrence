@@ -159,6 +159,42 @@ STATE_UPDATE_SCHEMA: Dict[str, Any] = {
 # Schema for single-pass retrospective state reconstruction (Experiment E05d)
 STATE_RECONSTRUCTION_SCHEMA: Dict[str, Any] = STATE_UPDATE_SCHEMA
 
+# Schema for selective null-interval reflection (Experiment E06 / Sprint S07)
+# Protected evidence (working_memory, source_ledger) is clamped; the model writes to derived channels
+STATE_SELECTIVE_REFLECTION_SCHEMA: Dict[str, Any] = {
+    "type": "object",
+    "properties": {
+        "derived_inferences": {
+            "type": "object",
+            "additionalProperties": {"type": "string"},
+            "description": "Derived deductions, multi-hop conclusions, or resolved entity relations",
+        },
+        "unresolved_items": {
+            "type": "array",
+            "items": {"type": "string"},
+            "description": "Items, keys, or hypotheses currently unresolved or in conflict",
+        },
+        "goal_status_updates": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "goal_id": {"type": "string"},
+                    "status": {
+                        "type": "string",
+                        "enum": ["pending", "active", "completed", "suspended"],
+                    },
+                },
+                "required": ["goal_id", "status"],
+                "additionalProperties": False,
+            },
+            "description": "Updated statuses for existing goals",
+        },
+    },
+    "required": ["derived_inferences", "unresolved_items", "goal_status_updates"],
+    "additionalProperties": False,
+}
+
 STATE_DELTA_SCHEMA: Dict[str, Any] = {
     "type": "object",
     "properties": {
