@@ -11,11 +11,11 @@
 ## 1. Executive Summary & Scientific Headline
 
 > **Scientific Headline:**  
-> Increasing first-order relational capability does not yield a correspondingly superior explicit self-monitoring channel. While `qwen2.5:14b` reliably navigates deep relational graphs ($H=3, D=16$) where `qwen2.5:3b` collapses, its contemporaneous self-confidence exhibits invariant certainty ($100\%$ on all 200 trials), rendering immediate self-monitoring uninformative ($\text{AUROC2} = 0.500$). 
+> Greater first-order capability did not produce a superior explicit self-monitoring channel in the H0-v2 mapping battery. While the `qwen2.5:14b` checkpoint sustained a usable mixed-error operating regime at greater relational depth ($H=3, D=16$) than `qwen2.5:3b` ($H=1, D=8$), its contemporaneous self-confidence exhibited invariant certainty ($100\%$ on all 200 trials), rendering immediate self-monitoring uninformative ($\text{AUROC2} = 0.500$).
 > 
-> Under the preregistered confirmatory protocol with clean external observer interfaces (E02d.1, $N=200$), **`qwen2.5:14b` showed no meaningful positive behavioral privileged-access advantage; its 95% bootstrap PAI confidence interval ($[-0.154, -0.016]$) decisively excluded the prespecified $+0.05$ SESOI threshold and zero.** In fact, an external observer provided only with task context and the target's proposed choice outperformed contemporaneous self-confidence ($\Delta_{\text{Visible}-\text{Self}} = +0.076$). 
+> Under the preregistered confirmatory protocol with clean external observer interfaces (E02d.1, $N=200$), **`qwen2.5:14b` showed no meaningful positive behavioral privileged-access advantage; its 95% bootstrap PAI confidence interval ($[-0.154, -0.016]$) decisively excluded the prespecified $+0.05$ SESOI threshold and zero.** A fresh same-checkpoint observer provided only with public task context and the frozen target choice discriminated target correctness better than the target's contemporaneous explicit confidence report ($\Delta_{\text{Visible}-\text{Self}} = +0.076$, 95% CI: $[+0.00027, +0.152]$).
 > 
-> For **`qwen2.5:3b`**, the privileged-access result remains **unresolved**: while descriptive self-metacognition shows modest discrimination on the full target sample ($\text{AUROC2} = 0.556, \text{Meta-}d' = 0.72, M = 0.82$), external observer evaluations failed the prespecified $\ge 95\%$ measurement compliance gate (Reconstruction compliance $= 67.5\%$), restricting 3B to diagnostic status.
+> For **`qwen2.5:3b`**, the privileged-access result remains **unresolved**: while canonical descriptive self-metacognition shows modest discrimination across all target trials ($\text{AUROC2} = 0.556, \text{Meta-}d' = 0.72, M = 0.82, N=200$), external observer evaluations failed the prespecified $\ge 95\%$ measurement compliance gate (Reconstruction compliance $= 67.5\%$), restricting 3B to diagnostic status.
 
 ---
 
@@ -25,18 +25,18 @@ Target decisions and contemporaneous self-confidence ratings are permanently fro
 
 ### Comprehensive Observer Performance Table
 
-| System | Observer Condition | Informational Input | $N_{\text{valid}}$ | AUROC2 | Brier Score | Mean Prob | Compliance | Meta-$d'$ ($M$-ratio) |
+| System | Observer Condition | Informational Input | PAI Intersection $N$ | AUROC2 | Brier Score | Mean Prob | Compliance | Canonical Meta-$d'$ ($M$-ratio) |
 | :--- | :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
 | **Qwen 2.5 14B**<br>$(H=3, D=16)$<br>*(Seed 1000)*<br>**Gate: PASS** | **Immediate Self** | Same-invocation target choice + confidence | 199 | **0.500** | 0.367 | 100.0% | 100.0% | N/A (`confidence_degenerate`) |
 | | **Input Only** | Clean Context Only (Difficulty Baseline) | 199 | **0.531** | 0.269 | 49.6% | 100.0% | N/A |
 | | **Visible Answer** | Clean Context + Frozen Target Choice | 199 | **0.576** | 0.321 | 80.5% | 99.5% | N/A |
 | | **Reconstruction** | Clean Context + Independent 2-Candidate Solve | 199 | **0.456** | 0.444 | 75.4% | 100.0% | N/A |
-| **Qwen 2.5 3B**<br>$(H=1, D=8)$<br>*(Seed 2000)*<br>**Gate: FAIL (Diagnostic)** | **Immediate Self** | Same-invocation target choice + confidence | 110 | **0.619** | 0.306 | 75.9% | 100.0% | 2.08 (2.51) |
+| **Qwen 2.5 3B**<br>$(H=1, D=8)$<br>*(Seed 2000)*<br>**Gate: FAIL (Diagnostic)** | **Immediate Self** | Same-invocation target choice + confidence | 110 | **0.619** | 0.306 | 75.9% | 100.0% | **0.72 (0.82)** *(All $N=200$)* |
 | | **Input Only** | Clean Context Only (Difficulty Baseline) | 110 | **0.503** | 0.404 | 47.2% | 91.0% | N/A |
 | | **Visible Answer** | Clean Context + Frozen Target Choice | 110 | **0.523** | 0.452 | 39.9% | 88.5% | N/A |
 | | **Reconstruction** | Clean Context + Independent 2-Candidate Solve | 110 | **0.553** | 0.378 | 52.4% | 67.5% | N/A |
 
-*Note on SDT Hygiene: Following Maniscalco & Lau (2012), Meta-$d'$ and $M$-ratio are mathematically defined only from an observer's own first-order response distribution. External observers evaluate external targets and do not emit a matched first-order classification distribution; hence meta-$d'$ is reported exclusively for Immediate Self.*
+*Note on SDT Hygiene: Following Maniscalco & Lau (2012), Meta-$d'$ and $M$-ratio are mathematically defined only from an observer's own first-order response distribution. External observers evaluate external targets and do not emit a matched first-order classification distribution; hence meta-$d'$ is reported exclusively for Immediate Self. For 3B, the canonical descriptive self estimate on all $N=200$ target trials ($\text{AUROC2}=0.556, \text{meta-}d'=0.72, M=0.82$) is reported rather than the selected 110-trial shared-intersection artifact.*
 
 ---
 
@@ -44,16 +44,16 @@ Target decisions and contemporaneous self-confidence ratings are permanently fro
 
 $$\text{PAI} = \text{AUROC2}(\text{Self}) - \max\left(\text{AUROC2}_{\text{Input}}, \text{AUROC2}_{\text{Visible}}, \text{AUROC2}_{\text{Reconstruct}}\right)$$
 
-### 1. Qwen 2.5 14B (Confirmatory Negative Result — Full Gate Pass)
+### 1. Qwen 2.5 14B (Confirmed Negative on Meaningful Positive Behavioral Privileged Access)
 - **Shared Intersection:** $N=199/200$ ($99.5\%$ complete measurement compliance).
 - **Point Estimate PAI:** $\mathbf{-0.076}$
 - **95% Stratified Bootstrap CI ($B=2000$):** $\mathbf{[-0.154, -0.016]}$
 - **Strongest External Comparator:** Visible Answer ($\text{AUROC2} = 0.576$)
 - **Pairwise Contrasts:**
   - $\text{Self} - \text{Input Only}$: $\Delta = -0.031$ [95% CI: $-0.108, +0.052$]
-  - $\text{Self} - \text{Visible Answer}$: $\Delta = \mathbf{-0.076}$ [95% CI: $\mathbf{-0.152, -0.000}$]
+  - $\text{Self} - \text{Visible Answer}$: $\Delta = \mathbf{-0.076}$ [95% CI: $\mathbf{-0.152, -0.00027}$]
   - $\text{Self} - \text{Reconstruction}$: $\Delta = +0.044$ [95% CI: $-0.022, +0.107$]
-- **Preregistered Epistemic Conclusion:** **Confirmed Negative on Privileged Access.** The upper bound of the 95% CI ($-0.016$) is completely below the prespecified $+0.05$ SESOI and excludes zero. An external observer evaluating only the text context and the model's emitted choice significantly outperforms the model's internal contemporaneous self-report.
+- **Preregistered Epistemic Conclusion:** **Confirmed Negative on Meaningful Positive Behavioral Privileged Access.** The upper bound of the 95% CI ($-0.016$) is strictly negative and completely below the prespecified $+0.05$ SESOI. A fresh same-checkpoint observer evaluating only the text context and the model's emitted choice significantly outperformed the model's contemporaneous explicit self-confidence report. This decisively excludes a meaningful positive behavioral privileged-access advantage through this explicit self-monitoring channel, while leaving open the question of latent/internal representations.
 
 ### 2. Qwen 2.5 3B (Unresolved — Diagnostic Status)
 - **Shared Intersection:** $N=110/200$ ($55.0\%$; limited by Reconstruction compliance $= 67.5\%$).
@@ -64,7 +64,7 @@ $$\text{PAI} = \text{AUROC2}(\text{Self}) - \max\left(\text{AUROC2}_{\text{Input
   - $\text{Self} - \text{Input Only}$: $\Delta = +0.116$ [95% CI: $-0.021, +0.254$]
   - $\text{Self} - \text{Visible Answer}$: $\Delta = +0.097$ [95% CI: $-0.052, +0.250$]
   - $\text{Self} - \text{Reconstruction}$: $\Delta = +0.066$ [95% CI: $-0.079, +0.218$]
-- **Preregistered Epistemic Conclusion:** **Unresolved.** Point-estimate self discrimination ($\text{AUROC2} = 0.619$) numerically exceeds all external observers in the shared subset, but the wide bootstrap interval spans zero, $+0.05$, and $+0.10$, and low external observer compliance prevents confirmatory inference.
+- **Preregistered Epistemic Conclusion:** **Unresolved.** While point-estimate self discrimination ($\text{AUROC2} = 0.619$) numerically exceeds all external observers in the shared subset, Self AUROC2 shifts from $0.556$ across all $200$ target trials to $0.619$ on the compliant $110$-trial intersection, demonstrating non-random selection shift. The wide bootstrap interval spans zero, $+0.05$, and $+0.10$, and low external observer compliance prevents confirmatory inference.
 
 ---
 
@@ -79,10 +79,10 @@ Rather than scaling monotonically, the two models exhibit qualitatively distinct
 Across the sample expansion from $N=64$ validation to $N=200$ confirmatory testing:
 - **`qwen2.5:14b`** $(H=3, D=16)$ moved from $d' = 1.03$ to $d' = +0.69$ (Accuracy $63.5\%$, $c = -0.15$).
 - **`qwen2.5:3b`** $(H=1, D=8)$ remained stable at $d' = +0.88$ (Accuracy $65.5\%$, $c = -0.46$).
-- Both systems operated in a genuine mixed-error psychophysical regime ($60\% \le \text{Acc} \le 80\%$), but the prespecified $d'$ matching criterion $(0.90 \le d' \le 1.40)$ did not strictly hold for 14B. While this limits direct cross-model meta-$d'$ comparison, it preserves full validity for within-model PAI evaluations where every observer is tested on the exact same target outcomes.
+- Both systems operated in frozen mixed-error operating regimes selected through the same calibration procedure ($60\% \le \text{Acc} \le 80\%$), but the prespecified $d'$ matching criterion $(0.90 \le d' \le 1.40)$ did not strictly hold for 14B. While this limits direct cross-model meta-$d'$ comparison, it preserves full validity for within-model PAI evaluations where every observer is tested on the exact same target outcomes.
 
 ### 3. External Observer Parity & Superiority
-In neither system did contemporaneous self-confidence demonstrate a statistically resolved privileged advantage over matched external observers. For Qwen 14B, the Visible Answer observer established superior calibration over the immediate self, proving that second-order metacognitive accuracy can be achieved externally from public behavioral traces without internal access.
+In neither system did contemporaneous self-confidence demonstrate a statistically resolved privileged advantage over matched external observers. For Qwen 14B, the Visible Answer observer established superior correctness discrimination over the immediate self ($\text{AUROC2} = 0.576$ vs $0.500$), proving that second-order metacognitive accuracy can be achieved externally from public behavioral traces without internal access.
 
 ---
 
