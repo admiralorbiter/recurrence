@@ -1,0 +1,33 @@
+{
+  "run_id": "run_e02c_local_search_20260816_040157",
+  "target_model": "llama3.2:3b",
+  "model_digest": "a80c4f17acd55265feec403c7aef86be0c25983ab279d83f3bcd3abbcb5b8b72",
+  "start_time": "2026-08-16T04:07:23.851923+00:00",
+  "mode": "local_search",
+  "cells_evaluated": [
+    [
+      1,
+      16
+    ],
+    [
+      1,
+      32
+    ],
+    [
+      2,
+      4
+    ],
+    [
+      2,
+      8
+    ],
+    [
+      2,
+      16
+    ]
+  ],
+  "trials_per_cell": 24,
+  "total_trials": 120,
+  "temperature": 0.0,
+  "seed": 400
+}

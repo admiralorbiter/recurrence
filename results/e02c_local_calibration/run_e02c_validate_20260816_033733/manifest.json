@@ -1,0 +1,17 @@
+{
+  "run_id": "run_e02c_validate_20260816_033733",
+  "target_model": "qwen2.5:3b",
+  "model_digest": "357c53fb659c5076de1d65ccb0b397446227b71a42be9d1603d46168015c9e4b",
+  "start_time": "2026-08-16T03:40:26.680752+00:00",
+  "mode": "validate",
+  "cells_evaluated": [
+    [
+      1,
+      16
+    ]
+  ],
+  "trials_per_cell": 64,
+  "total_trials": 64,
+  "temperature": 0.0,
+  "seed": 200
+}

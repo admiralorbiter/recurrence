@@ -1,0 +1,33 @@
+{
+  "run_id": "run_e02c_local_search_20260816_034035",
+  "target_model": "qwen2.5:14b",
+  "model_digest": "7cdf5a0187d5c58cc5d369b255592f7841d1c4696d45a8c8a9489440385b22f6",
+  "start_time": "2026-08-16T04:01:47.192040+00:00",
+  "mode": "local_search",
+  "cells_evaluated": [
+    [
+      2,
+      32
+    ],
+    [
+      2,
+      64
+    ],
+    [
+      3,
+      4
+    ],
+    [
+      3,
+      8
+    ],
+    [
+      3,
+      16
+    ]
+  ],
+  "trials_per_cell": 24,
+  "total_trials": 120,
+  "temperature": 0.0,
+  "seed": 300
+}
