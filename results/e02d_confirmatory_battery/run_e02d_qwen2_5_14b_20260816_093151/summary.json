@@ -1,0 +1,138 @@
+{
+  "run_id": "run_e02d_qwen2_5_14b_20260816_093151",
+  "model_name": "qwen2.5:14b",
+  "model_digest": "7cdf5a0187d5c58cc5d369b255592f7841d1c4696d45a8c8a9489440385b22f6",
+  "hop_depth": 3,
+  "distractor_count": 16,
+  "total_trials": 200,
+  "valid_immediate_self_trials": 200,
+  "valid_shared_intersection_trials": 200,
+  "compliance_rates": {
+    "self": 1.0,
+    "input_only": 1.0,
+    "visible_answer": 1.0,
+    "reconstruction": 1.0,
+    "minimum_compliance_rate": 1.0,
+    "measurement_gate_passed": true
+  },
+  "type1_metrics_immediate_self": {
+    "accuracy": 0.635,
+    "accuracy_ci": [
+      0.566317026527406,
+      0.698594735350732
+    ],
+    "sdt_d_prime": 0.6903926597127029,
+    "sdt_d_prime_ci": [
+      0.3496640665849794,
+      1.0687691838149815
+    ],
+    "sdt_criterion_c": -0.14532876542441137,
+    "sdt_criterion_c_ci": [
+      -0.3192696957301404,
+      0.02789445250749047
+    ]
+  },
+  "type1_metrics_shared_intersection": {
+    "accuracy": 0.635,
+    "accuracy_ci": [
+      0.566317026527406,
+      0.698594735350732
+    ],
+    "sdt_d_prime": 0.6903926597127029,
+    "sdt_d_prime_ci": [
+      0.3496640665849794,
+      1.0687691838149815
+    ],
+    "sdt_criterion_c": -0.14532876542441137,
+    "sdt_criterion_c_ci": [
+      -0.3192696957301404,
+      0.02789445250749047
+    ]
+  },
+  "type2_metrics": {
+    "self": {
+      "meta_d_status": "confidence_degenerate",
+      "auroc2": 0.5,
+      "meta_d_prime": null,
+      "m_ratio": null,
+      "brier_score": 0.365,
+      "unique_confidence_levels": 1,
+      "mean_confidence": 100.0
+    },
+    "input_only": {
+      "meta_d_status": "fit_success",
+      "auroc2": 0.4959011972818466,
+      "meta_d_prime": 0.20655796164953327,
+      "m_ratio": 0.299189104553182,
+      "brier_score": 0.23668749999999997,
+      "unique_confidence_levels": 4,
+      "mean_confidence": 69.075,
+      "mean_conf_correct": 69.76377952755905,
+      "mean_conf_incorrect": 67.87671232876713,
+      "confidence_separation": 1.8870671987919252,
+      "meta_criterion_c2": -0.04348078319314907
+    },
+    "visible_answer": {
+      "meta_d_status": "fit_success",
+      "auroc2": 0.4790206018768202,
+      "meta_d_prime": 1.2955556585573427,
+      "m_ratio": 1.8765490048756743,
+      "brier_score": 0.3545125,
+      "unique_confidence_levels": 4,
+      "mean_confidence": 86.975,
+      "mean_conf_correct": 85.8267716535433,
+      "mean_conf_incorrect": 88.97260273972603,
+      "confidence_separation": -3.1458310861827243,
+      "meta_criterion_c2": -0.2727165501369895
+    },
+    "reconstruction": {
+      "meta_d_status": "fit_success",
+      "auroc2": 0.45944342573616653,
+      "meta_d_prime": 1.3825188651151703,
+      "m_ratio": 2.0025109561426766,
+      "brier_score": 0.4656,
+      "unique_confidence_levels": 6,
+      "mean_confidence": 70.5,
+      "mean_conf_correct": 67.48031496062993,
+      "mean_conf_incorrect": 75.75342465753425,
+      "confidence_separation": -8.273109696904328,
+      "meta_criterion_c2": -0.29102244500507274
+    }
+  },
+  "privileged_access_index": {
+    "point_estimate": 0.004098802718153383,
+    "bootstrap_95_ci": [
+      -0.06725542012727861,
+      0.04331652464674785
+    ],
+    "max_external_auroc": 0.4959011972818466,
+    "prespecified_sesoi_passed": false,
+    "historical_sesoi_010_passed": false,
+    "pairwise_contrasts": {
+      "self_minus_input_only": {
+        "point_estimate": 0.004098802718153383,
+        "mean_bootstrap": 0.003556115845108402,
+        "bootstrap_95_ci": [
+          -0.06585319814475246,
+          0.07491910257793116
+        ]
+      },
+      "self_minus_visible_answer": {
+        "point_estimate": 0.020979398123179782,
+        "mean_bootstrap": 0.020151466939920183,
+        "bootstrap_95_ci": [
+          -0.04298484521626579,
+          0.08284839823104301
+        ]
+      },
+      "self_minus_reconstruction": {
+        "point_estimate": 0.04055657426383347,
+        "mean_bootstrap": 0.03927421529500593,
+        "bootstrap_95_ci": [
+          -0.032096052205803,
+          0.10770547945205475
+        ]
+      }
+    }
+  }
+}

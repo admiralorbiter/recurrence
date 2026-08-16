@@ -1,0 +1,24 @@
+{
+  "experiment_id": "e02d_confirmatory_battery",
+  "run_id": "run_e02d_qwen2_5_3b_20260816_104927",
+  "seed": 2000,
+  "model_tag": "qwen2.5:3b",
+  "model_digest": "357c53fb659c5076de1d65ccb0b397446227b71a42be9d1603d46168015c9e4b",
+  "hardware": {
+    "pytorch_version": "2.5.1+cu121",
+    "cuda_available": true,
+    "device_name": "NVIDIA GeForce RTX 3060",
+    "python_version": "3.12.0",
+    "os_platform": "Windows-11",
+    "git_commit": "e75a963defc6e323a55851cb73581f5b2103b626"
+  },
+  "parameters": {
+    "hop_depth": 1,
+    "distractor_count": 8,
+    "total_trials": 200,
+    "valid_trials": 150,
+    "temperature": 0.0,
+    "measurement_gate_passed": false
+  },
+  "environment_hash": "2a99d5c6d2072881b23f614f01ad93824032abea5f608e074fecf418a2226329"
+}

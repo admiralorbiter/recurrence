@@ -1,0 +1,142 @@
+{
+  "run_id": "run_e02d_qwen2_5_3b_20260816_104927",
+  "model_name": "qwen2.5:3b",
+  "model_digest": "357c53fb659c5076de1d65ccb0b397446227b71a42be9d1603d46168015c9e4b",
+  "hop_depth": 1,
+  "distractor_count": 8,
+  "total_trials": 200,
+  "valid_immediate_self_trials": 200,
+  "valid_shared_intersection_trials": 150,
+  "compliance_rates": {
+    "self": 1.0,
+    "input_only": 0.96,
+    "visible_answer": 0.995,
+    "reconstruction": 0.785,
+    "minimum_compliance_rate": 0.785,
+    "measurement_gate_passed": false
+  },
+  "type1_metrics_immediate_self": {
+    "accuracy": 0.655,
+    "accuracy_ci": [
+      0.5867558925905368,
+      0.7174020562325106
+    ],
+    "sdt_d_prime": 0.8785360108453987,
+    "sdt_d_prime_ci": [
+      0.511626037179282,
+      1.3059235502316513
+    ],
+    "sdt_criterion_c": -0.4640886554371432,
+    "sdt_criterion_c_ci": [
+      -0.6653761559152518,
+      -0.2905492028601413
+    ]
+  },
+  "type1_metrics_shared_intersection": {
+    "accuracy": 0.6533333333333333,
+    "accuracy_ci": [
+      0.5742042146686651,
+      0.7248049103917914
+    ],
+    "sdt_d_prime": 0.8782591869874609,
+    "sdt_d_prime_ci": [
+      0.5007660809807455,
+      1.382422564137356
+    ],
+    "sdt_criterion_c": -0.4073947957955711,
+    "sdt_criterion_c_ci": [
+      -0.6196115682228368,
+      -0.2104399353092649
+    ]
+  },
+  "type2_metrics": {
+    "self": {
+      "meta_d_status": "fit_success",
+      "auroc2": 0.5606357927786499,
+      "meta_d_prime": 1.8597595411619916,
+      "m_ratio": 2.1175520492318447,
+      "brier_score": 0.327608,
+      "unique_confidence_levels": 13,
+      "mean_confidence": 74.12,
+      "mean_conf_correct": 75.98979591836735,
+      "mean_conf_incorrect": 70.59615384615384,
+      "confidence_separation": 5.39364207221351,
+      "meta_criterion_c2": -0.8626796846833005
+    },
+    "input_only": {
+      "meta_d_status": "fit_success",
+      "auroc2": 0.5172684458398744,
+      "meta_d_prime": 0.0600872113854172,
+      "m_ratio": 0.06841626284778628,
+      "brier_score": 0.36642513499999996,
+      "unique_confidence_levels": 20,
+      "mean_confidence": 37.76833333333333,
+      "mean_conf_correct": 38.035714285714285,
+      "mean_conf_incorrect": 37.26442307692308,
+      "confidence_separation": 0.7712912087912045,
+      "meta_criterion_c2": -0.027872429431970006
+    },
+    "visible_answer": {
+      "meta_d_status": "fit_success",
+      "auroc2": 0.45005886970172687,
+      "meta_d_prime": 1.067266082223755,
+      "m_ratio": 1.2152062831071673,
+      "brier_score": 0.3966295933333333,
+      "unique_confidence_levels": 15,
+      "mean_confidence": 54.36866666666667,
+      "mean_conf_correct": 52.23265306122449,
+      "mean_conf_incorrect": 58.39423076923077,
+      "confidence_separation": -6.161577708006277,
+      "meta_criterion_c2": -0.49506871555593934
+    },
+    "reconstruction": {
+      "meta_d_status": "fit_success",
+      "auroc2": 0.5322802197802198,
+      "meta_d_prime": 0.2135200706488363,
+      "m_ratio": 0.24311737789073054,
+      "brier_score": 0.31428404833333334,
+      "unique_confidence_levels": 19,
+      "mean_confidence": 49.109,
+      "mean_conf_correct": 49.96173469387755,
+      "mean_conf_incorrect": 47.50192307692308,
+      "confidence_separation": 2.4598116169544753,
+      "meta_criterion_c2": -0.09904475452014885
+    }
+  },
+  "privileged_access_index": {
+    "point_estimate": 0.028355572998430167,
+    "bootstrap_95_ci": [
+      -0.10960066718995289,
+      0.12284635007849286
+    ],
+    "max_external_auroc": 0.5322802197802198,
+    "prespecified_sesoi_passed": false,
+    "historical_sesoi_010_passed": false,
+    "pairwise_contrasts": {
+      "self_minus_input_only": {
+        "point_estimate": 0.04336734693877553,
+        "mean_bootstrap": 0.041661253924646785,
+        "bootstrap_95_ci": [
+          -0.09501569858712716,
+          0.16997890502354762
+        ]
+      },
+      "self_minus_visible_answer": {
+        "point_estimate": 0.11057692307692307,
+        "mean_bootstrap": 0.11049700745682889,
+        "bootstrap_95_ci": [
+          -0.0036352040816326563,
+          0.21931662087912068
+        ]
+      },
+      "self_minus_reconstruction": {
+        "point_estimate": 0.028355572998430167,
+        "mean_bootstrap": 0.027045231554160123,
+        "bootstrap_95_ci": [
+          -0.09675480769230772,
+          0.1475740777080062
+        ]
+      }
+    }
+  }
+}
