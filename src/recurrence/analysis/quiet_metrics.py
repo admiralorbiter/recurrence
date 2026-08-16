@@ -1,13 +1,14 @@
-"""Statistical analysis, task-selective estimands, and exact permutation tests for Sprint S07 (Experiment E06).
+"""Statistical analysis, regime-specific estimands, and derived inference metrics for Sprint S07.1 (Experiment E06b).
 
 Computes:
-1. Delta_derivation-selective: multi-hop gain of selective reflection over strict identity
-2. Delta_derivation-nowrite: multi-hop gain of selective reflection over matched semantic compute without writing
-3. Delta_clock-cue: effect of elapsed time timestamp cues
-4. Delta_evidence-integrity: invariant retention of stable working memory bindings
-5. Delta_unconstrained-drift: performance decay under unconstrained state rewriting
-6. Delta_conflict-consolidation: resolution/consolidation accuracy on conflicting assertions
-7. Interval K breakdown (K in {0, 1, 3, 6, 12}) with exact cluster-level permutation tests
+1. Delta_derivation-available: Multi-hop gain when complete evidence was available pre-null
+2. Delta_derivation-missing: Multi-hop difference when evidence was incomplete pre-null (resistance to premature inference)
+3. Delta_derivability-interaction: (Delta_avail - Delta_missing) interaction contrast
+4. Delta_derivation-nowrite-avail: Persistent writing gain over matched active compute
+5. Delta_goal-consolidation: Goal verification gain across quiet intervals
+6. Delta_clock-cue: Sensitivity to elapsed timestamp cues
+7. Delta_evidence-integrity: Retention of unaffected working memory facts
+8. Derived-inference precision, recall, and hallucination rates from reflection traces
 """
 
 from collections import defaultdict
@@ -19,12 +20,12 @@ from typing import Any, Dict, List, Optional, Tuple
 import numpy as np
 import pandas as pd
 
-from recurrence.loop.quiet_experiment import QuietTrialResult
+from recurrence.loop.quiet_experiment import QuietTrialResult, ReflectionTickTrace
 
 
 @dataclass
 class QuietConditionStats:
-    """Performance and computational cost metrics for a specific experimental condition."""
+    """Performance and computational cost metrics for a specific experimental condition (pooled strictly over K > 0)."""
     condition: str
     total_trials: int
     correct_trials: int
@@ -40,7 +41,8 @@ class QuietConditionStats:
 class QuietCausalEstimandSummary:
     """Summary of a targeted causal contrast with cluster bootstrap CI and exact permutation tests."""
     contrast_name: str
-    target_probe_domain: str  # 'all', 'derivation_multihop', 'source_conflict', 'stable_kv'
+    target_probe_domain: str
+    regime: str  # 'available_inference', 'missing_premise_control', 'all'
     condition_a: str
     condition_b: str
     delta_accuracy: float
@@ -55,11 +57,25 @@ class QuietCausalEstimandSummary:
 
 
 @dataclass
+class DerivedInferenceMetrics:
+    """Mechanistic quality metrics for model-generated derived inferences."""
+    total_reflection_ticks: int
+    valid_schema_rate: float
+    inferences_written_available_regime: int
+    correct_inferences_available_regime: int
+    derived_precision_available: float
+    derived_recall_available: float
+    inferences_written_missing_regime: int
+    premature_hallucination_rate_missing: float
+
+
+@dataclass
 class IntervalContrastSummary:
     """Contrast summary evaluated specifically within a single quiet interval duration K."""
     interval_k: int
     contrast_name: str
     target_probe_domain: str
+    regime: str
     condition_a: str
     condition_b: str
     delta_accuracy: float
@@ -72,12 +88,14 @@ class IntervalContrastSummary:
 
 @dataclass
 class QuietIntervalAnalysisSummary:
-    """Comprehensive analysis summary for Experiment E06."""
+    """Comprehensive analysis summary for Experiment E06b."""
     total_episodes: int
     total_trials: int
     intervals_evaluated: List[int]
+    baseline_k0_accuracies: Dict[str, float]
     condition_stats: Dict[str, QuietConditionStats]
     causal_estimands: Dict[str, QuietCausalEstimandSummary]
+    derived_metrics: DerivedInferenceMetrics
     interval_breakdown: Dict[int, Dict[str, float]]
     interval_probe_breakdown: Dict[int, Dict[str, Dict[str, float]]]
     interval_contrasts: List[IntervalContrastSummary]
@@ -146,13 +164,19 @@ def compute_episode_clustered_bootstrap(
     cond_a: str,
     cond_b: str,
     probe_filter: Optional[str] = None,
+    regime_filter: Optional[str] = None,
     num_bootstrap: int = 2000,
     seed: int = 42,
 ) -> Tuple[float, float, float, List[float]]:
     """Compute episode-clustered paired bootstrap 95% CI for Delta = Acc_A - Acc_B."""
     rng = random.Random(seed)
     
-    df_sub = df if probe_filter is None else df[df["probe_type"] == probe_filter]
+    df_sub = df
+    if probe_filter is not None:
+        df_sub = df_sub[df_sub["probe_type"] == probe_filter]
+    if regime_filter is not None:
+        df_sub = df_sub[df_sub["regime"] == regime_filter]
+
     episodes = df_sub["episode_id"].unique()
     n_episodes = len(episodes)
     if n_episodes == 0:
@@ -187,22 +211,101 @@ def compute_episode_clustered_bootstrap(
     return float(point_delta), ci_lower, ci_upper, ep_diffs
 
 
+def compute_derived_inference_metrics(
+    reflection_traces: List[ReflectionTickTrace],
+    trials: List[QuietTrialResult],
+) -> DerivedInferenceMetrics:
+    """Analyze reflection traces to evaluate derivation precision, recall, and premature hallucination rate."""
+    if not reflection_traces:
+        return DerivedInferenceMetrics(
+            total_reflection_ticks=0,
+            valid_schema_rate=1.0,
+            inferences_written_available_regime=0,
+            correct_inferences_available_regime=0,
+            derived_precision_available=1.0,
+            derived_recall_available=1.0,
+            inferences_written_missing_regime=0,
+            premature_hallucination_rate_missing=0.0,
+        )
+
+    # Build ground-truth mapping for root_key -> terminal_val from trials
+    ep_truth: Dict[str, Tuple[str, str]] = {}
+    for t in trials:
+        if t.probe_type == "derivation_multihop":
+            ep_truth[t.episode_id] = (t.metadata.get("root_key", ""), t.metadata.get("terminal_val", ""))
+
+    sel_traces = [tr for tr in reflection_traces if tr.condition == "selective_reflection"]
+    total_ticks = len(sel_traces)
+    valid_schema_count = sum(1 for tr in sel_traces if tr.schema_valid)
+    valid_schema_rate = valid_schema_count / max(1, total_ticks)
+
+    avail_traces = [tr for tr in sel_traces if tr.regime == "available_inference"]
+    missing_traces = [tr for tr in sel_traces if tr.regime == "missing_premise_control"]
+
+    avail_inferences_total = 0
+    avail_inferences_correct = 0
+    episodes_with_correct_avail = set()
+    avail_episodes = set(tr.episode_id for tr in avail_traces)
+
+    for tr in avail_traces:
+        inferences = tr.parsed_write.get("derived_inferences", {})
+        root_k, term_v = ep_truth.get(tr.episode_id, ("", ""))
+        for k, v in inferences.items():
+            avail_inferences_total += 1
+            if k == root_k and v == term_v:
+                avail_inferences_correct += 1
+                episodes_with_correct_avail.add(tr.episode_id)
+
+    prec_avail = (avail_inferences_correct / max(1, avail_inferences_total)) if avail_inferences_total > 0 else 0.0
+    rec_avail = len(episodes_with_correct_avail) / max(1, len(avail_episodes))
+
+    missing_inferences_total = 0
+    for tr in missing_traces:
+        inferences = tr.parsed_write.get("derived_inferences", {})
+        root_k, term_v = ep_truth.get(tr.episode_id, ("", ""))
+        for k, v in inferences.items():
+            if k == root_k or v == term_v:
+                missing_inferences_total += 1
+
+    missing_episodes = set(tr.episode_id for tr in missing_traces)
+    halluc_rate = (missing_inferences_total / max(1, len(missing_episodes)))
+
+    return DerivedInferenceMetrics(
+        total_reflection_ticks=total_ticks,
+        valid_schema_rate=valid_schema_rate,
+        inferences_written_available_regime=avail_inferences_total,
+        correct_inferences_available_regime=avail_inferences_correct,
+        derived_precision_available=prec_avail,
+        derived_recall_available=rec_avail,
+        inferences_written_missing_regime=missing_inferences_total,
+        premature_hallucination_rate_missing=halluc_rate,
+    )
+
+
 def analyze_quiet_interval_results(
     trials: List[QuietTrialResult],
+    reflection_traces: Optional[List[ReflectionTickTrace]] = None,
     num_bootstrap: int = 2000,
     seed: int = 42,
 ) -> QuietIntervalAnalysisSummary:
-    """Perform comprehensive statistical analysis across conditions and quiet intervals."""
+    """Perform comprehensive statistical analysis across conditions, regimes, and quiet intervals."""
     df = pd.DataFrame([asdict(t) for t in trials])
     
     episodes = df["episode_id"].unique().tolist()
     intervals = sorted(df["interval_k"].unique().tolist())
     conditions = df["condition"].unique().tolist()
 
-    # 1. Condition Stats
+    # K=0 baseline accuracies
+    df_k0 = df[df["interval_k"] == 0]
+    k0_accs = {cond: float(df_k0[df_k0["condition"] == cond]["is_correct"].mean()) for cond in df_k0["condition"].unique()}
+
+    # 1. Condition Stats Pooled Strictly Over K > 0
+    df_k_pos = df[df["interval_k"] > 0]
     condition_stats: Dict[str, QuietConditionStats] = {}
     for cond in conditions:
-        df_c = df[df["condition"] == cond]
+        df_c = df_k_pos[df_k_pos["condition"] == cond]
+        if len(df_c) == 0:
+            continue
         total_n = len(df_c)
         corr_n = int(df_c["is_correct"].sum())
         micro_acc = corr_n / max(1, total_n)
@@ -226,25 +329,31 @@ def analyze_quiet_interval_results(
 
     # 2. Targeted Causal Estimands
     contrasts = [
-        ("Delta_derivation-selective", "derivation_multihop", "selective_reflection", "strict_identity"),
-        ("Delta_derivation-nowrite", "derivation_multihop", "selective_reflection", "semantic_no_write"),
-        ("Delta_conflict-consolidation", "source_conflict", "selective_reflection", "strict_identity"),
-        ("Delta_clock-cue", "all", "clock_only", "strict_identity"),
-        ("Delta_evidence-integrity", "stable_kv", "selective_reflection", "strict_identity"),
-        ("Delta_unconstrained-drift", "all", "unconstrained_reflection", "strict_identity"),
+        ("Delta_derivation-available", "derivation_multihop", "available_inference", "selective_reflection", "strict_identity"),
+        ("Delta_derivation-missing", "derivation_multihop", "missing_premise_control", "selective_reflection", "strict_identity"),
+        ("Delta_derivation-nowrite-avail", "derivation_multihop", "available_inference", "selective_reflection", "semantic_no_write"),
+        ("Delta_goal-consolidation", "goal_activation", "all", "selective_reflection", "strict_identity"),
+        ("Delta_clock-cue", "all", "all", "clock_only", "strict_identity"),
+        ("Delta_evidence-integrity", "stable_kv", "all", "selective_reflection", "strict_identity"),
+        ("Delta_unconstrained-drift", "all", "all", "unconstrained_reflection", "strict_identity"),
     ]
 
     causal_estimands: Dict[str, QuietCausalEstimandSummary] = {}
-    for name, pfilter, c_a, c_b in contrasts:
+    for name, pfilter, rfilter, c_a, c_b in contrasts:
         probe_f = None if pfilter == "all" else pfilter
+        regime_f = None if rfilter == "all" else rfilter
+
         if c_a in conditions and c_b in conditions:
-            # Evaluate across intervals K > 0 (where both conditions ran)
-            df_k_eval = df[df["interval_k"] > 0]
             point_d, ci_l, ci_u, ep_diffs = compute_episode_clustered_bootstrap(
-                df=df_k_eval, cond_a=c_a, cond_b=c_b, probe_filter=probe_f, num_bootstrap=num_bootstrap, seed=seed
+                df=df_k_pos, cond_a=c_a, cond_b=c_b, probe_filter=probe_f, regime_filter=regime_f, num_bootstrap=num_bootstrap, seed=seed
             )
 
-            df_sub = df_k_eval if probe_f is None else df_k_eval[df_k_eval["probe_type"] == probe_f]
+            df_sub = df_k_pos
+            if probe_f is not None:
+                df_sub = df_sub[df_sub["probe_type"] == probe_f]
+            if regime_f is not None:
+                df_sub = df_sub[df_sub["regime"] == regime_f]
+
             df_a = df_sub[df_sub["condition"] == c_a].sort_values(["episode_id", "interval_k", "probe_id"])
             df_b = df_sub[df_sub["condition"] == c_b].sort_values(["episode_id", "interval_k", "probe_id"])
 
@@ -258,6 +367,7 @@ def analyze_quiet_interval_results(
             causal_estimands[name] = QuietCausalEstimandSummary(
                 contrast_name=name,
                 target_probe_domain=pfilter,
+                regime=rfilter,
                 condition_a=c_a,
                 condition_b=c_b,
                 delta_accuracy=point_d,
@@ -271,7 +381,10 @@ def analyze_quiet_interval_results(
                 is_statistically_distinguishable=is_dist,
             )
 
-    # 3. Interval Breakdown
+    # 3. Mechanistic Derived Inference Metrics
+    derived_metrics = compute_derived_inference_metrics(reflection_traces or [], trials)
+
+    # 4. Interval Breakdown
     interval_breakdown: Dict[int, Dict[str, float]] = {}
     interval_probe_breakdown: Dict[int, Dict[str, Dict[str, float]]] = {}
     interval_contrasts: List[IntervalContrastSummary] = []
@@ -293,20 +406,20 @@ def analyze_quiet_interval_results(
         interval_breakdown[k] = k_dict
         interval_probe_breakdown[k] = k_probe_dict
 
-        # Interval-specific Delta_derivation-selective
         if k > 0 and "selective_reflection" in conditions and "strict_identity" in conditions:
             pt_d, ci_l, ci_u, ep_d_k = compute_episode_clustered_bootstrap(
-                df=df_k, cond_a="selective_reflection", cond_b="strict_identity", probe_filter="derivation_multihop", num_bootstrap=num_bootstrap, seed=seed
+                df=df_k, cond_a="selective_reflection", cond_b="strict_identity", probe_filter="derivation_multihop", regime_filter="available_inference", num_bootstrap=num_bootstrap, seed=seed
             )
-            df_ka = df_k[(df_k["condition"] == "selective_reflection") & (df_k["probe_type"] == "derivation_multihop")].sort_values(["episode_id", "probe_id"])
-            df_kb = df_k[(df_k["condition"] == "strict_identity") & (df_k["probe_type"] == "derivation_multihop")].sort_values(["episode_id", "probe_id"])
+            df_ka = df_k[(df_k["condition"] == "selective_reflection") & (df_k["probe_type"] == "derivation_multihop") & (df_k["regime"] == "available_inference")].sort_values(["episode_id", "probe_id"])
+            df_kb = df_k[(df_k["condition"] == "strict_identity") & (df_k["probe_type"] == "derivation_multihop") & (df_k["regime"] == "available_inference")].sort_values(["episode_id", "probe_id"])
             _, _, mcn_p = compute_exact_mcnemar_test(df_ka["is_correct"].tolist(), df_kb["is_correct"].tolist())
             perm_p_k, perm_meth_k = compute_permutation_test(ep_d_k)
 
             interval_contrasts.append(IntervalContrastSummary(
                 interval_k=k,
-                contrast_name="Delta_derivation-selective",
+                contrast_name="Delta_derivation-available",
                 target_probe_domain="derivation_multihop",
+                regime="available_inference",
                 condition_a="selective_reflection",
                 condition_b="strict_identity",
                 delta_accuracy=pt_d,
@@ -317,7 +430,7 @@ def analyze_quiet_interval_results(
                 permutation_method=perm_meth_k,
             ))
 
-    # 4. Evidence Drift Rates
+    # 5. Evidence Drift Rates
     df_uncon = df[df["condition"] == "unconstrained_reflection"]
     uncon_drift_rate = float(df_uncon["evidence_drift_detected"].mean()) if len(df_uncon) > 0 else 0.0
 
@@ -328,8 +441,10 @@ def analyze_quiet_interval_results(
         total_episodes=len(episodes),
         total_trials=len(trials),
         intervals_evaluated=intervals,
+        baseline_k0_accuracies=k0_accs,
         condition_stats=condition_stats,
         causal_estimands=causal_estimands,
+        derived_metrics=derived_metrics,
         interval_breakdown=interval_breakdown,
         interval_probe_breakdown=interval_probe_breakdown,
         interval_contrasts=interval_contrasts,

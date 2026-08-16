@@ -1,22 +1,13 @@
-"""Execution harness for Sprint S07 Scaffolded Null-Interval & Quiet Processing Benchmark (E06).
+"""Execution harness for Sprint S07.1 Available-Inference Null Consolidation Benchmark (E06b).
 
-Evaluates the 6 experimental conditions across K in {0, 1, 3, 6, 12} quiet ticks:
-Group A (No Persistent Write):
-1. strict_identity: Exact bit-for-bit identity across K with timestamps pinned
-2. clock_only: State preserved, but last_updated_step advanced to reflect elapsed time
-3. semantic_no_write: Semantic reflection reasoning executed, but output discarded (pure compute control)
-
-Group B (Persistent Write):
-4. selective_reflection: Writes to derived_inferences, unresolved_items, and goals with protected evidence clamped
-5. unconstrained_reflection: Full state rewrite diagnostic negative control
-
-Group C (Retrospective Reference):
-6. replay_transcript: Raw event history with explicit null interval markers
+Evaluates 6 experimental conditions across K in {0, 1, 3, 6, 12} quiet ticks and 2 informational regimes:
+1. available_inference: Complete evidence pre-null
+2. missing_premise_control: Incomplete evidence pre-null
 
 Enforces:
 - Protected evidence invariance: hash(working_memory_pre, source_ledger_pre) == hash(working_memory_post, source_ledger_post)
-- Trajectory snapshotting at K in {1, 3, 6, 12} to avoid redundant inference runs
-- Counterbalanced forced-choice probe querying with strict schema validation
+- Full per-tick reflection audit logging (ReflectionTickTrace) with explicit schema validation
+- Exact SHA-256 evaluation prompt hashing and bit-for-bit strict identity verification
 """
 
 from dataclasses import asdict, dataclass, field
@@ -26,7 +17,6 @@ import time
 from typing import Any, Dict, List, Optional, Tuple
 
 from recurrence.core.schemas import (
-    TARGET_3AFC_SCHEMA,
     TARGET_4AFC_SCHEMA,
     STATE_UPDATE_SCHEMA,
     STATE_SELECTIVE_REFLECTION_SCHEMA,
@@ -41,7 +31,7 @@ from recurrence.memory.schemas import (
 from recurrence.loop.clock import SimulatedClock
 from recurrence.loop.queue import EventQueue
 from recurrence.loop.state_manager import StateManager
-from recurrence.loop.updater import OracleStateUpdater, AutonomousUpdateLoop
+from recurrence.loop.updater import OracleStateUpdater
 from recurrence.tasks.quiet_interval import (
     QuietIntervalEpisode,
     QuietIntervalProbe,
@@ -57,11 +47,37 @@ def compute_evidence_hash(state: StructuredSelfState) -> str:
     return hashlib.sha256(json.dumps(norm_dict, sort_keys=True).encode("utf-8")).hexdigest()
 
 
+def compute_state_hash(state: StructuredSelfState) -> str:
+    """Compute SHA-256 hash over complete structured state."""
+    dump = state.model_dump()
+    return hashlib.sha256(json.dumps(dump, sort_keys=True).encode("utf-8")).hexdigest()
+
+
+@dataclass
+class ReflectionTickTrace:
+    """Audit trace for a single quiet reflection cycle at tick step_k."""
+    episode_id: str
+    regime: str
+    condition: str
+    tick_k: int
+    prompt_hash: str
+    raw_response: str
+    parsed_write: Dict[str, Any]
+    schema_valid: bool
+    pre_state_hash: str
+    post_state_hash: str
+    prompt_tokens: int
+    completion_tokens: int
+    latency_ms: float
+    error_message: Optional[str] = None
+
+
 @dataclass
 class QuietTrialResult:
-    """Evaluation record for a single probe under a specific condition and quiet interval K."""
+    """Evaluation record for a single probe under a specific condition, regime, and quiet interval K."""
     trial_id: str
     episode_id: str
+    regime: str
     interval_k: int
     condition: str
     probe_id: str
@@ -71,6 +87,8 @@ class QuietTrialResult:
     correct_letter: str
     predicted_letter: str
     is_correct: bool
+    prompt_hash: str
+    context_hash: str
     query_prompt_tokens: int
     query_completion_tokens: int
     query_latency_ms: float
@@ -84,7 +102,7 @@ class QuietTrialResult:
 
 
 class QuietIntervalHarness:
-    """Orchestrator for executing 6-condition quiet interval experiments across K in {0, 1, 3, 6, 12}."""
+    """Orchestrator for executing quiet interval experiments with full audit logging."""
 
     def __init__(
         self,
@@ -134,11 +152,10 @@ class QuietIntervalHarness:
         self,
         context_str: str,
         probe: QuietIntervalProbe,
-    ) -> Tuple[str, bool, int, int, float, Optional[str]]:
+    ) -> Tuple[str, bool, str, int, int, float, Optional[str]]:
         """Query LLM backend for a forced-choice probe under strict JSON schema."""
         opts_str = "\n".join([f"{l}. {text}" for l, text in sorted(probe.options.items())])
-        target_schema = TARGET_3AFC_SCHEMA if len(probe.options) == 3 else TARGET_4AFC_SCHEMA
-        opts_letters_str = "A, B, or C" if len(probe.options) == 3 else "A, B, C, or D"
+        opts_letters_str = "A, B, C, or D"
 
         prompt = (
             f"{context_str}\n\n"
@@ -149,14 +166,16 @@ class QuietIntervalHarness:
             f"Select the single correct option letter ({opts_letters_str}). Return strictly JSON matching schema."
         )
 
+        p_hash = hashlib.sha256(prompt.encode("utf-8")).hexdigest()
+
         start_time = time.perf_counter()
         try:
             if hasattr(self.backend, "step"):
-                raw_text, _, meta = self.backend.step(prompt, format=target_schema)
+                raw_text, _, meta = self.backend.step(prompt, format=TARGET_4AFC_SCHEMA)
                 p_tok = meta.get("prompt_eval_count", len(prompt) // 4)
                 c_tok = meta.get("eval_count", len(raw_text) // 4)
             elif hasattr(self.backend, "generate"):
-                resp = self.backend.generate(prompt=prompt, schema=target_schema)
+                resp = self.backend.generate(prompt=prompt, schema=TARGET_4AFC_SCHEMA)
                 raw_text = resp.text
                 p_tok = getattr(resp, "prompt_tokens", len(prompt) // 4)
                 c_tok = getattr(resp, "completion_tokens", len(raw_text) // 4)
@@ -169,11 +188,11 @@ class QuietIntervalHarness:
             data = json.loads(raw_text)
             pred_letter = str(data.get("answer") or data.get("target_answer") or "").strip().upper()
             is_corr = (pred_letter == probe.correct_letter.upper())
-            return pred_letter, is_corr, p_tok, c_tok, latency_ms, None
+            return pred_letter, is_corr, p_hash, p_tok, c_tok, latency_ms, None
 
         except Exception as e:
             latency_ms = (time.perf_counter() - start_time) * 1000.0
-            return "ERROR", False, len(prompt) // 4, 0, latency_ms, str(e)
+            return "ERROR", False, p_hash, len(prompt) // 4, 0, latency_ms, str(e)
 
     def _apply_continuation(
         self,
@@ -200,7 +219,7 @@ class QuietIntervalHarness:
         episode: QuietIntervalEpisode,
         interval_ks: Optional[List[int]] = None,
         conditions: Optional[List[str]] = None,
-    ) -> Tuple[List[QuietTrialResult], Dict[str, Any]]:
+    ) -> Tuple[List[QuietTrialResult], List[ReflectionTickTrace], Dict[str, Any]]:
         """Execute all conditions and intervals for a single base episode."""
         eval_ks = interval_ks or [0, 1, 3, 6, 12]
         eval_conditions = conditions or [
@@ -213,6 +232,7 @@ class QuietIntervalHarness:
         ]
 
         trial_results: List[QuietTrialResult] = []
+        reflection_traces: List[ReflectionTickTrace] = []
         episode_metadata: Dict[str, Any] = {}
 
         # -------------------------------------------------------------
@@ -247,12 +267,20 @@ class QuietIntervalHarness:
             sel_prompt = (
                 f"{self._build_state_text(st_curr_sel)}\n\n"
                 f"You are the cognitive reflection engine of an autonomous agent during a quiet interval.\n"
-                f"Review the current state. Infer any multi-hop conclusions into 'derived_inferences' (e.g. if A->B and B->C, infer A->C).\n"
+                f"Review the current state. Infer any multi-hop conclusions into 'derived_inferences' (e.g. if key_A->val_B and key_B->val_C, infer key_A->val_C).\n"
                 f"Consolidate any conflicting or ambiguous entity keys into 'unresolved_items'.\n"
                 f"Update existing goal statuses if appropriate.\n"
                 f"Note: Working memory and source ledgers are protected and immutable."
             )
+            prompt_hash = hashlib.sha256(sel_prompt.encode("utf-8")).hexdigest()
+            pre_hash = compute_state_hash(st_curr_sel)
+
             start_k = time.perf_counter()
+            err_k: Optional[str] = None
+            schema_valid_k = False
+            raw_text = ""
+            parsed: Dict[str, Any] = {}
+
             try:
                 if hasattr(self.backend, "step"):
                     raw_text, _, meta = self.backend.step(sel_prompt, format=STATE_SELECTIVE_REFLECTION_SCHEMA)
@@ -264,37 +292,61 @@ class QuietIntervalHarness:
                     p_tok = getattr(resp, "prompt_tokens", len(sel_prompt) // 4)
                     c_tok = getattr(resp, "completion_tokens", len(raw_text) // 4)
                 else:
+                    if episode.regime == "available_inference":
+                        mock_derived = {episode.metadata["k_hop1"]: episode.metadata["v_hop2"]}
+                    else:
+                        mock_derived = {}
                     raw_text = json.dumps({
-                        "derived_inferences": {episode.metadata["k_hop1"]: episode.metadata["v_hop2"]},
-                        "unresolved_items": [f"conflict:{episode.metadata['k_conflict']}"],
-                        "goal_status_updates": [],
+                        "derived_inferences": mock_derived,
+                        "unresolved_items": [],
+                        "goal_status_updates": [{"goal_id": episode.metadata["gid_beta"], "status": "active"}],
                     })
                     p_tok = len(sel_prompt) // 4
                     c_tok = len(raw_text) // 4
 
                 lat_k = (time.perf_counter() - start_k) * 1000.0
                 parsed = json.loads(raw_text)
+                schema_valid_k = True
 
-                # Update selective channels while protecting working_memory and source_ledger
+                # Apply selective updates
                 st_curr_sel.derived_inferences.update(parsed.get("derived_inferences", {}))
                 for item in parsed.get("unresolved_items", []):
                     if item not in st_curr_sel.unresolved_items:
                         st_curr_sel.unresolved_items.append(item)
 
-                status_updates = {u["goal_id"]: u["status"] for u in parsed.get("goal_status_updates", [])}
+                status_updates = {u["goal_id"]: u["status"] for u in parsed.get("goal_status_updates", []) if "goal_id" in u and "status" in u}
                 for g in st_curr_sel.goals:
                     if g.goal_id in status_updates:
                         g.status = status_updates[g.goal_id]
 
                 st_curr_sel.last_updated_step = prefix_ticks + step_k - 1
 
-            except Exception:
+            except Exception as e:
                 lat_k = (time.perf_counter() - start_k) * 1000.0
                 p_tok = len(sel_prompt) // 4
                 c_tok = 0
+                err_k = str(e)
 
+            post_hash = compute_state_hash(st_curr_sel)
             cum_sel_tokens += p_tok + c_tok
             cum_sel_latency += lat_k
+
+            reflection_traces.append(ReflectionTickTrace(
+                episode_id=episode.episode_id,
+                regime=episode.regime,
+                condition="selective_reflection",
+                tick_k=step_k,
+                prompt_hash=prompt_hash,
+                raw_response=raw_text,
+                parsed_write=parsed,
+                schema_valid=schema_valid_k,
+                pre_state_hash=pre_hash,
+                post_state_hash=post_hash,
+                prompt_tokens=p_tok,
+                completion_tokens=c_tok,
+                latency_ms=lat_k,
+                error_message=err_k,
+            ))
 
             if step_k in (1, 3, 6, 12):
                 selective_snapshots[step_k] = st_curr_sel.model_copy(deep=True)
@@ -314,7 +366,15 @@ class QuietIntervalHarness:
                 f"You are the state maintenance engine. Update and rewrite the entire structured self-state\n"
                 f"during this quiet interval without new observations."
             )
+            prompt_hash = hashlib.sha256(uncon_prompt.encode("utf-8")).hexdigest()
+            pre_hash = compute_state_hash(st_curr_uncon)
+
             start_k = time.perf_counter()
+            err_k = None
+            schema_valid_k = False
+            raw_text = ""
+            parsed = {}
+
             try:
                 if hasattr(self.backend, "step"):
                     raw_text, _, meta = self.backend.step(uncon_prompt, format=STATE_UPDATE_SCHEMA)
@@ -337,6 +397,7 @@ class QuietIntervalHarness:
 
                 lat_k = (time.perf_counter() - start_k) * 1000.0
                 parsed = json.loads(raw_text)
+                schema_valid_k = True
 
                 st_curr_uncon = StructuredSelfState(
                     working_memory=parsed.get("working_memory", {}),
@@ -348,26 +409,45 @@ class QuietIntervalHarness:
                             created_at_step=0,
                             updated_at_step=prefix_ticks + step_k - 1,
                         )
-                        for g in parsed.get("goals", [])
+                        for g in parsed.get("goals", []) if "goal_id" in g and "description" in g and "status" in g
                     ],
                     source_ledger=parsed.get("source_ledger", {}),
                     unresolved_items=parsed.get("unresolved_items", []),
                     derived_inferences=st_curr_uncon.derived_inferences,
                     last_updated_step=prefix_ticks + step_k - 1,
                 )
-            except Exception:
+            except Exception as e:
                 lat_k = (time.perf_counter() - start_k) * 1000.0
                 p_tok = len(uncon_prompt) // 4
                 c_tok = 0
+                err_k = str(e)
 
+            post_hash = compute_state_hash(st_curr_uncon)
             cum_uncon_tokens += p_tok + c_tok
             cum_uncon_latency += lat_k
+
+            reflection_traces.append(ReflectionTickTrace(
+                episode_id=episode.episode_id,
+                regime=episode.regime,
+                condition="unconstrained_reflection",
+                tick_k=step_k,
+                prompt_hash=prompt_hash,
+                raw_response=raw_text,
+                parsed_write=parsed,
+                schema_valid=schema_valid_k,
+                pre_state_hash=pre_hash,
+                post_state_hash=post_hash,
+                prompt_tokens=p_tok,
+                completion_tokens=c_tok,
+                latency_ms=lat_k,
+                error_message=err_k,
+            ))
 
             if step_k in (1, 3, 6, 12):
                 unconstrained_snapshots[step_k] = st_curr_uncon.model_copy(deep=True)
                 unconstrained_costs[step_k] = (cum_uncon_tokens, cum_uncon_latency)
 
-        # Semantic No-Write Compute Trajectory (Run once per K)
+        # Semantic No-Write Compute Trajectory
         nowrite_costs: Dict[int, Tuple[int, float]] = {0: (0, 0.0)}
         cum_nw_tokens = 0
         cum_nw_latency = 0.0
@@ -377,7 +457,14 @@ class QuietIntervalHarness:
                 f"{self._build_state_text(s_star)}\n\n"
                 f"You are the cognitive reflection engine. Reason through multi-hop links and unresolved goals."
             )
+            prompt_hash = hashlib.sha256(nw_prompt.encode("utf-8")).hexdigest()
+            pre_hash = compute_state_hash(s_star)
+
             start_k = time.perf_counter()
+            err_k = None
+            schema_valid_k = False
+            raw_text = ""
+
             try:
                 if hasattr(self.backend, "step"):
                     raw_text, _, meta = self.backend.step(nw_prompt, format=STATE_SELECTIVE_REFLECTION_SCHEMA)
@@ -392,13 +479,32 @@ class QuietIntervalHarness:
                     p_tok = len(nw_prompt) // 4
                     c_tok = 20
                 lat_k = (time.perf_counter() - start_k) * 1000.0
-            except Exception:
+                schema_valid_k = True
+            except Exception as e:
                 lat_k = (time.perf_counter() - start_k) * 1000.0
                 p_tok = len(nw_prompt) // 4
                 c_tok = 0
+                err_k = str(e)
 
             cum_nw_tokens += p_tok + c_tok
             cum_nw_latency += lat_k
+
+            reflection_traces.append(ReflectionTickTrace(
+                episode_id=episode.episode_id,
+                regime=episode.regime,
+                condition="semantic_no_write",
+                tick_k=step_k,
+                prompt_hash=prompt_hash,
+                raw_response=raw_text,
+                parsed_write={},
+                schema_valid=schema_valid_k,
+                pre_state_hash=pre_hash,
+                post_state_hash=pre_hash,  # unchanged
+                prompt_tokens=p_tok,
+                completion_tokens=c_tok,
+                latency_ms=lat_k,
+                error_message=err_k,
+            ))
 
             if step_k in (1, 3, 6, 12):
                 nowrite_costs[step_k] = (cum_nw_tokens, cum_nw_latency)
@@ -412,12 +518,10 @@ class QuietIntervalHarness:
             cont_start_tick = prefix_ticks + k
 
             for cond in eval_conditions:
-                # K=0 baseline handling: conditions other than strict_identity/replay are redundant at K=0
                 if k == 0 and cond not in ("strict_identity", "replay_transcript"):
                     continue
 
                 if cond == "strict_identity":
-                    # Pinned timestamp invariant
                     st_inter = s_star.model_copy(deep=True)
                     st_final = self._apply_continuation(st_inter, episode.continuation_events, cont_start_tick)
                     context_str = self._build_state_text(st_final, pin_step=prefix_ticks - 1)
@@ -442,7 +546,6 @@ class QuietIntervalHarness:
 
                 elif cond == "selective_reflection":
                     st_inter = selective_snapshots[k].model_copy(deep=True)
-                    # PROTECTED EVIDENCE INVARIANT ASSERTION
                     ev_hash_post = compute_evidence_hash(st_inter)
                     assert ev_hash_post == evidence_hash_star, (
                         f"Evidence mutation detected in episode {episode.episode_id} under selective_reflection at K={k}!\n"
@@ -477,14 +580,16 @@ class QuietIntervalHarness:
                 else:
                     raise ValueError(f"Unknown experimental condition: {cond}")
 
-                # Check evidence integrity
+                # Drift check
                 if cond == "unconstrained_reflection":
                     ev_drift = (compute_evidence_hash(st_final) != compute_evidence_hash(self._apply_continuation(s_star, episode.continuation_events, cont_start_tick)))
                 else:
                     ev_drift = False
 
+                context_hash = hashlib.sha256(context_str.encode("utf-8")).hexdigest()
+
                 for probe in episode.probes:
-                    pred_l, is_corr, p_tok, c_tok, lat_ms, err_msg = self._query_probe(
+                    pred_l, is_corr, p_hash, p_tok, c_tok, lat_ms, err_msg = self._query_probe(
                         context_str=context_str,
                         probe=probe,
                     )
@@ -493,6 +598,7 @@ class QuietIntervalHarness:
                     trial_results.append(QuietTrialResult(
                         trial_id=trial_id,
                         episode_id=episode.episode_id,
+                        regime=episode.regime,
                         interval_k=k,
                         condition=cond,
                         probe_id=probe.probe_id,
@@ -502,6 +608,8 @@ class QuietIntervalHarness:
                         correct_letter=probe.correct_letter,
                         predicted_letter=pred_l,
                         is_correct=is_corr,
+                        prompt_hash=p_hash,
+                        context_hash=context_hash,
                         query_prompt_tokens=p_tok,
                         query_completion_tokens=c_tok,
                         query_latency_ms=lat_ms,
@@ -514,4 +622,4 @@ class QuietIntervalHarness:
                         metadata=dict(probe.metadata),
                     ))
 
-        return trial_results, episode_metadata
+        return trial_results, reflection_traces, episode_metadata
