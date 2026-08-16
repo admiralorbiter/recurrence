@@ -129,3 +129,33 @@ class OllamaBackend:
         content, metadata = self.chat(messages, format=format)
         state_hash = self.get_digest()[:16]
         return content, state_hash, metadata
+
+    def generate_with_schema(
+        self,
+        prompt: str,
+        json_schema: Dict[str, Any],
+        temperature: Optional[float] = None,
+        seed: Optional[int] = None,
+    ) -> Any:
+        """Query model with structured JSON Schema format and parse output."""
+        messages = [{"role": "user", "content": prompt}]
+        content, meta = self.chat(
+            messages=messages,
+            temperature=temperature,
+            seed=seed,
+            format=json_schema,
+        )
+        parsed = None
+        try:
+            parsed = json.loads(content)
+        except Exception:
+            pass
+
+        class SchemaResponse:
+            def __init__(self, raw: str, parsed_data: Any, metadata: Dict[str, Any]):
+                self.raw_text = raw
+                self.parsed = parsed_data
+                self.metadata = metadata
+
+        return SchemaResponse(content, parsed, meta)
+
