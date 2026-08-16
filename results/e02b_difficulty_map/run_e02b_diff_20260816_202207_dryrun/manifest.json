@@ -1,0 +1,16 @@
+{
+  "run_id": "run_e02b_diff_20260816_202207_dryrun",
+  "target_model": "mock-qwen2.5:3b",
+  "model_digest": "mock_2afc_digest_000000000000000000000000",
+  "start_time": "2026-08-16T20:22:07.159566+00:00",
+  "response_mode": "direct_value",
+  "sweeps_evaluated": [
+    "distractor_load",
+    "multi_hop",
+    "overwrite_load"
+  ],
+  "trials_per_level": 2,
+  "total_trials": 40,
+  "temperature": 0.0,
+  "seed": 42
+}

@@ -1,0 +1,16 @@
+{
+  "run_id": "run_e05_sched_20260816_202340_exploratory_dryrun",
+  "target_model": "qwen2.5:3b",
+  "model_digest": "mock_digest_dryrun_e05d",
+  "phase": "exploratory",
+  "seed": 42,
+  "temperature": 0.0,
+  "start_time": "2026-08-16T20:23:40.548846+00:00",
+  "total_episodes": 4,
+  "total_trials": 80,
+  "horizons": [
+    10,
+    25
+  ],
+  "episodes_per_horizon": 2
+}
