@@ -583,4 +583,52 @@ def test_multi_hop_depth_sweep_h1_to_h7():
         assert it.metadata["foil_terminal_val"] in it.prompt
 
 
+def test_generate_multi_hop_grid():
+    """Verify generating items across 2D parameter grid cells."""
+    task = AdaptiveMetacognition2AFCTask(
+        task_family="multi_hop",
+        ask_confidence=True,
+        response_mode="direct_value",
+    )
+    cells = [(2, 32), (2, 64), (3, 8)]
+    items = task.generate_multi_hop_grid(grid_cells=cells, count_per_cell=6, base_seed=42)
+    assert len(items) == 3 * 6
+
+    c1_items = [it for it in items if it.metadata["hop_depth"] == 2 and it.metadata["distractor_count"] == 32]
+    c2_items = [it for it in items if it.metadata["hop_depth"] == 2 and it.metadata["distractor_count"] == 64]
+    c3_items = [it for it in items if it.metadata["hop_depth"] == 3 and it.metadata["distractor_count"] == 8]
+
+    assert len(c1_items) == 6
+    assert len(c2_items) == 6
+    assert len(c3_items) == 6
+
+
+def test_compute_type2_sdt_metrics():
+    """Verify Type-2 SDT metric calculation and degenerate confidence classification."""
+    from recurrence.analysis.psychophysics import compute_type2_sdt_metrics
+
+    # 1. Invariant confidence (e.g. 100% on all trials) -> confidence_degenerate
+    recs_degen = [
+        {"correct": True, "probability": 1.0} for _ in range(15)
+    ] + [
+        {"correct": False, "probability": 1.0} for _ in range(5)
+    ]
+    t2_degen = compute_type2_sdt_metrics(recs_degen)
+    assert t2_degen["meta_d_status"] == "confidence_degenerate"
+    assert t2_degen["auroc2"] == 0.50
+    assert t2_degen["brier_score"] == pytest.approx(0.25)
+
+    # 2. Variable confidence with high metacognitive separation -> estimable
+    recs_valid = [
+        {"correct": True, "probability": 0.90} for _ in range(15)
+    ] + [
+        {"correct": False, "probability": 0.30} for _ in range(5)
+    ]
+    t2_valid = compute_type2_sdt_metrics(recs_valid)
+    assert t2_valid["meta_d_status"] == "estimable"
+    assert t2_valid["auroc2"] == 1.0
+    assert t2_valid["confidence_separation"] == pytest.approx(0.60)
+
+
+
 

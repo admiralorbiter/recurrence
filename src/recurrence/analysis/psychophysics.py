@@ -603,3 +603,82 @@ def evaluate_calibration_gate(
         "observed_compliance": compliance,
     }
 
+
+def compute_type2_sdt_metrics(
+    records: List[Dict[str, Any]],
+) -> Dict[str, Any]:
+    """Compute Type-2 Signal Detection metrics (AUROC2, meta-d' proxy, Brier) with degenerate confidence detection.
+    
+    Status Codes:
+    - 'estimable': Non-degenerate confidence variation across correct/incorrect items; Type-2 metrics estimable.
+    - 'confidence_degenerate': Invariant confidence ratings (e.g. 100% or 50% on all items); Type-2 criteria undefined.
+    - 'insufficient_class_counts': No errors (100% acc) or no correct trials (0% acc).
+    - 'insufficient_data': Fewer than 5 valid trials.
+    """
+    valid_recs = [r for r in records if r.get("probability") is not None and r.get("correct") is not None]
+    if len(valid_recs) < 5:
+        return {
+            "meta_d_status": "insufficient_data",
+            "auroc2": None,
+            "meta_d_prime": None,
+            "m_ratio": None,
+            "brier_score": None,
+            "unique_confidence_levels": 0,
+        }
+
+    confidences = np.array([r["probability"] for r in valid_recs], dtype=float)
+    corrects = np.array([1 if r["correct"] else 0 for r in valid_recs], dtype=int)
+    n_corr = int(np.sum(corrects))
+    n_inc = len(corrects) - n_corr
+
+    brier = float(np.mean((confidences - corrects) ** 2))
+    unique_confs = np.unique(confidences)
+    n_unique = len(unique_confs)
+
+    if n_corr == 0 or n_inc == 0:
+        return {
+            "meta_d_status": "insufficient_class_counts",
+            "auroc2": None,
+            "meta_d_prime": None,
+            "m_ratio": None,
+            "brier_score": brier,
+            "unique_confidence_levels": n_unique,
+            "mean_confidence": float(np.mean(confidences)),
+        }
+
+    # Degenerate confidence (invariant rating across all items)
+    if n_unique <= 1 or np.std(confidences) < 1e-4:
+        return {
+            "meta_d_status": "confidence_degenerate",
+            "auroc2": 0.50,  # Constant ranking yields chance AUROC2
+            "meta_d_prime": None,
+            "m_ratio": None,
+            "brier_score": brier,
+            "unique_confidence_levels": n_unique,
+            "mean_confidence": float(np.mean(confidences)),
+        }
+
+    # Non-parametric AUROC2 via Mann-Whitney U
+    r_corr = confidences[corrects == 1]
+    r_inc = confidences[corrects == 0]
+    concordant = sum(1.0 for c in r_corr for i in r_inc if c > i)
+    ties = sum(0.5 for c in r_corr for i in r_inc if c == i)
+    auroc2 = float((concordant + ties) / (n_corr * n_inc))
+
+    sdt_t1 = compute_sdt_indices(valid_recs)
+    d1 = sdt_t1.get("d_prime")
+
+    return {
+        "meta_d_status": "estimable",
+        "auroc2": auroc2,
+        "meta_d_prime": (d1 * auroc2 * 2.0) if d1 is not None else None,
+        "m_ratio": (auroc2 * 2.0) if (d1 and d1 > 0) else None,
+        "brier_score": brier,
+        "unique_confidence_levels": n_unique,
+        "mean_confidence": float(np.mean(confidences)),
+        "mean_conf_correct": float(np.mean(r_corr)),
+        "mean_conf_incorrect": float(np.mean(r_inc)),
+        "confidence_separation": float(np.mean(r_corr) - np.mean(r_inc)),
+    }
+
+

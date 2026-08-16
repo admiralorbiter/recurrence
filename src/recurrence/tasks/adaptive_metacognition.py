@@ -630,6 +630,33 @@ class AdaptiveMetacognition2AFCTask(BaseTask):
                 items.append(item)
         return items
 
+    def generate_multi_hop_grid(
+        self,
+        grid_cells: List[Tuple[int, int]],
+        count_per_cell: int = 24,
+        base_seed: int = 42,
+        ask_confidence: Optional[bool] = None,
+    ) -> List[TaskItem]:
+        """Generate items across arbitrary 2D (H, D) parameter grid cells."""
+        conf = self.ask_confidence if ask_confidence is None else ask_confidence
+        items: List[TaskItem] = []
+        option_cycle = ["A", "B"]
+
+        for cell_idx, (hop, dist) in enumerate(grid_cells):
+            for i in range(count_per_cell):
+                target_letter = option_cycle[i % 2]
+                item_seed = base_seed + (cell_idx * 1000) + i
+                item = self.generate_multi_hop_item(
+                    hop_depth=hop,
+                    distractor_count=dist,
+                    seed=item_seed,
+                    ask_confidence=conf,
+                    target_option_letter=target_letter,
+                )
+                items.append(item)
+        return items
+
+
     def generate_overwrite_sweep(
         self,
         levels: List[int] = [0, 1, 2, 3, 4],
