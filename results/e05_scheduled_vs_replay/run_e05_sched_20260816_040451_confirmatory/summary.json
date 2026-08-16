@@ -1,0 +1,645 @@
+{
+  "manifest": {
+    "run_id": "run_e05_sched_20260816_040451_confirmatory",
+    "target_model": "qwen2.5:3b",
+    "model_digest": "357c53fb659c5076de1d65ccb0b397446227b71a42be9d1603d46168015c9e4b",
+    "phase": "confirmatory",
+    "seed": 1337,
+    "temperature": 0.0,
+    "start_time": "2026-08-16T04:42:10.785472+00:00",
+    "total_episodes": 24,
+    "total_trials": 480,
+    "horizons": [
+      10,
+      25,
+      50
+    ],
+    "episodes_per_horizon": 8
+  },
+  "analysis": {
+    "total_episodes": 24,
+    "total_trials": 480,
+    "horizons_evaluated": [
+      10,
+      25,
+      50
+    ],
+    "condition_stats": {
+      "incremental_state": {
+        "condition": "incremental_state",
+        "total_trials": 96,
+        "correct_trials": 59,
+        "accuracy_micro": 0.6145833333333334,
+        "accuracy_macro_by_probe": 0.6145833333333334,
+        "probe_accuracies": {
+          "delayed_kv": 0.7916666666666666,
+          "source_attribution": 0.5833333333333334,
+          "goal_state": 0.75,
+          "multihop": 0.3333333333333333
+        },
+        "mean_prompt_tokens": 420.8645833333333,
+        "mean_completion_tokens": 9.708333333333334,
+        "mean_latency_ms": 4370.839097919088,
+        "mean_amortized_prompt_tokens": 420.8645833333333,
+        "mean_amortized_latency_ms": 4370.839097919088
+      },
+      "replay_state_deterministic": {
+        "condition": "replay_state_deterministic",
+        "total_trials": 96,
+        "correct_trials": 59,
+        "accuracy_micro": 0.6145833333333334,
+        "accuracy_macro_by_probe": 0.6145833333333334,
+        "probe_accuracies": {
+          "delayed_kv": 0.7916666666666666,
+          "source_attribution": 0.5833333333333334,
+          "goal_state": 0.75,
+          "multihop": 0.3333333333333333
+        },
+        "mean_prompt_tokens": 420.8645833333333,
+        "mean_completion_tokens": 9.729166666666666,
+        "mean_latency_ms": 4297.526158330584,
+        "mean_amortized_prompt_tokens": 420.8645833333333,
+        "mean_amortized_latency_ms": 4297.526158330584
+      },
+      "replay_transcript": {
+        "condition": "replay_transcript",
+        "total_trials": 96,
+        "correct_trials": 58,
+        "accuracy_micro": 0.6041666666666666,
+        "accuracy_macro_by_probe": 0.6041666666666667,
+        "probe_accuracies": {
+          "delayed_kv": 0.8333333333333334,
+          "source_attribution": 0.5,
+          "goal_state": 0.5,
+          "multihop": 0.5833333333333334
+        },
+        "mean_prompt_tokens": 807.40625,
+        "mean_completion_tokens": 7.708333333333333,
+        "mean_latency_ms": 4288.810679163968,
+        "mean_amortized_prompt_tokens": 807.40625,
+        "mean_amortized_latency_ms": 4288.810679163968
+      },
+      "replay_state_model": {
+        "condition": "replay_state_model",
+        "total_trials": 96,
+        "correct_trials": 29,
+        "accuracy_micro": 0.3020833333333333,
+        "accuracy_macro_by_probe": 0.3020833333333333,
+        "probe_accuracies": {
+          "delayed_kv": 0.25,
+          "source_attribution": 0.375,
+          "goal_state": 0.25,
+          "multihop": 0.3333333333333333
+        },
+        "mean_prompt_tokens": 146.11458333333334,
+        "mean_completion_tokens": 9.84375,
+        "mean_latency_ms": 4333.85273750658,
+        "mean_amortized_prompt_tokens": 330.9895833333333,
+        "mean_amortized_latency_ms": 6128.130204169186
+      },
+      "fresh": {
+        "condition": "fresh",
+        "total_trials": 96,
+        "correct_trials": 26,
+        "accuracy_micro": 0.2708333333333333,
+        "accuracy_macro_by_probe": 0.2708333333333333,
+        "probe_accuracies": {
+          "delayed_kv": 0.3333333333333333,
+          "source_attribution": 0.375,
+          "goal_state": 0.16666666666666666,
+          "multihop": 0.20833333333333334
+        },
+        "mean_prompt_tokens": 113.78125,
+        "mean_completion_tokens": 8.010416666666666,
+        "mean_latency_ms": 4202.216838548338,
+        "mean_amortized_prompt_tokens": 113.78125,
+        "mean_amortized_latency_ms": 4202.216838548338
+      }
+    },
+    "causal_estimands": {
+      "Delta_online-direct": {
+        "contrast_name": "Delta_online-direct",
+        "condition_a": "incremental_state",
+        "condition_b": "replay_transcript",
+        "delta_accuracy": 0.01041666666666674,
+        "ci_lower_95": -0.09375,
+        "ci_upper_95": 0.11458333333333337,
+        "discordance_b": 22,
+        "discordance_c": 21,
+        "exact_mcnemar_p_value": 1.0,
+        "permutation_p_value": 1.0,
+        "permutation_method": "monte_carlo_50k",
+        "is_statistically_distinguishable": false
+      },
+      "Delta_reconstruction": {
+        "contrast_name": "Delta_reconstruction",
+        "condition_a": "incremental_state",
+        "condition_b": "replay_state_model",
+        "delta_accuracy": 0.31250000000000006,
+        "ci_lower_95": 0.19791666666666663,
+        "ci_upper_95": 0.4375,
+        "discordance_b": 40,
+        "discordance_c": 10,
+        "exact_mcnemar_p_value": 2.3861331676755526e-05,
+        "permutation_p_value": 6e-05,
+        "permutation_method": "monte_carlo_50k",
+        "is_statistically_distinguishable": true
+      },
+      "Delta_schedule": {
+        "contrast_name": "Delta_schedule",
+        "condition_a": "incremental_state",
+        "condition_b": "replay_state_deterministic",
+        "delta_accuracy": 0.0,
+        "ci_lower_95": -0.03125,
+        "ci_upper_95": 0.03125,
+        "discordance_b": 1,
+        "discordance_c": 1,
+        "exact_mcnemar_p_value": 1.0,
+        "permutation_p_value": 1.0,
+        "permutation_method": "exact_exhaustive",
+        "is_statistically_distinguishable": false
+      },
+      "Delta_representation": {
+        "contrast_name": "Delta_representation",
+        "condition_a": "replay_state_deterministic",
+        "condition_b": "replay_transcript",
+        "delta_accuracy": 0.01041666666666674,
+        "ci_lower_95": -0.09375,
+        "ci_upper_95": 0.11458333333333337,
+        "discordance_b": 22,
+        "discordance_c": 21,
+        "exact_mcnemar_p_value": 1.0,
+        "permutation_p_value": 1.0,
+        "permutation_method": "monte_carlo_50k",
+        "is_statistically_distinguishable": false
+      }
+    },
+    "horizon_breakdown": {
+      "10": {
+        "incremental_state": 0.59375,
+        "replay_state_deterministic": 0.59375,
+        "replay_transcript": 0.53125,
+        "replay_state_model": 0.34375,
+        "fresh": 0.25
+      },
+      "25": {
+        "incremental_state": 0.59375,
+        "replay_state_deterministic": 0.59375,
+        "replay_transcript": 0.6875,
+        "replay_state_model": 0.3125,
+        "fresh": 0.3125
+      },
+      "50": {
+        "incremental_state": 0.65625,
+        "replay_state_deterministic": 0.65625,
+        "replay_transcript": 0.59375,
+        "replay_state_model": 0.25,
+        "fresh": 0.25
+      }
+    },
+    "horizon_contrasts": [
+      {
+        "horizon_ticks": 10,
+        "contrast_name": "Delta_online-direct",
+        "condition_a": "incremental_state",
+        "condition_b": "replay_transcript",
+        "delta_accuracy": 0.0625,
+        "ci_lower_95": -0.125,
+        "ci_upper_95": 0.25,
+        "exact_mcnemar_p_value": 0.7744140625
+      },
+      {
+        "horizon_ticks": 25,
+        "contrast_name": "Delta_online-direct",
+        "condition_a": "incremental_state",
+        "condition_b": "replay_transcript",
+        "delta_accuracy": -0.09375,
+        "ci_lower_95": -0.28125,
+        "ci_upper_95": 0.09375,
+        "exact_mcnemar_p_value": 0.5810546875
+      },
+      {
+        "horizon_ticks": 50,
+        "contrast_name": "Delta_online-direct",
+        "condition_a": "incremental_state",
+        "condition_b": "replay_transcript",
+        "delta_accuracy": 0.0625,
+        "ci_lower_95": -0.125,
+        "ci_upper_95": 0.25,
+        "exact_mcnemar_p_value": 0.8145294189453125
+      }
+    ],
+    "token_cost_crossover_ticks": null,
+    "descriptive_accuracy_crossover_ticks": 10
+  },
+  "episodes": [
+    {
+      "episode_id": "ep_10t_idx000",
+      "horizon_ticks": 10,
+      "event_count": 10,
+      "probe_count": 4,
+      "canonical_state_hash": "797c0b29b2f239a1d5c6388ff46baff2e2b737d24d1c7782a11e2beb471f10c2",
+      "model_reconstruction_cost": {
+        "prompt_tokens_once": 482,
+        "completion_tokens_once": 192,
+        "latency_ms_once": 5228.764400002547
+      },
+      "model_reconstruction_fidelity": {
+        "working_memory_retention_rate": 0.0,
+        "goal_status_match_rate": 0.0,
+        "source_ledger_accuracy": 0.0
+      }
+    },
+    {
+      "episode_id": "ep_10t_idx001",
+      "horizon_ticks": 10,
+      "event_count": 17,
+      "probe_count": 4,
+      "canonical_state_hash": "9cd404ed43d3d7eb68adf9918f840d8ad781ccab9eed74c962f786143418655c",
+      "model_reconstruction_cost": {
+        "prompt_tokens_once": 656,
+        "completion_tokens_once": 230,
+        "latency_ms_once": 6227.909400011413
+      },
+      "model_reconstruction_fidelity": {
+        "working_memory_retention_rate": 0.0,
+        "goal_status_match_rate": 0.0,
+        "source_ledger_accuracy": 0.0
+      }
+    },
+    {
+      "episode_id": "ep_10t_idx002",
+      "horizon_ticks": 10,
+      "event_count": 11,
+      "probe_count": 4,
+      "canonical_state_hash": "606b6868c94efd4f2e12227cd3bcff357b252d40c7830c046642db3e5bee175e",
+      "model_reconstruction_cost": {
+        "prompt_tokens_once": 504,
+        "completion_tokens_once": 243,
+        "latency_ms_once": 5866.616299957968
+      },
+      "model_reconstruction_fidelity": {
+        "working_memory_retention_rate": 0.0,
+        "goal_status_match_rate": 0.0,
+        "source_ledger_accuracy": 0.0
+      }
+    },
+    {
+      "episode_id": "ep_10t_idx003",
+      "horizon_ticks": 10,
+      "event_count": 13,
+      "probe_count": 4,
+      "canonical_state_hash": "e07984e0b69c75ee3bf0f67f767dc787780d96c8c40aa08351d274e7549cfae8",
+      "model_reconstruction_cost": {
+        "prompt_tokens_once": 557,
+        "completion_tokens_once": 281,
+        "latency_ms_once": 6439.722700044513
+      },
+      "model_reconstruction_fidelity": {
+        "working_memory_retention_rate": 0.0,
+        "goal_status_match_rate": 0.0,
+        "source_ledger_accuracy": 0.0
+      }
+    },
+    {
+      "episode_id": "ep_10t_idx004",
+      "horizon_ticks": 10,
+      "event_count": 16,
+      "probe_count": 4,
+      "canonical_state_hash": "bb24f4f03cc85e264bf83373bc04d47f2345ef3acd7391f9b307a9043d84198a",
+      "model_reconstruction_cost": {
+        "prompt_tokens_once": 634,
+        "completion_tokens_once": 126,
+        "latency_ms_once": 13105.512399924919
+      },
+      "model_reconstruction_fidelity": {
+        "working_memory_retention_rate": 0.0,
+        "goal_status_match_rate": 0.0,
+        "source_ledger_accuracy": 0.0
+      }
+    },
+    {
+      "episode_id": "ep_10t_idx005",
+      "horizon_ticks": 10,
+      "event_count": 15,
+      "probe_count": 4,
+      "canonical_state_hash": "9c96e9d474fe8265c75443b686efe1022f83d7e63ff7ba8e2949dae15e044245",
+      "model_reconstruction_cost": {
+        "prompt_tokens_once": 606,
+        "completion_tokens_once": 259,
+        "latency_ms_once": 12692.199399927631
+      },
+      "model_reconstruction_fidelity": {
+        "working_memory_retention_rate": 0.0,
+        "goal_status_match_rate": 0.0,
+        "source_ledger_accuracy": 0.0
+      }
+    },
+    {
+      "episode_id": "ep_10t_idx006",
+      "horizon_ticks": 10,
+      "event_count": 10,
+      "probe_count": 4,
+      "canonical_state_hash": "76b2d6b4e518e08ddd45b324067e679595ea14776c7be32a422b84690a66587c",
+      "model_reconstruction_cost": {
+        "prompt_tokens_once": 481,
+        "completion_tokens_once": 282,
+        "latency_ms_once": 12315.021399990655
+      },
+      "model_reconstruction_fidelity": {
+        "working_memory_retention_rate": 0.0,
+        "goal_status_match_rate": 0.0,
+        "source_ledger_accuracy": 0.0
+      }
+    },
+    {
+      "episode_id": "ep_10t_idx007",
+      "horizon_ticks": 10,
+      "event_count": 11,
+      "probe_count": 4,
+      "canonical_state_hash": "fd4abbfe0c29cd97b9c6205792d5516e23fae9faddfc0c6780bc4ff7d5bc7e6b",
+      "model_reconstruction_cost": {
+        "prompt_tokens_once": 509,
+        "completion_tokens_once": 215,
+        "latency_ms_once": 11107.629199977964
+      },
+      "model_reconstruction_fidelity": {
+        "working_memory_retention_rate": 0.0,
+        "goal_status_match_rate": 0.0,
+        "source_ledger_accuracy": 0.0
+      }
+    },
+    {
+      "episode_id": "ep_25t_idx008",
+      "horizon_ticks": 25,
+      "event_count": 22,
+      "probe_count": 4,
+      "canonical_state_hash": "7799f13261333ee522d5e8043f1e0cfe0ab1f0f8074ac61ab91a643349b9d06b",
+      "model_reconstruction_cost": {
+        "prompt_tokens_once": 795,
+        "completion_tokens_once": 212,
+        "latency_ms_once": 11453.720699995756
+      },
+      "model_reconstruction_fidelity": {
+        "working_memory_retention_rate": 0.0,
+        "goal_status_match_rate": 0.0,
+        "source_ledger_accuracy": 0.0
+      }
+    },
+    {
+      "episode_id": "ep_25t_idx009",
+      "horizon_ticks": 25,
+      "event_count": 19,
+      "probe_count": 4,
+      "canonical_state_hash": "c8f538a17a1868c572c4c016cb98e9a79939be89c877aef147828536834870c2",
+      "model_reconstruction_cost": {
+        "prompt_tokens_once": 709,
+        "completion_tokens_once": 196,
+        "latency_ms_once": 11036.329499911517
+      },
+      "model_reconstruction_fidelity": {
+        "working_memory_retention_rate": 0.0,
+        "goal_status_match_rate": 0.0,
+        "source_ledger_accuracy": 0.0
+      }
+    },
+    {
+      "episode_id": "ep_25t_idx010",
+      "horizon_ticks": 25,
+      "event_count": 21,
+      "probe_count": 4,
+      "canonical_state_hash": "a5307337a0bb607748bb7186ce7b6474a08c9f8885d26c6137444c8cdf8e4437",
+      "model_reconstruction_cost": {
+        "prompt_tokens_once": 754,
+        "completion_tokens_once": 287,
+        "latency_ms_once": 5469.685300020501
+      },
+      "model_reconstruction_fidelity": {
+        "working_memory_retention_rate": 0.0,
+        "goal_status_match_rate": 0.0,
+        "source_ledger_accuracy": 0.0
+      }
+    },
+    {
+      "episode_id": "ep_25t_idx011",
+      "horizon_ticks": 25,
+      "event_count": 24,
+      "probe_count": 4,
+      "canonical_state_hash": "d09ec191fb9ebe3f8d006c7e05af0304e1b0a80f08d8c412b83600b24b685106",
+      "model_reconstruction_cost": {
+        "prompt_tokens_once": 839,
+        "completion_tokens_once": 246,
+        "latency_ms_once": 5208.835000055842
+      },
+      "model_reconstruction_fidelity": {
+        "working_memory_retention_rate": 0.0,
+        "goal_status_match_rate": 0.0,
+        "source_ledger_accuracy": 0.0
+      }
+    },
+    {
+      "episode_id": "ep_25t_idx012",
+      "horizon_ticks": 25,
+      "event_count": 19,
+      "probe_count": 4,
+      "canonical_state_hash": "3a25296378bc3228d31edeffd09c1826f1fe0835f64ba1da36a63a0716cdb3f6",
+      "model_reconstruction_cost": {
+        "prompt_tokens_once": 724,
+        "completion_tokens_once": 656,
+        "latency_ms_once": 9211.233300040476
+      },
+      "model_reconstruction_fidelity": {
+        "working_memory_retention_rate": 0.0,
+        "goal_status_match_rate": 0.0,
+        "source_ledger_accuracy": 0.0
+      }
+    },
+    {
+      "episode_id": "ep_25t_idx013",
+      "horizon_ticks": 25,
+      "event_count": 20,
+      "probe_count": 4,
+      "canonical_state_hash": "1c3987259871bf3a8d038be5e17005a798c8bddbc6d11b2ee3fd93b4f8485c9b",
+      "model_reconstruction_cost": {
+        "prompt_tokens_once": 735,
+        "completion_tokens_once": 194,
+        "latency_ms_once": 4629.117899923585
+      },
+      "model_reconstruction_fidelity": {
+        "working_memory_retention_rate": 0.0,
+        "goal_status_match_rate": 0.0,
+        "source_ledger_accuracy": 0.0
+      }
+    },
+    {
+      "episode_id": "ep_25t_idx014",
+      "horizon_ticks": 25,
+      "event_count": 23,
+      "probe_count": 4,
+      "canonical_state_hash": "737ed90f420ab824f9dd80bf8c63849e0cc8b0097097fe0b9a5d41e166ba9b6b",
+      "model_reconstruction_cost": {
+        "prompt_tokens_once": 808,
+        "completion_tokens_once": 199,
+        "latency_ms_once": 4690.2657999889925
+      },
+      "model_reconstruction_fidelity": {
+        "working_memory_retention_rate": 0.0,
+        "goal_status_match_rate": 0.0,
+        "source_ledger_accuracy": 0.0
+      }
+    },
+    {
+      "episode_id": "ep_25t_idx015",
+      "horizon_ticks": 25,
+      "event_count": 19,
+      "probe_count": 4,
+      "canonical_state_hash": "d36a45deadd14076fea844ec0417f68e231c1bfc90b540ee727efb3935308c69",
+      "model_reconstruction_cost": {
+        "prompt_tokens_once": 714,
+        "completion_tokens_once": 192,
+        "latency_ms_once": 4819.72519995179
+      },
+      "model_reconstruction_fidelity": {
+        "working_memory_retention_rate": 0.0,
+        "goal_status_match_rate": 0.0,
+        "source_ledger_accuracy": 0.0
+      }
+    },
+    {
+      "episode_id": "ep_50t_idx016",
+      "horizon_ticks": 50,
+      "event_count": 32,
+      "probe_count": 4,
+      "canonical_state_hash": "b9ac1ec155ac6a7fd9bb66f44bea1ac60ddf4bb11589494e910e27a66b4f062a",
+      "model_reconstruction_cost": {
+        "prompt_tokens_once": 1057,
+        "completion_tokens_once": 199,
+        "latency_ms_once": 4994.893099996261
+      },
+      "model_reconstruction_fidelity": {
+        "working_memory_retention_rate": 0.0,
+        "goal_status_match_rate": 0.0,
+        "source_ledger_accuracy": 0.0
+      }
+    },
+    {
+      "episode_id": "ep_50t_idx017",
+      "horizon_ticks": 50,
+      "event_count": 29,
+      "probe_count": 4,
+      "canonical_state_hash": "67db7b03af4a4284c30b645fb1252185f38f10e7533ca5a1a9d5e23235f2cdb1",
+      "model_reconstruction_cost": {
+        "prompt_tokens_once": 977,
+        "completion_tokens_once": 171,
+        "latency_ms_once": 4670.517800026573
+      },
+      "model_reconstruction_fidelity": {
+        "working_memory_retention_rate": 0.0,
+        "goal_status_match_rate": 0.0,
+        "source_ledger_accuracy": 0.0
+      }
+    },
+    {
+      "episode_id": "ep_50t_idx018",
+      "horizon_ticks": 50,
+      "event_count": 33,
+      "probe_count": 4,
+      "canonical_state_hash": "15928c3986c8661c98b6c6d777a0420eac4e3ad79a27cfe59556adbcfe16d086",
+      "model_reconstruction_cost": {
+        "prompt_tokens_once": 1077,
+        "completion_tokens_once": 123,
+        "latency_ms_once": 4414.728499948978
+      },
+      "model_reconstruction_fidelity": {
+        "working_memory_retention_rate": 0.0,
+        "goal_status_match_rate": 0.0,
+        "source_ledger_accuracy": 0.0
+      }
+    },
+    {
+      "episode_id": "ep_50t_idx019",
+      "horizon_ticks": 50,
+      "event_count": 32,
+      "probe_count": 4,
+      "canonical_state_hash": "9b290c6c5f35d522dd18edf259e7a286fa41b3f228cec001e6ebce25360f1a0d",
+      "model_reconstruction_cost": {
+        "prompt_tokens_once": 1055,
+        "completion_tokens_once": 350,
+        "latency_ms_once": 6825.650300015695
+      },
+      "model_reconstruction_fidelity": {
+        "working_memory_retention_rate": 0.0,
+        "goal_status_match_rate": 0.0,
+        "source_ledger_accuracy": 0.0
+      }
+    },
+    {
+      "episode_id": "ep_50t_idx020",
+      "horizon_ticks": 50,
+      "event_count": 24,
+      "probe_count": 4,
+      "canonical_state_hash": "bbce700c22a8efcea2b18361a3eef07ba21d5fd36e43d83de6843cfadef8d778",
+      "model_reconstruction_cost": {
+        "prompt_tokens_once": 858,
+        "completion_tokens_once": 86,
+        "latency_ms_once": 4158.126599970274
+      },
+      "model_reconstruction_fidelity": {
+        "working_memory_retention_rate": 0.0,
+        "goal_status_match_rate": 0.0,
+        "source_ledger_accuracy": 0.0
+      }
+    },
+    {
+      "episode_id": "ep_50t_idx021",
+      "horizon_ticks": 50,
+      "event_count": 35,
+      "probe_count": 4,
+      "canonical_state_hash": "34021cb045cefa906cfd476153543370d537bbf2fc6991bc9d091d3fe6a2d8a3",
+      "model_reconstruction_cost": {
+        "prompt_tokens_once": 1125,
+        "completion_tokens_once": 120,
+        "latency_ms_once": 4356.913900002837
+      },
+      "model_reconstruction_fidelity": {
+        "working_memory_retention_rate": 0.0,
+        "goal_status_match_rate": 0.0,
+        "source_ledger_accuracy": 0.0
+      }
+    },
+    {
+      "episode_id": "ep_50t_idx022",
+      "horizon_ticks": 50,
+      "event_count": 32,
+      "probe_count": 4,
+      "canonical_state_hash": "7aff058ff3050a66cb072a95528a393dd6690c195eec2547fb4b30a8691f6d39",
+      "model_reconstruction_cost": {
+        "prompt_tokens_once": 0,
+        "completion_tokens_once": 0,
+        "latency_ms_once": 6328.367699985392
+      },
+      "model_reconstruction_fidelity": {
+        "working_memory_retention_rate": 0.0,
+        "goal_status_match_rate": 0.0,
+        "source_ledger_accuracy": 0.0
+      }
+    },
+    {
+      "episode_id": "ep_50t_idx023",
+      "horizon_ticks": 50,
+      "event_count": 35,
+      "probe_count": 4,
+      "canonical_state_hash": "9366f2dcdc04df00b1ea9169f1cc0f49f038015dc49e2759d744508342ae2425",
+      "model_reconstruction_cost": {
+        "prompt_tokens_once": 1126,
+        "completion_tokens_once": 399,
+        "latency_ms_once": 6999.150999938138
+      },
+      "model_reconstruction_fidelity": {
+        "working_memory_retention_rate": 0.0,
+        "goal_status_match_rate": 0.0,
+        "source_ledger_accuracy": 0.0
+      }
+    }
+  ]
+}
