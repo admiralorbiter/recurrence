@@ -1,0 +1,465 @@
+{
+  "manifest": {
+    "run_id": "run_e05_sched_20260816_141108_exploratory",
+    "target_model": "qwen2.5:3b",
+    "model_digest": "357c53fb659c5076de1d65ccb0b397446227b71a42be9d1603d46168015c9e4b",
+    "phase": "exploratory",
+    "seed": 42,
+    "temperature": 0.0,
+    "start_time": "2026-08-16T14:22:16.589887+00:00",
+    "total_episodes": 12,
+    "total_trials": 240,
+    "horizons": [
+      10,
+      25,
+      50
+    ],
+    "episodes_per_horizon": 4
+  },
+  "analysis": {
+    "total_episodes": 12,
+    "total_trials": 240,
+    "horizons_evaluated": [
+      10,
+      25,
+      50
+    ],
+    "condition_stats": {
+      "incremental_state": {
+        "condition": "incremental_state",
+        "total_trials": 48,
+        "correct_trials": 29,
+        "accuracy_micro": 0.6041666666666666,
+        "accuracy_macro_by_probe": 0.6041666666666667,
+        "probe_accuracies": {
+          "delayed_kv": 0.5833333333333334,
+          "source_attribution": 0.4166666666666667,
+          "goal_state": 0.8333333333333334,
+          "multihop": 0.5833333333333334
+        },
+        "mean_prompt_tokens": 421.3541666666667,
+        "mean_completion_tokens": 9.458333333333334,
+        "mean_latency_ms": 2445.030658328809,
+        "mean_amortized_prompt_tokens": 421.3541666666667,
+        "mean_amortized_latency_ms": 2445.030658328809
+      },
+      "replay_state_deterministic": {
+        "condition": "replay_state_deterministic",
+        "total_trials": 48,
+        "correct_trials": 28,
+        "accuracy_micro": 0.5833333333333334,
+        "accuracy_macro_by_probe": 0.5833333333333334,
+        "probe_accuracies": {
+          "delayed_kv": 0.5,
+          "source_attribution": 0.4166666666666667,
+          "goal_state": 0.8333333333333334,
+          "multihop": 0.5833333333333334
+        },
+        "mean_prompt_tokens": 421.3541666666667,
+        "mean_completion_tokens": 9.270833333333334,
+        "mean_latency_ms": 2442.2250479183276,
+        "mean_amortized_prompt_tokens": 421.3541666666667,
+        "mean_amortized_latency_ms": 2442.2250479183276
+      },
+      "replay_transcript": {
+        "condition": "replay_transcript",
+        "total_trials": 48,
+        "correct_trials": 35,
+        "accuracy_micro": 0.7291666666666666,
+        "accuracy_macro_by_probe": 0.7291666666666666,
+        "probe_accuracies": {
+          "delayed_kv": 0.9166666666666666,
+          "source_attribution": 0.75,
+          "goal_state": 0.75,
+          "multihop": 0.5
+        },
+        "mean_prompt_tokens": 806.2708333333334,
+        "mean_completion_tokens": 8.291666666666666,
+        "mean_latency_ms": 2428.4747291676467,
+        "mean_amortized_prompt_tokens": 806.2708333333334,
+        "mean_amortized_latency_ms": 2428.4747291676467
+      },
+      "replay_state_model": {
+        "condition": "replay_state_model",
+        "total_trials": 48,
+        "correct_trials": 16,
+        "accuracy_micro": 0.3333333333333333,
+        "accuracy_macro_by_probe": 0.33333333333333337,
+        "probe_accuracies": {
+          "delayed_kv": 0.4166666666666667,
+          "source_attribution": 0.3333333333333333,
+          "goal_state": 0.4166666666666667,
+          "multihop": 0.16666666666666666
+        },
+        "mean_prompt_tokens": 383.4375,
+        "mean_completion_tokens": 9.5625,
+        "mean_latency_ms": 2446.1258041628753,
+        "mean_amortized_prompt_tokens": 554.9375,
+        "mean_amortized_latency_ms": 4171.306910410446
+      },
+      "fresh": {
+        "condition": "fresh",
+        "total_trials": 48,
+        "correct_trials": 14,
+        "accuracy_micro": 0.2916666666666667,
+        "accuracy_macro_by_probe": 0.2916666666666667,
+        "probe_accuracies": {
+          "delayed_kv": 0.4166666666666667,
+          "source_attribution": 0.25,
+          "goal_state": 0.16666666666666666,
+          "multihop": 0.3333333333333333
+        },
+        "mean_prompt_tokens": 113.9375,
+        "mean_completion_tokens": 7.25,
+        "mean_latency_ms": 2378.468089584203,
+        "mean_amortized_prompt_tokens": 113.9375,
+        "mean_amortized_latency_ms": 2378.468089584203
+      }
+    },
+    "causal_estimands": {
+      "Delta_online-direct": {
+        "contrast_name": "Delta_online-direct",
+        "condition_a": "incremental_state",
+        "condition_b": "replay_transcript",
+        "delta_accuracy": -0.125,
+        "ci_lower_95": -0.25,
+        "ci_upper_95": 0.02083333333333326,
+        "discordance_b": 9,
+        "discordance_c": 15,
+        "exact_mcnemar_p_value": 0.30745625495910645,
+        "permutation_p_value": 0.1826171875,
+        "permutation_method": "exact_exhaustive",
+        "is_statistically_distinguishable": false
+      },
+      "Delta_reconstruction": {
+        "contrast_name": "Delta_reconstruction",
+        "condition_a": "incremental_state",
+        "condition_b": "replay_state_model",
+        "delta_accuracy": 0.2708333333333333,
+        "ci_lower_95": 0.125,
+        "ci_upper_95": 0.41666666666666663,
+        "discordance_b": 16,
+        "discordance_c": 3,
+        "exact_mcnemar_p_value": 0.004425048828125,
+        "permutation_p_value": 0.015625,
+        "permutation_method": "exact_exhaustive",
+        "is_statistically_distinguishable": true
+      },
+      "Delta_schedule": {
+        "contrast_name": "Delta_schedule",
+        "condition_a": "incremental_state",
+        "condition_b": "replay_state_deterministic",
+        "delta_accuracy": 0.02083333333333326,
+        "ci_lower_95": -0.04166666666666674,
+        "ci_upper_95": 0.08333333333333337,
+        "discordance_b": 2,
+        "discordance_c": 1,
+        "exact_mcnemar_p_value": 1.0,
+        "permutation_p_value": 1.0,
+        "permutation_method": "exact_exhaustive",
+        "is_statistically_distinguishable": false
+      },
+      "Delta_representation": {
+        "contrast_name": "Delta_representation",
+        "condition_a": "replay_state_deterministic",
+        "condition_b": "replay_transcript",
+        "delta_accuracy": -0.14583333333333326,
+        "ci_lower_95": -0.29166666666666663,
+        "ci_upper_95": 0.0,
+        "discordance_b": 10,
+        "discordance_c": 17,
+        "exact_mcnemar_p_value": 0.24778856337070465,
+        "permutation_p_value": 0.146484375,
+        "permutation_method": "exact_exhaustive",
+        "is_statistically_distinguishable": false
+      }
+    },
+    "horizon_breakdown": {
+      "10": {
+        "incremental_state": 0.5,
+        "replay_state_deterministic": 0.5625,
+        "replay_transcript": 0.8125,
+        "replay_state_model": 0.5,
+        "fresh": 0.25
+      },
+      "25": {
+        "incremental_state": 0.625,
+        "replay_state_deterministic": 0.5,
+        "replay_transcript": 0.6875,
+        "replay_state_model": 0.1875,
+        "fresh": 0.25
+      },
+      "50": {
+        "incremental_state": 0.6875,
+        "replay_state_deterministic": 0.6875,
+        "replay_transcript": 0.6875,
+        "replay_state_model": 0.3125,
+        "fresh": 0.375
+      }
+    },
+    "horizon_contrasts": [
+      {
+        "horizon_ticks": 10,
+        "contrast_name": "Delta_online-direct",
+        "condition_a": "incremental_state",
+        "condition_b": "replay_transcript",
+        "delta_accuracy": -0.3125,
+        "ci_lower_95": -0.4375,
+        "ci_upper_95": -0.25,
+        "exact_mcnemar_p_value": 0.125
+      },
+      {
+        "horizon_ticks": 25,
+        "contrast_name": "Delta_online-direct",
+        "condition_a": "incremental_state",
+        "condition_b": "replay_transcript",
+        "delta_accuracy": -0.0625,
+        "ci_lower_95": -0.25,
+        "ci_upper_95": 0.125,
+        "exact_mcnemar_p_value": 1.0
+      },
+      {
+        "horizon_ticks": 50,
+        "contrast_name": "Delta_online-direct",
+        "condition_a": "incremental_state",
+        "condition_b": "replay_transcript",
+        "delta_accuracy": 0.0,
+        "ci_lower_95": -0.25,
+        "ci_upper_95": 0.25,
+        "exact_mcnemar_p_value": 1.0
+      }
+    ],
+    "token_cost_crossover_ticks": null,
+    "descriptive_accuracy_crossover_ticks": null
+  },
+  "episodes": [
+    {
+      "episode_id": "ep_10t_idx000",
+      "horizon_ticks": 10,
+      "event_count": 13,
+      "probe_count": 4,
+      "canonical_state_hash": "01f5e00cd0ccdd9df2cfd4999694a2ef5e295beb3f6272354e537a17b1bdb9dc",
+      "model_reconstruction_cost": {
+        "prompt_tokens_once": 557,
+        "completion_tokens_once": 154,
+        "latency_ms_once": 5387.557500042021
+      },
+      "model_reconstruction_fidelity": {
+        "working_memory_retention_rate": 0.0,
+        "goal_status_match_rate": 0.0,
+        "source_ledger_accuracy": 0.0
+      },
+      "reconstruction_valid": true,
+      "reconstruction_validation_error": null
+    },
+    {
+      "episode_id": "ep_10t_idx001",
+      "horizon_ticks": 10,
+      "event_count": 14,
+      "probe_count": 4,
+      "canonical_state_hash": "fa6cb98ac0cf3ad009b55f9a090e3a15443da3e99a472e1dd15fe047a900151f",
+      "model_reconstruction_cost": {
+        "prompt_tokens_once": 585,
+        "completion_tokens_once": 300,
+        "latency_ms_once": 6207.450699992478
+      },
+      "model_reconstruction_fidelity": {
+        "working_memory_retention_rate": 0.3333333333333333,
+        "goal_status_match_rate": 0.0,
+        "source_ledger_accuracy": 0.0
+      },
+      "reconstruction_valid": true,
+      "reconstruction_validation_error": null
+    },
+    {
+      "episode_id": "ep_10t_idx002",
+      "horizon_ticks": 10,
+      "event_count": 12,
+      "probe_count": 4,
+      "canonical_state_hash": "983e30b4db8e2eb8b3fc37def196f2675287c9a11cde6917286534fe93ed5163",
+      "model_reconstruction_cost": {
+        "prompt_tokens_once": 525,
+        "completion_tokens_once": 290,
+        "latency_ms_once": 6007.909300038591
+      },
+      "model_reconstruction_fidelity": {
+        "working_memory_retention_rate": 0.16666666666666666,
+        "goal_status_match_rate": 0.0,
+        "source_ledger_accuracy": 0.0
+      },
+      "reconstruction_valid": true,
+      "reconstruction_validation_error": null
+    },
+    {
+      "episode_id": "ep_10t_idx003",
+      "horizon_ticks": 10,
+      "event_count": 12,
+      "probe_count": 4,
+      "canonical_state_hash": "08e723283924ed7aa8ec950927f36156b2d75304f83264b762b772351a631440",
+      "model_reconstruction_cost": {
+        "prompt_tokens_once": 532,
+        "completion_tokens_once": 204,
+        "latency_ms_once": 5446.533999987878
+      },
+      "model_reconstruction_fidelity": {
+        "working_memory_retention_rate": 0.0,
+        "goal_status_match_rate": 0.0,
+        "source_ledger_accuracy": 0.3333333333333333
+      },
+      "reconstruction_valid": true,
+      "reconstruction_validation_error": null
+    },
+    {
+      "episode_id": "ep_25t_idx004",
+      "horizon_ticks": 25,
+      "event_count": 24,
+      "probe_count": 4,
+      "canonical_state_hash": "ae8181c57c73479bf147fb1c75cb0013251e10b8ad15c4a3b73feaa2f490b235",
+      "model_reconstruction_cost": {
+        "prompt_tokens_once": 848,
+        "completion_tokens_once": 204,
+        "latency_ms_once": 5504.636500030756
+      },
+      "model_reconstruction_fidelity": {
+        "working_memory_retention_rate": 0.0,
+        "goal_status_match_rate": 0.0,
+        "source_ledger_accuracy": 0.0
+      },
+      "reconstruction_valid": true,
+      "reconstruction_validation_error": null
+    },
+    {
+      "episode_id": "ep_25t_idx005",
+      "horizon_ticks": 25,
+      "event_count": 20,
+      "probe_count": 4,
+      "canonical_state_hash": "b33b9f5bc8e53e960877eeff62ca55305caeab63ec86f0b31bc7c2a7e62911d1",
+      "model_reconstruction_cost": {
+        "prompt_tokens_once": 740,
+        "completion_tokens_once": 232,
+        "latency_ms_once": 5911.1625999212265
+      },
+      "model_reconstruction_fidelity": {
+        "working_memory_retention_rate": 0.0,
+        "goal_status_match_rate": 0.0,
+        "source_ledger_accuracy": 0.0
+      },
+      "reconstruction_valid": true,
+      "reconstruction_validation_error": null
+    },
+    {
+      "episode_id": "ep_25t_idx006",
+      "horizon_ticks": 25,
+      "event_count": 18,
+      "probe_count": 4,
+      "canonical_state_hash": "df84224bd8db8876b73e3cc29115487511dd867d417022c458281476a92e5a36",
+      "model_reconstruction_cost": {
+        "prompt_tokens_once": 693,
+        "completion_tokens_once": 218,
+        "latency_ms_once": 5793.4605000773445
+      },
+      "model_reconstruction_fidelity": {
+        "working_memory_retention_rate": 0.5,
+        "goal_status_match_rate": 0.0,
+        "source_ledger_accuracy": 0.0
+      },
+      "reconstruction_valid": true,
+      "reconstruction_validation_error": null
+    },
+    {
+      "episode_id": "ep_25t_idx007",
+      "horizon_ticks": 25,
+      "event_count": 21,
+      "probe_count": 4,
+      "canonical_state_hash": "603357956bc07eac9954e3ab3b3623d8037d4a31dec991e5095a1a5c9dee987d",
+      "model_reconstruction_cost": {
+        "prompt_tokens_once": 763,
+        "completion_tokens_once": 458,
+        "latency_ms_once": 9570.744900032878
+      },
+      "model_reconstruction_fidelity": {
+        "working_memory_retention_rate": 0.0,
+        "goal_status_match_rate": 0.0,
+        "source_ledger_accuracy": 0.0
+      },
+      "reconstruction_valid": true,
+      "reconstruction_validation_error": null
+    },
+    {
+      "episode_id": "ep_50t_idx008",
+      "horizon_ticks": 50,
+      "event_count": 34,
+      "probe_count": 4,
+      "canonical_state_hash": "2bb7fb73ad8932f5c5acd5b9772f7df66b211d3947c5d41c251b6a107ff74f3e",
+      "model_reconstruction_cost": {
+        "prompt_tokens_once": 1107,
+        "completion_tokens_once": 249,
+        "latency_ms_once": 7548.032499966212
+      },
+      "model_reconstruction_fidelity": {
+        "working_memory_retention_rate": 0.5,
+        "goal_status_match_rate": 0.0,
+        "source_ledger_accuracy": 0.0
+      },
+      "reconstruction_valid": true,
+      "reconstruction_validation_error": null
+    },
+    {
+      "episode_id": "ep_50t_idx009",
+      "horizon_ticks": 50,
+      "event_count": 25,
+      "probe_count": 4,
+      "canonical_state_hash": "28fb489a900adf8e970f61187a2cb1bfacb4e3d916d92e5089f984de331e4745",
+      "model_reconstruction_cost": {
+        "prompt_tokens_once": 875,
+        "completion_tokens_once": 145,
+        "latency_ms_once": 5550.624099909328
+      },
+      "model_reconstruction_fidelity": {
+        "working_memory_retention_rate": 0.0,
+        "goal_status_match_rate": 0.0,
+        "source_ledger_accuracy": 0.0
+      },
+      "reconstruction_valid": true,
+      "reconstruction_validation_error": null
+    },
+    {
+      "episode_id": "ep_50t_idx010",
+      "horizon_ticks": 50,
+      "event_count": 31,
+      "probe_count": 4,
+      "canonical_state_hash": "404cb5589cdf43557d4afe19b6e1b23a05195217671cfc484dec7f1343fd4cb9",
+      "model_reconstruction_cost": {
+        "prompt_tokens_once": 1022,
+        "completion_tokens_once": 364,
+        "latency_ms_once": 7196.786799933761
+      },
+      "model_reconstruction_fidelity": {
+        "working_memory_retention_rate": 0.5,
+        "goal_status_match_rate": 0.0,
+        "source_ledger_accuracy": 0.0
+      },
+      "reconstruction_valid": true,
+      "reconstruction_validation_error": null
+    },
+    {
+      "episode_id": "ep_50t_idx011",
+      "horizon_ticks": 50,
+      "event_count": 36,
+      "probe_count": 4,
+      "canonical_state_hash": "547893bd6ab8b8f38e46b4321640d8444da492496eddb396ac9b1849c09a8580",
+      "model_reconstruction_cost": {
+        "prompt_tokens_once": 0,
+        "completion_tokens_once": 0,
+        "latency_ms_once": 12683.793699950911
+      },
+      "model_reconstruction_fidelity": {
+        "working_memory_retention_rate": 0.0,
+        "goal_status_match_rate": 0.0,
+        "source_ledger_accuracy": 0.0
+      },
+      "reconstruction_valid": false,
+      "reconstruction_validation_error": "Unterminated string starting at: line 92 column 20 (char 2625)"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "run_id": "run_e05_sched_20260816_141108_exploratory",
+  "target_model": "qwen2.5:3b",
+  "model_digest": "357c53fb659c5076de1d65ccb0b397446227b71a42be9d1603d46168015c9e4b",
+  "phase": "exploratory",
+  "seed": 42,
+  "temperature": 0.0,
+  "start_time": "2026-08-16T14:22:16.589887+00:00",
+  "total_episodes": 12,
+  "total_trials": 240,
+  "horizons": [
+    10,
+    25,
+    50
+  ],
+  "episodes_per_horizon": 4
+}
