@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>S02 · A Distorted Mirror — H0 · The Mirror and the Hundred Eyes</title>
-<meta name="description" content="Why recognition and reproduction are different, and how an easy task can create a false sense of ability.">
+<meta name="description" content="Recognition was much stronger than exact generation, changing what the original failures could mean.">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body data-page="s02.html">
@@ -12,209 +12,101 @@
   <a class="site-brand" href="index.html"><span>RECURRENCE · H0</span><strong>The Mirror and the Hundred Eyes</strong></a>
   <div class="top-actions">
     <button id="plain-toggle" class="top-button" type="button">Plain-English recap</button>
-    <button id="glossary-open" class="top-button" type="button">Glossary ?</button>
+    <button id="glossary-open" class="top-button" type="button">Glossary</button>
   </div>
 </header>
 <div class="shell">
   <nav class="side-nav">
     <div class="nav-kicker">Guided tour</div>
-    <a class="" href="index.html"><span>00</span>Start Here</a><a class="" href="question.html"><span>01</span>The Question</a><a class="" href="toolkit.html"><span>02</span>How to Read H0</a><a class="" href="s01.html"><span>03</span>S01 · The First Reflection</a><a class="active" href="s02.html"><span>04</span>S02 · A Distorted Mirror</a><a class="" href="observers.html"><span>05</span>The Hundred Eyes</a><a class="" href="archaeology.html"><span>06</span>S03 · Instruments That Lied</a><a class="" href="result.html"><span>07</span>The Reference Result</a><a class="" href="stress-test.html"><span>08</span>Stress-Testing the Ruler</a><a class="" href="meaning.html"><span>09</span>What H0 Means</a><a class="" href="h1.html"><span>10</span>Mnemosyne Waits</a>
+    <a href="index.html"><span>00</span>Start Here</a><a href="question.html"><span>01</span>The Question</a><a href="toolkit.html"><span>02</span>How to Read H0</a><a href="s01.html"><span>03</span>S01 · The First Reflection</a><a href="s02.html"><span>04</span>S02 · A Distorted Mirror</a><a href="observers.html"><span>05</span>The Hundred Eyes</a><a href="archaeology.html"><span>06</span>Instruments That Lied</a><a href="result.html"><span>07</span>The Reference Result</a><a href="stress-test.html"><span>08</span>Stress-Testing the Ruler</a><a href="meaning.html"><span>09</span>What H0 Means</a><a href="h1.html"><span>10</span>Mnemosyne Waits</a>
   </nav>
   <main class="page">
     <div class="page-intro">
       <div class="progress">Chapter 5 of 11</div>
-      <p>Why recognition and reproduction are different, and how an easy task can create a false sense of ability.</p>
+      <p>Recognition was much stronger than exact generation, changing what the original failures could mean.</p>
     </div>
     <aside id="plain-recap" class="plain-recap" hidden>
       <div class="eyebrow">In plain English</div>
-      <p>The model was much better at recognizing the answer than reproducing it exactly. That means response format was part of the measured behavior.</p>
+      <p>Recognition was much stronger than exact generation, changing what the original failures could mean.</p>
     </aside>
-    <aside class="reader-note"><strong>What to notice</strong><p>When forced choice rescues performance, the meaning of a free-generation error changes. A measurement interface can become part of the behavior.</p></aside>
-    <article class="prose"><h1>IV. A Distorted Mirror</h1>
-<h2>S02 — Recognition, Reproduction, and the Danger of Easy Tasks</h2>
-<p>S02 was the first point where H0 began to behave like a real measurement program rather than a collection of interesting prompts.</p>
-<p>The problem from S01 was clear.</p>
-<p>Opaque key-value retrieval might fail because:</p>
-<ol>
-<li>the association was never retrieved;</li>
-<li>the correct value was partially available but difficult to reproduce exactly;</li>
-<li>arbitrary strings were unusually hard to tokenize or copy;</li>
-<li>the output format itself was causing errors.</li>
-</ol>
-<p>The new design separated some of those possibilities.</p>
-<hr/>
-<h1>The 2 × 2 design</h1>
-<p>Two dimensions were varied.</p>
-<h2>Dimension 1 — Identifier type</h2>
+    <article class="prose"><h1>IV. S02 — A Distorted Mirror</h1>
+<h2>Recognition Is Not Reproduction</h2>
+<p>S02 crossed two dimensions explicitly:</p>
 <ul>
-<li><strong>Semantic</strong> — meaningful words and familiar combinations.</li>
-<li><strong>Opaque</strong> — arbitrary strings.</li>
+<li>semantic versus opaque identifiers;</li>
+<li>forced-choice recognition versus free generation.</li>
 </ul>
-<h2>Dimension 2 — Response mode</h2>
-<ul>
-<li><strong><button class="term" data-term="forcedchoice" type="button">Forced choice</button></strong> — choose the correct answer from four options.</li>
-<li><strong>Free generation</strong> — reproduce the exact value without options.</li>
-</ul>
-<p>This creates four conditions.</p>
 <table>
 <thead>
 <tr>
-<th></th>
-<th style="text-align:right">Forced Choice</th>
-<th style="text-align:right">Free Generation</th>
+  <th>Identifier</th>
+  <th style="text-align:right">Forced Choice</th>
+  <th style="text-align:right">Free Generation</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Semantic</td>
-<td style="text-align:right">65%</td>
-<td style="text-align:right">40%</td>
+  <td>Semantic</td>
+  <td style="text-align:right">65.0%</td>
+  <td style="text-align:right">40.0%</td>
 </tr>
 <tr>
-<td>Opaque</td>
-<td style="text-align:right">60%</td>
-<td style="text-align:right">25%</td>
+  <td>Opaque</td>
+  <td style="text-align:right">60.0%</td>
+  <td style="text-align:right">25.0%</td>
 </tr>
 </tbody>
 </table>
-<p>The central comparison was not simply semantic vs. opaque.</p>
-<p>It was:</p>
-<blockquote>
-<p>Does the same underlying item become easier when the model only has to <strong>recognize</strong> the correct answer rather than <strong>produce</strong> it exactly?</p>
-</blockquote>
-<hr/>
-<h1>Why forced choice matters</h1>
-<p>Imagine you know a person's face but cannot remember their name.</p>
-<p>If someone asks:</p>
-<blockquote>
-<p>"What is their name?"</p>
-</blockquote>
-<p>you may fail.</p>
-<p>If someone asks:</p>
-<blockquote>
-<p>"Is it Alex, Brian, Chris, or Daniel?"</p>
-</blockquote>
-<p>you may immediately recognize Alex.</p>
-<p>That does not prove the name was perfectly represented in memory before seeing the options.</p>
-<p>But it shows that <strong>recognition and free recall are different demands</strong>.</p>
-<p>The same logic applies here.</p>
-<hr/>
-<h1>The result</h1>
-<p>Across the paired items:</p>
+<p>Overall:</p>
 <ul>
-<li>Forced choice: <strong>62.5%</strong></li>
-<li>Free generation: <strong>32.5%</strong></li>
+<li>Forced Choice: <strong>62.5%</strong></li>
+<li>Free Generation: <strong>32.5%</strong></li>
 </ul>
-<p>The difference was <strong>30 percentage points</strong>.</p>
-<p>More importantly, because the items were paired, we could look at cases where one response mode succeeded and the other failed.</p>
+<p>Across forty paired items:</p>
 <ul>
-<li>Forced-choice only correct: <strong>19</strong></li>
-<li>Free-generation only correct: <strong>7</strong></li>
-<li>Both correct: <strong>6</strong></li>
-<li>Both wrong: <strong>8</strong></li>
+<li>forced-choice-only correct: <strong>19</strong></li>
+<li>free-generation-only correct: <strong>7</strong></li>
+<li>exact McNemar: <strong>p = .029</strong></li>
 </ul>
-<p>An exact <button class="term" data-term="mcnemar" type="button">McNemar</button> test gave:</p>
-<p><code>p = .029</code></p>
-<hr/>
-<h1>What is a McNemar test?</h1>
-<p>This is a paired comparison.</p>
-<p>It ignores cases where both conditions gave the same outcome and focuses on the disagreements.</p>
-<p>In simplified form:</p>
+<p>This changed the meaning of the original opaque failures.</p>
+<p>It did <strong>not</strong> prove that the model possessed a perfect hidden key-value representation.</p>
+<p>It did show that malformed exact generation could not be treated as a clean assay of failed association.</p>
+<p>The act of producing the answer mattered.</p>
+<h2>The context result also collapsed</h2>
+<p>The original semantic context task had looked strong at <strong>4/5</strong>.</p>
+<p>A hardened interleaved multi-object version produced:</p>
+<p><strong>3/20 = 15%</strong></p>
+<p>The model did not necessarily become worse.</p>
+<p>The task stopped allowing an overly convenient recent prompt structure to stand in for state tracking.</p>
 <blockquote>
-<p>If response mode truly had no effect, we would expect "forced-choice only" and "free-generation only" successes to be roughly balanced.</p>
+<p><strong>The ruler became harder to fool.</strong></p>
 </blockquote>
-<p>They were not:</p>
-<p><code>19 vs. 7</code></p>
-<p>That is why the test became useful.</p>
-<p>The result supports the claim that <strong>response mode materially changed task success</strong>.</p>
-<p>It does not identify the hidden mechanism.</p>
-<hr/>
-<h1>What died here</h1>
-<p>One of the earliest stories was:</p>
-<blockquote>
-<p>"Opaque-string errors show the model failed to retrieve the value."</p>
-</blockquote>
-<p>S02 made that too strong.</p>
-<p>The better statement became:</p>
-<blockquote>
-<p><strong>Opaque exact-reproduction failures combine associative retrieval with surface-generation demands.</strong></p>
-</blockquote>
-<p>That sounds less dramatic.</p>
-<p>It is also more defensible.</p>
-<hr/>
-<h1>The second S02 lesson: context tracking collapses</h1>
-<p>The original semantic tracking result was 4/5.</p>
-<p>That sounded good.</p>
-<p>The task was redesigned to make the model track several objects through interleaved transitions rather than letting the relevant final state appear in an easy recent position.</p>
-<p>The harder result:</p>
-<p><strong>3 / 20 = 15%</strong></p>
-<p>That is not a small decline.</p>
-<p>It changes what the earlier 80% meant.</p>
-<p>The original task had not established robust state tracking.</p>
-<p>It had established success on an easy task that contained a strong <button class="term" data-term="shortcut" type="button">shortcut</button>.</p>
-<hr/>
-<h1>What is a shortcut?</h1>
-<p>A shortcut is a feature that predicts the answer without requiring the cognitive process the researcher intended to measure.</p>
-<p>In machine-learning evaluations, shortcuts are dangerous because a model can score well while solving the wrong problem.</p>
-<p>For example:</p>
-<blockquote>
-<p>Intended construct: "maintain object state across several updates"</p>
-</blockquote>
-<p>Possible shortcut:</p>
-<blockquote>
-<p>"repeat the location mentioned near the end of the prompt"</p>
-</blockquote>
-<p>If the shortcut works, high accuracy does not establish the intended ability.</p>
-<hr/>
-<h1>Why the 4-way task survived</h1>
-<p>The new forced-choice KV task was not chosen because it looked more intelligent.</p>
-<p>It survived because it had good measurement properties.</p>
-<p>It had:</p>
+<p>That sentence becomes the spine of the entire H0 narrative.</p>
+<p>H0-v2 would eventually repeat the same pattern with:</p>
 <ul>
-<li>exact ground truth;</li>
-<li>randomized/counterbalanced answer positions;</li>
-<li>nontrivial but imperfect accuracy;</li>
-<li>a compact answer format;</li>
-<li>a <button class="term" data-term="confidence" type="button">confidence</button> report;</li>
-<li>the possibility of constructing observers;</li>
-<li>a way to compare the same item across conditions.</li>
+<li>candidate-presence shortcuts;</li>
+<li>non-monotonic difficulty;</li>
+<li>response-position collapse;</li>
+<li>pseudo-meta-d′;</li>
+<li>and observer prompt contamination.</li>
 </ul>
-<p>This is an important research principle:</p>
+<p>The specific bugs changed.</p>
+<p>The scientific move did not:</p>
 <blockquote>
-<p><strong>A scientifically useful task is not always the task that looks most impressive.</strong></p>
+<p>make the simpler explanation compete.</p>
 </blockquote>
-<p>The best task is often the one whose failure modes are easiest to understand.</p>
-<hr/>
-<h1>What S02 established</h1>
-<p>S02 established:</p>
-<ul>
-<li>response mode strongly affected performance;</li>
-<li>exact generation is not equivalent to recognition;</li>
-<li>the original context task overestimated robust tracking;</li>
-<li>the 4-way KV task was useful enough to become the Level-0 measurement substrate.</li>
-</ul>
-<p>It still did not establish self-knowledge.</p>
-<p>For that, H0 needed the hundred eyes.</p>
+<blockquote>
+<p><strong>Plain-English recap:</strong> S02 showed that recognition and reproduction are different behaviors, and that a task can appear to measure memory while actually rewarding a shortcut. The experiment improved by becoming less flattering.</p>
+</blockquote>
 </article>
-    
-    <div class="prevnext"><a class="prev" href="s01.html">← Previous</a><a class="next" href="observers.html">Next →</a></div>
+    <div class="pager"><a href="s01.html">← S01 · The First Reflection</a><a href="observers.html">The Hundred Eyes →</a></div>
   </main>
 </div>
-
-<button id="floating-help" class="floating-help" type="button" aria-label="Open glossary">?</button>
-
-<div id="tooltip" class="tooltip" role="tooltip" hidden></div>
-<div id="glossary-drawer" class="drawer" aria-hidden="true">
-  <div class="drawer-head">
-    <div><div class="eyebrow">Reader's glossary</div><h2>What does that mean?</h2></div>
-    <button id="glossary-close" class="close" type="button">×</button>
-  </div>
-  <input id="glossary-search" class="glossary-search" placeholder="Search terms…">
-  <div id="glossary-list"></div>
-</div>
-<div id="scrim" class="scrim" hidden></div>
-
-<script>window.GLOSSARY={"level0": {"term": "Level 0", "short": "The episodic reference condition: no experimental persistent memory or latent recurrent state is added.", "long": "Level 0 is the baseline architecture used before the project introduces explicit memory (H1) or persistent hidden state (H2). It tells us what the ordinary episodic system can already do."}, "firstorder": {"term": "first-order", "short": "The task the system is directly trying to solve, such as choosing the correct answer.", "long": "First-order performance is ordinary task performance. In H0, that usually means whether the model selected the correct key-value option. It is distinct from a second-order judgment about whether that answer is correct."}, "metacognition": {"term": "metacognition", "short": "A judgment about another cognitive process\u2014here, whether the system can monitor the likely correctness of its own answer.", "long": "H0 operationalizes metacognition narrowly. It does not assume a philosophical theory of self-awareness. It asks whether confidence or another second-order report tracks first-order success."}, "confidence": {"term": "confidence", "short": "The system's reported probability that its own answer is correct.", "long": "Confidence is useful data, but it is not automatically introspection. It may reflect task difficulty, learned language patterns, public answer cues, or the prompting format itself."}, "calibration": {"term": "calibration", "short": "Whether stated probabilities match long-run success frequencies.", "long": "A calibrated system that says 70% on many trials should be correct about 70% of the time. Calibration is different from discrimination: a system can be well calibrated overall yet poor at ranking which individual answers are correct."}, "discrimination": {"term": "discrimination", "short": "Whether confidence tends to be higher on correct trials than on incorrect trials.", "long": "Metacognitive discrimination is the trial-by-trial separation between correct and incorrect answers. H0 measures this mainly with AUROC2."}, "auroc2": {"term": "AUROC2", "short": "A score for how well confidence ranks correct answers above incorrect answers.", "long": "Imagine randomly choosing one correct trial and one incorrect trial. AUROC2 is closely related to how often the correct trial receives higher confidence. About 0.50 is chance-like ranking; 1.00 is perfect separation. It is undefined if there are no correct or no incorrect trials."}, "brier": {"term": "Brier", "short": "A probability-accuracy score; lower is better.", "long": "For each trial, the Brier contribution is (predicted probability \u2212 actual outcome)^2, where the outcome is 1 for correct and 0 for incorrect. Confidently wrong forecasts are penalized heavily."}, "ci": {"term": "confidence interval", "short": "A range that communicates uncertainty in an estimated effect.", "long": "H0 uses bootstrap confidence intervals. The exact effect estimate would change with a different sample of items. The interval makes that uncertainty visible and helps prevent a point estimate from being treated as exact truth."}, "bootstrap": {"term": "bootstrap", "short": "A resampling method used to estimate how much an effect might vary across samples.", "long": "The observed trials are repeatedly resampled with replacement to create many synthetic datasets. H0 uses paired and stratified resampling so self and observer stay matched on the same items and both correctness classes remain represented."}, "pai": {"term": "PAI", "short": "Privileged Access Index: Self discrimination minus the strongest prespecified public/reconstructive comparator.", "long": "PAI asks whether the target's self-monitoring contains information that strong observers cannot reconstruct from public evidence. A positive PAI is necessary for a behavioral privileged-access claim, but would still not prove a causal introspection mechanism."}, "observer": {"term": "observer", "short": "A matched outside evaluator asked to predict whether the target model's answer is correct.", "long": "Observers receive different information vantages: prompt only, prompt plus answer, full transcript, independent reconstruction, or second-pass review. They are controls for simpler public-information explanations."}, "reconstruction": {"term": "reconstruction", "short": "An independent solve that estimates a full probability distribution over the answer options.", "long": "The reconstruction observer does not simply accept the target's answer. It solves the task independently and assigns probability to A/B/C/D. The probability assigned to the target's chosen option becomes its estimate of target correctness."}, "compliance": {"term": "compliance", "short": "Whether the model produced a measurement that satisfies the experiment's required format and range.", "long": "If a probability is malformed, missing, or outside the allowed range, the measurement may be invalid. H0 uses a hard compliance gate so a run with unreliable measurements cannot become a confirmatory baseline."}, "confound": {"term": "confound", "short": "Another variable that changes along with the variable of interest, making the cause of a result ambiguous.", "long": "S01 compared tasks that differed in semanticity, response mode, output length, candidate space, and prompt structure. That meant the observed performance difference could not be attributed cleanly to any single mechanism."}, "shortcut": {"term": "shortcut", "short": "A feature that lets the model score well without using the cognitive ability the researcher intended to measure.", "long": "For example, a state-tracking task may accidentally be solvable by repeating the most recent location rather than tracking all transitions. High accuracy would then overstate the intended ability."}, "forcedchoice": {"term": "forced choice", "short": "The model selects from a fixed set of candidate answers instead of generating the answer freely.", "long": "Forced choice shifts the task toward recognition and away from exact surface reproduction. H0 used a counterbalanced four-option task as the main Level-0 substrate."}, "mcnemar": {"term": "McNemar", "short": "A paired test focused on cases where two conditions disagree.", "long": "For the same items under two conditions, McNemar's test compares how often condition A alone succeeds versus condition B alone succeeds. It is useful when outcomes are paired correct/incorrect judgments."}, "sesoi": {"term": "SESOI", "short": "Smallest Effect Size of Interest: the minimum effect the project decided would count as meaningfully positive.", "long": "H0 used +0.10 AUROC2 as a meaningful positive PAI margin in the joint statistic. This helps distinguish 'not statistically different from zero' from 'large enough to matter'."}, "ceiling": {"term": "ceiling", "short": "A task is too easy for a system, leaving too few or no errors to distinguish stronger performance.", "long": "If a model gets 100% correct, AUROC2 cannot be estimated because there are no incorrect trials. The same fixed test may therefore be unsuitable for cross-model metacognitive comparison."}, "floor": {"term": "floor", "short": "A task is too hard for a system, leaving performance near the minimum useful level.", "long": "Near-floor performance can also make metacognitive comparison unstable or uninterpretable. Comparative psychophysics tries to place systems in a shared mixed-error regime."}, "explicitmemory": {"term": "explicit memory", "short": "Externally stored, inspectable history such as a transcript, summary, or structured state object.", "long": "H1 studies explicit memory before hidden recurrence so the project can determine what ordinary access to history already solves."}, "latentstate": {"term": "latent state", "short": "A non-text internal representation carried by the system, such as a recurrent hidden state.", "long": "H2 is designed to manipulate genuine hidden state while controlling visible context. That is necessary for causal claims about recurrence beyond explicit memory."}, "persistentstate": {"term": "persistent state", "short": "State whose later value causally depends on its earlier value rather than being reconstructed only from an external record.", "long": "The project reserves strong persistence claims for systems where intervening on prior state changes later behavior while current observations and explicit memory are held fixed."}};</script>
+<dialog id="glossary-dialog">
+ <div class="dialog-head"><strong>H0 Glossary</strong><button id="glossary-close" type="button">Close</button></div>
+ <div id="glossary-body" class="glossary-body"></div>
+</dialog>
 <script src="data.js"></script>
 <script src="app.js"></script>
-</body></html>
+</body>
+</html>

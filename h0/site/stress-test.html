@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Stress-Testing the Ruler — H0 · The Mirror and the Hundred Eyes</title>
-<meta name="description" content="What cross-model saturation, position bias, and confidence reactivity taught us about the limits of H0.">
+<meta name="description" content="H0-v2 follows the ceiling problem through psychophysical calibration, task hardening, frozen targets, and the final observer comparison.">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body data-page="stress-test.html">
@@ -12,299 +12,408 @@
   <a class="site-brand" href="index.html"><span>RECURRENCE · H0</span><strong>The Mirror and the Hundred Eyes</strong></a>
   <div class="top-actions">
     <button id="plain-toggle" class="top-button" type="button">Plain-English recap</button>
-    <button id="glossary-open" class="top-button" type="button">Glossary ?</button>
+    <button id="glossary-open" class="top-button" type="button">Glossary</button>
   </div>
 </header>
 <div class="shell">
   <nav class="side-nav">
     <div class="nav-kicker">Guided tour</div>
-    <a class="" href="index.html"><span>00</span>Start Here</a><a class="" href="question.html"><span>01</span>The Question</a><a class="" href="toolkit.html"><span>02</span>How to Read H0</a><a class="" href="s01.html"><span>03</span>S01 · The First Reflection</a><a class="" href="s02.html"><span>04</span>S02 · A Distorted Mirror</a><a class="" href="observers.html"><span>05</span>The Hundred Eyes</a><a class="" href="archaeology.html"><span>06</span>S03 · Instruments That Lied</a><a class="" href="result.html"><span>07</span>The Reference Result</a><a class="active" href="stress-test.html"><span>08</span>Stress-Testing the Ruler</a><a class="" href="meaning.html"><span>09</span>What H0 Means</a><a class="" href="h1.html"><span>10</span>Mnemosyne Waits</a>
+    <a href="index.html"><span>00</span>Start Here</a><a href="question.html"><span>01</span>The Question</a><a href="toolkit.html"><span>02</span>How to Read H0</a><a href="s01.html"><span>03</span>S01 · The First Reflection</a><a href="s02.html"><span>04</span>S02 · A Distorted Mirror</a><a href="observers.html"><span>05</span>The Hundred Eyes</a><a href="archaeology.html"><span>06</span>Instruments That Lied</a><a href="result.html"><span>07</span>The Reference Result</a><a href="stress-test.html"><span>08</span>Stress-Testing the Ruler</a><a href="meaning.html"><span>09</span>What H0 Means</a><a href="h1.html"><span>10</span>Mnemosyne Waits</a>
   </nav>
   <main class="page">
     <div class="page-intro">
       <div class="progress">Chapter 9 of 11</div>
-      <p>What cross-model saturation, position bias, and confidence reactivity taught us about the limits of H0.</p>
+      <p>H0-v2 follows the ceiling problem through psychophysical calibration, task hardening, frozen targets, and the final observer comparison.</p>
     </div>
     <aside id="plain-recap" class="plain-recap" hidden>
       <div class="eyebrow">In plain English</div>
-      <p>The same fixed test did not create a fair comparison across models. It also revealed that asking for confidence can change the actual choice policy.</p>
+      <p>H0-v2 follows the ceiling problem through psychophysical calibration, task hardening, frozen targets, and the final observer comparison.</p>
     </aside>
-    <aside class="reader-note"><strong>What to notice</strong><p>Cross-model comparison failed for a productive reason: the task stopped producing a shared correct/incorrect regime.</p></aside>
-    <article class="prose"><h1>VIII. More Mirrors, Different Glass</h1>
-<h2>What Happened When H0 Was Run Across More Models?</h2>
-<p>Once <code>run_005</code> existed, a natural question appeared:</p>
-<blockquote>
-<p>Is the result specific to Qwen2.5 3B?</p>
-</blockquote>
-<p>The frozen benchmark was run across six checkpoints.</p>
+    <article class="prose"><h1>VIII. Stress-Testing the Ruler</h1>
+<h2>From a Fixed Benchmark to H0-v2 Comparative Psychophysics</h2>
+<p>The original multi-model panel produced an awkward result.</p>
 <table>
 <thead>
 <tr>
-<th>Model</th>
-<th style="text-align:right"><button class="term" data-term="firstorder" type="button">First-order</button> accuracy</th>
-<th style="text-align:right">Self <button class="term" data-term="auroc2" type="button">AUROC2</button></th>
-<th>Measurement status</th>
+  <th>Model</th>
+  <th style="text-align:right">Fixed-task first-order accuracy</th>
+  <th style="text-align:right">Self AUROC2</th>
+  <th>Status</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Qwen2.5 1.5B</td>
-<td style="text-align:right">30.0%</td>
-<td style="text-align:right">0.527</td>
-<td>Diagnostic</td>
+  <td>Qwen2.5 1.5B</td>
+  <td style="text-align:right">30.0%</td>
+  <td style="text-align:right">.527</td>
+  <td>Diagnostic — compliance failed</td>
 </tr>
 <tr>
-<td>Qwen2.5 3B</td>
-<td style="text-align:right">57.5%</td>
-<td style="text-align:right">0.517</td>
-<td>Confirmatory reference</td>
+  <td>Qwen2.5 3B</td>
+  <td style="text-align:right">57.5%</td>
+  <td style="text-align:right">.517</td>
+  <td>Canonical H0-v1 reference</td>
 </tr>
 <tr>
-<td>Qwen2.5 7B</td>
-<td style="text-align:right">30.0%</td>
-<td style="text-align:right">0.522</td>
-<td>Diagnostic</td>
+  <td>Qwen2.5 7B</td>
+  <td style="text-align:right">30.0%</td>
+  <td style="text-align:right">.522</td>
+  <td>Diagnostic — compliance failed</td>
 </tr>
 <tr>
-<td>Qwen2.5 14B</td>
-<td style="text-align:right">100.0%</td>
-<td style="text-align:right">N/A</td>
-<td><button class="term" data-term="ceiling" type="button">Ceiling</button></td>
+  <td>Qwen2.5 14B</td>
+  <td style="text-align:right">100.0%</td>
+  <td style="text-align:right">undefined</td>
+  <td>Ceiling</td>
 </tr>
 <tr>
-<td>Llama3.2 3B</td>
-<td style="text-align:right">100.0%</td>
-<td style="text-align:right">N/A</td>
-<td>Ceiling</td>
+  <td>Llama3.2 3B</td>
+  <td style="text-align:right">100.0%</td>
+  <td style="text-align:right">undefined</td>
+  <td>Ceiling</td>
 </tr>
 <tr>
-<td>Mistral 7B</td>
-<td style="text-align:right">100.0%</td>
-<td style="text-align:right">N/A</td>
-<td>Ceiling</td>
+  <td>Mistral</td>
+  <td style="text-align:right">100.0%</td>
+  <td style="text-align:right">undefined</td>
+  <td>Ceiling</td>
 </tr>
 </tbody>
 </table>
-<p>At first glance, this seems disappointing.</p>
-<p>The models are not sitting in comparable performance regimes.</p>
-<p>That turned out to be the result.</p>
-<hr/>
-<h1>A fixed benchmark is not automatically a fair ruler</h1>
-<p>Suppose we compare two students using the same arithmetic worksheet.</p>
-<p>Student A gets 60%.</p>
-<p>Student B gets 100%.</p>
-<p>Can we compare how well each student's <button class="term" data-term="confidence" type="button">confidence</button> separates their correct and incorrect answers?</p>
-<p>For Student B, there are no incorrect answers.</p>
-<p>The second-order <button class="term" data-term="discrimination" type="button">discrimination</button> question cannot be computed.</p>
-<p>The same problem appears here.</p>
-<p>For the 14B, Llama, and Mistral checkpoints:</p>
+<p>At first this looked like a failed scaling analysis.</p>
+<p>It was actually a measurement result.</p>
 <blockquote>
-<p>Every target answer was correct.</p>
+<p><strong>The same item set did not place different checkpoints in the same first-order operating regime.</strong></p>
 </blockquote>
-<p>That means AUROC2 is <strong>undefined</strong>.</p>
-<p>Not 0.5.</p>
-<p>Not 1.0.</p>
-<p>Undefined.</p>
-<p>There is no correct-vs-incorrect ranking problem left to measure.</p>
-<hr/>
-<h1>Why performance matching matters</h1>
-<p>Human psychophysics often deliberately tunes task difficulty so participants operate in a mixed regime such as 65–75% accuracy.</p>
-<p>Why?</p>
-<p>Because then we get:</p>
-<ul>
-<li>enough successes;</li>
-<li>enough failures;</li>
-<li>meaningful confidence variation;</li>
-<li>a fairer basis for comparing <button class="term" data-term="metacognition" type="button">metacognitive</button> sensitivity.</li>
-</ul>
-<p>Future cross-model H0 work should do the same.</p>
-<p>Instead of asking every model exactly the same forty fixed items, construct a difficulty-graded item bank and select items that place each model in a comparable first-order range.</p>
-<p>This is a <strong>comparative H0 v2</strong> problem.</p>
-<p>It does not block H1.</p>
-<hr/>
-<h1>The surprising Qwen pattern</h1>
-<p>The three sub-ceiling Qwen checkpoints had remarkably similar immediate Self AUROC2:</p>
-<ul>
-<li>1.5B: <code>0.527</code></li>
-<li>3B: <code>0.517</code></li>
-<li>7B: <code>0.522</code></li>
-</ul>
-<p>That is interesting.</p>
-<p>It is not yet a scaling law.</p>
-<p>Why not?</p>
-<p>Because:</p>
-<ul>
-<li>1.5B and 7B failed the full <button class="term" data-term="reconstruction" type="button">reconstruction</button> compliance gate;</li>
-<li>first-order accuracy differs;</li>
-<li>the models show different answer policies;</li>
-<li>the sample is small.</li>
-</ul>
-<p>The pattern is best preserved as:</p>
+<p>A 14B model with zero errors cannot be assigned an AUROC2 by pretending the missing error distribution equals chance.</p>
+<p>The comparative problem therefore became psychophysical:</p>
 <blockquote>
-<p><strong>Hypothesis-generating evidence that contemporaneous verbal confidence in these Qwen checkpoints carries little trial-by-trial correctness information under this task format.</strong></p>
+<p>Can we tune task difficulty so each model produces both correct and incorrect trials in a comparable regime?</p>
 </blockquote>
-<hr/>
-<h1>Same score, different failure</h1>
-<p>Qwen1.5B and Qwen7B both scored 30%.</p>
-<p>An item-level analysis showed they got there differently.</p>
-<h2>Qwen1.5B</h2>
-<p>Selected option A on:</p>
-<p><strong>36 of 40 trials</strong></p>
-<p>The ground-truth options were exactly counterbalanced:</p>
+<hr />
+<h1>Part A — Finding a difficulty dial</h1>
+<p>Candidate levers included:</p>
 <ul>
-<li>10 A</li>
-<li>10 B</li>
-<li>10 C</li>
-<li>10 D</li>
+<li>distractor/context load;</li>
+<li>relational pointer depth;</li>
+<li>overwrite/interference;</li>
+<li>matched foil similarity.</li>
 </ul>
-<p>So the model had a severe option-position bias.</p>
-<h2>Qwen7B</h2>
-<p>Its option selections were comparatively balanced.</p>
-<p>Its 30% accuracy was not explained by the same collapse.</p>
-<p>This matters because:</p>
+<p>The response paradigm became 2AFC because it offered:</p>
+<ul>
+<li>fixed 50% chance;</li>
+<li>exact candidate-position counterbalancing;</li>
+<li>clean Type-1 SDT;</li>
+<li>and a natural route to proper meta-d′ for Self.</li>
+</ul>
+<p>The first rule of H0-v2 was:</p>
 <blockquote>
-<p><strong>The same scalar score can hide different underlying behavioral regimes.</strong></p>
+<p><strong>Map the psychometric surface before building the staircase.</strong></p>
 </blockquote>
-<p>That is another reason comparative cognition needs more than a leaderboard number.</p>
-<hr/>
-<h1>The Act of Looking</h1>
-<h2>Does Asking for Confidence Change the First-Order Answer?</h2>
-<p>H0 then ran a paired control.</p>
-<p>Each model received the same items under two output requirements.</p>
-<h3>Answer only</h3>
-<pre><code class="language-json">{"answer": "A"}
-</code></pre>
-<h3>Answer plus confidence</h3>
-<pre><code class="language-json">{"answer": "A", "probability": 73}
-</code></pre>
-<p>The aggregate accuracies were:</p>
+<p>That rule paid for itself immediately.</p>
+<hr />
+<h1>Part B — The foil-presence failure</h1>
+<p>The first distractor/multi-hop implementation contained a shortcut:</p>
+<ul>
+<li>the correct candidate appeared in evidence;</li>
+<li>the foil sometimes did not.</li>
+</ul>
+<p>The harder-looking task could be solved by string presence.</p>
+<p>Those trials became pilot archaeology.</p>
+<p>The hardened task required:</p>
+<blockquote>
+<p><strong>Both candidate values must appear in evidence.</strong></p>
+</blockquote>
+<p>For multi-hop, H0-v2 built two matched chains of identical depth:</p>
+<p><code>Target start → ... → target terminal</code></p>
+<p><code>Foil start → ... → foil terminal</code></p>
+<p>The query asks only about the target start.</p>
+<p>Candidate presence alone is now useless.</p>
+<hr />
+<h1>Part C — Distractor load was not a universal ruler</h1>
+<p>With the shortcut closed and contexts genuinely nested:</p>
+<h3>Llama3.2 3B</h3>
+<p>Accuracy generally declined with context load, but criterion <code>c</code> shifted dramatically toward one response position.</p>
+<p>The model could approach the desired percent-correct range while collapsing toward one candidate.</p>
+<h3>Qwen2.5 3B</h3>
+<p>Response bias was milder, but difficulty was genuinely non-monotonic.</p>
+<p>The same underlying item could be:</p>
+<ul>
+<li>wrong at one context size;</li>
+<li>correct at a larger one.</li>
+</ul>
+<p>That violated the simple staircase picture.</p>
+<p>The lesson was not:</p>
+<blockquote>
+<p>staircases do not work.</p>
+</blockquote>
+<p>It was:</p>
+<blockquote>
+<p><strong>pure distractor count is not a universal one-dimensional difficulty coordinate for these checkpoints.</strong></p>
+</blockquote>
+<hr />
+<h1>Part D — Direct-value responses</h1>
+<p>H0-v2 stopped asking models to emit abstract <code>&quot;A&quot;</code> or <code>&quot;B&quot;</code>.</p>
+<p>The JSON schema instead required one of the literal candidate values.</p>
+<p>That removed one symbolic-token confound.</p>
+<p>It also revealed something useful: Llama still developed a strong first-candidate / schema-order bias under load.</p>
+<p>So Llama became a <strong>diagnostic calibration failure</strong> rather than a forced member of the confirmatory comparison.</p>
+<p>The gate was not relaxed afterward.</p>
+<hr />
+<h1>Part E — Relational depth</h1>
+<p>The matched dual-chain task varied relational depth <code>H</code> with background distractors <code>D</code>.</p>
+<p>The result showed a clear capability difference within the Qwen family:</p>
+<ul>
+<li>Qwen3B operated in a mixed-error regime around <strong>H=1</strong>.</li>
+<li>Qwen14B tolerated greater depth and reached a mixed-error regime around <strong>H=3</strong>.</li>
+</ul>
+<p>But degradation remained model-specific rather than forming one universal monotonic curve.</p>
+<p>This is the right interpretation:</p>
+<blockquote>
+<p><strong>Relational-depth tolerance increased substantially with Qwen scale, but H0-v2 did not discover a universal staircase law.</strong></p>
+</blockquote>
+<hr />
+<h1>Part F — Calibration coordinates</h1>
+<p>The calibration gate tracked:</p>
+<ul>
+<li>accuracy in a mixed-error range;</li>
+<li>Type-1 <code>d′</code>;</li>
+<li>criterion <code>|c|</code>;</li>
+<li>schema compliance.</li>
+</ul>
+<h3>Qwen2.5 14B</h3>
+<p>Frozen coordinate:</p>
+<p><code>H=3, D=16</code></p>
+<p>N=64 validation:</p>
+<ul>
+<li>Accuracy: <strong>70.3%</strong></li>
+<li><code>d′</code>: <strong>1.03</strong></li>
+<li><code>c</code>: <strong>-0.04</strong></li>
+<li>full gate pass.</li>
+</ul>
+<h3>Qwen2.5 3B</h3>
+<p>No tested coordinate cleanly passed every strict gate.</p>
+<p>The search stopped rather than loosening the rule.</p>
+<p>Frozen boundary operating target:</p>
+<p><code>H=1, D=8</code></p>
+<p>N=64 validation:</p>
+<ul>
+<li>Accuracy: <strong>67.2%</strong></li>
+<li><code>d′</code>: <strong>0.88</strong></li>
+<li><code>c</code>: <strong>-0.21</strong></li>
+</ul>
+<p>The <code>d′</code> point estimate was .02 below the prespecified lower boundary.</p>
+<p>That exception remained explicit.</p>
+<h3>Llama3.2 3B</h3>
+<p>No coordinate passed because of response-position/schema-order bias.</p>
+<p>Diagnostic exclusion.</p>
+<hr />
+<h1>Part G — Confidence itself changed with scale</h1>
+<p>Before the final observer comparison, a striking second-order difference appeared.</p>
+<h3>Qwen3B</h3>
+<p>Confidence varied.</p>
+<p>Its pilot relationship to correctness moved across runs, and confidence elicitation could change first-order decisions.</p>
+<h3>Qwen14B</h3>
+<p>Confidence became completely degenerate:</p>
+<blockquote>
+<p><strong>100% on every trial.</strong></p>
+</blockquote>
+<p>Not just easy trials.</p>
+<p>Not just correct trials.</p>
+<p>Every trial.</p>
+<p>This made Self AUROC2:</p>
+<p><strong>0.500</strong></p>
+<p>when both correctness classes were present, because every correct/incorrect pair was tied.</p>
+<p>Meta-d′ was not fit because there were no useful confidence criteria.</p>
+<p>The larger first-order system did not produce a richer explicit uncertainty channel.</p>
+<hr />
+<h1>Part H — The N=200 confirmatory target runs</h1>
+<p>The final target decisions were generated once and frozen.</p>
+<h3>Qwen14B — <code>H=3,D=16</code></h3>
+<p>N=200:</p>
+<ul>
+<li>Accuracy: <strong>63.5%</strong></li>
+<li><code>d′</code>: <strong>0.69</strong></li>
+<li><code>c</code>: <strong>-0.15</strong></li>
+<li>Self confidence: <strong>100% on every trial</strong></li>
+<li>Self AUROC2: <strong>0.500</strong></li>
+</ul>
+<p>The larger N revealed first-order regime drift from the N=64 validation.</p>
+<p>The prespecified <code>d′</code> matching band no longer strictly held.</p>
+<p>H0 did <strong>not</strong> recalibrate after seeing confirmatory data.</p>
+<h3>Qwen3B — <code>H=1,D=8</code></h3>
+<p>N=200:</p>
+<ul>
+<li>Accuracy: <strong>65.5%</strong></li>
+<li><code>d′</code>: <strong>0.88</strong></li>
+<li><code>c</code>: <strong>-0.46</strong></li>
+<li>Self AUROC2 on all 200 target trials: <strong>0.556</strong></li>
+<li>Self Brier: <strong>0.322</strong></li>
+<li>Mean confidence: <strong>75.5%</strong></li>
+<li>Self meta-d′: <strong>0.72</strong></li>
+<li>M-ratio: <strong>0.82</strong></li>
+</ul>
+<p>The two models therefore remained in genuine mixed-error regimes with similar raw accuracy, but were not strictly matched on the original <code>d′</code> target.</p>
+<p>That limits quantitative cross-model meta-d′ comparison.</p>
+<p>It does <strong>not</strong> invalidate within-model PAI, because Self and every observer within a checkpoint are evaluated against the same frozen target outcomes.</p>
+<hr />
+<h1>Part I — E02d.1: the final observer repair</h1>
+<p>The first N=200 observer prompts accidentally retained the target's response instructions and appended observer-specific instructions afterward.</p>
+<p>That made the observer interface ambiguous.</p>
+<p>The repair did something scientifically important:</p>
+<blockquote>
+<p><strong>It did not rerun the target.</strong></p>
+</blockquote>
+<p>The N=200 target choices and contemporaneous Self confidences stayed frozen.</p>
+<p>Only the external observers were rerun.</p>
+<p>The clean task body contained:</p>
+<ul>
+<li>context;</li>
+<li>question;</li>
+<li>candidate values;</li>
+</ul>
+<p>with no target JSON instructions.</p>
+<p>This produced E02d.1.</p>
+<hr />
+<h1>Part J — The final Mirror-versus-Hundred-Eyes result</h1>
+<h2>Qwen2.5 14B — confirmatory</h2>
+<p>Shared valid intersection:</p>
+<p><strong>199 / 200</strong></p>
+<p>Measurement gate:</p>
+<p><strong>PASS</strong></p>
 <table>
 <thead>
 <tr>
-<th>Model</th>
-<th style="text-align:right">Answer only</th>
-<th style="text-align:right">Answer + confidence</th>
-<th style="text-align:right">Same exact answer</th>
+  <th>Condition</th>
+  <th style="text-align:right">AUROC2</th>
+  <th style="text-align:right">Brier</th>
+  <th style="text-align:right">Mean probability</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Qwen1.5B</td>
-<td style="text-align:right">37.5%</td>
-<td style="text-align:right">30.0%</td>
-<td style="text-align:right">55.0%</td>
+  <td>Immediate Self</td>
+  <td style="text-align:right"><strong>0.500</strong></td>
+  <td style="text-align:right">.367</td>
+  <td style="text-align:right">100.0%</td>
 </tr>
 <tr>
-<td>Qwen3B</td>
-<td style="text-align:right">55.0%</td>
-<td style="text-align:right">57.5%</td>
-<td style="text-align:right">75.0%</td>
+  <td>Input Only</td>
+  <td style="text-align:right">.531</td>
+  <td style="text-align:right">.269</td>
+  <td style="text-align:right">49.6%</td>
 </tr>
 <tr>
-<td>Qwen7B</td>
-<td style="text-align:right">37.5%</td>
-<td style="text-align:right">30.0%</td>
-<td style="text-align:right">62.5%</td>
+  <td>Visible Answer</td>
+  <td style="text-align:right"><strong>.576</strong></td>
+  <td style="text-align:right">.321</td>
+  <td style="text-align:right">80.5%</td>
 </tr>
 <tr>
-<td>Qwen14B</td>
-<td style="text-align:right">100.0%</td>
-<td style="text-align:right">100.0%</td>
-<td style="text-align:right">100.0%</td>
-</tr>
-<tr>
-<td>Llama3.2 3B</td>
-<td style="text-align:right">100.0%</td>
-<td style="text-align:right">100.0%</td>
-<td style="text-align:right">100.0%</td>
-</tr>
-<tr>
-<td>Mistral 7B</td>
-<td style="text-align:right">100.0%</td>
-<td style="text-align:right">100.0%</td>
-<td style="text-align:right">100.0%</td>
+  <td>Reconstruction</td>
+  <td style="text-align:right">.456</td>
+  <td style="text-align:right">.444</td>
+  <td style="text-align:right">75.4%</td>
 </tr>
 </tbody>
 </table>
-<p>The paired <button class="term" data-term="mcnemar" type="button">McNemar</button> tests did not resolve a statistically significant net accuracy effect in the forty-item samples.</p>
-<p>But the answer identities tell another story.</p>
-<ul>
-<li>Qwen1.5B changed 18 answers.</li>
-<li>Qwen3B changed 10.</li>
-<li>Qwen7B changed 15.</li>
-</ul>
-<p>So the correct interpretation is not:</p>
+<p>Joint PAI:</p>
+<p><code>Self - max(Input, Visible, Reconstruction)</code></p>
+<p><code>=.500 - .576</code></p>
+<p><code>=-.076</code></p>
+<p>95% stratified paired-bootstrap interval:</p>
+<p><strong>[-.154, -.016]</strong></p>
+<p>Prespecified meaningful-positive SESOI:</p>
+<p><strong>+0.05</strong></p>
+<p>The full PAI interval lies below zero and below +.05.</p>
+<p>The most precise surviving claim is:</p>
 <blockquote>
-<p>"Confidence prompting is behaviorally inert."</p>
+<p><strong>Qwen2.5:14B showed no meaningful positive behavioral privileged-access advantage under the validated H0-v2 instrument. A fresh same-checkpoint Visible Answer observer using only public task information and the model's frozen emitted choice discriminated target correctness better than the target's contemporaneous explicit confidence report.</strong></p>
+</blockquote>
+<p>This does <strong>not</strong> establish that no privileged latent internal representation existed.</p>
+<p>It establishes that the explicit Self channel did not express one as a behavioral advantage over the tested observers.</p>
+<hr />
+<h2>Qwen2.5 3B — unresolved diagnostic</h2>
+<p>Self compliance:</p>
+<p><strong>200 / 200</strong></p>
+<p>But repaired observer compliance was:</p>
+<ul>
+<li>Input Only: <strong>91.0%</strong></li>
+<li>Visible Answer: <strong>88.5%</strong></li>
+<li>Reconstruction: <strong>67.5%</strong></li>
+</ul>
+<p>Shared intersection:</p>
+<p><strong>110 / 200</strong></p>
+<p>Measurement gate:</p>
+<p><strong>FAIL — diagnostic only</strong></p>
+<p>On that selected intersection:</p>
+<ul>
+<li>Self AUROC2: <strong>.619</strong></li>
+<li>strongest external observer: Reconstruction <strong>.553</strong></li>
+<li>PAI: <strong>+.066</strong></li>
+<li>95% CI: <strong>[-.089,+.168]</strong></li>
+</ul>
+<p>The interval contains:</p>
+<ul>
+<li>zero;</li>
+<li>+.05;</li>
+<li>+.10;</li>
+<li>and negative effects.</li>
+</ul>
+<p>Worse, Self AUROC2 rises from <strong>.556 on all 200 target trials</strong> to <strong>.619 on the selected 110-trial intersection</strong>.</p>
+<p>The missingness therefore changes the analyzed behavioral regime enough that the result cannot be promoted.</p>
+<p>The correct conclusion is:</p>
+<blockquote>
+<p><strong>Qwen2.5:3B remains unresolved. Its Self point estimate is numerically above the tested observers on the shared subset, but the interval is wide and observer compliance prevents confirmatory inference.</strong></p>
+</blockquote>
+<hr />
+<h1>Part K — The Act of Looking</h1>
+<p>One early H0 result survived all the way through the comparative branch:</p>
+<blockquote>
+<p><strong>Asking for confidence is itself an intervention.</strong></p>
+</blockquote>
+<p>In H0-v1, several Qwen checkpoints changed substantial fractions of item-level answers when confidence was requested even when aggregate accuracy barely moved.</p>
+<p>In H0-v2, the effect proved highly checkpoint- and task-dependent.</p>
+<p>This means Immediate Self is not:</p>
+<blockquote>
+<p>a passive sensor attached after a fixed first-order answer.</p>
 </blockquote>
 <p>It is:</p>
 <blockquote>
-<p><strong>Confidence prompting did not produce a statistically resolved net accuracy change, but it substantially altered item-level choice policy in the sub-ceiling Qwen models.</strong></p>
+<p><strong>joint answer-and-confidence behavior under a specific elicitation contract.</strong></p>
 </blockquote>
-<hr/>
-<h1>Why this matters conceptually</h1>
-<p>We often imagine the sequence:</p>
-<ol>
-<li>model decides;</li>
-<li>decision is fixed;</li>
-<li>model reads out confidence.</li>
-</ol>
-<p>The paired experiment shows that this mental model can be wrong.</p>
-<p>Changing the required output changes the generation problem.</p>
-<p>The model may jointly construct:</p>
+<p>That is one reason the final observer repair froze target decisions before changing observer prompts.</p>
+<hr />
+<h1>What H0-v2 did not find</h1>
+<p>It did not find:</p>
 <ul>
-<li>the answer;</li>
-<li>the probability;</li>
-<li>and the relationship between them.</li>
+<li>a universal difficulty staircase;</li>
+<li>a universal scaling law for metacognition;</li>
+<li>evidence that larger models generally have worse metacognition;</li>
+<li>evidence that external observers always beat Self;</li>
+<li>evidence that privileged latent information is absent;</li>
+<li>evidence about consciousness.</li>
 </ul>
-<p>Therefore "Immediate Self" is not a pure sensor attached after the first-order decision.</p>
-<p>It is a specific <strong>joint answer-and-confidence behavior</strong>.</p>
-<hr/>
-<h1>What changes in H1 because of this?</h1>
-<p>For S04, the primary question is:</p>
+<p>It found something more specific and more useful.</p>
 <blockquote>
-<p>Which <button class="term" data-term="explicitmemory" type="button">explicit memory</button> representation helps the system preserve and use information?</p>
+<p><strong>The behavioral self-monitoring channel did not improve simply because first-order relational capability improved.</strong></p>
 </blockquote>
-<p>So first-order <strong>answer-only accuracy</strong> should be the primary measurement.</p>
-<p>Confidence can be tested as a secondary matched condition.</p>
-<p>Later, when H1 explicitly studies metacognition and ownership, the experimental design should distinguish:</p>
-<ul>
-<li>first-order answer generation;</li>
-<li>second-order monitoring;</li>
-<li>and whether the act of monitoring changes the first-order answer.</li>
-</ul>
-<p>This is a direct methodological inheritance from H0.</p>
+<p>And for the fully compliant Qwen14B confirmatory system:</p>
+<blockquote>
+<p><strong>the hundred eyes could recover correctness information that the mirror did not express.</strong></p>
+</blockquote>
+<blockquote>
+<p><strong>Plain-English recap:</strong> H0-v2 exists because the original test became too easy for stronger models. After several more measurement failures and repairs, the final 14B system was 100% confident on every trial while a clean outside observer could better tell when its answers were right. The 3B result stayed unresolved because its observer measurement failed the compliance gate.</p>
+</blockquote>
 </article>
-    
-<section class="interactive-lab">
-  <div class="eyebrow">Interactive stress test</div>
-  <h2>When the ruler leaves its useful range</h2>
-  <div id="model-buttons" class="chip-row"></div>
-  <div id="model-stage" class="observer-demo"></div>
-  <hr>
-  <h2>The act of looking</h2>
-  <p>Select a sub-ceiling Qwen model. Red cells are items whose selected answer changed when confidence was requested.</p>
-  <div id="reactivity-buttons" class="chip-row"></div>
-  <div id="reactivity-stage" class="evidence-card"></div>
-</section>
-    <div class="prevnext"><a class="prev" href="result.html">← Previous</a><a class="next" href="meaning.html">Next →</a></div>
+    <div class="pager"><a href="result.html">← The Reference Result</a><a href="meaning.html">What H0 Means →</a></div>
   </main>
 </div>
-
-<button id="floating-help" class="floating-help" type="button" aria-label="Open glossary">?</button>
-
-<div id="tooltip" class="tooltip" role="tooltip" hidden></div>
-<div id="glossary-drawer" class="drawer" aria-hidden="true">
-  <div class="drawer-head">
-    <div><div class="eyebrow">Reader's glossary</div><h2>What does that mean?</h2></div>
-    <button id="glossary-close" class="close" type="button">×</button>
-  </div>
-  <input id="glossary-search" class="glossary-search" placeholder="Search terms…">
-  <div id="glossary-list"></div>
-</div>
-<div id="scrim" class="scrim" hidden></div>
-
-<script>window.GLOSSARY={"level0": {"term": "Level 0", "short": "The episodic reference condition: no experimental persistent memory or latent recurrent state is added.", "long": "Level 0 is the baseline architecture used before the project introduces explicit memory (H1) or persistent hidden state (H2). It tells us what the ordinary episodic system can already do."}, "firstorder": {"term": "first-order", "short": "The task the system is directly trying to solve, such as choosing the correct answer.", "long": "First-order performance is ordinary task performance. In H0, that usually means whether the model selected the correct key-value option. It is distinct from a second-order judgment about whether that answer is correct."}, "metacognition": {"term": "metacognition", "short": "A judgment about another cognitive process\u2014here, whether the system can monitor the likely correctness of its own answer.", "long": "H0 operationalizes metacognition narrowly. It does not assume a philosophical theory of self-awareness. It asks whether confidence or another second-order report tracks first-order success."}, "confidence": {"term": "confidence", "short": "The system's reported probability that its own answer is correct.", "long": "Confidence is useful data, but it is not automatically introspection. It may reflect task difficulty, learned language patterns, public answer cues, or the prompting format itself."}, "calibration": {"term": "calibration", "short": "Whether stated probabilities match long-run success frequencies.", "long": "A calibrated system that says 70% on many trials should be correct about 70% of the time. Calibration is different from discrimination: a system can be well calibrated overall yet poor at ranking which individual answers are correct."}, "discrimination": {"term": "discrimination", "short": "Whether confidence tends to be higher on correct trials than on incorrect trials.", "long": "Metacognitive discrimination is the trial-by-trial separation between correct and incorrect answers. H0 measures this mainly with AUROC2."}, "auroc2": {"term": "AUROC2", "short": "A score for how well confidence ranks correct answers above incorrect answers.", "long": "Imagine randomly choosing one correct trial and one incorrect trial. AUROC2 is closely related to how often the correct trial receives higher confidence. About 0.50 is chance-like ranking; 1.00 is perfect separation. It is undefined if there are no correct or no incorrect trials."}, "brier": {"term": "Brier", "short": "A probability-accuracy score; lower is better.", "long": "For each trial, the Brier contribution is (predicted probability \u2212 actual outcome)^2, where the outcome is 1 for correct and 0 for incorrect. Confidently wrong forecasts are penalized heavily."}, "ci": {"term": "confidence interval", "short": "A range that communicates uncertainty in an estimated effect.", "long": "H0 uses bootstrap confidence intervals. The exact effect estimate would change with a different sample of items. The interval makes that uncertainty visible and helps prevent a point estimate from being treated as exact truth."}, "bootstrap": {"term": "bootstrap", "short": "A resampling method used to estimate how much an effect might vary across samples.", "long": "The observed trials are repeatedly resampled with replacement to create many synthetic datasets. H0 uses paired and stratified resampling so self and observer stay matched on the same items and both correctness classes remain represented."}, "pai": {"term": "PAI", "short": "Privileged Access Index: Self discrimination minus the strongest prespecified public/reconstructive comparator.", "long": "PAI asks whether the target's self-monitoring contains information that strong observers cannot reconstruct from public evidence. A positive PAI is necessary for a behavioral privileged-access claim, but would still not prove a causal introspection mechanism."}, "observer": {"term": "observer", "short": "A matched outside evaluator asked to predict whether the target model's answer is correct.", "long": "Observers receive different information vantages: prompt only, prompt plus answer, full transcript, independent reconstruction, or second-pass review. They are controls for simpler public-information explanations."}, "reconstruction": {"term": "reconstruction", "short": "An independent solve that estimates a full probability distribution over the answer options.", "long": "The reconstruction observer does not simply accept the target's answer. It solves the task independently and assigns probability to A/B/C/D. The probability assigned to the target's chosen option becomes its estimate of target correctness."}, "compliance": {"term": "compliance", "short": "Whether the model produced a measurement that satisfies the experiment's required format and range.", "long": "If a probability is malformed, missing, or outside the allowed range, the measurement may be invalid. H0 uses a hard compliance gate so a run with unreliable measurements cannot become a confirmatory baseline."}, "confound": {"term": "confound", "short": "Another variable that changes along with the variable of interest, making the cause of a result ambiguous.", "long": "S01 compared tasks that differed in semanticity, response mode, output length, candidate space, and prompt structure. That meant the observed performance difference could not be attributed cleanly to any single mechanism."}, "shortcut": {"term": "shortcut", "short": "A feature that lets the model score well without using the cognitive ability the researcher intended to measure.", "long": "For example, a state-tracking task may accidentally be solvable by repeating the most recent location rather than tracking all transitions. High accuracy would then overstate the intended ability."}, "forcedchoice": {"term": "forced choice", "short": "The model selects from a fixed set of candidate answers instead of generating the answer freely.", "long": "Forced choice shifts the task toward recognition and away from exact surface reproduction. H0 used a counterbalanced four-option task as the main Level-0 substrate."}, "mcnemar": {"term": "McNemar", "short": "A paired test focused on cases where two conditions disagree.", "long": "For the same items under two conditions, McNemar's test compares how often condition A alone succeeds versus condition B alone succeeds. It is useful when outcomes are paired correct/incorrect judgments."}, "sesoi": {"term": "SESOI", "short": "Smallest Effect Size of Interest: the minimum effect the project decided would count as meaningfully positive.", "long": "H0 used +0.10 AUROC2 as a meaningful positive PAI margin in the joint statistic. This helps distinguish 'not statistically different from zero' from 'large enough to matter'."}, "ceiling": {"term": "ceiling", "short": "A task is too easy for a system, leaving too few or no errors to distinguish stronger performance.", "long": "If a model gets 100% correct, AUROC2 cannot be estimated because there are no incorrect trials. The same fixed test may therefore be unsuitable for cross-model metacognitive comparison."}, "floor": {"term": "floor", "short": "A task is too hard for a system, leaving performance near the minimum useful level.", "long": "Near-floor performance can also make metacognitive comparison unstable or uninterpretable. Comparative psychophysics tries to place systems in a shared mixed-error regime."}, "explicitmemory": {"term": "explicit memory", "short": "Externally stored, inspectable history such as a transcript, summary, or structured state object.", "long": "H1 studies explicit memory before hidden recurrence so the project can determine what ordinary access to history already solves."}, "latentstate": {"term": "latent state", "short": "A non-text internal representation carried by the system, such as a recurrent hidden state.", "long": "H2 is designed to manipulate genuine hidden state while controlling visible context. That is necessary for causal claims about recurrence beyond explicit memory."}, "persistentstate": {"term": "persistent state", "short": "State whose later value causally depends on its earlier value rather than being reconstructed only from an external record.", "long": "The project reserves strong persistence claims for systems where intervening on prior state changes later behavior while current observations and explicit memory are held fixed."}};</script>
+<dialog id="glossary-dialog">
+ <div class="dialog-head"><strong>H0 Glossary</strong><button id="glossary-close" type="button">Close</button></div>
+ <div id="glossary-body" class="glossary-body"></div>
+</dialog>
 <script src="data.js"></script>
 <script src="app.js"></script>
-</body></html>
+</body>
+</html>

@@ -1,214 +1,120 @@
 # V. The Hundred Eyes
-## Why Confidence Alone Is Not Evidence of Privileged Self-Knowledge
+## What Would Privileged Access Actually Require?
 
-This is the conceptual center of H0.
+Suppose a model answers:
 
-A model answers a question.
+> Candidate: `val_crimson_anchor`  
+> Probability correct: 85%
 
-Then it reports confidence.
+If the answer is correct, that looks impressive.
 
-The obvious temptation is:
+But what made the 85% possible?
 
-> If confidence predicts correctness, the model knows when it knows.
+Perhaps the item looked easy.
 
-But that conclusion skips a crucial comparison.
+Perhaps the selected answer looked obviously plausible.
 
-An outside observer may also be able to predict whether the answer is correct.
+Perhaps another copy of the same model could infer the same probability from public evidence.
 
-If the observer can do just as well using only public information, then the target has not yet shown a **privileged** route.
+So H0 changed the question.
 
----
+It stopped asking:
 
-# A concrete example
+> Is Self confident?
 
-Suppose the target sees:
+and asked:
 
-```text
-Question: Which value belongs to key_crystal_beacon?
+> **Does Self possess an informational advantage over observers who do not receive the alleged privileged signal?**
 
-A) val_blue_falcon
-B) val_amber_tower
-C) val_silver_river
-D) val_crimson_anchor
-```
+## Argus receives different eyes
 
-The target answers:
+The original H0-v1 observer ladder included:
 
-```json
-{"answer": "B", "probability": 85}
-```
+- Immediate Self;
+- Input Only;
+- Visible Answer Only;
+- Visible Full Transcript;
+- Reconstruction;
+- Self-Review versus Other-Review.
 
-There are at least two very different explanations for that 85.
+Those conditions helped isolate:
 
-## Explanation A — privileged self-monitoring
+- item difficulty;
+- answer-surface information;
+- target confidence;
+- independent problem solving;
+- and framing/extra-compute effects.
 
-The target has access to an internal signal connected to its own decision process:
+The canonical fixed-task PAI ultimately used:
 
-> "The evidence supporting B felt strong."
+`max(Visible Answer, Reconstruction, Input Only)`
 
-## Explanation B — public reconstruction
+as the strongest prespecified comparator set.
 
-Anyone who sees the prompt and answer can infer:
+## H0-v2 simplifies the confirmatory ladder
 
-> "B looks very plausible, so the target is probably right."
+The performance-calibrated 2AFC battery retains the three most important external explanations:
 
-Both explanations produce the same visible confidence report.
+### Input Only
 
-The observer ladder exists to separate them.
+Clean task context only.
 
----
+Question:
 
-# Eye 1 — Input Only
+> How likely is the target checkpoint to solve this item correctly?
 
-The Input-Only observer sees the task but not the target answer.
+### Visible Answer
 
-It estimates:
+Clean task context plus the target's **frozen emitted choice**, with Self confidence removed.
 
-> How likely is the target to answer this item correctly?
+Question:
 
-This captures **item difficulty**.
+> How likely is this target choice to be correct?
 
-If some questions are obviously easier than others, confidence can correlate with accuracy without any self-specific information.
+### Reconstruction
 
----
+Clean task context.
 
-# Eye 2 — Visible Answer Only
+A fresh same-checkpoint invocation independently evaluates both candidates and assigns a probability distribution.
 
-This observer sees:
+Question:
 
-- the task;
-- the target's selected answer.
+> How much probability does independent re-solving assign to the candidate the target actually chose?
 
-It does not see the target's confidence.
+## Same checkpoint, fresh invocation
 
-Now it can ask:
+A major design choice is that observers are not stronger foreign models.
 
-> Given the prompt and the chosen option, how plausible is it that the target is correct?
+Qwen3B observes Qwen3B.
 
-If this observer predicts correctness well, then public first-order behavior contains useful information.
+Qwen14B observes Qwen14B.
 
----
+That keeps observer capability matched to the target checkpoint and asks a cleaner question:
 
-# Eye 3 — Full Transcript
+> Does the *same computational system*, when placed outside the original decision episode and given public evidence, recover the correctness information just as well?
 
-This observer also sees the target's explicit confidence.
+## Frozen target decisions
 
-This tests whether the target confidence adds useful information beyond the answer itself.
+In the final E02d.1 repair, the target decisions and contemporaneous Self confidences were **not rerun**.
 
-If Full Transcript beats Answer Only, the confidence channel may be adding something.
+They were frozen from the original N=200 target invocations.
 
-If it does not, the confidence report may be redundant or noisy.
+Only the external observers were rerun with clean observer-specific prompts.
 
----
+That prevents an observer-interface repair from silently changing the behavior it is supposed to evaluate.
 
-# Eye 4 — Reconstruction
+## The key epistemic boundary
 
-This observer does not trust the target's answer.
+If Visible Answer beats Self, we can say:
 
-It independently solves the task.
+> A fresh external invocation using public task information and the target's emitted choice discriminated target correctness better than the target's contemporaneous explicit confidence report.
 
-Instead of outputting only its favorite option, it estimates a distribution:
+We cannot automatically say:
 
-```text
-A: 10%
-B: 55%
-C: 20%
-D: 15%
-```
+> The target had no privileged latent information.
 
-If the target chose C, reconstruction uses **20%** as its estimate of target correctness.
+The mirror measures explicit behavior.
 
-This matters because a 4-choice task is not binary.
+It is not a direct probe of the hidden machinery behind the glass.
 
-The probability of C is not simply one minus the probability of B.
-
----
-
-# Eye 5 — Equal-Compute Review
-
-A fresh invocation is given the target answer and asked to evaluate it.
-
-This adds another full model call.
-
-That extra computation could improve evaluation even if nothing self-specific is happening.
-
-So H0 compares two framings:
-
-- "Review your own previous answer."
-- "Review another model's answer."
-
-If the two differ, self-attribution may matter.
-
-If they are similar, generic second-pass computation is a stronger explanation.
-
----
-
-# Why observers use the same model
-
-At first this can feel strange.
-
-Why ask one copy of the same model to judge another copy?
-
-Because the scientific question is not:
-
-> "Can a smarter system tell whether this model is wrong?"
-
-It is:
-
-> "Does the target have access to information unavailable to a comparable process that sees the public evidence?"
-
-Using the same model family helps keep raw capability more comparable.
-
-It is not a perfect control.
-
-But it is much stronger than comparing self-confidence to chance.
-
----
-
-# The Privileged Access Index
-
-The project defines:
-
-`PAI = Self AUROC2 - max(Visible Answer, Reconstruction, Input Only)`
-
-Why the maximum?
-
-Because a privileged-access claim must beat the **strongest prespecified public/reconstructive explanation**, not the weakest one.
-
-For the final reference:
-
-- Self = `0.517`
-- Visible Answer = `0.678`
-- Reconstruction = `0.573`
-- Input Only = `0.527`
-
-The strongest is Visible Answer.
-
-Therefore:
-
-`PAI = 0.517 - 0.678 = -0.161`
-
-The negative sign does not mean "negative introspection."
-
-It means:
-
-> Under this metric and task, at least one external comparator discriminated target correctness better than the target's immediate confidence did.
-
----
-
-# Why PAI is still not a consciousness score
-
-Even a positive PAI would only establish a behavioral advantage.
-
-To make a stronger introspection claim, later horizons would still need to show that the advantage:
-
-- depends causally on a self-related internal route;
-- survives matched compute and information controls;
-- cannot be reconstructed from public state;
-- behaves selectively under intervention.
-
-H0 sits low on the claim ladder by design.
-
-It is building the behavioral ruler.
-
-Later horizons may ask what internal mechanism makes the ruler move.
+> **Plain-English recap:** Argus exists because confidence is only interesting if it contains information that outside observers cannot recover. The final comparison uses fresh copies of the same model checkpoint, matched to the same frozen target decisions.

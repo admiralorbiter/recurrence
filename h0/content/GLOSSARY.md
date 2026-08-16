@@ -1,147 +1,139 @@
-# H0 Reader's Glossary
+# H0 Glossary
 
-These definitions are written for a curious non-specialist and match the explanations used by the website.
+## Accuracy
+Fraction of first-order task decisions that are correct.
+
+## First-order task
+The task the model is directly trying to solve.
+
+## Type-2 / second-order task
+A judgment about the model's own first-order decision, such as probability that the answer is correct.
+
+## Confidence
+A reported degree of certainty. Confidence is behavior, not automatically a direct readout of a hidden internal quantity.
+
+## Calibration
+Agreement between stated probabilities and empirical frequencies.
+
+## Discrimination
+Ability to assign higher confidence to correct than incorrect trials.
 
 ## AUROC2
+A ranking-based measure of Type-2 discrimination. Intuitively, the probability that a randomly selected correct trial receives higher confidence than a randomly selected incorrect trial, with ties split evenly.
 
-**Short version:** A score for how well confidence ranks correct answers above incorrect answers.
+## Brier score
+Mean squared error of probabilistic forecasts. Lower is better.
 
-Imagine randomly choosing one correct trial and one incorrect trial. AUROC2 is closely related to how often the correct trial receives higher confidence. About 0.50 is chance-like ranking; 1.00 is perfect separation. It is undefined if there are no correct or no incorrect trials.
+## Signal Detection Theory (SDT)
+A framework that separates sensitivity from response bias.
 
-## bootstrap
+## `d′`
+Type-1 sensitivity in SDT units.
 
-**Short version:** A resampling method used to estimate how much an effect might vary across samples.
+## Criterion `c`
+Type-1 decision/response bias. Large absolute values indicate a preference toward one response category.
 
-The observed trials are repeatedly resampled with replacement to create many synthetic datasets. H0 uses paired and stratified resampling so self and observer stay matched on the same items and both correctness classes remain represented.
+## Meta-d′
+An SDT estimate of the Type-1 sensitivity that would reproduce an agent's observed confidence-rating behavior. In H0 it is used only for the agent's own first-order decisions.
 
-## Brier
+## M-ratio
+`meta-d′ / d′`, a measure of metacognitive efficiency.
 
-**Short version:** A probability-accuracy score; lower is better.
+## Confidence degeneracy
+A confidence channel with insufficient rating variation for Type-2 criteria to be identified, such as 100% confidence on every trial.
 
-For each trial, the Brier contribution is (predicted probability − actual outcome)^2, where the outcome is 1 for correct and 0 for incorrect. Confidently wrong forecasts are penalized heavily.
+## Observer
+A fresh invocation attempting to predict whether the target decision is correct.
 
-## calibration
+## Immediate Self
+The target model's same-invocation answer and contemporaneous probability of being correct.
 
-**Short version:** Whether stated probabilities match long-run success frequencies.
+## Input Only
+Observer given task context but not target choice. Controls for item difficulty.
 
-A calibrated system that says 70% on many trials should be correct about 70% of the time. Calibration is different from discrimination: a system can be well calibrated overall yet poor at ranking which individual answers are correct.
+## Visible Answer
+Observer given clean task context plus the target's frozen choice, but not target confidence.
 
-## ceiling
+## Reconstruction
+Observer that independently evaluates the candidates and assigns probabilities; the probability on the target's chosen candidate is used as a target-correctness forecast.
 
-**Short version:** A task is too easy for a system, leaving too few or no errors to distinguish stronger performance.
-
-If a model gets 100% correct, AUROC2 cannot be estimated because there are no incorrect trials. The same fixed test may therefore be unsuitable for cross-model metacognitive comparison.
-
-## compliance
-
-**Short version:** Whether the model produced a measurement that satisfies the experiment's required format and range.
-
-If a probability is malformed, missing, or outside the allowed range, the measurement may be invalid. H0 uses a hard compliance gate so a run with unreliable measurements cannot become a confirmatory baseline.
-
-## confidence
-
-**Short version:** The system's reported probability that its own answer is correct.
-
-Confidence is useful data, but it is not automatically introspection. It may reflect task difficulty, learned language patterns, public answer cues, or the prompting format itself.
-
-## confidence interval
-
-**Short version:** A range that communicates uncertainty in an estimated effect.
-
-H0 uses bootstrap confidence intervals. The exact effect estimate would change with a different sample of items. The interval makes that uncertainty visible and helps prevent a point estimate from being treated as exact truth.
-
-## confound
-
-**Short version:** Another variable that changes along with the variable of interest, making the cause of a result ambiguous.
-
-S01 compared tasks that differed in semanticity, response mode, output length, candidate space, and prompt structure. That meant the observed performance difference could not be attributed cleanly to any single mechanism.
-
-## discrimination
-
-**Short version:** Whether confidence tends to be higher on correct trials than on incorrect trials.
-
-Metacognitive discrimination is the trial-by-trial separation between correct and incorrect answers. H0 measures this mainly with AUROC2.
-
-## explicit memory
-
-**Short version:** Externally stored, inspectable history such as a transcript, summary, or structured state object.
-
-H1 studies explicit memory before hidden recurrence so the project can determine what ordinary access to history already solves.
-
-## first-order
-
-**Short version:** The task the system is directly trying to solve, such as choosing the correct answer.
-
-First-order performance is ordinary task performance. In H0, that usually means whether the model selected the correct key-value option. It is distinct from a second-order judgment about whether that answer is correct.
-
-## floor
-
-**Short version:** A task is too hard for a system, leaving performance near the minimum useful level.
-
-Near-floor performance can also make metacognitive comparison unstable or uninterpretable. Comparative psychophysics tries to place systems in a shared mixed-error regime.
-
-## forced choice
-
-**Short version:** The model selects from a fixed set of candidate answers instead of generating the answer freely.
-
-Forced choice shifts the task toward recognition and away from exact surface reproduction. H0 used a counterbalanced four-option task as the main Level-0 substrate.
-
-## latent state
-
-**Short version:** A non-text internal representation carried by the system, such as a recurrent hidden state.
-
-H2 is designed to manipulate genuine hidden state while controlling visible context. That is necessary for causal claims about recurrence beyond explicit memory.
-
-## Level 0
-
-**Short version:** The episodic reference condition: no experimental persistent memory or latent recurrent state is added.
-
-Level 0 is the baseline architecture used before the project introduces explicit memory (H1) or persistent hidden state (H2). It tells us what the ordinary episodic system can already do.
-
-## McNemar
-
-**Short version:** A paired test focused on cases where two conditions disagree.
-
-For the same items under two conditions, McNemar's test compares how often condition A alone succeeds versus condition B alone succeeds. It is useful when outcomes are paired correct/incorrect judgments.
-
-## metacognition
-
-**Short version:** A judgment about another cognitive process—here, whether the system can monitor the likely correctness of its own answer.
-
-H0 operationalizes metacognition narrowly. It does not assume a philosophical theory of self-awareness. It asks whether confidence or another second-order report tracks first-order success.
-
-## observer
-
-**Short version:** A matched outside evaluator asked to predict whether the target model's answer is correct.
-
-Observers receive different information vantages: prompt only, prompt plus answer, full transcript, independent reconstruction, or second-pass review. They are controls for simpler public-information explanations.
-
-## PAI
-
-**Short version:** Privileged Access Index: Self discrimination minus the strongest prespecified public/reconstructive comparator.
-
-PAI asks whether the target's self-monitoring contains information that strong observers cannot reconstruct from public evidence. A positive PAI is necessary for a behavioral privileged-access claim, but would still not prove a causal introspection mechanism.
-
-## persistent state
-
-**Short version:** State whose later value causally depends on its earlier value rather than being reconstructed only from an external record.
-
-The project reserves strong persistence claims for systems where intervening on prior state changes later behavior while current observations and explicit memory are held fixed.
-
-## reconstruction
-
-**Short version:** An independent solve that estimates a full probability distribution over the answer options.
-
-The reconstruction observer does not simply accept the target's answer. It solves the task independently and assigns probability to A/B/C/D. The probability assigned to the target's chosen option becomes its estimate of target correctness.
+## Privileged Access Index (PAI)
+`AUROC2(Self) - max(AUROC2(Input Only), AUROC2(Visible Answer), AUROC2(Reconstruction))`
 
 ## SESOI
+Smallest Effect Size Of Interest. H0-v2 preregistered +.05 as the meaningful-positive PAI threshold; H0-v1 used +.10 as a historical reference.
 
-**Short version:** Smallest Effect Size of Interest: the minimum effect the project decided would count as meaningfully positive.
+## Shared valid intersection
+The exact set of trials on which all conditions needed for a paired comparison produced valid measurements.
 
-H0 used +0.10 AUROC2 as a meaningful positive PAI margin in the joint statistic. This helps distinguish 'not statistically different from zero' from 'large enough to matter'.
+## Compliance gate
+A prespecified minimum rate of valid structured outputs required before a result can be treated as confirmatory.
 
-## shortcut
+## Diagnostic result
+A result retained for learning but not promoted to confirmatory inference because a measurement or calibration gate failed.
 
-**Short version:** A feature that lets the model score well without using the cognitive ability the researcher intended to measure.
+## Confirmatory negative relative to a SESOI
+A result whose uncertainty interval is sufficiently narrow to exclude the prespecified meaningful positive effect.
 
-For example, a state-tracking task may accidentally be solvable by repeating the most recent location rather than tracking all transitions. High accuracy would then overstate the intended ability.
+## Unresolved result
+A result whose interval remains compatible with materially different conclusions.
+
+## Floor
+Task is too hard for useful differentiation.
+
+## Ceiling
+Task is too easy; for metacognition, 100% correctness removes the error class and can make AUROC2 undefined.
+
+## Psychophysical calibration
+Adjustment of task difficulty to place a system in a useful mixed-error operating regime.
+
+## Staircase
+An adaptive procedure that adjusts task difficulty based on prior responses. H0-v2 learned that a simple one-dimensional staircase is not automatically appropriate for LLMs.
+
+## Distractor load `D`
+Number of irrelevant context items surrounding the target relation.
+
+## Relational depth `H`
+Number of links that must be followed in the matched dual-chain pointer task.
+
+## Matched dual-chain task
+A 2AFC relational task containing target and foil chains of equal depth; both terminal candidate values appear in evidence.
+
+## Candidate-presence shortcut
+A task flaw where one candidate appears in context and the other does not, allowing presence detection to replace the intended reasoning task.
+
+## Direct-value response
+A response contract requiring the literal candidate value rather than an abstract A/B label.
+
+## First-candidate / schema-order bias
+A tendency to favor the first candidate under the tested direct-value constrained interface.
+
+## Elicitation reactivity
+Change in first-order decisions caused by asking for confidence or otherwise changing the response contract.
+
+## Frozen target
+A target decision generated once and preserved while external observer interfaces are repaired or compared.
+
+## H0-v1
+The fixed 4AFC Level-0 reference line culminating in `run_e02_obs_005`.
+
+## H0-v2
+The comparative psychophysics branch that performance-calibrated stronger checkpoints and culminated in E02d.1.
+
+## Explicit memory
+History stored outside the model's hidden state and inspectable as transcript, summary, structured state, database state, or similar scaffold.
+
+## Persistent latent state
+A non-text hidden state whose later value causally inherits earlier hidden state rather than being reconstructed only from external records.
+
+## Claim ceiling
+The strongest interpretation the current evidence supports without importing unsupported mechanism or phenomenology.
+
+## Narcissus
+Narrative motif for the mirror / Self report.
+
+## Argus Panoptes
+Narrative motif for the observer ladder / hundred eyes.
+
+## Mnemosyne
+Narrative motif for memory and the transition to H1.

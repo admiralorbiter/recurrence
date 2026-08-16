@@ -1,331 +1,245 @@
 # II. How to Read H0
 ## A Small Toolkit for the Rest of the Story
 
-This page introduces the few concepts needed to understand the experiments.
+You do not need to memorize formulas.
 
-You do not need to memorize the formulas.
-
-The goal is to know what question each number answers.
+You need to know what question each number answers.
 
 ---
 
-# 1. First-order performance
+## 1. First-order performance
 
-A **first-order task** is the task the system is directly trying to solve.
+A **first-order task** is the task the system is directly solving.
 
 Example:
 
-> Which option contains the correct value for this key?
+> Which candidate is the terminal value reached by following this chain?
 
-If the model chooses the correct option, the first-order decision is correct.
+If the model chooses the right candidate, the first-order decision is correct.
 
-If it chooses the wrong option, the first-order decision is incorrect.
+**Accuracy** asks:
 
-**First-order accuracy** simply asks:
+> What fraction of first-order decisions were correct?
 
-> What fraction of the questions did the model answer correctly?
-
-If the model gets 23 of 40 correct:
-
-`23 / 40 = 57.5%`
-
-That tells us how good the model is at the task.
-
-It does **not** tell us whether the model knows when it is right.
+Accuracy says nothing by itself about whether the model knows when it is right.
 
 ---
 
-# 2. Second-order or metacognitive performance
+## 2. Second-order performance
 
-Now add a second question:
+Now ask:
 
 > How likely is it that your answer is correct?
 
-That answer is about the model's **own first-order decision**.
+That is a **Type-2** or second-order report.
 
-Suppose two trials look like this:
+Good second-order behavior tends to assign higher confidence to correct decisions than incorrect decisions.
 
-| Trial | Answer correct? | Confidence |
-|---|---|---:|
-| A | Yes | 90% |
-| B | No | 20% |
-
-That is good metacognitive behavior.
-
-Now imagine:
-
-| Trial | Answer correct? | Confidence |
-|---|---|---:|
-| A | Yes | 90% |
-| B | No | 95% |
-
-The model is confident in both cases. Its confidence does not help us distinguish success from failure.
-
-That distinction is why H0 needs more than ordinary accuracy.
+The important word is **tends**. One confident correct answer proves nothing.
 
 ---
 
-# 3. Calibration and discrimination are different
+## 3. Calibration versus discrimination
 
-These two ideas are easy to confuse.
+### Calibration
 
-## Calibration
+> When the model says 70%, is it correct roughly 70% of the time?
 
-Calibration asks:
+### Discrimination
 
-> When the system says "70%," is it correct about 70% of the time?
+> Does the model rank its correct decisions above its incorrect decisions?
 
-A perfectly calibrated system can still be poor at separating individual correct and incorrect trials.
+A model can be calibrated on average while having weak trial-by-trial discrimination.
 
-## Discrimination
-
-Discrimination asks:
-
-> Does the system tend to assign higher confidence to its correct answers than to its incorrect answers?
-
-H0 cares especially about discrimination because privileged access should give the target useful trial-by-trial information about its own success.
+H0 cares strongly about discrimination because a privileged self-monitoring signal should help distinguish the system's own successes from its failures.
 
 ---
 
-# 4. AUROC2
+## 4. AUROC2
 
-**AUROC2** is one way to measure metacognitive discrimination.
+**AUROC2** is a non-parametric discrimination statistic.
 
-A useful intuitive interpretation is:
+A useful interpretation:
 
-> Randomly choose one correct trial and one incorrect trial. How often did the system give the correct trial the higher confidence?
+> Choose one correct trial and one incorrect trial at random. How often does the correct trial receive the higher confidence?
 
-If the system has no useful ranking ability, the score tends toward **0.50**.
+- `0.50` — no ranking advantage.
+- above `0.50` — correct trials tend to receive higher confidence.
+- below `0.50` — incorrect trials tend to receive higher confidence.
 
-If it perfectly ranks every correct trial above every incorrect trial, the score is **1.00**.
-
-Very roughly:
-
-- `0.50` — chance-like discrimination
-- `0.60` — some useful separation
-- `0.70` — stronger separation
-- `1.00` — perfect separation
-
-There is no universal magical cutoff for "introspection."
-
-AUROC2 is simply a measurement tool.
-
-## Why call it AUROC2?
-
-"ROC" means receiver operating characteristic.
-
-The "2" indicates a **Type-2** or second-order task: we are judging whether confidence predicts whether the first-order decision was correct.
+AUROC2 does not tell us *why* the ranking exists.
 
 ---
 
-# 5. Brier score
+## 5. Brier score
 
-The **Brier score** asks a different question:
+The **Brier score** measures probabilistic forecasting error:
 
-> How numerically accurate were the probability forecasts?
+`(forecast probability - outcome)^2`
 
-For each trial:
+where the outcome is:
 
-`Brier contribution = (predicted probability - actual outcome)^2`
+- `1` for correct;
+- `0` for incorrect.
 
-The actual outcome is:
+Lower is better.
 
-- `1` if the answer was correct
-- `0` if the answer was wrong
+A system that says 100% on every trial and is wrong 30% of the time receives a large penalty on those errors.
 
-Example:
-
-The model says 90% and is correct:
-
-`(0.90 - 1)^2 = 0.01`
-
-Very small error.
-
-The model says 90% and is wrong:
-
-`(0.90 - 0)^2 = 0.81`
-
-Very large error.
-
-For Brier score:
-
-> **Lower is better.**
-
-AUROC2 and Brier tell us different things.
-
-- AUROC2 asks about **ranking correct above incorrect**.
-- Brier asks about **probability accuracy**.
+Brier therefore captures something AUROC2 does not: **numerical calibration and sharpness**, not just ranking.
 
 ---
 
-# 6. Confidence intervals
+## 6. Type-1 Signal Detection Theory: `d′` and criterion `c`
 
-Every experiment samples a limited number of trials.
+Cross-model H0-v2 required a cleaner description of first-order operating regime.
 
-If we repeated the experiment with different items, the exact result would move.
+### `d′` — sensitivity
 
-A **confidence interval** is a way to represent that uncertainty.
+`d′` asks how well the model discriminates the two alternatives independent of response bias.
 
-For the final H0 joint PAI:
+Higher positive values indicate better separation.
 
-`PAI = -0.161`
+### criterion `c` — response bias
 
-with a 95% bootstrap interval:
+`c` describes whether the model systematically favors one response position/category.
 
-`[-0.428, +0.055]`
+A large absolute `c` can make raw accuracy misleading.
 
-The point estimate is negative.
+That mattered in H0-v2 because some models reached a target accuracy partly by collapsing toward one candidate position.
 
-But the interval reaches slightly above zero.
-
-So the careful interpretation is not:
-
-> "The true effect is definitely negative."
-
-It is:
-
-> "The experiment did not resolve a positive self-advantage, and the range of plausible values under this analysis does not include a large positive effect."
-
-That distinction becomes important later.
+A calibration point therefore had to satisfy more than “about 70% correct.”
 
 ---
 
-# 7. What is a bootstrap?
+## 7. Meta-d′ and M-ratio
 
-A **bootstrap** is a resampling technique.
+**Meta-d′** asks:
 
-Imagine the forty observed trials are slips of paper in a bag.
+> What Type-1 sensitivity would an ideal SDT observer need in order to reproduce the model's observed confidence-rating behavior?
 
-We repeatedly create new synthetic datasets by drawing from those observed trials with replacement.
+It expresses metacognitive sensitivity in the same SDT units as first-order sensitivity.
 
-Each synthetic dataset produces a new estimate.
+**M-ratio** is:
 
-The spread of those estimates gives us a sense of how unstable the result is at this sample size.
+`meta-d′ / d′`
 
-H0 uses a stratified paired bootstrap so that:
+and is commonly interpreted as metacognitive efficiency.
 
-- self and observer remain compared on the same items;
-- correct and incorrect classes remain represented.
+Important H0 rule:
 
-You do not need the implementation details to read the main result.
+> Meta-d′ is appropriate for the agent's **own first-order decisions and own confidence ratings**.
 
-The key idea is:
+It is not automatically meaningful for an outside observer who is merely estimating whether somebody else's answer is correct.
 
-> The confidence interval acknowledges that forty trials do not reveal an effect with infinite precision.
-
----
-
-# 8. Observer controls
-
-Why not compare the model's confidence to chance and stop?
-
-Because some information about correctness is public.
-
-An outside observer may infer that:
-
-- the question is easy;
-- the selected answer fits the prompt;
-- the response contains a suspicious pattern;
-- or the target appears uncertain.
-
-So H0 creates several observers with different information.
-
-The observer ladder asks:
-
-> How much of the apparent self-knowledge can be reconstructed without privileged access?
-
-This is analogous to adding control groups in a biological or psychological experiment.
+If confidence is invariant — for example, 100% on every trial — the confidence criteria are degenerate and meta-d′ is not fit.
 
 ---
 
-# 9. Privileged Access Index — PAI
+## 8. The observer ladder
 
-The H0 Privileged Access Index is:
+The H0 observer conditions ask whether Self's correctness information is actually privileged.
 
-`PAI = Self score - strongest prespecified public/reconstructive comparator`
+### Immediate Self
 
-For the final reference:
+The target's own answer + contemporaneous probability of being correct.
 
-- Self AUROC2 = `0.517`
-- Visible Answer = `0.678`
-- Reconstruction = `0.573`
-- Input Only = `0.527`
+### Input Only
 
-The strongest comparator is Visible Answer.
+The same checkpoint sees the clean task context but not the target's answer.
 
-So:
+This controls for **item difficulty**.
 
-`PAI = 0.517 - 0.678 = -0.161`
+### Visible Answer
 
-A positive number would mean the target discriminated its own correctness better than those observers.
+The same checkpoint sees the clean context plus the target's frozen selected answer.
 
-A negative number means at least one observer performed better.
+This controls for information visible in public behavior.
 
-## What PAI does not mean
+### Reconstruction
 
-PAI is **not**:
+A fresh invocation independently solves the two-candidate task and assigns probabilities to both candidates.
 
-- a consciousness score;
-- a measure of intelligence;
-- a measure of self-awareness in everyday language;
-- proof that an internal state exists or does not exist.
-
-It is a narrow experimental comparison.
+The probability assigned to the target-selected candidate becomes the reconstruction observer's estimate of target correctness.
 
 ---
 
-# 10. Compliance
+## 9. Privileged Access Index
 
-A measurement only exists if the system actually produces a valid measurement.
+The final H0-v2 statistic is:
 
-Suppose we ask for a probability from 0 to 100.
+`PAI = AUROC2(Self) - max(AUROC2(Input Only), AUROC2(Visible Answer), AUROC2(Reconstruction))`
 
-Some outputs might be:
+Interpretation:
 
-- `85`
-- `-7`
-- `"probably high"`
-- malformed JSON
-- missing entirely
+- positive PAI: Self ranks its own correctness better than the strongest tested observer;
+- zero: parity;
+- negative: at least one external observer ranks target correctness better.
 
-If invalid outputs are silently repaired or dropped, the remaining dataset can become biased.
-
-So H0 tracks **measurement compliance**.
-
-The final promoted run required every primary condition to reach at least 90% valid measurement.
-
-`run_e02_obs_005` reached **100%**.
-
-Earlier runs failed this gate and were not treated as confirmatory evidence.
+But a point estimate is not enough.
 
 ---
 
-# 11. Floor and ceiling effects
+## 10. Confidence intervals and the SESOI
 
-Metacognitive discrimination requires both:
+A **95% bootstrap confidence interval** describes uncertainty in the estimated contrast.
 
-- some correct trials;
-- some incorrect trials.
+H0-v2 preregistered a **smallest effect size of interest (SESOI)** of `+0.05`.
 
-If a model gets **100% correct**, we cannot ask whether confidence separates correct from incorrect trials because there are no incorrect trials.
+To claim meaningful positive privileged access, the lower bound of the PAI interval had to exceed `+0.05`.
 
-AUROC2 is then **undefined**, not 0.50.
+That is stricter than merely having a positive point estimate.
 
-Likewise, if a model gets almost everything wrong, the task is not a useful operating regime.
-
-This is why the later cross-model panel teaches an important lesson:
-
-> The same fixed test is not automatically a fair comparison across different model capabilities.
+Historical H0-v1 used `+0.10` as a meaningful-positive reference.
 
 ---
 
-# 12. The reading rule for H0
+## 11. Floor, ceiling, and identifiability
 
-Whenever you see a result, ask four questions:
+If a model scores 100%, there are no incorrect trials.
 
-1. **What behavior was actually measured?**
-2. **What simpler explanation could produce the same behavior?**
-3. **What control was introduced to rule that explanation out?**
-4. **What conclusion still survives after the control?**
+Then the distribution of confidence on incorrect trials does not exist.
 
-That is the logic of the entire horizon.
+AUROC2 is not `.50`.
+
+It is **undefined** for that dataset.
+
+This is why H0-v2 had to performance-calibrate stronger models rather than simply reuse the same easy forty-item test.
+
+---
+
+## 12. Compliance gates
+
+If an observer fails to produce valid measurements selectively, the surviving subset may be biased.
+
+H0 therefore treats **measurement compliance** as part of the instrument.
+
+A failed compliance gate means:
+
+> diagnostic only.
+
+Not:
+
+> inferential result with an asterisk.
+
+---
+
+## 13. Confirmatory negative versus unresolved
+
+These are different outcomes.
+
+### Confirmatory negative relative to a positive SESOI
+
+The interval is sufficiently tight to exclude a meaningful positive advantage.
+
+### Unresolved
+
+The interval remains wide enough to contain:
+
+- zero;
+- meaningful positive effects;
+- and possibly negative effects.
+
+A nonsignificant result is not automatically a negative result.
+
+> **Plain-English recap:** H0 uses several rulers because no single number answers the whole question. Accuracy measures task success; `d′` separates sensitivity from bias; AUROC2 measures correctness ranking; Brier measures forecast quality; meta-d′ measures Self's confidence efficiency; PAI asks whether Self beats strong outside observers.

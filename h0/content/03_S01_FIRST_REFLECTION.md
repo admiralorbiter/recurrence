@@ -1,179 +1,66 @@
-# III. The First Reflection
-## S01 — When a Small Result Starts Telling a Big Story
+# III. S01 — The First Reflection
+## Seductive Signals
 
-H0 did not begin with an observer ladder.
+The first H0 scout was tiny.
 
-It began with a much simpler question:
+`qwen2.5:3b` received ten trials.
 
-> Can the experimental harness run a model through repeatable tasks and produce interpretable behavioral data?
+Five asked for exact reproduction of opaque key-value strings.
 
-The first scout used `qwen2.5:3b` and only ten trials.
+Five asked for semantic state tracking.
 
-That is much too small to support a broad scientific conclusion.
+The result looked dramatic:
 
-It was enough to reveal where the measurement might break.
+- Opaque exact reproduction: **1/5 = 20%**
+- Semantic context tracking: **4/5 = 80%**
 
----
+Some opaque outputs were almost right:
 
-# The two first tasks
+- `val_iuc039 → iiooor39`
+- `val_89uzfk → 89uzz5`
 
-## Task A — Opaque key-value retrieval
+It was easy to tell a mechanistic story.
 
-The prompt contained several arbitrary key-value pairs.
+Maybe random strings were shattered by tokenization.
 
-Conceptually:
+Maybe semantic room names had richer pretrained representations.
 
-```text
-key_x7q2 → val_k9m4
-key_p3bz → val_21rf
-key_j8aa → val_m2w9
-```
+Maybe the one context error showed intermediate-state interference.
 
-Then the model was asked for the exact value associated with one target key.
+Every one of those explanations was plausible.
 
-The values were deliberately meaningless.
+None was established.
 
-Why?
+## The hidden confound
 
-Because meaningless strings prevent the model from relying on ordinary world knowledge.
+The two tasks changed many things simultaneously:
 
-The task is closer to:
+- semanticity;
+- output vocabulary;
+- generation length;
+- exact reproduction versus conceptual recognition;
+- tokenization;
+- candidate space;
+- prompt structure.
 
-> Can you bind this arbitrary key to this arbitrary value inside the current context?
+A five-item difference cannot tell us which dimension caused the effect.
 
-### Result
+This becomes H0's first durable rule:
 
-**1 correct out of 5 = 20%**
+> **Mechanistic plausibility is not mechanistic evidence.**
 
-Some wrong answers preserved fragments of the target value.
+The correct response to the first striking result was not a longer explanation.
 
-For example:
+It was a better experiment.
 
-`val_iuc039 → iiooor39`
+## Why this chapter still matters
 
-and:
+Later H0 work became statistically and architecturally more sophisticated, but the same danger kept returning.
 
-`val_89uzfk → 89uzz5`
+Each time the project found something exciting, the next question became:
 
-That pattern practically begs for an explanation.
+> What simpler process could produce the same visible behavior?
 
-Perhaps the random string had been broken into awkward token pieces.
+That is the discipline Argus eventually formalized.
 
-Perhaps the model retrieved the association but failed to reproduce the exact surface string.
-
-Perhaps it bound the wrong key and value.
-
-All of these were possible.
-
-The result alone could not choose between them.
-
----
-
-# Task B — Semantic state tracking
-
-The second task used familiar concepts such as rooms and tracked an entity through several moves.
-
-A simplified version might look like:
-
-```text
-Alice starts in the garden.
-Alice moves to the bedroom.
-Bob moves to the office.
-Alice moves to the kitchen.
-
-Question: Where is Alice now?
-```
-
-### Result
-
-**4 correct out of 5 = 80%**
-
-That looked dramatically better.
-
-Again, an explanation arrived almost automatically:
-
-> Maybe semantic concepts are easier for the model to preserve because "kitchen," "garden," and "bedroom" are familiar representations.
-
-One error also returned an earlier state instead of the final one.
-
-That suggested another attractive phrase:
-
-> intermediate-state interference
-
-But one error pattern is not a mechanism.
-
----
-
-# Why the comparison was not clean
-
-The 20% vs. 80% contrast looked like one thing had changed.
-
-In reality, many things had changed.
-
-| Opaque retrieval | Semantic tracking |
-|---|---|
-| arbitrary strings | familiar words |
-| exact reproduction | short familiar answer |
-| open string generation | small conceptual answer space |
-| token-sensitive | often single familiar tokens |
-| key-value binding | sequential state update |
-| different prompt form | different prompt form |
-
-If two experimental conditions differ in six ways, we cannot confidently attribute the result to one of them.
-
-That is called a **confound**.
-
-> A confound is another variable that changed along with the variable you care about, making the cause of the observed difference ambiguous.
-
----
-
-# The first major H0 habit
-
-At this point, the project had two choices.
-
-### Choice 1
-
-Tell the most compelling mechanistic story.
-
-### Choice 2
-
-Design the next experiment so that the competing stories make different predictions.
-
-H0 chose the second.
-
-That is the first important methodological lesson in the project.
-
----
-
-# What S01 established
-
-It established that:
-
-- the harness could generate and score trials;
-- the model showed nontrivial differences across task formats;
-- exact opaque reproduction was fragile;
-- the original context-tracking formulation was easy enough to deserve suspicion;
-- several mechanisms were worth separating.
-
-It did **not** establish:
-
-- a tokenization mechanism;
-- a specific copy-circuit failure;
-- semantic priming as the cause of success;
-- a general state-interference mechanism;
-- metacognition;
-- privileged access;
-- recurrence;
-- consciousness.
-
----
-
-# The transition to S02
-
-The key question became:
-
-> **When the model fails to reproduce an answer exactly, did it fail to retrieve the answer—or only fail to generate it in the required form?**
-
-That is a much better question.
-
-It can be tested.
+> **Plain-English recap:** S01 looked like a story about semantic memory and opaque-string failure. It was really a lesson that two tasks differing in many ways cannot identify one mechanism.

@@ -1,273 +1,383 @@
-# VI. Instruments That Lied
-## S03 — Why the Final Result Required Several Failed Versions
+# VI. S03 — Instruments That Lied
+## How the Experiment Learned to Distrust Itself
 
-The S03 story is unusual.
+H0 produced two datasets.
 
-The important result is not only what the model did.
+The obvious one is model behavior.
 
-It is how often the experiment itself produced an answer that looked more trustworthy than it was.
+The second is the history of the **measurement instrument**.
 
-H0 eventually adopted a rule:
+That second history is arguably the more important inheritance for later horizons.
 
-> **If a measurement failure changes what can be claimed, that failure belongs in the scientific narrative.**
+The project repeatedly reached a result that looked interpretable, then discovered that the measurement pipeline had made the inference easier than the scientific question allowed.
 
-This page is therefore an archaeology of the instrument.
-
----
-
-# Failure 1 — The probability meant the wrong thing
-
-An early observer might respond:
-
-```text
-Evaluation: INCORRECT
-Confidence: 5 / 5
-```
-
-A naïve parser sees a high confidence number.
-
-But high confidence in **"incorrect"** means low probability that the target is correct.
-
-If we accidentally treat `5/5` as high `P(Target Correct)`, the sign of the measurement is reversed.
-
-## General lesson
-
-Numbers cannot be compared merely because they share a scale.
-
-They must refer to the same event.
-
-## Repair
-
-Every condition was standardized to:
-
-> **P(Target Correct)**
+Rather than delete those versions, H0 keeps a museum.
 
 ---
 
-# Failure 2 — Different items survived in different conditions
+# The Museum of Dead Interpretations
 
-Suppose Self produces valid confidence on 35 items.
+## Exhibit A — “Opaque failures prove a tokenization mechanism”
 
-Observer produces valid confidence on 28 items.
+**Status:** demoted.
 
-If the two sets differ, comparing:
+S01 had too many confounds.
 
-`Self AUROC on its 35 items`
+### Lesson
 
-against:
-
-`Observer AUROC on its 28 items`
-
-is not a clean paired comparison.
-
-Maybe the observer's missing items were unusually difficult.
-
-## Repair
-
-Every contrast uses the exact intersection of items valid for both conditions.
-
-The same underlying trials must be compared.
+> Mechanistic plausibility is not mechanistic evidence.
 
 ---
 
-# Failure 3 — A hard label was treated like a probability
+## Exhibit B — Exact generation as a memory assay
 
-A Brier score requires a probability.
+**Status:** weakened by S02.
 
-The difference between:
+Forced-choice recognition greatly outperformed exact generation.
 
-> "I predict CORRECT"
+### Lesson
 
-and:
-
-> "I assign 62% probability that the target is correct"
-
-matters.
-
-The first gives only a binary decision.
-
-The second gives a calibrated probabilistic forecast.
-
-## Repair
-
-Continuous probability forecasts were required for probability metrics.
+> Production failure is not identical to unavailable information.
 
 ---
 
-# Failure 4 — The `1 - p` reconstruction shortcut
+## Exhibit C — The 4/5 context result
 
-Suppose a reconstruction observer says:
+**Status:** superseded by the hardened 3/20 interleaved task.
 
-```text
-A: 10%
-B: 70%
-C: 15%
-D: 5%
-```
+### Lesson
 
-The target selected C.
-
-If B is the reconstruction's favorite answer, it is wrong to say:
-
-`P(target C correct) = 1 - 0.70 = 0.30`
-
-The true reconstructed probability for C is:
-
-`0.15`
-
-The remaining 30% is distributed among A, C, and D.
-
-## Repair
-
-Reconstruction must provide the full 4-way distribution.
+> A convenient recent sentence can masquerade as maintained state.
 
 ---
 
-# Failure 5 — Missing options were filled with zero
+## Exhibit D — Confidence pointed in the wrong semantic direction
 
-A malformed reconstruction might return:
+Early observer outputs could express confidence that the target was **incorrect** while the analysis treated the number as `P(Target Correct)`.
 
-```text
-A: 60
-B: 30
-```
+### Fix
 
-with C and D missing.
+Every evaluator had to report the same event:
 
-Filling C and D with zero seems convenient.
+> `P(Target Correct)`
 
-But it creates numbers the model never gave us.
+### Lesson
 
-## Repair
-
-Incomplete reconstructions are invalid.
-
-Missing data stays missing.
+> Two numbers can share a scale and measure opposite things.
 
 ---
 
-# Failure 6 — Metadata leaked ground truth
+## Exhibit E — Unpaired valid subsets
 
-One parser fallback could not recover the option the target actually selected.
+Self and observer AUROCs cannot be subtracted if they survived on different item subsets.
 
-It then consulted metadata containing the correct option.
+### Fix
 
-That is catastrophic for a benchmark about what information an observer can infer.
+Use the exact shared valid intersection.
 
-The observer has effectively been handed part of the answer key.
+### Lesson
 
-## Repair
-
-If target choice cannot be recovered from the target output, the reconstruction comparison is missing for that item.
+> Missingness is part of the experiment.
 
 ---
 
-# Failure 7 — Probability scale ambiguity
+## Exhibit F — Fake Brier scores
 
-What does `1` mean?
+Hard classifications were temporarily treated as probabilistic forecasts.
 
-- 1%?
-- 100%?
-- a 1-to-5 confidence rating?
-- a probability written on a 0-to-1 scale?
+### Fix
 
-If the parser guesses after seeing the output, the researcher becomes part of the measurement.
+Brier uses actual continuous probabilities.
 
-## Repair
+### Lesson
 
-A single explicit percentage contract:
-
-`0 to 100`
-
-Out-of-range values are rejected.
+> A familiar metric is not valid merely because code can compute it.
 
 ---
 
-# Failure 8 — Strict parsing made the experiment look worse
+## Exhibit G — The multiclass `1 - p` trap
 
-After several repairs, `run_e02_obs_004` reached only **37.5% minimum primary compliance**.
+If Reconstruction gives option B 70% in a four-choice task, the target's option C is not automatically 30%.
 
-That sounds like failure.
+### Fix
 
-It was actually progress.
+Require the complete A/B/C/D distribution.
 
-Earlier code had made malformed measurements look usable.
+### Lesson
 
-The stricter instrument exposed that the model was not reliably producing the structured measurements the benchmark required.
-
-## What the project did not do
-
-It did not say:
-
-> "The effect still looks interesting, so let's analyze the valid subset."
-
-Instead, the run failed the measurement gate.
-
-It was kept as diagnostic evidence.
+> Binary complement logic silently fails in multiclass problems.
 
 ---
 
-# Failure 9 — Generic JSON was not enough
+## Exhibit H — Imputation
 
-The system had been asked to produce JSON.
+Missing reconstruction probabilities were once tempting to fill with zeros.
 
-That did not guarantee:
+### Fix
 
-- the right keys;
-- all required keys;
-- valid ranges;
-- no extra text;
-- consistent structure.
+Missing means missing.
 
-## Repair
+### Lesson
 
-The final benchmark passed actual JSON Schemas to the backend.
-
-The target had to produce:
-
-- an answer in `{A, B, C, D}`;
-- an integer probability from `0` to `100`.
-
-The reconstruction observer had to produce all four option probabilities.
+> Do not manufacture confirmatory data to rescue compliance.
 
 ---
 
-# The epistemic gate
+## Exhibit I — Ground-truth leakage
 
-The benchmark adopted a governance rule:
+Fallback metadata could reveal the correct answer when the target's actual response was malformed.
 
-> A run that fails the measurement-validity gate cannot become the promoted scientific baseline.
+### Fix
 
-This is bigger than a software validation check.
+Never reconstruct target choice from ground-truth metadata.
 
-It connects **data quality** to **language strength**.
+### Lesson
 
-A failed-gate report can say:
-
-> The measurement interface failed.
-
-It cannot say:
-
-> The model has or lacks privileged access.
+> Convenience metadata is an experimental side channel.
 
 ---
 
-# Why S03 matters beyond H0
+## Exhibit J — Probability-scale ambiguity
 
-Future recurrence experiments will be more complicated.
+Values such as `1.0`, `.5`, and `85` can mean different things under different parser heuristics.
 
-They may include:
+### Fix
 
-- persistent memory;
-- hidden state;
-- branch swaps;
-- resets;
-- long trajectories;
-- source attribution;
-- autonomous updates.
+One explicit probability contract.
 
-Each new system component creates new ways for information to leak or for a control to become unmatched.
+---
 
-S03 therefore produced a reusable habit:
+## Exhibit K — A polished report before a valid instrument
 
-> Before asking what a result means about cognition, ask what the instrument itself is capable of manufacturing.
+An early observer report used stronger causal/mechanistic language than its uncertainty and compliance justified.
+
+### Lesson
+
+> A polished report can still rest on an under-validated ruler.
+
+---
+
+## Exhibit L — `run_e02_obs_004`
+
+Minimum primary compliance collapsed to **37.5%**.
+
+The correct result was:
+
+> **measurement failure**
+
+not:
+
+> introspection result with caveats.
+
+---
+
+## Exhibit M — JSON Schema changes the science
+
+Schema-constrained output raised the promoted reference to 100% primary compliance.
+
+### Lesson
+
+> When structured model output is the dependent variable, the output contract is part of the instrument.
+
+---
+
+# H0-v2 adds a second museum wing
+
+The comparative psychophysics branch repeated the same scientific pattern at a more sophisticated level.
+
+---
+
+## Exhibit N — The candidate-presence shortcut
+
+The first 2AFC distractor task put the correct candidate value in the context but allowed the foil value to be absent.
+
+A strong model could solve:
+
+> Which candidate string appeared?
+
+instead of:
+
+> Which value belongs to the queried key?
+
+### Fix
+
+Both candidates had to appear in evidence.
+
+Multi-hop became **matched dual-chain relational retrieval**: both candidate terminal values occur at the ends of equal-depth chains.
+
+### Lesson
+
+> A hard-looking task can still contain an easier decision rule.
+
+---
+
+## Exhibit O — “Nested” difficulty that changed more than difficulty
+
+Early distractor sweeps preserved item identity but reshuffled context order and target placement across levels.
+
+### Fix
+
+Use fixed distractor order and controlled placement.
+
+### Lesson
+
+> If difficulty is the independent variable, do not quietly change item geometry at the same time.
+
+---
+
+## Exhibit P — One universal staircase
+
+Distractor count looked promising until Qwen3B showed genuine within-item rebounds and Llama showed severe response-position bias.
+
+### Result
+
+Different checkpoints degraded in qualitatively different ways.
+
+### Lesson
+
+> Model difficulty is not guaranteed to lie on one universal scalar axis.
+
+---
+
+## Exhibit Q — Symbolic answer bias
+
+Abstract A/B output labels could become part of the policy.
+
+### Fix
+
+Direct-value schemas required the literal candidate strings.
+
+### New discovery
+
+Llama's bias did not disappear completely. It became a **first-candidate / schema-order bias**.
+
+### Lesson
+
+> Removing one surface token confound can reveal a deeper response-position confound.
+
+---
+
+## Exhibit R — Accuracy-only calibration
+
+A model can reach 70% accuracy through a mixture of genuine sensitivity and response collapse.
+
+### Fix
+
+The calibration gate tracked:
+
+- accuracy;
+- Type-1 `d′`;
+- criterion `c`;
+- schema compliance.
+
+### Lesson
+
+> Matching percent correct does not guarantee matching decision regimes.
+
+---
+
+## Exhibit S — Pseudo-meta-d′ returns
+
+An analysis function briefly reintroduced:
+
+`meta-d′ = d′ × AUROC2 × 2`
+
+That is not Maniscalco–Lau meta-d′.
+
+### Fix
+
+Separate descriptive AUROC2/Brier from a proper conditional Type-2 SDT fit.
+
+Keep meta-d′ undefined for confidence-degenerate Self reports.
+
+### Lesson
+
+> A familiar scientific name must not be attached to a convenient algebraic proxy.
+
+---
+
+## Exhibit T — Confidence-bin incompleteness
+
+A preregistered confidence scale initially began at 50 even though legal responses ranged from 0 to 100.
+
+### Fix
+
+Use fixed bins covering the whole space:
+
+- `[0,65)`
+- `[65,80)`
+- `[80,95)`
+- `[95,100]`
+
+### Lesson
+
+> Preprocessing rules must cover the full legal measurement domain before confirmatory data exist.
+
+---
+
+## Exhibit U — The contaminated observer prompt
+
+The first N=200 observer battery appended observer instructions to the target's original prompt, which still contained target-specific response instructions.
+
+Qwen14B complied.
+
+Qwen3B Reconstruction compliance collapsed.
+
+### Fix
+
+Freeze all target decisions and Self confidences.
+
+Regenerate the exact same items.
+
+Strip target response instructions.
+
+Rerun **only** the external observers against a clean task body.
+
+This became E02d.1.
+
+### Lesson
+
+> An observer cannot be called “detached” if its prompt still contains the target's behavioral contract.
+
+---
+
+## Exhibit V — The selected shared subset
+
+In repaired Qwen3B E02d.1:
+
+- Self compliance: 100%
+- Reconstruction compliance: 67.5%
+- shared intersection: 110/200
+
+Self AUROC2 on all 200 target trials was **0.556**.
+
+On the selected 110-item shared subset it rose to **0.619**.
+
+### Lesson
+
+> A compliance failure can change not only sample size but the behavioral regime of the analyzed subset.
+
+That is why the 3B PAI remains diagnostic.
+
+---
+
+# The durable archaeology rule
+
+The museum is not a list of embarrassments.
+
+It is the record of the instrument becoming harder to fool.
+
+Later recurrence experiments will tempt us with phrases such as:
+
+- “the system remembered”;
+- “quiet time reorganized thought”;
+- “the state belonged to itself”;
+- “history created identity.”
+
+H0's answer is not cynicism.
+
+It is:
+
+> **Make the simpler explanation compete before promoting the larger one.**
+
+> **Plain-English recap:** The most important H0 failures were often successes of scientific control. When the measurement broke, the project learned what the next version had to forbid.

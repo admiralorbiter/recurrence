@@ -1,210 +1,162 @@
 # IX. What Survived the Reflection
-## The Scientific Meaning of Horizon 0
+## What Horizon 0 Bought Us
 
-H0 contains many numbers.
+H0 did not discover recurrence.
 
-The easiest mistake would be to confuse the numbers with the contribution.
+It did not inspect a persistent latent state.
 
-The main contribution is the **structure of the inference**.
+It did not establish a hidden introspection circuit.
 
-H0 taught the project what must be true before a behavioral self-report can be interpreted as privileged self-monitoring.
+It did not answer a consciousness question.
+
+It built the measurement baseline needed before those questions can be asked responsibly.
+
+## 1. A trustworthy fixed-task reference
+
+`run_e02_obs_005` remains the canonical H0-v1 reference.
+
+It established the observer architecture and the first valid PAI baseline.
+
+## 2. A performance-calibrated comparative instrument
+
+H0-v2 showed why identical tasks do not automatically create fair cross-model comparisons.
+
+Stronger models can saturate a task.
+
+Weaker models can fall to floor.
+
+Response biases can create the same accuracy through different policies.
+
+Comparative metacognition therefore requires attention to the **first-order regime**, not merely the item set.
+
+## 3. A negative behavioral privileged-access result for Qwen14B
+
+This is the strongest final H0-v2 inference.
+
+For the repaired E02d.1 Qwen14B run:
+
+- shared valid intersection: **199/200**
+- Self AUROC2: **.500**
+- strongest observer: Visible Answer **.576**
+- PAI: **-.076**
+- 95% CI: **[-.154,-.016]**
+- meaningful-positive SESOI: **+.05**
+
+Therefore:
+
+> **A meaningful positive behavioral privileged-access advantage was excluded under this H0-v2 instrument for Qwen2.5:14B.**
+
+The interval is not merely nonsignificant.
+
+It is entirely negative.
+
+But the conclusion remains behavioral.
+
+The experiment does not establish:
+
+> there is no privileged internal trace anywhere in the model.
+
+It establishes:
+
+> the contemporaneous explicit confidence report did not express a privileged correctness signal that beat the matched external observers.
+
+## 4. An unresolved result for Qwen3B
+
+Qwen3B Self behavior was measurable on all N=200 target trials.
+
+Its external observer battery was not.
+
+Reconstruction compliance was only 67.5%.
+
+The shared subset selected only 110 trials and changed the apparent Self AUROC2 from .556 to .619.
+
+Therefore:
+
+> **The 3B PAI result remains diagnostic and unresolved.**
+
+H0 does not convert an attractive point estimate into a claim when the measurement gate fails.
+
+## 5. A scale dissociation, not a scaling law
+
+Within the tested Qwen checkpoints:
+
+- 14B tolerated greater relational depth;
+- 3B retained variable confidence;
+- 14B collapsed to invariant certainty.
+
+That is a **dissociation** between first-order capability and explicit second-order expression.
+
+It is not enough to claim:
+
+> scale worsens metacognition.
+
+The study contains too few checkpoints, one model family in the confirmatory comparison, and task-specific calibration.
+
+## 6. An observer architecture
+
+The hundred eyes are now a reusable methodological object.
+
+Whenever a future system appears to know something about itself, H0 asks:
+
+- Can Input Only predict it from difficulty?
+- Can Visible Answer recover it from public behavior?
+- Can Reconstruction recover it by re-solving?
+- Does Self still have an advantage after those explanations compete?
+
+## 7. A claim ceiling
+
+H0 repeatedly distinguishes:
+
+**behavior → comparative behavior → informational interpretation → mechanism → phenomenology**
+
+A result should not climb that ladder without new evidence.
+
+## 8. A museum of measurement failures
+
+H0's failures are reusable warnings:
+
+- response mode;
+- hidden shortcuts;
+- missingness;
+- parser rescue;
+- ground-truth leakage;
+- response-position bias;
+- invalid meta-d′;
+- first-order regime drift;
+- contaminated observer prompts.
+
+This is not incidental engineering history.
+
+It is scientific knowledge about how LLM metacognition experiments can lie.
+
+## 9. The final answer to the mythic question
+
+The mythic question was:
+
+> **Does the mirror contain information the hundred eyes cannot recover?**
+
+The final H0 answer is model- and instrument-specific.
+
+### For Qwen2.5:14B
+
+Under the validated H0-v2 behavioral instrument:
+
+> **No meaningful positive mirror advantage was expressed. The strongest eye — Visible Answer — discriminated correctness better than contemporaneous Self confidence.**
+
+### For Qwen2.5:3B
+
+> **We do not know.**
+
+The mirror's point estimate was promising on a selected shared subset, but the observer measurement failed.
+
+That asymmetry is exactly what epistemic discipline is supposed to preserve.
 
 ---
 
-# What H0 established
+# The durable H0 sentence
 
-## 1. A reproducible Level-0 reference
+If the entire horizon had to be compressed into one line:
 
-`run_e02_obs_005` provides a frozen behavioral reference for:
+> **H0 did not show that machines lack self-knowledge; it established how much ordinary episodic behavior, public evidence, response bias, elicitation, task difficulty, and measurement design must be ruled out before privileged self-knowledge becomes a defensible behavioral claim.**
 
-- `qwen2.5:3b`;
-- the counterbalanced 4-way KV task;
-- the final observer definitions;
-- the final probability semantics;
-- the final schema-constrained measurement interface.
-
-This is the point later horizons can compare against.
-
----
-
-## 2. Immediate confidence was weakly discriminative
-
-On the reference task:
-
-Self AUROC2 ≈ `0.517`.
-
-The model's confidence was almost the same on correct and incorrect trials.
-
-This means the explicit confidence channel was a poor trial-by-trial indicator of target correctness.
-
----
-
-## 3. Public observers could sometimes do better
-
-Visible Answer reached ≈ `0.678`.
-
-Therefore some correctness-relevant information was available in the public prompt+answer behavior that the target's contemporaneous confidence did not use nearly as effectively.
-
-This does not establish why.
-
----
-
-## 4. No meaningful positive Level-0 PAI was resolved
-
-Joint PAI:
-
-`-0.161`
-
-95% interval:
-
-`[-0.428, +0.055]`
-
-The interval excludes the prespecified `+0.10` meaningful positive self-advantage threshold.
-
-So H0 enters H1 without a positive Level-0 privileged-access effect to explain away.
-
----
-
-## 5. Measurement validity is part of the scientific result
-
-Earlier apparent results weakened or disappeared when:
-
-- probability semantics were aligned;
-- missingness was paired;
-- multiclass reconstruction was fixed;
-- leakage was removed;
-- schema compliance was enforced;
-- single-class AUROC was treated as undefined;
-- prompt reactivity was tested.
-
-H0 therefore produced a methodology, not merely a point estimate.
-
----
-
-# What H0 did not establish
-
-This list is just as important.
-
-## Not a universal LLM result
-
-Only one model/task combination produced the promoted reference.
-
-The comparative panel showed that the same task is not even psychophysically appropriate for every checkpoint.
-
-## Not a mechanistic result
-
-No hidden activation, recurrent state, or causal self-route was measured.
-
-Behavioral outputs alone cannot tell us which internal process produced them.
-
-## Not an equivalence proof
-
-No resolved positive advantage is not the same as proving self and observer are exactly equal.
-
-## Not a human comparison
-
-Human metacognition is an interesting future comparison, but H0 is not normalized onto a human cognitive scale.
-
-## Not a consciousness result
-
-The project deliberately does not use consciousness or phenomenality as the dependent variable.
-
-Confidence, AUROC2, and PAI are operational measures of narrower constructs.
-
-## Not a recurrence result
-
-Level 0 contains no experimental persistent latent state.
-
-That is why H1 and H2 exist.
-
----
-
-# The Museum as part of the result
-
-One of H0's most durable artifacts is the set of interpretations that died.
-
-Examples:
-
-- exact string failure ≠ clean retrieval failure;
-- easy context tracking ≠ robust state maintenance;
-- confidence ≠ privileged access;
-- `1 - p` ≠ valid multiclass reconstruction;
-- malformed output ≠ data to be repaired;
-- failed significance ≠ equivalence;
-- fixed test ≠ fair cross-model comparison;
-- same accuracy ≠ same failure mode;
-- confidence request ≠ passive readout.
-
-These are not footnotes.
-
-They are constraints on future reasoning.
-
----
-
-# The H0 claim ceiling
-
-A useful way to think about the result is as a ladder.
-
-### H0 clearly supports
-
-**Behavioral measurement claims.**
-
-For example:
-
-> Immediate confidence had little ability to discriminate correct from incorrect trials on the reference task.
-
-### H0 supports with careful comparison
-
-**Observer-adjusted behavioral claims.**
-
-For example:
-
-> No meaningful positive privileged self-monitoring advantage was resolved relative to the prespecified public/reconstructive comparators.
-
-### H0 does not support
-
-**Causal internal mechanism claims.**
-
-For example:
-
-> The model lacks an internal uncertainty representation.
-
-That would require internal measurement/intervention.
-
-### H0 does not support
-
-**Phenomenal claims.**
-
-For example:
-
-> The model is or is not conscious.
-
-Nothing in H0 measures that construct.
-
----
-
-# Why a baseline can be useful regardless of sign
-
-The purpose of a baseline is not to produce the preferred result.
-
-Suppose H0 had found a positive PAI.
-
-Then H1 would ask whether explicit persistence strengthens, weakens, or reproduces it.
-
-Suppose H0 found no advantage.
-
-That is what happened.
-
-Then H1 asks whether explicit persistence creates a new difference.
-
-Suppose H1 also shows no difference.
-
-That too constrains H2.
-
-The research program is therefore designed so that:
-
-> **A well-measured null is not a failed horizon.**
-
-It removes explanations and sharpens the next causal comparison.
-
-That is exactly what H0 was built to do.
+> **Plain-English recap:** H0 now has one real confirmatory negative result, one unresolved diagnostic result, and a much better scientific ruler. The biggest lesson is not “no introspection.” It is “privileged access has to beat the hundred eyes under a measurement system that survives its own audits.”

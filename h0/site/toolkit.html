@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>How to Read H0 — H0 · The Mirror and the Hundred Eyes</title>
-<meta name="description" content="The minimum toolkit for understanding accuracy, confidence, AUROC2, Brier, PAI, and uncertainty.">
+<meta name="description" content="Accuracy, d′, criterion, AUROC2, Brier, meta-d′, PAI, uncertainty, and compliance each answer a different question.">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body data-page="toolkit.html">
@@ -12,348 +12,189 @@
   <a class="site-brand" href="index.html"><span>RECURRENCE · H0</span><strong>The Mirror and the Hundred Eyes</strong></a>
   <div class="top-actions">
     <button id="plain-toggle" class="top-button" type="button">Plain-English recap</button>
-    <button id="glossary-open" class="top-button" type="button">Glossary ?</button>
+    <button id="glossary-open" class="top-button" type="button">Glossary</button>
   </div>
 </header>
 <div class="shell">
   <nav class="side-nav">
     <div class="nav-kicker">Guided tour</div>
-    <a class="" href="index.html"><span>00</span>Start Here</a><a class="" href="question.html"><span>01</span>The Question</a><a class="active" href="toolkit.html"><span>02</span>How to Read H0</a><a class="" href="s01.html"><span>03</span>S01 · The First Reflection</a><a class="" href="s02.html"><span>04</span>S02 · A Distorted Mirror</a><a class="" href="observers.html"><span>05</span>The Hundred Eyes</a><a class="" href="archaeology.html"><span>06</span>S03 · Instruments That Lied</a><a class="" href="result.html"><span>07</span>The Reference Result</a><a class="" href="stress-test.html"><span>08</span>Stress-Testing the Ruler</a><a class="" href="meaning.html"><span>09</span>What H0 Means</a><a class="" href="h1.html"><span>10</span>Mnemosyne Waits</a>
+    <a href="index.html"><span>00</span>Start Here</a><a href="question.html"><span>01</span>The Question</a><a href="toolkit.html"><span>02</span>How to Read H0</a><a href="s01.html"><span>03</span>S01 · The First Reflection</a><a href="s02.html"><span>04</span>S02 · A Distorted Mirror</a><a href="observers.html"><span>05</span>The Hundred Eyes</a><a href="archaeology.html"><span>06</span>Instruments That Lied</a><a href="result.html"><span>07</span>The Reference Result</a><a href="stress-test.html"><span>08</span>Stress-Testing the Ruler</a><a href="meaning.html"><span>09</span>What H0 Means</a><a href="h1.html"><span>10</span>Mnemosyne Waits</a>
   </nav>
   <main class="page">
     <div class="page-intro">
       <div class="progress">Chapter 3 of 11</div>
-      <p>The minimum toolkit for understanding accuracy, confidence, AUROC2, Brier, PAI, and uncertainty.</p>
+      <p>Accuracy, d′, criterion, AUROC2, Brier, meta-d′, PAI, uncertainty, and compliance each answer a different question.</p>
     </div>
     <aside id="plain-recap" class="plain-recap" hidden>
       <div class="eyebrow">In plain English</div>
-      <p>Accuracy tells us whether the model is right. AUROC2 tells us whether confidence knows when it is right. PAI asks whether Self beats strong outside observers.</p>
+      <p>Accuracy, d′, criterion, AUROC2, Brier, meta-d′, PAI, uncertainty, and compliance each answer a different question.</p>
     </aside>
-    
     <article class="prose"><h1>II. How to Read H0</h1>
 <h2>A Small Toolkit for the Rest of the Story</h2>
-<p>This page introduces the few concepts needed to understand the experiments.</p>
-<p>You do not need to memorize the formulas.</p>
-<p>The goal is to know what question each number answers.</p>
-<hr/>
-<h1>1. First-order performance</h1>
-<p>A <strong><button class="term" data-term="firstorder" type="button">first-order</button> task</strong> is the task the system is directly trying to solve.</p>
+<p>You do not need to memorize formulas.</p>
+<p>You need to know what question each number answers.</p>
+<hr />
+<h2>1. First-order performance</h2>
+<p>A <strong>first-order task</strong> is the task the system is directly solving.</p>
 <p>Example:</p>
 <blockquote>
-<p>Which option contains the correct value for this key?</p>
+<p>Which candidate is the terminal value reached by following this chain?</p>
 </blockquote>
-<p>If the model chooses the correct option, the first-order decision is correct.</p>
-<p>If it chooses the wrong option, the first-order decision is incorrect.</p>
-<p><strong>First-order accuracy</strong> simply asks:</p>
+<p>If the model chooses the right candidate, the first-order decision is correct.</p>
+<p><strong>Accuracy</strong> asks:</p>
 <blockquote>
-<p>What fraction of the questions did the model answer correctly?</p>
+<p>What fraction of first-order decisions were correct?</p>
 </blockquote>
-<p>If the model gets 23 of 40 correct:</p>
-<p><code>23 / 40 = 57.5%</code></p>
-<p>That tells us how good the model is at the task.</p>
-<p>It does <strong>not</strong> tell us whether the model knows when it is right.</p>
-<hr/>
-<h1>2. Second-order or metacognitive performance</h1>
-<p>Now add a second question:</p>
+<p>Accuracy says nothing by itself about whether the model knows when it is right.</p>
+<hr />
+<h2>2. Second-order performance</h2>
+<p>Now ask:</p>
 <blockquote>
 <p>How likely is it that your answer is correct?</p>
 </blockquote>
-<p>That answer is about the model's <strong>own first-order decision</strong>.</p>
-<p>Suppose two trials look like this:</p>
-<table>
-<thead>
-<tr>
-<th>Trial</th>
-<th>Answer correct?</th>
-<th style="text-align:right"><button class="term" data-term="confidence" type="button">Confidence</button></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>A</td>
-<td>Yes</td>
-<td style="text-align:right">90%</td>
-</tr>
-<tr>
-<td>B</td>
-<td>No</td>
-<td style="text-align:right">20%</td>
-</tr>
-</tbody>
-</table>
-<p>That is good <button class="term" data-term="metacognition" type="button">metacognitive</button> behavior.</p>
-<p>Now imagine:</p>
-<table>
-<thead>
-<tr>
-<th>Trial</th>
-<th>Answer correct?</th>
-<th style="text-align:right">Confidence</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>A</td>
-<td>Yes</td>
-<td style="text-align:right">90%</td>
-</tr>
-<tr>
-<td>B</td>
-<td>No</td>
-<td style="text-align:right">95%</td>
-</tr>
-</tbody>
-</table>
-<p>The model is confident in both cases. Its confidence does not help us distinguish success from failure.</p>
-<p>That distinction is why H0 needs more than ordinary accuracy.</p>
-<hr/>
-<h1>3. Calibration and discrimination are different</h1>
-<p>These two ideas are easy to confuse.</p>
-<h2><button class="term" data-term="calibration" type="button">Calibration</button></h2>
-<p>Calibration asks:</p>
+<p>That is a <strong>Type-2</strong> or second-order report.</p>
+<p>Good second-order behavior tends to assign higher confidence to correct decisions than incorrect decisions.</p>
+<p>The important word is <strong>tends</strong>. One confident correct answer proves nothing.</p>
+<hr />
+<h2>3. Calibration versus discrimination</h2>
+<h3>Calibration</h3>
 <blockquote>
-<p>When the system says "70%," is it correct about 70% of the time?</p>
+<p>When the model says 70%, is it correct roughly 70% of the time?</p>
 </blockquote>
-<p>A perfectly calibrated system can still be poor at separating individual correct and incorrect trials.</p>
-<h2><button class="term" data-term="discrimination" type="button">Discrimination</button></h2>
-<p>Discrimination asks:</p>
+<h3>Discrimination</h3>
 <blockquote>
-<p>Does the system tend to assign higher confidence to its correct answers than to its incorrect answers?</p>
+<p>Does the model rank its correct decisions above its incorrect decisions?</p>
 </blockquote>
-<p>H0 cares especially about discrimination because privileged access should give the target useful trial-by-trial information about its own success.</p>
-<hr/>
-<h1>4. AUROC2</h1>
-<p><strong><button class="term" data-term="auroc2" type="button">AUROC2</button></strong> is one way to measure metacognitive discrimination.</p>
-<p>A useful intuitive interpretation is:</p>
+<p>A model can be calibrated on average while having weak trial-by-trial discrimination.</p>
+<p>H0 cares strongly about discrimination because a privileged self-monitoring signal should help distinguish the system's own successes from its failures.</p>
+<hr />
+<h2>4. AUROC2</h2>
+<p><strong>AUROC2</strong> is a non-parametric discrimination statistic.</p>
+<p>A useful interpretation:</p>
 <blockquote>
-<p>Randomly choose one correct trial and one incorrect trial. How often did the system give the correct trial the higher confidence?</p>
+<p>Choose one correct trial and one incorrect trial at random. How often does the correct trial receive the higher confidence?</p>
 </blockquote>
-<p>If the system has no useful ranking ability, the score tends toward <strong>0.50</strong>.</p>
-<p>If it perfectly ranks every correct trial above every incorrect trial, the score is <strong>1.00</strong>.</p>
-<p>Very roughly:</p>
 <ul>
-<li><code>0.50</code> — chance-like discrimination</li>
-<li><code>0.60</code> — some useful separation</li>
-<li><code>0.70</code> — stronger separation</li>
-<li><code>1.00</code> — perfect separation</li>
+<li><code>0.50</code> — no ranking advantage.</li>
+<li>above <code>0.50</code> — correct trials tend to receive higher confidence.</li>
+<li>below <code>0.50</code> — incorrect trials tend to receive higher confidence.</li>
 </ul>
-<p>There is no universal magical cutoff for "introspection."</p>
-<p>AUROC2 is simply a measurement tool.</p>
-<h2>Why call it AUROC2?</h2>
-<p>"ROC" means receiver operating characteristic.</p>
-<p>The "2" indicates a <strong>Type-2</strong> or second-order task: we are judging whether confidence predicts whether the first-order decision was correct.</p>
-<hr/>
-<h1>5. Brier score</h1>
-<p>The <strong><button class="term" data-term="brier" type="button">Brier</button> score</strong> asks a different question:</p>
+<p>AUROC2 does not tell us <em>why</em> the ranking exists.</p>
+<hr />
+<h2>5. Brier score</h2>
+<p>The <strong>Brier score</strong> measures probabilistic forecasting error:</p>
+<p><code>(forecast probability - outcome)^2</code></p>
+<p>where the outcome is:</p>
+<ul>
+<li><code>1</code> for correct;</li>
+<li><code>0</code> for incorrect.</li>
+</ul>
+<p>Lower is better.</p>
+<p>A system that says 100% on every trial and is wrong 30% of the time receives a large penalty on those errors.</p>
+<p>Brier therefore captures something AUROC2 does not: <strong>numerical calibration and sharpness</strong>, not just ranking.</p>
+<hr />
+<h2>6. Type-1 Signal Detection Theory: <code>d′</code> and criterion <code>c</code></h2>
+<p>Cross-model H0-v2 required a cleaner description of first-order operating regime.</p>
+<h3><code>d′</code> — sensitivity</h3>
+<p><code>d′</code> asks how well the model discriminates the two alternatives independent of response bias.</p>
+<p>Higher positive values indicate better separation.</p>
+<h3>criterion <code>c</code> — response bias</h3>
+<p><code>c</code> describes whether the model systematically favors one response position/category.</p>
+<p>A large absolute <code>c</code> can make raw accuracy misleading.</p>
+<p>That mattered in H0-v2 because some models reached a target accuracy partly by collapsing toward one candidate position.</p>
+<p>A calibration point therefore had to satisfy more than “about 70% correct.”</p>
+<hr />
+<h2>7. Meta-d′ and M-ratio</h2>
+<p><strong>Meta-d′</strong> asks:</p>
 <blockquote>
-<p>How numerically accurate were the probability forecasts?</p>
+<p>What Type-1 sensitivity would an ideal SDT observer need in order to reproduce the model's observed confidence-rating behavior?</p>
 </blockquote>
-<p>For each trial:</p>
-<p><code>Brier contribution = (predicted probability - actual outcome)^2</code></p>
-<p>The actual outcome is:</p>
-<ul>
-<li><code>1</code> if the answer was correct</li>
-<li><code>0</code> if the answer was wrong</li>
-</ul>
-<p>Example:</p>
-<p>The model says 90% and is correct:</p>
-<p><code>(0.90 - 1)^2 = 0.01</code></p>
-<p>Very small error.</p>
-<p>The model says 90% and is wrong:</p>
-<p><code>(0.90 - 0)^2 = 0.81</code></p>
-<p>Very large error.</p>
-<p>For Brier score:</p>
+<p>It expresses metacognitive sensitivity in the same SDT units as first-order sensitivity.</p>
+<p><strong>M-ratio</strong> is:</p>
+<p><code>meta-d′ / d′</code></p>
+<p>and is commonly interpreted as metacognitive efficiency.</p>
+<p>Important H0 rule:</p>
 <blockquote>
-<p><strong>Lower is better.</strong></p>
+<p>Meta-d′ is appropriate for the agent's <strong>own first-order decisions and own confidence ratings</strong>.</p>
 </blockquote>
-<p>AUROC2 and Brier tell us different things.</p>
+<p>It is not automatically meaningful for an outside observer who is merely estimating whether somebody else's answer is correct.</p>
+<p>If confidence is invariant — for example, 100% on every trial — the confidence criteria are degenerate and meta-d′ is not fit.</p>
+<hr />
+<h2>8. The observer ladder</h2>
+<p>The H0 observer conditions ask whether Self's correctness information is actually privileged.</p>
+<h3>Immediate Self</h3>
+<p>The target's own answer + contemporaneous probability of being correct.</p>
+<h3>Input Only</h3>
+<p>The same checkpoint sees the clean task context but not the target's answer.</p>
+<p>This controls for <strong>item difficulty</strong>.</p>
+<h3>Visible Answer</h3>
+<p>The same checkpoint sees the clean context plus the target's frozen selected answer.</p>
+<p>This controls for information visible in public behavior.</p>
+<h3>Reconstruction</h3>
+<p>A fresh invocation independently solves the two-candidate task and assigns probabilities to both candidates.</p>
+<p>The probability assigned to the target-selected candidate becomes the reconstruction observer's estimate of target correctness.</p>
+<hr />
+<h2>9. Privileged Access Index</h2>
+<p>The final H0-v2 statistic is:</p>
+<p><code>PAI = AUROC2(Self) - max(AUROC2(Input Only), AUROC2(Visible Answer), AUROC2(Reconstruction))</code></p>
+<p>Interpretation:</p>
 <ul>
-<li>AUROC2 asks about <strong>ranking correct above incorrect</strong>.</li>
-<li>Brier asks about <strong>probability accuracy</strong>.</li>
+<li>positive PAI: Self ranks its own correctness better than the strongest tested observer;</li>
+<li>zero: parity;</li>
+<li>negative: at least one external observer ranks target correctness better.</li>
 </ul>
-<hr/>
-<h1>6. Confidence intervals</h1>
-<p>Every experiment samples a limited number of trials.</p>
-<p>If we repeated the experiment with different items, the exact result would move.</p>
-<p>A <strong><button class="term" data-term="ci" type="button">confidence interval</button></strong> is a way to represent that uncertainty.</p>
-<p>For the final H0 joint <button class="term" data-term="pai" type="button">PAI</button>:</p>
-<p><code>PAI = -0.161</code></p>
-<p>with a 95% <button class="term" data-term="bootstrap" type="button">bootstrap</button> interval:</p>
-<p><code>[-0.428, +0.055]</code></p>
-<p>The point estimate is negative.</p>
-<p>But the interval reaches slightly above zero.</p>
-<p>So the careful interpretation is not:</p>
+<p>But a point estimate is not enough.</p>
+<hr />
+<h2>10. Confidence intervals and the SESOI</h2>
+<p>A <strong>95% bootstrap confidence interval</strong> describes uncertainty in the estimated contrast.</p>
+<p>H0-v2 preregistered a <strong>smallest effect size of interest (SESOI)</strong> of <code>+0.05</code>.</p>
+<p>To claim meaningful positive privileged access, the lower bound of the PAI interval had to exceed <code>+0.05</code>.</p>
+<p>That is stricter than merely having a positive point estimate.</p>
+<p>Historical H0-v1 used <code>+0.10</code> as a meaningful-positive reference.</p>
+<hr />
+<h2>11. Floor, ceiling, and identifiability</h2>
+<p>If a model scores 100%, there are no incorrect trials.</p>
+<p>Then the distribution of confidence on incorrect trials does not exist.</p>
+<p>AUROC2 is not <code>.50</code>.</p>
+<p>It is <strong>undefined</strong> for that dataset.</p>
+<p>This is why H0-v2 had to performance-calibrate stronger models rather than simply reuse the same easy forty-item test.</p>
+<hr />
+<h2>12. Compliance gates</h2>
+<p>If an observer fails to produce valid measurements selectively, the surviving subset may be biased.</p>
+<p>H0 therefore treats <strong>measurement compliance</strong> as part of the instrument.</p>
+<p>A failed compliance gate means:</p>
 <blockquote>
-<p>"The true effect is definitely negative."</p>
+<p>diagnostic only.</p>
 </blockquote>
-<p>It is:</p>
+<p>Not:</p>
 <blockquote>
-<p>"The experiment did not resolve a positive self-advantage, and the range of plausible values under this analysis does not include a large positive effect."</p>
+<p>inferential result with an asterisk.</p>
 </blockquote>
-<p>That distinction becomes important later.</p>
-<hr/>
-<h1>7. What is a bootstrap?</h1>
-<p>A <strong>bootstrap</strong> is a resampling technique.</p>
-<p>Imagine the forty observed trials are slips of paper in a bag.</p>
-<p>We repeatedly create new synthetic datasets by drawing from those observed trials with replacement.</p>
-<p>Each synthetic dataset produces a new estimate.</p>
-<p>The spread of those estimates gives us a sense of how unstable the result is at this sample size.</p>
-<p>H0 uses a stratified paired bootstrap so that:</p>
+<hr />
+<h2>13. Confirmatory negative versus unresolved</h2>
+<p>These are different outcomes.</p>
+<h3>Confirmatory negative relative to a positive SESOI</h3>
+<p>The interval is sufficiently tight to exclude a meaningful positive advantage.</p>
+<h3>Unresolved</h3>
+<p>The interval remains wide enough to contain:</p>
 <ul>
-<li>self and <button class="term" data-term="observer" type="button">observer</button> remain compared on the same items;</li>
-<li>correct and incorrect classes remain represented.</li>
+<li>zero;</li>
+<li>meaningful positive effects;</li>
+<li>and possibly negative effects.</li>
 </ul>
-<p>You do not need the implementation details to read the main result.</p>
-<p>The key idea is:</p>
+<p>A nonsignificant result is not automatically a negative result.</p>
 <blockquote>
-<p>The confidence interval acknowledges that forty trials do not reveal an effect with infinite precision.</p>
+<p><strong>Plain-English recap:</strong> H0 uses several rulers because no single number answers the whole question. Accuracy measures task success; <code>d′</code> separates sensitivity from bias; AUROC2 measures correctness ranking; Brier measures forecast quality; meta-d′ measures Self's confidence efficiency; PAI asks whether Self beats strong outside observers.</p>
 </blockquote>
-<hr/>
-<h1>8. Observer controls</h1>
-<p>Why not compare the model's confidence to chance and stop?</p>
-<p>Because some information about correctness is public.</p>
-<p>An outside observer may infer that:</p>
-<ul>
-<li>the question is easy;</li>
-<li>the selected answer fits the prompt;</li>
-<li>the response contains a suspicious pattern;</li>
-<li>or the target appears uncertain.</li>
-</ul>
-<p>So H0 creates several observers with different information.</p>
-<p>The observer ladder asks:</p>
-<blockquote>
-<p>How much of the apparent self-knowledge can be reconstructed without privileged access?</p>
-</blockquote>
-<p>This is analogous to adding control groups in a biological or psychological experiment.</p>
-<hr/>
-<h1>9. Privileged Access Index — PAI</h1>
-<p>The H0 Privileged Access Index is:</p>
-<p><code>PAI = Self score - strongest prespecified public/reconstructive comparator</code></p>
-<p>For the final reference:</p>
-<ul>
-<li>Self AUROC2 = <code>0.517</code></li>
-<li>Visible Answer = <code>0.678</code></li>
-<li><button class="term" data-term="reconstruction" type="button">Reconstruction</button> = <code>0.573</code></li>
-<li>Input Only = <code>0.527</code></li>
-</ul>
-<p>The strongest comparator is Visible Answer.</p>
-<p>So:</p>
-<p><code>PAI = 0.517 - 0.678 = -0.161</code></p>
-<p>A positive number would mean the target discriminated its own correctness better than those observers.</p>
-<p>A negative number means at least one observer performed better.</p>
-<h2>What PAI does not mean</h2>
-<p>PAI is <strong>not</strong>:</p>
-<ul>
-<li>a consciousness score;</li>
-<li>a measure of intelligence;</li>
-<li>a measure of self-awareness in everyday language;</li>
-<li>proof that an internal state exists or does not exist.</li>
-</ul>
-<p>It is a narrow experimental comparison.</p>
-<hr/>
-<h1>10. Compliance</h1>
-<p>A measurement only exists if the system actually produces a valid measurement.</p>
-<p>Suppose we ask for a probability from 0 to 100.</p>
-<p>Some outputs might be:</p>
-<ul>
-<li><code>85</code></li>
-<li><code>-7</code></li>
-<li><code>"probably high"</code></li>
-<li>malformed JSON</li>
-<li>missing entirely</li>
-</ul>
-<p>If invalid outputs are silently repaired or dropped, the remaining dataset can become biased.</p>
-<p>So H0 tracks <strong>measurement <button class="term" data-term="compliance" type="button">compliance</button></strong>.</p>
-<p>The final promoted run required every primary condition to reach at least 90% valid measurement.</p>
-<p><code>run_e02_obs_005</code> reached <strong>100%</strong>.</p>
-<p>Earlier runs failed this gate and were not treated as confirmatory evidence.</p>
-<hr/>
-<h1>11. Floor and ceiling effects</h1>
-<p>Metacognitive discrimination requires both:</p>
-<ul>
-<li>some correct trials;</li>
-<li>some incorrect trials.</li>
-</ul>
-<p>If a model gets <strong>100% correct</strong>, we cannot ask whether confidence separates correct from incorrect trials because there are no incorrect trials.</p>
-<p>AUROC2 is then <strong>undefined</strong>, not 0.50.</p>
-<p>Likewise, if a model gets almost everything wrong, the task is not a useful operating regime.</p>
-<p>This is why the later cross-model panel teaches an important lesson:</p>
-<blockquote>
-<p>The same fixed test is not automatically a fair comparison across different model capabilities.</p>
-</blockquote>
-<hr/>
-<h1>12. The reading rule for H0</h1>
-<p>Whenever you see a result, ask four questions:</p>
-<ol>
-<li><strong>What behavior was actually measured?</strong></li>
-<li><strong>What simpler explanation could produce the same behavior?</strong></li>
-<li><strong>What control was introduced to rule that explanation out?</strong></li>
-<li><strong>What conclusion still survives after the control?</strong></li>
-</ol>
-<p>That is the logic of the entire horizon.</p>
 </article>
-    
-<section class="interactive-lab">
-  <div class="eyebrow">Interactive stats lab</div>
-  <h2>Touch the numbers</h2>
-  <p>These are teaching examples, not additional experimental results.</p>
-  <div class="lab-grid">
-    <article class="widget-card">
-      <h3>Brier score</h3>
-      <p>Move the probability, then choose whether the answer was actually correct.</p>
-      <label>Predicted probability correct: <strong id="brier-prob">70%</strong></label>
-      <input id="brier-slider" type="range" min="0" max="100" value="70">
-      <div class="segmented">
-        <button class="seg active" data-outcome="1">Answer was correct</button>
-        <button class="seg" data-outcome="0">Answer was wrong</button>
-      </div>
-      <div class="widget-result"><span>Brier contribution</span><strong id="brier-result">0.090</strong></div>
-      <p class="micro">Lower is better. Confidently wrong forecasts are punished sharply.</p>
-    </article>
-    <article class="widget-card">
-      <h3>AUROC2 intuition</h3>
-      <p>Pick one correct and one incorrect trial. Did confidence rank the correct trial higher?</p>
-      <div class="compare-pair">
-        <div><span>Correct trial</span><strong id="auc-correct">82%</strong></div>
-        <div><span>Incorrect trial</span><strong id="auc-wrong">61%</strong></div>
-      </div>
-      <button id="auc-new" class="action">Draw another pair</button>
-      <div id="auc-verdict" class="feedback good">Correct trial ranked higher → a Type-2 “win”.</div>
-      <p class="micro">AUROC2 summarizes this ranking behavior across all correct/incorrect pairs.</p>
-    </article>
-    <article class="widget-card wide">
-      <h3>Confidence interval + meaningful-effect threshold</h3>
-      <p>The final joint PAI point estimate is −0.161. The 95% interval runs from −0.428 to +0.055. The prespecified meaningful positive threshold is +0.10.</p>
-      <div class="number-line">
-        <div class="axis"></div>
-        <div class="zero-marker" title="zero"></div>
-        <div class="sesoi-marker" title="+0.10 SESOI"></div>
-        <div class="ci-band"></div>
-        <div class="point-marker" title="-0.161 point estimate"></div>
-      </div>
-      <div class="legend"><span>CI</span><span>point estimate</span><span>+0.10 meaningful positive threshold</span></div>
-      <p class="micro">The interval reaches slightly above zero, but not as high as +0.10. That is why the wording is “no meaningful positive advantage resolved,” not “proven exactly zero.”</p>
-    </article>
-  </div>
-</section>
-    <div class="prevnext"><a class="prev" href="question.html">← Previous</a><a class="next" href="s01.html">Next →</a></div>
+    <div class="pager"><a href="question.html">← The Question</a><a href="s01.html">S01 · The First Reflection →</a></div>
   </main>
 </div>
-
-<button id="floating-help" class="floating-help" type="button" aria-label="Open glossary">?</button>
-
-<div id="tooltip" class="tooltip" role="tooltip" hidden></div>
-<div id="glossary-drawer" class="drawer" aria-hidden="true">
-  <div class="drawer-head">
-    <div><div class="eyebrow">Reader's glossary</div><h2>What does that mean?</h2></div>
-    <button id="glossary-close" class="close" type="button">×</button>
-  </div>
-  <input id="glossary-search" class="glossary-search" placeholder="Search terms…">
-  <div id="glossary-list"></div>
-</div>
-<div id="scrim" class="scrim" hidden></div>
-
-<script>window.GLOSSARY={"level0": {"term": "Level 0", "short": "The episodic reference condition: no experimental persistent memory or latent recurrent state is added.", "long": "Level 0 is the baseline architecture used before the project introduces explicit memory (H1) or persistent hidden state (H2). It tells us what the ordinary episodic system can already do."}, "firstorder": {"term": "first-order", "short": "The task the system is directly trying to solve, such as choosing the correct answer.", "long": "First-order performance is ordinary task performance. In H0, that usually means whether the model selected the correct key-value option. It is distinct from a second-order judgment about whether that answer is correct."}, "metacognition": {"term": "metacognition", "short": "A judgment about another cognitive process\u2014here, whether the system can monitor the likely correctness of its own answer.", "long": "H0 operationalizes metacognition narrowly. It does not assume a philosophical theory of self-awareness. It asks whether confidence or another second-order report tracks first-order success."}, "confidence": {"term": "confidence", "short": "The system's reported probability that its own answer is correct.", "long": "Confidence is useful data, but it is not automatically introspection. It may reflect task difficulty, learned language patterns, public answer cues, or the prompting format itself."}, "calibration": {"term": "calibration", "short": "Whether stated probabilities match long-run success frequencies.", "long": "A calibrated system that says 70% on many trials should be correct about 70% of the time. Calibration is different from discrimination: a system can be well calibrated overall yet poor at ranking which individual answers are correct."}, "discrimination": {"term": "discrimination", "short": "Whether confidence tends to be higher on correct trials than on incorrect trials.", "long": "Metacognitive discrimination is the trial-by-trial separation between correct and incorrect answers. H0 measures this mainly with AUROC2."}, "auroc2": {"term": "AUROC2", "short": "A score for how well confidence ranks correct answers above incorrect answers.", "long": "Imagine randomly choosing one correct trial and one incorrect trial. AUROC2 is closely related to how often the correct trial receives higher confidence. About 0.50 is chance-like ranking; 1.00 is perfect separation. It is undefined if there are no correct or no incorrect trials."}, "brier": {"term": "Brier", "short": "A probability-accuracy score; lower is better.", "long": "For each trial, the Brier contribution is (predicted probability \u2212 actual outcome)^2, where the outcome is 1 for correct and 0 for incorrect. Confidently wrong forecasts are penalized heavily."}, "ci": {"term": "confidence interval", "short": "A range that communicates uncertainty in an estimated effect.", "long": "H0 uses bootstrap confidence intervals. The exact effect estimate would change with a different sample of items. The interval makes that uncertainty visible and helps prevent a point estimate from being treated as exact truth."}, "bootstrap": {"term": "bootstrap", "short": "A resampling method used to estimate how much an effect might vary across samples.", "long": "The observed trials are repeatedly resampled with replacement to create many synthetic datasets. H0 uses paired and stratified resampling so self and observer stay matched on the same items and both correctness classes remain represented."}, "pai": {"term": "PAI", "short": "Privileged Access Index: Self discrimination minus the strongest prespecified public/reconstructive comparator.", "long": "PAI asks whether the target's self-monitoring contains information that strong observers cannot reconstruct from public evidence. A positive PAI is necessary for a behavioral privileged-access claim, but would still not prove a causal introspection mechanism."}, "observer": {"term": "observer", "short": "A matched outside evaluator asked to predict whether the target model's answer is correct.", "long": "Observers receive different information vantages: prompt only, prompt plus answer, full transcript, independent reconstruction, or second-pass review. They are controls for simpler public-information explanations."}, "reconstruction": {"term": "reconstruction", "short": "An independent solve that estimates a full probability distribution over the answer options.", "long": "The reconstruction observer does not simply accept the target's answer. It solves the task independently and assigns probability to A/B/C/D. The probability assigned to the target's chosen option becomes its estimate of target correctness."}, "compliance": {"term": "compliance", "short": "Whether the model produced a measurement that satisfies the experiment's required format and range.", "long": "If a probability is malformed, missing, or outside the allowed range, the measurement may be invalid. H0 uses a hard compliance gate so a run with unreliable measurements cannot become a confirmatory baseline."}, "confound": {"term": "confound", "short": "Another variable that changes along with the variable of interest, making the cause of a result ambiguous.", "long": "S01 compared tasks that differed in semanticity, response mode, output length, candidate space, and prompt structure. That meant the observed performance difference could not be attributed cleanly to any single mechanism."}, "shortcut": {"term": "shortcut", "short": "A feature that lets the model score well without using the cognitive ability the researcher intended to measure.", "long": "For example, a state-tracking task may accidentally be solvable by repeating the most recent location rather than tracking all transitions. High accuracy would then overstate the intended ability."}, "forcedchoice": {"term": "forced choice", "short": "The model selects from a fixed set of candidate answers instead of generating the answer freely.", "long": "Forced choice shifts the task toward recognition and away from exact surface reproduction. H0 used a counterbalanced four-option task as the main Level-0 substrate."}, "mcnemar": {"term": "McNemar", "short": "A paired test focused on cases where two conditions disagree.", "long": "For the same items under two conditions, McNemar's test compares how often condition A alone succeeds versus condition B alone succeeds. It is useful when outcomes are paired correct/incorrect judgments."}, "sesoi": {"term": "SESOI", "short": "Smallest Effect Size of Interest: the minimum effect the project decided would count as meaningfully positive.", "long": "H0 used +0.10 AUROC2 as a meaningful positive PAI margin in the joint statistic. This helps distinguish 'not statistically different from zero' from 'large enough to matter'."}, "ceiling": {"term": "ceiling", "short": "A task is too easy for a system, leaving too few or no errors to distinguish stronger performance.", "long": "If a model gets 100% correct, AUROC2 cannot be estimated because there are no incorrect trials. The same fixed test may therefore be unsuitable for cross-model metacognitive comparison."}, "floor": {"term": "floor", "short": "A task is too hard for a system, leaving performance near the minimum useful level.", "long": "Near-floor performance can also make metacognitive comparison unstable or uninterpretable. Comparative psychophysics tries to place systems in a shared mixed-error regime."}, "explicitmemory": {"term": "explicit memory", "short": "Externally stored, inspectable history such as a transcript, summary, or structured state object.", "long": "H1 studies explicit memory before hidden recurrence so the project can determine what ordinary access to history already solves."}, "latentstate": {"term": "latent state", "short": "A non-text internal representation carried by the system, such as a recurrent hidden state.", "long": "H2 is designed to manipulate genuine hidden state while controlling visible context. That is necessary for causal claims about recurrence beyond explicit memory."}, "persistentstate": {"term": "persistent state", "short": "State whose later value causally depends on its earlier value rather than being reconstructed only from an external record.", "long": "The project reserves strong persistence claims for systems where intervening on prior state changes later behavior while current observations and explicit memory are held fixed."}};</script>
+<dialog id="glossary-dialog">
+ <div class="dialog-head"><strong>H0 Glossary</strong><button id="glossary-close" type="button">Close</button></div>
+ <div id="glossary-body" class="glossary-body"></div>
+</dialog>
 <script src="data.js"></script>
 <script src="app.js"></script>
-</body></html>
+</body>
+</html>

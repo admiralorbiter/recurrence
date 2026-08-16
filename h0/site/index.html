@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Start Here — H0 · The Mirror and the Hundred Eyes</title>
-<meta name="description" content="A guided entry point: what H0 is, why it exists, and how to use this site.">
+<meta name="description" content="H0 is the control condition. Before asking whether memory or recurrence creates self-knowledge, the project first had to learn how to measure self-monitoring without fooling itself.">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body data-page="index.html">
@@ -12,125 +12,106 @@
   <a class="site-brand" href="index.html"><span>RECURRENCE · H0</span><strong>The Mirror and the Hundred Eyes</strong></a>
   <div class="top-actions">
     <button id="plain-toggle" class="top-button" type="button">Plain-English recap</button>
-    <button id="glossary-open" class="top-button" type="button">Glossary ?</button>
+    <button id="glossary-open" class="top-button" type="button">Glossary</button>
   </div>
 </header>
 <div class="shell">
   <nav class="side-nav">
     <div class="nav-kicker">Guided tour</div>
-    <a class="active" href="index.html"><span>00</span>Start Here</a><a class="" href="question.html"><span>01</span>The Question</a><a class="" href="toolkit.html"><span>02</span>How to Read H0</a><a class="" href="s01.html"><span>03</span>S01 · The First Reflection</a><a class="" href="s02.html"><span>04</span>S02 · A Distorted Mirror</a><a class="" href="observers.html"><span>05</span>The Hundred Eyes</a><a class="" href="archaeology.html"><span>06</span>S03 · Instruments That Lied</a><a class="" href="result.html"><span>07</span>The Reference Result</a><a class="" href="stress-test.html"><span>08</span>Stress-Testing the Ruler</a><a class="" href="meaning.html"><span>09</span>What H0 Means</a><a class="" href="h1.html"><span>10</span>Mnemosyne Waits</a>
+    <a href="index.html"><span>00</span>Start Here</a><a href="question.html"><span>01</span>The Question</a><a href="toolkit.html"><span>02</span>How to Read H0</a><a href="s01.html"><span>03</span>S01 · The First Reflection</a><a href="s02.html"><span>04</span>S02 · A Distorted Mirror</a><a href="observers.html"><span>05</span>The Hundred Eyes</a><a href="archaeology.html"><span>06</span>Instruments That Lied</a><a href="result.html"><span>07</span>The Reference Result</a><a href="stress-test.html"><span>08</span>Stress-Testing the Ruler</a><a href="meaning.html"><span>09</span>What H0 Means</a><a href="h1.html"><span>10</span>Mnemosyne Waits</a>
   </nav>
   <main class="page">
     <div class="page-intro">
       <div class="progress">Chapter 1 of 11</div>
-      <p>A guided entry point: what H0 is, why it exists, and how to use this site.</p>
+      <p>H0 is the control condition. Before asking whether memory or recurrence creates self-knowledge, the project first had to learn how to measure self-monitoring without fooling itself.</p>
     </div>
     <aside id="plain-recap" class="plain-recap" hidden>
       <div class="eyebrow">In plain English</div>
       <p>H0 is the control condition. Before asking whether memory or recurrence creates self-knowledge, the project first had to learn how to measure self-monitoring without fooling itself.</p>
     </aside>
-    
     <article class="prose"><h1>H0: The Mirror and the Hundred Eyes</h1>
 <h2>Start Here</h2>
-<p><strong>Recurrence — Horizon 0 / <button class="term" data-term="level0" type="button">Level 0</button></strong></p>
-<p>This is the guided narrative of the first research horizon of the Recurrence project.</p>
-<p>You do <strong>not</strong> need a background in machine learning, statistics, philosophy of mind, or experimental psychology to follow it.</p>
+<p><strong>Recurrence — Horizon 0 / Level 0</strong></p>
+<p>You do <strong>not</strong> need a background in machine learning, statistics, philosophy of mind, or experimental psychology to follow this story.</p>
 <p>The central question is simple to state:</p>
 <blockquote>
-<p><strong>Can a machine know something about its own performance that an outside <button class="term" data-term="observer" type="button">observer</button> cannot know?</strong></p>
+<p><strong>Can a machine know something about its own performance that an outside observer cannot know?</strong></p>
 </blockquote>
-<p>The difficulty is that many things can <em>look</em> like self-knowledge without actually requiring privileged access to the system's internal state.</p>
-<p>A model can say "I'm 90% confident" because:</p>
+<p>The hard part is deciding what evidence would count.</p>
+<p>A model can say, “I am 90% confident,” for many reasons:</p>
 <ul>
 <li>the question looks easy;</li>
-<li>its answer looks plausible;</li>
-<li>it has learned how confident language usually sounds;</li>
-<li>a second pass gives it more computation;</li>
-<li>the prompt accidentally reveals the answer;</li>
-<li>the scoring code misreads what the model meant;</li>
-<li>malformed answers disappear from the analysis;</li>
-<li>or it really does have access to information about its own processing that an outside observer lacks.</li>
+<li>its chosen answer looks plausible;</li>
+<li>it has learned the style of confident language;</li>
+<li>another invocation can infer item difficulty;</li>
+<li>a second pass gives it extra computation;</li>
+<li>the prompt or output format changes the answer;</li>
+<li>the task contains a shortcut;</li>
+<li>the scoring code silently repairs malformed responses;</li>
+<li>missing trials select an easier subset;</li>
+<li>or the system truly has access to information about its own processing that an outside observer lacks.</li>
 </ul>
-<p>Horizon 0 exists to separate those possibilities.</p>
-<h2>The one-sentence story</h2>
-<p>We began by trying to measure machine self-knowledge. Almost every simple interpretation became weaker as the measurement improved. By the end, we had not discovered a general introspection ability. We had built something more basic: <strong>a trustworthy Level-0 reference condition and a set of rules for what future evidence would have to beat.</strong></p>
+<p>Horizon 0 exists to make those possibilities compete.</p>
 <h2>The mythic layer</h2>
 <p>H0 belongs to <strong>Narcissus and Argus Panoptes</strong>.</p>
 <ul>
 <li><strong>Narcissus</strong> is the mirror: the system reporting on itself.</li>
-<li><strong>Argus</strong>, the many-eyed watcher, is the observer ladder: outside evaluators given different amounts of public information.</li>
+<li><strong>Argus</strong>, the many-eyed watcher, is the observer ladder: outside evaluators with different public-information vantage points.</li>
 </ul>
 <p>The experimental question becomes:</p>
 <blockquote>
 <p><strong>Does the mirror contain information the hundred eyes cannot recover?</strong></p>
 </blockquote>
-<p>The myth is a visual and narrative motif, not a scientific claim.</p>
-<h2>How to read this</h2>
-<p>The story is divided into small stages.</p>
+<p>The myth is a motif, not a scientific claim.</p>
+<h2>The one-sentence story</h2>
+<p>H0 began by trying to measure machine self-knowledge.</p>
+<p>Almost every easy interpretation weakened when the ruler improved.</p>
+<p>The first half of H0 produced a trustworthy fixed-task reference and an observer architecture. The second half discovered that the same ruler could not fairly compare stronger models, built a performance-calibrated comparative battery, and then hardened that battery through several more measurement failures.</p>
+<p>The final result is narrower than “machines do” or “machines do not” introspect:</p>
+<blockquote>
+<p><strong>For Qwen2.5:14B on the validated H0-v2 relational task, contemporaneous explicit confidence showed no meaningful positive behavioral privileged-access advantage over matched external observers; the joint PAI interval was entirely negative. Qwen2.5:3B remained unresolved because its external-observer measurement gate failed.</strong></p>
+</blockquote>
+<p>That is a behavioral result about this instrument, not a metaphysical conclusion and not a claim that latent privileged information is absent.</p>
+<h2>The guided path</h2>
 <ol>
-<li><strong>The Question</strong> — why a Level-0 baseline is necessary.</li>
-<li><strong>How to Read H0</strong> — the minimum statistical and experimental toolkit.</li>
-<li><strong>S01: The First Reflection</strong> — the tempting first results.</li>
-<li><strong>S02: A Distorted Mirror</strong> — recognition versus reproduction.</li>
-<li><strong>The Hundred Eyes</strong> — why observer controls are necessary.</li>
-<li><strong>S03: Instruments That Lied</strong> — how the measurement repeatedly failed its own audit.</li>
-<li><strong>run_e02_obs_005</strong> — the first result the project was willing to treat as a reference.</li>
-<li><strong>More Mirrors, Different Glass</strong> — what happened across model sizes and families.</li>
-<li><strong>The Act of Looking</strong> — why asking for <button class="term" data-term="confidence" type="button">confidence</button> is itself an intervention.</li>
-<li><strong>What Survived</strong> — what H0 means and what it does not mean.</li>
-<li><strong>Mnemosyne Waits</strong> — why H1 studies <button class="term" data-term="explicitmemory" type="button">explicit memory</button> next.</li>
+<li><strong>The Question</strong> — why Level 0 exists.</li>
+<li><strong>How to Read H0</strong> — the minimum toolkit.</li>
+<li><strong>S01: The First Reflection</strong> — the seductive first result.</li>
+<li><strong>S02: A Distorted Mirror</strong> — recognition is not reproduction.</li>
+<li><strong>The Hundred Eyes</strong> — why confidence needs observers.</li>
+<li><strong>S03: Instruments That Lied</strong> — the measurement archaeology.</li>
+<li><strong>The Reference Result</strong> — <code>run_e02_obs_005</code>.</li>
+<li><strong>Stress-Testing the Ruler</strong> — saturation, H0-v2, calibration, and the confirmatory battery.</li>
+<li><strong>What H0 Means</strong> — the surviving claims and boundaries.</li>
+<li><strong>Mnemosyne Waits</strong> — why explicit memory comes next.</li>
 </ol>
-<h2>Two layers of explanation</h2>
-<p>Every page has two levels.</p>
-<h3>Main story</h3>
-<p>Written for a curious reader who wants to understand the argument.</p>
-<h3>Lab notebook / deep dive</h3>
-<p>Optional details containing:</p>
+<h2>What you should understand by the end</h2>
+<p>You should be able to explain:</p>
 <ul>
-<li>exact metrics;</li>
-<li>formulas;</li>
-<li>confidence intervals;</li>
-<li>run IDs;</li>
-<li>observer definitions;</li>
-<li>methodological caveats;</li>
-<li>and why a particular control was introduced.</li>
+<li>why confidence is not automatically introspection;</li>
+<li>why an outside observer is scientifically necessary;</li>
+<li>why 100% task accuracy can make metacognitive discrimination unidentifiable;</li>
+<li>why equivalent <em>performance regimes</em> matter more than identical item sets for cross-model comparison;</li>
+<li>what AUROC2, Brier, <code>d′</code>, criterion <code>c</code>, meta-d′, and PAI are trying to measure;</li>
+<li>why compliance is part of the measurement instrument;</li>
+<li>why asking for confidence can change a model's first-order choice;</li>
+<li>why the H0-v2 task had to survive shortcut, bias, calibration, and interface audits;</li>
+<li>what the final 14B result actually excludes;</li>
+<li>why the 3B result remains unresolved;</li>
+<li>and why none of this is yet a claim about latent recurrent state or consciousness.</li>
 </ul>
-<p>If the main story makes sense, you can ignore the deeper layer.</p>
-<p>If you want to audit the scientific argument, open it.</p>
-<h2>What you should be able to explain when you finish</h2>
-<p>You should be able to answer these questions without memorizing the exact numbers:</p>
-<ul>
-<li>Why is confidence not automatically introspection?</li>
-<li>Why compare a model to an external observer?</li>
-<li>What does <button class="term" data-term="auroc2" type="button">AUROC2</button> tell us that accuracy does not?</li>
-<li>What is the <button class="term" data-term="pai" type="button">Privileged Access Index</button> trying to isolate?</li>
-<li>Why did several early H0 results become less impressive after better controls?</li>
-<li>What does the final Level-0 result actually establish?</li>
-<li>Why can a 100%-accurate model be impossible to evaluate with the same <button class="term" data-term="metacognition" type="button">metacognitive</button> metric?</li>
-<li>Why did H0 discover that asking for confidence can change the answer itself?</li>
-<li>Why is explicit memory the next scientific control before genuine latent recurrence?</li>
-</ul>
-<p>If you can answer those, H0 has become legible.</p>
+<blockquote>
+<p><strong>Plain-English recap:</strong> H0 is the control condition. It asks whether a stateless model's self-report contains useful correctness information that matched outside observers cannot recover. The real scientific achievement was not a dramatic introspection result; it was learning how difficult that question is to measure without fooling ourselves.</p>
+</blockquote>
 </article>
-    
-    <div class="prevnext"><span></span><a class="next" href="question.html">Next →</a></div>
+    <div class="pager"><span></span><a href="question.html">The Question →</a></div>
   </main>
 </div>
-
-<button id="floating-help" class="floating-help" type="button" aria-label="Open glossary">?</button>
-
-<div id="tooltip" class="tooltip" role="tooltip" hidden></div>
-<div id="glossary-drawer" class="drawer" aria-hidden="true">
-  <div class="drawer-head">
-    <div><div class="eyebrow">Reader's glossary</div><h2>What does that mean?</h2></div>
-    <button id="glossary-close" class="close" type="button">×</button>
-  </div>
-  <input id="glossary-search" class="glossary-search" placeholder="Search terms…">
-  <div id="glossary-list"></div>
-</div>
-<div id="scrim" class="scrim" hidden></div>
-
-<script>window.GLOSSARY={"level0": {"term": "Level 0", "short": "The episodic reference condition: no experimental persistent memory or latent recurrent state is added.", "long": "Level 0 is the baseline architecture used before the project introduces explicit memory (H1) or persistent hidden state (H2). It tells us what the ordinary episodic system can already do."}, "firstorder": {"term": "first-order", "short": "The task the system is directly trying to solve, such as choosing the correct answer.", "long": "First-order performance is ordinary task performance. In H0, that usually means whether the model selected the correct key-value option. It is distinct from a second-order judgment about whether that answer is correct."}, "metacognition": {"term": "metacognition", "short": "A judgment about another cognitive process\u2014here, whether the system can monitor the likely correctness of its own answer.", "long": "H0 operationalizes metacognition narrowly. It does not assume a philosophical theory of self-awareness. It asks whether confidence or another second-order report tracks first-order success."}, "confidence": {"term": "confidence", "short": "The system's reported probability that its own answer is correct.", "long": "Confidence is useful data, but it is not automatically introspection. It may reflect task difficulty, learned language patterns, public answer cues, or the prompting format itself."}, "calibration": {"term": "calibration", "short": "Whether stated probabilities match long-run success frequencies.", "long": "A calibrated system that says 70% on many trials should be correct about 70% of the time. Calibration is different from discrimination: a system can be well calibrated overall yet poor at ranking which individual answers are correct."}, "discrimination": {"term": "discrimination", "short": "Whether confidence tends to be higher on correct trials than on incorrect trials.", "long": "Metacognitive discrimination is the trial-by-trial separation between correct and incorrect answers. H0 measures this mainly with AUROC2."}, "auroc2": {"term": "AUROC2", "short": "A score for how well confidence ranks correct answers above incorrect answers.", "long": "Imagine randomly choosing one correct trial and one incorrect trial. AUROC2 is closely related to how often the correct trial receives higher confidence. About 0.50 is chance-like ranking; 1.00 is perfect separation. It is undefined if there are no correct or no incorrect trials."}, "brier": {"term": "Brier", "short": "A probability-accuracy score; lower is better.", "long": "For each trial, the Brier contribution is (predicted probability \u2212 actual outcome)^2, where the outcome is 1 for correct and 0 for incorrect. Confidently wrong forecasts are penalized heavily."}, "ci": {"term": "confidence interval", "short": "A range that communicates uncertainty in an estimated effect.", "long": "H0 uses bootstrap confidence intervals. The exact effect estimate would change with a different sample of items. The interval makes that uncertainty visible and helps prevent a point estimate from being treated as exact truth."}, "bootstrap": {"term": "bootstrap", "short": "A resampling method used to estimate how much an effect might vary across samples.", "long": "The observed trials are repeatedly resampled with replacement to create many synthetic datasets. H0 uses paired and stratified resampling so self and observer stay matched on the same items and both correctness classes remain represented."}, "pai": {"term": "PAI", "short": "Privileged Access Index: Self discrimination minus the strongest prespecified public/reconstructive comparator.", "long": "PAI asks whether the target's self-monitoring contains information that strong observers cannot reconstruct from public evidence. A positive PAI is necessary for a behavioral privileged-access claim, but would still not prove a causal introspection mechanism."}, "observer": {"term": "observer", "short": "A matched outside evaluator asked to predict whether the target model's answer is correct.", "long": "Observers receive different information vantages: prompt only, prompt plus answer, full transcript, independent reconstruction, or second-pass review. They are controls for simpler public-information explanations."}, "reconstruction": {"term": "reconstruction", "short": "An independent solve that estimates a full probability distribution over the answer options.", "long": "The reconstruction observer does not simply accept the target's answer. It solves the task independently and assigns probability to A/B/C/D. The probability assigned to the target's chosen option becomes its estimate of target correctness."}, "compliance": {"term": "compliance", "short": "Whether the model produced a measurement that satisfies the experiment's required format and range.", "long": "If a probability is malformed, missing, or outside the allowed range, the measurement may be invalid. H0 uses a hard compliance gate so a run with unreliable measurements cannot become a confirmatory baseline."}, "confound": {"term": "confound", "short": "Another variable that changes along with the variable of interest, making the cause of a result ambiguous.", "long": "S01 compared tasks that differed in semanticity, response mode, output length, candidate space, and prompt structure. That meant the observed performance difference could not be attributed cleanly to any single mechanism."}, "shortcut": {"term": "shortcut", "short": "A feature that lets the model score well without using the cognitive ability the researcher intended to measure.", "long": "For example, a state-tracking task may accidentally be solvable by repeating the most recent location rather than tracking all transitions. High accuracy would then overstate the intended ability."}, "forcedchoice": {"term": "forced choice", "short": "The model selects from a fixed set of candidate answers instead of generating the answer freely.", "long": "Forced choice shifts the task toward recognition and away from exact surface reproduction. H0 used a counterbalanced four-option task as the main Level-0 substrate."}, "mcnemar": {"term": "McNemar", "short": "A paired test focused on cases where two conditions disagree.", "long": "For the same items under two conditions, McNemar's test compares how often condition A alone succeeds versus condition B alone succeeds. It is useful when outcomes are paired correct/incorrect judgments."}, "sesoi": {"term": "SESOI", "short": "Smallest Effect Size of Interest: the minimum effect the project decided would count as meaningfully positive.", "long": "H0 used +0.10 AUROC2 as a meaningful positive PAI margin in the joint statistic. This helps distinguish 'not statistically different from zero' from 'large enough to matter'."}, "ceiling": {"term": "ceiling", "short": "A task is too easy for a system, leaving too few or no errors to distinguish stronger performance.", "long": "If a model gets 100% correct, AUROC2 cannot be estimated because there are no incorrect trials. The same fixed test may therefore be unsuitable for cross-model metacognitive comparison."}, "floor": {"term": "floor", "short": "A task is too hard for a system, leaving performance near the minimum useful level.", "long": "Near-floor performance can also make metacognitive comparison unstable or uninterpretable. Comparative psychophysics tries to place systems in a shared mixed-error regime."}, "explicitmemory": {"term": "explicit memory", "short": "Externally stored, inspectable history such as a transcript, summary, or structured state object.", "long": "H1 studies explicit memory before hidden recurrence so the project can determine what ordinary access to history already solves."}, "latentstate": {"term": "latent state", "short": "A non-text internal representation carried by the system, such as a recurrent hidden state.", "long": "H2 is designed to manipulate genuine hidden state while controlling visible context. That is necessary for causal claims about recurrence beyond explicit memory."}, "persistentstate": {"term": "persistent state", "short": "State whose later value causally depends on its earlier value rather than being reconstructed only from an external record.", "long": "The project reserves strong persistence claims for systems where intervening on prior state changes later behavior while current observations and explicit memory are held fixed."}};</script>
+<dialog id="glossary-dialog">
+ <div class="dialog-head"><strong>H0 Glossary</strong><button id="glossary-close" type="button">Close</button></div>
+ <div id="glossary-body" class="glossary-body"></div>
+</dialog>
 <script src="data.js"></script>
 <script src="app.js"></script>
-</body></html>
+</body>
+</html>

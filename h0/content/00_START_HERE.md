@@ -3,98 +3,83 @@
 
 **Recurrence — Horizon 0 / Level 0**
 
-This is the guided narrative of the first research horizon of the Recurrence project.
-
-You do **not** need a background in machine learning, statistics, philosophy of mind, or experimental psychology to follow it.
+You do **not** need a background in machine learning, statistics, philosophy of mind, or experimental psychology to follow this story.
 
 The central question is simple to state:
 
 > **Can a machine know something about its own performance that an outside observer cannot know?**
 
-The difficulty is that many things can *look* like self-knowledge without actually requiring privileged access to the system's internal state.
+The hard part is deciding what evidence would count.
 
-A model can say "I'm 90% confident" because:
+A model can say, “I am 90% confident,” for many reasons:
 
 - the question looks easy;
-- its answer looks plausible;
-- it has learned how confident language usually sounds;
-- a second pass gives it more computation;
-- the prompt accidentally reveals the answer;
-- the scoring code misreads what the model meant;
-- malformed answers disappear from the analysis;
-- or it really does have access to information about its own processing that an outside observer lacks.
+- its chosen answer looks plausible;
+- it has learned the style of confident language;
+- another invocation can infer item difficulty;
+- a second pass gives it extra computation;
+- the prompt or output format changes the answer;
+- the task contains a shortcut;
+- the scoring code silently repairs malformed responses;
+- missing trials select an easier subset;
+- or the system truly has access to information about its own processing that an outside observer lacks.
 
-Horizon 0 exists to separate those possibilities.
-
-## The one-sentence story
-
-We began by trying to measure machine self-knowledge. Almost every simple interpretation became weaker as the measurement improved. By the end, we had not discovered a general introspection ability. We had built something more basic: **a trustworthy Level-0 reference condition and a set of rules for what future evidence would have to beat.**
+Horizon 0 exists to make those possibilities compete.
 
 ## The mythic layer
 
 H0 belongs to **Narcissus and Argus Panoptes**.
 
 - **Narcissus** is the mirror: the system reporting on itself.
-- **Argus**, the many-eyed watcher, is the observer ladder: outside evaluators given different amounts of public information.
+- **Argus**, the many-eyed watcher, is the observer ladder: outside evaluators with different public-information vantage points.
 
 The experimental question becomes:
 
 > **Does the mirror contain information the hundred eyes cannot recover?**
 
-The myth is a visual and narrative motif, not a scientific claim.
+The myth is a motif, not a scientific claim.
 
-## How to read this
+## The one-sentence story
 
-The story is divided into small stages.
+H0 began by trying to measure machine self-knowledge.
 
-1. **The Question** — why a Level-0 baseline is necessary.
-2. **How to Read H0** — the minimum statistical and experimental toolkit.
-3. **S01: The First Reflection** — the tempting first results.
-4. **S02: A Distorted Mirror** — recognition versus reproduction.
-5. **The Hundred Eyes** — why observer controls are necessary.
-6. **S03: Instruments That Lied** — how the measurement repeatedly failed its own audit.
-7. **run_e02_obs_005** — the first result the project was willing to treat as a reference.
-8. **More Mirrors, Different Glass** — what happened across model sizes and families.
-9. **The Act of Looking** — why asking for confidence is itself an intervention.
-10. **What Survived** — what H0 means and what it does not mean.
-11. **Mnemosyne Waits** — why H1 studies explicit memory next.
+Almost every easy interpretation weakened when the ruler improved.
 
-## Two layers of explanation
+The first half of H0 produced a trustworthy fixed-task reference and an observer architecture. The second half discovered that the same ruler could not fairly compare stronger models, built a performance-calibrated comparative battery, and then hardened that battery through several more measurement failures.
 
-Every page has two levels.
+The final result is narrower than “machines do” or “machines do not” introspect:
 
-### Main story
+> **For Qwen2.5:14B on the validated H0-v2 relational task, contemporaneous explicit confidence showed no meaningful positive behavioral privileged-access advantage over matched external observers; the joint PAI interval was entirely negative. Qwen2.5:3B remained unresolved because its external-observer measurement gate failed.**
 
-Written for a curious reader who wants to understand the argument.
+That is a behavioral result about this instrument, not a metaphysical conclusion and not a claim that latent privileged information is absent.
 
-### Lab notebook / deep dive
+## The guided path
 
-Optional details containing:
+1. **The Question** — why Level 0 exists.
+2. **How to Read H0** — the minimum toolkit.
+3. **S01: The First Reflection** — the seductive first result.
+4. **S02: A Distorted Mirror** — recognition is not reproduction.
+5. **The Hundred Eyes** — why confidence needs observers.
+6. **S03: Instruments That Lied** — the measurement archaeology.
+7. **The Reference Result** — `run_e02_obs_005`.
+8. **Stress-Testing the Ruler** — saturation, H0-v2, calibration, and the confirmatory battery.
+9. **What H0 Means** — the surviving claims and boundaries.
+10. **Mnemosyne Waits** — why explicit memory comes next.
 
-- exact metrics;
-- formulas;
-- confidence intervals;
-- run IDs;
-- observer definitions;
-- methodological caveats;
-- and why a particular control was introduced.
+## What you should understand by the end
 
-If the main story makes sense, you can ignore the deeper layer.
+You should be able to explain:
 
-If you want to audit the scientific argument, open it.
+- why confidence is not automatically introspection;
+- why an outside observer is scientifically necessary;
+- why 100% task accuracy can make metacognitive discrimination unidentifiable;
+- why equivalent *performance regimes* matter more than identical item sets for cross-model comparison;
+- what AUROC2, Brier, `d′`, criterion `c`, meta-d′, and PAI are trying to measure;
+- why compliance is part of the measurement instrument;
+- why asking for confidence can change a model's first-order choice;
+- why the H0-v2 task had to survive shortcut, bias, calibration, and interface audits;
+- what the final 14B result actually excludes;
+- why the 3B result remains unresolved;
+- and why none of this is yet a claim about latent recurrent state or consciousness.
 
-## What you should be able to explain when you finish
-
-You should be able to answer these questions without memorizing the exact numbers:
-
-- Why is confidence not automatically introspection?
-- Why compare a model to an external observer?
-- What does AUROC2 tell us that accuracy does not?
-- What is the Privileged Access Index trying to isolate?
-- Why did several early H0 results become less impressive after better controls?
-- What does the final Level-0 result actually establish?
-- Why can a 100%-accurate model be impossible to evaluate with the same metacognitive metric?
-- Why did H0 discover that asking for confidence can change the answer itself?
-- Why is explicit memory the next scientific control before genuine latent recurrence?
-
-If you can answer those, H0 has become legible.
+> **Plain-English recap:** H0 is the control condition. It asks whether a stateless model's self-report contains useful correctness information that matched outside observers cannot recover. The real scientific achievement was not a dramatic introspection result; it was learning how difficult that question is to measure without fooling ourselves.

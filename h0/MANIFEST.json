@@ -1,0 +1,126 @@
+[
+  {
+    "path": "DROP_IN_NOTES.md",
+    "bytes": 2061
+  },
+  {
+    "path": "H0_ARCHAEOLOGY_PACKET.md",
+    "bytes": 5498
+  },
+  {
+    "path": "H0_COMPILED_READING_COPY.md",
+    "bytes": 56673
+  },
+  {
+    "path": "README.md",
+    "bytes": 3579
+  },
+  {
+    "path": "content/00_START_HERE.md",
+    "bytes": 4313
+  },
+  {
+    "path": "content/01_THE_QUESTION.md",
+    "bytes": 3531
+  },
+  {
+    "path": "content/02_HOW_TO_READ_H0.md",
+    "bytes": 6802
+  },
+  {
+    "path": "content/03_S01_FIRST_REFLECTION.md",
+    "bytes": 1797
+  },
+  {
+    "path": "content/04_S02_DISTORTED_MIRROR.md",
+    "bytes": 1779
+  },
+  {
+    "path": "content/05_THE_HUNDRED_EYES.md",
+    "bytes": 3402
+  },
+  {
+    "path": "content/06_S03_ARCHAEOLOGY.md",
+    "bytes": 8405
+  },
+  {
+    "path": "content/07_RUN005_REFERENCE.md",
+    "bytes": 2082
+  },
+  {
+    "path": "content/08_COMPARATIVE_AND_REACTIVITY.md",
+    "bytes": 11149
+  },
+  {
+    "path": "content/09_WHAT_H0_MEANS.md",
+    "bytes": 5073
+  },
+  {
+    "path": "content/10_MNEMOSYNE_H1.md",
+    "bytes": 2572
+  },
+  {
+    "path": "content/GLOSSARY.md",
+    "bytes": 5535
+  },
+  {
+    "path": "site/README.md",
+    "bytes": 271
+  },
+  {
+    "path": "site/app.js",
+    "bytes": 718
+  },
+  {
+    "path": "site/archaeology.html",
+    "bytes": 12976
+  },
+  {
+    "path": "site/data.js",
+    "bytes": 6306
+  },
+  {
+    "path": "site/h1.html",
+    "bytes": 5602
+  },
+  {
+    "path": "site/index.html",
+    "bytes": 7785
+  },
+  {
+    "path": "site/meaning.html",
+    "bytes": 8702
+  },
+  {
+    "path": "site/observers.html",
+    "bytes": 6690
+  },
+  {
+    "path": "site/question.html",
+    "bytes": 6790
+  },
+  {
+    "path": "site/result.html",
+    "bytes": 5345
+  },
+  {
+    "path": "site/s01.html",
+    "bytes": 4760
+  },
+  {
+    "path": "site/s02.html",
+    "bytes": 5026
+  },
+  {
+    "path": "site/stress-test.html",
+    "bytes": 18074
+  },
+  {
+    "path": "site/styles.css",
+    "bytes": 3978
+  },
+  {
+    "path": "site/toolkit.html",
+    "bytes": 10780
+  }
+]

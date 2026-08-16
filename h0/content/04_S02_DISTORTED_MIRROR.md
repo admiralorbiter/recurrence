@@ -1,209 +1,63 @@
-# IV. A Distorted Mirror
-## S02 — Recognition, Reproduction, and the Danger of Easy Tasks
+# IV. S02 — A Distorted Mirror
+## Recognition Is Not Reproduction
 
-S02 was the first point where H0 began to behave like a real measurement program rather than a collection of interesting prompts.
+S02 crossed two dimensions explicitly:
 
-The problem from S01 was clear.
+- semantic versus opaque identifiers;
+- forced-choice recognition versus free generation.
 
-Opaque key-value retrieval might fail because:
-
-1. the association was never retrieved;
-2. the correct value was partially available but difficult to reproduce exactly;
-3. arbitrary strings were unusually hard to tokenize or copy;
-4. the output format itself was causing errors.
-
-The new design separated some of those possibilities.
-
----
-
-# The 2 × 2 design
-
-Two dimensions were varied.
-
-## Dimension 1 — Identifier type
-
-- **Semantic** — meaningful words and familiar combinations.
-- **Opaque** — arbitrary strings.
-
-## Dimension 2 — Response mode
-
-- **Forced choice** — choose the correct answer from four options.
-- **Free generation** — reproduce the exact value without options.
-
-This creates four conditions.
-
-| | Forced Choice | Free Generation |
+| Identifier | Forced Choice | Free Generation |
 |---|---:|---:|
-| Semantic | 65% | 40% |
-| Opaque | 60% | 25% |
+| Semantic | 65.0% | 40.0% |
+| Opaque | 60.0% | 25.0% |
 
-The central comparison was not simply semantic vs. opaque.
+Overall:
 
-It was:
+- Forced Choice: **62.5%**
+- Free Generation: **32.5%**
 
-> Does the same underlying item become easier when the model only has to **recognize** the correct answer rather than **produce** it exactly?
+Across forty paired items:
 
----
+- forced-choice-only correct: **19**
+- free-generation-only correct: **7**
+- exact McNemar: **p = .029**
 
-# Why forced choice matters
+This changed the meaning of the original opaque failures.
 
-Imagine you know a person's face but cannot remember their name.
+It did **not** prove that the model possessed a perfect hidden key-value representation.
 
-If someone asks:
+It did show that malformed exact generation could not be treated as a clean assay of failed association.
 
-> "What is their name?"
+The act of producing the answer mattered.
 
-you may fail.
+## The context result also collapsed
 
-If someone asks:
+The original semantic context task had looked strong at **4/5**.
 
-> "Is it Alex, Brian, Chris, or Daniel?"
+A hardened interleaved multi-object version produced:
 
-you may immediately recognize Alex.
+**3/20 = 15%**
 
-That does not prove the name was perfectly represented in memory before seeing the options.
+The model did not necessarily become worse.
 
-But it shows that **recognition and free recall are different demands**.
+The task stopped allowing an overly convenient recent prompt structure to stand in for state tracking.
 
-The same logic applies here.
+> **The ruler became harder to fool.**
 
----
+That sentence becomes the spine of the entire H0 narrative.
 
-# The result
+H0-v2 would eventually repeat the same pattern with:
 
-Across the paired items:
+- candidate-presence shortcuts;
+- non-monotonic difficulty;
+- response-position collapse;
+- pseudo-meta-d′;
+- and observer prompt contamination.
 
-- Forced choice: **62.5%**
-- Free generation: **32.5%**
+The specific bugs changed.
 
-The difference was **30 percentage points**.
+The scientific move did not:
 
-More importantly, because the items were paired, we could look at cases where one response mode succeeded and the other failed.
+> make the simpler explanation compete.
 
-- Forced-choice only correct: **19**
-- Free-generation only correct: **7**
-- Both correct: **6**
-- Both wrong: **8**
-
-An exact McNemar test gave:
-
-`p = .029`
-
----
-
-# What is a McNemar test?
-
-This is a paired comparison.
-
-It ignores cases where both conditions gave the same outcome and focuses on the disagreements.
-
-In simplified form:
-
-> If response mode truly had no effect, we would expect "forced-choice only" and "free-generation only" successes to be roughly balanced.
-
-They were not:
-
-`19 vs. 7`
-
-That is why the test became useful.
-
-The result supports the claim that **response mode materially changed task success**.
-
-It does not identify the hidden mechanism.
-
----
-
-# What died here
-
-One of the earliest stories was:
-
-> "Opaque-string errors show the model failed to retrieve the value."
-
-S02 made that too strong.
-
-The better statement became:
-
-> **Opaque exact-reproduction failures combine associative retrieval with surface-generation demands.**
-
-That sounds less dramatic.
-
-It is also more defensible.
-
----
-
-# The second S02 lesson: context tracking collapses
-
-The original semantic tracking result was 4/5.
-
-That sounded good.
-
-The task was redesigned to make the model track several objects through interleaved transitions rather than letting the relevant final state appear in an easy recent position.
-
-The harder result:
-
-**3 / 20 = 15%**
-
-That is not a small decline.
-
-It changes what the earlier 80% meant.
-
-The original task had not established robust state tracking.
-
-It had established success on an easy task that contained a strong shortcut.
-
----
-
-# What is a shortcut?
-
-A shortcut is a feature that predicts the answer without requiring the cognitive process the researcher intended to measure.
-
-In machine-learning evaluations, shortcuts are dangerous because a model can score well while solving the wrong problem.
-
-For example:
-
-> Intended construct: "maintain object state across several updates"
-
-Possible shortcut:
-
-> "repeat the location mentioned near the end of the prompt"
-
-If the shortcut works, high accuracy does not establish the intended ability.
-
----
-
-# Why the 4-way task survived
-
-The new forced-choice KV task was not chosen because it looked more intelligent.
-
-It survived because it had good measurement properties.
-
-It had:
-
-- exact ground truth;
-- randomized/counterbalanced answer positions;
-- nontrivial but imperfect accuracy;
-- a compact answer format;
-- a confidence report;
-- the possibility of constructing observers;
-- a way to compare the same item across conditions.
-
-This is an important research principle:
-
-> **A scientifically useful task is not always the task that looks most impressive.**
-
-The best task is often the one whose failure modes are easiest to understand.
-
----
-
-# What S02 established
-
-S02 established:
-
-- response mode strongly affected performance;
-- exact generation is not equivalent to recognition;
-- the original context task overestimated robust tracking;
-- the 4-way KV task was useful enough to become the Level-0 measurement substrate.
-
-It still did not establish self-knowledge.
-
-For that, H0 needed the hundred eyes.
+> **Plain-English recap:** S02 showed that recognition and reproduction are different behaviors, and that a task can appear to measure memory while actually rewarding a shortcut. The experiment improved by becoming less flattering.

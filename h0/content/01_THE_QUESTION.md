@@ -1,128 +1,119 @@
 # I. At the Water's Edge
-## What Are We Actually Trying to Learn?
+## Why Level 0 Exists
 
-The Recurrence project begins with a question about **continuity through time**.
+The larger Recurrence project is not fundamentally about confidence scores.
 
-Most ordinary language-model interactions are episodic. A model receives some text, performs a bounded computation, produces more text, and stops. A later invocation can be given the earlier conversation, but the model does not necessarily carry forward the same hidden internal state that existed during the previous invocation.
+It is about **time**.
 
-That creates a scientific question:
+Most ordinary language-model use is episodic. A model receives a context, computes a response, and the invocation ends. A later invocation can receive a transcript or summary, but no hidden state necessarily lived continuously from one episode to the next.
 
-> If we give an artificial cognitive system a more persistent history, does it change what the system can know about itself?
+The program asks whether changing that architecture changes the kinds of self-related information a system can represent.
 
-The long-term program separates several possibilities.
+The central question is:
 
-## Level 0 — Episodic baseline
+> **Does a persistent recurrent developmental trajectory causally produce more general, privileged, or genuinely higher-order representations of a system's own cognitive states?**
 
-The model receives the current prompt and answers.
+That question is too large to attack all at once.
 
-There is no special persistent state added by the experiment.
+## The levels
 
-This is the control condition.
+### Level 0 — measurement baseline
 
-## Level 1 — Scaffolded persistence
+Stateless or episodic invocation.
 
-We explicitly carry information forward:
+Build the tasks, observer controls, metrics, validity gates, and claim boundaries before adding persistence.
 
-- full transcripts;
+### Level 1 — scaffolded persistence
+
+Carry history forward using externally inspectable structures:
+
+- transcripts;
 - summaries;
 - structured state;
-- goals;
+- goal registries;
 - clocks;
-- event histories.
+- scheduled updates.
 
-This is real persistence at the **system** level, but the persistent information is externally stored and inspectable.
+### Level 2 — genuine latent recurrence
 
-## Level 2 — Genuine latent recurrence
+Carry a non-text hidden state directly through time and intervene on that state causally.
 
-A non-text internal state is carried directly from one moment to the next.
+### Level 3 — developmental organism
 
-Now an intervention can change that state while keeping visible text the same.
+Train a system whose native computation develops across a persistent individual history.
 
-This is where the project can begin asking whether causal history is doing something that explicit memory cannot reproduce.
+H0 is not a failed attempt to study recurrence.
 
-## Level 3 — Developmental organism
+It is the **control condition** that makes later recurrence results interpretable.
 
-The system is trained from the beginning as an individual with a continuing state, rather than adding continuity after the fact.
+## The original tempting proxy
 
----
+The obvious behavioral idea was:
 
-# Why not start with recurrence immediately?
+> If the model knows when it is right, perhaps it should be more confident on correct trials than on incorrect trials.
 
-Imagine we add recurrent state and later observe that a model says:
+That is a reasonable start.
 
-> "I think I am probably wrong."
+It is not enough.
 
-That sounds interesting.
+Confidence can track **public difficulty**. If everyone can tell that a question is easy, then a model saying “90%” does not establish privileged access.
 
-But what caused the statement?
+Confidence can track the **surface form of its own answer**. If an outside observer sees the answer and can infer correctness just as well, the self-report adds no privileged information.
 
-Maybe recurrent state gave the model a new internal signal.
+Confidence can also be changed by the act of asking for it.
 
-Or maybe the task was simply hard and the model learned that hard-looking tasks deserve low confidence.
+So H0 eventually replaced:
 
-Maybe the model's own output contained obvious signs of error.
+> Is the model confident?
 
-Maybe another model could predict the same failure from public information.
+with:
 
-Maybe the confidence prompt itself changed the answer.
+> **Does the model's contemporaneous self-report predict its own correctness better than strong outside observers who lack the alleged privileged route?**
 
-If we do not know what the **non-recurrent** system already does, we cannot interpret what changed.
+That is the role of the **Privileged Access Index**.
 
-H0 therefore asks a deliberately smaller question first.
+## A claim ladder
 
-> **Can we construct a trustworthy baseline for self-monitoring before adding persistence?**
+H0 deliberately separates several claim levels.
 
-That is why H0 is not "the boring part before the real experiment."
+### Behavioral result
 
-It is what makes the later experiment capable of meaning anything.
+Example:
 
----
+> Self AUROC2 is .50.
 
-# What is "self-monitoring" here?
+This is directly measured.
 
-We are not trying to read subjective experience.
+### Comparative behavioral result
 
-We are asking a narrower behavioral question.
+Example:
 
-Suppose a system makes many decisions. Some are correct and some are wrong.
+> A visible-answer observer discriminates correctness better than Self.
 
-After each decision, the system reports how likely it thinks it is to be correct.
+This is also behavioral, but comparative.
 
-If those reports are useful, then confidence should tend to be higher on correct trials and lower on incorrect trials.
+### Informational interpretation
 
-That is **metacognitive discrimination**.
+Example:
 
-But even good metacognitive discrimination is not yet **privileged access**.
+> The explicit self-report did not display a privileged behavioral advantage over the observer.
 
-Why?
+This is supported if the comparison is valid.
 
-Because an outside observer may be able to make the same prediction.
+### Mechanistic claim
 
-If an observer sees:
+Example:
 
-- the question;
-- the answer;
-- perhaps the response time;
-- perhaps a reconstruction of the task;
+> The model contains no privileged internal representation of its own errors.
 
-and can predict correctness just as well, then the target has not yet demonstrated an informational advantage.
+H0 does **not** establish this. It would require internal-state evidence and causal interventions.
 
-That distinction is the heart of H0.
+### Phenomenological claim
 
----
+Example:
 
-# The mirror and the eyes
+> The model is not conscious.
 
-Narcissus asks:
+H0 does not address this.
 
-> "What does the system say about itself?"
-
-Argus asks:
-
-> "What can an outside observer infer from everything publicly visible?"
-
-The strongest H0 claim would require the mirror to outperform the eyes **after the observers have been given every fair public cue**.
-
-That is a harder standard than merely asking whether the model can emit a confidence number.
-
-It is also a more useful standard for later recurrence experiments.
+> **Plain-English recap:** H0 is a measurement baseline, not a consciousness test. It asks what evidence a future persistent or recurrent system would have to beat before we can say that persistence created something new.

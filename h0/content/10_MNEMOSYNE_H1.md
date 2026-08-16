@@ -1,136 +1,94 @@
 # X. Mnemosyne Waits
-## Why Explicit Memory Comes Before Genuine Recurrence
+## What Changes When the System Is Allowed to Remember?
 
-H0 studied a system without experimental continuity.
+H0 deliberately kept the system episodic.
 
-The next horizon introduces continuity in the most inspectable way possible.
+That was necessary.
 
-Not hidden recurrence.
+If a persistent system later shows better self-monitoring, we need to know what ordinary stateless behavior could already accomplish.
 
-Memory.
+But H0 also creates the next question.
 
-In the mythology of the project, the mirror and the hundred eyes now give way to **Mnemosyne**, the figure of memory.
+Not:
 
----
+> Can we measure Level-0 self-monitoring at all?
 
-# The H1 question
+Now:
 
-> **What can explicit memory and scaffolded persistence already accomplish?**
+> **What changes when history can be carried forward as part of the system?**
 
-Before adding a hidden recurrent state, H1 compares several ways of carrying history forward.
+The mythology changes here.
 
-The planned S04 conditions include:
+Narcissus belonged to reflection.
 
-- fresh invocation;
-- full transcript;
-- deterministic summary;
-- model-generated summary;
+Argus belonged to observation.
+
+H1 belongs to **Mnemosyne** — memory.
+
+## The Level-1 control
+
+H1 introduces persistence in forms that remain externally inspectable:
+
+- full transcripts;
+- deterministic summaries;
+- model-generated summaries;
 - structured state;
-- combinations of structured state and recent context.
+- goals;
+- source ledgers;
+- clocks;
+- scheduled updates.
 
-The first goal is first-order:
+This is not yet genuine latent recurrence.
 
-> Which memory representation preserves the information needed to act correctly?
+That distinction is crucial.
 
-Only later does H1 ask whether those memory systems improve:
+If explicit memory alone produces an effect, H2 should not receive credit for “recurrence.”
 
-- future-failure prediction;
-- source ownership;
-- causal self-attribution;
-- metacognitive discrimination.
+H1 therefore asks what ordinary externalized memory already buys.
 
----
+## The first H1 argument
 
-# Why not jump directly to H2?
+The first half of H1 has already sharpened the control.
 
-Imagine H2 introduces genuine latent recurrence and performance improves.
+It asks, in sequence:
 
-Without H1, we would not know whether the important ingredient was:
+1. Can explicit memory be **read and used**?
+2. Can an explicit state be **maintained over time**?
+3. Does maintaining the same deterministic state online create anything that retrospective replay or direct history access cannot recover?
 
-- hidden recurrence;
-- ordinary access to history;
-- summary compression;
-- extra computation;
-- better prompt organization.
+The emerging answer is nuanced:
 
-H1 is the control for those simpler explanations.
+- explicit memory materially improves first-order performance over fresh invocation;
+- deterministic structured state can be maintained stably;
+- deterministic replay can reconstruct the same terminal explicit state;
+- direct raw-history access can remain competitive;
+- structured state earns value through boundedness, inspectability, manipulability, and predictable long-horizon cost;
+- model-based retrospective compression can itself become a bottleneck.
 
----
+That is precisely why H0 mattered.
 
-# Three outcomes all help
+H0 taught the project not to call:
 
-## Outcome A — Explicit memory solves almost everything
+> “the system has memory”
 
-Then H2 has a strong burden of proof.
+the same thing as:
 
-Any claimed latent-recurrence benefit must exceed a very strong explicit-memory baseline.
+> “temporal continuity created an irreducible new state.”
 
-## Outcome B — Explicit memory helps, but systematic failures remain
-
-Those failures become targets for H2.
-
-We can ask whether latent recurrence specifically repairs them.
-
-## Outcome C — Different memory scaffolds produce no durable advantage
-
-That is also informative.
-
-It makes native recurrence the next necessary comparison rather than an arbitrary architectural escalation.
-
----
-
-# The H0 rule that H1 inherits
-
-The final confidence-reactivity control adds one especially important design rule:
-
-> **Separate first-order task performance from second-order monitoring whenever possible.**
-
-For S04:
-
-- primary outcome: answer-only memory performance;
-- secondary matched condition: answer + confidence.
-
-This helps avoid interpreting a change in the confidence-elicitation policy as a change in memory itself.
-
----
-
-# What should remain frozen
-
-As H1 starts, H0 should stop changing.
-
-The following should remain stable reference artifacts:
-
-- `run_e02_obs_005`;
-- the final observer definitions;
-- final PAI semantics;
-- final H0 measurement rules;
-- the H0 narrative and archaeology;
-- the comparative H0 panel as diagnostic evidence.
-
-Future H0-v2 comparative psychophysics can exist as a separate branch.
-
-It should not continually move the reference while H1 is trying to compare against it.
-
----
-
-# The transition
-
-H0 asked:
-
-> What can an episodic model say about itself, and what can outside observers reconstruct?
-
-H1 asks:
-
-> What changes when the system carries a history?
-
-H2 will eventually ask:
-
-> What changes when the history is not merely written down for the model, but lives inside a causally persistent hidden state?
-
-That sequence is the logic of the program.
+## The handoff
 
 The mirror has been calibrated.
 
 The hundred eyes have had their turn.
 
-Now the system is allowed to remember.
+They did not deliver one universal answer.
+
+They delivered something better:
+
+a set of conditions any later claim must survive.
+
+Now Mnemosyne enters.
+
+The next horizon is allowed to remember.
+
+> **Plain-English recap:** H1 is not yet “true recurrence.” It is the explicit-memory control. H0 built the observer and measurement discipline that H1, H2, and H3 now inherit.
