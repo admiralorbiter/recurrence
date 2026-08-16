@@ -1,0 +1,152 @@
+{
+  "manifest": {
+    "run_id": "run_e02c_local_search_20260816_135903",
+    "target_model": "qwen2.5:3b",
+    "model_digest": "357c53fb659c5076de1d65ccb0b397446227b71a42be9d1603d46168015c9e4b",
+    "start_time": "2026-08-16T14:02:14.775610+00:00",
+    "mode": "local_search",
+    "cells_evaluated": [
+      [
+        1,
+        8
+      ],
+      [
+        1,
+        12
+      ],
+      [
+        1,
+        16
+      ]
+    ],
+    "trials_per_cell": 24,
+    "total_trials": 72,
+    "temperature": 0.0,
+    "seed": 700
+  },
+  "cell_metrics": {
+    "H1_D8": {
+      "cell_key": "H1_D8",
+      "hop_depth": 1,
+      "distractor_count": 8,
+      "total_trials": 24,
+      "correct_trials": 16,
+      "accuracy": 0.6666666666666666,
+      "ci_95_lower": 0.4670631683813174,
+      "ci_95_upper": 0.8202780967270225,
+      "option_a_selection_rate": 0.5833333333333334,
+      "sdt_d_prime": 0.8091692470198996,
+      "sdt_d_prime_ci_lower": -0.1980543731814095,
+      "sdt_d_prime_ci_upper": 1.8135208069028983,
+      "sdt_criterion_c": -0.21055648108602348,
+      "sdt_criterion_c_ci_lower": -0.797052499060706,
+      "sdt_criterion_c_ci_upper": 0.2916192988554757,
+      "schema_compliance_rate": 1.0,
+      "calibration_gate": {
+        "gate_passed": false,
+        "d_prime_pass": false,
+        "accuracy_pass": true,
+        "criterion_pass": true,
+        "compliance_pass": true,
+        "observed_d_prime": 0.8091692470198996,
+        "observed_criterion_c": -0.21055648108602348,
+        "observed_accuracy": 0.6666666666666666,
+        "observed_compliance": 1.0
+      },
+      "type2_metrics": {
+        "meta_d_status": "eligible_for_fit",
+        "auroc2": 0.4453125,
+        "meta_d_prime": null,
+        "m_ratio": null,
+        "brier_score": 0.378925,
+        "unique_confidence_levels": 7,
+        "mean_confidence": 0.68,
+        "mean_conf_correct": 0.6699999999999999,
+        "mean_conf_incorrect": 0.7,
+        "confidence_separation": -0.030000000000000027
+      }
+    },
+    "H1_D12": {
+      "cell_key": "H1_D12",
+      "hop_depth": 1,
+      "distractor_count": 12,
+      "total_trials": 24,
+      "correct_trials": 14,
+      "accuracy": 0.5833333333333334,
+      "ci_95_lower": 0.3883466586522876,
+      "ci_95_upper": 0.7553239739018824,
+      "option_a_selection_rate": 0.75,
+      "sdt_d_prime": 0.4736984774743988,
+      "sdt_d_prime_ci_lower": -0.2934861303636031,
+      "sdt_d_prime_ci_upper": 1.5747968960947802,
+      "sdt_criterion_c": -0.6325745345516867,
+      "sdt_criterion_c_ci_lower": -1.3191244059037963,
+      "sdt_criterion_c_ci_upper": -0.19786264790724364,
+      "schema_compliance_rate": 1.0,
+      "calibration_gate": {
+        "gate_passed": false,
+        "d_prime_pass": false,
+        "accuracy_pass": false,
+        "criterion_pass": false,
+        "compliance_pass": true,
+        "observed_d_prime": 0.4736984774743988,
+        "observed_criterion_c": -0.6325745345516867,
+        "observed_accuracy": 0.5833333333333334,
+        "observed_compliance": 1.0
+      },
+      "type2_metrics": {
+        "meta_d_status": "eligible_for_fit",
+        "auroc2": 0.2392857142857143,
+        "meta_d_prime": null,
+        "m_ratio": null,
+        "brier_score": 0.5378,
+        "unique_confidence_levels": 7,
+        "mean_confidence": 0.8133333333333335,
+        "mean_conf_correct": 0.6907142857142856,
+        "mean_conf_incorrect": 0.985,
+        "confidence_separation": -0.2942857142857144
+      }
+    },
+    "H1_D16": {
+      "cell_key": "H1_D16",
+      "hop_depth": 1,
+      "distractor_count": 16,
+      "total_trials": 24,
+      "correct_trials": 17,
+      "accuracy": 0.7083333333333334,
+      "ci_95_lower": 0.5083230633550337,
+      "ci_95_upper": 0.8508535180303913,
+      "option_a_selection_rate": 0.7083333333333334,
+      "sdt_d_prime": 1.1983797023069247,
+      "sdt_d_prime_ci_lower": 0.21941580878148598,
+      "sdt_d_prime_ci_upper": 2.38396614311468,
+      "sdt_criterion_c": -0.5991898511534623,
+      "sdt_criterion_c_ci_lower": -1.0822751671665969,
+      "sdt_criterion_c_ci_upper": -0.10970790439074299,
+      "schema_compliance_rate": 1.0,
+      "calibration_gate": {
+        "gate_passed": false,
+        "d_prime_pass": true,
+        "accuracy_pass": true,
+        "criterion_pass": false,
+        "compliance_pass": true,
+        "observed_d_prime": 1.1983797023069247,
+        "observed_criterion_c": -0.5991898511534623,
+        "observed_accuracy": 0.7083333333333334,
+        "observed_compliance": 1.0
+      },
+      "type2_metrics": {
+        "meta_d_status": "eligible_for_fit",
+        "auroc2": 0.4495798319327731,
+        "meta_d_prime": null,
+        "m_ratio": null,
+        "brier_score": 0.36625833333333335,
+        "unique_confidence_levels": 4,
+        "mean_confidence": 0.6383333333333333,
+        "mean_conf_correct": 0.6247058823529411,
+        "mean_conf_incorrect": 0.6714285714285715,
+        "confidence_separation": -0.046722689075630375
+      }
+    }
+  }
+}
