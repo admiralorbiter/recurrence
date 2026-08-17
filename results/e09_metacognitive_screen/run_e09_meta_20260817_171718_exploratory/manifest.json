@@ -1,0 +1,11 @@
+{
+  "run_id": "run_e09_meta_20260817_171718_exploratory",
+  "target_model": "qwen2.5:3b",
+  "model_digest": "357c53fb659c5076de1d65ccb0b397446227b71a42be9d1603d46168015c9e4b",
+  "phase": "exploratory",
+  "seed": 42,
+  "temperature": 0.0,
+  "start_time": "2026-08-17T17:22:26.579444+00:00",
+  "total_episodes": 4,
+  "total_trials": 80
+}
