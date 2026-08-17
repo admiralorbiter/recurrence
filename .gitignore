@@ -16,6 +16,8 @@ dist/
 
 # Run Artifacts & Outputs
 artifacts/
+scratch/
+*dryrun/
 *.parquet
 *.jsonl
 !results/**/*.jsonl
