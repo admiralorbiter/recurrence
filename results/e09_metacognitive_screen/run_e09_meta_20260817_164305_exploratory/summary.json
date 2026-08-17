@@ -1,0 +1,77 @@
+{
+  "manifest": {
+    "run_id": "run_e09_meta_20260817_164305_exploratory",
+    "target_model": "qwen2.5:3b",
+    "model_digest": "357c53fb659c5076de1d65ccb0b397446227b71a42be9d1603d46168015c9e4b",
+    "phase": "exploratory",
+    "seed": 42,
+    "temperature": 0.0,
+    "start_time": "2026-08-17T16:50:02.523590+00:00",
+    "total_episodes": 4,
+    "total_trials": 80
+  },
+  "analysis": {
+    "metacognitive_conditions": {
+      "meta_observer_scaffolded_state": {
+        "evaluator": "observer",
+        "memory_format": "scaffolded_state",
+        "total_trials": 20,
+        "mean_accuracy": 0.8,
+        "mean_confidence_pct": 88.3,
+        "brier_score": 0.29372999999999994,
+        "auroc_error_prediction": 0.34375
+      },
+      "meta_observer_transcript_only": {
+        "evaluator": "observer",
+        "memory_format": "transcript_only",
+        "total_trials": 20,
+        "mean_accuracy": 0.8,
+        "mean_confidence_pct": 81.8,
+        "brier_score": 0.23087999999999997,
+        "auroc_error_prediction": 0.6171875
+      },
+      "meta_self_scaffolded_state": {
+        "evaluator": "self",
+        "memory_format": "scaffolded_state",
+        "total_trials": 20,
+        "mean_accuracy": 0.65,
+        "mean_confidence_pct": 85.3,
+        "brier_score": 0.30138,
+        "auroc_error_prediction": 0.6043956043956044
+      },
+      "meta_self_transcript_only": {
+        "evaluator": "self",
+        "memory_format": "transcript_only",
+        "total_trials": 20,
+        "mean_accuracy": 0.85,
+        "mean_confidence_pct": 73.5,
+        "brier_score": 0.23174999999999998,
+        "auroc_error_prediction": 0.47058823529411764
+      }
+    },
+    "self_vs_observer_advantage_transcript": -0.14659926470588236,
+    "self_vs_observer_advantage_scaffolded": 0.26064560439560436
+  },
+  "episodes": [
+    {
+      "episode_id": "ownership_s09_000",
+      "twin_index": 0,
+      "trials_recorded": 20
+    },
+    {
+      "episode_id": "ownership_s09_001",
+      "twin_index": 1,
+      "trials_recorded": 20
+    },
+    {
+      "episode_id": "ownership_s09_002",
+      "twin_index": 2,
+      "trials_recorded": 20
+    },
+    {
+      "episode_id": "ownership_s09_003",
+      "twin_index": 3,
+      "trials_recorded": 20
+    }
+  ]
+}
