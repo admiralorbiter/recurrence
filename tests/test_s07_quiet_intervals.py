@@ -100,6 +100,31 @@ def test_strict_identity_bit_for_bit_sha256_prompt_invariance():
         assert len(set(hashes)) == 1, f"Prompt hash varied across K for probe {pid} in strict_identity!"
 
 
+def test_clock_only_vs_semantic_nowrite_context_hash_equality():
+    """Critical S07.1 Invariant: clock_only and semantic_no_write must produce identical context strings across all K."""
+    gen = QuietIntervalGenerator(seed=42)
+    ep = gen.generate_episode(episode_idx=5, regime="available_inference")
+
+    backend = MockQuietBackend()
+    harness = QuietIntervalHarness(backend=backend)
+
+    trials, _, _ = harness.execute_episode(
+        episode=ep,
+        interval_ks=[1, 3, 6, 12],
+        conditions=["clock_only", "semantic_no_write"],
+    )
+
+    by_k_probe = {}
+    for t in trials:
+        by_k_probe.setdefault((t.interval_k, t.probe_id), {})[t.condition] = t.context_hash
+
+    for (k, pid), cond_hashes in by_k_probe.items():
+        assert "clock_only" in cond_hashes and "semantic_no_write" in cond_hashes
+        assert cond_hashes["clock_only"] == cond_hashes["semantic_no_write"], (
+            f"Context hash mismatch between clock_only and semantic_no_write at K={k} for probe {pid}!"
+        )
+
+
 def test_protected_evidence_hash_invariance():
     """Critical S07.1 Invariant: selective_reflection must NEVER mutate working_memory or source_ledger."""
     gen = QuietIntervalGenerator(seed=42)

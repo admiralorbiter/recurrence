@@ -1,14 +1,13 @@
 """Statistical analysis, regime-specific estimands, and derived inference metrics for Sprint S07.1 (Experiment E06b).
 
-Computes:
-1. Delta_derivation-available: Multi-hop gain when complete evidence was available pre-null
+Evaluates:
+1. Delta_derivation-available: Multi-hop difference under selective reflection when complete evidence was available pre-null
 2. Delta_derivation-missing: Multi-hop difference when evidence was incomplete pre-null (resistance to premature inference)
-3. Delta_derivability-interaction: (Delta_avail - Delta_missing) interaction contrast
-4. Delta_derivation-nowrite-avail: Persistent writing gain over matched active compute
-5. Delta_goal-consolidation: Goal verification gain across quiet intervals
-6. Delta_clock-cue: Sensitivity to elapsed timestamp cues
-7. Delta_evidence-integrity: Retention of unaffected working memory facts
-8. Derived-inference precision, recall, and hallucination rates from reflection traces
+3. Delta_derivation-nowrite-avail: Persistent writing vs discarded semantic invocation control
+4. Delta_goal-consolidation: Goal verification difference across quiet intervals
+5. Delta_clock-cue: Sensitivity to elapsed timestamp cues
+6. Delta_evidence-integrity: Retention of unaffected working memory facts
+7. Persistent Derivation Write Failure / Derived-State Consolidation Failure metrics (precision, recall, hallucination rate)
 """
 
 from collections import defaultdict
@@ -61,6 +60,10 @@ class DerivedInferenceMetrics:
     """Mechanistic quality metrics for model-generated derived inferences."""
     total_reflection_ticks: int
     valid_schema_rate: float
+    selective_schema_valid_rate: float
+    unconstrained_schema_valid_rate: float
+    semantic_nowrite_schema_valid_rate: float
+    overall_schema_valid_rate: float
     inferences_written_available_regime: int
     correct_inferences_available_regime: int
     derived_precision_available: float
@@ -220,6 +223,10 @@ def compute_derived_inference_metrics(
         return DerivedInferenceMetrics(
             total_reflection_ticks=0,
             valid_schema_rate=1.0,
+            selective_schema_valid_rate=1.0,
+            unconstrained_schema_valid_rate=1.0,
+            semantic_nowrite_schema_valid_rate=1.0,
+            overall_schema_valid_rate=1.0,
             inferences_written_available_regime=0,
             correct_inferences_available_regime=0,
             derived_precision_available=1.0,
@@ -235,9 +242,13 @@ def compute_derived_inference_metrics(
             ep_truth[t.episode_id] = (t.metadata.get("root_key", ""), t.metadata.get("terminal_val", ""))
 
     sel_traces = [tr for tr in reflection_traces if tr.condition == "selective_reflection"]
-    total_ticks = len(sel_traces)
-    valid_schema_count = sum(1 for tr in sel_traces if tr.schema_valid)
-    valid_schema_rate = valid_schema_count / max(1, total_ticks)
+    uncon_traces = [tr for tr in reflection_traces if tr.condition == "unconstrained_reflection"]
+    nowrite_traces = [tr for tr in reflection_traces if tr.condition == "semantic_no_write"]
+
+    sel_valid_rate = sum(1 for tr in sel_traces if tr.schema_valid) / max(1, len(sel_traces))
+    uncon_valid_rate = sum(1 for tr in uncon_traces if tr.schema_valid) / max(1, len(uncon_traces))
+    nowrite_valid_rate = sum(1 for tr in nowrite_traces if tr.schema_valid) / max(1, len(nowrite_traces))
+    overall_valid_rate = sum(1 for tr in reflection_traces if tr.schema_valid) / max(1, len(reflection_traces))
 
     avail_traces = [tr for tr in sel_traces if tr.regime == "available_inference"]
     missing_traces = [tr for tr in sel_traces if tr.regime == "missing_premise_control"]
@@ -271,8 +282,12 @@ def compute_derived_inference_metrics(
     halluc_rate = (missing_inferences_total / max(1, len(missing_episodes)))
 
     return DerivedInferenceMetrics(
-        total_reflection_ticks=total_ticks,
-        valid_schema_rate=valid_schema_rate,
+        total_reflection_ticks=len(reflection_traces),
+        valid_schema_rate=sel_valid_rate,
+        selective_schema_valid_rate=sel_valid_rate,
+        unconstrained_schema_valid_rate=uncon_valid_rate,
+        semantic_nowrite_schema_valid_rate=nowrite_valid_rate,
+        overall_schema_valid_rate=overall_valid_rate,
         inferences_written_available_regime=avail_inferences_total,
         correct_inferences_available_regime=avail_inferences_correct,
         derived_precision_available=prec_avail,
