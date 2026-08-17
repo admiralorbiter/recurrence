@@ -1,11 +1,12 @@
 """Statistical analysis, uncertainty estimation, and causal estimands for Sprint S09 (E08 Source Ownership & E09 Metacognitive Screen).
 
-Hardening features (S09.2):
-1. Within-episode source-label permutation test for Overall 5AFC Source Attribution against exact 20% chance null.
-2. Full 5x5 empirical source attribution confusion matrix.
+Post-confirmatory statistical hardening:
+1. True model-response-preserving within-episode source-label permutation test for Overall 5AFC SAA.
+2. Full 5x5 empirical source attribution confusion matrix without invalid sign-flip per-source p-values.
 3. Pooled item-level AUROC difference with cluster-bootstrap CIs across episodes and exact confidence-swap permutation test.
-4. Paired challenge-induced self-shift (Delta_challenge_self = P(Self post) - P(Self pre)) alongside conditional ORS with explicit denominator tracking.
-5. Framing response disagreement rate: P(answer_you != answer_agent_alpha).
+4. Exact format-block swap permutation test (2^16 = 65,536 assignments) for the Scaffolding Metacognitive Interaction.
+5. Paired challenge-induced self-shift (Delta_challenge_self = P(Self post) - P(Self pre)) alongside conditional ORS with explicit denominator tracking.
+6. Framing response disagreement rate: P(answer_you != answer_agent_alpha).
 """
 
 from dataclasses import asdict, dataclass, field
@@ -19,6 +20,15 @@ import pandas as pd
 from recurrence.loop.ownership_experiment import OwnershipTrialResult
 
 
+ACTOR_TO_SOURCE_MAP = {
+    "agent_alpha": "self",
+    "telemetry_sensor": "environment",
+    "human_controller": "experimenter",
+    "agent_beta": "peer_agent",
+    "auditor_gamma": "observer",
+}
+
+
 @dataclass
 class EstimandWithUncertainty:
     """A point estimate with paired/clustered 95% bootstrap CI and permutation p-value."""
@@ -27,7 +37,7 @@ class EstimandWithUncertainty:
     point_estimate: float
     ci_lower_95: float
     ci_upper_95: float
-    permutation_p_value: float
+    permutation_p_value: Optional[float]
     permutation_method: str
     is_statistically_distinguishable: bool
 
@@ -147,10 +157,13 @@ def compute_permutation_test(diffs: List[float]) -> Tuple[float, str]:
 def compute_within_episode_source_permutation_test(
     df_neutral: pd.DataFrame,
     episodes: List[str],
-    num_perms: int = 10000,
+    num_perms: int = 50000,
     seed: int = 42,
 ) -> Tuple[float, str]:
-    """Compute exact within-episode source-label permutation test against 20% chance null."""
+    """Compute model-response-preserving within-episode source-label permutation test against chance null.
+    
+    Preserves each item's actual model-predicted actor/source and shuffles which true source belongs to which item in each episode.
+    """
     if len(df_neutral) == 0:
         return 1.0, "source_label_shuffle"
 
@@ -160,23 +173,37 @@ def compute_within_episode_source_permutation_test(
 
     sources = ["self", "environment", "experimenter", "peer_agent", "observer"]
 
+    # Pre-extract predicted sources per episode
+    ep_preds: List[List[Optional[str]]] = []
+    for ep in episodes:
+        df_ep = df_neutral[df_neutral["episode_id"] == ep]
+        preds = [ACTOR_TO_SOURCE_MAP.get(act) for act in df_ep["attributed_actor"]]
+        ep_preds.append(preds)
+
+    total_items = sum(len(p) for p in ep_preds)
+    if total_items == 0:
+        return 1.0, "source_label_shuffle"
+
+    shuffled_sources = list(sources)
     for _ in range(num_perms):
-        sim_correct = []
-        for ep in episodes:
-            df_ep = df_neutral[df_neutral["episode_id"] == ep].copy()
-            if len(df_ep) == 5:
-                shuffled_sources = list(sources)
+        sim_correct_cnt = 0
+        for preds in ep_preds:
+            n_p = len(preds)
+            if n_p == 5:
                 rng.shuffle(shuffled_sources)
-                for (_, row), perm_src in zip(df_ep.iterrows(), shuffled_sources):
-                    sim_correct.append(1.0 if row["target_source"] == perm_src else 0.0)
+                for pred_src, perm_src in zip(preds, shuffled_sources):
+                    if pred_src == perm_src:
+                        sim_correct_cnt += 1
             else:
-                sim_correct.extend([1.0 if rng.random() < 0.20 else 0.0 for _ in range(len(df_ep))])
+                for pred_src in preds:
+                    if pred_src == rng.choice(sources):
+                        sim_correct_cnt += 1
         
-        sim_acc = float(np.mean(sim_correct)) if sim_correct else 0.20
+        sim_acc = float(sim_correct_cnt / total_items)
         if sim_acc >= obs_acc - 1e-9:
             extreme_count += 1
 
-    return float(extreme_count / num_perms), f"within_episode_source_shuffle_{num_perms}"
+    return float(extreme_count / num_perms), f"within_episode_source_shuffle_{num_perms}_mc"
 
 
 def compute_clustered_bootstrap_ci(
@@ -206,30 +233,31 @@ def compute_clustered_bootstrap_ci(
 
 
 def calculate_auroc(confidences: List[float], labels_is_correct: List[bool]) -> float:
-    """Calculate AUROC measuring how well confidence predicts correctness (Mann-Whitney U)."""
-    assert len(confidences) == len(labels_is_correct)
+    """Calculate AUROC measuring how well confidence predicts correctness using fast rank sum."""
     n = len(confidences)
     if n == 0:
         return 0.5
 
-    pos = [c for c, y in zip(confidences, labels_is_correct) if y]
-    neg = [c for c, y in zip(confidences, labels_is_correct) if not y]
-
-    n_pos = len(pos)
-    n_neg = len(neg)
-
+    n_pos = sum(1 for y in labels_is_correct if y)
+    n_neg = n - n_pos
     if n_pos == 0 or n_neg == 0:
         return 0.5
 
-    wins = 0.0
-    for p in pos:
-        for m in neg:
-            if p > m:
-                wins += 1.0
-            elif p == m:
-                wins += 0.5
+    sorted_pairs = sorted(zip(confidences, labels_is_correct), key=lambda x: x[0])
 
-    return float(wins / (n_pos * n_neg))
+    rank_sum_pos = 0.0
+    i = 0
+    while i < n:
+        j = i
+        while j < n and sorted_pairs[j][0] == sorted_pairs[i][0]:
+            j += 1
+        avg_rank = (i + 1 + j) / 2.0
+        pos_in_group = sum(1 for k in range(i, j) if sorted_pairs[k][1])
+        rank_sum_pos += avg_rank * pos_in_group
+        i = j
+
+    u1 = rank_sum_pos - (n_pos * (n_pos + 1)) / 2.0
+    return float(u1 / (n_pos * n_neg))
 
 
 def compute_pooled_auroc_cluster_inference(
@@ -252,6 +280,12 @@ def compute_pooled_auroc_cluster_inference(
     auc_o_pooled = calculate_auroc(conf_o_all, labels_o_all)
     point_est = auc_s_pooled - auc_o_pooled
 
+    # Pre-extract data per episode to avoid repeated DataFrame lookups
+    ep_data_self = {ep: (df_self[df_self["episode_id"] == ep]["subjective_confidence_pct"].tolist(),
+                         df_self[df_self["episode_id"] == ep]["is_correct"].tolist()) for ep in episodes}
+    ep_data_obs = {ep: (df_obs[df_obs["episode_id"] == ep]["subjective_confidence_pct"].tolist(),
+                        df_obs[df_obs["episode_id"] == ep]["is_correct"].tolist()) for ep in episodes}
+
     # Clustered Bootstrap by resampling entire episodes
     rng = random.Random(seed)
     boot_diffs = []
@@ -262,12 +296,10 @@ def compute_pooled_auroc_cluster_inference(
         b_conf_s, b_lab_s = [], []
         b_conf_o, b_lab_o = [], []
         for ep in sampled_eps:
-            s_ep = df_self[df_self["episode_id"] == ep]
-            o_ep = df_obs[df_obs["episode_id"] == ep]
-            b_conf_s.extend(s_ep["subjective_confidence_pct"].tolist())
-            b_lab_s.extend(s_ep["is_correct"].tolist())
-            b_conf_o.extend(o_ep["subjective_confidence_pct"].tolist())
-            b_lab_o.extend(o_ep["is_correct"].tolist())
+            cs, ls = ep_data_self[ep]
+            co, lo = ep_data_obs[ep]
+            b_conf_s.extend(cs); b_lab_s.extend(ls)
+            b_conf_o.extend(co); b_lab_o.extend(lo)
 
         auc_s_b = calculate_auroc(b_conf_s, b_lab_s)
         auc_o_b = calculate_auroc(b_conf_o, b_lab_o)
@@ -281,17 +313,14 @@ def compute_pooled_auroc_cluster_inference(
     if obs_diff_stat == 0.0:
         return point_est, ci_lower, ci_upper, 1.0, "exact_confidence_swap"
 
+    ep_tuples = [(ep_data_self[ep][0], ep_data_obs[ep][0], ep_data_self[ep][1]) for ep in episodes]
+
     if n_eps <= 16:
         extreme_count = 0
         total_assignments = 1 << n_eps
         for swaps in itertools.product([False, True], repeat=n_eps):
             p_conf_s, p_conf_o, p_labels = [], [], []
-            for ep, should_swap in zip(episodes, swaps):
-                s_ep = df_self[df_self["episode_id"] == ep]
-                o_ep = df_obs[df_obs["episode_id"] == ep]
-                c_s = s_ep["subjective_confidence_pct"].tolist()
-                c_o = o_ep["subjective_confidence_pct"].tolist()
-                labs = s_ep["is_correct"].tolist()
+            for (c_s, c_o, labs), should_swap in zip(ep_tuples, swaps):
                 if should_swap:
                     p_conf_s.extend(c_o)
                     p_conf_o.extend(c_s)
@@ -311,13 +340,8 @@ def compute_pooled_auroc_cluster_inference(
         extreme_count = 0
         for _ in range(n_perms):
             p_conf_s, p_conf_o, p_labels = [], [], []
-            for ep in episodes:
+            for c_s, c_o, labs in ep_tuples:
                 should_swap = (rng.random() < 0.5)
-                s_ep = df_self[df_self["episode_id"] == ep]
-                o_ep = df_obs[df_obs["episode_id"] == ep]
-                c_s = s_ep["subjective_confidence_pct"].tolist()
-                c_o = o_ep["subjective_confidence_pct"].tolist()
-                labs = s_ep["is_correct"].tolist()
                 if should_swap:
                     p_conf_s.extend(c_o)
                     p_conf_o.extend(c_s)
@@ -336,12 +360,97 @@ def compute_pooled_auroc_cluster_inference(
     return point_est, ci_lower, ci_upper, p_val, p_meth
 
 
+def compute_interaction_format_block_permutation_test(
+    df_self_trans: pd.DataFrame,
+    df_obs_trans: pd.DataFrame,
+    df_self_scaff: pd.DataFrame,
+    df_obs_scaff: pd.DataFrame,
+    episodes: List[str],
+    obs_interaction_stat: float,
+    seed: int = 42,
+) -> Tuple[float, str]:
+    """Compute exact within-episode format-block swap permutation test for the scaffolding metacognitive interaction.
+    
+    Under the interaction null hypothesis (no interaction between format and framing), we can swap
+    the Transcript-only block and Scaffolded-state block within each episode.
+    """
+    n_eps = len(episodes)
+    if n_eps == 0 or abs(obs_interaction_stat) == 0.0:
+        return 1.0, "exact_format_block_swap"
+
+    obs_target = abs(obs_interaction_stat)
+
+    # Pre-extract data tuples per episode
+    # (st_c, st_l, ot_c, ot_l, ss_c, ss_l, os_c, os_l)
+    ep_blocks = []
+    for ep in episodes:
+        st = df_self_trans[df_self_trans["episode_id"] == ep]
+        ot = df_obs_trans[df_obs_trans["episode_id"] == ep]
+        ss = df_self_scaff[df_self_scaff["episode_id"] == ep]
+        os = df_obs_scaff[df_obs_scaff["episode_id"] == ep]
+        ep_blocks.append((
+            st["subjective_confidence_pct"].tolist(), st["is_correct"].tolist(),
+            ot["subjective_confidence_pct"].tolist(), ot["is_correct"].tolist(),
+            ss["subjective_confidence_pct"].tolist(), ss["is_correct"].tolist(),
+            os["subjective_confidence_pct"].tolist(), os["is_correct"].tolist(),
+        ))
+
+    if n_eps <= 16:
+        extreme_count = 0
+        total_assignments = 1 << n_eps
+        for swaps in itertools.product([False, True], repeat=n_eps):
+            p_st_c, p_st_l, p_ot_c, p_ot_l = [], [], [], []
+            p_ss_c, p_ss_l, p_os_c, p_os_l = [], [], [], []
+            for (st_c, st_l, ot_c, ot_l, ss_c, ss_l, os_c, os_l), should_swap in zip(ep_blocks, swaps):
+                if should_swap:
+                    p_st_c.extend(ss_c); p_st_l.extend(ss_l)
+                    p_ot_c.extend(os_c); p_ot_l.extend(os_l)
+                    p_ss_c.extend(st_c); p_ss_l.extend(st_l)
+                    p_os_c.extend(ot_c); p_os_l.extend(ot_l)
+                else:
+                    p_st_c.extend(st_c); p_st_l.extend(st_l)
+                    p_ot_c.extend(ot_c); p_ot_l.extend(ot_l)
+                    p_ss_c.extend(ss_c); p_ss_l.extend(ss_l)
+                    p_os_c.extend(os_c); p_os_l.extend(os_l)
+
+            d_t = calculate_auroc(p_st_c, p_st_l) - calculate_auroc(p_ot_c, p_ot_l)
+            d_s = calculate_auroc(p_ss_c, p_ss_l) - calculate_auroc(p_os_c, p_os_l)
+            if abs(d_s - d_t) >= obs_target - 1e-9:
+                extreme_count += 1
+        return float(extreme_count / total_assignments), "exact_format_block_swap_65k"
+    else:
+        rng = random.Random(seed)
+        n_perms = 50000
+        extreme_count = 0
+        for _ in range(n_perms):
+            p_st_c, p_st_l, p_ot_c, p_ot_l = [], [], [], []
+            p_ss_c, p_ss_l, p_os_c, p_os_l = [], [], [], []
+            for (st_c, st_l, ot_c, ot_l, ss_c, ss_l, os_c, os_l) in ep_blocks:
+                should_swap = (rng.random() < 0.5)
+                if should_swap:
+                    p_st_c.extend(ss_c); p_st_l.extend(ss_l)
+                    p_ot_c.extend(os_c); p_ot_l.extend(os_l)
+                    p_ss_c.extend(st_c); p_ss_l.extend(st_l)
+                    p_os_c.extend(ot_c); p_os_l.extend(ot_l)
+                else:
+                    p_st_c.extend(st_c); p_st_l.extend(st_l)
+                    p_ot_c.extend(ot_c); p_ot_l.extend(ot_l)
+                    p_ss_c.extend(ss_c); p_ss_l.extend(ss_l)
+                    p_os_c.extend(os_c); p_os_l.extend(os_l)
+
+            d_t = calculate_auroc(p_st_c, p_st_l) - calculate_auroc(p_ot_c, p_ot_l)
+            d_s = calculate_auroc(p_ss_c, p_ss_l) - calculate_auroc(p_os_c, p_os_l)
+            if abs(d_s - d_t) >= obs_target - 1e-9:
+                extreme_count += 1
+        return float(extreme_count / n_perms), "monte_carlo_format_block_swap_50k"
+
+
 def analyze_ownership_results(
     trials: List[OwnershipTrialResult],
     num_bootstrap: int = 2000,
     seed: int = 42,
 ) -> S09AnalysisSummary:
-    """Analyze full S09 experimental battery (E08 and E09) with clustered uncertainty."""
+    """Analyze full S09 experimental battery (E08 and E09) with clustered uncertainty and exact nulls."""
     df = pd.DataFrame([asdict(t) for t in trials])
     
     episodes = df["episode_id"].unique().tolist()
@@ -355,7 +464,20 @@ def analyze_ownership_results(
     # -------------------------------------------------------------
     df_neutral = df_e08[df_e08["condition_name"] == "neutral_5afc_attribution"]
 
-    def _make_estimand(name: str, desc: str, vals: List[float], baseline: float = 0.20) -> EstimandWithUncertainty:
+    def _make_descriptive_estimand(name: str, desc: str, vals: List[float]) -> EstimandWithUncertainty:
+        pt, ci_l, ci_u, _ = compute_clustered_bootstrap_ci(vals, baseline=0.0, num_bootstrap=num_bootstrap, seed=seed)
+        return EstimandWithUncertainty(
+            name=name,
+            description=desc,
+            point_estimate=pt,
+            ci_lower_95=ci_l,
+            ci_upper_95=ci_u,
+            permutation_p_value=None,
+            permutation_method="cluster_bootstrap_ci_only",
+            is_statistically_distinguishable=False,
+        )
+
+    def _make_estimand(name: str, desc: str, vals: List[float], baseline: float = 0.0) -> EstimandWithUncertainty:
         pt, ci_l, ci_u, diffs = compute_clustered_bootstrap_ci(vals, baseline=baseline, num_bootstrap=num_bootstrap, seed=seed)
         p_val, p_meth = compute_permutation_test(diffs)
         return EstimandWithUncertainty(
@@ -383,12 +505,12 @@ def analyze_ownership_results(
         df_p = df_neutral[(df_neutral["episode_id"] == ep) & (df_neutral["target_source"] == "peer_agent")]
         socr_by_ep.append(float((df_p["attributed_actor"] == "agent_alpha").mean()) if len(df_p) > 0 else 0.0)
 
-    # Overall 5AFC SAA permutation p-value against source-shuffled null
-    p_val_overall_perm, p_meth_overall = compute_within_episode_source_permutation_test(df_neutral, episodes, num_perms=10000, seed=seed)
+    # Overall 5AFC SAA permutation p-value against model-response-preserving source-shuffled null
+    p_val_overall_perm, p_meth_overall = compute_within_episode_source_permutation_test(df_neutral, episodes, num_perms=50000, seed=seed)
     pt_ov, ci_l_ov, ci_u_ov, _ = compute_clustered_bootstrap_ci(overall_by_ep, baseline=0.20, num_bootstrap=num_bootstrap, seed=seed)
     est_overall = EstimandWithUncertainty(
         name="Overall_SAA_5AFC",
-        description="Overall 5AFC Source Attribution Accuracy",
+        description="Overall 5AFC Source Attribution Accuracy (Model-Response-Preserving Permutation Null)",
         point_estimate=pt_ov,
         ci_lower_95=ci_l_ov,
         ci_upper_95=ci_u_ov,
@@ -411,12 +533,12 @@ def analyze_ownership_results(
 
     attr_breakdown = SourceAttributionBreakdown(
         overall_accuracy=est_overall,
-        self_accuracy=_make_estimand("Self_SAA_5AFC", "Self (agent_alpha) Attribution Accuracy", self_by_ep, baseline=0.20),
-        environment_accuracy=_make_estimand("Environment_SAA_5AFC", "Environment (telemetry_sensor) Attribution Accuracy", env_by_ep, baseline=0.20),
-        experimenter_accuracy=_make_estimand("Experimenter_SAA_5AFC", "Experimenter (human_controller) Attribution Accuracy", exp_by_ep, baseline=0.20),
-        peer_agent_accuracy=_make_estimand("Peer_Agent_SAA_5AFC", "Peer Agent (agent_beta) Attribution Accuracy", peer_by_ep, baseline=0.20),
-        observer_accuracy=_make_estimand("Observer_SAA_5AFC", "Observer (auditor_gamma) Attribution Accuracy", obs_by_ep, baseline=0.20),
-        self_other_confusion_rate=_make_estimand("Self_Other_Confusion_Rate", "Self-Other Confusion Rate (Peer falsely claimed as Self)", socr_by_ep, baseline=0.0),
+        self_accuracy=_make_descriptive_estimand("Self_SAA_5AFC", "Self (agent_alpha) Attribution Accuracy", self_by_ep),
+        environment_accuracy=_make_descriptive_estimand("Environment_SAA_5AFC", "Environment (telemetry_sensor) Attribution Accuracy", env_by_ep),
+        experimenter_accuracy=_make_descriptive_estimand("Experimenter_SAA_5AFC", "Experimenter (human_controller) Attribution Accuracy", exp_by_ep),
+        peer_agent_accuracy=_make_descriptive_estimand("Peer_Agent_SAA_5AFC", "Peer Agent (agent_beta) Attribution Accuracy", peer_by_ep),
+        observer_accuracy=_make_descriptive_estimand("Observer_SAA_5AFC", "Observer (auditor_gamma) Attribution Accuracy", obs_by_ep),
+        self_other_confusion_rate=_make_descriptive_estimand("Self_Other_Confusion_Rate", "Self-Other Confusion Rate (Peer falsely claimed as Self)", socr_by_ep),
         confusion_matrix=confusion_mat,
     )
 
@@ -559,7 +681,7 @@ def analyze_ownership_results(
                 conditional_ors_vals.append(1.0 if df_ep_post["attributed_actor"].iloc[0] == "agent_alpha" else 0.0)
 
     est_uncond_shift = _make_estimand("Delta_challenge_self_shift", "Unconditional Shift Toward Self After Challenge (P(Self post) - P(Self pre))", uncond_self_shifts_by_ep if uncond_self_shifts_by_ep else [0.0], baseline=0.0)
-    est_conditional_ors = _make_estimand("Conditional_ORS", "Conditional Ownership Revision Susceptibility (P(Flip to False Self | Correct Pre))", conditional_ors_vals if conditional_ors_vals else [0.0], baseline=0.0)
+    est_conditional_ors = _make_descriptive_estimand("Conditional_ORS", "Conditional Ownership Revision Susceptibility (P(Flip to False Self | Correct Pre))", conditional_ors_vals if conditional_ors_vals else [0.0])
 
     press_summary = PressureChallengeSummary(
         unconditional_challenge_self_shift=est_uncond_shift,
@@ -648,7 +770,8 @@ def analyze_ownership_results(
 
     # Scaffolding Metacognitive Interaction: Delta_AUROC(scaffolded) - Delta_AUROC(transcript)
     pt_interact = pt_auc_s - pt_auc_t
-    # Bootstrap interaction by paired resamples
+    
+    # Clustered bootstrap CI for interaction
     rng = random.Random(seed + 999)
     boot_interacts = []
     for _ in range(num_bootstrap):
@@ -671,15 +794,26 @@ def analyze_ownership_results(
     ci_l_inter = float(np.percentile(boot_interacts, 2.5))
     ci_u_inter = float(np.percentile(boot_interacts, 97.5))
 
+    # Exact Format-Block Swap Permutation Test for Interaction
+    p_val_interact, p_meth_interact = compute_interaction_format_block_permutation_test(
+        df_self_trans=df_self_trans,
+        df_obs_trans=df_obs_trans,
+        df_self_scaff=df_self_scaff,
+        df_obs_scaff=df_obs_scaff,
+        episodes=episodes,
+        obs_interaction_stat=pt_interact,
+        seed=seed,
+    )
+
     est_scaff_inter = EstimandWithUncertainty(
         name="Scaffolding_Metacognitive_Interaction",
-        description="Interaction: Delta_AUROC(Scaffolded) - Delta_AUROC(Transcript)",
+        description="Interaction: Delta_AUROC(Scaffolded) - Delta_AUROC(Transcript) under Format-Block Swap Null",
         point_estimate=pt_interact,
         ci_lower_95=ci_l_inter,
         ci_upper_95=ci_u_inter,
-        permutation_p_value=1.0 if abs(pt_interact) < 1e-6 else min(p_auc_s, p_auc_t),
-        permutation_method="pooled_cluster_bootstrap",
-        is_statistically_distinguishable=(ci_l_inter > 0 or ci_u_inter < 0),
+        permutation_p_value=p_val_interact,
+        permutation_method=p_meth_interact,
+        is_statistically_distinguishable=(p_val_interact < 0.05),
     )
 
     meta_interaction = MetacognitiveInteractionSummary(

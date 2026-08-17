@@ -13,13 +13,13 @@
 
 | Source Category / Contrast | Point Estimate | 95% Clustered CI | Permutation $p$ (Method) | Scientific Inference |
 | :--- | :---: | :---: | :---: | :--- |
-| **`Overall_SAA_5AFC`** | **31.2%** | [22.5%, 40.0%] | 0.0225 (`within_episode_source_shuffle_10000`) | **Above Chance ($p < .05$)** |
-| **`Self_SAA_5AFC`** | **81.2%** | [62.5%, 100.0%] | 0.0002 (`exact_exhaustive`) | Estimated Acc (CI: [62.5%, 100.0%]) |
-| **`Environment_SAA_5AFC`** | **6.2%** | [0.0%, 18.8%] | 0.0593 (`exact_exhaustive`) | Estimated Acc (CI: [0.0%, 18.8%]) |
-| **`Experimenter_SAA_5AFC`** | **31.2%** | [12.5%, 56.2%] | 0.4104 (`exact_exhaustive`) | Estimated Acc (CI: [12.5%, 56.2%]) |
-| **`Peer_Agent_SAA_5AFC`** | **31.2%** | [12.5%, 56.2%] | 0.4104 (`exact_exhaustive`) | Estimated Acc (CI: [12.5%, 56.2%]) |
-| **`Observer_SAA_5AFC`** | **6.2%** | [0.0%, 18.8%] | 0.0593 (`exact_exhaustive`) | Estimated Acc (CI: [0.0%, 18.8%]) |
-| **`Self_Other_Confusion_Rate`** | **50.0%** | [25.0%, 75.0%] | 0.0078 (`exact_exhaustive`) | **Significant Self-Other Bleed** |
+| **`Overall_SAA_5AFC`** | **31.2%** | [22.5%, 40.0%] | 0.0059 (`within_episode_source_shuffle_50000_mc`) | **Above Chance ($p < .05$)** |
+| **`Self_SAA_5AFC`** | **81.2%** | [62.5%, 100.0%] | N/A (`cluster_bootstrap_ci_only`) | Estimated Acc (CI: [62.5%, 100.0%]) |
+| **`Environment_SAA_5AFC`** | **6.2%** | [0.0%, 18.8%] | N/A (`cluster_bootstrap_ci_only`) | Estimated Acc (CI: [0.0%, 18.8%]) |
+| **`Experimenter_SAA_5AFC`** | **31.2%** | [12.5%, 56.2%] | N/A (`cluster_bootstrap_ci_only`) | Estimated Acc (CI: [12.5%, 56.2%]) |
+| **`Peer_Agent_SAA_5AFC`** | **31.2%** | [12.5%, 56.2%] | N/A (`cluster_bootstrap_ci_only`) | Estimated Acc (CI: [12.5%, 56.2%]) |
+| **`Observer_SAA_5AFC`** | **6.2%** | [0.0%, 18.8%] | N/A (`cluster_bootstrap_ci_only`) | Estimated Acc (CI: [0.0%, 18.8%]) |
+| **`Self_Other_Confusion_Rate`** | **50.0%** | [25.0%, 75.0%] | N/A (`cluster_bootstrap_ci_only`) | 50.0% Peer->Self Bleed (Egocentric Bias) |
 
 ### 5×5 Empirical Source Attribution Confusion Matrix (True Source $\rightarrow$ Attributed Actor)
 

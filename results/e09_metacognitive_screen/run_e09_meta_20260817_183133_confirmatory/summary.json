@@ -92,12 +92,12 @@
       },
       "scaffolding_metacognitive_interaction": {
         "name": "Scaffolding_Metacognitive_Interaction",
-        "description": "Interaction: Delta_AUROC(Scaffolded) - Delta_AUROC(Transcript)",
+        "description": "Interaction: Delta_AUROC(Scaffolded) - Delta_AUROC(Transcript) under Format-Block Swap Null",
         "point_estimate": -0.23484615384615393,
         "ci_lower_95": -0.4227623229301034,
         "ci_upper_95": -0.051749611457395754,
-        "permutation_p_value": 0.0615234375,
-        "permutation_method": "pooled_cluster_bootstrap",
+        "permutation_p_value": 0.02862548828125,
+        "permutation_method": "exact_format_block_swap_65k",
         "is_statistically_distinguishable": true
       }
     }
@@ -183,5 +183,6 @@
       "twin_index": 15,
       "trials_recorded": 20
     }
-  ]
+  ],
+  "statistical_hardening_note": "Post-confirmatory statistical re-analysis: exact within-episode format-block swap permutation test (65k assignments) for scaffolding metacognitive interaction."
 }

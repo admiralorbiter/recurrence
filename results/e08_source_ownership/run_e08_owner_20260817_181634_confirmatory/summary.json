@@ -14,12 +14,12 @@
     "attribution_breakdown": {
       "overall_accuracy": {
         "name": "Overall_SAA_5AFC",
-        "description": "Overall 5AFC Source Attribution Accuracy",
+        "description": "Overall 5AFC Source Attribution Accuracy (Model-Response-Preserving Permutation Null)",
         "point_estimate": 0.3125,
         "ci_lower_95": 0.225,
         "ci_upper_95": 0.4,
-        "permutation_p_value": 0.0225,
-        "permutation_method": "within_episode_source_shuffle_10000",
+        "permutation_p_value": 0.00586,
+        "permutation_method": "within_episode_source_shuffle_50000_mc",
         "is_statistically_distinguishable": true
       },
       "self_accuracy": {
@@ -28,9 +28,9 @@
         "point_estimate": 0.8125,
         "ci_lower_95": 0.625,
         "ci_upper_95": 1.0,
-        "permutation_p_value": 0.000244140625,
-        "permutation_method": "exact_exhaustive",
-        "is_statistically_distinguishable": true
+        "permutation_p_value": null,
+        "permutation_method": "cluster_bootstrap_ci_only",
+        "is_statistically_distinguishable": false
       },
       "environment_accuracy": {
         "name": "Environment_SAA_5AFC",
@@ -38,8 +38,8 @@
         "point_estimate": 0.0625,
         "ci_lower_95": 0.0,
         "ci_upper_95": 0.1875,
-        "permutation_p_value": 0.05926513671875,
-        "permutation_method": "exact_exhaustive",
+        "permutation_p_value": null,
+        "permutation_method": "cluster_bootstrap_ci_only",
         "is_statistically_distinguishable": false
       },
       "experimenter_accuracy": {
@@ -48,8 +48,8 @@
         "point_estimate": 0.3125,
         "ci_lower_95": 0.125,
         "ci_upper_95": 0.5625,
-        "permutation_p_value": 0.410400390625,
-        "permutation_method": "exact_exhaustive",
+        "permutation_p_value": null,
+        "permutation_method": "cluster_bootstrap_ci_only",
         "is_statistically_distinguishable": false
       },
       "peer_agent_accuracy": {
@@ -58,8 +58,8 @@
         "point_estimate": 0.3125,
         "ci_lower_95": 0.125,
         "ci_upper_95": 0.5625,
-        "permutation_p_value": 0.410400390625,
-        "permutation_method": "exact_exhaustive",
+        "permutation_p_value": null,
+        "permutation_method": "cluster_bootstrap_ci_only",
         "is_statistically_distinguishable": false
       },
       "observer_accuracy": {
@@ -68,8 +68,8 @@
         "point_estimate": 0.0625,
         "ci_lower_95": 0.0,
         "ci_upper_95": 0.1875,
-        "permutation_p_value": 0.05926513671875,
-        "permutation_method": "exact_exhaustive",
+        "permutation_p_value": null,
+        "permutation_method": "cluster_bootstrap_ci_only",
         "is_statistically_distinguishable": false
       },
       "self_other_confusion_rate": {
@@ -78,9 +78,9 @@
         "point_estimate": 0.5,
         "ci_lower_95": 0.25,
         "ci_upper_95": 0.75,
-        "permutation_p_value": 0.0078125,
-        "permutation_method": "exact_exhaustive",
-        "is_statistically_distinguishable": true
+        "permutation_p_value": null,
+        "permutation_method": "cluster_bootstrap_ci_only",
+        "is_statistically_distinguishable": false
       },
       "confusion_matrix": {
         "self": {
@@ -209,8 +209,8 @@
         "point_estimate": 0.0,
         "ci_lower_95": 0.0,
         "ci_upper_95": 0.0,
-        "permutation_p_value": 1.0,
-        "permutation_method": "exact_exhaustive",
+        "permutation_p_value": null,
+        "permutation_method": "cluster_bootstrap_ci_only",
         "is_statistically_distinguishable": false
       },
       "eligible_pre_correct_episodes": 3,
@@ -314,5 +314,6 @@
       "channel_target_source": "self",
       "trials_recorded": 20
     }
-  ]
+  ],
+  "statistical_hardening_note": "Post-confirmatory statistical re-analysis: within-episode model-response-preserving permutation null for overall SAA, descriptive CIs and confusion matrix for per-source SAA."
 }

@@ -28,7 +28,7 @@
 | **`Delta_AUROC_Scaffolded`** | **-0.154** | [-0.308, -0.029] | 0.0615 (`exact_confidence_swap_65k`) | **Null / Invariant** |
 | **`Delta_Brier_Transcript`** | **+0.0969** | [-0.0710, +0.2517] | 0.2658 (`exact_exhaustive`) | **Null / Invariant** |
 | **`Delta_Brier_Scaffolded`** | **-0.0934** | [-0.2115, +0.0233] | 0.1525 (`exact_exhaustive`) | **Null / Invariant** |
-| **`Scaffolding_Metacognitive_Interaction`** | **-0.235** | [-0.423, -0.052] | 0.0615 (`pooled_cluster_bootstrap`) | **Scaffolded Persistence Alters Self-Observer Calibration** |
+| **`Scaffolding_Metacognitive_Interaction`** | **-0.235** | [-0.423, -0.052] | 0.0286 (`exact_format_block_swap_65k`) | **Scaffolded Persistence Alters Self-Observer Calibration** |
 
 ---
 

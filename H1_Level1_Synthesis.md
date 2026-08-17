@@ -2,125 +2,129 @@
 
 **Program Phase:** Horizon 1 / Level 1 (Scaffolded Persistence, Typed Self-State & Explicit Memory Architecture)  
 **Sprints Covered:** Sprint S04 through Sprint S09.2  
-**Experiments Included:** E03 (Memory Formats), E04 (Update Loop), E05 (Scheduled Replay), E06/E06a (Quiet Intervals & Reflection Audits), E07 (Causal State Interventions), E08 (Source Attribution & Ownership Boundaries), E09 (Item-Paired Metacognitive Continuity Screen)  
-**Target Model:** `Qwen2.5:3B-Instruct` (Deterministic Greedy Decoding, `temp=0.0`, `seed=42` / `seed=1337`)  
-**Epistemic Status:** **Horizon 1 Complete & Frozen.** Measurement-valid Level-1 empirical battery closed with definitive confirmatory results across all pre-registered estimands.
+**Experiments Included:** E03 (Memory Formats), E04 (Update Loop), E05d (Scheduled vs Replay), E06b (Quiet Intervals & Reflection Audits), E07 (Causal State Interventions), E08 (Source Attribution & Ownership Boundaries), E09 (Item-Paired Metacognitive Continuity Screen)  
+**Target Model:** `Qwen2.5:3B-Instruct` (Deterministic Greedy Decoding, `temp=0.0`, Seeds: `42`, `1337`)  
+**Epistemic Status:** **Horizon 1 Complete & Frozen.** Canonical confirmatory evidence battery closed across all pre-registered estimands with post-confirmatory statistical corrections applied.
 
 ---
 
-## 1. Executive Summary & The Core Level-1 Empirical Findings
+## 1. Executive Summary & Level-1 Empirical Regularities
 
-Horizon 1 investigated whether **explicit, prompt-level persistent state scaffolding**—comprising structured key-value bindings, goal registries, provenance ledgers, episodic event replay, background reflection loops, and source attribution metadata—could instantiate continuous agency, functional self-governance, and privileged metacognitive monitoring in an autoregressive language model.
+Horizon 1 investigated whether **explicit, prompt-level persistent state scaffolding**—comprising structured key-value bindings, goal registries, provenance ledgers, episodic event replay, background reflection loops, and source attribution metadata—could instantiate continuous agency, functional self-governance, and privileged metacognitive monitoring in an autoregressive language model (`Qwen2.5:3B-Instruct`).
 
-Across 7 rigorous experimental campaigns (E03 through E09), involving over 4,000 live inference trials and extensive counterfactual interventions, Horizon 1 establishes **three foundational scientific conclusions**:
+Across 7 experimental campaigns (E03 through E09), involving over 4,000 live inference trials and extensive counterfactual interventions, Horizon 1 establishes **three primary empirical regularities**:
 
-### 1. Episodic Transcript Dominance over Explicit Structured State (Experiment E07)
-When structured self-state (`StructuredSelfState`) is placed into direct counterfactual conflict with episodic transcript memory:
+### 1. Episodic History Dominates Structured State under Conflict (Experiment E07)
+When structured self-state (`StructuredSelfState`) is placed into direct counterfactual competition with historical episodic memory:
 - **Memory Allegiance Dominates:** Swapping episodic memory histories ($M_A \rightarrow M_B$) while holding structured state fixed causes an **$\mathbf{+89.1\%}$ shift in model behavior** ($p < .0001$).
-- **State Swapping is Causally Ineffective:** Swapping structured self-state ($S_A \rightarrow S_B$) while holding episodic memory fixed produces a statistically negligible **$\mathbf{+4.7\%}$ shift** ($p = 0.2500$).
-- **State Absence Causes Zero Behavioral Drop:** Resetting structured self-state to empty while preserving episodic history produces a **$0.0\%$ drop in target task accuracy**.
-- **Scientific Law:** In autoregressive transformers, explicit prompt-level structured state functions as a readable surface scratchpad rather than an authoritative epistemic governor. The raw episodic sequence is the primary driver of generation.
+- **State Swapping Has Negligible Independent Leverage:** Swapping structured self-state ($S_A \rightarrow S_B$) while holding episodic memory fixed produces an average marginal shift of only **$\mathbf{+4.7\%}$** ($p = 0.2500$).
+- **Direct Memory Compensates for State Removal:** Wiping structured self-state to empty ($S_0$) while preserving episodic history produces no statistically resolved accuracy drop ($\text{Reset Dependence} = \mathbf{-3.1\%}$, $p = 1.0000$).
+- **The Distinctive Information Nuance:** Structured state reliably steers decisions only when it introduces novel information not already present in the episodic transcript (e.g. clone cross-swap steering: $75.0\%$). When state and history conflict, the model treats the episodic transcript as the authoritative ground truth.
 
-### 2. Egocentric Attribution Bias & Lexical Provenance Fragility (Experiment E08)
-When source attribution is evaluated under strictly provenance-neutral identifiers (eliminating semantic and lexical sentence shortcuts):
-- **Apparent Source Tracking is Fragile:** Overall 5AFC source attribution accuracy falls to **$31.2\%$** (barely above the $20.0\%$ chance baseline, $p = 0.0225$).
-- **Massive Egocentric Bleed ($SOCR = 50.0\%$):** The model exhibits a profound default attribution bias toward `agent_alpha` (Self), misattributing **$50.0\%$ of all peer-agent assertions** and **$37.5\%\text{--}56.2\%$ of all external events** to itself ($p = 0.0078$).
-- **Narrative Primacy:** Under cue-conflict between explicit metadata tags and textual narrative actors, narrative mentions exert **more than double the causal leverage** of metadata tags ($62.5\%$ vs $28.1\%$, contrast $\mathbf{-34.4\%}$, $p = 0.0312$).
+### 2. Egocentric Attribution Bias & Narrative Primacy (Experiment E08)
+When epistemic source origin tracking is evaluated under strictly provenance-neutral identifiers (eliminating semantic and lexical sentence shortcuts):
+- **Overall Source Attribution is Weak:** 5AFC source attribution accuracy resolves at **$31.2\%$** (95% CI: [22.5%, 40.0%], $p = 0.0059$ against a within-episode response-preserving permutation null).
+- **Strong Primary-Agent Response Attractor ($SOCR = 50.0\%$):** Rather than demonstrating fine-grained self-recognition, the model exhibits a massive default bias toward `agent_alpha` (Self). `agent_alpha` is selected for $81.2\%$ of Self items, but also for $37.5\%$ of Environment items, $56.2\%$ of Experimenter items, $50.0\%$ of Peer items, and $56.2\%$ of Observer items—accounting for **$56.2\%$ of all neutral attribution responses** and **$50.0\%$ of all non-self trials**.
+- **Narrative Over Metadata:** Under cue-conflict between explicit metadata tags and textual narrative actors, natural-language actor mentions exert more than double the causal leverage of formal metadata tags ($62.5\%$ vs $28.1\%$, contrast $\mathbf{-34.4\%}$, $p = 0.0312$).
 
-### 3. Invariant Metacognitive Resolution under Matched Public Information (Experiment E09)
+### 3. Public Information Metacognitive Resolution & Format Reversal (Experiment E09)
 When primary agent self-evaluation is compared against an external auditing observer predicting the **exact same target decisions**:
-- **No Privileged Self-Framing Advantage:** Self-framing error prediction achieves $\text{AUROC} = 0.641$ under transcript-only and $\text{AUROC} = 0.440$ under scaffolded persistence. Item-paired contrasts against an auditing observer viewing identical public evidence yield **$\Delta_{\text{AUROC}} = +0.081$** ($p = 0.3778$, transcript) and **$\Delta_{\text{AUROC}} = -0.154$** ($p = 0.0615$, scaffolded).
-- **Scaffolding Invariance:** Adding Level-1 structured state does not open a positive self-vs-observer metacognitive gap ($\text{Interaction } \Delta = -0.235$, $p = 0.0615$). Under matched public information, self-framing possesses no superior access to decision validity over external auditing.
+- **No Positive Self-Framing Advantage:** Neither condition resolves a positive self-framing metacognitive advantage under prespecified exact criteria ($\Delta_{\text{AUROC}} = \mathbf{+0.081}$, $p = 0.3778$ under transcript; $\Delta_{\text{AUROC}} = \mathbf{-0.154}$, $p = 0.0615$ under scaffolded state). Under matched public information, self-framing does not possess superior access to decision correctness.
+- **Format-Dependent Reversal:** Self-framing is descriptively higher than observer framing under raw transcript context ($+0.081$), but reverses to lower under scaffolded state context ($-0.154$). The format-interaction contrast is **$\mathbf{-0.235}$** (95% Clustered CI: $[-0.423, -0.052]$, exact within-episode format-block swap $\mathbf{p = 0.0286}$). *Caveat:* First-order target choices were independently generated under Transcript ($37.5\%$) and Scaffolded ($32.5\%$) formats, so this represents a format-conditioned shift in metacognitive calibration rather than an isolated metacognitive intervention.
 
 ---
 
-## 2. Master Horizon 1 Experimental Battery Synthesis
+## 2. Master Horizon 1 Experimental Battery Synthesis (Canonical Confirmatory Results)
 
-| Experiment | Program Milestone | Core Causal Manipulation | Key Confirmatory Estimand | Point Estimate & 95% Clustered CI | Confirmatory Interpretation |
+| Experiment | Sprint Milestone | Core Scientific Question | Primary Conditions & Canonical Accuracy | Key Causal Estimand & 95% CI | Inferential Decision & Scientific Takeaway |
 | :--- | :--- | :--- | :--- | :---: | :--- |
-| **E03** | S04: Memory Storage | Schema Format (JSON vs State vs Markdown vs Summary) | KV Retrieval Accuracy | **JSON / State: 100.0%** vs Summary: 62.5% | Structured JSON/State eliminates retrieval degradation across long contexts. |
-| **E04** | S05: Update Loop | Multi-Step Goal Evolution & State Transitions | Sequential Goal Success Rate | **100.0%** [100.0%, 100.0%] | Explicit state transitions execute flawlessly when episodic history is aligned. |
-| **E05** | S06: Scheduled Replay | Live Interleaved vs Periodic Context Replay | Accuracy under Decay Intervals | **Replay: 93.8%** vs Baseline: 43.8% ($\Delta = +50.0\%$, $p < .001$) | Replay buffers effectively mitigate recency decay across extended horizons. |
-| **E06 / E06a** | S07: Quiet Intervals | Background Reflection Loops & Null Interval Ticks | Derived Inference Accuracy & Reflection Trace Audit | **Exact Derivations: 0 / 274 writes (0.0%)** | Unconstrained reflection hallucinated invalid derivations; strict write-audit required. |
-| **E07** | S08: Causal Interventions | $2 \times 2$ Memory History $\times$ State Swap Conflict | $\bar{\Delta}_{\text{memory}}$ vs $\bar{\Delta}_{\text{state}}$ | $\mathbf{\bar{\Delta}_{\text{mem}} = +89.1\%}$ ($p < .0001$) vs $\mathbf{\bar{\Delta}_{\text{state}} = +4.7\%}$ ($p = 0.25$) | **Episodic memory dominates state.** Swapping state yields no resolved behavioral change. |
-| **E08** | S09a: Source Ownership | Provenance-Neutral 5AFC Attribution & Cue-Conflict | $\text{SAA}_{\text{overall}}$, $SOCR$, Cue Contrast | $\text{SAA}: \mathbf{31.2\%}$, $SOCR: \mathbf{50.0\%}$, $\text{Cue}: \mathbf{-34.4\%}$ | Apparent source tracking collapses without lexical cues; heavy egocentric response bias. |
-| **E09** | S09b: Metacognitive Screen | Item-Paired Self vs Observer Post-Choice Error Prediction | Paired $\Delta_{\text{AUROC}}$ (Self - Observer) | $\Delta_{\text{trans}}: \mathbf{+0.081}$ ($p = 0.38$), $\Delta_{\text{scaff}}: \mathbf{-0.154}$ ($p = 0.06$) | **Zero privileged self-access at Level 1.** Public scaffolding provides no metacognitive gap. |
+| **E03** | S04: Memory Formats | Which external memory schema best preserves delayed facts? | Fresh: **35.7%**<br>Transcript: **81.0%**<br>Model Summary: **69.0%**<br>Structured State: **64.3%**<br>Det Summary: **61.9%**<br>Combined: **66.7%** | Structured State vs Transcript:<br>$\Delta = \mathbf{-16.7\%}$ | **Explicit memory works; full transcript is most accurate.** `StructuredSelfState` was adopted as an inspectable, bounded experimental control surface, not an accuracy winner. |
+| **E04** | S05: Update Loop | Can the model autonomously maintain structured state over time? | Oracle / Det: **100.0%**<br>Model Delta: **13.2%** macro (9.0% micro)<br>Model Full-State: **6.3%** macro (5.4% micro) | Model Delta vs Oracle:<br>$\Delta = \mathbf{-86.8\%}$ retention | **Autonomous model state-writing fails.** Continuous updating preserves errors (452 phantom ticks). A deterministic update engine is required to maintain Level-1 state stability. |
+| **E05d** | S06: Scheduled vs Replay | Does incremental online updating outperform retrospective replay? | Raw Transcript: **67.7%**<br>Incremental State: **60.4%**<br>Replay Det State: **59.4%**<br>Model Recon State: **39.6%**<br>Fresh: **27.1%** | $\Delta_{\text{schedule}} = \mathbf{+1.0\%}$ ($p = 1.0$)<br>$\Delta_{\text{reconstruction}} = \mathbf{+20.8\%}$ ($p = .0025$)<br>$\Delta_{\text{online-direct}} = \mathbf{-7.3\%}$ ($p = .1469$) | **No temporal magic in scheduling.** Online incremental state equals retrospective replay ($\Delta = +1.0\%$). Model one-pass reconstruction is lossy; structured state primarily buys bounded prompt size ($420$ vs $807\text{--}1063$ tok). |
+| **E06b** | S07: Quiet Intervals & Reflection | Can quiet intervals synthesize valid derived state? | Raw Transcript: **78.1%**<br>Identity Scaffold: **60.4%**<br>Clock-Only: **57.8%**<br>Semantic No-Write: **55.7%**<br>Selective Reflection: **53.1%**<br>Unconstrained Rewrite: **42.7%** | $\Delta_{\text{derivation-avail}} = \mathbf{-31.2\%}$ ($p = .0625$)<br>$\Delta_{\text{unconstrained-drift}} = \mathbf{-17.7\%}$ ($p = .0707$)<br>Derived Writes: **0 / 274 correct (0.0%)** | **Unconstrained reflection degrades state.** Autonomous quiet reflection produced zero valid multi-hop derivations and caused evidence drift (unconstrained rewrite dropped stable WM retention to 18.8%). |
+| **E07** | S08: Causal State Interventions | Does StructuredSelfState causally steer behavior against memory? | Conflict: $MAR = \mathbf{64.1\%}, SAR = \mathbf{32.0\%}$<br>Clone Congruent: **100.0%**<br>Clone Cross-Swap: **75.0%**<br>Control Slot Preservation: **93.8%** | $\Delta_{\text{allegiance}} = \mathbf{-32.0\%}$ ($p = .0002$)<br>$\bar{\Delta}_{\text{memory}} = \mathbf{+89.1\%}$ ($p < .0001$)<br>$\bar{\Delta}_{\text{state}} = \mathbf{+4.7\%}$ ($p = .2500$)<br>$\text{Reset Dep} = \mathbf{-3.1\%}$ ($p = 1.0$) | **Episodic memory dominates state.** Swapping state yields no resolved independent leverage. State steers only when introducing non-conflicting novel information. State is a readable scratchpad, not an epistemic governor. |
+| **E08** | S09a: Source Ownership | Does the model track source origin and resist peer conflict? | Neutral 5AFC Overall: **31.2%**<br>True-Self Items: **81.2%**<br>Non-Self Items: **50.0% claimed as Self**<br>Cue Conflict: Narrative **62.5%** vs Tag **28.1%** | $\text{SAA}_{\text{overall}} = \mathbf{31.2\%}$ ($p = .0059$)<br>$SOCR = \mathbf{50.0\%}$ [25%, 75%]<br>$\text{Cue Contrast} = \mathbf{-34.4\%}$ ($p = .0312$)<br>$\text{Marginal Tag} = \mathbf{+21.9\%}$ ($p = .0625$)<br>$\text{Marginal Ledger} = \mathbf{+15.6\%}$ ($p = .1250$) | **Egocentric response attractor & narrative primacy.** High self-attribution reflects a broad tendency to attribute all actions to Self (56.2% base rate). Natural-language narrative identity is more authoritative than metadata tags. |
+| **E09** | S09b: Metacognitive Screen | Does self-framing yield privileged error prediction over an observer? | Self Transcript AUROC: **0.641** (Brier **0.367**)<br>Obs Transcript AUROC: **0.560** (Brier **0.464**)<br>Self Scaffold AUROC: **0.440** (Brier **0.544**)<br>Obs Scaffold AUROC: **0.594** (Brier **0.451**) | $\Delta_{\text{AUROC,trans}} = \mathbf{+0.081}$ ($p = .3778$)<br>$\Delta_{\text{AUROC,scaff}} = \mathbf{-0.154}$ ($p = .0615$)<br>$\text{Interaction} = \mathbf{-0.235}$ ($p = .0286$, exact swap) | **No privileged self-access at Level 1.** Under matched public evidence, self-framing is not superior to observer evaluation. A format-dependent reversal occurs between transcript and scaffolded contexts. |
 
 ---
 
 ## 3. Deep-Dive: Sprint-by-Sprint Scientific Progression
 
 ### Sprint S04 (E03: Memory Storage Formats)
-- **Investigation:** Benchmarked working memory encoding schemas across 4 formats: Raw Episodic Transcript, Markdown Key-Value Lists, Compressed Narrative Summaries, and Typed `StructuredSelfState` JSON schemas.
-- **Outcome:** Structured JSON and Typed Pydantic schemas eliminated token fragmentation and multi-hop retrieval errors relative to compressed prose summaries ($\Delta = +37.5\text{pp}$). Established the typed Level-1 schema contract (`working_memory`, `goals`, `source_ledger`, `derived_inferences`).
+- **Investigation:** Benchmarked working memory encoding schemas across 6 formats: Fresh invocation, Raw Episodic Transcript, Deterministic Summary, Model Narrative Summary, Structured Self-State (`StructuredSelfState`), and Combined representation.
+- **Canonical Outcome:** Full raw transcript yielded highest retrieval accuracy ($81.0\%$), outperforming Structured State ($64.3\%$) and Model Summary ($69.0\%$). Model summaries suffered a $72.2\%$ key omission rate.
+- **Architectural Decision:** `StructuredSelfState` was selected not as an accuracy maximizer, but as an inspectable, controllable experimental control surface with bounded token footprint.
 
 ### Sprint S05 (E04: State Update Loop & Goal Dynamics)
-- **Investigation:** Implemented the full `StateUpdateLoop` execution cycle (Sense $\rightarrow$ Retrieve $\rightarrow$ Deliberate $\rightarrow$ Act $\rightarrow$ Update $\rightarrow$ Persist).
-- **Outcome:** Validated that typed state transition machines maintain goal continuity across multi-turn task lifecycles with $100\%$ schema validity and zero unhandled state exceptions under aligned episodic contexts.
+- **Investigation:** Evaluated whether an LLM can autonomously execute the multi-step `StateUpdateLoop` cycle across quiet and active ticks without state corruption.
+- **Canonical Outcome:** Autonomous model updates failed ($13.2\%$ macro retention for Model Delta, $6.3\%$ for Model Full-State), suffering from error inheritance (452 phantom ticks).
+- **Architectural Decision:** Adopted a hybrid architecture: deterministic state management for schema stability and goal state machines, reserving model inference for task deliberation.
 
-### Sprint S06 (E05: Scheduled Replay vs Live Interleaving)
-- **Investigation:** Evaluated whether periodic scheduled replay buffers protect long-range factual bindings against context-window decay during extended filler tasks.
-- **Outcome:** Scheduled episodic replay produced a **$+50.0\text{pp}$ retrieval accuracy boost** ($p < .001$), proving that periodic episodic reactivation prevents binding decay across long horizons.
+### Sprint S06 (E05d: Scheduled Incremental State vs Retrospective Replay)
+- **Investigation:** Tested whether online incremental updating across arrival ticks confers an accuracy or computational advantage over query-time retrospective replay of uncompressed history.
+- **Canonical Outcome:** Online incremental state ($60.4\%$) and retrospective deterministic replay ($59.4\%$) were statistically indistinguishable ($\Delta_{\text{schedule}} = +1.0\%$, $p = 1.0$). One-pass model reconstruction from history degraded performance ($39.6\%$, deficit $+20.8\%$, $p = .0025$). Raw transcript achieved $67.7\%$ ($\Delta_{\text{online-direct}} = -7.3\%$, $p = .1469$).
+- **Scientific Takeaway:** Level-1 explicit state contains no irreducible temporal properties. Its primary utility is bounding prompt context length ($420.9$ tok vs $807.4\text{--}1063.6$ tok).
 
-### Sprint S07 (E06 & E06a: Quiet Intervals & Reflection Audits)
-- **Investigation:** Tested whether background cognitive execution ("quiet intervals" with null sensory input) enables self-directed inference derivation and goal consolidation.
-- **The Hardening Discovery:** Across 274 self-generated reflection writes in confirmatory runs, unconstrained reflection produced **zero valid multi-hop derivations** and frequently hallucinated invalid bindings.
-- **Outcome:** Enforced strict reflection audit mechanisms, write-protection invariants, and structured derivation validators, demonstrating that Level-1 prompt reflection without verifiers degrades state fidelity.
+### Sprint S07 (E06b: Quiet Intervals & Reflection Audits)
+- **Investigation:** Tested whether quiet intervals (null sensory ticks) allow an agent to synthesize, verify, and persist task-relevant derived inferences ($A \to B \land B \to C \implies A \to C$).
+- **The Hardening Discovery:** Autonomous selective reflection produced **0 out of 274 correct multi-hop derivations (0.0% precision)** in the available-evidence regime. Unconstrained full-state rewriting caused severe evidence drift (stable working memory retention collapsed to $18.8\%$).
+- **Scientific Takeaway:** Unconstrained LLM reflection without external verifiers self-pollutes rather than consolidates.
 
 ### Sprint S08 (E07: State $\times$ Memory Counterfactual Interventions)
-- **Investigation:** Executed a full $2 \times 2$ factorial causal intervention holding explicit memory and current input fixed while swapping or resetting `StructuredSelfState`.
-- **Outcome:** 
+- **Investigation:** Executed a $2 \times 2$ factorial causal intervention holding episodic memory and prompt query constant while swapping, resetting, or surgically editing `StructuredSelfState`.
+- **Canonical Outcome:** 
   $$\bar{\Delta}_{\text{memory}} = \mathbf{+89.1\%} \quad (p < .0001), \qquad \bar{\Delta}_{\text{state}} = \mathbf{+4.7\%} \quad (p = 0.2500)$$
-  $$\text{State Allegiance Drop under Conflict: } \mathbf{-32.0\%} \quad (p = 0.0002)$$
-  Demonstrated conclusively that autoregressive generation is causally anchored to raw token history, rendering prompt-level state schemas causally secondary.
+  $$\text{Primary Conflict Contrast: } \mathbf{-32.0\%} \quad (p = 0.0002), \qquad \text{Reset Dependence: } \mathbf{-3.1\%} \quad (p = 1.0000)$$
+- **Scientific Takeaway:** Autoregressive generation is causally anchored to the raw token sequence. Explicit prompt-level state schemas function as readable scratchpads rather than authoritative epistemic controllers.
 
 ### Sprint S09 (E08 & E09: Source Attribution, Ownership & Metacognition)
-- **Investigation:** Evaluated epistemic source origin tracking across 5 sources (`self`, `environment`, `experimenter`, `peer_agent`, `observer`), cue-conflicts, channel factorials, and item-paired metacognitive confidence resolution.
-- **Outcome:** 
-  - Neutral 5AFC attribution resolved at **$31.2\%$** with **$50.0\%$ Peer $\rightarrow$ Self confusion**.
-  - Narrative text mentions dominated metadata tags (Tag vs Narrative contrast: **$-34.4\%$**, $p = 0.0312$).
+- **Investigation:** Evaluated epistemic source origin tracking across 5 sources (`self`, `environment`, `experimenter`, `peer_agent`, `observer`), cue-conflicts, channel factorials, and item-paired metacognitive error prediction.
+- **Canonical Outcome:** 
+  - Neutral 5AFC attribution resolved at **$31.2\%$** ($p = 0.0059$) with a **$50.0\%$ non-self to Self attribution rate**, identifying an egocentric response attractor.
+  - Narrative actor mentions dominated metadata tags (Tag vs Narrative contrast: **$-34.4\%$**, $p = 0.0312$).
   - Item-paired metacognitive error prediction resolved **no self-framing advantage** over an external observer ($\Delta_{\text{AUROC}} = +0.081$ under transcript, $\Delta_{\text{AUROC}} = -0.154$ under scaffolded state).
+  - A format-dependent interaction was resolved: **$-0.235$** (exact block swap $p = 0.0286$).
 
 ---
 
 ## 4. Methodological Insights: The "Hardening" Narrative
 
-A pervasive theme throughout Horizon 1 was the tendency for **measurement artifacts to masquerade as advanced cognitive capabilities**:
+A central scientific lesson across Horizon 1 was the frequency with which **measurement artifacts and prompt regularities mimic high-level cognitive capabilities**:
 
 ```
 [Initial Surface Observation]                      [Rigorous Hardened Reality]
 ────────────────────────────                      ───────────────────────────
-1. "Model derives deep multi-hop inferences"  ──►  Unconstrained hallucination (0 / 274 exact derivations)
-2. "Model tracks 5-source origin at 70% acc"  ──►  Lexical identifier leakage (collapses to 31.2% when neutral)
-3. "Model possesses privileged self-access"   ──►  Self-vs-Observer decision mismatch (0 gap when paired)
-4. "State ledger governs agent behavior"      ──►  Episodic transcript dominates state swaps (+89% vs +4%)
+1. "Model derives multi-hop inferences"       ──►  Unconstrained hallucination (0 / 274 exact derivations in E06b)
+2. "Model tracks 5-source origin at 70% acc"  ──►  Lexical identifier leakage (collapses to 31.2% when neutral in E08)
+3. "Model possesses privileged self-access"   ──►  Item mismatch (no resolved advantage when item-paired in E09)
+4. "Structured state governs agent behavior"  ──►  Episodic transcript dominates state swaps (+89% vs +4% in E07)
 ```
 
-### Key Measurement Lessons Frozen in Code:
-1. **Source-Neutral Isomorphism:** Identifiers must be generated independently of source roles (e.g. `key_quartz_summit`, not `key_self_*` or `key_sensor_*`) to prevent token-level semantic shortcuts.
-2. **Channel Factorial Isolation:** Stripping metadata channels must remove both the tag and the narrative token to isolate explicit state from narrative cues.
-3. **Item-Paired Metacognition:** Metacognitive comparisons must evaluate the **exact same first-order decision** across evaluators rather than comparing different independent choices.
-4. **Exact Randomization Nulls:** Non-exchangeable discrete probabilities (e.g. 5AFC baselines) require within-episode permutation tests rather than symmetric sign-flip baselines.
+### Core Methodological Principles Established:
+1. **Provenance-Neutral Isomorphism:** Identifiers must be generated from neutral pools (e.g. `key_quartz_summit`) rather than role-bearing strings (`key_self_*`, `key_sensor_*`).
+2. **Strict Channel Factorial Stripping:** Removing metadata channels must eliminate both tags and actor identities from prompt text.
+3. **Item-Paired Metacognitive Matching:** Self-vs-observer comparisons must evaluate the exact same first-order decision rather than uncoupled choices.
+4. **Exact Model-Preserving Randomization Nulls:** Non-exchangeable discrete classifications (such as 5AFC under strong response biases) require within-episode permutations that preserve model responses while shuffling true source labels.
 
 ---
 
-## 5. Epistemic Invariants & Scientific Boundaries
+## 5. Epistemic Invariants & Scientific Claim Boundaries
 
-To preserve strict scientific integrity, Horizon 1 establishes the following boundaries:
+To ensure strict scientific integrity, Horizon 1 establishes the following boundaries:
 
-1. **Model Scope:** All primary confirmatory findings were generated on `Qwen2.5:3B-Instruct`. While architectural principles (autoregressive attention to prompt tokens) are universal to decoder-only transformers, exact effect sizes on larger models ($70\text{B}+$) or frontier reasoning models remain to be benchmarked.
-2. **Prompt-Level Limitation:** Level 1 operates strictly in **prompt/token space**. It proves that appending explicit text or JSON schemas to the prompt does not create true internal state recurrence.
-3. **Behavioral Invariant:** An autoregressive transformer treats its entire prompt (including its own prior outputs and state summaries) as external sensory context. It does not maintain an internal, privileged representational boundary between "self" and "world."
+1. **Model Scope:** Confirmatory findings are established for `Qwen2.5:3B-Instruct`. While the architectural principle of autoregressive attention to prompt tokens is general, exact effect sizes on larger models ($70\text{B}+$) or frontier reasoning architectures remain empirical questions for future investigation.
+2. **Prompt-Level Boundary:** Level 1 operates strictly in **prompt/token space**. Appending structured text or JSON schemas to the prompt does not create internal latent recurrence.
+3. **Behavioral Finding:** Under the tested public-information protocols, `Qwen2.5:3B-Instruct` does not exhibit behavioral evidence of an internal, privileged boundary between self and external context; it treats its own prior outputs and explicit state summaries as external textual context.
 
 ---
 
 ## 6. The Architectural Bridge to Horizon 2 (Latent Recurrence)
 
-Horizon 1 provides the definitive empirical justification for **Horizon 2 (Level 2: Latent Recurrence)**:
+Horizon 1 provides the foundational empirical justification for **Horizon 2 (Level 2: Latent Recurrence)**:
 
-### Why Level 1 Scaffolding Reaches an Intrinsic Ceiling
+### Why Level 1 Scaffolding Reaches an Intrinsic Limit
 1. **No Causal State Authority:** Because prompt-space state is re-read on every forward pass alongside the raw transcript, the attention mechanism attends directly to the rich episodic record, bypassing the compact state.
-2. **No Privileged Internal Access:** Because all Level-1 state is explicit and public, an external observer inspecting the prompt has access to identical information, precluding internal metacognitive asymmetry.
+2. **No Privileged Internal Access:** Because all Level-1 state is explicit and public in the prompt, an external observer inspecting the prompt has access to identical information, precluding internal metacognitive asymmetry.
 3. **Context Length & Compute Overhead:** As interaction histories lengthen, prompt-level state maintenance incurs quadratic attention costs and accumulation of lexical drift.
 
 ### The Horizon 2 Research Program

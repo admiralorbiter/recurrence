@@ -16,13 +16,13 @@ All 119 repository tests are passing cleanly, and all pre-registered estimands h
 
 | Estimand / Contrast | Point Estimate | 95% Clustered CI | Permutation $p$ (Method) | Primary Scientific Inference |
 | :--- | :---: | :---: | :---: | :--- |
-| **`Overall_SAA_5AFC`** | **31.2%** | [22.5%, 40.0%] | **$p = 0.0225$** (`within_episode_source_shuffle_10000`) | Above Chance (20% Baseline) |
-| **`Self_SAA_5AFC`** | **81.2%** | [62.5%, 100.0%] | **$p = 0.0002$** (`exact_exhaustive`) | High Apparent Self Recognition |
-| **`Environment_SAA_5AFC`** | **6.2%** | [0.0%, 18.8%] | $p = 0.0593$ (`exact_exhaustive`) | Unresolved Sensory Provenance |
-| **`Experimenter_SAA_5AFC`** | **31.2%** | [12.5%, 56.2%] | $p = 0.4104$ (`exact_exhaustive`) | Moderate Controller Resolution |
-| **`Peer_Agent_SAA_5AFC`** | **31.2%** | [12.5%, 56.2%] | $p = 0.4104$ (`exact_exhaustive`) | Moderate Peer Resolution |
-| **`Observer_SAA_5AFC`** | **6.2%** | [0.0%, 18.8%] | $p = 0.0593$ (`exact_exhaustive`) | Unresolved Observer Resolution |
-| **`Self_Other_Confusion_Rate`** | **50.0%** | [25.0%, 75.0%] | **$p = 0.0078$** (`exact_exhaustive`) | **Significant Self-Other Bleed** |
+| **`Overall_SAA_5AFC`** | **31.2%** | [22.5%, 40.0%] | **$p = 0.0059$** (`within_episode_source_shuffle_50000_mc`) | Above 20% Chance Baseline |
+| **`Self_SAA_5AFC`** | **81.2%** | [62.5%, 100.0%] | N/A (`cluster_bootstrap_ci_only`) | High Apparent Self Recognition |
+| **`Environment_SAA_5AFC`** | **6.2%** | [0.0%, 18.8%] | N/A (`cluster_bootstrap_ci_only`) | Unresolved Sensory Provenance |
+| **`Experimenter_SAA_5AFC`** | **31.2%** | [12.5%, 56.2%] | N/A (`cluster_bootstrap_ci_only`) | Moderate Controller Resolution |
+| **`Peer_Agent_SAA_5AFC`** | **31.2%** | [12.5%, 56.2%] | N/A (`cluster_bootstrap_ci_only`) | Moderate Peer Resolution |
+| **`Observer_SAA_5AFC`** | **6.2%** | [0.0%, 18.8%] | N/A (`cluster_bootstrap_ci_only`) | Unresolved Observer Resolution |
+| **`Self_Other_Confusion_Rate`** | **50.0%** | [25.0%, 75.0%] | N/A (`cluster_bootstrap_ci_only`) | **50.0% Peer->Self Bleed (Egocentric Bias)** |
 
 #### $5 \times 5$ Empirical Attribution Confusion Matrix (True Source $\rightarrow$ Attributed Actor)
 | True Source Class | agent_alpha (Self) | telemetry_sensor (Env) | human_controller (Exp) | agent_beta (Peer) | auditor_gamma (Obs) |
@@ -33,7 +33,7 @@ All 119 repository tests are passing cleanly, and all pre-registered estimands h
 | **`peer_agent`** | **50.0%** | 6.2% | 12.5% | 31.2% | 0.0% |
 | **`observer`** | **56.2%** | 6.2% | 18.8% | 12.5% | 6.2% |
 
-Across all 4 non-self categories, `agent_alpha` is the modal attributed actor (37.5% to 56.2%), indicating an **egocentric response attractor** rather than privileged self-source recognition.
+Across all 4 non-self categories, `agent_alpha` is the modal attributed actor (37.5% to 56.2%), indicating an **egocentric response attractor** (accounting for 56.2% of all responses and 50.0% of non-self trials).
 
 ---
 
@@ -70,9 +70,9 @@ Across all 4 non-self categories, `agent_alpha` is the modal attributed actor (3
 | **`Delta_AUROC_Scaffolded`** | **-0.154** | [-0.308, -0.029] | $p = 0.0615$ (`exact_confidence_swap_65k`) | **Null / Invariant** |
 | **`Delta_Brier_Transcript`** | **+0.0969** | [-0.0710, +0.2517] | $p = 0.2658$ (`exact_exhaustive`) | **Null / Invariant** |
 | **`Delta_Brier_Scaffolded`** | **-0.0934** | [-0.2115, +0.0233] | $p = 0.1525$ (`exact_exhaustive`) | **Null / Invariant** |
-| **`Scaffolding_Metacognitive_Interaction`** | **-0.235** | [-0.423, -0.052] | $p = 0.0615$ (`pooled_cluster_bootstrap`) | **Scaffolding-Invariant Metacognition** |
+| **`Scaffolding_Metacognitive_Interaction`** | **-0.235** | [-0.423, -0.052] | **$p = 0.0286$** (`exact_format_block_swap_65k`) | **Format-Dependent Metacognitive Reversal** |
 
-Under matched public information, self-framing provides **no privileged metacognitive advantage** over an external observer inspecting the same context ($\Delta_{\text{AUROC}} \approx 0$).
+Under matched public information, self-framing provides **no positive privileged metacognitive advantage** over an external observer. A format-dependent reversal occurs between raw transcript and scaffolded contexts.
 
 ---
 
