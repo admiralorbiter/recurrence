@@ -1,23 +1,35 @@
-# H1 Narrative Source Map
+# H1 Source Map
 
-This file maps the public-facing teaching chapters to the canonical research artifacts.
+## Canonical project evidence
 
-| Narrative chapter | Primary scientific source | What it contributes |
-|---|---|---|
-| Start Here / The Question | `6. Roadmap.md` | H1 scope, S04–S09 sequence, H1 gate |
-| How to Read H1 | `7. Measurement and Analysis Plan.md`, final E05d report | paired inference, uncertainty, claim discipline |
-| S04 · Memory Without Continuity | `docs/E03_Explicit_Memory_Report.md` | six memory conditions, accuracy/token tradeoffs, summary distortion |
-| S05 · A State That Persists | `docs/E04_Update_Loop_Report.md` | deterministic scaffold, model maintenance failure, error inheritance |
-| S06 · The Replay Test | `docs/E05_Scheduled_vs_Replay_Report.md` | deterministic replay invariant, raw-history comparison, reconstruction deficit |
-| The Ruler Gets Harder | E05a–E05d lineage in `results/e05_scheduled_vs_replay/` and Git history | measurement shortcut removal and reconstruction-interface repair |
-| What Survived / What H1 Means Now | `MIDPOINT_SYNTHESIS.md` plus E03/E04/E05d | integrated midpoint interpretation |
-| The Unfinished Half | `6. Roadmap.md` | S07, S08, S09 and formal H1 gate |
+- S04 / E03: `docs/E03_Explicit_Memory_Report.md`
+- S05 / E04: `docs/E04_Update_Loop_Report.md`
+- S06 / E05d: `docs/E05_Scheduled_vs_Replay_Report.md`
+- S07 / E06b: canonical E06b artifacts / closeout
+- S08 / E07: `docs/E07_State_Interventions_Report.md`
+- S09 / E08 + E09: raw confirmatory trials plus post-confirmatory repaired analysis
+- H1 synthesis: repaired `H1_Level1_Synthesis.md`
 
-## Final E05d provenance anchors
+## Research bridges
 
-- Protocol freeze: `db7273c`
-- Canonical results: `e75a963`
+These provide context, not validation.
 
-## Interpretation rule
+- **Cognitive offloading** — Risko & Gilbert (2016). https://pubmed.ncbi.nlm.nih.gov/27542527/
 
-When this narrative simplifies a result for a general reader, the canonical research memo remains the source of truth for exact metrics and caveats.
+- **The Extended Mind** — Clark & Chalmers (1998). https://philpapers.org/rec/CLATEM
+
+- **Source monitoring** — Johnson, Hashtroudi & Lindsay (1993). https://pubmed.ncbi.nlm.nih.gov/8346328/
+
+- **Feeling of knowing** — Koriat (1993). https://pubmed.ncbi.nlm.nih.gov/8255951/
+
+- **Lost in the Middle** — Liu et al. (2024). https://aclanthology.org/2024.tacl-1.9/
+
+- **MemGPT** — Packer et al. (2023). https://arxiv.org/abs/2310.08560
+
+- **Prompt Injection as Role Confusion** — Ye, Cui & Hadfield-Menell (2026). https://arxiv.org/abs/2603.12277
+
+- **Emergent Introspective Awareness** — Lindsey (2026). https://arxiv.org/abs/2601.01828
+
+- **Partial Introspection** — Hahami, Jain & Sinha (2025). https://arxiv.org/abs/2512.12411
+
+- **Memory Provenance Laundering** — Xu et al. (2026). https://arxiv.org/abs/2607.29167

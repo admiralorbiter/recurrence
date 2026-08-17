@@ -1,86 +1,14 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>What Survived — H1 · Mnemosyne and the River</title>
-<meta name="description" content="The claims that survived repeated attempts to break the benchmark.">
-<link rel="stylesheet" href="styles.css">
-</head>
-<body data-page="result.html">
-<header class="topbar">
-  <a class="site-brand" href="index.html"><span>RECURRENCE · H1</span><strong>Mnemosyne and the River</strong></a>
-  <div class="top-actions"><button id="plain-toggle" class="top-button" type="button">Plain-English recap</button><button id="glossary-open" class="top-button" type="button">Glossary ?</button></div>
-</header>
-<div class="shell">
-<nav class="side-nav"><div class="nav-kicker">Guided tour</div><a href="index.html" data-nav="index.html"><span>00</span>Start Here</a>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>What Survived — H1 · Mnemosyne and the River</title><meta name="description" content="The empirical regularities that survived H1 hardening, separated from live closure extensions."><link rel="stylesheet" href="styles.css"></head><body data-page="result.html"><header class="topbar"><a class="site-brand" href="index.html"><span>RECURRENCE · H1</span><strong>Mnemosyne and the River</strong></a><div class="top-actions"><button id="plain-toggle" class="top-button" type="button">Plain-English recap</button><button id="glossary-open" class="top-button" type="button">Glossary ?</button></div></header><div class="shell"><nav class="side-nav"><div class="nav-kicker">Full H1 tour</div><a href="index.html" data-nav="index.html"><span>00</span>Start Here</a>
 <a href="question.html" data-nav="question.html"><span>01</span>The Question</a>
 <a href="toolkit.html" data-nav="toolkit.html"><span>02</span>How to Read H1</a>
 <a href="s04.html" data-nav="s04.html"><span>03</span>S04 · Memory Without Continuity</a>
 <a href="s05.html" data-nav="s05.html"><span>04</span>S05 · A State That Persists</a>
 <a href="s06.html" data-nav="s06.html"><span>05</span>S06 · The Replay Test</a>
-<a href="hardening.html" data-nav="hardening.html"><span>06</span>The Ruler Gets Harder</a>
-<a href="result.html" data-nav="result.html" class="active"><span>07</span>What Survived</a>
-<a href="meaning.html" data-nav="meaning.html"><span>08</span>What H1 Means Now</a>
-<a href="next.html" data-nav="next.html"><span>09</span>The Unfinished Half</a></nav>
-<main class="page">
-  <div class="page-intro"><div class="progress">Chapter 8 of 10</div><p>The claims that survived repeated attempts to break the benchmark.</p></div>
-  <aside id="plain-recap" class="plain-recap" hidden><div class="eyebrow">In plain English</div><p>What survives: explicit memory matters, deterministic Level-1 state is replayable, model reconstruction is lossy, and persistent errors can be inherited.</p></aside>
-  <article class="prose"><h1>What Survived</h1>
-<h2>The durable first-half H1 findings</h2>
-<p>After S04–S06 and repeated measurement hardening, several conclusions still stand.</p>
-<h3>1. <button class="term" data-term="explicitmemory" type="button">explicit memory</button> explains a lot</h3>
-<p>History dramatically improves performance over fresh invocation.</p>
-<p>Future <button class="term" data-term="recurrence" type="button">recurrence</button> claims must beat strong explicit-memory baselines.</p>
-<h3>2. Structured state is primarily a control surface</h3>
-<p>Its strongest demonstrated advantages are:</p>
-<ul>
-<li>bounded size;</li>
-<li>inspectability;</li>
-<li>typed variables;</li>
-<li>direct intervention;</li>
-<li>lower long-horizon prompt cost.</li>
-</ul>
-<p>It is not currently established as generally more accurate than raw history.</p>
-<h3>3. A deterministic Level-1 scaffold can be stable</h3>
-<p>The explicit state architecture itself works.</p>
-<h3>4. Model-autonomous maintenance did not work reliably</h3>
-<p>Qwen2.5-3B lost most multi-slot state under the tested update protocols.</p>
-<h3>5. Deterministic Level-1 continuity is replayable</h3>
-<p>The event history plus deterministic transition rule rebuilds the same terminal explicit state.</p>
-<h3>6. Single-pass <button class="term" data-term="modelrecon" type="button">model reconstruction</button> remains lossy</h3>
-<p>After the interface was repaired, Qwen2.5-3B still performed substantially worse when asked to reconstruct the compact state retrospectively in one pass.</p>
-<p>Final E05d:</p>
-<ul>
-<li>maintained state: 60.4%;</li>
-<li>model reconstruction: 39.6%;</li>
-<li>difference: +20.8 percentage points;</li>
-<li>primary episode-level permutation p ≈ .0025.</li>
-</ul>
-<h3>7. <button class="term" data-term="persistence" type="button">persistence</button> can inherit errors</h3>
-<p>A memory architecture needs correction and regulation, not merely retention.</p>
-<h2>What did not survive</h2>
-<p>The project should <strong>not</strong> carry forward these stronger claims:</p>
-<ul>
-<li>structured state is generally more accurate than transcript;</li>
-<li>online deterministic processing creates an irreducible explicit state;</li>
-<li>long horizons already show a resolved structured-state accuracy crossover;</li>
-<li>the first reconstruction collapse was entirely a model-memory failure;</li>
-<li>identity <button class="term" data-term="quiettick" type="button">quiet ticks</button> demonstrate autonomous cognition.</li>
-</ul></article>
-  
-<section class="interactive-lab">
-  <div class="kicker">Claim audit</div><h2>Survived vs. retired</h2>
-  <div class="claim-grid">
-    <div class="claim-card survived"><h3>Survived</h3><p>Explicit memory helps.</p><p>Deterministic state is replayable.</p><p>Structured state bounds context size.</p><p>Single-pass Qwen3B reconstruction is lossy under E05d.</p></div>
-    <div class="claim-card died"><h3>Retired / weakened</h3><p>Structured state is generally more accurate.</p><p>Online deterministic updates create irreducible explicit continuity.</p><p>A long-horizon accuracy crossover is already established.</p><p>Identity quiet ticks are hidden cognition.</p></div>
-  </div>
-</section>
-  <div class="prevnext"><a class="prev" href="hardening.html">← Previous</a><a class="next" href="meaning.html">Next →</a></div>
-</main></div>
-<button id="floating-help" class="floating-help" type="button" aria-label="Open glossary">?</button>
-<div id="tooltip" class="tooltip" role="tooltip" hidden></div>
-<div id="glossary-drawer" class="drawer" aria-hidden="true"><div class="drawer-head"><div><div class="eyebrow">Reader's glossary</div><h2>What does that mean?</h2></div><button id="glossary-close" class="close" type="button">×</button></div><input id="glossary-search" class="glossary-search" placeholder="Search terms…"><div id="glossary-list"></div></div>
-<div id="scrim" class="scrim" hidden></div>
-<script>window.GLOSSARY={"explicitmemory": {"term": "explicit memory", "short": "History stored outside the model in an inspectable form such as a transcript, summary, or structured state.", "long": "H1 begins with explicit memory because it is a strong, simple control. If ordinary written history already solves a problem, hidden recurrence should not receive credit for solving it."}, "structuredstate": {"term": "StructuredSelfState", "short": "The typed Level-1 state object used to store working memory, goals, source information, and unresolved items.", "long": "StructuredSelfState is not assumed to be a mind or self. It is an experimentally convenient control surface: bounded, inspectable, versioned, and easy to intervene on."}, "persistence": {"term": "persistence", "short": "The property that a later state depends on an earlier state rather than every episode starting from scratch.", "long": "H1 studies scaffolded persistence: state is explicitly carried across ticks. S06 shows that deterministic Level-1 state can also be reconstructed later from the event history."}, "recurrence": {"term": "recurrence", "short": "A system whose internal state is repeatedly fed forward to influence later processing.", "long": "The project reserves the stronger recurrence question for H2, where hidden state itself is carried and causally manipulated. H1 is an explicit-memory control, not yet genuine latent recurrence."}, "latentstate": {"term": "latent state", "short": "A hidden internal representation carried by the model rather than a visible text or JSON record.", "long": "H2 will ask whether native hidden state carries causal history that cannot be reduced to rereading or deterministically reconstructing an external record."}, "transcript": {"term": "full transcript", "short": "The raw chronological history of events given directly to the model at evaluation time.", "long": "The transcript is an important control because it preserves the whole observable history. In S06, raw transcript access was not resolved as less accurate than scheduled structured state."}, "detreplay": {"term": "deterministic replay", "short": "Rebuilding the same explicit state later by applying the same deterministic update rules to the same ordered event history.", "long": "If online processing and deterministic replay end in the identical state and prompt, then scheduling those explicit transitions through time did not create a unique final representation."}, "modelrecon": {"term": "model reconstruction", "short": "Asking the language model itself to compress the full history into the structured state in one retrospective pass.", "long": "This differs from deterministic replay. In final E05d, Qwen2.5-3B validated a real reconstructed state but still performed substantially worse than the deterministically maintained state."}, "nulltick": {"term": "null tick", "short": "A processing interval with no new task-relevant external information.", "long": "S07 asks whether meaningful state changes can happen during such intervals. A null tick can include computation; it simply may not introduce new semantic evidence about the task."}, "quiettick": {"term": "quiet tick", "short": "In S05, a tick with no incoming event that was implemented as a deterministic identity no-op.", "long": "Quiet-tick stability showed that the scaffold could remain stable. It did not show autonomous hidden cognition, because the model was not called during these identity ticks."}, "oracle": {"term": "deterministic / oracle updater", "short": "A rule-based state updater used as the reliable Level-1 control substrate.", "long": "The updater deterministically maps events into StructuredSelfState. It is intentionally stronger and more reliable than the tested Qwen2.5-3B autonomous update procedures."}, "delta": {"term": "delta update", "short": "Updating only what changed instead of rewriting the entire state.", "long": "In S05, delta updating was less destructive than full-state rewriting, but Qwen2.5-3B still omitted most state and was not reliable enough to become the canonical maintainer."}, "errorinheritance": {"term": "error inheritance", "short": "Persistence can preserve a false state just as effectively as a true one.", "long": "S05 showed why memory is not automatically intelligence. Once a bad update is written into a persistent state, the architecture can protect that error over time."}, "forcedchoice": {"term": "forced choice", "short": "A task where the model selects from a fixed set of candidate answers.", "long": "Forced-choice probes reduce exact-generation burden. H1 later hardened the candidates so all options appeared in context, preventing simple familiarity from solving the task."}, "incontextfoils": {"term": "in-context foils", "short": "Incorrect answer options that really appeared elsewhere in the same episode.", "long": "This prevents a model from answering merely by selecting the only candidate it remembers seeing. It must retrieve the correct binding or follow the actual relation."}, "bootstrap": {"term": "clustered bootstrap", "short": "A resampling method that treats whole episodes as the unit of resampling.", "long": "Multiple probes from one episode are correlated. Resampling episodes rather than individual trials better reflects that dependency when estimating uncertainty."}, "mcnemar": {"term": "McNemar test", "short": "A paired test that focuses on items where two conditions disagree.", "long": "H1 uses exact two-sided binomial McNemar tests as supplementary trial-level inference."}, "permutation": {"term": "sign-flip permutation test", "short": "A cluster-level paired test asking whether episode-level differences could plausibly arise if their signs were exchangeable.", "long": "The final S06 reporting treats the episode-level sign-flip test as the primary inferential decision criterion, with bootstrap intervals showing effect-size uncertainty."}, "chance": {"term": "chance baseline", "short": "Expected accuracy when choosing randomly among the offered answers.", "long": "The H1 battery mixes three 4-choice probes and one 3-choice probe, giving a nominal average chance level of about 27.1%."}, "claimceiling": {"term": "claim ceiling", "short": "The strongest conclusion the current evidence is allowed to support.", "long": "A useful result can still have a low claim ceiling. H1 can support engineering and behavioral claims about explicit state without supporting claims about phenomenal consciousness or irreducible selfhood."}};</script>
-<script src="data.js"></script><script src="app.js"></script>
-</body></html>
+<a href="s07.html" data-nav="s07.html"><span>06</span>S07 · When Nothing Happens</a>
+<a href="s08.html" data-nav="s08.html"><span>07</span>S08 · State vs Memory</a>
+<a href="s09.html" data-nav="s09.html"><span>08</span>S09 · Who Did What?</a>
+<a href="hardening.html" data-nav="hardening.html"><span>09</span>Measurement Archaeology</a>
+<a href="research.html" data-nav="research.html"><span>10</span>Research Bridges</a>
+<a href="result.html" data-nav="result.html" class="active"><span>11</span>What Survived</a>
+<a href="meaning.html" data-nav="meaning.html"><span>12</span>What H1 Means</a>
+<a href="next.html" data-nav="next.html"><span>13</span>The H2 Boundary</a></nav><main class="page"><div class="page-intro"><div class="progress">Chapter 12 of 14</div><p>The empirical regularities that survived H1 hardening, separated from live closure extensions.</p><div class="status-legend"><span class="status frozen">Frozen evidence</span><span class="status repaired">Post-confirmatory repaired analysis</span><span class="status live">Live extension · confirmatory pending</span></div></div><aside id="plain-recap" class="plain-recap" hidden><div class="eyebrow">In plain English</div><p>The strongest H1 result is a boundary: explicit state is useful and manipulable, but much of its apparent continuity can be explained by external history, deterministic replay, and public cues.</p></aside><article class="prose"><h1>What Survived</h1><h2>The regularities left after hardening</h2><p>H1 should not end with “three laws.” Its evidence is narrower and more useful: a set of regularities for Qwen2.5-3B under the tested Level-1 protocols.</p><div class="claim-grid"><div class="claim-card survived"><span class="tag">Survived</span><h3>Explicit history is a strong baseline.</h3><p>The full transcript is the strongest static S04 condition and remains competitive later.</p></div><div class="claim-card survived"><span class="tag">Survived</span><h3>Deterministic persistence is reliable.</h3><p>The state machine preserves bounded state; the model updater cannot reliably maintain it.</p></div><div class="claim-card survived"><span class="tag">Survived</span><h3>Deterministic continuity is replayable.</h3><p>Same event history + same transition rule → same terminal explicit state.</p></div><div class="claim-card survived"><span class="tag">Survived</span><h3>Model reconstruction is a bottleneck.</h3><p>One-pass reconstruction loses substantially more than deterministic incremental maintenance.</p></div><div class="claim-card survived"><span class="tag">Survived</span><h3>Explicit reflection can self-pollute.</h3><p>Protected facts can survive while generated derived state becomes unusable.</p></div><div class="claim-card survived"><span class="tag">Survived</span><h3>History has much more leverage than structured state under balanced conflict.</h3><p>S08’s causal matrix is the strongest H1 boundary result.</p></div><div class="claim-card survived"><span class="tag">Survived</span><h3>Source ownership is fragile and cue-dependent.</h3><p>Canonical E08 shows a broad primary-agent attraction and narrative-over-metadata cue dominance.</p></div><div class="claim-card survived"><span class="tag">Survived</span><h3>No positive self-framing metacognitive advantage is resolved under matched public evidence.</h3><p>E09 does not reveal a privileged public-information Self channel.</p></div></div><h2>Live closure extensions</h2><p><span class="status live">E08c</span> Exploratory evidence says the attribution attractor follows the designated Self role. <span class="status live">E09c</span> Exploratory fixed-target evidence says the earlier cross-format interaction disappears when the exact decision distribution is held constant.</p><p>Those findings enter the final claim ledger only after N=16 confirmation.</p></article><div class="prevnext"><a href="research.html">← Previous</a><a class="next" href="meaning.html">Next →</a></div></main></div><button id="floating-help" class="floating-help" type="button" aria-label="Open glossary">?</button><div id="tooltip" class="tooltip" role="tooltip" hidden></div><div id="glossary-drawer" class="drawer" aria-hidden="true"><div class="drawer-head"><div><div class="eyebrow">Reader’s glossary</div><h2>What does that mean?</h2></div><button id="glossary-close" class="close" type="button">×</button></div><input id="glossary-search" class="glossary-search" placeholder="Search terms…"><div id="glossary-list"></div></div><div id="scrim" class="scrim" hidden></div><script src="data.js"></script><script src="app.js"></script></body></html>

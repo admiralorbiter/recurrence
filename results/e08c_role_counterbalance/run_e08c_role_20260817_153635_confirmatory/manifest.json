@@ -1,0 +1,12 @@
+{
+  "run_id": "run_e08c_role_20260817_153635_confirmatory",
+  "phase": "confirmatory",
+  "seed": 1337,
+  "target_model": "qwen2.5:3b",
+  "model_digest": "357c53fb659c5076de1d65ccb0b397446227b71a42be9d1603d46168015c9e4b",
+  "start_time": "2026-08-17T20:36:35.335840+00:00",
+  "end_time": "2026-08-17T21:10:04.535079+00:00",
+  "total_episodes": 16,
+  "total_trials": 800,
+  "use_mock": false
+}

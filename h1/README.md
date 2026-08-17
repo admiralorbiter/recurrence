@@ -1,37 +1,24 @@
-# Recurrence H1 Narrative — Mid-Horizon v1
+# Recurrence H1 Narrative — Full-H1 Synthesis Draft
 ## Mnemosyne and the River
 
-This package mirrors the teaching-oriented architecture of `h0/`.
+This folder is a drop-in replacement for the earlier `h1/` midpoint narrative site.
 
-Its goal is:
+## Current epistemic status
 
-> A curious reader with no prior machine-learning or statistics background should be able to enter Horizon 1, understand why explicit memory is a necessary control for recurrence, follow S04–S06, read the core results correctly, understand the measurement hardening, and know exactly what remains unresolved before the H1 gate.
+- **S04–S09 core evidence:** canonical / frozen.
+- **S09 post-confirmatory analysis:** repaired and explicitly versioned; raw trials remain frozen.
+- **E08c Primary-Role Counterbalance:** exploratory N=4 included; N=16 confirmatory pending.
+- **E09c Fixed-Target Metacognition:** exploratory N=4 included; N=16 confirmatory pending.
 
-## Structure
+The site is complete enough to teach the full H1 arc without pretending the two closure extensions are final.
 
-### `content/`
+## Goal
 
-Canonical narrative Markdown:
+> A curious reader with no prior machine-learning or statistics background should be able to understand what H1 tried to build, why each control exists, what the canonical data show, how the measurement changed over time, what outside research is relevant, and exactly what H2 must test next.
 
-- `00_START_HERE.md`
-- `01_THE_QUESTION.md`
-- `02_HOW_TO_READ_H1.md`
-- `03_S04_MEMORY_WITHOUT_CONTINUITY.md`
-- `04_S05_STATE_THAT_PERSISTS.md`
-- `05_S06_THE_REPLAY_TEST.md`
-- `06_THE_RULER_GETS_HARDER.md`
-- `07_WHAT_SURVIVED.md`
-- `08_WHAT_H1_MEANS_NOW.md`
-- `09_THE_UNFINISHED_HALF.md`
-- `GLOSSARY.md`
-- `MIDPOINT_SYNTHESIS.md` — deeper conceptual integration
-- `SOURCE_MAP.md` — page-to-evidence provenance map
+## Open the site
 
-### `site/`
-
-Open `site/index.html`.
-
-No framework, build step, server, or external asset is required.
+Open `site/index.html`. No framework, build step, server, or external asset is required.
 
 If local JavaScript is restricted:
 
@@ -39,27 +26,13 @@ If local JavaScript is restricted:
 python -m http.server 8000 --directory site
 ```
 
-## Design principle
+## Design principles
 
-**Science first, mythology second.**
+1. Science first, mythology second.
+2. Observation ≠ inference ≠ mechanism.
+3. No resolved difference ≠ equivalence.
+4. Frozen evidence is visually separated from live extensions.
+5. Outside research is context, not validation.
+6. Measurement archaeology is part of the result.
 
-Mnemosyne and the river are memory/time motifs. They never substitute for definitions, controls, or evidence.
-
-## Roadmap status
-
-This is a **mid-H1** artifact.
-
-H1 is S04–S09. This version tells the story through final S06/E05d and deliberately ends with S07–S09 unresolved.
-
-## Canonical scientific sources
-
-- `6. Roadmap.md`
-- `docs/E03_Explicit_Memory_Report.md`
-- `docs/E04_Update_Loop_Report.md`
-- `docs/E05_Scheduled_vs_Replay_Report.md`
-- Protocol anchor for final E05d: `db7273c`
-- Canonical E05d result anchor: `e75a963`
-
-## Suggested future update
-
-After S09, preserve this midpoint version and create an H1 final narrative revision rather than silently rewriting the historical midpoint.
+The historical midpoint version remains recoverable through Git history; this replacement intentionally moves the active `h1/` artifact to the full-H1 synthesis.

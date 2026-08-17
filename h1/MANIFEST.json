@@ -1,0 +1,26 @@
+{
+  "title": "H1: Mnemosyne and the River \u2014 full synthesis draft",
+  "date": "2026-08-17",
+  "core_evidence_status": "frozen",
+  "s09_analysis_status": "post-confirmatory repaired",
+  "live_extensions": {
+    "E08c": "exploratory complete; N=16 confirmatory running",
+    "E09c": "exploratory complete; N=16 confirmatory pending/running"
+  },
+  "pages": [
+    "index.html",
+    "question.html",
+    "toolkit.html",
+    "s04.html",
+    "s05.html",
+    "s06.html",
+    "s07.html",
+    "s08.html",
+    "s09.html",
+    "hardening.html",
+    "research.html",
+    "result.html",
+    "meaning.html",
+    "next.html"
+  ]
+}

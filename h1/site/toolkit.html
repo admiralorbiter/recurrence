@@ -1,88 +1,14 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>How to Read H1 — H1 · Mnemosyne and the River</title>
-<meta name="description" content="The minimum experimental and statistical toolkit needed to read the H1 evidence correctly.">
-<link rel="stylesheet" href="styles.css">
-</head>
-<body data-page="toolkit.html">
-<header class="topbar">
-  <a class="site-brand" href="index.html"><span>RECURRENCE · H1</span><strong>Mnemosyne and the River</strong></a>
-  <div class="top-actions"><button id="plain-toggle" class="top-button" type="button">Plain-English recap</button><button id="glossary-open" class="top-button" type="button">Glossary ?</button></div>
-</header>
-<div class="shell">
-<nav class="side-nav"><div class="nav-kicker">Guided tour</div><a href="index.html" data-nav="index.html"><span>00</span>Start Here</a>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>How to Read H1 — H1 · Mnemosyne and the River</title><meta name="description" content="How to distinguish a run result from an effect estimate, an inferential decision, and a mechanistic claim."><link rel="stylesheet" href="styles.css"></head><body data-page="toolkit.html"><header class="topbar"><a class="site-brand" href="index.html"><span>RECURRENCE · H1</span><strong>Mnemosyne and the River</strong></a><div class="top-actions"><button id="plain-toggle" class="top-button" type="button">Plain-English recap</button><button id="glossary-open" class="top-button" type="button">Glossary ?</button></div></header><div class="shell"><nav class="side-nav"><div class="nav-kicker">Full H1 tour</div><a href="index.html" data-nav="index.html"><span>00</span>Start Here</a>
 <a href="question.html" data-nav="question.html"><span>01</span>The Question</a>
 <a href="toolkit.html" data-nav="toolkit.html" class="active"><span>02</span>How to Read H1</a>
 <a href="s04.html" data-nav="s04.html"><span>03</span>S04 · Memory Without Continuity</a>
 <a href="s05.html" data-nav="s05.html"><span>04</span>S05 · A State That Persists</a>
 <a href="s06.html" data-nav="s06.html"><span>05</span>S06 · The Replay Test</a>
-<a href="hardening.html" data-nav="hardening.html"><span>06</span>The Ruler Gets Harder</a>
-<a href="result.html" data-nav="result.html"><span>07</span>What Survived</a>
-<a href="meaning.html" data-nav="meaning.html"><span>08</span>What H1 Means Now</a>
-<a href="next.html" data-nav="next.html"><span>09</span>The Unfinished Half</a></nav>
-<main class="page">
-  <div class="page-intro"><div class="progress">Chapter 3 of 10</div><p>The minimum experimental and statistical toolkit needed to read the H1 evidence correctly.</p></div>
-  <aside id="plain-recap" class="plain-recap" hidden><div class="eyebrow">In plain English</div><p>Read H1 by separating raw results from interpretations. Paired episode-level comparisons are more important than isolated percentages.</p></aside>
-  <article class="prose"><h1>How to Read H1</h1>
-<h2>The minimum toolkit</h2>
-<p>H1 uses many percentages, conditions, and statistical tests. You do not need to memorize them.</p>
-<p>You need to know what question each number is answering.</p>
-<h2>Accuracy is the first layer</h2>
-<p>If a condition scores 60%, it answered 60% of its <button class="term" data-term="forcedchoice" type="button">forced-choice</button> probes correctly.</p>
-<p>That tells us whether the available memory was <strong>useful</strong>.</p>
-<p>It does not tell us why.</p>
-<h2>Paired comparisons are more informative than isolated scores</h2>
-<p>The same episode is evaluated under multiple conditions.</p>
-<p>That lets us ask:</p>
-<blockquote><p>On the <strong>same information problem</strong>, does one memory architecture change the result?</p></blockquote>
-<p>S06 calls these differences deltas.</p>
-<p>For example:</p>
-<p><code>Delta_reconstruction = Accuracy(incremental state) - Accuracy(model-reconstructed state)</code></p>
-<h2>Confidence intervals show uncertainty</h2>
-<p>A point estimate is not exact truth.</p>
-<p>A 20-point difference measured on a limited sample might have been 12 points or 30 points under another sample.</p>
-<p>The bootstrap interval makes that uncertainty visible.</p>
-<h2>Episode-level inference matters</h2>
-<p>Each episode contains several probes, so the probes are not fully independent.</p>
-<p>The final S06 analysis therefore treats whole episodes as the primary cluster for inference.</p>
-<p>The exact McNemar test is useful supplementary information about trial disagreements.</p>
-<h2><button class="term" data-term="chance" type="button">chance</button> is not the same for every probe</h2>
-<p>Three H1 probe families use four choices, so random guessing would average 25%.</p>
-<p>Source attribution uses three choices, so random guessing would average 33.3%.</p>
-<p>Across the mixed battery, nominal chance is about <strong>27.1%</strong>.</p>
-<h2>The most important reading rule</h2>
-<p>Always separate:</p>
-<p><strong>Result</strong> — what happened.</p>
-<p><strong>Interpretation</strong> — what the result suggests.</p>
-<p><strong>Mechanism</strong> — what caused it.</p>
-<p><strong><button class="term" data-term="claimceiling" type="button">claim ceiling</button></strong> — how far the evidence allows us to go.</p>
-<p>Example:</p>
-<blockquote><p>Result: <button class="term" data-term="detreplay" type="button">deterministic replay</button> produced the same explicit state as online maintenance.</p></blockquote>
-<p>That supports:</p>
-<blockquote><p>Interpretation: online scheduling did not create a unique terminal <strong>explicit state</strong> in this architecture.</p></blockquote>
-<p>It does <strong>not</strong> establish:</p>
-<blockquote><p>all temporal processing is useless;</p></blockquote>
-<blockquote><p>hidden <button class="term" data-term="recurrence" type="button">recurrence</button> cannot matter;</p></blockquote>
-<blockquote><p>machines cannot have continuity;</p></blockquote>
-<blockquote><p>or anything about phenomenal consciousness.</p></blockquote>
-<p>H1 is deliberately narrower than those claims.</p></article>
-  
-<section class="interactive-lab">
-  <div class="kicker">Concept map</div><h2>Memory is not recurrence</h2>
-  <div class="lab-grid">
-    <div class="widget-card"><h3><button class="term" data-term="explicitmemory" type="button">Memory</button></h3><p>The past is available now.</p><p class="micro">Transcript · summary · structured JSON</p></div>
-    <div class="widget-card"><h3><button class="term" data-term="persistence" type="button">Persistence</button></h3><p>A state is carried from one tick to the next.</p><p class="micro">H1 makes this explicit and inspectable.</p></div>
-    <div class="widget-card wide"><h3><button class="term" data-term="recurrence" type="button">Latent recurrence</button></h3><p>A hidden internal state itself carries causal history into future computation.</p><p class="micro">That stronger comparison belongs to H2.</p></div>
-  </div>
-</section>
-  <div class="prevnext"><a class="prev" href="question.html">← Previous</a><a class="next" href="s04.html">Next →</a></div>
-</main></div>
-<button id="floating-help" class="floating-help" type="button" aria-label="Open glossary">?</button>
-<div id="tooltip" class="tooltip" role="tooltip" hidden></div>
-<div id="glossary-drawer" class="drawer" aria-hidden="true"><div class="drawer-head"><div><div class="eyebrow">Reader's glossary</div><h2>What does that mean?</h2></div><button id="glossary-close" class="close" type="button">×</button></div><input id="glossary-search" class="glossary-search" placeholder="Search terms…"><div id="glossary-list"></div></div>
-<div id="scrim" class="scrim" hidden></div>
-<script>window.GLOSSARY={"explicitmemory": {"term": "explicit memory", "short": "History stored outside the model in an inspectable form such as a transcript, summary, or structured state.", "long": "H1 begins with explicit memory because it is a strong, simple control. If ordinary written history already solves a problem, hidden recurrence should not receive credit for solving it."}, "structuredstate": {"term": "StructuredSelfState", "short": "The typed Level-1 state object used to store working memory, goals, source information, and unresolved items.", "long": "StructuredSelfState is not assumed to be a mind or self. It is an experimentally convenient control surface: bounded, inspectable, versioned, and easy to intervene on."}, "persistence": {"term": "persistence", "short": "The property that a later state depends on an earlier state rather than every episode starting from scratch.", "long": "H1 studies scaffolded persistence: state is explicitly carried across ticks. S06 shows that deterministic Level-1 state can also be reconstructed later from the event history."}, "recurrence": {"term": "recurrence", "short": "A system whose internal state is repeatedly fed forward to influence later processing.", "long": "The project reserves the stronger recurrence question for H2, where hidden state itself is carried and causally manipulated. H1 is an explicit-memory control, not yet genuine latent recurrence."}, "latentstate": {"term": "latent state", "short": "A hidden internal representation carried by the model rather than a visible text or JSON record.", "long": "H2 will ask whether native hidden state carries causal history that cannot be reduced to rereading or deterministically reconstructing an external record."}, "transcript": {"term": "full transcript", "short": "The raw chronological history of events given directly to the model at evaluation time.", "long": "The transcript is an important control because it preserves the whole observable history. In S06, raw transcript access was not resolved as less accurate than scheduled structured state."}, "detreplay": {"term": "deterministic replay", "short": "Rebuilding the same explicit state later by applying the same deterministic update rules to the same ordered event history.", "long": "If online processing and deterministic replay end in the identical state and prompt, then scheduling those explicit transitions through time did not create a unique final representation."}, "modelrecon": {"term": "model reconstruction", "short": "Asking the language model itself to compress the full history into the structured state in one retrospective pass.", "long": "This differs from deterministic replay. In final E05d, Qwen2.5-3B validated a real reconstructed state but still performed substantially worse than the deterministically maintained state."}, "nulltick": {"term": "null tick", "short": "A processing interval with no new task-relevant external information.", "long": "S07 asks whether meaningful state changes can happen during such intervals. A null tick can include computation; it simply may not introduce new semantic evidence about the task."}, "quiettick": {"term": "quiet tick", "short": "In S05, a tick with no incoming event that was implemented as a deterministic identity no-op.", "long": "Quiet-tick stability showed that the scaffold could remain stable. It did not show autonomous hidden cognition, because the model was not called during these identity ticks."}, "oracle": {"term": "deterministic / oracle updater", "short": "A rule-based state updater used as the reliable Level-1 control substrate.", "long": "The updater deterministically maps events into StructuredSelfState. It is intentionally stronger and more reliable than the tested Qwen2.5-3B autonomous update procedures."}, "delta": {"term": "delta update", "short": "Updating only what changed instead of rewriting the entire state.", "long": "In S05, delta updating was less destructive than full-state rewriting, but Qwen2.5-3B still omitted most state and was not reliable enough to become the canonical maintainer."}, "errorinheritance": {"term": "error inheritance", "short": "Persistence can preserve a false state just as effectively as a true one.", "long": "S05 showed why memory is not automatically intelligence. Once a bad update is written into a persistent state, the architecture can protect that error over time."}, "forcedchoice": {"term": "forced choice", "short": "A task where the model selects from a fixed set of candidate answers.", "long": "Forced-choice probes reduce exact-generation burden. H1 later hardened the candidates so all options appeared in context, preventing simple familiarity from solving the task."}, "incontextfoils": {"term": "in-context foils", "short": "Incorrect answer options that really appeared elsewhere in the same episode.", "long": "This prevents a model from answering merely by selecting the only candidate it remembers seeing. It must retrieve the correct binding or follow the actual relation."}, "bootstrap": {"term": "clustered bootstrap", "short": "A resampling method that treats whole episodes as the unit of resampling.", "long": "Multiple probes from one episode are correlated. Resampling episodes rather than individual trials better reflects that dependency when estimating uncertainty."}, "mcnemar": {"term": "McNemar test", "short": "A paired test that focuses on items where two conditions disagree.", "long": "H1 uses exact two-sided binomial McNemar tests as supplementary trial-level inference."}, "permutation": {"term": "sign-flip permutation test", "short": "A cluster-level paired test asking whether episode-level differences could plausibly arise if their signs were exchangeable.", "long": "The final S06 reporting treats the episode-level sign-flip test as the primary inferential decision criterion, with bootstrap intervals showing effect-size uncertainty."}, "chance": {"term": "chance baseline", "short": "Expected accuracy when choosing randomly among the offered answers.", "long": "The H1 battery mixes three 4-choice probes and one 3-choice probe, giving a nominal average chance level of about 27.1%."}, "claimceiling": {"term": "claim ceiling", "short": "The strongest conclusion the current evidence is allowed to support.", "long": "A useful result can still have a low claim ceiling. H1 can support engineering and behavioral claims about explicit state without supporting claims about phenomenal consciousness or irreducible selfhood."}};</script>
-<script src="data.js"></script><script src="app.js"></script>
-</body></html>
+<a href="s07.html" data-nav="s07.html"><span>06</span>S07 · When Nothing Happens</a>
+<a href="s08.html" data-nav="s08.html"><span>07</span>S08 · State vs Memory</a>
+<a href="s09.html" data-nav="s09.html"><span>08</span>S09 · Who Did What?</a>
+<a href="hardening.html" data-nav="hardening.html"><span>09</span>Measurement Archaeology</a>
+<a href="research.html" data-nav="research.html"><span>10</span>Research Bridges</a>
+<a href="result.html" data-nav="result.html"><span>11</span>What Survived</a>
+<a href="meaning.html" data-nav="meaning.html"><span>12</span>What H1 Means</a>
+<a href="next.html" data-nav="next.html"><span>13</span>The H2 Boundary</a></nav><main class="page"><div class="page-intro"><div class="progress">Chapter 03 of 14</div><p>How to distinguish a run result from an effect estimate, an inferential decision, and a mechanistic claim.</p><div class="status-legend"><span class="status frozen">Frozen evidence</span><span class="status repaired">Post-confirmatory repaired analysis</span><span class="status live">Live extension · confirmatory pending</span></div></div><aside id="plain-recap" class="plain-recap" hidden><div class="eyebrow">In plain English</div><p>A number can be real even when its interpretation is wrong. H1 separates descriptive results, uncertainty, statistical decisions, mechanisms, and claim ceilings.</p></aside><article class="prose"><h1>How to Read H1</h1><h2>Point estimates, uncertainty, nulls, and claim ceilings</h2><p>This site separates <strong>what happened in the run</strong> from <strong>what the statistics resolve</strong> and from <strong>what mechanism the experiment can legitimately claim</strong>.</p><h2>Four different statements</h2><div class="claim-grid"><div class="claim-card survived"><span class="tag">Observation</span><h3>“Condition A scored 60.4%.”</h3><p>A descriptive fact about a run.</p></div><div class="claim-card survived"><span class="tag">Effect estimate</span><h3>“A − B = +20.8 points.”</h3><p>A comparison, still with uncertainty.</p></div><div class="claim-card survived"><span class="tag">Inference</span><h3>“The prespecified test resolved a difference.”</h3><p>A statistical decision under a stated null.</p></div><div class="claim-card died"><span class="tag">Overreach</span><h3>“Therefore this is the model’s inner self.”</h3><p>Not licensed by behavioral prompt-level evidence.</p></div></div><h2><button class="term" data-term="noresolved" type="button">No resolved difference</button> is not equivalence</h2><p>A p-value above a threshold does not prove the conditions are the same. Formal <button class="term" data-term="equivalence" type="button">equivalence</button> requires a prespecified smallest effect worth caring about and a test designed around that margin.</p><h2>Evidence status</h2><ul><li><span class="status frozen">Frozen evidence</span> Canonical S04–S09 trials and stable analyses.</li><li><span class="status repaired">Repaired analysis</span> Raw S09 trials frozen at <code>4bc4b6b</code>; analysis/report logic repaired post-confirmation.</li><li><span class="status live">Live extension</span> E08c/E09c exploratory findings shown while confirmation is still running.</li></ul><h2>The claim ceiling</h2><p>H1 can establish engineering and behavioral regularities about explicit state. It cannot settle phenomenal consciousness, subjective experience, or personhood.</p></article><div class="prevnext"><a href="question.html">← Previous</a><a class="next" href="s04.html">Next →</a></div></main></div><button id="floating-help" class="floating-help" type="button" aria-label="Open glossary">?</button><div id="tooltip" class="tooltip" role="tooltip" hidden></div><div id="glossary-drawer" class="drawer" aria-hidden="true"><div class="drawer-head"><div><div class="eyebrow">Reader’s glossary</div><h2>What does that mean?</h2></div><button id="glossary-close" class="close" type="button">×</button></div><input id="glossary-search" class="glossary-search" placeholder="Search terms…"><div id="glossary-list"></div></div><div id="scrim" class="scrim" hidden></div><script src="data.js"></script><script src="app.js"></script></body></html>

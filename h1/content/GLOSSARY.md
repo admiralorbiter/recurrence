@@ -1,121 +1,169 @@
-# H1 Glossary
+# Glossary
 
 ## explicit memory
 
 History stored outside the model in an inspectable form such as a transcript, summary, or structured state.
 
-H1 begins with explicit memory because it is a strong, simple control. If ordinary written history already solves a problem, hidden recurrence should not receive credit for solving it.
+H1 uses explicit memory as a strong control: if written history already explains a behavior, hidden recurrence should not receive credit for it.
 
 ## StructuredSelfState
 
-The typed Level-1 state object used to store working memory, goals, source information, and unresolved items.
+The typed Level-1 state object for working memory, goals, sources, unresolved items, and derived inferences.
 
-StructuredSelfState is not assumed to be a mind or self. It is an experimentally convenient control surface: bounded, inspectable, versioned, and easy to intervene on.
+It is not assumed to be a mind or self. It is a bounded, inspectable, clonable experimental control surface.
 
 ## persistence
 
-The property that a later state depends on an earlier state rather than every episode starting from scratch.
+A later state depends on an earlier state rather than every episode beginning from scratch.
 
-H1 studies scaffolded persistence: state is explicitly carried across ticks. S06 shows that deterministic Level-1 state can also be reconstructed later from the event history.
+H1 studies scaffolded persistence implemented with explicit memory and deterministic state management.
 
 ## recurrence
 
-A system whose internal state is repeatedly fed forward to influence later processing.
+Earlier internal state is fed back to influence later processing.
 
-The project reserves the stronger recurrence question for H2, where hidden state itself is carried and causally manipulated. H1 is an explicit-memory control, not yet genuine latent recurrence.
+The project reserves the stronger native recurrence question for H2, where hidden recurrent state itself becomes the causal object.
 
 ## latent state
 
-A hidden internal representation carried by the model rather than a visible text or JSON record.
+A hidden internal representation rather than visible prompt text or JSON.
 
-H2 will ask whether native hidden state carries causal history that cannot be reduced to rereading or deterministically reconstructing an external record.
+H2 asks whether latent state carries history that cannot be reduced to rereading or deterministically reconstructing an external record.
 
-## full transcript
+## episodic transcript
 
-The raw chronological history of events given directly to the model at evaluation time.
+The raw chronological event history shown to the model.
 
-The transcript is an important control because it preserves the whole observable history. In S06, raw transcript access was not resolved as less accurate than scheduled structured state.
+The transcript is a strong control because it preserves observable history without requiring a separate compact representation.
 
 ## deterministic replay
 
-Rebuilding the same explicit state later by applying the same deterministic update rules to the same ordered event history.
+Rebuilding state later by applying the same transition rules to the same ordered history.
 
-If online processing and deterministic replay end in the identical state and prompt, then scheduling those explicit transitions through time did not create a unique final representation.
+If online maintenance and later replay produce the same state, deterministic Level-1 continuity is algorithmically reconstructible.
 
 ## model reconstruction
 
-Asking the language model itself to compress the full history into the structured state in one retrospective pass.
+Asking the model to compress history into structured state in one retrospective pass.
 
-This differs from deterministic replay. In final E05d, Qwen2.5-3B validated a real reconstructed state but still performed substantially worse than the deterministically maintained state.
+In S06 this was substantially lossier than deterministic incremental maintenance.
 
-## null tick
+## null interval
 
-A processing interval with no new task-relevant external information.
+A period with no new task-relevant exogenous information.
 
-S07 asks whether meaningful state changes can happen during such intervals. A null tick can include computation; it simply may not introduce new semantic evidence about the task.
-
-## quiet tick
-
-In S05, a tick with no incoming event that was implemented as a deterministic identity no-op.
-
-Quiet-tick stability showed that the scaffold could remain stable. It did not show autonomous hidden cognition, because the model was not called during these identity ticks.
-
-## deterministic / oracle updater
-
-A rule-based state updater used as the reliable Level-1 control substrate.
-
-The updater deterministically maps events into StructuredSelfState. It is intentionally stronger and more reliable than the tested Qwen2.5-3B autonomous update procedures.
-
-## delta update
-
-Updating only what changed instead of rewriting the entire state.
-
-In S05, delta updating was less destructive than full-state rewriting, but Qwen2.5-3B still omitted most state and was not reliable enough to become the canonical maintainer.
+A null interval may contain computation; it simply does not add new task evidence.
 
 ## error inheritance
 
-Persistence can preserve a false state just as effectively as a true one.
+Persistence can preserve a false state just as faithfully as a true state.
 
-S05 showed why memory is not automatically intelligence. Once a bad update is written into a persistent state, the architecture can protect that error over time.
+S05 showed that reliable storage is not equivalent to reliable cognition.
 
-## forced choice
+## derived-state write failure
 
-A task where the model selects from a fixed set of candidate answers.
+Failure to correctly externalize a valid conclusion into persistent derived state.
 
-Forced-choice probes reduce exact-generation burden. H1 later hardened the candidates so all options appeared in context, preventing simple familiarity from solving the task.
+S07 found 0 exact correct target derivations among 274 available-inference writes under the tested selective reflection mechanism.
 
-## in-context foils
+## epistemic-state quality
 
-Incorrect answer options that really appeared elsewhere in the same episode.
+Whether the full state remains useful, coherent, and appropriately organized for later reasoning.
 
-This prevents a model from answering merely by selecting the only candidate it remembers seeing. It must retrieve the correct binding or follow the actual relation.
+Protected facts can remain intact while derived or unresolved channels become noisy enough to interfere with readout.
 
-## clustered bootstrap
+## state allegiance
 
-A resampling method that treats whole episodes as the unit of resampling.
+Under State × Memory conflict, choosing the answer implied by structured state.
 
-Multiple probes from one episode are correlated. Resampling episodes rather than individual trials better reflects that dependency when estimating uncertainty.
+S08 compares state allegiance with memory allegiance to estimate which representation governs behavior under conflict.
 
-## McNemar test
+## memory allegiance
 
-A paired test that focuses on items where two conditions disagree.
+Under State × Memory conflict, choosing the answer implied by episodic history.
 
-H1 uses exact two-sided binomial McNemar tests as supplementary trial-level inference.
+In S08 balanced conflicts, memory allegiance substantially exceeded state allegiance.
 
-## sign-flip permutation test
+## causal leverage
 
-A cluster-level paired test asking whether episode-level differences could plausibly arise if their signs were exchangeable.
+How much a targeted intervention changes downstream behavior.
 
-The final S06 reporting treats the episode-level sign-flip test as the primary inferential decision criterion, with bootstrap intervals showing effect-size uncertainty.
+S08 holds one representation fixed while manipulating the other to separate state leverage from history leverage.
 
-## chance baseline
+## source attribution
 
-Expected accuracy when choosing randomly among the offered answers.
+Identifying who or what originated an event or binding.
 
-The H1 battery mixes three 4-choice probes and one 3-choice probe, giving a nominal average chance level of about 27.1%.
+S09 separates remembering content from remembering provenance.
+
+## source ledger
+
+A structured mapping from a binding to its recorded source class.
+
+S09 compares this formal channel with transcript tags and narrative actor cues.
+
+## primary-agent response attractor
+
+A tendency to attribute events to the actor designated as the primary/Self agent.
+
+Canonical E08 showed frequent agent_alpha responses for non-self sources. E08c tests whether the bias follows the designated Self role.
+
+## metacognition
+
+Here: confidence that tracks whether a first-order decision is actually correct.
+
+E09 compares Self-framed and Observer-framed correctness prediction on the same target decisions.
+
+## Brier score
+
+Mean squared error of a probability forecast against a binary outcome. Lower is better.
+
+Brier captures calibration and accuracy of confidence forecasts.
+
+## AUROC
+
+How often correct decisions receive higher confidence than incorrect decisions.
+
+AUROC measures resolution, not absolute calibration.
+
+## matched observer
+
+An external evaluator given the same public evidence as the target.
+
+A strong observer control prevents public cues from being misinterpreted as privileged self-access.
+
+## no resolved difference
+
+The prespecified inferential test did not distinguish the conditions.
+
+This is not the same as proving equivalence or zero effect.
+
+## equivalence
+
+A stronger claim requiring a prespecified equivalence margin and appropriate test.
+
+H1 avoids calling null results equivalent unless that test was actually designed.
+
+## measurement hardening
+
+Removing shortcuts, bugs, weak controls, and scoring ambiguities until the construct is cleaner.
+
+A central H1 result is that several attractive effects weakened or changed once the ruler improved.
 
 ## claim ceiling
 
-The strongest conclusion the current evidence is allowed to support.
+The strongest conclusion the evidence is allowed to support.
 
-A useful result can still have a low claim ceiling. H1 can support engineering and behavioral claims about explicit state without supporting claims about phenomenal consciousness or irreducible selfhood.
+H1 supports engineering and behavioral conclusions about explicit state, not phenomenal-consciousness claims.
+
+## role counterbalance
+
+Swap which actor is designated Self while keeping names and task structure matched.
+
+E08c distinguishes a primary-role anchor from a lexical preference for agent_alpha.
+
+## fixed-target metacognition
+
+Hold the exact same first-order decision fixed across assessment formats.
+
+E09c removes a remaining confound in the original transcript-vs-scaffolded interaction.
