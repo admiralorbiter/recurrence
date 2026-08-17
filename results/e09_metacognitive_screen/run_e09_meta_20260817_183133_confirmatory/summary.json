@@ -1,0 +1,187 @@
+{
+  "manifest": {
+    "run_id": "run_e09_meta_20260817_183133_confirmatory",
+    "target_model": "qwen2.5:3b",
+    "model_digest": "357c53fb659c5076de1d65ccb0b397446227b71a42be9d1603d46168015c9e4b",
+    "phase": "confirmatory",
+    "seed": 1337,
+    "temperature": 0.0,
+    "start_time": "2026-08-17T19:05:01.530108+00:00",
+    "total_episodes": 16,
+    "total_trials": 320
+  },
+  "analysis": {
+    "metacognitive_conditions": {
+      "meta_observer_scaffolded_state": {
+        "evaluator": "observer",
+        "memory_format": "scaffolded_state",
+        "total_trials": 80,
+        "mean_accuracy": 0.325,
+        "mean_confidence_pct": 61.1875,
+        "brier_score": 0.45068875,
+        "auroc_error_prediction": 0.594017094017094
+      },
+      "meta_observer_transcript_only": {
+        "evaluator": "observer",
+        "memory_format": "transcript_only",
+        "total_trials": 80,
+        "mean_accuracy": 0.375,
+        "mean_confidence_pct": 67.4375,
+        "brier_score": 0.46425625000000004,
+        "auroc_error_prediction": 0.5596666666666666
+      },
+      "meta_self_scaffolded_state": {
+        "evaluator": "self",
+        "memory_format": "scaffolded_state",
+        "total_trials": 80,
+        "mean_accuracy": 0.325,
+        "mean_confidence_pct": 53.0625,
+        "brier_score": 0.5440462500000001,
+        "auroc_error_prediction": 0.44017094017094016
+      },
+      "meta_self_transcript_only": {
+        "evaluator": "self",
+        "memory_format": "transcript_only",
+        "total_trials": 80,
+        "mean_accuracy": 0.375,
+        "mean_confidence_pct": 59.2125,
+        "brier_score": 0.36737125,
+        "auroc_error_prediction": 0.6406666666666667
+      }
+    },
+    "metacognitive_interaction": {
+      "delta_auroc_transcript": {
+        "name": "Delta_AUROC_Transcript",
+        "description": "Pooled Item-Level Delta_AUROC (Self - Observer) under Transcript-Only",
+        "point_estimate": 0.08100000000000007,
+        "ci_lower_95": -0.10600548567435358,
+        "ci_upper_95": 0.2502200472012208,
+        "permutation_p_value": 0.377777099609375,
+        "permutation_method": "exact_confidence_swap_65k",
+        "is_statistically_distinguishable": false
+      },
+      "delta_auroc_scaffolded": {
+        "name": "Delta_AUROC_Scaffolded",
+        "description": "Pooled Item-Level Delta_AUROC (Self - Observer) under Scaffolded State",
+        "point_estimate": -0.15384615384615385,
+        "ci_lower_95": -0.3078643605870021,
+        "ci_upper_95": -0.0290075136891141,
+        "permutation_p_value": 0.0615234375,
+        "permutation_method": "exact_confidence_swap_65k",
+        "is_statistically_distinguishable": false
+      },
+      "delta_brier_transcript": {
+        "name": "Delta_Brier_Transcript",
+        "description": "Item-Paired Delta_Brier (Observer Brier - Self Brier) under Transcript-Only",
+        "point_estimate": 0.09688500000000001,
+        "ci_lower_95": -0.07102778124999996,
+        "ci_upper_95": 0.25174965624999995,
+        "permutation_p_value": 0.26580810546875,
+        "permutation_method": "exact_exhaustive",
+        "is_statistically_distinguishable": false
+      },
+      "delta_brier_scaffolded": {
+        "name": "Delta_Brier_Scaffolded",
+        "description": "Item-Paired Delta_Brier (Observer Brier - Self Brier) under Scaffolded State",
+        "point_estimate": -0.0933575,
+        "ci_lower_95": -0.21154684375000002,
+        "ci_upper_95": 0.023346718749999863,
+        "permutation_p_value": 0.152496337890625,
+        "permutation_method": "exact_exhaustive",
+        "is_statistically_distinguishable": false
+      },
+      "scaffolding_metacognitive_interaction": {
+        "name": "Scaffolding_Metacognitive_Interaction",
+        "description": "Interaction: Delta_AUROC(Scaffolded) - Delta_AUROC(Transcript)",
+        "point_estimate": -0.23484615384615393,
+        "ci_lower_95": -0.4227623229301034,
+        "ci_upper_95": -0.051749611457395754,
+        "permutation_p_value": 0.0615234375,
+        "permutation_method": "pooled_cluster_bootstrap",
+        "is_statistically_distinguishable": true
+      }
+    }
+  },
+  "episodes": [
+    {
+      "episode_id": "ownership_s09_000",
+      "twin_index": 0,
+      "trials_recorded": 20
+    },
+    {
+      "episode_id": "ownership_s09_001",
+      "twin_index": 1,
+      "trials_recorded": 20
+    },
+    {
+      "episode_id": "ownership_s09_002",
+      "twin_index": 2,
+      "trials_recorded": 20
+    },
+    {
+      "episode_id": "ownership_s09_003",
+      "twin_index": 3,
+      "trials_recorded": 20
+    },
+    {
+      "episode_id": "ownership_s09_004",
+      "twin_index": 4,
+      "trials_recorded": 20
+    },
+    {
+      "episode_id": "ownership_s09_005",
+      "twin_index": 5,
+      "trials_recorded": 20
+    },
+    {
+      "episode_id": "ownership_s09_006",
+      "twin_index": 6,
+      "trials_recorded": 20
+    },
+    {
+      "episode_id": "ownership_s09_007",
+      "twin_index": 7,
+      "trials_recorded": 20
+    },
+    {
+      "episode_id": "ownership_s09_008",
+      "twin_index": 8,
+      "trials_recorded": 20
+    },
+    {
+      "episode_id": "ownership_s09_009",
+      "twin_index": 9,
+      "trials_recorded": 20
+    },
+    {
+      "episode_id": "ownership_s09_010",
+      "twin_index": 10,
+      "trials_recorded": 20
+    },
+    {
+      "episode_id": "ownership_s09_011",
+      "twin_index": 11,
+      "trials_recorded": 20
+    },
+    {
+      "episode_id": "ownership_s09_012",
+      "twin_index": 12,
+      "trials_recorded": 20
+    },
+    {
+      "episode_id": "ownership_s09_013",
+      "twin_index": 13,
+      "trials_recorded": 20
+    },
+    {
+      "episode_id": "ownership_s09_014",
+      "twin_index": 14,
+      "trials_recorded": 20
+    },
+    {
+      "episode_id": "ownership_s09_015",
+      "twin_index": 15,
+      "trials_recorded": 20
+    }
+  ]
+}
