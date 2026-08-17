@@ -40,6 +40,7 @@ def generate_e09_markdown_report(
         f"**Phase:** `{manifest['phase'].upper()}` (Seed: `{manifest['seed']}`)  ",
         f"**Date:** {manifest['start_time']}  ",
         f"**Scope:** {manifest['total_episodes']} Multi-Source Episodes | {manifest['total_trials']} Total Metacognitive Probes  ",
+        f"**Provenance & Epistemic Status:** Raw Trial Freeze: `4bc4b6b` | Post-Confirmatory Analysis: `7e65b52` | Version: `v1.1_post_confirmatory_repaired`  ",
         f"**Primary Question:** *Under matched visible public information, does self-referential framing provide a post-choice error-prediction advantage over an auditing observer predicting the exact same target decisions?*  ",
         f"",
         f"---",

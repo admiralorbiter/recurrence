@@ -64,6 +64,7 @@ def generate_e08_markdown_report(
         f"**Phase:** `{manifest['phase'].upper()}` (Seed: `{manifest['seed']}`)  ",
         f"**Date:** {manifest['start_time']}  ",
         f"**Scope:** {manifest['total_episodes']} Multi-Source Episodes | {manifest['total_trials']} Total Ownership Intervention Trials  ",
+        f"**Provenance & Epistemic Status:** Raw Trial Freeze: `4bc4b6b` | Post-Confirmatory Analysis: `7e65b52` | Version: `v1.1_post_confirmatory_repaired`  ",
         f"**Primary Question:** *Does the model reliably track epistemic source origin, maintain self-other agency boundaries, and resist pressure-induced narrative revision?*  ",
         f"",
         f"---",

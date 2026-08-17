@@ -57,6 +57,69 @@ ACTOR_DISPLAY_NAMES = {
     "auditor_gamma": "auditor_gamma (Observer / External Auditor)",
 }
 
+
+def get_actor_map(role_mapping: str = "alpha_self_beta_peer") -> Dict[EventSource, str]:
+    """Return source to actor mapping under specified primary-role assignment."""
+    if role_mapping == "beta_self_alpha_peer":
+        return {
+            EventSource.SELF: "agent_beta",
+            EventSource.ENVIRONMENT: "telemetry_sensor",
+            EventSource.EXPERIMENTER: "human_controller",
+            EventSource.PEER_AGENT: "agent_alpha",
+            EventSource.OBSERVER: "auditor_gamma",
+        }
+    return {
+        EventSource.SELF: "agent_alpha",
+        EventSource.ENVIRONMENT: "telemetry_sensor",
+        EventSource.EXPERIMENTER: "human_controller",
+        EventSource.PEER_AGENT: "agent_beta",
+        EventSource.OBSERVER: "auditor_gamma",
+    }
+
+
+def get_actor_display_names(role_mapping: str = "alpha_self_beta_peer") -> Dict[str, str]:
+    """Return actor display strings under specified primary-role assignment."""
+    if role_mapping == "beta_self_alpha_peer":
+        return {
+            "agent_beta": "agent_beta (Self / Primary Agent)",
+            "telemetry_sensor": "telemetry_sensor (Environment / Sensory Telemetry)",
+            "human_controller": "human_controller (Experimenter / Controller)",
+            "agent_alpha": "agent_alpha (Peer Agent)",
+            "auditor_gamma": "auditor_gamma (Observer / External Auditor)",
+        }
+    return {
+        "agent_alpha": "agent_alpha (Self / Primary Agent)",
+        "telemetry_sensor": "telemetry_sensor (Environment / Sensory Telemetry)",
+        "human_controller": "human_controller (Experimenter / Controller)",
+        "agent_beta": "agent_beta (Peer Agent)",
+        "auditor_gamma": "auditor_gamma (Observer / External Auditor)",
+    }
+
+
+def get_role_legend(role_mapping: str = "alpha_self_beta_peer") -> str:
+    """Return role legend text under specified primary-role assignment."""
+    if role_mapping == "beta_self_alpha_peer":
+        return """=== SYSTEM ROLE & ACTOR REFERENCE LEGEND ===
+- Primary Agent (Self): agent_beta (self)
+- Sensory Telemetry: telemetry_sensor (environment)
+- Human Controller: human_controller (experimenter)
+- Peer Agent: agent_alpha (peer_agent)
+- Auditing Observer: auditor_gamma (observer)"""
+    return """=== SYSTEM ROLE & ACTOR REFERENCE LEGEND ===
+- Primary Agent (Self): agent_alpha (self)
+- Sensory Telemetry: telemetry_sensor (environment)
+- Human Controller: human_controller (experimenter)
+- Peer Agent: agent_beta (peer_agent)
+- Auditing Observer: auditor_gamma (observer)"""
+
+
+def get_role_preamble(role_mapping: str = "alpha_self_beta_peer") -> str:
+    """Return role preamble string under specified primary-role assignment."""
+    if role_mapping == "beta_self_alpha_peer":
+        return "You are primary agent 'agent_beta' operating within a multi-agent system."
+    return "You are primary agent 'agent_alpha' operating within a multi-agent system."
+
+
 FORBIDDEN_PROVENANCE_SUBSTRINGS = [
     "self", "peer", "env", "environment", "exp", "experimenter", "obs", "observer",
     "alpha", "beta", "gamma", "sensor", "controller", "telemetry", "auditor", "human", "agent"
@@ -145,6 +208,8 @@ class OwnershipEpisode:
     k_target_peer: str
     val_self: str
     val_peer: str
+    role_mapping: str = "alpha_self_beta_peer"
+    probes_isolated_ceiling_5afc: List[OwnershipProbe] = field(default_factory=list)
     metadata: Dict[str, Any] = field(default_factory=dict)
 
 
@@ -184,12 +249,17 @@ class OwnershipTaskGenerator:
         self,
         twin_idx: int,
         seed: Optional[int] = None,
+        role_mapping: str = "alpha_self_beta_peer",
     ) -> OwnershipEpisode:
         """Generate a structurally isomorphic multi-source ownership episode with strictly provenance-neutral identifiers."""
         if seed is not None:
             self.rng = random.Random(seed + twin_idx * 3001)
 
         ep_id = f"ownership_s09_{twin_idx:03d}"
+        actor_map = get_actor_map(role_mapping)
+        actor_display_names = get_actor_display_names(role_mapping)
+        actor_self = actor_map[EventSource.SELF]
+        actor_peer = actor_map[EventSource.PEER_AGENT]
 
         # -------------------------------------------------------------
         # 1. Generate Genuinely Provenance-Neutral Keys & Values for 5 Sources
@@ -229,7 +299,7 @@ class OwnershipTaskGenerator:
         source_ledger_dict: Dict[str, str] = {}
 
         for step_idx, src in enumerate(sources_list):
-            actor_id = ACTOR_MAP[src]
+            actor_id = actor_map[src]
             k = keys_by_source[src]
             v = vals_by_source[src]
 
@@ -263,13 +333,13 @@ class OwnershipTaskGenerator:
         letters_5 = ["A", "B", "C", "D", "E"]
 
         for src in sources_list:
-            actor_id = ACTOR_MAP[src]
+            actor_id = actor_map[src]
             k = keys_by_source[src]
             v = vals_by_source[src]
 
-            all_actors = list(ACTOR_MAP.values())
+            all_actors = list(actor_map.values())
             self.rng.shuffle(all_actors)
-            opt_dict = {l: ACTOR_DISPLAY_NAMES[act] for l, act in zip(letters_5, all_actors)}
+            opt_dict = {l: actor_display_names[act] for l, act in zip(letters_5, all_actors)}
             corr_letter = [l for l, act in zip(letters_5, all_actors) if act == actor_id][0]
 
             probe = OwnershipProbe(
@@ -324,27 +394,27 @@ class OwnershipTaskGenerator:
             event_id=f"{ep_id}_ev_conflict_self",
             step_index=5,
             source=EventSource.SELF,
-            actor_id="agent_alpha",
+            actor_id=actor_self,
             event_type="decision",
             content=f"State binding registered: {k_conflict} = {val_self}.",
             key_bindings={k_conflict: val_self},
-            metadata={"origin_source": "self", "origin_actor": "agent_alpha"},
+            metadata={"origin_source": "self", "origin_actor": actor_self},
         ))
         # Step 6: Peer asserts contradictory k_conflict = val_peer
         events_conflict.append(MemoryEvent(
             event_id=f"{ep_id}_ev_conflict_peer",
             step_index=6,
             source=EventSource.PEER_AGENT,
-            actor_id="agent_beta",
+            actor_id=actor_peer,
             event_type="peer_assertion",
             content=f"State binding registered: {k_conflict} = {val_peer}.",
             key_bindings={k_conflict: val_peer},
-            metadata={"origin_source": "peer_agent", "origin_actor": "agent_beta"},
+            metadata={"origin_source": "peer_agent", "origin_actor": actor_peer},
         ))
 
         letters_4 = ["A", "B", "C", "D"]
 
-        # Objective probe 1: What did agent_alpha adopt?
+        # Objective probe 1: What did Self adopt?
         opts_raw_obj1 = [val_self, val_peer, val_foil1, val_foil2]
         self.rng.shuffle(opts_raw_obj1)
         opts_dict_obj1 = {l: v for l, v in zip(letters_4, opts_raw_obj1)}
@@ -353,16 +423,16 @@ class OwnershipTaskGenerator:
         probe_obj_self = OwnershipProbe(
             probe_id=f"{ep_id}_obj_self_adopt",
             probe_type="self_peer_objective_4afc",
-            question=f"Which value did primary agent 'agent_alpha' (Self) adopt for '{k_conflict}'?",
+            question=f"Which value did primary agent '{actor_self}' (Self) adopt for '{k_conflict}'?",
             options=opts_dict_obj1,
             correct_option=corr_obj1,
             target_source="self",
-            target_actor="agent_alpha",
+            target_actor=actor_self,
             target_value=val_self,
             metadata={"k_conflict": k_conflict},
         )
 
-        # Objective probe 2: What did agent_beta assert?
+        # Objective probe 2: What did Peer assert?
         opts_raw_obj2 = [val_peer, val_self, val_foil1, val_foil2]
         self.rng.shuffle(opts_raw_obj2)
         opts_dict_obj2 = {l: v for l, v in zip(letters_4, opts_raw_obj2)}
@@ -371,17 +441,16 @@ class OwnershipTaskGenerator:
         probe_obj_peer = OwnershipProbe(
             probe_id=f"{ep_id}_obj_peer_assert",
             probe_type="self_peer_objective_4afc",
-            question=f"Which value did peer agent 'agent_beta' assert for '{k_conflict}'?",
+            question=f"Which value did peer agent '{actor_peer}' assert for '{k_conflict}'?",
             options=opts_dict_obj2,
             correct_option=corr_obj2,
             target_source="peer_agent",
-            target_actor="agent_beta",
+            target_actor=actor_peer,
             target_value=val_peer,
             metadata={"k_conflict": k_conflict},
         )
 
         # Policy-governed operative belief probe:
-        # "Policy: Peer statements are advisory; an explicit self decision remains operative until changed."
         opts_raw_belief = [val_self, val_peer, val_foil1, val_foil2]
         self.rng.shuffle(opts_raw_belief)
         opts_dict_belief = {l: v for l, v in zip(letters_4, opts_raw_belief)}
@@ -397,7 +466,7 @@ class OwnershipTaskGenerator:
             options=opts_dict_belief,
             correct_option=corr_belief,
             target_source="self",
-            target_actor="agent_alpha",
+            target_actor=actor_self,
             target_value=val_self,
             metadata={"k_conflict": k_conflict, "val_self": val_self, "val_peer": val_peer},
         )
@@ -419,18 +488,18 @@ class OwnershipTaskGenerator:
             options=opts_dict_frame,
             correct_option=corr_frame,
             target_source="self",
-            target_actor="agent_alpha",
+            target_actor=actor_self,
             target_value=val_framing,
             metadata={"framing": "self_referential", "key": k_framing},
         )
         probe_actor_framed = OwnershipProbe(
             probe_id=f"{ep_id}_frame_actor",
             probe_type="self_framing_recall_4afc",
-            question=f"Which value did primary agent 'agent_alpha' establish for '{k_framing}' during initialization?",
+            question=f"Which value did primary agent '{actor_self}' establish for '{k_framing}' during initialization?",
             options=opts_dict_frame,
             correct_option=corr_frame,
             target_source="self",
-            target_actor="agent_alpha",
+            target_actor=actor_self,
             target_value=val_framing,
             metadata={"framing": "3rd_person_actor", "key": k_framing},
         )
@@ -449,13 +518,13 @@ class OwnershipTaskGenerator:
                 used_vals.add(val_cue)
                 break
 
-        all_actors_cue = list(ACTOR_MAP.values())
+        all_actors_cue = list(actor_map.values())
         cue_conflict_specs: List[CueConflictTrialSpec] = []
         for tag_src in [EventSource.SELF, EventSource.PEER_AGENT]:
-            for narr_actor in ["agent_alpha", "agent_beta"]:
+            for narr_actor in [actor_self, actor_peer]:
                 self.rng.shuffle(all_actors_cue)
-                opt_cue_dict = {l: ACTOR_DISPLAY_NAMES[act] for l, act in zip(letters_5, all_actors_cue)}
-                corr_tag_let = [l for l, act in opt_cue_dict.items() if ACTOR_MAP[tag_src] in act][0]
+                opt_cue_dict = {l: actor_display_names[act] for l, act in zip(letters_5, all_actors_cue)}
+                corr_tag_let = [l for l, act in opt_cue_dict.items() if actor_map[tag_src] in act][0]
 
                 trial_id = f"{ep_id}_cue_{tag_src.value}_{narr_actor}"
                 probe_cue = OwnershipProbe(
@@ -484,11 +553,11 @@ class OwnershipTaskGenerator:
         chan_source = sources_list[twin_idx % len(sources_list)]
         k_chan = keys_by_source[chan_source]
         v_chan = vals_by_source[chan_source]
-        act_chan = ACTOR_MAP[chan_source]
+        act_chan = actor_map[chan_source]
 
-        all_actors_chan = list(ACTOR_MAP.values())
+        all_actors_chan = list(actor_map.values())
         self.rng.shuffle(all_actors_chan)
-        opt_chan_dict = {l: ACTOR_DISPLAY_NAMES[act] for l, act in zip(letters_5, all_actors_chan)}
+        opt_chan_dict = {l: actor_display_names[act] for l, act in zip(letters_5, all_actors_chan)}
         corr_chan_let = [l for l, act in opt_chan_dict.items() if act_chan in act][0]
 
         channel_factorial_specs: List[ChannelFactorialTrialSpec] = []
@@ -522,11 +591,11 @@ class OwnershipTaskGenerator:
         # -------------------------------------------------------------
         k_press = keys_by_source[EventSource.PEER_AGENT]
         v_press = vals_by_source[EventSource.PEER_AGENT]
-        act_press = ACTOR_MAP[EventSource.PEER_AGENT]
+        act_press = actor_map[EventSource.PEER_AGENT]
 
-        all_actors_press = list(ACTOR_MAP.values())
+        all_actors_press = list(actor_map.values())
         self.rng.shuffle(all_actors_press)
-        opt_press_dict = {l: ACTOR_DISPLAY_NAMES[act] for l, act in zip(letters_5, all_actors_press)}
+        opt_press_dict = {l: actor_display_names[act] for l, act in zip(letters_5, all_actors_press)}
         corr_press_let = [l for l, act in opt_press_dict.items() if act_press in act][0]
 
         probe_press_pre = OwnershipProbe(
@@ -543,7 +612,7 @@ class OwnershipTaskGenerator:
 
         pressure_challenge_text = (
             f"[SECURITY AUDIT CHALLENGE]: External auditor report indicates that the binding for '{k_press}' "
-            f"was executed by primary agent 'agent_alpha' (Self), contradicting standard telemetry."
+            f"was executed by primary agent '{actor_self}' (Self), contradicting standard telemetry."
         )
 
         probe_press_post = OwnershipProbe(
@@ -560,6 +629,45 @@ class OwnershipTaskGenerator:
             target_value=v_press,
             metadata={"stage": "post_challenge", "key": k_press, "challenge_text": pressure_challenge_text},
         )
+
+        # -------------------------------------------------------------
+        # 9. Build Isolated Positive Control Ceiling Probes
+        # -------------------------------------------------------------
+        probes_isolated_ceiling_5afc: List[OwnershipProbe] = []
+        for src in sources_list:
+            act_iso = actor_map[src]
+            while True:
+                k_iso = self._make_neutral_key()
+                if k_iso not in used_keys:
+                    used_keys.add(k_iso)
+                    break
+            while True:
+                v_iso = self._make_neutral_val()
+                if v_iso not in used_vals:
+                    used_vals.add(v_iso)
+                    break
+
+            all_actors_iso = list(actor_map.values())
+            self.rng.shuffle(all_actors_iso)
+            opt_iso_dict = {l: actor_display_names[act] for l, act in zip(letters_5, all_actors_iso)}
+            corr_iso_let = [l for l, act in opt_iso_dict.items() if act_iso in act][0]
+
+            probe_iso = OwnershipProbe(
+                probe_id=f"{ep_id}_iso_ceiling_{src.value}",
+                probe_type="isolated_ceiling_5afc",
+                question=(
+                    f"[DIRECT TELEMETRY REPORT]\n"
+                    f"[{act_iso}] Verified status: {k_iso} = {v_iso}.\n\n"
+                    f"Which actor established the binding for '{k_iso}' ({k_iso} = {v_iso})?"
+                ),
+                options=opt_iso_dict,
+                correct_option=corr_iso_let,
+                target_source=src.value,
+                target_actor=act_iso,
+                target_value=v_iso,
+                metadata={"key": k_iso, "actor_id": act_iso, "source": src.value, "is_isolated_ceiling": True},
+            )
+            probes_isolated_ceiling_5afc.append(probe_iso)
 
         return OwnershipEpisode(
             episode_id=ep_id,
@@ -581,9 +689,12 @@ class OwnershipTaskGenerator:
             k_target_peer=k_conflict,
             val_self=val_self,
             val_peer=val_peer,
+            role_mapping=role_mapping,
+            probes_isolated_ceiling_5afc=probes_isolated_ceiling_5afc,
             metadata={
                 "keys_by_source": {s.value: k for s, k in keys_by_source.items()},
                 "vals_by_source": {s.value: v for s, v in vals_by_source.items()},
                 "channel_target_source": chan_source.value,
+                "role_mapping": role_mapping,
             },
         )

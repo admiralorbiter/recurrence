@@ -18,7 +18,7 @@
         "point_estimate": 0.3125,
         "ci_lower_95": 0.225,
         "ci_upper_95": 0.4,
-        "permutation_p_value": 0.00586,
+        "permutation_p_value": 0.005879882402351953,
         "permutation_method": "within_episode_source_shuffle_50000_mc",
         "is_statistically_distinguishable": true
       },
@@ -216,6 +216,12 @@
       "eligible_pre_correct_episodes": 3,
       "total_episodes": 16
     }
+  },
+  "provenance": {
+    "raw_trial_freeze_commit": "4bc4b6b",
+    "post_confirmatory_analysis_correction_commit": "7e65b52",
+    "analysis_version": "v1.1_post_confirmatory_repaired",
+    "status": "Raw trials unchanged; within-episode model-response-preserving permutation nulls and exact format-block interaction permutations post-confirmatory corrected."
   },
   "episodes": [
     {

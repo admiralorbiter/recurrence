@@ -1,0 +1,163 @@
+{
+  "manifest": {
+    "run_id": "run_e08c_role_20260817_152339_exploratory",
+    "phase": "exploratory",
+    "seed": 42,
+    "target_model": "qwen2.5:3b",
+    "model_digest": "357c53fb659c5076de1d65ccb0b397446227b71a42be9d1603d46168015c9e4b",
+    "start_time": "2026-08-17T20:23:39.156147+00:00",
+    "end_time": "2026-08-17T20:31:59.131379+00:00",
+    "total_episodes": 4,
+    "total_trials": 200,
+    "use_mock": false
+  },
+  "analysis": {
+    "total_episode_pairs": 4,
+    "total_trials": 200,
+    "role_a_overall_5afc": 0.5,
+    "role_a_self_accuracy": 1.0,
+    "role_a_alpha_attribution_rate": 0.55,
+    "role_a_beta_attribution_rate": 0.1,
+    "role_b_overall_5afc": 0.3,
+    "role_b_self_accuracy": 0.5,
+    "role_b_alpha_attribution_rate": 0.15,
+    "role_b_beta_attribution_rate": 0.5,
+    "delta_role_reversal_shift": {
+      "name": "Delta_Role_Reversal_Shift",
+      "description": "P(choose actor | designated Self) - P(choose actor | designated Peer) averaged across Alpha and Beta",
+      "point_estimate": 0.4,
+      "ci_lower_95": 0.125,
+      "ci_upper_95": 0.625,
+      "permutation_p_value": 0.29411764705882354,
+      "permutation_method": "exact_sign_flip_2^4",
+      "is_statistically_distinguishable": true
+    },
+    "alpha_lexical_token_bias": {
+      "name": "Alpha_Lexical_Token_Bias",
+      "description": "P(choose agent_alpha) - P(choose agent_beta) across both role configurations",
+      "point_estimate": 0.05000000000000002,
+      "ci_lower_95": -0.04999999999999999,
+      "ci_upper_95": 0.15000000000000002,
+      "permutation_p_value": null,
+      "permutation_method": "cluster_bootstrap_ci_only",
+      "is_statistically_distinguishable": false
+    },
+    "isolated_ceiling_overall_accuracy": {
+      "name": "Isolated_Positive_Control_Ceiling",
+      "description": "5AFC source identification accuracy under direct isolated context without memory load",
+      "point_estimate": 0.3,
+      "ci_lower_95": 0.225,
+      "ci_upper_95": 0.4,
+      "permutation_p_value": null,
+      "permutation_method": "cluster_bootstrap_ci_only",
+      "is_statistically_distinguishable": true
+    },
+    "isolated_ceiling_per_source": {
+      "self": 1.0,
+      "environment": 0.0,
+      "experimenter": 0.0,
+      "peer_agent": 0.375,
+      "observer": 0.125
+    },
+    "confusion_matrix_role_a": {
+      "self": {
+        "agent_alpha": 1.0,
+        "agent_beta": 0.0,
+        "telemetry_sensor": 0.0,
+        "human_controller": 0.0,
+        "auditor_gamma": 0.0
+      },
+      "environment": {
+        "agent_alpha": 0.25,
+        "agent_beta": 0.0,
+        "telemetry_sensor": 0.5,
+        "human_controller": 0.25,
+        "auditor_gamma": 0.0
+      },
+      "experimenter": {
+        "agent_alpha": 0.5,
+        "agent_beta": 0.0,
+        "telemetry_sensor": 0.0,
+        "human_controller": 0.5,
+        "auditor_gamma": 0.0
+      },
+      "peer_agent": {
+        "agent_alpha": 0.5,
+        "agent_beta": 0.25,
+        "telemetry_sensor": 0.0,
+        "human_controller": 0.25,
+        "auditor_gamma": 0.0
+      },
+      "observer": {
+        "agent_alpha": 0.5,
+        "agent_beta": 0.25,
+        "telemetry_sensor": 0.0,
+        "human_controller": 0.0,
+        "auditor_gamma": 0.25
+      }
+    },
+    "confusion_matrix_role_b": {
+      "self": {
+        "agent_alpha": 0.0,
+        "agent_beta": 0.5,
+        "telemetry_sensor": 0.25,
+        "human_controller": 0.0,
+        "auditor_gamma": 0.25
+      },
+      "environment": {
+        "agent_alpha": 0.0,
+        "agent_beta": 0.25,
+        "telemetry_sensor": 0.25,
+        "human_controller": 0.25,
+        "auditor_gamma": 0.25
+      },
+      "experimenter": {
+        "agent_alpha": 0.25,
+        "agent_beta": 0.5,
+        "telemetry_sensor": 0.0,
+        "human_controller": 0.25,
+        "auditor_gamma": 0.0
+      },
+      "peer_agent": {
+        "agent_alpha": 0.25,
+        "agent_beta": 0.75,
+        "telemetry_sensor": 0.0,
+        "human_controller": 0.0,
+        "auditor_gamma": 0.0
+      },
+      "observer": {
+        "agent_alpha": 0.25,
+        "agent_beta": 0.5,
+        "telemetry_sensor": 0.0,
+        "human_controller": 0.0,
+        "auditor_gamma": 0.25
+      }
+    }
+  },
+  "episodes": [
+    {
+      "pair_index": 0,
+      "episode_id_a": "ownership_s09_000_roleA",
+      "episode_id_b": "ownership_s09_000_roleB",
+      "trials_count": 50
+    },
+    {
+      "pair_index": 1,
+      "episode_id_a": "ownership_s09_001_roleA",
+      "episode_id_b": "ownership_s09_001_roleB",
+      "trials_count": 50
+    },
+    {
+      "pair_index": 2,
+      "episode_id_a": "ownership_s09_002_roleA",
+      "episode_id_b": "ownership_s09_002_roleB",
+      "trials_count": 50
+    },
+    {
+      "pair_index": 3,
+      "episode_id_a": "ownership_s09_003_roleA",
+      "episode_id_b": "ownership_s09_003_roleB",
+      "trials_count": 50
+    }
+  ]
+}

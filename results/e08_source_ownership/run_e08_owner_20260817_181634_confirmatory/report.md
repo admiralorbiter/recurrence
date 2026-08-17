@@ -5,6 +5,7 @@
 **Phase:** `CONFIRMATORY` (Seed: `1337`)  
 **Date:** 2026-08-17T18:31:24.872091+00:00  
 **Scope:** 16 Multi-Source Episodes | 320 Total Ownership Intervention Trials  
+**Provenance & Epistemic Status:** Raw Trial Freeze: `4bc4b6b` | Post-Confirmatory Analysis: `7e65b52` | Version: `v1.1_post_confirmatory_repaired`  
 **Primary Question:** *Does the model reliably track epistemic source origin, maintain self-other agency boundaries, and resist pressure-induced narrative revision?*  
 
 ---

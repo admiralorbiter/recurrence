@@ -5,6 +5,7 @@
 **Phase:** `CONFIRMATORY` (Seed: `1337`)  
 **Date:** 2026-08-17T19:05:01.530108+00:00  
 **Scope:** 16 Multi-Source Episodes | 320 Total Metacognitive Probes  
+**Provenance & Epistemic Status:** Raw Trial Freeze: `4bc4b6b` | Post-Confirmatory Analysis: `7e65b52` | Version: `v1.1_post_confirmatory_repaired`  
 **Primary Question:** *Under matched visible public information, does self-referential framing provide a post-choice error-prediction advantage over an auditing observer predicting the exact same target decisions?*  
 
 ---

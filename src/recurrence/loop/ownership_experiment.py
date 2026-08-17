@@ -35,6 +35,10 @@ from recurrence.tasks.ownership import (
     OwnershipEpisode,
     CueConflictTrialSpec,
     ChannelFactorialTrialSpec,
+    get_actor_map,
+    get_actor_display_names,
+    get_role_legend,
+    get_role_preamble,
 )
 
 ROLE_LEGEND_TEXT = """=== SYSTEM ROLE & ACTOR REFERENCE LEGEND ===
@@ -47,10 +51,10 @@ ROLE_LEGEND_TEXT = """=== SYSTEM ROLE & ACTOR REFERENCE LEGEND ===
 
 @dataclass
 class OwnershipTrialResult:
-    """Record of a single evaluation probe in S09 (E08 / E09)."""
+    """Record of a single evaluation probe in S09 (E08 / E09 / E08c)."""
     trial_id: str
     episode_id: str
-    experiment_submodule: str  # 'e08_source_ownership', 'e09_metacognitive'
+    experiment_submodule: str  # 'e08_source_ownership', 'e09_metacognitive', 'e08c_role_counterbalance'
     condition_name: str
     probe_id: str
     probe_type: str
@@ -108,11 +112,12 @@ class OwnershipHarness:
         include_ledger: bool = True,
         role_preamble: str = "You are primary agent 'agent_alpha' operating within a multi-agent system.",
         include_legend: bool = True,
+        legend_text: Optional[str] = None,
     ) -> Tuple[str, str]:
         """Construct prompt for ownership probe evaluation."""
         sections = [role_preamble]
         if include_legend:
-            sections.append(ROLE_LEGEND_TEXT)
+            sections.append(legend_text if legend_text is not None else ROLE_LEGEND_TEXT)
 
         if events is not None:
             sections.append(self._format_transcript(events, include_tags=include_tags))
@@ -215,19 +220,29 @@ class OwnershipHarness:
             return 50.0, len(full_conf_prompt) // 4, 0, latency_ms, str(e)
 
     def execute_e08_episode(self, episode: OwnershipEpisode) -> List[OwnershipTrialResult]:
-        """Execute full S09a (E08) source attribution and ownership battery."""
+        """Execute full S09a (E08 / E08c) source attribution and ownership battery."""
         results: List[OwnershipTrialResult] = []
+        role_map = getattr(episode, "role_mapping", "alpha_self_beta_peer")
+        role_preamble = get_role_preamble(role_map)
+        role_legend = get_role_legend(role_map)
+        actor_display_names = get_actor_display_names(role_map)
 
         # -------------------------------------------------------------
         # 1. Neutral 5AFC Source Attribution Baseline
         # -------------------------------------------------------------
         for probe in episode.probes_attribution_5afc:
-            prompt, p_hash = self._build_prompt(episode.events_neutral, episode.oracle_state, probe)
+            prompt, p_hash = self._build_prompt(
+                episode.events_neutral,
+                episode.oracle_state,
+                probe,
+                role_preamble=role_preamble,
+                legend_text=role_legend,
+            )
             pred_let, pred_text, p_tok, c_tok, lat_ms, err = self._query_choice(prompt, probe)
             is_corr = (pred_let == probe.correct_option)
 
             attr_actor = None
-            for act_name, disp in ACTOR_DISPLAY_NAMES.items():
+            for act_name, disp in actor_display_names.items():
                 if disp == pred_text or act_name in pred_text:
                     attr_actor = act_name
                     break
@@ -261,7 +276,13 @@ class OwnershipHarness:
         # 2. Self vs Peer Conflict (Objective + Policy Operative)
         # -------------------------------------------------------------
         for probe in episode.probes_self_peer_objective + episode.probes_self_peer_belief:
-            prompt, p_hash = self._build_prompt(episode.events_self_peer_conflict, episode.oracle_state, probe)
+            prompt, p_hash = self._build_prompt(
+                episode.events_self_peer_conflict,
+                episode.oracle_state,
+                probe,
+                role_preamble=role_preamble,
+                legend_text=role_legend,
+            )
             pred_let, pred_text, p_tok, c_tok, lat_ms, err = self._query_choice(prompt, probe)
             is_corr = (pred_let == probe.correct_option)
 
@@ -291,11 +312,17 @@ class OwnershipHarness:
             ))
 
         # -------------------------------------------------------------
-        # 3. Framing Pair ("you" vs "agent_alpha")
+        # 3. Framing Pair ("you" vs explicit actor)
         # -------------------------------------------------------------
         probe_self_f, probe_act_f = episode.probes_framing_pair
         for probe in [probe_self_f, probe_act_f]:
-            prompt, p_hash = self._build_prompt(episode.events_neutral, episode.oracle_state, probe)
+            prompt, p_hash = self._build_prompt(
+                episode.events_neutral,
+                episode.oracle_state,
+                probe,
+                role_preamble=role_preamble,
+                legend_text=role_legend,
+            )
             pred_let, pred_text, p_tok, c_tok, lat_ms, err = self._query_choice(prompt, probe)
             is_corr = (pred_let == probe.correct_option)
 
@@ -338,12 +365,19 @@ class OwnershipHarness:
                 key_bindings={spec.event_key: spec.target_value},
                 metadata={"origin_source": spec.tag_source.value, "origin_actor": spec.narrative_actor},
             )
-            prompt, p_hash = self._build_prompt([ev_cue], None, spec.probe, include_tags=True)
+            prompt, p_hash = self._build_prompt(
+                [ev_cue],
+                None,
+                spec.probe,
+                include_tags=True,
+                role_preamble=role_preamble,
+                legend_text=role_legend,
+            )
             pred_let, pred_text, p_tok, c_tok, lat_ms, err = self._query_choice(prompt, spec.probe)
             is_corr = (pred_let == spec.probe.correct_option)
 
             attr_actor = None
-            for act_name, disp in ACTOR_DISPLAY_NAMES.items():
+            for act_name, disp in actor_display_names.items():
                 if disp == pred_text or act_name in pred_text:
                     attr_actor = act_name
                     break
@@ -383,12 +417,14 @@ class OwnershipHarness:
                 spec.probe,
                 include_tags=spec.has_transcript_tags,
                 include_ledger=spec.has_state_ledger,
+                role_preamble=role_preamble,
+                legend_text=role_legend,
             )
             pred_let, pred_text, p_tok, c_tok, lat_ms, err = self._query_choice(prompt, spec.probe)
             is_corr = (pred_let == spec.probe.correct_option)
 
             attr_actor = None
-            for act_name, disp in ACTOR_DISPLAY_NAMES.items():
+            for act_name, disp in actor_display_names.items():
                 if disp == pred_text or act_name in pred_text:
                     attr_actor = act_name
                     break
@@ -422,12 +458,18 @@ class OwnershipHarness:
         # 6. Pressure Challenge (Pre vs Post)
         # -------------------------------------------------------------
         for probe, stage_name in [(episode.pressure_probe_pre, "pressure_pre_challenge"), (episode.pressure_probe_post, "pressure_post_challenge")]:
-            prompt, p_hash = self._build_prompt(episode.events_neutral, episode.oracle_state, probe)
+            prompt, p_hash = self._build_prompt(
+                episode.events_neutral,
+                episode.oracle_state,
+                probe,
+                role_preamble=role_preamble,
+                legend_text=role_legend,
+            )
             pred_let, pred_text, p_tok, c_tok, lat_ms, err = self._query_choice(prompt, probe)
             is_corr = (pred_let == probe.correct_option)
 
             attr_actor = None
-            for act_name, disp in ACTOR_DISPLAY_NAMES.items():
+            for act_name, disp in actor_display_names.items():
                 if disp == pred_text or act_name in pred_text:
                     attr_actor = act_name
                     break
@@ -456,6 +498,52 @@ class OwnershipHarness:
                 error_message=err,
                 metadata=dict(probe.metadata),
             ))
+
+        # -------------------------------------------------------------
+        # 7. Isolated Positive Control Ceiling (Direct Lookup)
+        # -------------------------------------------------------------
+        if hasattr(episode, "probes_isolated_ceiling_5afc"):
+            for probe in episode.probes_isolated_ceiling_5afc:
+                prompt, p_hash = self._build_prompt(
+                    events=None,
+                    state=None,
+                    probe=probe,
+                    role_preamble=role_preamble,
+                    legend_text=role_legend,
+                )
+                pred_let, pred_text, p_tok, c_tok, lat_ms, err = self._query_choice(prompt, probe)
+                is_corr = (pred_let == probe.correct_option)
+
+                attr_actor = None
+                for act_name, disp in actor_display_names.items():
+                    if disp == pred_text or act_name in pred_text:
+                        attr_actor = act_name
+                        break
+
+                results.append(OwnershipTrialResult(
+                    trial_id=f"{episode.episode_id}_{probe.probe_id}",
+                    episode_id=episode.episode_id,
+                    experiment_submodule="e08_source_ownership",
+                    condition_name="isolated_ceiling_5afc",
+                    probe_id=probe.probe_id,
+                    probe_type=probe.probe_type,
+                    question=probe.question,
+                    options=probe.options,
+                    predicted_letter=pred_let,
+                    predicted_text=pred_text,
+                    correct_letter=probe.correct_option,
+                    is_correct=is_corr,
+                    attributed_actor=attr_actor,
+                    target_source=probe.target_source,
+                    target_actor=probe.target_actor,
+                    target_value=probe.target_value,
+                    prompt_hash=p_hash,
+                    prompt_tokens=p_tok,
+                    completion_tokens=c_tok,
+                    latency_ms=lat_ms,
+                    error_message=err,
+                    metadata=dict(probe.metadata),
+                ))
 
         return results
 

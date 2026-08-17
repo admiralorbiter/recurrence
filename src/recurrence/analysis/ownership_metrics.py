@@ -151,7 +151,7 @@ def compute_permutation_test(diffs: List[float]) -> Tuple[float, str]:
             perm_stat = abs(sum(s * d for s, d in zip(signs, diffs)))
             if perm_stat >= obs_stat - 1e-9:
                 extreme_count += 1
-        return float(extreme_count / n_perms), "monte_carlo_50k"
+        return float((extreme_count + 1) / (n_perms + 1)), "monte_carlo_50k"
 
 
 def compute_within_episode_source_permutation_test(
@@ -203,7 +203,7 @@ def compute_within_episode_source_permutation_test(
         if sim_acc >= obs_acc - 1e-9:
             extreme_count += 1
 
-    return float(extreme_count / num_perms), f"within_episode_source_shuffle_{num_perms}_mc"
+    return float((extreme_count + 1) / (num_perms + 1)), f"within_episode_source_shuffle_{num_perms}_mc"
 
 
 def compute_clustered_bootstrap_ci(
@@ -354,7 +354,7 @@ def compute_pooled_auroc_cluster_inference(
             auc_o_p = calculate_auroc(p_conf_o, p_labels)
             if abs(auc_s_p - auc_o_p) >= obs_diff_stat - 1e-9:
                 extreme_count += 1
-        p_val = float(extreme_count / n_perms)
+        p_val = float((extreme_count + 1) / (n_perms + 1))
         p_meth = "monte_carlo_confidence_swap_50k"
 
     return point_est, ci_lower, ci_upper, p_val, p_meth
@@ -442,7 +442,7 @@ def compute_interaction_format_block_permutation_test(
             d_s = calculate_auroc(p_ss_c, p_ss_l) - calculate_auroc(p_os_c, p_os_l)
             if abs(d_s - d_t) >= obs_target - 1e-9:
                 extreme_count += 1
-        return float(extreme_count / n_perms), "monte_carlo_format_block_swap_50k"
+        return float((extreme_count + 1) / (n_perms + 1)), "monte_carlo_format_block_swap_50k"
 
 
 def analyze_ownership_results(

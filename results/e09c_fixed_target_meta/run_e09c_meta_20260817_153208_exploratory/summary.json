@@ -1,0 +1,140 @@
+{
+  "manifest": {
+    "run_id": "run_e09c_meta_20260817_153208_exploratory",
+    "phase": "exploratory",
+    "seed": 42,
+    "target_model": "qwen2.5:3b",
+    "model_digest": "357c53fb659c5076de1d65ccb0b397446227b71a42be9d1603d46168015c9e4b",
+    "start_time": "2026-08-17T20:32:08.629542+00:00",
+    "end_time": "2026-08-17T20:36:24.128188+00:00",
+    "total_episodes": 4,
+    "total_trials": 80,
+    "use_mock": false
+  },
+  "analysis": {
+    "total_episodes": 4,
+    "total_items": 20,
+    "total_trials": 80,
+    "first_order_target_accuracy": 0.25,
+    "conditions": {
+      "self_transcript": {
+        "evaluator": "self",
+        "memory_format": "transcript_only",
+        "total_trials": 20,
+        "mean_accuracy": 0.25,
+        "mean_confidence_pct": 67.55,
+        "brier_score": 0.684605,
+        "auroc_error_prediction": 0.3333333333333333
+      },
+      "observer_transcript": {
+        "evaluator": "observer",
+        "memory_format": "transcript_only",
+        "total_trials": 20,
+        "mean_accuracy": 0.25,
+        "mean_confidence_pct": 58.55,
+        "brier_score": 0.513605,
+        "auroc_error_prediction": 0.49333333333333335
+      },
+      "self_scaffolded": {
+        "evaluator": "self",
+        "memory_format": "scaffolded_state",
+        "total_trials": 20,
+        "mean_accuracy": 0.25,
+        "mean_confidence_pct": 45.05,
+        "brier_score": 0.5921049999999999,
+        "auroc_error_prediction": 0.30666666666666664
+      },
+      "observer_scaffolded": {
+        "evaluator": "observer",
+        "memory_format": "scaffolded_state",
+        "total_trials": 20,
+        "mean_accuracy": 0.25,
+        "mean_confidence_pct": 49.15,
+        "brier_score": 0.513215,
+        "auroc_error_prediction": 0.41333333333333333
+      }
+    },
+    "delta_brier_transcript": {
+      "name": "Delta_Brier_Transcript",
+      "description": "Brier(Self) - Brier(Observer) under raw transcript (lower is better for Self)",
+      "point_estimate": 0.17100000000000004,
+      "ci_lower_95": 0.05,
+      "ci_upper_95": 0.2837900000000001,
+      "permutation_p_value": null,
+      "permutation_method": "cluster_bootstrap_ci_only",
+      "is_statistically_distinguishable": true
+    },
+    "delta_brier_scaffolded": {
+      "name": "Delta_Brier_Scaffolded",
+      "description": "Brier(Self) - Brier(Observer) under scaffolded state (lower is better for Self)",
+      "point_estimate": 0.07888999999999993,
+      "ci_lower_95": -0.19422000000000003,
+      "ci_upper_95": 0.36970499999999995,
+      "permutation_p_value": null,
+      "permutation_method": "cluster_bootstrap_ci_only",
+      "is_statistically_distinguishable": false
+    },
+    "brier_diff_in_diff_interaction": {
+      "name": "Brier_Diff_in_Diff_Interaction",
+      "description": "Delta_Brier(Scaffolded) - Delta_Brier(Transcript) under fixed target decisions",
+      "point_estimate": -0.0921100000000001,
+      "ci_lower_95": -0.45701000000000014,
+      "ci_upper_95": 0.2727899999999999,
+      "permutation_p_value": 0.8823529411764706,
+      "permutation_method": "exact_sign_flip_2^4",
+      "is_statistically_distinguishable": false
+    },
+    "delta_auroc_transcript": {
+      "name": "Delta_AUROC_Transcript",
+      "description": "AUROC(Self) - AUROC(Observer) under raw transcript",
+      "point_estimate": -0.16000000000000003,
+      "ci_lower_95": -0.31000000000000005,
+      "ci_upper_95": -0.010000000000000037,
+      "permutation_p_value": null,
+      "permutation_method": "cluster_bootstrap_ci_only",
+      "is_statistically_distinguishable": false
+    },
+    "delta_auroc_scaffolded": {
+      "name": "Delta_AUROC_Scaffolded",
+      "description": "AUROC(Self) - AUROC(Observer) under scaffolded state",
+      "point_estimate": -0.10666666666666669,
+      "ci_lower_95": -0.2566666666666667,
+      "ci_upper_95": 0.04333333333333331,
+      "permutation_p_value": null,
+      "permutation_method": "cluster_bootstrap_ci_only",
+      "is_statistically_distinguishable": false
+    },
+    "auroc_interaction": {
+      "name": "AUROC_Metacognitive_Interaction",
+      "description": "Delta_AUROC(Scaffolded) - Delta_AUROC(Transcript) under fixed target decisions",
+      "point_estimate": 0.053333333333333344,
+      "ci_lower_95": -0.14666666666666667,
+      "ci_upper_95": 0.25333333333333335,
+      "permutation_p_value": 0.75,
+      "permutation_method": "exact_format_block_swap_65k",
+      "is_statistically_distinguishable": false
+    }
+  },
+  "episodes": [
+    {
+      "episode_index": 0,
+      "episode_id": "ownership_s09_000",
+      "trials_count": 20
+    },
+    {
+      "episode_index": 1,
+      "episode_id": "ownership_s09_001",
+      "trials_count": 20
+    },
+    {
+      "episode_index": 2,
+      "episode_id": "ownership_s09_002",
+      "trials_count": 20
+    },
+    {
+      "episode_index": 3,
+      "episode_id": "ownership_s09_003",
+      "trials_count": 20
+    }
+  ]
+}

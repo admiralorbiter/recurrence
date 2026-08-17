@@ -10,6 +10,12 @@
     "total_episodes": 16,
     "total_trials": 320
   },
+  "provenance": {
+    "raw_trial_freeze_commit": "4bc4b6b",
+    "post_confirmatory_analysis_correction_commit": "7e65b52",
+    "analysis_version": "v1.1_post_confirmatory_repaired",
+    "status": "Raw trials unchanged; within-episode model-response-preserving permutation nulls and exact format-block interaction permutations post-confirmatory corrected."
+  },
   "analysis": {
     "metacognitive_conditions": {
       "meta_observer_scaffolded_state": {
