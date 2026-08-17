@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="The full S04–S09 route and why each sprint forced the next.">
+<title>The Map — H1 · Mnemosyne and the River</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body data-page="map">
+<div id="reading-progress"></div>
+<header class="topbar">
+<a class="site-brand" href="index.html"><span>RECURRENCE · H1</span><strong>Mnemosyne and the River</strong></a>
+<div class="top-actions"><button id="plain-toggle" class="top-button" type="button">Plain-English recap</button><button id="glossary-open" class="top-button" type="button">Glossary ?</button></div>
+</header>
+<div class="shell">
+<nav class="side-nav"><div class="nav-kicker">Full H1 expedition</div><details class="nav-group" open><summary><span>Prologue</span><small>The problem and the map</small></summary><a class="nav-link" href="index.html"><span>00</span><b>Start Here</b></a><a class="nav-link" href="question.html"><span>01</span><b>The Question</b></a><a class="nav-link" href="field-guide.html"><span>02</span><b>Field Guide</b></a><a class="nav-link active" href="map.html"><span>03</span><b>The Map</b></a></details><details class="nav-group"><summary><span>Act I · Build a Memory</span><small>S04–S05</small></summary><a class="nav-link" href="s04-setup.html"><span>04</span><b>S04 · The Notebook</b></a><a class="nav-link" href="s04-data.html"><span>05</span><b>S04 · The Data</b></a><a class="nav-link" href="s04-meaning.html"><span>06</span><b>S04 · What Changed</b></a><a class="nav-link" href="s05-architecture.html"><span>07</span><b>S05 · The State Machine</b></a><a class="nav-link" href="s05-failures.html"><span>08</span><b>S05 · The Failure Atlas</b></a><a class="nav-link" href="s05-meaning.html"><span>09</span><b>S05 · What Changed</b></a></details><details class="nav-group"><summary><span>Act II · Does Time Matter?</span><small>S06–S07</small></summary><a class="nav-link" href="s06-design.html"><span>10</span><b>S06 · The Replay Challenge</b></a><a class="nav-link" href="s06-hardening.html"><span>11</span><b>S06 · Four Versions of the Ruler</b></a><a class="nav-link" href="s06-results.html"><span>12</span><b>S06 · The Final Evidence</b></a><a class="nav-link" href="s07-e06a.html"><span>13</span><b>S07 · The First Quiet Screen</b></a><a class="nav-link" href="s07-e06b.html"><span>14</span><b>S07 · Available Inference</b></a><a class="nav-link" href="s07-trace.html"><span>15</span><b>S07 · The Self-Polluting Loop</b></a></details><details class="nav-group"><summary><span>Act III · Causal Authority</span><small>S08</small></summary><a class="nav-link" href="s08-design.html"><span>16</span><b>S08 · State × Memory</b></a><a class="nav-link" href="s08-results.html"><span>17</span><b>S08 · The Causal Asymmetry</b></a><a class="nav-link" href="s08-interventions.html"><span>18</span><b>S08 · Surgery, Clones, and Reconvergence</b></a></details><details class="nav-group"><summary><span>Act IV · Ownership</span><small>S09</small></summary><a class="nav-link" href="s09-e08-design.html"><span>19</span><b>S09 · Source Ownership</b></a><a class="nav-link" href="s09-e08-results.html"><span>20</span><b>S09 · The Attribution Pattern</b></a><a class="nav-link" href="s09-e09.html"><span>21</span><b>S09 · Does Self Know It Is Wrong?</b></a><a class="nav-link" href="s09-extensions.html"><span>22</span><b>S09 · The Closure Experiments</b></a></details><details class="nav-group"><summary><span>Synthesis</span><small>What survived and what comes next</small></summary><a class="nav-link" href="archaeology.html"><span>23</span><b>Measurement Archaeology</b></a><a class="nav-link" href="research-human.html"><span>24</span><b>Research Bridges · Human Memory</b></a><a class="nav-link" href="research-ai.html"><span>25</span><b>Research Bridges · AI Systems</b></a><a class="nav-link" href="data-atlas.html"><span>26</span><b>Data Atlas</b></a><a class="nav-link" href="claims.html"><span>27</span><b>Claim Ledger</b></a><a class="nav-link" href="meaning.html"><span>28</span><b>What H1 Means</b></a><a class="nav-link" href="h2-boundary.html"><span>29</span><b>The H2 Boundary</b></a><a class="nav-link" href="sources.html"><span>30</span><b>Sources &amp; Provenance</b></a></details></nav>
+<main class="page">
+<header class="page-intro"><div class="progress">Chapter 4 of 31</div><h1>The Map</h1><p>The full S04–S09 route and why each sprint forced the next.</p><span class="status frozen">Frozen core evidence</span></header>
+<aside id="plain-recap" class="plain-recap" hidden><div class="eyebrow">In plain English</div><p>Each sprint answers one question and creates a stricter one. The handoff is part of the result.</p></aside>
+<article class="prose"><h1>The Map</h1>
+<h2>How each sprint forced the next</h2>
+<p>H1 is not six independent benchmark reports. It is a chain of increasingly difficult alternatives.</p>
+<div class="expedition-table">
+<table>
+<thead><tr><th>Sprint</th><th>Question</th><th>What survived</th><th>Why the next sprint became necessary</th></tr></thead>
+<tbody>
+<tr><td><strong>S04</strong></td><td>What can <button class="term" data-term="explicit-memory" type="button">explicit memory</button> already do?</td><td>Full history is extremely powerful; format determines what is easy to retrieve.</td><td>Reading state is not maintaining state.</td></tr>
+<tr><td><strong>S05</strong></td><td>Can explicit state persist across ticks?</td><td>The deterministic scaffold is stable; autonomous model writing is not.</td><td>A stable state machine still might add nothing beyond replay.</td></tr>
+<tr><td><strong>S06</strong></td><td>Does incremental processing matter beyond final replay?</td><td>Deterministic state is replayable; <button class="term" data-term="reconstruction" type="button">model reconstruction</button> is lossy; compact state bounds cost.</td><td>If scheduling alone adds no special continuity, perhaps quiet processing does.</td></tr>
+<tr><td><strong>S07</strong></td><td>Can null-interval computation selectively consolidate knowledge?</td><td>The tested explicit write mechanisms self-pollute rather than consolidate.</td><td>If state is useful, does it at least causally govern behavior?</td></tr>
+<tr><td><strong>S08</strong></td><td>Which representation controls behavior when history and state conflict?</td><td>Episodic history has far more leverage than <button class="term" data-term="structured-state" type="button">structured state</button> under balanced conflict.</td><td>If “current self-state” is not authoritative, what does the model treat as its own history?</td></tr>
+<tr><td><strong>S09</strong></td><td>Can it track source ownership and know when its own attribution is wrong?</td><td>Ownership is weak and cue-dependent; no resolved positive Self-framing advantage over a <button class="term" data-term="observer" type="button">matched observer</button>.</td><td>Only a private recurrent channel can now test stronger continuity and privileged-access hypotheses.</td></tr>
+</tbody>
+</table>
+</div>
+<h2>The river metaphor</h2>
+<p>Mnemosyne is the figure of memory. The river is temporal passage.</p>
+<p>At the beginning, the question is:</p>
+<blockquote>
+<p>Does carrying memory through the river change the system?</p>
+</blockquote>
+<p>By S06, the deterministic part of the answer is:</p>
+<blockquote>
+<p>Not if the archive and the transition rule let us reconstruct the same terminal state later.</p>
+</blockquote>
+<p>By S08, the authority question becomes:</p>
+<blockquote>
+<p>Even if we can edit the dashboard, does the model treat the dashboard or the journey log as more authoritative?</p>
+</blockquote>
+<p>By S09, ownership becomes:</p>
+<blockquote>
+<p>Does the system know which actor produced each line in the log—and is “you” any more than a role label?</p>
+</blockquote>
+<h2>Scale of the first horizon</h2>
+<p>Across E03–E09, H1 includes:</p>
+<ul>
+<li>more than 4,000 live inference trials;</li>
+<li>deterministic, model-written, and replay-based memory conditions;</li>
+<li>100-tick stability streams;</li>
+<li>720 scheduled-versus-replay trials;</li>
+<li>1,248 quiet-interval trials and 576 reflection traces;</li>
+<li>800 State × Memory intervention trials;</li>
+<li>320 E08 ownership trials;</li>
+<li>320 E09 metacognitive probes;</li>
+<li>multiple protocol refreezes and post-confirmatory statistical repairs.</li>
+</ul>
+<p>The volume matters less than the pattern: every major claim was repeatedly attacked by easier explanations.</p>
+<div class="interactive-lab" data-widget="journey-detail">
+<div class="kicker">Choose a sprint</div>
+<h2>What did each turn in the river change?</h2>
+<div id="journey-detail"></div>
+</div>
+</article>
+
+<nav class="prevnext"><a href="field-guide.html">← Field Guide</a><a class="next" href="s04-setup.html">S04 · The Notebook →</a></nav>
+</main>
+</div>
+<button id="floating-help" class="floating-help" type="button" aria-label="Open glossary">?</button>
+<div id="tooltip" class="tooltip" role="tooltip" hidden></div>
+<div id="glossary-drawer" class="drawer" aria-hidden="true"><div class="drawer-head"><div><div class="eyebrow">Reader's glossary</div><h2>What does that mean?</h2></div><button id="glossary-close" class="close" type="button" aria-label="Close glossary">×</button></div><input id="glossary-search" class="glossary-search" placeholder="Search terms…"><div id="glossary-list"></div></div>
+<div id="scrim" class="scrim" hidden></div>
+<script>window.GLOSSARY={"explicit-memory": {"term": "explicit memory", "short": "History stored outside the model in an inspectable form such as a transcript, summary, or structured state.", "long": "H1 uses explicit memory as a strong control. If written history already explains a behavior, hidden recurrence should not receive credit for it."}, "structured-state": {"term": "StructuredSelfState", "short": "The typed Level-1 state object containing working memory, goals, source information, unresolved items, and derived inferences.", "long": "It is not assumed to be a mind or self. It is a bounded, inspectable, clonable experimental control surface."}, "persistence": {"term": "persistence", "short": "A later state depends on an earlier state rather than every episode beginning from scratch.", "long": "H1 studies scaffolded persistence implemented with explicit memory and deterministic state management."}, "recurrence": {"term": "recurrence", "short": "Earlier internal state is fed back to influence later processing.", "long": "The stronger native recurrence question belongs to H2, where hidden recurrent state becomes the causal object."}, "transcript": {"term": "episodic transcript", "short": "The raw chronological event history shown to the model.", "long": "The transcript is a strong control because it preserves observable history without requiring a compact state representation."}, "replay": {"term": "deterministic replay", "short": "Rebuilding explicit state later by applying the same transition rules to the same ordered event history.", "long": "If online maintenance and later replay produce the same state, deterministic Level-1 continuity is algorithmically reconstructible."}, "reconstruction": {"term": "model reconstruction", "short": "Asking the language model to compress history into structured state in one retrospective pass.", "long": "In S06 this was substantially lossier than deterministic incremental maintenance."}, "null-interval": {"term": "null interval", "short": "A period with no new task-relevant exogenous information.", "long": "A null interval may contain computation; it simply does not add new task evidence."}, "error-inheritance": {"term": "error inheritance", "short": "Persistence can preserve a false state just as faithfully as a true state.", "long": "S05 showed that reliable storage is not equivalent to reliable cognition."}, "epistemic-quality": {"term": "epistemic-state quality", "short": "Whether the full state remains useful, coherent, and appropriately organized for later reasoning.", "long": "Protected facts can remain intact while generated hypotheses become noisy enough to interfere with later use."}, "state-allegiance": {"term": "state allegiance", "short": "Under State \u00d7 Memory conflict, choosing the answer implied by structured state.", "long": "S08 compares this with memory allegiance to estimate which representation governs behavior."}, "memory-allegiance": {"term": "memory allegiance", "short": "Under State \u00d7 Memory conflict, choosing the answer implied by episodic history.", "long": "In the balanced S08 conflicts, memory allegiance substantially exceeded state allegiance."}, "source-attribution": {"term": "source attribution", "short": "Identifying who or what originated an event or binding.", "long": "S09 separates remembering the content from remembering its provenance."}, "metacognition": {"term": "metacognition", "short": "Here: confidence that tracks whether a first-order decision is actually correct.", "long": "E09 compares Self-framed and Observer-framed correctness predictions on the same target decisions."}, "auroc": {"term": "AUROC", "short": "How often correct decisions receive higher confidence than incorrect decisions.", "long": "AUROC measures discrimination or resolution, not absolute calibration."}, "brier": {"term": "Brier score", "short": "Mean squared error of probability forecasts against binary outcomes. Lower is better.", "long": "Brier score captures both overconfidence and underconfidence."}, "observer": {"term": "matched observer", "short": "An external evaluator given the same public evidence as the target.", "long": "A strong observer control prevents public cues from being misinterpreted as privileged self-access."}, "no-resolved": {"term": "no resolved difference", "short": "The prespecified inferential test did not distinguish the conditions.", "long": "This is not the same as proving equivalence or zero effect."}, "hardening": {"term": "measurement hardening", "short": "Removing shortcuts, bugs, weak controls, and scoring ambiguities until the construct is cleaner.", "long": "A central H1 lesson is that several attractive effects weakened or changed once the ruler improved."}, "claim-ceiling": {"term": "claim ceiling", "short": "The strongest conclusion the evidence is allowed to support.", "long": "H1 supports engineering and behavioral conclusions about explicit state, not phenomenal-consciousness claims."}};</script>
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

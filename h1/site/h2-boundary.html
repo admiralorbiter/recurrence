@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Three hypotheses latent recurrence must earn—and a clear permission for a negative H2.">
+<title>The H2 Boundary — H1 · Mnemosyne and the River</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body data-page="h2-boundary">
+<div id="reading-progress"></div>
+<header class="topbar">
+<a class="site-brand" href="index.html"><span>RECURRENCE · H1</span><strong>Mnemosyne and the River</strong></a>
+<div class="top-actions"><button id="plain-toggle" class="top-button" type="button">Plain-English recap</button><button id="glossary-open" class="top-button" type="button">Glossary ?</button></div>
+</header>
+<div class="shell">
+<nav class="side-nav"><div class="nav-kicker">Full H1 expedition</div><details class="nav-group"><summary><span>Prologue</span><small>The problem and the map</small></summary><a class="nav-link" href="index.html"><span>00</span><b>Start Here</b></a><a class="nav-link" href="question.html"><span>01</span><b>The Question</b></a><a class="nav-link" href="field-guide.html"><span>02</span><b>Field Guide</b></a><a class="nav-link" href="map.html"><span>03</span><b>The Map</b></a></details><details class="nav-group"><summary><span>Act I · Build a Memory</span><small>S04–S05</small></summary><a class="nav-link" href="s04-setup.html"><span>04</span><b>S04 · The Notebook</b></a><a class="nav-link" href="s04-data.html"><span>05</span><b>S04 · The Data</b></a><a class="nav-link" href="s04-meaning.html"><span>06</span><b>S04 · What Changed</b></a><a class="nav-link" href="s05-architecture.html"><span>07</span><b>S05 · The State Machine</b></a><a class="nav-link" href="s05-failures.html"><span>08</span><b>S05 · The Failure Atlas</b></a><a class="nav-link" href="s05-meaning.html"><span>09</span><b>S05 · What Changed</b></a></details><details class="nav-group"><summary><span>Act II · Does Time Matter?</span><small>S06–S07</small></summary><a class="nav-link" href="s06-design.html"><span>10</span><b>S06 · The Replay Challenge</b></a><a class="nav-link" href="s06-hardening.html"><span>11</span><b>S06 · Four Versions of the Ruler</b></a><a class="nav-link" href="s06-results.html"><span>12</span><b>S06 · The Final Evidence</b></a><a class="nav-link" href="s07-e06a.html"><span>13</span><b>S07 · The First Quiet Screen</b></a><a class="nav-link" href="s07-e06b.html"><span>14</span><b>S07 · Available Inference</b></a><a class="nav-link" href="s07-trace.html"><span>15</span><b>S07 · The Self-Polluting Loop</b></a></details><details class="nav-group"><summary><span>Act III · Causal Authority</span><small>S08</small></summary><a class="nav-link" href="s08-design.html"><span>16</span><b>S08 · State × Memory</b></a><a class="nav-link" href="s08-results.html"><span>17</span><b>S08 · The Causal Asymmetry</b></a><a class="nav-link" href="s08-interventions.html"><span>18</span><b>S08 · Surgery, Clones, and Reconvergence</b></a></details><details class="nav-group"><summary><span>Act IV · Ownership</span><small>S09</small></summary><a class="nav-link" href="s09-e08-design.html"><span>19</span><b>S09 · Source Ownership</b></a><a class="nav-link" href="s09-e08-results.html"><span>20</span><b>S09 · The Attribution Pattern</b></a><a class="nav-link" href="s09-e09.html"><span>21</span><b>S09 · Does Self Know It Is Wrong?</b></a><a class="nav-link" href="s09-extensions.html"><span>22</span><b>S09 · The Closure Experiments</b></a></details><details class="nav-group" open><summary><span>Synthesis</span><small>What survived and what comes next</small></summary><a class="nav-link" href="archaeology.html"><span>23</span><b>Measurement Archaeology</b></a><a class="nav-link" href="research-human.html"><span>24</span><b>Research Bridges · Human Memory</b></a><a class="nav-link" href="research-ai.html"><span>25</span><b>Research Bridges · AI Systems</b></a><a class="nav-link" href="data-atlas.html"><span>26</span><b>Data Atlas</b></a><a class="nav-link" href="claims.html"><span>27</span><b>Claim Ledger</b></a><a class="nav-link" href="meaning.html"><span>28</span><b>What H1 Means</b></a><a class="nav-link active" href="h2-boundary.html"><span>29</span><b>The H2 Boundary</b></a><a class="nav-link" href="sources.html"><span>30</span><b>Sources &amp; Provenance</b></a></details></nav>
+<main class="page">
+<header class="page-intro"><div class="progress">Chapter 30 of 31</div><h1>The H2 Boundary</h1><p>Three hypotheses latent recurrence must earn—and a clear permission for a negative H2.</p><span class="status live">Live closure extension</span></header>
+<aside id="plain-recap" class="plain-recap" hidden><div class="eyebrow">In plain English</div><p>H2 introduces a hidden recurrent channel relative to a prompt-only observer. It does not assume that channel is self-like or useful.</p></aside>
+<article class="prose"><h1>The H2 Boundary</h1>
+<h2>Hidden state is a new channel, not a guaranteed self</h2>
+<p>H2 changes the causal architecture.</p>
+<p>Instead of carrying only public prompt-level state, a recurrent model maintains a hidden state:</p>
+<pre><code class="language-text">h(t) = fθ(h(t−1), x(t))
+</code></pre>
+<p>That creates an information channel unavailable to a prompt-only observer.</p>
+<p>It does not automatically create:</p>
+<ul>
+<li>a self-model;</li>
+<li>introspection;</li>
+<li>agency;</li>
+<li>consciousness;</li>
+<li>reliable continuity.</li>
+</ul>
+<p>Those remain empirical questions.</p>
+<h2>H2.1 · Latent continuity</h2>
+<p>Can two systems with:</p>
+<ul>
+<li>identical visible history;</li>
+<li>identical current input;</li>
+<li>identical <button class="term" data-term="explicit-memory" type="button">explicit memory</button>;</li>
+</ul>
+<p>behave differently because their hidden recurrent trajectories differ?</p>
+<p>A strong design needs:</p>
+<ul>
+<li>exact state serialization and restore;</li>
+<li>branch cloning;</li>
+<li>visible-history matching;</li>
+<li>reset and swap interventions;</li>
+<li>reconvergence controls;</li>
+<li>backend determinism or documented statistical tolerance.</li>
+</ul>
+<h2>H2.2 · Causal recurrent leverage</h2>
+<p>Does a targeted hidden-state intervention produce a selective, graded behavioral change?</p>
+<p>The intervention should avoid off-manifold nonsense.</p>
+<p>Controls may include:</p>
+<ul>
+<li>locally matched state swaps;</li>
+<li>interpolation between compatible states;</li>
+<li>norm-matched random perturbations;</li>
+<li>same-dimensional nonrecurrent channels;</li>
+<li>explicit-memory controls;</li>
+<li>unrelated-task damage checks;</li>
+<li>recovery dynamics.</li>
+</ul>
+<p>The strong result is not merely “we can break the model.”</p>
+<p>It is:</p>
+<blockquote>
+<p>A plausible state intervention selectively transfers or removes a history-dependent behavior.</p>
+</blockquote>
+<h2>H2.3 · Privileged metacognition</h2>
+<p>Now the target may have access to recurrent information a public observer lacks.</p>
+<p>The target and observer should predict the correctness of the same future decision.</p>
+<p>Observer ladder:</p>
+<ul>
+<li>visible input and history;</li>
+<li>output-only;</li>
+<li>reconstructed state summary;</li>
+<li>matched-compute observer;</li>
+<li>another recurrent model with its own state;</li>
+<li>strongest feasible public-information predictor.</li>
+</ul>
+<p>A privileged-access result requires the target to outperform the strongest relevant observer because of information in its recurrent state—not because of first-person phrasing.</p>
+<h2>Candidate H2 benchmarks inherited from H1</h2>
+<h3>Replay and path dependence</h3>
+<p>Can visible state be matched while latent history differs?</p>
+<h3>Null intervals</h3>
+<p>Can recurrent silent evolution selectively improve a derivable task without explicit chain-of-thought writes?</p>
+<h3>State × Memory conflict</h3>
+<p>When visible history is fixed, does hidden state transplantation redirect behavior?</p>
+<h3>Source ownership</h3>
+<p>Can latent trajectory preserve who generated an event after surface actor cues are stripped?</p>
+<h3>Output ownership</h3>
+<p>Can the model distinguish its prior intended output from an artificial prefill based on earlier hidden state inaccessible to a fresh observer?</p>
+<h3>Metacognitive monitoring</h3>
+<p>Can the recurrent target predict its own future failure better than a strong observer with matched visible evidence?</p>
+<h2>What would count against H2?</h2>
+<p>A negative H2 is allowed.</p>
+<p>The program should be willing to stop or revise if:</p>
+<ul>
+<li>latent state is accurately reconstructible from public history;</li>
+<li>state swaps cause only generic damage;</li>
+<li>history effects disappear when explicit memory is matched;</li>
+<li>null updates add no selective benefit;</li>
+<li>source ownership remains role-cue driven;</li>
+<li>observers match all target <button class="term" data-term="metacognition" type="button">metacognition</button>;</li>
+<li>apparent introspection collapses under input-level anomaly controls.</li>
+</ul>
+<p>The goal is not to force the word “self” onto the system.</p>
+<p>The goal is to discover which causal properties are actually present.</p>
+<h2>What the live H1 closure studies decide</h2>
+<p>E08c asks whether the canonical source-attribution attractor follows the designated Self role.</p>
+<p>E09c asks whether the metacognitive format reversal survives when the exact target decision is fixed.</p>
+<p>Once those confirmation runs finish, they should update the H1 claim ledger—not change the H2 architecture from scratch.</p>
+<div class="research-callout">
+<strong>Research bridge: activation-level introspection</strong>
+<p>Recent work injects known concept representations into hidden activations and tests whether models can report or distinguish them. Those studies are relevant because they create a target-private variable unavailable to a text-only observer. H2 must retain H1's hardening discipline: input-level anomalies, reconstruction, relabeling, matched observers, and selective interventions remain mandatory.</p>
+<a href="https://arxiv.org/abs/2601.01828" rel="noopener" target="_blank">Open the 2026 activation-intervention paper</a>
+</div>
+</article>
+
+<nav class="prevnext"><a href="meaning.html">← What H1 Means</a><a class="next" href="sources.html">Sources &amp; Provenance →</a></nav>
+</main>
+</div>
+<button id="floating-help" class="floating-help" type="button" aria-label="Open glossary">?</button>
+<div id="tooltip" class="tooltip" role="tooltip" hidden></div>
+<div id="glossary-drawer" class="drawer" aria-hidden="true"><div class="drawer-head"><div><div class="eyebrow">Reader's glossary</div><h2>What does that mean?</h2></div><button id="glossary-close" class="close" type="button" aria-label="Close glossary">×</button></div><input id="glossary-search" class="glossary-search" placeholder="Search terms…"><div id="glossary-list"></div></div>
+<div id="scrim" class="scrim" hidden></div>
+<script>window.GLOSSARY={"explicit-memory": {"term": "explicit memory", "short": "History stored outside the model in an inspectable form such as a transcript, summary, or structured state.", "long": "H1 uses explicit memory as a strong control. If written history already explains a behavior, hidden recurrence should not receive credit for it."}, "structured-state": {"term": "StructuredSelfState", "short": "The typed Level-1 state object containing working memory, goals, source information, unresolved items, and derived inferences.", "long": "It is not assumed to be a mind or self. It is a bounded, inspectable, clonable experimental control surface."}, "persistence": {"term": "persistence", "short": "A later state depends on an earlier state rather than every episode beginning from scratch.", "long": "H1 studies scaffolded persistence implemented with explicit memory and deterministic state management."}, "recurrence": {"term": "recurrence", "short": "Earlier internal state is fed back to influence later processing.", "long": "The stronger native recurrence question belongs to H2, where hidden recurrent state becomes the causal object."}, "transcript": {"term": "episodic transcript", "short": "The raw chronological event history shown to the model.", "long": "The transcript is a strong control because it preserves observable history without requiring a compact state representation."}, "replay": {"term": "deterministic replay", "short": "Rebuilding explicit state later by applying the same transition rules to the same ordered event history.", "long": "If online maintenance and later replay produce the same state, deterministic Level-1 continuity is algorithmically reconstructible."}, "reconstruction": {"term": "model reconstruction", "short": "Asking the language model to compress history into structured state in one retrospective pass.", "long": "In S06 this was substantially lossier than deterministic incremental maintenance."}, "null-interval": {"term": "null interval", "short": "A period with no new task-relevant exogenous information.", "long": "A null interval may contain computation; it simply does not add new task evidence."}, "error-inheritance": {"term": "error inheritance", "short": "Persistence can preserve a false state just as faithfully as a true state.", "long": "S05 showed that reliable storage is not equivalent to reliable cognition."}, "epistemic-quality": {"term": "epistemic-state quality", "short": "Whether the full state remains useful, coherent, and appropriately organized for later reasoning.", "long": "Protected facts can remain intact while generated hypotheses become noisy enough to interfere with later use."}, "state-allegiance": {"term": "state allegiance", "short": "Under State \u00d7 Memory conflict, choosing the answer implied by structured state.", "long": "S08 compares this with memory allegiance to estimate which representation governs behavior."}, "memory-allegiance": {"term": "memory allegiance", "short": "Under State \u00d7 Memory conflict, choosing the answer implied by episodic history.", "long": "In the balanced S08 conflicts, memory allegiance substantially exceeded state allegiance."}, "source-attribution": {"term": "source attribution", "short": "Identifying who or what originated an event or binding.", "long": "S09 separates remembering the content from remembering its provenance."}, "metacognition": {"term": "metacognition", "short": "Here: confidence that tracks whether a first-order decision is actually correct.", "long": "E09 compares Self-framed and Observer-framed correctness predictions on the same target decisions."}, "auroc": {"term": "AUROC", "short": "How often correct decisions receive higher confidence than incorrect decisions.", "long": "AUROC measures discrimination or resolution, not absolute calibration."}, "brier": {"term": "Brier score", "short": "Mean squared error of probability forecasts against binary outcomes. Lower is better.", "long": "Brier score captures both overconfidence and underconfidence."}, "observer": {"term": "matched observer", "short": "An external evaluator given the same public evidence as the target.", "long": "A strong observer control prevents public cues from being misinterpreted as privileged self-access."}, "no-resolved": {"term": "no resolved difference", "short": "The prespecified inferential test did not distinguish the conditions.", "long": "This is not the same as proving equivalence or zero effect."}, "hardening": {"term": "measurement hardening", "short": "Removing shortcuts, bugs, weak controls, and scoring ambiguities until the construct is cleaner.", "long": "A central H1 lesson is that several attractive effects weakened or changed once the ruler improved."}, "claim-ceiling": {"term": "claim ceiling", "short": "The strongest conclusion the evidence is allowed to support.", "long": "H1 supports engineering and behavioral conclusions about explicit state, not phenomenal-consciousness claims."}};</script>
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

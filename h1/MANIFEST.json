@@ -1,26 +1,24 @@
 {
-  "title": "H1: Mnemosyne and the River \u2014 full synthesis draft",
-  "date": "2026-08-17",
-  "core_evidence_status": "frozen",
-  "s09_analysis_status": "post-confirmatory repaired",
+  "title": "H1: Mnemosyne and the River \u2014 Full Story Edition",
+  "built": "2026-08-17",
+  "page_count": 31,
+  "groups": [
+    "Prologue",
+    "Act I \u00b7 Build a Memory",
+    "Act II \u00b7 Does Time Matter?",
+    "Act III \u00b7 Causal Authority",
+    "Act IV \u00b7 Ownership",
+    "Synthesis"
+  ],
+  "core_evidence": "frozen S04\u2013S09",
+  "s09_analysis": "post-confirmatory repaired; raw trials unchanged",
   "live_extensions": {
-    "E08c": "exploratory complete; N=16 confirmatory running",
-    "E09c": "exploratory complete; N=16 confirmatory pending/running"
+    "E08c": "exploratory included; N=16 running",
+    "E09c": "exploratory included; N=16 pending/running"
   },
-  "pages": [
-    "index.html",
-    "question.html",
-    "toolkit.html",
-    "s04.html",
-    "s05.html",
-    "s06.html",
-    "s07.html",
-    "s08.html",
-    "s09.html",
-    "hardening.html",
-    "research.html",
-    "result.html",
-    "meaning.html",
-    "next.html"
-  ]
+  "files": {
+    "content": "one Markdown file per chapter",
+    "site": "standalone HTML/CSS/JS",
+    "data": "machine-readable evidence and research JSON"
+  }
 }

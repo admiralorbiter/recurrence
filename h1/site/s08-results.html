@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Changing history changes behavior dramatically; changing structured state usually does not.">
+<title>S08 · The Causal Asymmetry — H1 · Mnemosyne and the River</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body data-page="s08-results">
+<div id="reading-progress"></div>
+<header class="topbar">
+<a class="site-brand" href="index.html"><span>RECURRENCE · H1</span><strong>Mnemosyne and the River</strong></a>
+<div class="top-actions"><button id="plain-toggle" class="top-button" type="button">Plain-English recap</button><button id="glossary-open" class="top-button" type="button">Glossary ?</button></div>
+</header>
+<div class="shell">
+<nav class="side-nav"><div class="nav-kicker">Full H1 expedition</div><details class="nav-group"><summary><span>Prologue</span><small>The problem and the map</small></summary><a class="nav-link" href="index.html"><span>00</span><b>Start Here</b></a><a class="nav-link" href="question.html"><span>01</span><b>The Question</b></a><a class="nav-link" href="field-guide.html"><span>02</span><b>Field Guide</b></a><a class="nav-link" href="map.html"><span>03</span><b>The Map</b></a></details><details class="nav-group"><summary><span>Act I · Build a Memory</span><small>S04–S05</small></summary><a class="nav-link" href="s04-setup.html"><span>04</span><b>S04 · The Notebook</b></a><a class="nav-link" href="s04-data.html"><span>05</span><b>S04 · The Data</b></a><a class="nav-link" href="s04-meaning.html"><span>06</span><b>S04 · What Changed</b></a><a class="nav-link" href="s05-architecture.html"><span>07</span><b>S05 · The State Machine</b></a><a class="nav-link" href="s05-failures.html"><span>08</span><b>S05 · The Failure Atlas</b></a><a class="nav-link" href="s05-meaning.html"><span>09</span><b>S05 · What Changed</b></a></details><details class="nav-group"><summary><span>Act II · Does Time Matter?</span><small>S06–S07</small></summary><a class="nav-link" href="s06-design.html"><span>10</span><b>S06 · The Replay Challenge</b></a><a class="nav-link" href="s06-hardening.html"><span>11</span><b>S06 · Four Versions of the Ruler</b></a><a class="nav-link" href="s06-results.html"><span>12</span><b>S06 · The Final Evidence</b></a><a class="nav-link" href="s07-e06a.html"><span>13</span><b>S07 · The First Quiet Screen</b></a><a class="nav-link" href="s07-e06b.html"><span>14</span><b>S07 · Available Inference</b></a><a class="nav-link" href="s07-trace.html"><span>15</span><b>S07 · The Self-Polluting Loop</b></a></details><details class="nav-group" open><summary><span>Act III · Causal Authority</span><small>S08</small></summary><a class="nav-link" href="s08-design.html"><span>16</span><b>S08 · State × Memory</b></a><a class="nav-link active" href="s08-results.html"><span>17</span><b>S08 · The Causal Asymmetry</b></a><a class="nav-link" href="s08-interventions.html"><span>18</span><b>S08 · Surgery, Clones, and Reconvergence</b></a></details><details class="nav-group"><summary><span>Act IV · Ownership</span><small>S09</small></summary><a class="nav-link" href="s09-e08-design.html"><span>19</span><b>S09 · Source Ownership</b></a><a class="nav-link" href="s09-e08-results.html"><span>20</span><b>S09 · The Attribution Pattern</b></a><a class="nav-link" href="s09-e09.html"><span>21</span><b>S09 · Does Self Know It Is Wrong?</b></a><a class="nav-link" href="s09-extensions.html"><span>22</span><b>S09 · The Closure Experiments</b></a></details><details class="nav-group"><summary><span>Synthesis</span><small>What survived and what comes next</small></summary><a class="nav-link" href="archaeology.html"><span>23</span><b>Measurement Archaeology</b></a><a class="nav-link" href="research-human.html"><span>24</span><b>Research Bridges · Human Memory</b></a><a class="nav-link" href="research-ai.html"><span>25</span><b>Research Bridges · AI Systems</b></a><a class="nav-link" href="data-atlas.html"><span>26</span><b>Data Atlas</b></a><a class="nav-link" href="claims.html"><span>27</span><b>Claim Ledger</b></a><a class="nav-link" href="meaning.html"><span>28</span><b>What H1 Means</b></a><a class="nav-link" href="h2-boundary.html"><span>29</span><b>The H2 Boundary</b></a><a class="nav-link" href="sources.html"><span>30</span><b>Sources &amp; Provenance</b></a></details></nav>
+<main class="page">
+<header class="page-intro"><div class="progress">Chapter 18 of 31</div><h1>S08 · The Causal Asymmetry</h1><p>Changing history changes behavior dramatically; changing structured state usually does not.</p><span class="status frozen">Frozen core evidence</span></header>
+<aside id="plain-recap" class="plain-recap" hidden><div class="eyebrow">In plain English</div><p>The frozen 2 × 2 matrix produces the clearest H1 boundary: average memory leverage +89.1pp versus state leverage +4.7pp.</p></aside>
+<article class="prose"><h1>S08 · The Causal Asymmetry</h1>
+<h2>The headline result</h2>
+<div class="interactive-lab" data-widget="s08-effects">
+<div class="kicker">Causal effects</div>
+<h2>Hold one representation fixed. Change the other.</h2>
+<div id="s08-effects"></div>
+</div>
+<h3>Average marginal state effect</h3>
+<ul>
+<li><strong>+4.7pp</strong>;</li>
+<li>95% CI <code>[0.0,+9.4]</code>;</li>
+<li>exact episode permutation <code>p = .25</code>;</li>
+<li>no resolved independent state leverage.</li>
+</ul>
+<h3>Average marginal memory effect</h3>
+<ul>
+<li><strong>+89.1pp</strong>;</li>
+<li>95% CI <code>[+78.1,+96.9]</code>;</li>
+<li>exact permutation effectively <code>&lt; .001</code>;</li>
+<li>very large episodic-history leverage.</li>
+</ul>
+<h2>The full directional effects</h2>
+<table>
+<thead>
+<tr>
+<th>Estimand</th>
+<th style="text-align:right">Effect</th>
+<th style="text-align:right">95% CI</th>
+<th style="text-align:right">Exact p</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>State swap holding Memory A</td>
+<td style="text-align:right">+3.1pp</td>
+<td style="text-align:right"><code>[0.0,+9.4]</code></td>
+<td style="text-align:right">1.0000</td>
+</tr>
+<tr>
+<td>State swap holding Memory B</td>
+<td style="text-align:right">+6.2pp</td>
+<td style="text-align:right"><code>[-6.2,+18.8]</code></td>
+<td style="text-align:right">.6250</td>
+</tr>
+<tr>
+<td>Memory swap holding State A</td>
+<td style="text-align:right"><strong>+90.6pp</strong></td>
+<td style="text-align:right"><code>[+81.2,+100]</code></td>
+<td style="text-align:right">&lt;.001</td>
+</tr>
+<tr>
+<td>Memory swap holding State B</td>
+<td style="text-align:right"><strong>+87.5pp</strong></td>
+<td style="text-align:right"><code>[+68.8,+100]</code></td>
+<td style="text-align:right">.0001</td>
+</tr>
+<tr>
+<td>Reset dependence</td>
+<td style="text-align:right">−3.1pp</td>
+<td style="text-align:right"><code>[-9.4,0.0]</code></td>
+<td style="text-align:right">1.0000</td>
+</tr>
+</tbody>
+</table>
+<p>The asymmetry replicates in both orientations.</p>
+<p>This matters because the first exploratory screen had a strong directional imbalance. The final full matrix shows that the large memory effect is not confined to one world orientation.</p>
+<h2>The conflict partition</h2>
+<p>Across 128 direct conflict trials:</p>
+<ul>
+<li>follows memory: <strong>64.1%</strong>;</li>
+<li>follows state: <strong>32.0%</strong>;</li>
+<li>chooses neither: <strong>3.9%</strong>.</li>
+</ul>
+<p>Conditional on choosing either the state-consistent or memory-consistent answer, state wins one-third of the time.</p>
+<p>The primary conflict contrast:</p>
+<pre><code class="language-text">State Allegiance − Memory Allegiance = −32.0pp
+</code></pre>
+<p>with exact <code>p = .0002</code>.</p>
+<h2>Directional nuance</h2>
+<p>The two conflict directions are not identical.</p>
+<h3><code>M_A + S_B</code></h3>
+<ul>
+<li><button class="term" data-term="state-allegiance" type="button">state allegiance</button>: 50.0%;</li>
+<li><button class="term" data-term="memory-allegiance" type="button">memory allegiance</button>: 46.9%.</li>
+</ul>
+<h3><code>M_B + S_A</code></h3>
+<ul>
+<li>state allegiance: 14.1%;</li>
+<li>memory allegiance: 81.2%.</li>
+</ul>
+<p>The strong second-direction effect is partly tied to goal-status semantics in World B.</p>
+<p>This is why S08 reports:</p>
+<ul>
+<li>the full matrix;</li>
+<li>directional effects;</li>
+<li>pooled marginal effects;</li>
+<li>domain-level breakdowns.</li>
+</ul>
+<p>A single pooled number would hide important structure.</p>
+<h2>Presentation order does not rescue state authority</h2>
+<p>State allegiance:</p>
+<ul>
+<li>Memory → State: 25.0%;</li>
+<li>State → Memory: 18.8%.</li>
+</ul>
+<p>Showing state last does not make it dominate.</p>
+<p>That weakens a simple prompt-recency explanation.</p>
+<h2>Reset with memory preserved</h2>
+<p>Removing state while retaining history produces no resolved target impairment.</p>
+<p>The right wording is:</p>
+<blockquote>
+<p><strong>Direct memory compensates for state removal under E07.</strong></p>
+</blockquote>
+<p>Not:</p>
+<blockquote>
+<p>State is useless.</p>
+</blockquote>
+<p>State-only calibration proves that the state remains readable.</p>
+<h2>The scientific conclusion</h2>
+<blockquote>
+<p><strong>Under balanced direct conflict, episodic-history manipulations have far more behavioral leverage than structured-state manipulations in Qwen2.5-3B under this benchmark.</strong></p>
+</blockquote>
+<p>This is a behavioral causal result.</p>
+<p>It is not an attention-mechanism result. Both state and transcript are prompt tokens; S08 does not inspect or identify the internal attention process that produces the asymmetry.</p>
+</article>
+<aside class="source-trail"><span>Primary project source trail</span><a href="https://github.com/admiralorbiter/recurrence/blob/main/docs/E07_State_Interventions_Report.md" target="_blank" rel="noopener">Canonical E07 report</a></aside>
+<nav class="prevnext"><a href="s08-design.html">← S08 · State × Memory</a><a class="next" href="s08-interventions.html">S08 · Surgery, Clones, and Reconvergence →</a></nav>
+</main>
+</div>
+<button id="floating-help" class="floating-help" type="button" aria-label="Open glossary">?</button>
+<div id="tooltip" class="tooltip" role="tooltip" hidden></div>
+<div id="glossary-drawer" class="drawer" aria-hidden="true"><div class="drawer-head"><div><div class="eyebrow">Reader's glossary</div><h2>What does that mean?</h2></div><button id="glossary-close" class="close" type="button" aria-label="Close glossary">×</button></div><input id="glossary-search" class="glossary-search" placeholder="Search terms…"><div id="glossary-list"></div></div>
+<div id="scrim" class="scrim" hidden></div>
+<script>window.GLOSSARY={"explicit-memory": {"term": "explicit memory", "short": "History stored outside the model in an inspectable form such as a transcript, summary, or structured state.", "long": "H1 uses explicit memory as a strong control. If written history already explains a behavior, hidden recurrence should not receive credit for it."}, "structured-state": {"term": "StructuredSelfState", "short": "The typed Level-1 state object containing working memory, goals, source information, unresolved items, and derived inferences.", "long": "It is not assumed to be a mind or self. It is a bounded, inspectable, clonable experimental control surface."}, "persistence": {"term": "persistence", "short": "A later state depends on an earlier state rather than every episode beginning from scratch.", "long": "H1 studies scaffolded persistence implemented with explicit memory and deterministic state management."}, "recurrence": {"term": "recurrence", "short": "Earlier internal state is fed back to influence later processing.", "long": "The stronger native recurrence question belongs to H2, where hidden recurrent state becomes the causal object."}, "transcript": {"term": "episodic transcript", "short": "The raw chronological event history shown to the model.", "long": "The transcript is a strong control because it preserves observable history without requiring a compact state representation."}, "replay": {"term": "deterministic replay", "short": "Rebuilding explicit state later by applying the same transition rules to the same ordered event history.", "long": "If online maintenance and later replay produce the same state, deterministic Level-1 continuity is algorithmically reconstructible."}, "reconstruction": {"term": "model reconstruction", "short": "Asking the language model to compress history into structured state in one retrospective pass.", "long": "In S06 this was substantially lossier than deterministic incremental maintenance."}, "null-interval": {"term": "null interval", "short": "A period with no new task-relevant exogenous information.", "long": "A null interval may contain computation; it simply does not add new task evidence."}, "error-inheritance": {"term": "error inheritance", "short": "Persistence can preserve a false state just as faithfully as a true state.", "long": "S05 showed that reliable storage is not equivalent to reliable cognition."}, "epistemic-quality": {"term": "epistemic-state quality", "short": "Whether the full state remains useful, coherent, and appropriately organized for later reasoning.", "long": "Protected facts can remain intact while generated hypotheses become noisy enough to interfere with later use."}, "state-allegiance": {"term": "state allegiance", "short": "Under State \u00d7 Memory conflict, choosing the answer implied by structured state.", "long": "S08 compares this with memory allegiance to estimate which representation governs behavior."}, "memory-allegiance": {"term": "memory allegiance", "short": "Under State \u00d7 Memory conflict, choosing the answer implied by episodic history.", "long": "In the balanced S08 conflicts, memory allegiance substantially exceeded state allegiance."}, "source-attribution": {"term": "source attribution", "short": "Identifying who or what originated an event or binding.", "long": "S09 separates remembering the content from remembering its provenance."}, "metacognition": {"term": "metacognition", "short": "Here: confidence that tracks whether a first-order decision is actually correct.", "long": "E09 compares Self-framed and Observer-framed correctness predictions on the same target decisions."}, "auroc": {"term": "AUROC", "short": "How often correct decisions receive higher confidence than incorrect decisions.", "long": "AUROC measures discrimination or resolution, not absolute calibration."}, "brier": {"term": "Brier score", "short": "Mean squared error of probability forecasts against binary outcomes. Lower is better.", "long": "Brier score captures both overconfidence and underconfidence."}, "observer": {"term": "matched observer", "short": "An external evaluator given the same public evidence as the target.", "long": "A strong observer control prevents public cues from being misinterpreted as privileged self-access."}, "no-resolved": {"term": "no resolved difference", "short": "The prespecified inferential test did not distinguish the conditions.", "long": "This is not the same as proving equivalence or zero effect."}, "hardening": {"term": "measurement hardening", "short": "Removing shortcuts, bugs, weak controls, and scoring ambiguities until the construct is cleaner.", "long": "A central H1 lesson is that several attractive effects weakened or changed once the ruler improved."}, "claim-ceiling": {"term": "claim ceiling", "short": "The strongest conclusion the evidence is allowed to support.", "long": "H1 supports engineering and behavioral conclusions about explicit state, not phenomenal-consciousness claims."}};</script>
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

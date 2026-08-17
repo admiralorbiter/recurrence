@@ -1,0 +1,70 @@
+[
+  {
+    "id": "offloading",
+    "title": "Cognitive Offloading",
+    "authors": "Risko & Gilbert (2016)",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/27542527/",
+    "doi": "10.1016/j.tics.2016.07.002",
+    "summary": "External tools and actions can alter the processing demands of a task. H1 can be read as an engineered offloading system whose causal status is then tested."
+  },
+  {
+    "id": "extended",
+    "title": "The Extended Mind",
+    "authors": "Clark & Chalmers (1998)",
+    "url": "https://onlinelibrary.wiley.com/doi/10.1111/1467-8284.00096",
+    "doi": "10.1111/1467-8284.00096",
+    "summary": "A classic argument about reliably integrated external resources. H1 separates availability, integration, and epistemic authority rather than assuming they are the same."
+  },
+  {
+    "id": "source",
+    "title": "Source Monitoring",
+    "authors": "Johnson, Hashtroudi & Lindsay (1993)",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/8346328/",
+    "doi": "10.1037/0033-2909.114.1.3",
+    "summary": "Remembering content and judging its origin are separable. E08 creates a synthetic provenance task without assuming human-like mechanisms."
+  },
+  {
+    "id": "koriat",
+    "title": "How Do We Know That We Know?",
+    "authors": "Koriat (1993)",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/8255951/",
+    "doi": "10.1037/0033-295X.100.4.609",
+    "summary": "Metacognitive confidence can follow accessible cues. E09 therefore requires a matched observer predicting the same target decision."
+  },
+  {
+    "id": "lost",
+    "title": "Lost in the Middle",
+    "authors": "Liu et al. (2024)",
+    "url": "https://aclanthology.org/2024.tacl-1.9/",
+    "doi": "10.1162/tacl_a_00638",
+    "summary": "Long-context models do not use all context positions uniformly. This motivates compact state as an access and cost tool even when raw history contains more information."
+  },
+  {
+    "id": "memgpt",
+    "title": "MemGPT: Towards LLMs as Operating Systems",
+    "authors": "Packer et al. (2023)",
+    "url": "https://arxiv.org/abs/2310.08560",
+    "summary": "An operating-system-inspired memory manager for LLMs. It is a neighboring engineering idea: external memory can extend behavior without being native hidden recurrence."
+  },
+  {
+    "id": "role",
+    "title": "Prompt Injection as Role Confusion",
+    "authors": "Ye, Cui & Hadfield-Menell (2026)",
+    "url": "https://arxiv.org/abs/2603.12277",
+    "summary": "The paper argues that models infer roles from how text is written, not only where it comes from. That is closely adjacent to E08 narrative-over-metadata and the E08c role counterbalance."
+  },
+  {
+    "id": "introspection",
+    "title": "Emergent Introspective Awareness in Large Language Models",
+    "authors": "Lindsey (2026)",
+    "url": "https://arxiv.org/abs/2601.01828",
+    "summary": "Activation-intervention work tests whether models can report injected internal concepts and prior intentions. H1 does not make those latent-state claims; the paper helps locate the H2 boundary."
+  },
+  {
+    "id": "provenance",
+    "title": "Memory Provenance Laundering in LLM Agents",
+    "authors": "Xu et al. (2026)",
+    "url": "https://arxiv.org/abs/2607.29167",
+    "summary": "Recent agent-memory work highlights how consolidation can preserve action triggers while losing low-trust provenance. This is an applied systems cousin of H1 source-ledger concerns."
+  }
+]
