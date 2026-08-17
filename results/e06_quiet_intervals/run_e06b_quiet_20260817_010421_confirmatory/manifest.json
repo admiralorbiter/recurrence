@@ -1,0 +1,19 @@
+{
+  "run_id": "run_e06b_quiet_20260817_010421_confirmatory",
+  "target_model": "qwen2.5:3b",
+  "model_digest": "357c53fb659c5076de1d65ccb0b397446227b71a42be9d1603d46168015c9e4b",
+  "phase": "confirmatory",
+  "seed": 1337,
+  "temperature": 0.0,
+  "start_time": "2026-08-17T03:08:56.628676+00:00",
+  "total_episodes": 16,
+  "total_trials": 1248,
+  "total_reflection_traces": 576,
+  "intervals": [
+    0,
+    1,
+    3,
+    6,
+    12
+  ]
+}
