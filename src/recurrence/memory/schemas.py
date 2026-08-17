@@ -20,6 +20,8 @@ class EventSource(str, Enum):
     ENVIRONMENT = "environment"
     SELF = "self"
     EXPERIMENTER = "experimenter"
+    PEER_AGENT = "peer_agent"
+    OBSERVER = "observer"
 
 
 class MemoryEvent(BaseModel):
@@ -29,6 +31,7 @@ class MemoryEvent(BaseModel):
     source: EventSource
     event_type: str = Field(description="e.g. observation, action, statement, goal_update, distractor")
     content: str
+    actor_id: Optional[str] = Field(default=None, description="Explicit actor identity (e.g. agent_alpha, agent_beta, telemetry_sensor)")
     key_bindings: Dict[str, str] = Field(default_factory=dict, description="Structured key-value bindings asserted in this event")
     metadata: Dict[str, Any] = Field(default_factory=dict)
 

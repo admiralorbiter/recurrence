@@ -20,6 +20,34 @@ TARGET_FORCED_CHOICE_SCHEMA: Dict[str, Any] = {
     "additionalProperties": False,
 }
 
+TARGET_5AFC_SCHEMA: Dict[str, Any] = {
+    "type": "object",
+    "properties": {
+        "answer": {
+            "type": "string",
+            "enum": ["A", "B", "C", "D", "E"],
+        },
+    },
+    "required": ["answer"],
+    "additionalProperties": False,
+}
+
+CONFIDENCE_ASSESSMENT_SCHEMA: Dict[str, Any] = {
+    "type": "object",
+    "properties": {
+        "confidence_percentage": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100,
+        },
+        "reasoning": {
+            "type": "string",
+        },
+    },
+    "required": ["confidence_percentage"],
+    "additionalProperties": False,
+}
+
 TARGET_4AFC_SCHEMA: Dict[str, Any] = {
     "type": "object",
     "properties": {
