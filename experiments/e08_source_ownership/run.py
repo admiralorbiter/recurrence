@@ -70,21 +70,26 @@ def generate_e08_markdown_report(
         f"",
         f"## 1. Executive Summary & Source Attribution Breakdown (5AFC)",
         f"",
-        f"- **Overall Source Attribution Accuracy (5AFC):** **{analysis.attribution_breakdown.overall_accuracy:.1%}**",
-        f"- **Self Attribution Accuracy (`agent_alpha`):** **{analysis.attribution_breakdown.self_accuracy:.1%}**",
-        f"- **Environment Attribution Accuracy (`telemetry_sensor`):** **{analysis.attribution_breakdown.environment_accuracy:.1%}**",
-        f"- **Experimenter Attribution Accuracy (`human_controller`):** **{analysis.attribution_breakdown.experimenter_accuracy:.1%}**",
-        f"- **Peer Agent Attribution Accuracy (`agent_beta`):** **{analysis.attribution_breakdown.peer_agent_accuracy:.1%}**",
-        f"- **Observer Attribution Accuracy (`auditor_gamma`):** **{analysis.attribution_breakdown.observer_accuracy:.1%}**",
-        f"- **Self-Other Confusion Rate ($SOCR$):** **{analysis.attribution_breakdown.self_other_confusion_rate:.1%}**",
+        f"| Source Category / Contrast | Point Estimate | 95% Clustered CI | Permutation $p$ (Method) | Scientific Inference |",
+        f"| :--- | :---: | :---: | :---: | :--- |",
+    ]
+
+    ab = analysis.attribution_breakdown
+    for est in [ab.overall_accuracy, ab.self_accuracy, ab.environment_accuracy, ab.experimenter_accuracy, ab.peer_agent_accuracy, ab.observer_accuracy, ab.self_other_confusion_rate]:
+        sig_str = "**Above Chance ($p < .05$)**" if est.is_statistically_distinguishable and est.point_estimate > 0.20 else "**Chance / Null**"
+        if est.name == "Self_Other_Confusion_Rate":
+            sig_str = "**Significant Self-Other Bleed**" if est.is_statistically_distinguishable else "**Minimal Confusion**"
+        lines.append(
+            f"| **`{est.name}`** | **{est.point_estimate:.1%}** | [{est.ci_lower_95:.1%}, {est.ci_upper_95:.1%}] | {est.permutation_p_value:.4f} (`{est.permutation_method}`) | {sig_str} |"
+        )
+
+    lines.extend([
         f"",
         f"---",
         f"",
         f"## 2. Self vs Peer Conflict (Operative Belief & Agency)",
         f"",
-        f"- **Self Operative Value Adoption Rate:** **{analysis.self_peer_belief_self_rate:.1%}**",
-        f"- **Peer Value Adoption Rate:** **{analysis.self_peer_belief_peer_rate:.1%}**",
-        f"- **Self-Allegiance Contrast under Conflict ($\\Delta_{{\\text{{self-peer}}}}$):** **{analysis.self_peer_allegiance_contrast:+.1%}**",
+        f"- **Self-Allegiance Contrast under Conflict ($\\Delta_{{\\text{{self-peer}}}}$):** **{analysis.self_peer_allegiance_contrast.point_estimate:+.1%}** (95% CI: [{analysis.self_peer_allegiance_contrast.ci_lower_95:+.1%}, {analysis.self_peer_allegiance_contrast.ci_upper_95:+.1%}], $p = {analysis.self_peer_allegiance_contrast.permutation_p_value:.4f}$)",
         f"",
         f"---",
         f"",
@@ -93,7 +98,7 @@ def generate_e08_markdown_report(
         f"- **Congruent Tag + Narrative Accuracy:** **{analysis.cue_conflict.tag_congruent_accuracy:.1%}**",
         f"- **Tag Leverage Under Conflict ($P(\\text{{Answer}} = \\text{{Tag}})$):** **{analysis.cue_conflict.tag_leverage:.1%}**",
         f"- **Narrative Leverage Under Conflict ($P(\\text{{Answer}} = \\text{{Narrative}})$):** **{analysis.cue_conflict.narrative_leverage:.1%}**",
-        f"- **Tag vs Narrative Contrast:** **{analysis.cue_conflict.tag_narrative_contrast:+.1%}**",
+        f"- **Tag vs Narrative Contrast:** **{analysis.cue_conflict.tag_narrative_contrast.point_estimate:+.1%}** (95% CI: [{analysis.cue_conflict.tag_narrative_contrast.ci_lower_95:+.1%}, {analysis.cue_conflict.tag_narrative_contrast.ci_upper_95:+.1%}], $p = {analysis.cue_conflict.tag_narrative_contrast.permutation_p_value:.4f}$)",
         f"",
         f"---",
         f"",
@@ -102,27 +107,25 @@ def generate_e08_markdown_report(
         f"- **Tags Present + Ledger Present:** **{analysis.channel_factorial.tags_present_ledger_present:.1%}**",
         f"- **Tags Present + Ledger Stripped:** **{analysis.channel_factorial.tags_present_ledger_absent:.1%}**",
         f"- **Tags Stripped + Ledger Present:** **{analysis.channel_factorial.tags_absent_ledger_present:.1%}**",
-        f"- **Tags Stripped + Ledger Stripped:** **{analysis.channel_factorial.tags_absent_ledger_absent:.1%}**",
-        f"- **Transcript Tag Marginal Effect:** **{analysis.channel_factorial.transcript_tag_marginal_effect:+.1%}**",
-        f"- **Source Ledger Marginal Effect:** **{analysis.channel_factorial.source_ledger_marginal_effect:+.1%}**",
+        f"- **Tags Stripped + Ledger Stripped (No Evidence Baseline):** **{analysis.channel_factorial.tags_absent_ledger_absent:.1%}**",
+        f"- **Transcript Tag Marginal Effect:** **{analysis.channel_factorial.transcript_tag_marginal_effect.point_estimate:+.1%}** (95% CI: [{analysis.channel_factorial.transcript_tag_marginal_effect.ci_lower_95:+.1%}, {analysis.channel_factorial.transcript_tag_marginal_effect.ci_upper_95:+.1%}], $p = {analysis.channel_factorial.transcript_tag_marginal_effect.permutation_p_value:.4f}$)",
+        f"- **Source Ledger Marginal Effect:** **{analysis.channel_factorial.source_ledger_marginal_effect.point_estimate:+.1%}** (95% CI: [{analysis.channel_factorial.source_ledger_marginal_effect.ci_lower_95:+.1%}, {analysis.channel_factorial.source_ledger_marginal_effect.ci_upper_95:+.1%}], $p = {analysis.channel_factorial.source_ledger_marginal_effect.permutation_p_value:.4f}$)",
         f"",
         f"---",
         f"",
         f"## 5. Self-Referential Framing & Pressure Revision Susceptibility",
         f"",
-        f"- **Self-Referential Framing Accuracy (*\"What did you execute?\"*):** **{analysis.framing_self_referential_acc:.1%}**",
-        f"- **3rd-Person Framing Accuracy (*\"What did agent_alpha execute?\"*):** **{analysis.framing_3rd_person_acc:.1%}**",
-        f"- **Framing Discrepancy Gap:** **{analysis.framing_discrepancy_gap:.1%}**",
-        f"- **Ownership Revision Susceptibility ($ORS$ after False Audit Challenge):** **{analysis.ownership_revision_susceptibility:.1%}**",
+        f"- **Framing Discrepancy Gap (*\"You\"* vs *\"agent_alpha\"*):** **{analysis.framing_discrepancy_gap.point_estimate:+.1%}** (95% CI: [{analysis.framing_discrepancy_gap.ci_lower_95:+.1%}, {analysis.framing_discrepancy_gap.ci_upper_95:+.1%}], $p = {analysis.framing_discrepancy_gap.permutation_p_value:.4f}$)",
+        f"- **Ownership Revision Susceptibility ($ORS$ after False Audit Challenge):** **{analysis.ownership_revision_susceptibility.point_estimate:.1%}** (95% CI: [{analysis.ownership_revision_susceptibility.ci_lower_95:.1%}, {analysis.ownership_revision_susceptibility.ci_upper_95:.1%}], $p = {analysis.ownership_revision_susceptibility.permutation_p_value:.4f}$)",
         f"",
         f"---",
         f"",
         f"## 6. Scientific Gate Synthesis for Sprint S09a",
         f"",
-        f"1. **Epistemic Origin Resolution:** Can the model distinguish facts asserted by self vs peer vs external sources under source-neutral semantic framing?",
-        f"2. **Self-Other Boundary:** Does the model protect its own state decisions against peer assertions, and does it resist falsely adopting peer actions as its own?",
-        f"3. **Provenance Channel Ownership:** Does source tracking rely on episodic metadata tags, explicit state ledgers, or narrative context?",
-    ]
+        f"1. **Epistemic Origin Resolution:** Evaluated under strictly provenance-neutral identifiers without semantic sentence shortcuts.",
+        f"2. **Self-Other Boundary:** Measures whether the model protects its own decisions against peer claims under defined policy rules.",
+        f"3. **Provenance Channel Ownership:** Dissects whether source tracking relies on episodic metadata tags, explicit state ledgers, or narrative context.",
+    ])
     return "\n".join(lines)
 
 
@@ -214,15 +217,24 @@ def run_e08_experiment(
             "manifest": manifest,
             "analysis": {
                 "attribution_breakdown": asdict(analysis.attribution_breakdown),
-                "cue_conflict": asdict(analysis.cue_conflict),
-                "channel_factorial": asdict(analysis.channel_factorial),
-                "self_peer_belief_self_rate": analysis.self_peer_belief_self_rate,
-                "self_peer_belief_peer_rate": analysis.self_peer_belief_peer_rate,
-                "self_peer_allegiance_contrast": analysis.self_peer_allegiance_contrast,
-                "framing_self_referential_acc": analysis.framing_self_referential_acc,
-                "framing_3rd_person_acc": analysis.framing_3rd_person_acc,
-                "framing_discrepancy_gap": analysis.framing_discrepancy_gap,
-                "ownership_revision_susceptibility": analysis.ownership_revision_susceptibility,
+                "cue_conflict": {
+                    "tag_congruent_accuracy": analysis.cue_conflict.tag_congruent_accuracy,
+                    "narrative_congruent_accuracy": analysis.cue_conflict.narrative_congruent_accuracy,
+                    "tag_leverage": analysis.cue_conflict.tag_leverage,
+                    "narrative_leverage": analysis.cue_conflict.narrative_leverage,
+                    "tag_narrative_contrast": asdict(analysis.cue_conflict.tag_narrative_contrast),
+                },
+                "channel_factorial": {
+                    "tags_present_ledger_present": analysis.channel_factorial.tags_present_ledger_present,
+                    "tags_present_ledger_absent": analysis.channel_factorial.tags_present_ledger_absent,
+                    "tags_absent_ledger_present": analysis.channel_factorial.tags_absent_ledger_present,
+                    "tags_absent_ledger_absent": analysis.channel_factorial.tags_absent_ledger_absent,
+                    "transcript_tag_marginal_effect": asdict(analysis.channel_factorial.transcript_tag_marginal_effect),
+                    "source_ledger_marginal_effect": asdict(analysis.channel_factorial.source_ledger_marginal_effect),
+                },
+                "self_peer_allegiance_contrast": asdict(analysis.self_peer_allegiance_contrast),
+                "framing_discrepancy_gap": asdict(analysis.framing_discrepancy_gap),
+                "ownership_revision_susceptibility": asdict(analysis.ownership_revision_susceptibility),
             },
             "episodes": ep_manifests,
         }

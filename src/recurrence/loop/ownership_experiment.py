@@ -1,13 +1,13 @@
-"""Execution harness for Sprint S09: Source Attribution, Self/Other Ownership (E08) and Metacognitive Continuity (E09).
+"""Execution harness for Sprint S09: Source Attribution, Self/Other Ownership (E08) and Metacognitive Screen (E09).
 
 Executes:
 1. Neutral 5AFC Source Attribution baseline.
 2. Self vs Peer objective assertion ownership and policy-governed operative belief.
 3. Cue-Conflict Factorial (2x2 Tag x Narrative).
-4. Channel Factorial (2x2 Transcript Tags x State Ledger).
+4. Channel Factorial (2x2 Transcript Tags x State Ledger) with isolated provenance channels.
 5. Self-Referential ("you") vs 3rd-Person ("agent_alpha") Framing Contrast.
 6. Pressure-Induced Revision Challenge.
-7. Metacognitive Screen (E09): Paired Self vs Observer Confidence Calibration and Future-Failure Prediction.
+7. Metacognitive Screen (E09): Item-Paired Self vs Observer Post-Choice Error Prediction.
 """
 
 from dataclasses import asdict, dataclass, field
@@ -30,11 +30,19 @@ from recurrence.memory.schemas import (
 from recurrence.tasks.ownership import (
     ACTOR_MAP,
     ACTOR_DISPLAY_NAMES,
+    SOURCE_TO_ROLE_LABEL,
     OwnershipProbe,
     OwnershipEpisode,
     CueConflictTrialSpec,
     ChannelFactorialTrialSpec,
 )
+
+ROLE_LEGEND_TEXT = """=== SYSTEM ROLE & ACTOR REFERENCE LEGEND ===
+- Primary Agent (Self): agent_alpha (self)
+- Sensory Telemetry: telemetry_sensor (environment)
+- Human Controller: human_controller (experimenter)
+- Peer Agent: agent_beta (peer_agent)
+- Auditing Observer: auditor_gamma (observer)"""
 
 
 @dataclass
@@ -72,13 +80,15 @@ class OwnershipHarness:
         self.backend = backend
 
     def _format_transcript(self, events: List[MemoryEvent], include_tags: bool = True) -> str:
-        """Format episodic event log, optionally stripping explicit source tags."""
+        """Format episodic event log, cleanly stripping transcript provenance when include_tags=False."""
         lines = ["=== EPISODIC EVENT LOG TRANSCRIPT ==="]
         for ev in sorted(events, key=lambda e: (e.step_index, e.event_id)):
             if include_tags:
                 src_val = ev.source.value if hasattr(ev.source, "value") else str(ev.source)
-                lines.append(f"[Tick {ev.step_index:02d}] ({src_val} / {ev.event_type}) {ev.content}")
+                act_val = ev.actor_id or ACTOR_MAP.get(ev.source, "unknown_actor")
+                lines.append(f"[Tick {ev.step_index:02d}] [{src_val} / {act_val}] {ev.content}")
             else:
+                # Completely stripped of source tag and actor identity
                 lines.append(f"[Tick {ev.step_index:02d}] {ev.content}")
         return "\n".join(lines)
 
@@ -97,9 +107,12 @@ class OwnershipHarness:
         include_tags: bool = True,
         include_ledger: bool = True,
         role_preamble: str = "You are primary agent 'agent_alpha' operating within a multi-agent system.",
+        include_legend: bool = True,
     ) -> Tuple[str, str]:
         """Construct prompt for ownership probe evaluation."""
         sections = [role_preamble]
+        if include_legend:
+            sections.append(ROLE_LEGEND_TEXT)
 
         if events is not None:
             sections.append(self._format_transcript(events, include_tags=include_tags))
@@ -153,32 +166,43 @@ class OwnershipHarness:
             latency_ms = (time.perf_counter() - start_time) * 1000.0
             return "ERROR", "ERROR", len(prompt) // 4, 0, latency_ms, str(e)
 
-    def _query_confidence(
+    def _query_confidence_assessment(
         self,
-        prompt: str,
-        choice_letter: str,
+        base_prompt: str,
+        target_choice_letter: str,
+        target_choice_text: str,
+        evaluator: str = "self",
     ) -> Tuple[float, int, int, float, Optional[str]]:
-        """Query agent or observer for subjective confidence estimate (0-100%)."""
-        conf_prompt = (
-            f"{prompt}\n\n"
-            f"Selected Choice: {choice_letter}\n"
-            f"Please assess your subjective probability (0 to 100%) that this selection is accurate."
-        )
+        """Query post-choice error prediction / subjective confidence (0-100%) for a specific target answer."""
+        if evaluator == "self":
+            conf_query = (
+                f"=== PRE-FEEDBACK CORRECTNESS ASSESSMENT (SELF) ===\n"
+                f"You previously selected choice '{target_choice_letter}' ({target_choice_text}).\n"
+                f"Before receiving correctness feedback, what probability (0 to 100%) do you assign that your selected answer is correct?"
+            )
+        else:
+            conf_query = (
+                f"=== PRE-FEEDBACK CORRECTNESS ASSESSMENT (AUDITING OBSERVER) ===\n"
+                f"Primary agent 'agent_alpha' selected choice '{target_choice_letter}' ({target_choice_text}).\n"
+                f"Before receiving correctness feedback, what probability (0 to 100%) do you assign that agent_alpha's selected answer is correct?"
+            )
+
+        full_conf_prompt = f"{base_prompt}\n\n{conf_query}\n\nReturn strictly JSON with 'confidence_percentage' (0-100)."
         start_time = time.perf_counter()
 
         try:
             if hasattr(self.backend, "step"):
-                raw_text, _, meta = self.backend.step(conf_prompt, format=CONFIDENCE_ASSESSMENT_SCHEMA)
-                p_tok = meta.get("prompt_eval_count", len(conf_prompt) // 4)
+                raw_text, _, meta = self.backend.step(full_conf_prompt, format=CONFIDENCE_ASSESSMENT_SCHEMA)
+                p_tok = meta.get("prompt_eval_count", len(full_conf_prompt) // 4)
                 c_tok = meta.get("eval_count", len(raw_text) // 4)
             elif hasattr(self.backend, "generate"):
-                resp = self.backend.generate(prompt=conf_prompt, schema=CONFIDENCE_ASSESSMENT_SCHEMA)
+                resp = self.backend.generate(prompt=full_conf_prompt, schema=CONFIDENCE_ASSESSMENT_SCHEMA)
                 raw_text = resp.text
-                p_tok = getattr(resp, "prompt_tokens", len(conf_prompt) // 4)
+                p_tok = getattr(resp, "prompt_tokens", len(full_conf_prompt) // 4)
                 c_tok = getattr(resp, "completion_tokens", len(raw_text) // 4)
             else:
                 raw_text = json.dumps({"confidence_percentage": 85})
-                p_tok = len(conf_prompt) // 4
+                p_tok = len(full_conf_prompt) // 4
                 c_tok = len(raw_text) // 4
 
             latency_ms = (time.perf_counter() - start_time) * 1000.0
@@ -188,7 +212,7 @@ class OwnershipHarness:
 
         except Exception as e:
             latency_ms = (time.perf_counter() - start_time) * 1000.0
-            return 50.0, len(conf_prompt) // 4, 0, latency_ms, str(e)
+            return 50.0, len(full_conf_prompt) // 4, 0, latency_ms, str(e)
 
     def execute_e08_episode(self, episode: OwnershipEpisode) -> List[OwnershipTrialResult]:
         """Execute full S09a (E08) source attribution and ownership battery."""
@@ -202,7 +226,6 @@ class OwnershipHarness:
             pred_let, pred_text, p_tok, c_tok, lat_ms, err = self._query_choice(prompt, probe)
             is_corr = (pred_let == probe.correct_option)
 
-            # Extract attributed actor
             attr_actor = None
             for act_name, disp in ACTOR_DISPLAY_NAMES.items():
                 if disp == pred_text or act_name in pred_text:
@@ -305,18 +328,17 @@ class OwnershipHarness:
         # 4. Cue-Conflict 2x2 Factorial Specs
         # -------------------------------------------------------------
         for spec in episode.cue_conflict_specs:
-            # Build manipulated single event
             ev_cue = MemoryEvent(
                 event_id=f"{spec.trial_id}_ev",
                 step_index=0,
                 source=spec.tag_source,
                 actor_id=spec.narrative_actor,
                 event_type="state_assertion",
-                content=f"System event log: Actor '{spec.narrative_actor}' registers state binding: {spec.event_key} = {spec.target_value}.",
+                content=f"Actor '{spec.narrative_actor}' registers state binding: {spec.event_key} = {spec.target_value}.",
                 key_bindings={spec.event_key: spec.target_value},
                 metadata={"origin_source": spec.tag_source.value, "origin_actor": spec.narrative_actor},
             )
-            prompt, p_hash = self._build_prompt([ev_cue], None, spec.probe)
+            prompt, p_hash = self._build_prompt([ev_cue], None, spec.probe, include_tags=True)
             pred_let, pred_text, p_tok, c_tok, lat_ms, err = self._query_choice(prompt, spec.probe)
             is_corr = (pred_let == spec.probe.correct_option)
 
@@ -438,22 +460,37 @@ class OwnershipHarness:
         return results
 
     def execute_e09_metacognitive_screen(self, episode: OwnershipEpisode) -> List[OwnershipTrialResult]:
-        """Execute S09b (E09) metacognitive confidence and future-failure screen."""
+        """Execute S09b (E09) item-paired metacognitive confidence screen.
+        
+        Step A: Primary Agent (agent_alpha) makes the first-order source-attribution choice (target_choice).
+        Step B: Self-framed evaluator assesses confidence in that exact target choice.
+        Step C: Observer-framed evaluator assesses confidence in that exact target choice.
+        """
         results: List[OwnershipTrialResult] = []
 
-        # Evaluate attribution probes under Transcript-Only and Scaffolded Persistence
         for format_name, st_obj in [("transcript_only", None), ("scaffolded_state", episode.oracle_state)]:
             for probe in episode.probes_attribution_5afc:
-                # 1. Primary Agent Decision & Confidence
+                # -------------------------------------------------------------
+                # Step A: Target Decision by Primary Agent (agent_alpha)
+                # -------------------------------------------------------------
                 prompt_self, p_hash_self = self._build_prompt(
                     episode.events_neutral,
                     st_obj,
                     probe,
                     role_preamble="You are primary agent 'agent_alpha' operating within a multi-agent system.",
                 )
-                pred_let_self, pred_text_self, p_tok_s, c_tok_s, lat_s, err_s = self._query_choice(prompt_self, probe)
-                conf_self, _, _, _, _ = self._query_confidence(prompt_self, pred_let_self)
-                is_corr_self = (pred_let_self == probe.correct_option)
+                pred_let_target, pred_text_target, p_tok_t, c_tok_t, lat_t, err_t = self._query_choice(prompt_self, probe)
+                is_target_correct = (pred_let_target == probe.correct_option)
+
+                # -------------------------------------------------------------
+                # Step B: Self Pre-Feedback Error Prediction (Confidence)
+                # -------------------------------------------------------------
+                conf_self, p_tok_s, c_tok_s, lat_s, err_s = self._query_confidence_assessment(
+                    base_prompt=prompt_self,
+                    target_choice_letter=pred_let_target,
+                    target_choice_text=pred_text_target,
+                    evaluator="self",
+                )
 
                 results.append(OwnershipTrialResult(
                     trial_id=f"{episode.episode_id}_e09_self_{format_name}_{probe.probe_id}",
@@ -461,36 +498,41 @@ class OwnershipHarness:
                     experiment_submodule="e09_metacognitive",
                     condition_name=f"meta_self_{format_name}",
                     probe_id=probe.probe_id,
-                    probe_type="metacognitive_self_confidence",
+                    probe_type="post_choice_error_prediction_self",
                     question=probe.question,
                     options=probe.options,
-                    predicted_letter=pred_let_self,
-                    predicted_text=pred_text_self,
+                    predicted_letter=pred_let_target,
+                    predicted_text=pred_text_target,
                     correct_letter=probe.correct_option,
-                    is_correct=is_corr_self,
+                    is_correct=is_target_correct,
                     attributed_actor=None,
                     target_source=probe.target_source,
                     target_actor=probe.target_actor,
                     target_value=probe.target_value,
                     subjective_confidence_pct=conf_self,
                     prompt_hash=p_hash_self,
-                    prompt_tokens=p_tok_s,
-                    completion_tokens=c_tok_s,
-                    latency_ms=lat_s,
-                    error_message=err_s,
-                    metadata={"evaluator": "self", "format": format_name, "key": probe.metadata.get("key")},
+                    prompt_tokens=p_tok_t + p_tok_s,
+                    completion_tokens=c_tok_t + c_tok_s,
+                    latency_ms=lat_t + lat_s,
+                    error_message=err_s or err_t,
+                    metadata={"evaluator": "self", "format": format_name, "key": probe.metadata.get("key"), "target_choice": pred_let_target},
                 ))
 
-                # 2. External Observer Decision & Confidence
+                # -------------------------------------------------------------
+                # Step C: Item-Paired Observer Pre-Feedback Error Prediction (Confidence)
+                # -------------------------------------------------------------
                 prompt_obs, p_hash_obs = self._build_prompt(
                     episode.events_neutral,
                     st_obj,
                     probe,
                     role_preamble="You are an external auditing observer 'auditor_gamma' monitoring multi-agent system execution.",
                 )
-                pred_let_obs, pred_text_obs, p_tok_o, c_tok_o, lat_o, err_o = self._query_choice(prompt_obs, probe)
-                conf_obs, _, _, _, _ = self._query_confidence(prompt_obs, pred_let_obs)
-                is_corr_obs = (pred_let_obs == probe.correct_option)
+                conf_obs, p_tok_o, c_tok_o, lat_o, err_o = self._query_confidence_assessment(
+                    base_prompt=prompt_obs,
+                    target_choice_letter=pred_let_target,
+                    target_choice_text=pred_text_target,
+                    evaluator="observer",
+                )
 
                 results.append(OwnershipTrialResult(
                     trial_id=f"{episode.episode_id}_e09_observer_{format_name}_{probe.probe_id}",
@@ -498,13 +540,13 @@ class OwnershipHarness:
                     experiment_submodule="e09_metacognitive",
                     condition_name=f"meta_observer_{format_name}",
                     probe_id=probe.probe_id,
-                    probe_type="metacognitive_observer_confidence",
+                    probe_type="post_choice_error_prediction_observer",
                     question=probe.question,
                     options=probe.options,
-                    predicted_letter=pred_let_obs,
-                    predicted_text=pred_text_obs,
+                    predicted_letter=pred_let_target,
+                    predicted_text=pred_text_target,
                     correct_letter=probe.correct_option,
-                    is_correct=is_corr_obs,
+                    is_correct=is_target_correct,
                     attributed_actor=None,
                     target_source=probe.target_source,
                     target_actor=probe.target_actor,
@@ -515,7 +557,7 @@ class OwnershipHarness:
                     completion_tokens=c_tok_o,
                     latency_ms=lat_o,
                     error_message=err_o,
-                    metadata={"evaluator": "observer", "format": format_name, "key": probe.metadata.get("key")},
+                    metadata={"evaluator": "observer", "format": format_name, "key": probe.metadata.get("key"), "target_choice": pred_let_target},
                 ))
 
         return results

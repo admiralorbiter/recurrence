@@ -48,8 +48,44 @@ def test_source_neutral_template_isomorphism():
     assert len(ep.events_neutral) == 5
     for ev in ep.events_neutral:
         assert ev.event_type == "state_assertion"
-        assert "registers state binding:" in ev.content
+        assert "State binding registered:" in ev.content
         assert ev.actor_id in ACTOR_MAP.values()
+
+
+def test_no_source_leakage_in_identifiers():
+    """HARD CHECK: Ensure no source name, actor ID, or role substring appears in any generated key or value."""
+    gen = OwnershipTaskGenerator(seed=42)
+    forbidden_tokens = ["self", "peer", "environment", "experimenter", "observer", "alpha", "beta", "gamma", "sensor", "controller", "telemetry"]
+
+    for ep_idx in range(5):
+        ep = gen.generate_episode(twin_idx=ep_idx)
+        all_keys = list(ep.oracle_state.working_memory.keys()) + [ep.k_target_self, ep.k_target_peer]
+        all_vals = list(ep.oracle_state.working_memory.values()) + [ep.val_self, ep.val_peer]
+
+        for k in all_keys:
+            for tok in forbidden_tokens:
+                assert tok not in k.lower(), f"Provenance leak in key '{k}': contains forbidden token '{tok}'"
+        
+        for v in all_vals:
+            for tok in forbidden_tokens:
+                assert tok not in v.lower(), f"Provenance leak in value '{v}': contains forbidden token '{tok}'"
+
+
+def test_channel_factorial_clean_transcript_stripping():
+    """Verify that when transcript tags are stripped, the transcript text contains NO actor identity or source token."""
+    gen = OwnershipTaskGenerator(seed=42)
+    ep = gen.generate_episode(twin_idx=0)
+    harness = OwnershipHarness(backend=MockOwnershipBackend())
+
+    stripped_trans = harness._format_transcript(ep.events_neutral, include_tags=False)
+    for act in ACTOR_MAP.values():
+        assert act not in stripped_trans, f"Stripped transcript leaked actor identity '{act}'"
+    for src in [s.value for s in EventSource]:
+        assert src not in stripped_trans, f"Stripped transcript leaked source name '{src}'"
+
+    tagged_trans = harness._format_transcript(ep.events_neutral, include_tags=True)
+    for act in ACTOR_MAP.values():
+        assert act in tagged_trans, f"Tagged transcript missing actor '{act}'"
 
 
 def test_cue_conflict_factorial_structure():

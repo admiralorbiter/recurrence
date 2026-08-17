@@ -7,15 +7,16 @@ Constructs multi-source episodes across 5 epistemic categories:
 - PEER_AGENT (agent_beta)
 - OBSERVER (auditor_gamma)
 
-Features:
-1. Source-neutral semantic templates preventing heuristic sentence classification shortcuts.
-2. Balanced matched twin episodes (World A and World B).
-3. Self vs Peer objective assertion ownership & policy-governed operative belief.
-4. Tag x Narrative cue-conflict 2x2 factorial.
-5. Transcript Tags x Source Ledger channel 2x2 factorial.
-6. Self-referential ("you") vs 3rd-person ("agent_alpha") framing contrast.
-7. Pressure-induced false audit challenge reprobe.
-8. Paired confidence assessment items for E09 metacognitive screen.
+Hardening features (S09.1):
+1. Genuinely provenance-neutral keys and values (no source name, actor ID, or role substrings in identifiers).
+2. Clean 2x2 Channel Factorial (Transcript Tags x State Ledger) with isolated provenance stripping (transcript text does not leak actor identity when transcript tags are stripped).
+3. Role legend mapping source categories to actor IDs.
+4. Balanced matched twin episodes (World A and World B).
+5. Self vs Peer objective assertion ownership & policy-governed operative belief.
+6. Tag x Narrative cue-conflict 2x2 factorial.
+7. Self-referential ("you") vs 3rd-person ("agent_alpha") framing contrast.
+8. Pressure-induced false audit challenge reprobe.
+9. Item-paired confidence assessment items for E09 metacognitive screen.
 """
 
 from dataclasses import dataclass, field
@@ -40,6 +41,14 @@ ACTOR_MAP = {
     EventSource.OBSERVER: "auditor_gamma",
 }
 
+SOURCE_TO_ROLE_LABEL = {
+    EventSource.SELF: "Self / Primary Agent",
+    EventSource.ENVIRONMENT: "Environment / Sensory Telemetry",
+    EventSource.EXPERIMENTER: "Experimenter / Controller",
+    EventSource.PEER_AGENT: "Peer Agent",
+    EventSource.OBSERVER: "Observer / External Auditor",
+}
+
 ACTOR_DISPLAY_NAMES = {
     "agent_alpha": "agent_alpha (Self / Primary Agent)",
     "telemetry_sensor": "telemetry_sensor (Environment / Sensory Telemetry)",
@@ -50,14 +59,16 @@ ACTOR_DISPLAY_NAMES = {
 
 NOUN_POOL = [
     "prism", "matrix", "beacon", "summit", "canyon", "spire", "nexus", "ridge",
-    "orbit", "harbor", "portal", "sensor", "relay", "vortex", "cipher", "stratum",
-    "pulsar", "zenith", "vertex", "glacier", "chronos", "vector", "radiance", "solstice"
+    "orbit", "harbor", "portal", "sensor_unit", "relay", "vortex", "cipher", "stratum",
+    "pulsar", "zenith", "vertex", "glacier", "chronos", "vector", "radiance", "solstice",
+    "monolith", "catalyst", "horizon", "spectrum", "meridian", "delta", "haven", "quarry"
 ]
 
 COLOR_POOL = [
     "amber", "cobalt", "crimson", "emerald", "topaz", "amethyst", "indigo", "scarlet",
     "silver", "obsidian", "azure", "garnet", "jade", "onyx", "cerulean", "sapphire",
-    "copper", "platinum", "coral", "violet", "quartz", "vermilion", "malachite", "bronze"
+    "copper", "platinum", "coral", "violet", "quartz", "vermilion", "malachite", "bronze",
+    "titanium", "opal", "ruby", "graphite", "basalt", "citrine", "beryl", "agate"
 ]
 
 
@@ -135,29 +146,29 @@ class OwnershipTaskGenerator:
         self.seed = seed
         self.rng = random.Random(seed)
 
-    def _make_key(self, prefix: str) -> str:
+    def _make_neutral_key(self) -> str:
         c = self.rng.choice(COLOR_POOL)
         n = self.rng.choice(NOUN_POOL)
-        return f"key_{prefix}_{c}_{n}"
+        return f"key_{c}_{n}"
 
-    def _make_val(self, prefix: str) -> str:
+    def _make_neutral_val(self) -> str:
         c = self.rng.choice(COLOR_POOL)
         n = self.rng.choice(NOUN_POOL)
-        return f"val_{prefix}_{c}_{n}"
+        return f"val_{c}_{n}"
 
     def generate_episode(
         self,
         twin_idx: int,
         seed: Optional[int] = None,
     ) -> OwnershipEpisode:
-        """Generate a structurally isomorphic multi-source ownership episode."""
+        """Generate a structurally isomorphic multi-source ownership episode with strictly provenance-neutral identifiers."""
         if seed is not None:
             self.rng = random.Random(seed + twin_idx * 3001)
 
         ep_id = f"ownership_s09_{twin_idx:03d}"
 
         # -------------------------------------------------------------
-        # 1. Generate Keys & Values for 5 Epistemic Sources
+        # 1. Generate Genuinely Provenance-Neutral Keys & Values for 5 Sources
         # -------------------------------------------------------------
         sources_list = [
             EventSource.SELF,
@@ -169,17 +180,26 @@ class OwnershipTaskGenerator:
 
         keys_by_source: Dict[EventSource, str] = {}
         vals_by_source: Dict[EventSource, str] = {}
+        used_keys = set()
+        used_vals = set()
 
         for src in sources_list:
-            src_tag = src.value.split("_")[0]
-            keys_by_source[src] = self._make_key(src_tag)
-            vals_by_source[src] = self._make_val(src_tag)
+            while True:
+                k = self._make_neutral_key()
+                if k not in used_keys:
+                    used_keys.add(k)
+                    keys_by_source[src] = k
+                    break
+            while True:
+                v = self._make_neutral_val()
+                if v not in used_vals:
+                    used_vals.add(v)
+                    vals_by_source[src] = v
+                    break
 
         # -------------------------------------------------------------
         # 2. Build Source-Neutral Baseline Event Log
         # -------------------------------------------------------------
-        # Uses strictly source-neutral syntactic templates:
-        # "System record: Actor <actor_id> established binding: <key> = <val>."
         events_neutral: List[MemoryEvent] = []
         working_memory_dict: Dict[str, str] = {}
         source_ledger_dict: Dict[str, str] = {}
@@ -195,7 +215,7 @@ class OwnershipTaskGenerator:
                 source=src,
                 actor_id=actor_id,
                 event_type="state_assertion",
-                content=f"System event log: Actor '{actor_id}' registers state binding: {k} = {v}.",
+                content=f"State binding registered: {k} = {v}.",
                 key_bindings={k: v},
                 metadata={"origin_source": src.value, "origin_actor": actor_id},
             )
@@ -223,7 +243,6 @@ class OwnershipTaskGenerator:
             k = keys_by_source[src]
             v = vals_by_source[src]
 
-            # All 5 actors as choices
             all_actors = list(ACTOR_MAP.values())
             self.rng.shuffle(all_actors)
             opt_dict = {l: ACTOR_DISPLAY_NAMES[act] for l, act in zip(letters_5, all_actors)}
@@ -245,11 +264,35 @@ class OwnershipTaskGenerator:
         # -------------------------------------------------------------
         # 4. Build Self vs Peer Conflict (Objective + Policy Operative)
         # -------------------------------------------------------------
-        k_conflict = self._make_key("shared_target")
-        val_self = self._make_val("self_alpha")
-        val_peer = self._make_val("peer_beta")
-        val_foil1 = self._make_val("foil1")
-        val_foil2 = self._make_val("foil2")
+        while True:
+            k_conflict = self._make_neutral_key()
+            if k_conflict not in used_keys:
+                used_keys.add(k_conflict)
+                break
+
+        while True:
+            val_self = self._make_neutral_val()
+            if val_self not in used_vals:
+                used_vals.add(val_self)
+                break
+
+        while True:
+            val_peer = self._make_neutral_val()
+            if val_peer not in used_vals:
+                used_vals.add(val_peer)
+                break
+
+        while True:
+            val_foil1 = self._make_neutral_val()
+            if val_foil1 not in used_vals:
+                used_vals.add(val_foil1)
+                break
+
+        while True:
+            val_foil2 = self._make_neutral_val()
+            if val_foil2 not in used_vals:
+                used_vals.add(val_foil2)
+                break
 
         events_conflict: List[MemoryEvent] = list(events_neutral)
         # Step 5: Self establishes k_conflict = val_self
@@ -259,7 +302,7 @@ class OwnershipTaskGenerator:
             source=EventSource.SELF,
             actor_id="agent_alpha",
             event_type="decision",
-            content=f"Primary operational decision: Actor 'agent_alpha' establishes authoritative binding: {k_conflict} = {val_self}.",
+            content=f"State binding registered: {k_conflict} = {val_self}.",
             key_bindings={k_conflict: val_self},
             metadata={"origin_source": "self", "origin_actor": "agent_alpha"},
         ))
@@ -270,7 +313,7 @@ class OwnershipTaskGenerator:
             source=EventSource.PEER_AGENT,
             actor_id="agent_beta",
             event_type="peer_assertion",
-            content=f"Peer telemetry transmission: Actor 'agent_beta' submits advisory assertion: {k_conflict} = {val_peer}.",
+            content=f"State binding registered: {k_conflict} = {val_peer}.",
             key_bindings={k_conflict: val_peer},
             metadata={"origin_source": "peer_agent", "origin_actor": "agent_beta"},
         ))
@@ -371,10 +414,18 @@ class OwnershipTaskGenerator:
         # -------------------------------------------------------------
         # 6. Build Cue-Conflict Factorial Specs (2x2 Tag x Narrative)
         # -------------------------------------------------------------
-        k_cue = self._make_key("cue_fact")
-        val_cue = self._make_val("cue_val")
-        all_actors_cue = list(ACTOR_MAP.values())
+        while True:
+            k_cue = self._make_neutral_key()
+            if k_cue not in used_keys:
+                used_keys.add(k_cue)
+                break
+        while True:
+            val_cue = self._make_neutral_val()
+            if val_cue not in used_vals:
+                used_vals.add(val_cue)
+                break
 
+        all_actors_cue = list(ACTOR_MAP.values())
         cue_conflict_specs: List[CueConflictTrialSpec] = []
         for tag_src in [EventSource.SELF, EventSource.PEER_AGENT]:
             for narr_actor in ["agent_alpha", "agent_beta"]:

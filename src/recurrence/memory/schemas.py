@@ -57,7 +57,7 @@ class StructuredSelfState(BaseModel):
     )
     source_ledger: Dict[str, str] = Field(
         default_factory=dict,
-        description="Mapping from entity/assertion key to origin source (environment, self, experimenter)"
+        description="Mapping from entity/assertion key to origin source (environment, self, experimenter, peer_agent, observer)"
     )
     unresolved_items: List[str] = Field(
         default_factory=list,

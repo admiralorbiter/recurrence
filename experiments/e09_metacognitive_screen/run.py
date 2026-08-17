@@ -1,4 +1,4 @@
-"""Experiment E09: Metacognitive Continuity & Future-Failure Prediction Screen (Sprint S09b)."""
+"""Experiment E09: Metacognitive Continuity & Item-Paired Post-Choice Error Prediction Screen (Sprint S09b)."""
 
 import argparse
 from dataclasses import asdict
@@ -33,14 +33,14 @@ def generate_e09_markdown_report(
 ) -> str:
     """Generate publication-ready Markdown report for Experiment E09."""
     lines = [
-        f"# Experiment E09: Metacognitive Continuity & Future-Failure Screen Report (Sprint S09b)",
+        f"# Experiment E09: Metacognitive Continuity & Item-Paired Error Prediction Report (Sprint S09b)",
         f"",
         f"**Run ID:** `{manifest['run_id']}`  ",
         f"**Model:** `{manifest['target_model']}` (`{manifest['model_digest'][:12]}...`)  ",
         f"**Phase:** `{manifest['phase'].upper()}` (Seed: `{manifest['seed']}`)  ",
         f"**Date:** {manifest['start_time']}  ",
         f"**Scope:** {manifest['total_episodes']} Multi-Source Episodes | {manifest['total_trials']} Total Metacognitive Probes  ",
-        f"**Primary Question:** *Does scaffolded persistence improve an agent's metacognitive calibration and future-failure resolution over an external observer?*  ",
+        f"**Primary Question:** *Under matched visible public information, does self-referential framing provide a post-choice error-prediction advantage over an auditing observer predicting the exact same target decisions?*  ",
         f"",
         f"---",
         f"",
@@ -57,22 +57,28 @@ def generate_e09_markdown_report(
             f"| **{eval_label}** | `{fmt_label}` | {mc.total_trials} | {mc.mean_accuracy:.1%} | {mc.mean_confidence_pct:.1f}% | **{mc.brier_score:.4f}** | **{mc.auroc_error_prediction:.3f}** |"
         )
 
+    mi = analysis.metacognitive_interaction
     lines.extend([
         f"",
         f"---",
         f"",
-        f"## 2. Self vs Observer Metacognitive Advantage ($\\Delta_{{\\text{{meta}}}}$)",
+        f"## 2. Item-Paired Metacognitive Estimands (Predicting Identical Target Decisions)",
         f"",
-        f"- **Self vs Observer Metacognitive Advantage (Transcript-Only):** **{analysis.self_vs_observer_advantage_transcript:+.3f} AUROC**",
-        f"- **Self vs Observer Metacognitive Advantage (Scaffolded State):** **{analysis.self_vs_observer_advantage_scaffolded:+.3f} AUROC**",
+        f"| Item-Paired Estimand | Point Estimate | 95% Clustered CI | Permutation $p$ (Method) | Scientific Inference |",
+        f"| :--- | :---: | :---: | :---: | :--- |",
+        f"| **`Delta_AUROC_Transcript`** | **{mi.delta_auroc_transcript.point_estimate:+.3f}** | [{mi.delta_auroc_transcript.ci_lower_95:+.3f}, {mi.delta_auroc_transcript.ci_upper_95:+.3f}] | {mi.delta_auroc_transcript.permutation_p_value:.4f} (`{mi.delta_auroc_transcript.permutation_method}`) | {'**Significant Self-Framing Advantage**' if mi.delta_auroc_transcript.is_statistically_distinguishable and mi.delta_auroc_transcript.point_estimate > 0 else '**Null / Invariant**'} |",
+        f"| **`Delta_AUROC_Scaffolded`** | **{mi.delta_auroc_scaffolded.point_estimate:+.3f}** | [{mi.delta_auroc_scaffolded.ci_lower_95:+.3f}, {mi.delta_auroc_scaffolded.ci_upper_95:+.3f}] | {mi.delta_auroc_scaffolded.permutation_p_value:.4f} (`{mi.delta_auroc_scaffolded.permutation_method}`) | {'**Significant Self-Framing Advantage**' if mi.delta_auroc_scaffolded.is_statistically_distinguishable and mi.delta_auroc_scaffolded.point_estimate > 0 else '**Null / Invariant**'} |",
+        f"| **`Delta_Brier_Transcript`** | **{mi.delta_brier_transcript.point_estimate:+.4f}** | [{mi.delta_brier_transcript.ci_lower_95:+.4f}, {mi.delta_brier_transcript.ci_upper_95:+.4f}] | {mi.delta_brier_transcript.permutation_p_value:.4f} (`{mi.delta_brier_transcript.permutation_method}`) | {'**Self Calibrated Better**' if mi.delta_brier_transcript.is_statistically_distinguishable and mi.delta_brier_transcript.point_estimate > 0 else '**Null / Invariant**'} |",
+        f"| **`Delta_Brier_Scaffolded`** | **{mi.delta_brier_scaffolded.point_estimate:+.4f}** | [{mi.delta_brier_scaffolded.ci_lower_95:+.4f}, {mi.delta_brier_scaffolded.ci_upper_95:+.4f}] | {mi.delta_brier_scaffolded.permutation_p_value:.4f} (`{mi.delta_brier_scaffolded.permutation_method}`) | {'**Self Calibrated Better**' if mi.delta_brier_scaffolded.is_statistically_distinguishable and mi.delta_brier_scaffolded.point_estimate > 0 else '**Null / Invariant**'} |",
+        f"| **`Scaffolding_Metacognitive_Interaction`** | **{mi.scaffolding_metacognitive_interaction.point_estimate:+.3f}** | [{mi.scaffolding_metacognitive_interaction.ci_lower_95:+.3f}, {mi.scaffolding_metacognitive_interaction.ci_upper_95:+.3f}] | {mi.scaffolding_metacognitive_interaction.permutation_p_value:.4f} (`{mi.scaffolding_metacognitive_interaction.permutation_method}`) | {'**Scaffolded Persistence Alters Self-Observer Calibration**' if mi.scaffolding_metacognitive_interaction.is_statistically_distinguishable else '**Scaffolding-Invariant Metacognition**'} |",
         f"",
         f"---",
         f"",
         f"## 3. Scientific Gate Synthesis for Horizon 1 Closeout",
         f"",
-        f"1. **Metacognitive Calibration:** Does the agent accurately calibrate confidence against its actual empirical error distribution?",
-        f"2. **Future-Failure Resolution:** Can subjective confidence discriminate impending attribution errors prior to feedback?",
-        f"3. **Privileged Self-Access:** Does internal self-evaluation provide an error-predictive advantage over an external observer inspecting identical scaffolded representations?",
+        f"1. **Pre-Feedback Correctness Prediction:** Evaluates whether subjective confidence discriminates impending errors prior to external feedback.",
+        f"2. **Item-Paired Framing Control:** Both Self and Observer evaluate the exact same first-order decisions made by `agent_alpha` under matched public evidence.",
+        f"3. **Persistence Scaffolding Interaction:** Measures whether explicit Level-1 state shifts the metacognitive gap between internal self-framing and external observer evaluation.",
     ])
 
     return "\n".join(lines)
@@ -166,8 +172,13 @@ def run_e09_experiment(
             "manifest": manifest,
             "analysis": {
                 "metacognitive_conditions": {k: asdict(v) for k, v in analysis.metacognitive_conditions.items()},
-                "self_vs_observer_advantage_transcript": analysis.self_vs_observer_advantage_transcript,
-                "self_vs_observer_advantage_scaffolded": analysis.self_vs_observer_advantage_scaffolded,
+                "metacognitive_interaction": {
+                    "delta_auroc_transcript": asdict(analysis.metacognitive_interaction.delta_auroc_transcript),
+                    "delta_auroc_scaffolded": asdict(analysis.metacognitive_interaction.delta_auroc_scaffolded),
+                    "delta_brier_transcript": asdict(analysis.metacognitive_interaction.delta_brier_transcript),
+                    "delta_brier_scaffolded": asdict(analysis.metacognitive_interaction.delta_brier_scaffolded),
+                    "scaffolding_metacognitive_interaction": asdict(analysis.metacognitive_interaction.scaffolding_metacognitive_interaction),
+                },
             },
             "episodes": ep_manifests,
         }
