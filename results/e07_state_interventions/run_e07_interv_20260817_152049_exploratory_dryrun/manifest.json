@@ -1,0 +1,11 @@
+{
+  "run_id": "run_e07_interv_20260817_152049_exploratory_dryrun",
+  "target_model": "qwen2.5:3b",
+  "model_digest": "mock_digest_dryrun_e07",
+  "phase": "exploratory",
+  "seed": 42,
+  "temperature": 0.0,
+  "start_time": "2026-08-17T15:20:49.317075+00:00",
+  "total_twin_pairs": 2,
+  "total_trials": 100
+}

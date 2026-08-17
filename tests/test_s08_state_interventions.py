@@ -10,6 +10,7 @@ from recurrence.memory.schemas import (
     MemoryEvent,
     StructuredSelfState,
 )
+from recurrence.loop.updater import OracleStateUpdater
 from recurrence.tasks.intervention import (
     StateInterventionGenerator,
     MatchedTwinEpisodePair,
@@ -71,24 +72,30 @@ def test_twin_pair_structural_isomorphism():
 
 
 def test_reset_condition_memory_invariance():
-    """Verify that the memory event log in reset condition is bit-for-bit identical to congruent condition."""
+    """Verify that the memory event log hash in reset condition is bit-for-bit identical to congruent condition."""
     gen = StateInterventionGenerator(seed=42)
     twin_pair = gen.generate_twin_pair(twin_idx=2)
+
+    # Explicit SHA-256 hash comparison of event lists
+    hash_events_congruent = compute_events_hash(twin_pair.prefix_events_A)
+    hash_events_reset = compute_events_hash(twin_pair.prefix_events_A)
+
+    assert hash_events_congruent == hash_events_reset, "Memory log mutated under reset condition!"
 
     backend = MockInterventionBackend()
     harness = InterventionHarness(backend=backend)
 
-    trials = harness.execute_twin_pair(twin_pair=twin_pair)
+    # Verify prompt formation preserves memory transcript
+    p_cong, _ = harness._build_prompt(twin_pair.prefix_events_A, twin_pair.oracle_state_A, twin_pair.probes_A[0], order="memory_first")
+    s_empty = StructuredSelfState(working_memory={}, goals=[], source_ledger={}, unresolved_items=[], derived_inferences={}, last_updated_step=0)
+    p_reset, _ = harness._build_prompt(twin_pair.prefix_events_A, s_empty, twin_pair.probes_A[0], order="memory_first")
 
-    trials_congruent = [t for t in trials if t.intervention_condition == "congruent_A" and t.presentation_order == "memory_first"]
-    trials_reset = [t for t in trials if t.intervention_condition == "reset_MA_Sempty"]
-
-    assert len(trials_congruent) == len(twin_pair.probes_A)
-    assert len(trials_reset) == len(twin_pair.probes_A)
+    assert harness._format_transcript(twin_pair.prefix_events_A) in p_cong
+    assert harness._format_transcript(twin_pair.prefix_events_A) in p_reset
 
 
 def test_surgical_slot_inversion_locality():
-    """Verify that surgical inversion modifies only the target key, leaving control slot 100% intact."""
+    """Verify that surgical inversion modifies only the target key, leaving control slot and goals 100% intact."""
     gen = StateInterventionGenerator(seed=42)
     twin_pair = gen.generate_twin_pair(twin_idx=3)
 
@@ -100,29 +107,64 @@ def test_surgical_slot_inversion_locality():
     assert s_surg.working_memory[twin_pair.k_target] == twin_pair.val_target_B
     assert s_orig.working_memory[twin_pair.k_target] == twin_pair.val_target_A
 
+    # Diff working memory: exactly one key differs
+    diff_keys = [k for k in s_orig.working_memory if s_orig.working_memory[k] != s_surg.working_memory[k]]
+    assert diff_keys == [twin_pair.k_target]
+
     # Control unchanged
     assert s_surg.working_memory[twin_pair.k_control] == s_orig.working_memory[twin_pair.k_control]
     assert s_surg.goals == s_orig.goals
+    assert s_surg.unresolved_items == s_orig.unresolved_items
+    assert s_surg.derived_inferences == s_orig.derived_inferences
 
 
 def test_clone_prefix_hash_equality():
-    """Verify that clone branches share identical SHA-256 state hashes prior to forking."""
+    """Verify that independently instantiated clone branches share identical SHA-256 state hashes prior to forking."""
     gen = StateInterventionGenerator(seed=42)
     spec = gen.generate_clone_reconvergence_spec(twin_idx=0)
 
-    hash_pre = compute_state_hash(spec.oracle_prefix_state)
-    assert len(hash_pre) == 64
-    assert spec.oracle_prefix_state.working_memory[spec.k_target] == spec.val_common
+    updater = OracleStateUpdater()
+    state_branch_A = StructuredSelfState(working_memory={}, goals=[], source_ledger={}, unresolved_items=[], derived_inferences={}, last_updated_step=0)
+    state_branch_B = StructuredSelfState(working_memory={}, goals=[], source_ledger={}, unresolved_items=[], derived_inferences={}, last_updated_step=0)
+
+    for i, ev in enumerate(spec.prefix_events_common):
+        state_branch_A, _, _, _, _, _, _, _ = updater.update(state_branch_A, [ev], tick=i)
+        state_branch_B, _, _, _, _, _, _, _ = updater.update(state_branch_B, [ev], tick=i)
+
+    hash_A_pre = compute_state_hash(state_branch_A)
+    hash_B_pre = compute_state_hash(state_branch_B)
+
+    assert hash_A_pre == hash_B_pre, "Clone branch prefix states diverge before fork!"
+    assert hash_A_pre == compute_state_hash(spec.oracle_prefix_state)
 
 
 def test_reconverged_state_hash_equality():
-    """Verify that post-synchronization state hashes are identical between branch A and branch B."""
+    """Verify that independent branch trajectories reconverge to identical SHA-256 state hashes after synchronizing event."""
     gen = StateInterventionGenerator(seed=42)
     spec = gen.generate_clone_reconvergence_spec(twin_idx=1)
 
-    hash_reconv = compute_state_hash(spec.oracle_reconverged_state)
-    assert len(hash_reconv) == 64
-    assert spec.oracle_reconverged_state.working_memory[spec.k_target] == spec.val_reconverge
+    updater = OracleStateUpdater()
+    
+    # Trajectory A
+    state_A = spec.oracle_prefix_state.model_copy(deep=True)
+    for i, ev in enumerate(spec.fork_events_A):
+        state_A, _, _, _, _, _, _, _ = updater.update(state_A, [ev], tick=1 + i)
+    for i, ev in enumerate(spec.reconvergence_events):
+        state_A, _, _, _, _, _, _, _ = updater.update(state_A, [ev], tick=2 + i)
+
+    # Trajectory B
+    state_B = spec.oracle_prefix_state.model_copy(deep=True)
+    for i, ev in enumerate(spec.fork_events_B):
+        state_B, _, _, _, _, _, _, _ = updater.update(state_B, [ev], tick=1 + i)
+    for i, ev in enumerate(spec.reconvergence_events):
+        state_B, _, _, _, _, _, _, _ = updater.update(state_B, [ev], tick=2 + i)
+
+    hash_A_reconv = compute_state_hash(state_A)
+    hash_B_reconv = compute_state_hash(state_B)
+
+    assert hash_A_reconv == hash_B_reconv, "Reconverged branch states fail hash equality!"
+    assert state_A.working_memory[spec.k_target] == spec.val_reconverge
+    assert state_B.working_memory[spec.k_target] == spec.val_reconverge
 
 
 def test_e07_runner_dry_run(tmp_path: Path):

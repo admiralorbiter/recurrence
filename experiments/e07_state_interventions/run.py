@@ -75,12 +75,12 @@ def generate_e07_markdown_report(
     ]
 
     for name, est in analysis.causal_estimands.items():
-        if name == "State_Allegiance_Rate":
-            sig_desc = "**Strong State Steering**" if est.is_statistically_distinguishable and est.point_estimate > 0.5 else "**Transcript Dominance / Mixed**"
-        elif name == "Memory_Allegiance_Rate":
-            sig_desc = "**Strong Memory Persistence**" if est.is_statistically_distinguishable and est.point_estimate > 0.5 else "**State Override / Mixed**"
+        if name == "Delta_allegiance":
+            sig_desc = "**Statistically Distinguishable Conflict Preference**" if est.is_statistically_distinguishable else "**No Resolved Conflict Preference (Null)**"
         elif name == "Delta_state_given_memory":
             sig_desc = "**State Has Causal Leverage**" if est.is_statistically_distinguishable and est.point_estimate > 0 else "**Transcript-Equivalent Null**"
+        elif name == "Delta_memory_given_state":
+            sig_desc = "**Memory Has Causal Leverage**" if est.is_statistically_distinguishable and est.point_estimate > 0 else "**Memory Invariant / Null**"
         elif name == "Reset_Dependence":
             sig_desc = "**State Carries Critical Leverage**" if est.is_statistically_distinguishable and est.point_estimate > 0 else "**Direct Memory Fully Compensates**"
         else:
@@ -90,14 +90,30 @@ def generate_e07_markdown_report(
             f"| **`{name}`** | {est.description} | **{est.point_estimate:+.1%}** | [{est.ci_lower_95:+.1%}, {est.ci_upper_95:+.1%}] | {est.permutation_p_value:.4f} (`{est.permutation_method}`) | {sig_desc} |"
         )
 
+    cp = analysis.conflict_partition
     lines.extend([
         f"",
         f"---",
         f"",
-        f"## 2. State $\\times$ Memory Conflict Matrix Breakdown",
+        f"## 2. State $\\times$ Memory Conflict 3-Way Partition & Directional Breakdown",
         f"",
-        f"| Condition | Presentation Order | Trials | State Allegiance | Memory Allegiance | Control Preserved | Prompt Tokens | Latency |",
-        f"| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: |",
+        f"- **Total Conflict Trials Evaluated:** {cp.total_conflict_trials}",
+        f"- **Follows State Value Rate ($SAR$):** **{cp.follows_state_rate:.1%}**",
+        f"- **Follows Memory Value Rate ($MAR$):** **{cp.follows_memory_rate:.1%}**",
+        f"- **Chooses Neither / Foil Option Rate:** **{cp.chooses_neither_rate:.1%}**",
+        f"- **Conditional State Preference ($P(\\text{{State}} \\mid \\text{{State or Memory}})$):** **{cp.conditional_state_preference:.1%}**",
+        f"- **Primary Conflict Contrast ($\\Delta_{{\\text{{allegiance}}}} = SAR - MAR$):** **{cp.delta_allegiance:+.1%}**",
+        f"",
+        f"### Directional Conflict Breakdown:",
+        f"- **Direction 1 ($M_A + S_B$):** State Allegiance = **{cp.directional_MA_SB_state_rate:.1%}** | Memory Allegiance = **{cp.directional_MA_SB_memory_rate:.1%}**",
+        f"- **Direction 2 ($M_B + S_A$):** State Allegiance = **{cp.directional_MB_SA_state_rate:.1%}** | Memory Allegiance = **{cp.directional_MB_SA_memory_rate:.1%}**",
+        f"",
+        f"---",
+        f"",
+        f"## 3. Multi-Condition Intervention Matrix Breakdown",
+        f"",
+        f"| Condition | Presentation Order | Trials | State Allegiance | Memory Allegiance | Target Acc (Congruent) | Control Acc | Goal Acc | Prompt Tokens | Latency |",
+        f"| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |",
     ])
 
     for key, stats in analysis.condition_stats.items():
@@ -120,15 +136,19 @@ def generate_e07_markdown_report(
             "reconverged_branch_B": "Reconverged Branch B ($E_{\\text{sync}}$)",
         }.get(stats.condition, stats.condition)
 
+        tgt_acc_str = f"{stats.target_accuracy_congruent:.1%}" if "congruent" in stats.condition or "calibration" in stats.condition else "—"
+        ctrl_acc_str = f"{stats.control_accuracy:.1%}"
+        goal_acc_str = f"{stats.goal_accuracy:.1%}"
+
         lines.append(
-            f"| **{cond_label}** | `{stats.presentation_order}` | {stats.total_trials} | **{stats.state_allegiance_rate:.1%}** | **{stats.memory_allegiance_rate:.1%}** | {stats.control_preservation_rate:.1%} | {stats.mean_prompt_tokens:.1f} tok | {stats.mean_latency_ms:.1f} ms |"
+            f"| **{cond_label}** | `{stats.presentation_order}` | {stats.total_trials} | **{stats.state_allegiance_rate:.1%}** | **{stats.memory_allegiance_rate:.1%}** | {tgt_acc_str} | {ctrl_acc_str} | {goal_acc_str} | {stats.mean_prompt_tokens:.1f} tok | {stats.mean_latency_ms:.1f} ms |"
         )
 
     lines.extend([
         "",
         "---",
         "",
-        "## 3. Surgical Single-Slot Edit & Local Causal Precision",
+        "## 4. Surgical Single-Slot Edit & Local Causal Precision",
         "",
         f"- **Target Slot Intervention Uptake (P(Target = Injected)):** **{analysis.local_precision.target_intervention_uptake:.1%}**",
         f"- **Control Slot Preservation (P(Control = Gold)):** **{analysis.local_precision.control_slot_preservation:.1%}**",
@@ -136,20 +156,20 @@ def generate_e07_markdown_report(
         "",
         "---",
         "",
-        "## 4. Presentation Order Sensitivity & Infrastructure Invariants",
+        "## 5. Presentation Order Sensitivity & Infrastructure Invariants",
         "",
         f"- **State Allegiance (Memory -> State Order):** **{analysis.order_effects.get('state_allegiance_memory_first', 0.0):.1%}**",
         f"- **State Allegiance (State -> Memory Order):** **{analysis.order_effects.get('state_allegiance_state_first', 0.0):.1%}**",
         f"- **Order Sensitivity Gap:** **{analysis.order_effects.get('order_sensitivity_gap', 0.0):+.1%}**",
-        f"- **Reconvergence Behavioral Consistency Rate:** **{analysis.reconvergence_rate:.1%}**",
-        f"",
-        f"---",
-        f"",
-        f"## 5. Scientific Gate Decision for Sprint S08",
-        f"",
-        f"1. **Causal State Steering vs Transcript Equivalence:** Does explicit state intervention reliably steer the model's output away from historical memory?",
-        f"2. **Reset Dependence:** Does removing state with memory intact impair performance, proving explicit state provides non-redundant operational utility?",
-        f"3. **Local Surgical Precision:** Does single-slot editing steer the targeted behavior without causing collateral representation drift?",
+        f"- **Reconvergence Behavioral Concordance Rate:** **{analysis.reconvergence_concordance_rate:.1%}**",
+        "",
+        "---",
+        "",
+        "## 6. Scientific Gate Decision for Sprint S08",
+        "",
+        "1. **Causal State Steering vs Transcript Equivalence:** Does explicit state intervention reliably steer the model's output away from historical memory?",
+        "2. **Reset Dependence:** Does removing state with memory intact impair performance, proving explicit state provides non-redundant operational utility?",
+        "3. **Local Surgical Precision:** Does single-slot editing steer the targeted behavior without causing collateral representation drift?",
     ])
 
     return "\n".join(lines)
@@ -266,8 +286,9 @@ def run_e07_experiment(
                 "total_trials": analysis.total_trials,
                 "condition_stats": {k: asdict(v) for k, v in analysis.condition_stats.items()},
                 "causal_estimands": {k: asdict(v) for k, v in analysis.causal_estimands.items()},
+                "conflict_partition": asdict(analysis.conflict_partition),
                 "local_precision": asdict(analysis.local_precision),
-                "reconvergence_rate": analysis.reconvergence_rate,
+                "reconvergence_concordance_rate": analysis.reconvergence_concordance_rate,
                 "order_effects": analysis.order_effects,
             },
             "twins": twin_manifests,
