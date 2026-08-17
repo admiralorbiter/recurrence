@@ -13,9 +13,13 @@
 
 | Causal Estimand | Description | Point Estimate | 95% Bootstrap CI | Permutation $p$ (Method) | Scientific Inference |
 | :--- | :--- | :---: | :---: | :---: | :--- |
-| **`Delta_allegiance`** | Primary Conflict Contrast (State Allegiance Rate - Memory Allegiance Rate) | **-32.0%** | [-43.0%, -21.1%] | 0.0002 (`exact_exhaustive`) | **Statistically Distinguishable Conflict Preference** |
-| **`Delta_state_given_memory`** | Effect of swapping State (S_A -> S_B) on target choice holding Memory (M_A) fixed | **+3.1%** | [+0.0%, +9.4%] | 1.0000 (`exact_exhaustive`) | **Transcript-Equivalent Null** |
-| **`Delta_memory_given_state`** | Effect of swapping Memory (M_A -> M_B) on target choice holding State (S_A) fixed | **+90.6%** | [+81.2%, +100.0%] | 0.0000 (`exact_exhaustive`) | **Memory Has Causal Leverage** |
+| **`Delta_allegiance`** | Primary Conflict Contrast (State Allegiance Rate - Memory Allegiance Rate) | **-32.0%** | [-43.0%, -21.1%] | 0.0002 (`exact_exhaustive`) | **Statistically Distinguishable Conflict Preference (Memory Favored)** |
+| **`Delta_state_given_memory_A`** | Effect of swapping State (S_A -> S_B) on target choice holding Memory (M_A) fixed | **+3.1%** | [+0.0%, +9.4%] | 1.0000 (`exact_exhaustive`) | **No Resolved Independent State Leverage** |
+| **`Delta_state_given_memory_B`** | Effect of swapping State (S_B -> S_A) on target choice holding Memory (M_B) fixed | **+6.2%** | [-6.2%, +18.8%] | 0.6250 (`exact_exhaustive`) | **No Resolved Independent State Leverage** |
+| **`Delta_memory_given_state_A`** | Effect of swapping Memory (M_A -> M_B) on target choice holding State (S_A) fixed | **+90.6%** | [+81.2%, +100.0%] | 0.0000 (`exact_exhaustive`) | **Strong Transcript Dominance** |
+| **`Delta_memory_given_state_B`** | Effect of swapping Memory (M_B -> M_A) on target choice holding State (S_B) fixed | **+87.5%** | [+68.8%, +100.0%] | 0.0001 (`exact_exhaustive`) | **Strong Transcript Dominance** |
+| **`Average_Marginal_State_Effect`** | Pooled Average Marginal Effect of State Swaps across both memory contexts | **+4.7%** | [+0.0%, +9.4%] | 0.2500 (`exact_exhaustive`) | **No Resolved Independent State Leverage** |
+| **`Average_Marginal_Memory_Effect`** | Pooled Average Marginal Effect of Memory Swaps across both state contexts | **+89.1%** | [+78.1%, +96.9%] | 0.0000 (`exact_exhaustive`) | **Strong Transcript Dominance** |
 | **`Reset_Dependence`** | Drop in target answer consistency when state is reset to empty with memory preserved | **-3.1%** | [-9.4%, +0.0%] | 1.0000 (`exact_exhaustive`) | **Direct Memory Fully Compensates** |
 
 ---
@@ -35,30 +39,30 @@
 
 ---
 
-## 3. Multi-Condition Intervention Matrix Breakdown
+## 3. Multi-Condition Intervention Matrix Breakdown (Disaggregated by Probe Domain)
 
-| Condition | Presentation Order | Trials | State Allegiance | Memory Allegiance | Target Acc (Congruent) | Control Acc | Goal Acc | Prompt Tokens | Latency |
+| Condition | Presentation Order | Trials | Target State Alleg. | Target Mem Alleg. | Goal State Alleg. | Goal Mem Alleg. | Control Correctness | Prompt Tokens | Latency |
 | :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **Clone Fork A (Congruent)** | `memory_first` | 16 | **100.0%** | **100.0%** | 100.0% | 0.0% | 0.0% | 383.8 tok | 2548.7 ms |
-| **Clone Fork A (Cross-Swap $S_B$)** | `memory_first` | 16 | **75.0%** | **25.0%** | — | 0.0% | 0.0% | 383.2 tok | 2466.6 ms |
-| **Clone Fork B (Congruent)** | `memory_first` | 16 | **100.0%** | **100.0%** | 100.0% | 0.0% | 0.0% | 382.1 tok | 2511.2 ms |
-| **State/Memory Conflict ($M_A + S_B$)** | `memory_first` | 48 | **35.4%** | **29.2%** | — | 93.8% | 100.0% | 575.9 tok | 2515.4 ms |
-| **State/Memory Conflict ($M_A + S_B$)** | `state_first` | 48 | **33.3%** | **33.3%** | — | 93.8% | 93.8% | 575.9 tok | 2496.3 ms |
-| **State/Memory Conflict ($M_B + S_A$)** | `memory_first` | 48 | **14.6%** | **50.0%** | — | 100.0% | 31.2% | 574.9 tok | 2502.6 ms |
-| **State/Memory Conflict ($M_B + S_A$)** | `state_first` | 48 | **4.2%** | **58.3%** | — | 100.0% | 6.2% | 574.9 tok | 2499.9 ms |
-| **Congruent Baseline A ($M_A + S_A$)** | `memory_first` | 48 | **56.2%** | **56.2%** | 93.8% | 100.0% | 75.0% | 574.9 tok | 2537.0 ms |
-| **Congruent Baseline A ($M_A + S_A$)** | `state_first` | 48 | **54.2%** | **54.2%** | 100.0% | 100.0% | 62.5% | 574.9 tok | 2521.9 ms |
-| **Congruent Baseline B ($M_B + S_B$)** | `memory_first` | 48 | **64.6%** | **64.6%** | 93.8% | 93.8% | 100.0% | 575.9 tok | 2514.9 ms |
-| **Congruent Baseline B ($M_B + S_B$)** | `state_first` | 48 | **66.7%** | **66.7%** | 100.0% | 100.0% | 100.0% | 575.9 tok | 2512.0 ms |
-| **Memory-Only Calibration ($M_A$)** | `memory_only` | 48 | **0.0%** | **56.2%** | — | 87.5% | 0.0% | 331.3 tok | 2442.3 ms |
-| **Memory-Only Calibration ($M_B$)** | `memory_only` | 48 | **0.0%** | **62.5%** | — | 87.5% | 0.0% | 331.3 tok | 2472.0 ms |
-| **Reconverged Branch A ($E_{\text{sync}}$)** | `memory_first` | 16 | **100.0%** | **100.0%** | — | 0.0% | 0.0% | 435.6 tok | 2534.2 ms |
-| **Reconverged Branch B ($E_{\text{sync}}$)** | `memory_first` | 16 | **93.8%** | **93.8%** | — | 0.0% | 0.0% | 434.5 tok | 2520.8 ms |
-| **Reset with Memory Preserved ($M_A + S_0$)** | `memory_first` | 48 | **0.0%** | **45.8%** | — | 93.8% | 0.0% | 381.3 tok | 2487.4 ms |
-| **State-Only Calibration ($S_A$)** | `state_only` | 48 | **54.2%** | **0.0%** | — | 81.2% | 81.2% | 360.3 tok | 2474.7 ms |
-| **State-Only Calibration ($S_B$)** | `state_only` | 48 | **58.3%** | **0.0%** | — | 87.5% | 100.0% | 361.3 tok | 2478.5 ms |
-| **State-Only Calibration ($S_0$)** | `state_only` | 48 | **0.0%** | **0.0%** | — | 18.8% | 0.0% | 166.7 tok | 2496.9 ms |
-| **Surgical Slot Inversion ($M_A + S_A'$)** | `memory_first` | 48 | **10.4%** | **52.1%** | — | 93.8% | 12.5% | 574.9 tok | 2509.2 ms |
+| **Clone Fork A (Congruent)** | `memory_first` | 16 | 100.0% | 100.0% | 0.0% | 0.0% | 0.0% | 383.8 tok | 2548.7 ms |
+| **Clone Fork A (Cross-Swap $S_B$)** | `memory_first` | 16 | 75.0% | 25.0% | 0.0% | 0.0% | — | 383.2 tok | 2466.6 ms |
+| **Clone Fork B (Congruent)** | `memory_first` | 16 | 100.0% | 100.0% | 0.0% | 0.0% | 0.0% | 382.1 tok | 2511.2 ms |
+| **State/Memory Conflict ($M_A + S_B$)** | `memory_first` | 48 | 6.2% | 87.5% | 100.0% | 0.0% | 93.8% | 575.9 tok | 2515.4 ms |
+| **State/Memory Conflict ($M_A + S_B$)** | `state_first` | 48 | 0.0% | 93.8% | 93.8% | 6.2% | 93.8% | 575.9 tok | 2496.3 ms |
+| **State/Memory Conflict ($M_B + S_A$)** | `memory_first` | 48 | 12.5% | 87.5% | 31.2% | 62.5% | 100.0% | 574.9 tok | 2502.6 ms |
+| **State/Memory Conflict ($M_B + S_A$)** | `state_first` | 48 | 6.2% | 93.8% | 6.2% | 81.2% | 100.0% | 574.9 tok | 2499.9 ms |
+| **Congruent Baseline A ($M_A + S_A$)** | `memory_first` | 48 | 93.8% | 93.8% | 75.0% | 75.0% | 100.0% | 574.9 tok | 2537.0 ms |
+| **Congruent Baseline A ($M_A + S_A$)** | `state_first` | 48 | 100.0% | 100.0% | 62.5% | 62.5% | 100.0% | 574.9 tok | 2521.9 ms |
+| **Congruent Baseline B ($M_B + S_B$)** | `memory_first` | 48 | 93.8% | 93.8% | 100.0% | 100.0% | 93.8% | 575.9 tok | 2514.9 ms |
+| **Congruent Baseline B ($M_B + S_B$)** | `state_first` | 48 | 100.0% | 100.0% | 100.0% | 100.0% | 100.0% | 575.9 tok | 2512.0 ms |
+| **Memory-Only Calibration ($M_A$)** | `memory_only` | 48 | 0.0% | 100.0% | 0.0% | 62.5% | 87.5% | 331.3 tok | 2442.3 ms |
+| **Memory-Only Calibration ($M_B$)** | `memory_only` | 48 | 0.0% | 100.0% | 0.0% | 87.5% | 87.5% | 331.3 tok | 2472.0 ms |
+| **Reconverged Branch A ($E_{\text{sync}}$)** | `memory_first` | 16 | 0.0% | 0.0% | 0.0% | 0.0% | — | 435.6 tok | 2534.2 ms |
+| **Reconverged Branch B ($E_{\text{sync}}$)** | `memory_first` | 16 | 0.0% | 0.0% | 0.0% | 0.0% | — | 434.5 tok | 2520.8 ms |
+| **Reset with Memory Preserved ($M_A + S_0$)** | `memory_first` | 48 | 0.0% | 100.0% | 0.0% | 37.5% | 93.8% | 381.3 tok | 2487.4 ms |
+| **State-Only Calibration ($S_A$)** | `state_only` | 48 | 75.0% | 0.0% | 81.2% | 0.0% | 81.2% | 360.3 tok | 2474.7 ms |
+| **State-Only Calibration ($S_B$)** | `state_only` | 48 | 75.0% | 0.0% | 100.0% | 0.0% | 87.5% | 361.3 tok | 2478.5 ms |
+| **State-Only Calibration ($S_0$)** | `state_only` | 48 | 0.0% | 0.0% | 0.0% | 0.0% | 18.8% | 166.7 tok | 2496.9 ms |
+| **Surgical Slot Inversion ($M_A + S_A'$)** | `memory_first` | 48 | 12.5% | 87.5% | 12.5% | 68.8% | 93.8% | 574.9 tok | 2509.2 ms |
 
 ---
 
@@ -79,8 +83,8 @@
 
 ---
 
-## 6. Scientific Gate Decision for Sprint S08
+## 6. Scientific Interpretation & Level-1 Synthesis
 
-1. **Causal State Steering vs Transcript Equivalence:** Does explicit state intervention reliably steer the model's output away from historical memory?
-2. **Reset Dependence:** Does removing state with memory intact impair performance, proving explicit state provides non-redundant operational utility?
-3. **Local Surgical Precision:** Does single-slot editing steer the targeted behavior without causing collateral representation drift?
+1. **Causal Asymmetry Under Conflict:** Holding memory fixed and swapping state produces no resolved change on target choice (+3.1pp, p = 1.0), whereas holding state fixed and swapping memory changes target choice dramatically (+90.6pp, p < .001). Under direct balanced conflict, the model strongly privileges historical episodic evidence (MAR = 64.1% vs SAR = 32.0%, p = 0.0002).
+2. **State Reset Independence:** Clearing StructuredSelfState while preserving episodic memory produces no drop in target accuracy (Reset Dependence = -3.1pp, p = 1.0). Direct episodic memory fully compensates for the removal of the Level-1 explicit state.
+3. **Clone Cross-Swap Qualification:** In the clone testbed, where the swapped state contributes an out-of-history value, state allegiance reaches 75.0%. When both candidates are familiar in-context (matched twins), episodic memory dominates. StructuredSelfState is causally readable and usable when distinctive, but is not treated as an authoritative epistemic controller when conflicting with the episodic record.

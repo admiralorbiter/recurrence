@@ -5,12 +5,16 @@ Computes:
 2. Conflict 3-way partition: Follows State, Follows Memory, Neither / Other
 3. Conditional State Preference: P(State | Answer is State-or-Memory candidate)
 4. Directional conflict breakdown: (M_A + S_B) vs (M_B + S_A)
-5. Delta_state|memory: Causal effect of state swap holding memory fixed
-6. Delta_memory|state: Causal effect of memory swap holding state fixed
-7. Reset Dependence (RD): Drop in congruent target choice when state is emptied with memory intact
-8. Local Causal Precision (LCP): Joint target uptake AND control preservation under single-slot surgical edit
-9. Presentation Order Sensitivity Gap: Effect of Memory->State vs State->Memory
-10. Reconvergence Concordance Rate: Paired behavioral concordance P(Answer_A == Answer_B) post-synchronization
+5. Full 2x2 Causal Contrasts:
+   - Delta_state|memory_A: Effect of state swap S_A -> S_B holding M_A fixed
+   - Delta_state|memory_B: Effect of state swap S_B -> S_A holding M_B fixed
+   - Delta_memory|state_A: Effect of memory swap M_A -> M_B holding S_A fixed
+   - Delta_memory|state_B: Effect of memory swap M_B -> M_A holding S_B fixed
+   - Average Marginal State Effect & Average Marginal Memory Effect
+6. Reset Dependence (RD): Drop in congruent target choice when state is emptied with memory intact
+7. Local Causal Precision (LCP): Joint target uptake AND control preservation under single-slot surgical edit
+8. Presentation Order Sensitivity Gap: Effect of Memory->State vs State->Memory
+9. Reconvergence Concordance Rate: Paired behavioral concordance P(Answer_A == Answer_B) post-synchronization
 """
 
 from dataclasses import asdict, dataclass, field
@@ -30,11 +34,11 @@ class InterventionConditionStats:
     condition: str
     presentation_order: str
     total_trials: int
-    state_allegiance_rate: float
-    memory_allegiance_rate: float
-    target_accuracy_congruent: float
-    control_accuracy: float
-    goal_accuracy: float
+    target_state_allegiance: float
+    target_memory_allegiance: float
+    goal_state_allegiance: float
+    goal_memory_allegiance: float
+    control_correctness: float
     mean_prompt_tokens: float
     mean_completion_tokens: float
     mean_latency_ms: float
@@ -158,30 +162,30 @@ def analyze_state_intervention_results(
     twin_pairs = [p for p in df["pair_id"].unique() if p.startswith("twin_")]
     n_twins = len(twin_pairs)
 
-    # 1. Condition Stats
+    # 1. Disaggregated Condition Stats
     cond_stats: Dict[str, InterventionConditionStats] = {}
     for (cond, order), df_co in df.groupby(["intervention_condition", "presentation_order"]):
         key = f"{cond}_{order}"
-        st_all = float(df_co["is_state_allegiant"].mean())
-        mem_all = float(df_co["is_memory_allegiant"].mean())
         
         df_target = df_co[df_co["probe_type"] == "target_key"]
         df_ctrl = df_co[df_co["probe_type"] == "control_key"]
         df_goal = df_co[df_co["probe_type"] == "goal_status"]
 
-        target_acc = float(df_target["is_state_allegiant"].mean()) if len(df_target) > 0 else 0.0
-        ctrl_acc = float(df_ctrl["is_control_preserved"].mean()) if len(df_ctrl) > 0 else 0.0
-        goal_acc = float(df_goal["is_state_allegiant"].mean()) if len(df_goal) > 0 else 0.0
+        tgt_st = float(df_target["is_state_allegiant"].mean()) if len(df_target) > 0 else 0.0
+        tgt_mem = float(df_target["is_memory_allegiant"].mean()) if len(df_target) > 0 else 0.0
+        goal_st = float(df_goal["is_state_allegiant"].mean()) if len(df_goal) > 0 else 0.0
+        goal_mem = float(df_goal["is_memory_allegiant"].mean()) if len(df_goal) > 0 else 0.0
+        ctrl_corr = float(df_ctrl["is_control_preserved"].mean()) if len(df_ctrl) > 0 else 0.0
 
         cond_stats[key] = InterventionConditionStats(
             condition=cond,
             presentation_order=order,
             total_trials=len(df_co),
-            state_allegiance_rate=st_all,
-            memory_allegiance_rate=mem_all,
-            target_accuracy_congruent=target_acc,
-            control_accuracy=ctrl_acc,
-            goal_accuracy=goal_acc,
+            target_state_allegiance=tgt_st,
+            target_memory_allegiance=tgt_mem,
+            goal_state_allegiance=goal_st,
+            goal_memory_allegiance=goal_mem,
+            control_correctness=ctrl_corr,
             mean_prompt_tokens=float(df_co["prompt_tokens"].mean()),
             mean_completion_tokens=float(df_co["completion_tokens"].mean()),
             mean_latency_ms=float(df_co["latency_ms"].mean()),
@@ -216,10 +220,10 @@ def analyze_state_intervention_results(
         directional_MB_SA_memory_rate=float(df_MB_SA["is_memory_allegiant"].mean()) if len(df_MB_SA) > 0 else 0.0,
     )
 
-    # 3. Targeted Causal Estimands
+    # 3. Targeted Causal Estimands (Full 2x2 Matrix)
     causal_estimands: Dict[str, CausalSteeringEstimandSummary] = {}
 
-    # Estimand 1: Primary Contrast: Delta_allegiance = SAR - MAR (clustered by twin pair)
+    # Estimand 1: Primary Conflict Contrast: Delta_allegiance = SAR - MAR
     sar_by_twin = [df_conflict[df_conflict["pair_id"] == p]["is_state_allegiant"].mean() for p in twin_pairs]
     mar_by_twin = [df_conflict[df_conflict["pair_id"] == p]["is_memory_allegiant"].mean() for p in twin_pairs]
 
@@ -237,46 +241,121 @@ def analyze_state_intervention_results(
         is_statistically_distinguishable=(p_d_all < 0.05),
     )
 
-    # Estimand 2: Delta_state|memory: (M_A + S_B) choosing V_B vs (M_A + S_A) choosing V_B holding M_A fixed
+    # Estimand 2: Delta_state|memory_A: (M_A + S_B) choosing V_B vs (M_A + S_A) choosing V_B holding M_A fixed
     df_MA_SB_tgt = df[(df["intervention_condition"] == "conflict_MA_SB") & (df["probe_type"] == "target_key")]
     df_MA_SA_tgt = df[(df["intervention_condition"] == "congruent_A") & (df["probe_type"] == "target_key")]
 
     vb_in_SB = [float((df_MA_SB_tgt[df_MA_SB_tgt["pair_id"] == p]["predicted_value"] == df_MA_SB_tgt[df_MA_SB_tgt["pair_id"] == p]["target_value_B"]).mean()) for p in twin_pairs]
     vb_in_SA = [float((df_MA_SA_tgt[df_MA_SA_tgt["pair_id"] == p]["predicted_value"] == df_MA_SA_tgt[df_MA_SA_tgt["pair_id"] == p]["target_value_B"]).mean()) for p in twin_pairs]
 
-    point_d_sm, ci_l_d_sm, ci_u_d_sm, diffs_d_sm = compute_paired_bootstrap_ci(vb_in_SB, vb_in_SA, num_bootstrap=num_bootstrap, seed=seed)
-    p_d_sm, p_meth_d_sm = compute_permutation_test(diffs_d_sm)
+    point_d_sm_A, ci_l_d_sm_A, ci_u_d_sm_A, diffs_d_sm_A = compute_paired_bootstrap_ci(vb_in_SB, vb_in_SA, num_bootstrap=num_bootstrap, seed=seed)
+    p_d_sm_A, p_meth_d_sm_A = compute_permutation_test(diffs_d_sm_A)
 
-    causal_estimands["Delta_state_given_memory"] = CausalSteeringEstimandSummary(
-        contrast_name="Delta_state_given_memory",
+    causal_estimands["Delta_state_given_memory_A"] = CausalSteeringEstimandSummary(
+        contrast_name="Delta_state_given_memory_A",
         description="Effect of swapping State (S_A -> S_B) on target choice holding Memory (M_A) fixed",
-        point_estimate=point_d_sm,
-        ci_lower_95=ci_l_d_sm,
-        ci_upper_95=ci_u_d_sm,
-        permutation_p_value=p_d_sm,
-        permutation_method=p_meth_d_sm,
-        is_statistically_distinguishable=(p_d_sm < 0.05),
+        point_estimate=point_d_sm_A,
+        ci_lower_95=ci_l_d_sm_A,
+        ci_upper_95=ci_u_d_sm_A,
+        permutation_p_value=p_d_sm_A,
+        permutation_method=p_meth_d_sm_A,
+        is_statistically_distinguishable=(p_d_sm_A < 0.05),
     )
 
-    # Estimand 3: Delta_memory|state: (M_B + S_A) choosing V_B vs (M_A + S_A) choosing V_B holding S_A fixed
+    # Estimand 3: Delta_state|memory_B: (M_B + S_A) choosing V_A vs (M_B + S_B) choosing V_A holding M_B fixed
     df_MB_SA_tgt = df[(df["intervention_condition"] == "conflict_MB_SA") & (df["probe_type"] == "target_key")]
-    vb_in_MB_SA = [float((df_MB_SA_tgt[df_MB_SA_tgt["pair_id"] == p]["predicted_value"] == df_MB_SA_tgt[df_MB_SA_tgt["pair_id"] == p]["target_value_B"]).mean()) for p in twin_pairs]
+    df_MB_SB_tgt = df[(df["intervention_condition"] == "congruent_B") & (df["probe_type"] == "target_key")]
 
-    point_d_ms, ci_l_d_ms, ci_u_d_ms, diffs_d_ms = compute_paired_bootstrap_ci(vb_in_MB_SA, vb_in_SA, num_bootstrap=num_bootstrap, seed=seed)
-    p_d_ms, p_meth_d_ms = compute_permutation_test(diffs_d_ms)
+    va_in_MB_SA = [float((df_MB_SA_tgt[df_MB_SA_tgt["pair_id"] == p]["predicted_value"] == df_MB_SA_tgt[df_MB_SA_tgt["pair_id"] == p]["target_value_A"]).mean()) for p in twin_pairs]
+    va_in_MB_SB = [float((df_MB_SB_tgt[df_MB_SB_tgt["pair_id"] == p]["predicted_value"] == df_MB_SB_tgt[df_MB_SB_tgt["pair_id"] == p]["target_value_A"]).mean()) for p in twin_pairs]
 
-    causal_estimands["Delta_memory_given_state"] = CausalSteeringEstimandSummary(
-        contrast_name="Delta_memory_given_state",
-        description="Effect of swapping Memory (M_A -> M_B) on target choice holding State (S_A) fixed",
-        point_estimate=point_d_ms,
-        ci_lower_95=ci_l_d_ms,
-        ci_upper_95=ci_u_d_ms,
-        permutation_p_value=p_d_ms,
-        permutation_method=p_meth_d_ms,
-        is_statistically_distinguishable=(p_d_ms < 0.05),
+    point_d_sm_B, ci_l_d_sm_B, ci_u_d_sm_B, diffs_d_sm_B = compute_paired_bootstrap_ci(va_in_MB_SA, va_in_MB_SB, num_bootstrap=num_bootstrap, seed=seed)
+    p_d_sm_B, p_meth_d_sm_B = compute_permutation_test(diffs_d_sm_B)
+
+    causal_estimands["Delta_state_given_memory_B"] = CausalSteeringEstimandSummary(
+        contrast_name="Delta_state_given_memory_B",
+        description="Effect of swapping State (S_B -> S_A) on target choice holding Memory (M_B) fixed",
+        point_estimate=point_d_sm_B,
+        ci_lower_95=ci_l_d_sm_B,
+        ci_upper_95=ci_u_d_sm_B,
+        permutation_p_value=p_d_sm_B,
+        permutation_method=p_meth_d_sm_B,
+        is_statistically_distinguishable=(p_d_sm_B < 0.05),
     )
 
-    # Estimand 4: Reset Dependence: (M_A + S_A) choosing V_A vs (M_A + S_empty) choosing V_A
+    # Estimand 4: Delta_memory|state_A: (M_B + S_A) choosing V_B vs (M_A + S_A) choosing V_B holding S_A fixed
+    point_d_ms_A, ci_l_d_ms_A, ci_u_d_ms_A, diffs_d_ms_A = compute_paired_bootstrap_ci(
+        [float((df_MB_SA_tgt[df_MB_SA_tgt["pair_id"] == p]["predicted_value"] == df_MB_SA_tgt[df_MB_SA_tgt["pair_id"] == p]["target_value_B"]).mean()) for p in twin_pairs],
+        vb_in_SA,
+        num_bootstrap=num_bootstrap,
+        seed=seed,
+    )
+    p_d_ms_A, p_meth_d_ms_A = compute_permutation_test(diffs_d_ms_A)
+
+    causal_estimands["Delta_memory_given_state_A"] = CausalSteeringEstimandSummary(
+        contrast_name="Delta_memory_given_state_A",
+        description="Effect of swapping Memory (M_A -> M_B) on target choice holding State (S_A) fixed",
+        point_estimate=point_d_ms_A,
+        ci_lower_95=ci_l_d_ms_A,
+        ci_upper_95=ci_u_d_ms_A,
+        permutation_p_value=p_d_ms_A,
+        permutation_method=p_meth_d_ms_A,
+        is_statistically_distinguishable=(p_d_ms_A < 0.05),
+    )
+
+    # Estimand 5: Delta_memory|state_B: (M_A + S_B) choosing V_A vs (M_B + S_B) choosing V_A holding S_B fixed
+    va_in_MA_SB = [float((df_MA_SB_tgt[df_MA_SB_tgt["pair_id"] == p]["predicted_value"] == df_MA_SB_tgt[df_MA_SB_tgt["pair_id"] == p]["target_value_A"]).mean()) for p in twin_pairs]
+    point_d_ms_B, ci_l_d_ms_B, ci_u_d_ms_B, diffs_d_ms_B = compute_paired_bootstrap_ci(
+        va_in_MA_SB,
+        va_in_MB_SB,
+        num_bootstrap=num_bootstrap,
+        seed=seed,
+    )
+    p_d_ms_B, p_meth_d_ms_B = compute_permutation_test(diffs_d_ms_B)
+
+    causal_estimands["Delta_memory_given_state_B"] = CausalSteeringEstimandSummary(
+        contrast_name="Delta_memory_given_state_B",
+        description="Effect of swapping Memory (M_B -> M_A) on target choice holding State (S_B) fixed",
+        point_estimate=point_d_ms_B,
+        ci_lower_95=ci_l_d_ms_B,
+        ci_upper_95=ci_u_d_ms_B,
+        permutation_p_value=p_d_ms_B,
+        permutation_method=p_meth_d_ms_B,
+        is_statistically_distinguishable=(p_d_ms_B < 0.05),
+    )
+
+    # Estimand 6: Average Marginal Effects for State and Memory
+    avg_d_state = [(a + b) / 2.0 for a, b in zip(diffs_d_sm_A, diffs_d_sm_B)]
+    point_avg_st, ci_l_avg_st, ci_u_avg_st, _ = compute_paired_bootstrap_ci(avg_d_state, [0.0] * len(avg_d_state), num_bootstrap=num_bootstrap, seed=seed)
+    p_avg_st, p_meth_avg_st = compute_permutation_test(avg_d_state)
+
+    causal_estimands["Average_Marginal_State_Effect"] = CausalSteeringEstimandSummary(
+        contrast_name="Average_Marginal_State_Effect",
+        description="Pooled Average Marginal Effect of State Swaps across both memory contexts",
+        point_estimate=point_avg_st,
+        ci_lower_95=ci_l_avg_st,
+        ci_upper_95=ci_u_avg_st,
+        permutation_p_value=p_avg_st,
+        permutation_method=p_meth_avg_st,
+        is_statistically_distinguishable=(p_avg_st < 0.05),
+    )
+
+    avg_d_mem = [(a + b) / 2.0 for a, b in zip(diffs_d_ms_A, diffs_d_ms_B)]
+    point_avg_mem, ci_l_avg_mem, ci_u_avg_mem, _ = compute_paired_bootstrap_ci(avg_d_mem, [0.0] * len(avg_d_mem), num_bootstrap=num_bootstrap, seed=seed)
+    p_avg_mem, p_meth_avg_mem = compute_permutation_test(avg_d_mem)
+
+    causal_estimands["Average_Marginal_Memory_Effect"] = CausalSteeringEstimandSummary(
+        contrast_name="Average_Marginal_Memory_Effect",
+        description="Pooled Average Marginal Effect of Memory Swaps across both state contexts",
+        point_estimate=point_avg_mem,
+        ci_lower_95=ci_l_avg_mem,
+        ci_upper_95=ci_u_avg_mem,
+        permutation_p_value=p_avg_mem,
+        permutation_method=p_meth_avg_mem,
+        is_statistically_distinguishable=(p_avg_mem < 0.05),
+    )
+
+    # Estimand 7: Reset Dependence: (M_A + S_A) choosing V_A vs (M_A + S_empty) choosing V_A
     df_MA_Sempty = df[(df["intervention_condition"] == "reset_MA_Sempty") & (df["probe_type"] == "target_key")]
     va_in_SA = [float((df_MA_SA_tgt[df_MA_SA_tgt["pair_id"] == p]["predicted_value"] == df_MA_SA_tgt[df_MA_SA_tgt["pair_id"] == p]["target_value_A"]).mean()) for p in twin_pairs]
     va_in_Sempty = [float((df_MA_Sempty[df_MA_Sempty["pair_id"] == p]["predicted_value"] == df_MA_Sempty[df_MA_Sempty["pair_id"] == p]["target_value_A"]).mean()) for p in twin_pairs]
