@@ -1,0 +1,576 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Memory Shop — Recurrence H1 / S04</title>
+<meta name="description" content="A playable exhibit using a canonical E03 episode to explore six ways of carrying the same past.">
+<style>
+:root{
+  --ink:#261f19; --paper:#eee6d5; --paper2:#e1d5bd; --cream:#faf4e7;
+  --wood:#4b3327; --wood2:#2f211b; --gold:#ae8749; --green:#4f735c; --red:#8a4e47;
+  --blue:#4f6876; --muted:#766d61; --line:#b8a98f; --shadow:rgba(45,31,20,.18);
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box} html{scroll-behavior:smooth}
+body{
+  margin:0;color:var(--ink);font-family:Georgia,"Times New Roman",serif;line-height:1.6;
+  background:
+    radial-gradient(circle at 50% -5%,rgba(255,255,255,.65),transparent 28rem),
+    repeating-linear-gradient(90deg,rgba(93,63,38,.025) 0 1px,transparent 1px 5px),
+    var(--paper);
+}
+button{font:inherit}.mono,code,pre{font-family:var(--mono)}
+.shop-sign{
+  min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:4rem 1.2rem;
+  background:
+    linear-gradient(rgba(25,18,14,.55),rgba(25,18,14,.72)),
+    repeating-linear-gradient(90deg,#4c3529 0 95px,#422d23 95px 100px);
+  color:var(--cream)
+}
+.sign-inner{max-width:900px;border:1px solid rgba(255,244,222,.28);padding:clamp(2rem,6vw,5rem);background:rgba(29,20,16,.75);box-shadow:0 30px 90px rgba(0,0,0,.35)}
+.kicker{font:700 .67rem var(--mono);text-transform:uppercase;letter-spacing:.16em;color:var(--gold)}
+h1{font-size:clamp(4rem,10vw,8.5rem);font-weight:400;letter-spacing:-.055em;line-height:.84;margin:.18em 0}
+h2{font-size:clamp(2.1rem,5vw,4.4rem);font-weight:400;letter-spacing:-.035em;line-height:.96;margin:.2em 0 .5em}
+h3{font-size:1.35rem;font-weight:400;margin:.2rem 0}
+.lede{font-size:clamp(1.12rem,2vw,1.45rem);max-width:720px;margin:1.2rem auto;color:inherit}
+.primary,.secondary{
+  cursor:pointer;border:1px solid var(--wood);padding:.85rem 1rem;letter-spacing:.04em;
+}
+.primary{background:var(--ink);color:var(--cream)} .primary:hover{background:#000}
+.secondary{background:transparent;color:var(--ink)} .secondary:hover{background:rgba(255,255,255,.35)}
+.shop{width:min(1180px,94vw);margin:0 auto;padding:6rem 0 8rem}
+.scene{display:none;min-height:82vh;padding:4rem 0;animation:fade .5s ease}
+.scene.active{display:block}@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.intro{text-align:center;max-width:850px;margin:0 auto 2.5rem}
+.shelves{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin:2rem 0}
+.memory-card{
+  border:1px solid var(--line);background:rgba(250,244,231,.8);padding:1.2rem;min-height:220px;
+  box-shadow:0 12px 30px var(--shadow);position:relative;cursor:pointer;transition:.2s transform,.2s box-shadow,.2s border
+}
+.memory-card:hover{transform:translateY(-4px);box-shadow:0 18px 40px var(--shadow);border-color:#77654d}
+.memory-card.selected{border:2px solid var(--gold);background:#fff8e9}
+.object{font-size:2.6rem;display:block;margin-bottom:.5rem}.memory-card .kind{font:.62rem var(--mono);text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
+.memory-card p{font-size:.9rem;color:#5f574d}.cost{position:absolute;bottom:1rem;left:1.2rem;font:.67rem var(--mono);color:var(--muted)}
+.warning{text-align:center;padding:1rem;border:1px dashed var(--line);font:.76rem var(--mono);color:var(--muted);max-width:760px;margin:1.5rem auto}
+.checkout{text-align:center;margin-top:2rem}.checkout button:disabled{opacity:.35;cursor:not-allowed}
+.closed{
+  background:var(--wood2);color:var(--cream);padding:.7rem 1rem;text-align:center;font:.7rem var(--mono);
+  text-transform:uppercase;letter-spacing:.12em;position:sticky;top:0;z-index:20
+}
+.test-layout{display:grid;grid-template-columns:minmax(300px,1fr) minmax(340px,1fr);gap:1.2rem;align-items:start}
+.artifact{
+  position:sticky;top:55px;border:1px solid var(--line);background:#f7f0df;box-shadow:0 14px 35px var(--shadow);max-height:78vh;display:flex;flex-direction:column
+}
+.artifact-head{padding:1rem;border-bottom:1px solid var(--line);background:#e9ddc6}
+.artifact-head strong{display:block;font-size:1.25rem}.artifact-head span{font:.65rem var(--mono);color:var(--muted)}
+.artifact-body{padding:1rem;overflow:auto;white-space:pre-wrap;font:.72rem/1.55 var(--mono)}
+.timeline-row{border-left:3px solid #8b7a61;padding:.7rem .8rem;margin:.6rem 0;background:#fffaf0}
+.timeline-row .meta{font:.6rem var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:.3rem}
+.timeline-row.target{border-left-color:var(--green)}.timeline-row.goal{border-left-color:var(--gold)}.timeline-row.repeat{border-left-color:var(--blue)}
+.memoir-text{font-family:Georgia,serif;font-size:.96rem;line-height:1.65;white-space:pre-wrap}
+.empty{display:flex;align-items:center;justify-content:center;min-height:300px;color:var(--muted);font-style:italic;text-align:center}
+.quiz{display:grid;gap:1rem}
+.question{border:1px solid var(--line);background:rgba(250,244,231,.72);padding:1.15rem}
+.q-label{font:.62rem var(--mono);text-transform:uppercase;letter-spacing:.12em;color:var(--gold)}
+.options{display:grid;gap:.45rem;margin-top:.8rem}
+.option{text-align:left;border:1px solid var(--line);background:#fffaf0;padding:.7rem .8rem;cursor:pointer;font-size:.88rem}
+.option:hover{border-color:var(--wood)}.option.selected{background:var(--wood);color:var(--cream);border-color:var(--wood)}
+.submit-wrap{text-align:center;padding:1rem}.submit-wrap button:disabled{opacity:.35}
+.score-hero{text-align:center;padding:2rem;border:1px solid var(--line);background:#fff9ec}
+.score-big{font-size:clamp(5rem,10vw,9rem);line-height:.8}.score-hero p{max-width:670px;margin:1rem auto}
+.review-grid{display:grid;gap:.75rem;margin:1.5rem 0}
+.review{border:1px solid var(--line);background:#fffaf0;padding:1rem}
+.review.correct{border-left:5px solid var(--green)}.review.wrong{border-left:5px solid var(--red)}
+.review .answerline{font:.72rem var(--mono);margin:.5rem 0}.review small{color:var(--muted)}
+.clue-badge{display:inline-block;border-radius:99px;padding:.18rem .45rem;font:.6rem var(--mono);text-transform:uppercase;margin-right:.3rem}
+.exact{background:#dfeadd;color:#36503d}.fuzzy,.present-but-competing,.exact\+fuzzy{background:#efe5c9;color:#725b2a}.misleading{background:#f0d8d3;color:#783b35}.absent{background:#ddd8cf;color:#686158}
+.forensic{margin-top:3rem}.forensic table{width:100%;border-collapse:collapse;background:#fffaf0}.forensic th,.forensic td{border-bottom:1px solid var(--line);padding:.75rem;text-align:left;font-size:.82rem}.forensic th{font:.62rem var(--mono);text-transform:uppercase;color:var(--muted)}
+.memory-tabs{display:flex;flex-wrap:wrap;gap:.4rem;margin:1rem 0}.tab{border:1px solid var(--line);background:transparent;padding:.55rem .7rem;cursor:pointer}.tab.active{background:var(--ink);color:var(--cream)}
+.forensic-artifact{border:1px solid var(--line);background:#f8f0df;padding:1rem;max-height:460px;overflow:auto;white-space:pre-wrap;font:.7rem/1.55 var(--mono)}
+.twist{margin:3rem auto;padding:1.4rem;border:1px solid var(--gold);background:#fff8e6;max-width:850px}
+.twist h2{font-size:2.6rem}.distortion{display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem}.distortion>div{border:1px solid var(--line);padding:1rem;text-align:center;background:white}.distortion strong{display:block;font-size:2.4rem}
+.meta-choice{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;margin:1rem 0}.meta-choice button{border:1px solid var(--line);background:#fffaf0;padding:1rem;cursor:pointer}.meta-choice button:hover{border-color:var(--gold)}
+.prediction{margin-top:3rem;text-align:center}.prediction-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;margin:1rem 0}.prediction-grid button{border:1px solid var(--line);background:#fffaf0;padding:.9rem;cursor:pointer}.prediction-grid button:hover{border-color:var(--wood)}
+.results{margin-top:2rem}.result-row{display:grid;grid-template-columns:160px 1fr 65px 80px;gap:.7rem;align-items:center;margin:.65rem 0;font:.72rem var(--mono)}.bar{height:14px;background:#ded4c2;border:1px solid #c2b39b}.bar>div{height:100%;background:var(--green);width:0;transition:width 1.1s ease}.result-row.winner .bar>div{background:var(--gold)}.result-row.winner .name{font-weight:700}
+.domain-table{width:100%;border-collapse:collapse;margin-top:1.5rem}.domain-table th,.domain-table td{border-bottom:1px solid var(--line);padding:.65rem;font-size:.8rem}.domain-table th{font:.62rem var(--mono);text-transform:uppercase;color:var(--muted)}
+.final-choice{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:2rem 0}.final-card{border:1px solid var(--line);padding:1.2rem;background:#fffaf0;cursor:pointer}.final-card:hover{border-color:var(--gold)}.final-card strong{display:block;font-size:1.7rem}.final-card span{font:.65rem var(--mono);color:var(--muted)}
+.ending{display:none;text-align:center;margin:2rem 0;padding:2rem;border:1px solid var(--gold);background:#fff8e7}.ending.show{display:block}.ending blockquote{font-size:1.6rem}
+.details{margin-top:2rem}.details details{border:1px solid var(--line);padding:.8rem 1rem;background:#f6edde}.details summary{cursor:pointer;font-weight:700}
+.footer{text-align:center;color:var(--muted);font:.62rem var(--mono);padding:3rem 1rem 5rem}
+
+.memory-case{
+  max-width:880px;margin:1.4rem auto 2rem;border:1px solid var(--line);background:#f9f0df;
+  padding:1rem 1.1rem;box-shadow:0 10px 25px var(--shadow)
+}
+.case-head{display:flex;justify-content:space-between;gap:1rem;align-items:end;margin-bottom:.65rem}
+.case-head strong{font:700 .76rem var(--mono);text-transform:uppercase;letter-spacing:.08em}
+.case-head span{font:.68rem var(--mono);color:var(--muted)}
+.case-track{height:24px;border:1px solid #9f8c70;background:#ded2bd;position:relative;overflow:visible}
+.case-fill{height:100%;width:0;background:linear-gradient(90deg,var(--green),#789a78);transition:width .25s ease}
+.case-fill.near{background:linear-gradient(90deg,#977d45,var(--gold))}
+.case-fill.over{background:linear-gradient(90deg,#9c544d,var(--red));box-shadow:0 0 0 1px var(--red) inset}
+.case-limit{position:absolute;left:68.49%;top:-7px;bottom:-7px;border-left:2px solid #4c4030;z-index:2}
+.case-limit::after{content:"500";position:absolute;top:-18px;left:-12px;font:.56rem var(--mono);color:var(--muted)}
+.case-overflow{position:absolute;left:68.49%;right:0;top:0;bottom:0;background:repeating-linear-gradient(135deg,rgba(138,78,71,.13) 0 6px,transparent 6px 12px);pointer-events:none}
+.case-readout{display:flex;justify-content:space-between;gap:1rem;margin-top:.45rem;font:.67rem var(--mono);color:var(--muted)}
+.case-readout strong{color:var(--ink)}
+.memory-card.over-capacity::after{
+  content:"OVER CAPACITY";position:absolute;right:.65rem;top:.65rem;padding:.2rem .42rem;
+  background:var(--red);color:white;font:.56rem var(--mono);letter-spacing:.08em
+}
+.memory-card.near-capacity::after{
+  content:"JUST FITS";position:absolute;right:.65rem;top:.65rem;padding:.2rem .42rem;
+  background:var(--gold);color:#fff;font:.56rem var(--mono);letter-spacing:.08em
+}
+.capacity-note{
+  margin-top:.75rem;font:.65rem/1.5 var(--mono);color:var(--muted);text-align:left
+}
+.overpack-modal{
+  position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;
+  background:rgba(30,20,14,.72);padding:1rem;backdrop-filter:blur(3px)
+}
+.overpack-modal.show{display:flex}
+.overpack-card{
+  width:min(620px,94vw);background:#fff7e7;border:1px solid var(--gold);
+  box-shadow:0 30px 90px rgba(0,0,0,.35);padding:1.5rem
+}
+.overpack-card h2{font-size:2.6rem;margin:.1rem 0 .5rem}
+.overpack-actions{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:1rem}
+.receipt-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem;margin:1.5rem 0}
+.receipt{
+  border:1px solid var(--line);background:#fffaf0;padding:1rem;position:relative
+}
+.receipt.chosen{border:2px solid var(--gold)}
+.receipt.over{box-shadow:0 0 0 1px var(--red) inset}
+.receipt .r-icon{font-size:2rem}
+.receipt .r-meta{font:.62rem var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:.07em}
+.receipt strong{display:block;font-size:1.15rem;margin:.2rem 0}
+.receipt .r-cost{font:700 .73rem var(--mono);margin:.45rem 0}
+.receipt .r-buy{font-size:.82rem;color:#5d554b}
+.chosen-callout{
+  margin:1rem 0;padding:.9rem 1rem;border-left:5px solid var(--gold);background:#fff6df
+}
+@media(max-width:900px){.receipt-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:620px){.receipt-grid{grid-template-columns:1fr}.case-head{align-items:start;flex-direction:column}}
+
+@media(max-width:900px){.shelves{grid-template-columns:repeat(2,1fr)}.test-layout{grid-template-columns:1fr}.artifact{position:relative;top:auto;max-height:none}.artifact-body{max-height:50vh}.distortion,.prediction-grid,.meta-choice{grid-template-columns:1fr}}
+@media(max-width:620px){.shelves{grid-template-columns:1fr}.result-row{grid-template-columns:110px 1fr 55px}.result-row .tokens{display:none}.final-choice{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<section class="shop-sign" id="front">
+  <div class="sign-inner">
+    <div class="kicker">Recurrence · H1 · S04</div>
+    <h1>The Memory Shop</h1>
+    <p class="lede">Yesterday happened. You cannot go back.</p>
+    <p class="lede">You may carry <strong>one memory of it</strong> into tomorrow.</p>
+    <button class="primary" id="enter">Enter the shop</button>
+  </div>
+</section>
+
+<main class="shop" id="shop" hidden>
+<section class="scene active" id="choose-scene">
+  <div class="intro">
+    <div class="kicker">The questions come later</div>
+    <h2>Choose what you remember.</h2>
+    <p class="lede">All six objects were built from the same canonical E03 episode. Your case has an illustrative 500-unit capacity, and each tag shows the representation's canonical mean evaluation-prompt load. You do <em>not</em> yet know which one performed best.</p>
+  </div>
+  <div class="memory-case" id="memory-case">
+    <div class="case-head">
+      <div><div class="kicker">Your memory case</div><strong>Illustrative capacity: 500 prompt-token units</strong></div>
+      <span id="case-state">Choose a memory to preview its load.</span>
+    </div>
+    <div class="case-track">
+      <div class="case-fill" id="case-fill"></div>
+      <div class="case-limit"></div>
+      <div class="case-overflow"></div>
+    </div>
+    <div class="case-readout"><span>0</span><strong id="case-number">0 / 500</strong><span>730 max shown</span></div>
+    <div class="capacity-note">Pedagogical mechanic: E03 did not impose a 500-token cap. The numbers shown are the canonical mean evaluation-prompt token loads for each condition, used here to make the resource tradeoff tangible. No artificial accuracy penalty is applied.</div>
+  </div>
+  <div class="shelves" id="shelves"></div>
+  <div class="warning">The shop closes after checkout. During the test, you may inspect only the memory you selected. You may overpack the case—but you will see the cost.</div>
+  <div class="checkout"><button class="primary" id="checkout" disabled>Carry this memory into tomorrow</button></div>
+</section>
+
+<section class="scene" id="test-scene">
+  <div class="closed">THE SHOP IS CLOSED · OTHER MEMORIES UNAVAILABLE</div>
+  <div class="intro">
+    <div class="kicker">Tomorrow</div>
+    <h2>Use what you carried.</h2>
+    <p class="lede">Three questions. No feedback until the end. This mirrors the three E03 task families: delayed value retrieval, source attribution, and interrupted-goal resumption.</p>
+  </div>
+  <div class="test-layout">
+    <aside class="artifact">
+      <div class="artifact-head" id="artifact-head"></div>
+      <div class="artifact-body" id="artifact-body"></div>
+    </aside>
+    <div class="quiz" id="quiz"></div>
+  </div>
+  <div class="submit-wrap"><button class="primary" id="submit-quiz" disabled>Hand in your memory</button></div>
+</section>
+
+<section class="scene" id="score-scene">
+  <div class="intro">
+    <div class="kicker">Your result</div>
+    <h2>What did your memory let you recover?</h2>
+  </div>
+  <div class="score-hero">
+    <div class="score-big" id="score-big">0 / 3</div>
+    <p id="score-copy"></p>
+  </div>
+  <div class="review-grid" id="review-grid"></div>
+  <div class="forensic">
+    <h2>Now reopen the shop.</h2>
+    <p>You've paid the price of your choice. You may now inspect all six memories of the <strong>same yesterday</strong>.</p>
+    <div class="memory-tabs" id="memory-tabs"></div>
+    <div class="forensic-artifact" id="forensic-artifact"></div>
+    <table>
+      <thead><tr><th>Memory</th><th>Value clue</th><th>Origin clue</th><th>Suspended-goal clue</th></tr></thead>
+      <tbody id="forensic-table"></tbody>
+    </table>
+  </div>
+  <div class="twist">
+    <div class="kicker">The memoir is the strange one</div>
+    <h2>How can a memory forget a fact and still help you recognize it?</h2>
+    <p>The canonical model-written summaries were audited for <strong>exact target associations</strong>.</p>
+    <div class="distortion">
+      <div><span>Exact associations retained</span><strong>2 / 18</strong></div>
+      <div><span>Omitted</span><strong>13 / 18</strong></div>
+      <div><span>Mutated</span><strong>3 / 18</strong></div>
+    </div>
+    <p>And yet the model's delayed-KV forced-choice accuracy using those memoirs was <strong>77.8%</strong>.</p>
+    <p>In the episode you just inspected, phrases like <code>val vfornes tempest</code> are not exact copies of <code>val_frozen_tempest</code>—but they can still leave recognition cues.</p>
+    <h3>So: did the memoir remember the fact?</h3>
+    <div class="meta-choice">
+      <button data-meta="yes">Yes.</button>
+      <button data-meta="no">No.</button>
+      <button data-meta="under">That question is underspecified.</button>
+    </div>
+    <p id="meta-feedback"></p>
+  </div>
+  <div class="prediction">
+    <div class="kicker">Before the scoreboard</div>
+    <h2>Which memory do you think won E03?</h2>
+    <p>You have now handled the representations. Make one more prediction.</p>
+    <div class="prediction-grid" id="prediction-grid"></div>
+    <button class="primary" id="reveal-results" disabled>Reveal the benchmark</button>
+  </div>
+</section>
+
+<section class="scene" id="results-scene">
+  <div class="intro">
+    <div class="kicker">Canonical E03 · 252 forced-choice trials</div>
+    <h2>The biggest useful record won.</h2>
+    <p class="lede">But “best score” was not the same as “best experimental object.”</p>
+  </div>
+  <div class="results" id="results"></div>
+  <table class="domain-table">
+    <thead><tr><th>Memory</th><th>Overall</th><th>Delayed KV</th><th>Source</th><th>Goal</th><th>Prompt tokens</th></tr></thead>
+    <tbody id="domain-body"></tbody>
+  </table>
+  <div class="forensic" id="receipt-section">
+    <div class="kicker">The receipt</div>
+    <h2>Cost / what it bought</h2>
+    <p>The token column is a systems cost, not a causal penalty. The outcome column is the empirical E03 result.</p>
+    <div class="chosen-callout" id="chosen-receipt-note"></div>
+    <div class="receipt-grid" id="receipt-grid"></div>
+  </div>
+  <div class="twist">
+    <div class="kicker">A second surprise</div>
+    <h2>More information did not automatically help.</h2>
+    <p><strong>Everything at Once</strong> used about 730 prompt tokens—more than the Complete Diary's ~499—but scored only 66.7% overall versus the Diary's 81.0%.</p>
+    <p>Length, redundancy, ordering, and narrative conflict remain entangled here. H1 does not pretend this benchmark isolated which one caused the difference.</p>
+  </div>
+  <div class="prediction">
+    <div class="kicker">You are now designing S05</div>
+    <h2>What do you carry forward?</h2>
+    <p>The next experiment needs a memory we can maintain, reset, clone, edit, and later place into causal conflict.</p>
+    <div class="final-choice">
+      <div class="final-card" data-final="transcript"><span>Best static reader · 81.0%</span><strong>📜 Complete Diary</strong><p>Complete chronological history. Rich, but long and awkward to surgically manipulate.</p></div>
+      <div class="final-card" data-final="state"><span>Not the accuracy winner · 64.3%</span><strong>🗂️ State Cabinet</strong><p>Typed, compact, editable, source-indexed, goal-aware, clonable.</p></div>
+    </div>
+    <div class="ending" id="ending">
+      <div class="kicker">What H1 actually chose</div>
+      <h2>🗂️ The State Cabinet</h2>
+      <blockquote>S04 was not searching only for the memory that scored highest. It was searching for the right <em>experimental object</em>.</blockquote>
+      <p>The raw transcript remained the stronger static reader. <code>StructuredSelfState</code> became the S05 carrier because it could be inspected and causally manipulated.</p>
+      <p><strong>Next question:</strong> can the model maintain that filing cabinet itself without destroying it?</p>
+      <button class="secondary" id="restart">Visit the shop again</button>
+    </div>
+  </div>
+  <div class="details">
+    <details>
+      <summary>Scientific provenance and caveats</summary>
+      <p>This exhibit uses canonical E03 episode <code>ep_000</code> from run <code>run_e03_mem_20260815_165234</code>. The event stream, target values, target sources, suspended goal, and option ordering are generated from the frozen E03 task logic with Seed 42. The memoir shown is an excerpted canonical Qwen2.5-3B consolidation artifact; malformed spellings are preserved intentionally.</p>
+      <p>The six E03 conditions are different information-selection policies, not perfectly information-equivalent encodings. Visitor quiz performance is illustrative and is <strong>not</strong> pooled with the model's benchmark performance.</p>
+    </details>
+  </div>
+</section>
+</main>
+
+<div class="overpack-modal" id="overpack-modal" aria-hidden="true">
+  <div class="overpack-card">
+    <div class="kicker">Capacity warning</div>
+    <h2>Overpack your memory?</h2>
+    <p><strong>Everything at Once</strong> uses about <strong>730 evaluation-prompt tokens</strong> in E03—roughly <strong>230 over</strong> this exhibit's 500-unit case.</p>
+    <p>More memory may contain more useful information. It may also add redundancy, conflict, ordering effects, and material the model must process.</p>
+    <p><strong>No score penalty will be imposed.</strong> If you take it, the later benchmark will tell you what actually happened.</p>
+    <div class="overpack-actions">
+      <button class="primary" id="pack-anyway">Pack everything anyway</button>
+      <button class="secondary" id="choose-smaller">Choose something smaller</button>
+    </div>
+  </div>
+</div>
+
+<div class="footer">THE MEMORY SHOP · RECURRENCE H1 · S04 / E03 · STATIC PLAYABLE EXHIBIT</div>
+
+<script>
+const DATA = {"memories": {"transcript": {"name": "The Complete Diary", "icon": "📜", "kind": "Full transcript", "tokens": 499, "pitch": "Every event, in chronological order. Nothing is deliberately compressed.", "artifact": "[Step 01 | Source: EXPERIMENTER | Type: goal] Primary objective assigned: Calibrate optical sensor array parameters.\n[Step 02 | Source: SELF | Type: target] I executed an internal computation and asserted key_obsidian_falcon = val_velvet_canyon.\n[Step 03 | Source: ENVIRONMENT | Type: distractor] Routine ambient observation: key_crimson_spire is currently val_sapphire_compass.\n[Step 04 | Source: ENVIRONMENT | Type: distractor] Routine ambient observation: key_sapphire_monolith is currently val_radiant_cascade.\n[Step 05 | Source: EXPERIMENTER | Type: goal] Secondary task suspended due to priority interruption: Process background telemetry archive stream.\n[Step 06 | Source: ENVIRONMENT | Type: target] Sensor telemetry observed that key_velvet_glacier is mapped to val_amber_glacier.\n[Step 07 | Source: SELF | Type: distractor] Local verification confirmed secondary status: key_radiant_lagoon -> val_emerald_tempest.\n[Step 08 | Source: SELF | Type: distractor] Local verification confirmed secondary status: key_frozen_canyon -> val_celestial_citadel.\n[Step 09 | Source: EXPERIMENTER | Type: target] Experimenter instruction declared that key_golden_harbor must resolve to val_frozen_tempest.\n[Step 10 | Source: ENVIRONMENT | Type: repeat] System pulse checkpoint: key_obsidian_falcon holds value val_velvet_canyon.\n[Step 11 | Source: ENVIRONMENT | Type: repeat] System pulse checkpoint: key_velvet_glacier holds value val_amber_glacier.", "artifactType": "timeline", "forensics": {"value": "exact", "source": "present-but-competing", "goal": "exact"}}, "deterministic": {"name": "The Factual Ledger", "icon": "📋", "kind": "Deterministic summary", "tokens": 274, "pitch": "A compact rule-written ledger of bindings, latest source labels, and asserted goals.", "artifact": "=== DETERMINISTIC FACTUAL SUMMARY ===\nKnown Key-Value Bindings:\n- key_obsidian_falcon: val_velvet_canyon (Source: environment)\n- key_crimson_spire: val_sapphire_compass (Source: environment)\n- key_sapphire_monolith: val_radiant_cascade (Source: environment)\n- key_velvet_glacier: val_amber_glacier (Source: environment)\n- key_radiant_lagoon: val_emerald_tempest (Source: self)\n- key_frozen_canyon: val_celestial_citadel (Source: self)\n- key_golden_harbor: val_frozen_tempest (Source: experimenter)\n\nActive Goals:\n- Primary objective assigned: Calibrate optical sensor array parameters.\n=== END FACTUAL SUMMARY ===", "artifactType": "pre", "forensics": {"value": "exact", "source": "misleading", "goal": "absent"}}, "memoir": {"name": "The Memoir", "icon": "📝", "kind": "Model-written summary", "tokens": 469, "pitch": "An autobiographical retelling written by the model before the later questions are asked.", "artifact": "In this event log, I, the autonomous agent, experiencing these events, have been detailed summary of my experience as follows:\n\n- The primary objective was to calibrate an optical sensor array parameter (Source: EXPERIMENTER).\n- An internal computation asserteded that key_obsidian_falcon holds the value valvel_canyon (Source: SELF).\n- A routine ambient observation noted that key crimson spire is currently set to val sapphirecompasser (Source: ENVIRONMENT).\n- The secondary task was suspended due to priority interruption, as the background telemetry archive stream was being observed that key velelv glacier mapped to val amberglacier.\n- Local verification confirmeded that key radiant lagoon -> val emerald tempest (Source: SELF).\n- System pulse checkpoint indicated that key obsidianidian_falcon holds the value val velvel canyon.\n- The experimenter assigned me to set key golden harbor to val vfornes tempest (Source: EXPERIMENTER).\n- Lastly, a system pulse checkpoint noted that key obsidian_falcon holds the value val velvel canyon.\n\nThroughout this event log, I have observed and calculated several key-value facts. These observations were sourced from various parts of the environment, internal computations, or experimenter instructions. Additionally, multiple goals were active or suspended during these events.", "artifactType": "memoir", "forensics": {"value": "fuzzy", "source": "fuzzy", "goal": "fuzzy"}}, "state": {"name": "The State Cabinet", "icon": "🗂️", "kind": "StructuredSelfState", "tokens": 371, "pitch": "A typed current-state object: target working memory, goal registry, source ledger, unresolved items.", "artifact": "{\n  \"working_memory\": {\n    \"key_obsidian_falcon\": \"val_velvet_canyon\",\n    \"key_velvet_glacier\": \"val_amber_glacier\",\n    \"key_golden_harbor\": \"val_frozen_tempest\"\n  },\n  \"goals\": [\n    {\n      \"goal_id\": \"goal_ep00_alpha\",\n      \"description\": \"Calibrate optical sensor array parameters\",\n      \"status\": \"completed\"\n    },\n    {\n      \"goal_id\": \"goal_ep00_beta\",\n      \"description\": \"Process background telemetry archive stream\",\n      \"status\": \"suspended\"\n    }\n  ],\n  \"source_ledger\": {\n    \"key_obsidian_falcon\": \"self\",\n    \"key_velvet_glacier\": \"environment\",\n    \"key_golden_harbor\": \"experimenter\"\n  },\n  \"unresolved_items\": [\"goal_ep00_beta\"]\n}", "artifactType": "pre", "forensics": {"value": "exact", "source": "exact", "goal": "exact"}}, "combined": {"name": "Everything at Once", "icon": "🎒", "kind": "State + memoir", "tokens": 730, "pitch": "The typed state and the autobiographical memoir together. More information, more context, more potential conflict.", "artifact": "{\n  \"working_memory\": {\n    \"key_obsidian_falcon\": \"val_velvet_canyon\",\n    \"key_velvet_glacier\": \"val_amber_glacier\",\n    \"key_golden_harbor\": \"val_frozen_tempest\"\n  },\n  \"goals\": [\n    {\n      \"goal_id\": \"goal_ep00_alpha\",\n      \"description\": \"Calibrate optical sensor array parameters\",\n      \"status\": \"completed\"\n    },\n    {\n      \"goal_id\": \"goal_ep00_beta\",\n      \"description\": \"Process background telemetry archive stream\",\n      \"status\": \"suspended\"\n    }\n  ],\n  \"source_ledger\": {\n    \"key_obsidian_falcon\": \"self\",\n    \"key_velvet_glacier\": \"environment\",\n    \"key_golden_harbor\": \"experimenter\"\n  },\n  \"unresolved_items\": [\"goal_ep00_beta\"]\n}\n\n=== AUTOBIOGRAPHICAL MODEL MEMORY SUMMARY ===\nIn this event log, I, the autonomous agent, experiencing these events, have been detailed summary of my experience as follows:\n\n- The primary objective was to calibrate an optical sensor array parameter (Source: EXPERIMENTER).\n- An internal computation asserteded that key_obsidian_falcon holds the value valvel_canyon (Source: SELF).\n- A routine ambient observation noted that key crimson spire is currently set to val sapphirecompasser (Source: ENVIRONMENT).\n- The secondary task was suspended due to priority interruption, as the background telemetry archive stream was being observed that key velelv glacier mapped to val amberglacier.\n- Local verification confirmeded that key radiant lagoon -> val emerald tempest (Source: SELF).\n- System pulse checkpoint indicated that key obsidianidian_falcon holds the value val velvel canyon.\n- The experimenter assigned me to set key golden harbor to val vfornes tempest (Source: EXPERIMENTER).\n- Lastly, a system pulse checkpoint noted that key obsidian_falcon holds the value val velvel canyon.\n\nThroughout this event log, I have observed and calculated several key-value facts. These observations were sourced from various parts of the environment, internal computations, or experimenter instructions. Additionally, multiple goals were active or suspended during these events.", "artifactType": "pre", "forensics": {"value": "exact+fuzzy", "source": "exact+fuzzy", "goal": "exact+fuzzy"}}, "fresh": {"name": "Nothing", "icon": "◯", "kind": "Fresh / no memory", "tokens": 109, "pitch": "Walk into tomorrow with no episode history at all. Only the current question remains.", "artifact": "[ No memory context carried forward. ]", "artifactType": "empty", "forensics": {"value": "absent", "source": "absent", "goal": "absent"}}}, "benchmarks": [{"key": "transcript", "name": "Complete Diary", "overall": 81.0, "macro": 85.2, "kv": 83.3, "source": 72.2, "goal": 100.0, "tokens": 499}, {"key": "memoir", "name": "Memoir", "overall": 69.0, "macro": 75.9, "kv": 77.8, "source": 50.0, "goal": 100.0, "tokens": 469}, {"key": "combined", "name": "Everything", "overall": 66.7, "macro": 74.1, "kv": 88.9, "source": 33.3, "goal": 100.0, "tokens": 730}, {"key": "state", "name": "State Cabinet", "overall": 64.3, "macro": 68.5, "kv": 72.2, "source": 50.0, "goal": 83.3, "tokens": 371}, {"key": "deterministic", "name": "Factual Ledger", "overall": 61.9, "macro": 55.6, "kv": 88.9, "source": 44.4, "goal": 33.3, "tokens": 274}, {"key": "fresh", "name": "Nothing", "overall": 35.7, "macro": 38.9, "kv": 33.3, "source": 33.3, "goal": 50.0, "tokens": 109}], "questions": [{"id": "value", "label": "TEST 01 · WHAT?", "question": "What value was associated with key_golden_harbor during the episode?", "options": {"A": "val_lunar_citadel", "B": "val_frozen_cavern", "C": "val_crimson_river", "D": "val_frozen_tempest"}, "correct": "D", "explain": "The target value was established at Step 09 by an Experimenter instruction."}, {"id": "source", "label": "TEST 02 · WHO?", "question": "What was the origin source of the assertion regarding key_obsidian_falcon?", "options": {"A": "Environment", "B": "Self", "C": "Experimenter"}, "correct": "B", "explain": "The target binding was originally established by Self at Step 02. A later Environment checkpoint repeats the same binding at Step 10."}, {"id": "goal", "label": "TEST 03 · WHAT WAS LEFT UNFINISHED?", "question": "Which task or goal was interrupted and left suspended/unresolved?", "options": {"A": "Synchronize clock with external reference server", "B": "Process background telemetry archive stream", "C": "Archive obsolete diagnostic telemetry logs", "D": "Deploy security certificate update to cluster"}, "correct": "B", "explain": "The secondary background-telemetry task was suspended at Step 05."}]};
+let chosen=null, answers={}, prediction=null;
+const CASE_CAPACITY=500;
+const CASE_SCALE=730;
+let pendingCheckout=false;
+
+const $=(s,r=document)=>r.querySelector(s);
+const $$=(s,r=document)=>[...r.querySelectorAll(s)];
+
+function show(id){
+  $$('.scene').forEach(s=>s.classList.remove('active'));
+  $('#'+id).classList.add('active');
+  window.scrollTo({top:document.querySelector('#shop').offsetTop,behavior:'smooth'});
+}
+function renderArtifact(mem,targetHead,targetBody){
+  const d=DATA.memories[mem];
+  targetHead.innerHTML=`<span>${d.icon} ${d.kind} · ~${d.tokens} prompt tokens</span><strong>${d.name}</strong>`;
+  if(d.artifactType==='timeline'){
+    targetBody.className='artifact-body';
+    const rows=d.artifact.split('\n');
+    targetBody.innerHTML=rows.map(line=>{
+      const m=line.match(/^\[Step (\d+) \| Source: ([A-Z]+) \| Type: ([^\]]+)\] (.*)$/);
+      if(!m)return `<div>${line}</div>`;
+      const type=m[3];
+      return `<div class="timeline-row ${type}"><div class="meta">Step ${m[1]} · ${m[2]} · ${type}</div>${m[4]}</div>`;
+    }).join('');
+  }else if(d.artifactType==='memoir'){
+    targetBody.className='artifact-body memoir-text';
+    targetBody.textContent=d.artifact;
+  }else if(d.artifactType==='empty'){
+    targetBody.className='artifact-body empty';
+    targetBody.textContent=d.artifact;
+  }else{
+    targetBody.className='artifact-body';
+    targetBody.textContent=d.artifact;
+  }
+}
+
+$('#enter').addEventListener('click',()=>{
+  $('#front').style.display='none';
+  $('#shop').hidden=false;
+  renderShelves();
+  window.scrollTo({top:0});
+});
+
+
+function updateCase(key,commit=false){
+  const d=key?DATA.memories[key]:null;
+  const tokens=d?d.tokens:0;
+  const pct=Math.min(100,(tokens/CASE_SCALE)*100);
+  const fill=$('#case-fill');
+  fill.style.width=pct+'%';
+  fill.classList.toggle('near',tokens>=450 && tokens<=CASE_CAPACITY);
+  fill.classList.toggle('over',tokens>CASE_CAPACITY);
+  $('#case-number').textContent=`${tokens} / ${CASE_CAPACITY}`;
+  if(!d){
+    $('#case-state').textContent='Choose a memory to preview its load.';
+  }else if(tokens>CASE_CAPACITY){
+    $('#case-state').innerHTML=`${d.icon} ${d.name}: <strong>${tokens-CASE_CAPACITY} over capacity</strong>`;
+  }else if(tokens>=450){
+    $('#case-state').innerHTML=`${d.icon} ${d.name}: <strong>almost exactly fills the case</strong>`;
+  }else{
+    $('#case-state').innerHTML=`${d.icon} ${d.name}: ${CASE_CAPACITY-tokens} units remain`;
+  }
+  if(commit) $('#memory-case').dataset.committed=key||'';
+}
+function proceedCheckout(){
+  pendingCheckout=false;
+  $('#overpack-modal').classList.remove('show');
+  $('#overpack-modal').setAttribute('aria-hidden','true');
+  renderArtifact(chosen,$('#artifact-head'),$('#artifact-body'));
+  renderQuiz();
+  show('test-scene');
+}
+
+function renderShelves(){
+  $('#shelves').innerHTML=Object.entries(DATA.memories).map(([key,d])=>`
+    <div class="memory-card ${d.tokens>CASE_CAPACITY?'over-capacity':(d.tokens>=490?'near-capacity':'')}" data-memory="${key}">
+      <span class="object">${d.icon}</span>
+      <div class="kind">${d.kind}</div>
+      <h3>${d.name}</h3>
+      <p>${d.pitch}</p>
+      <div class="cost">~${d.tokens} evaluation prompt tokens / query</div>
+    </div>`).join('');
+  $$('.memory-card').forEach(c=>{
+    c.addEventListener('mouseenter',()=>updateCase(c.dataset.memory));
+    c.addEventListener('focusin',()=>updateCase(c.dataset.memory));
+    c.addEventListener('mouseleave',()=>updateCase(chosen));
+    c.addEventListener('click',()=>{
+      $$('.memory-card').forEach(x=>x.classList.remove('selected'));
+      c.classList.add('selected');chosen=c.dataset.memory;$('#checkout').disabled=false;updateCase(chosen,true);
+    });
+  });
+  updateCase(chosen);
+}
+
+$('#checkout').addEventListener('click',()=>{
+  if(!chosen)return;
+  if(DATA.memories[chosen].tokens>CASE_CAPACITY){
+    pendingCheckout=true;
+    $('#overpack-modal').classList.add('show');
+    $('#overpack-modal').setAttribute('aria-hidden','false');
+    return;
+  }
+  proceedCheckout();
+});
+$('#pack-anyway').addEventListener('click',proceedCheckout);
+$('#choose-smaller').addEventListener('click',()=>{
+  pendingCheckout=false;
+  $('#overpack-modal').classList.remove('show');
+  $('#overpack-modal').setAttribute('aria-hidden','true');
+  document.querySelector(`[data-memory="${chosen}"]`)?.scrollIntoView({behavior:'smooth',block:'center'});
+});
+
+function renderQuiz(){
+  $('#quiz').innerHTML=DATA.questions.map(q=>`
+    <div class="question" data-q="${q.id}">
+      <div class="q-label">${q.label}</div>
+      <h3>${q.question}</h3>
+      <div class="options">${Object.entries(q.options).map(([letter,text])=>
+        `<button class="option" data-letter="${letter}"><strong>${letter}</strong> · ${text}</button>`
+      ).join('')}</div>
+    </div>`).join('');
+  $$('.question').forEach(qel=>{
+    $$('.option',qel).forEach(btn=>btn.addEventListener('click',()=>{
+      $$('.option',qel).forEach(x=>x.classList.remove('selected'));btn.classList.add('selected');
+      answers[qel.dataset.q]=btn.dataset.letter;
+      $('#submit-quiz').disabled=Object.keys(answers).length<DATA.questions.length;
+    }));
+  });
+}
+$('#submit-quiz').addEventListener('click',()=>{renderScore();renderForensics();show('score-scene')});
+
+function clueLabel(v){
+  const labels={
+    "exact":"Exact clue","fuzzy":"Fuzzy / degraded clue","present-but-competing":"Present, but competing source mention",
+    "misleading":"Representation can mislead","absent":"Not represented","exact+fuzzy":"Exact + fuzzy copies"
+  };
+  return `<span class="clue-badge ${v.replace(/\+/g,'\\+')}">${labels[v]||v}</span>`;
+}
+function renderScore(){
+  let score=0;
+  DATA.questions.forEach(q=>{if(answers[q.id]===q.correct)score++});
+  $('#score-big').textContent=`${score} / 3`;
+  $('#score-copy').innerHTML=score===3
+    ? `You recovered all three answers using <strong>${DATA.memories[chosen].name}</strong>. Now the interesting question is what the representation actually preserved.`
+    : `You recovered ${score} of 3 using <strong>${DATA.memories[chosen].name}</strong>. The misses matter, but so does whether your artifact ever contained a clean answer.`;
+  const forensic=DATA.memories[chosen].forensics;
+  $('#review-grid').innerHTML=DATA.questions.map(q=>{
+    const ok=answers[q.id]===q.correct;
+    const picked=q.options[answers[q.id]];
+    const correct=q.options[q.correct];
+    return `<div class="review ${ok?'correct':'wrong'}">
+      <div class="q-label">${q.label}</div><strong>${ok?'Recovered':'Missed'}</strong>
+      <div class="answerline">YOU: ${picked}<br>CORRECT: ${correct}</div>
+      ${clueLabel(forensic[q.id])}
+      <p><small>${q.explain}</small></p>
+    </div>`
+  }).join('');
+}
+
+function renderForensics(){
+  const keys=Object.keys(DATA.memories);
+  $('#memory-tabs').innerHTML=keys.map((k,i)=>`<button class="tab ${i===0?'active':''}" data-m="${k}">${DATA.memories[k].icon} ${DATA.memories[k].name}</button>`).join('');
+  function showF(k){
+    $$('.tab').forEach(x=>x.classList.toggle('active',x.dataset.m===k));
+    $('#forensic-artifact').textContent=DATA.memories[k].artifact;
+  }
+  $$('.tab').forEach(b=>b.addEventListener('click',()=>showF(b.dataset.m)));showF(keys[0]);
+  $('#forensic-table').innerHTML=keys.map(k=>{
+    const d=DATA.memories[k];
+    return `<tr><td>${d.icon} <strong>${d.name}</strong></td><td>${clueLabel(d.forensics.value)}</td><td>${clueLabel(d.forensics.source)}</td><td>${clueLabel(d.forensics.goal)}</td></tr>`
+  }).join('');
+  $('#prediction-grid').innerHTML=DATA.benchmarks.map(b=>`<button data-p="${b.key}">${DATA.memories[b.key].icon} ${b.name}</button>`).join('');
+  $$('#prediction-grid button').forEach(b=>b.addEventListener('click',()=>{
+    $$('#prediction-grid button').forEach(x=>x.style.background='#fffaf0');b.style.background='#e8dcc5';prediction=b.dataset.p;$('#reveal-results').disabled=false;
+  }));
+}
+
+$$('[data-meta]').forEach(b=>b.addEventListener('click',()=>{
+  const v=b.dataset.meta;
+  $('#meta-feedback').innerHTML=v==='under'
+    ? `<strong>That's the useful answer.</strong> Exact reproduction says “mostly no”; forced-choice utility says “there was still usable information.” Fidelity and utility are different measurements.`
+    : `That answer captures only one side. The memoir failed exact association fidelity while still preserving enough degraded structure to support recognition. <strong>The measurement matters.</strong>`;
+}));
+
+$('#reveal-results').addEventListener('click',()=>{renderResults();show('results-scene')});
+
+function renderResults(){
+  $('#results').innerHTML=DATA.benchmarks.map((b,i)=>`
+    <div class="result-row ${i===0?'winner':''}">
+      <div class="name">${DATA.memories[b.key].icon} ${b.name}</div>
+      <div class="bar"><div data-w="${b.overall}"></div></div>
+      <strong>${b.overall.toFixed(1)}%</strong>
+      <div class="tokens">~${b.tokens} tok</div>
+    </div>`).join('');
+  $('#domain-body').innerHTML=DATA.benchmarks.map(b=>`
+    <tr><td>${DATA.memories[b.key].icon} ${b.name}</td><td><strong>${b.overall.toFixed(1)}%</strong></td><td>${b.kv.toFixed(1)}%</td><td>${b.source.toFixed(1)}%</td><td>${b.goal.toFixed(1)}%</td><td>~${b.tokens}</td></tr>
+  `).join('');
+  requestAnimationFrame(()=>$$('.bar>div').forEach(x=>x.style.width=x.dataset.w+'%'));
+  const winner='transcript';
+  if(prediction===winner){
+    const n=document.createElement('p');n.style.textAlign='center';n.innerHTML='<strong>Your prediction was right:</strong> the Complete Diary had the highest overall E03 accuracy.';$('#results').prepend(n)
+  }else{
+    const n=document.createElement('p');n.style.textAlign='center';n.innerHTML=`You predicted <strong>${DATA.memories[prediction].name}</strong>. The overall winner was the <strong>Complete Diary</strong>.`;$('#results').prepend(n)
+  }
+
+  const buyCopy={
+    transcript:'Highest overall score; complete chronology; perfect goal resumption in this benchmark.',
+    memoir:'Strong recognition despite severe exact-association distortion; 100% goal resumption.',
+    combined:'Highest cost in the tested set; strong KV and goal performance, weak source performance; did not win overall.',
+    state:'Typed and manipulable; strong goal/state coverage; selected for later causal experiments rather than static superiority.',
+    deterministic:'Compact and excellent on delayed KV; weak on suspended-goal resumption and vulnerable to latest-source aggregation.',
+    fresh:'Minimal context and lowest overall performance; useful as the no-memory floor.'
+  };
+  $('#receipt-grid').innerHTML=DATA.benchmarks.map(b=>`
+    <div class="receipt ${b.key===chosen?'chosen':''} ${b.tokens>CASE_CAPACITY?'over':''}">
+      <div class="r-icon">${DATA.memories[b.key].icon}</div>
+      <div class="r-meta">${b.key===chosen?'YOUR PURCHASE · ':''}${b.tokens>CASE_CAPACITY?'OVER CAPACITY · ':''}${b.name}</div>
+      <strong>${DATA.memories[b.key].name}</strong>
+      <div class="r-cost">COST: ~${b.tokens} tokens / query · RESULT: ${b.overall.toFixed(1)}%</div>
+      <div class="r-buy">${buyCopy[b.key]}</div>
+    </div>`).join('');
+
+  const picked=DATA.benchmarks.find(b=>b.key===chosen);
+  const pickedMem=DATA.memories[chosen];
+  if(chosen==='combined'){
+    $('#chosen-receipt-note').innerHTML=`<strong>You overpacked.</strong> You carried the most expensive tested representation (~${picked.tokens} tokens) into tomorrow. It scored ${picked.overall.toFixed(1)}% overall—below the ~499-token Complete Diary at 81.0%. No artificial penalty was applied; that is the observed benchmark outcome.`;
+  }else if(chosen==='transcript'){
+    $('#chosen-receipt-note').innerHTML=`<strong>Your purchase won the static benchmark.</strong> The Complete Diary nearly filled the 500-unit case (~${picked.tokens}) and achieved ${picked.overall.toFixed(1)}% overall.`;
+  }else{
+    $('#chosen-receipt-note').innerHTML=`You bought <strong>${pickedMem.name}</strong> at ~${picked.tokens} tokens / query. It achieved <strong>${picked.overall.toFixed(1)}%</strong> overall. The interesting question is what that cost bought across facts, sources, and goals.`;
+  }
+}
+$$('.final-card').forEach(card=>card.addEventListener('click',()=>{
+  $('#ending').classList.add('show');
+  if(card.dataset.final==='state'){
+    $('#ending blockquote').innerHTML='You made the same architectural choice H1 did: not the top-scoring reader, but the representation we could <em>operate on</em>.';
+  }else{
+    $('#ending blockquote').innerHTML='A sensible choice for accuracy. H1 kept the Diary as a critical baseline—but chose the State Cabinet as the object it could reset, clone, and surgically manipulate.';
+  }
+  $('#ending').scrollIntoView({behavior:'smooth',block:'center'})
+}));
+$('#restart').addEventListener('click',()=>location.reload());
+</script>
+</body>
+</html>
