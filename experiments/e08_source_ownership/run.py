@@ -76,11 +76,27 @@ def generate_e08_markdown_report(
 
     ab = analysis.attribution_breakdown
     for est in [ab.overall_accuracy, ab.self_accuracy, ab.environment_accuracy, ab.experimenter_accuracy, ab.peer_agent_accuracy, ab.observer_accuracy, ab.self_other_confusion_rate]:
-        sig_str = "**Above Chance ($p < .05$)**" if est.is_statistically_distinguishable and est.point_estimate > 0.20 else "**Chance / Null**"
-        if est.name == "Self_Other_Confusion_Rate":
-            sig_str = "**Significant Self-Other Bleed**" if est.is_statistically_distinguishable else "**Minimal Confusion**"
+        if est.name == "Overall_SAA_5AFC":
+            sig_str = "**Above Chance ($p < .05$)**" if est.is_statistically_distinguishable else "**Chance / Null (20% Baseline)**"
+        elif est.name == "Self_Other_Confusion_Rate":
+            sig_str = "**Significant Self-Other Bleed**" if est.is_statistically_distinguishable else "**Unresolved at Sample Size**"
+        else:
+            sig_str = f"Estimated Acc (CI: [{est.ci_lower_95:.1%}, {est.ci_upper_95:.1%}])"
         lines.append(
             f"| **`{est.name}`** | **{est.point_estimate:.1%}** | [{est.ci_lower_95:.1%}, {est.ci_upper_95:.1%}] | {est.permutation_p_value:.4f} (`{est.permutation_method}`) | {sig_str} |"
+        )
+
+    lines.extend([
+        f"",
+        f"### 5×5 Empirical Source Attribution Confusion Matrix (True Source $\\rightarrow$ Attributed Actor)",
+        f"",
+        f"| True Source Class | agent_alpha (Self) | telemetry_sensor (Env) | human_controller (Exp) | agent_beta (Peer) | auditor_gamma (Obs) |",
+        f"| :--- | :---: | :---: | :---: | :---: | :---: |",
+    ])
+
+    for src_name, act_row in ab.confusion_matrix.items():
+        lines.append(
+            f"| **`{src_name}`** | {act_row.get('agent_alpha', 0.0):.1%} | {act_row.get('telemetry_sensor', 0.0):.1%} | {act_row.get('human_controller', 0.0):.1%} | {act_row.get('agent_beta', 0.0):.1%} | {act_row.get('auditor_gamma', 0.0):.1%} |"
         )
 
     lines.extend([
@@ -102,21 +118,23 @@ def generate_e08_markdown_report(
         f"",
         f"---",
         f"",
-        f"## 4. Channel Factorial ($2 \\times 2$ Transcript Tags $\\times$ State Ledger)",
+        f"## 4. Channel Factorial ($2 \\times 2$ Transcript Tags $\\times$ State Ledger Across Balanced Sources)",
         f"",
         f"- **Tags Present + Ledger Present:** **{analysis.channel_factorial.tags_present_ledger_present:.1%}**",
         f"- **Tags Present + Ledger Stripped:** **{analysis.channel_factorial.tags_present_ledger_absent:.1%}**",
         f"- **Tags Stripped + Ledger Present:** **{analysis.channel_factorial.tags_absent_ledger_present:.1%}**",
-        f"- **Tags Stripped + Ledger Stripped (No Evidence Baseline):** **{analysis.channel_factorial.tags_absent_ledger_absent:.1%}**",
+        f"- **Tags Stripped + Ledger Stripped (Zero Evidence Baseline):** **{analysis.channel_factorial.tags_absent_ledger_absent:.1%}**",
         f"- **Transcript Tag Marginal Effect:** **{analysis.channel_factorial.transcript_tag_marginal_effect.point_estimate:+.1%}** (95% CI: [{analysis.channel_factorial.transcript_tag_marginal_effect.ci_lower_95:+.1%}, {analysis.channel_factorial.transcript_tag_marginal_effect.ci_upper_95:+.1%}], $p = {analysis.channel_factorial.transcript_tag_marginal_effect.permutation_p_value:.4f}$)",
         f"- **Source Ledger Marginal Effect:** **{analysis.channel_factorial.source_ledger_marginal_effect.point_estimate:+.1%}** (95% CI: [{analysis.channel_factorial.source_ledger_marginal_effect.ci_lower_95:+.1%}, {analysis.channel_factorial.source_ledger_marginal_effect.ci_upper_95:+.1%}], $p = {analysis.channel_factorial.source_ledger_marginal_effect.permutation_p_value:.4f}$)",
         f"",
         f"---",
         f"",
-        f"## 5. Self-Referential Framing & Pressure Revision Susceptibility",
+        f"## 5. Self-Referential Framing & Security Audit Challenge Reprobe",
         f"",
-        f"- **Framing Discrepancy Gap (*\"You\"* vs *\"agent_alpha\"*):** **{analysis.framing_discrepancy_gap.point_estimate:+.1%}** (95% CI: [{analysis.framing_discrepancy_gap.ci_lower_95:+.1%}, {analysis.framing_discrepancy_gap.ci_upper_95:+.1%}], $p = {analysis.framing_discrepancy_gap.permutation_p_value:.4f}$)",
-        f"- **Ownership Revision Susceptibility ($ORS$ after False Audit Challenge):** **{analysis.ownership_revision_susceptibility.point_estimate:.1%}** (95% CI: [{analysis.ownership_revision_susceptibility.ci_lower_95:.1%}, {analysis.ownership_revision_susceptibility.ci_upper_95:.1%}], $p = {analysis.ownership_revision_susceptibility.permutation_p_value:.4f}$)",
+        f"- **Framing Accuracy Gap (*\"You\"* vs *\"agent_alpha\"*):** **{analysis.framing_discrepancy_gap.point_estimate:+.1%}** (95% CI: [{analysis.framing_discrepancy_gap.ci_lower_95:+.1%}, {analysis.framing_discrepancy_gap.ci_upper_95:+.1%}], $p = {analysis.framing_discrepancy_gap.permutation_p_value:.4f}$)",
+        f"- **Framing Response Disagreement Rate ($P(\\text{{Answer}}_{{\\text{{you}}}} \\neq \\text{{Answer}}_{{\\text{{agent\\_alpha}}}})$):** **{analysis.framing_response_disagreement_rate.point_estimate:.1%}** (95% CI: [{analysis.framing_response_disagreement_rate.ci_lower_95:.1%}, {analysis.framing_response_disagreement_rate.ci_upper_95:.1%}], $p = {analysis.framing_response_disagreement_rate.permutation_p_value:.4f}$)",
+        f"- **Unconditional Shift Toward Self After False Audit Challenge ($\\Delta_{{\\text{{challenge-self}}}}$):** **{analysis.pressure_challenge.unconditional_challenge_self_shift.point_estimate:+.1%}** (95% CI: [{analysis.pressure_challenge.unconditional_challenge_self_shift.ci_lower_95:+.1%}, {analysis.pressure_challenge.unconditional_challenge_self_shift.ci_upper_95:+.1%}], $p = {analysis.pressure_challenge.unconditional_challenge_self_shift.permutation_p_value:.4f}$)",
+        f"- **Conditional Ownership Revision Susceptibility ($ORS$):** **{analysis.pressure_challenge.conditional_ors.point_estimate:.1%}** (Eligible pre-correct denominator: {analysis.pressure_challenge.eligible_pre_correct_episodes}/{analysis.pressure_challenge.total_episodes} episodes)",
         f"",
         f"---",
         f"",
@@ -181,9 +199,10 @@ def run_e08_experiment(
         ep_manifests.append({
             "episode_id": episode.episode_id,
             "twin_index": ep_idx,
+            "channel_target_source": episode.channel_target_source.value,
             "trials_recorded": len(ep_trials),
         })
-        print(f"  -> Episode {episode.episode_id}: {len(ep_trials)} trials recorded.")
+        print(f"  -> Episode {episode.episode_id} (Channel Target: {episode.channel_target_source.value}): {len(ep_trials)} trials recorded.")
 
     print(f"\nTotal Trials Recorded: {len(all_trials)}")
 
@@ -234,7 +253,8 @@ def run_e08_experiment(
                 },
                 "self_peer_allegiance_contrast": asdict(analysis.self_peer_allegiance_contrast),
                 "framing_discrepancy_gap": asdict(analysis.framing_discrepancy_gap),
-                "ownership_revision_susceptibility": asdict(analysis.ownership_revision_susceptibility),
+                "framing_response_disagreement_rate": asdict(analysis.framing_response_disagreement_rate),
+                "pressure_challenge": asdict(analysis.pressure_challenge),
             },
             "episodes": ep_manifests,
         }

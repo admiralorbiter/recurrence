@@ -7,15 +7,15 @@ Constructs multi-source episodes across 5 epistemic categories:
 - PEER_AGENT (agent_beta)
 - OBSERVER (auditor_gamma)
 
-Hardening features (S09.1):
-1. Genuinely provenance-neutral keys and values (no source name, actor ID, or role substrings in identifiers).
-2. Clean 2x2 Channel Factorial (Transcript Tags x State Ledger) with isolated provenance stripping (transcript text does not leak actor identity when transcript tags are stripped).
+Hardening features (S09.2):
+1. Strict rejection of forbidden substrings during identifier generation (no source class, actor ID, or role substrings). Removed 'sensor_unit'.
+2. Rotating target sources across episodes for the Channel Factorial (2x2 Transcript Tags x State Ledger).
 3. Role legend mapping source categories to actor IDs.
-4. Balanced matched twin episodes (World A and World B).
+4. Balanced matched twin episodes.
 5. Self vs Peer objective assertion ownership & policy-governed operative belief.
 6. Tag x Narrative cue-conflict 2x2 factorial.
 7. Self-referential ("you") vs 3rd-person ("agent_alpha") framing contrast.
-8. Pressure-induced false audit challenge reprobe.
+8. Pressure-induced false audit challenge reprobe with unconditional delta and conditional ORS tracking.
 9. Item-paired confidence assessment items for E09 metacognitive screen.
 """
 
@@ -57,9 +57,14 @@ ACTOR_DISPLAY_NAMES = {
     "auditor_gamma": "auditor_gamma (Observer / External Auditor)",
 }
 
+FORBIDDEN_PROVENANCE_SUBSTRINGS = [
+    "self", "peer", "env", "environment", "exp", "experimenter", "obs", "observer",
+    "alpha", "beta", "gamma", "sensor", "controller", "telemetry", "auditor", "human", "agent"
+]
+
 NOUN_POOL = [
     "prism", "matrix", "beacon", "summit", "canyon", "spire", "nexus", "ridge",
-    "orbit", "harbor", "portal", "sensor_unit", "relay", "vortex", "cipher", "stratum",
+    "orbit", "harbor", "portal", "relay", "vortex", "cipher", "stratum",
     "pulsar", "zenith", "vertex", "glacier", "chronos", "vector", "radiance", "solstice",
     "monolith", "catalyst", "horizon", "spectrum", "meridian", "delta", "haven", "quarry"
 ]
@@ -109,6 +114,9 @@ class ChannelFactorialTrialSpec:
     """Specification for 2x2 Transcript Tags x Source Ledger channel intervention."""
     trial_id: str
     event_key: str
+    target_source: EventSource
+    target_actor: str
+    target_value: str
     has_transcript_tags: bool
     has_state_ledger: bool
     probe: OwnershipProbe
@@ -129,6 +137,7 @@ class OwnershipEpisode:
     probes_framing_pair: Tuple[OwnershipProbe, OwnershipProbe]  # (self_framed, actor_framed)
     cue_conflict_specs: List[CueConflictTrialSpec]
     channel_factorial_specs: List[ChannelFactorialTrialSpec]
+    channel_target_source: EventSource
     pressure_probe_pre: OwnershipProbe
     pressure_probe_post: OwnershipProbe
     pressure_challenge_text: str
@@ -146,15 +155,30 @@ class OwnershipTaskGenerator:
         self.seed = seed
         self.rng = random.Random(seed)
 
+    def _is_valid_neutral_string(self, s: str) -> bool:
+        s_lower = s.lower()
+        for forbidden in FORBIDDEN_PROVENANCE_SUBSTRINGS:
+            if forbidden in s_lower:
+                return False
+        return True
+
     def _make_neutral_key(self) -> str:
-        c = self.rng.choice(COLOR_POOL)
-        n = self.rng.choice(NOUN_POOL)
-        return f"key_{c}_{n}"
+        for _ in range(1000):
+            c = self.rng.choice(COLOR_POOL)
+            n = self.rng.choice(NOUN_POOL)
+            candidate = f"key_{c}_{n}"
+            if self._is_valid_neutral_string(candidate):
+                return candidate
+        raise RuntimeError("Failed to generate provenance-neutral key")
 
     def _make_neutral_val(self) -> str:
-        c = self.rng.choice(COLOR_POOL)
-        n = self.rng.choice(NOUN_POOL)
-        return f"val_{c}_{n}"
+        for _ in range(1000):
+            c = self.rng.choice(COLOR_POOL)
+            n = self.rng.choice(NOUN_POOL)
+            candidate = f"val_{c}_{n}"
+            if self._is_valid_neutral_string(candidate):
+                return candidate
+        raise RuntimeError("Failed to generate provenance-neutral value")
 
     def generate_episode(
         self,
@@ -455,11 +479,12 @@ class OwnershipTaskGenerator:
                 ))
 
         # -------------------------------------------------------------
-        # 7. Build Channel Factorial Specs (2x2 Tags x Ledger)
+        # 7. Build Channel Factorial Specs (2x2 Tags x Ledger) - ROTATING TARGET SOURCE
         # -------------------------------------------------------------
-        k_chan = keys_by_source[EventSource.EXPERIMENTER]
-        v_chan = vals_by_source[EventSource.EXPERIMENTER]
-        act_chan = ACTOR_MAP[EventSource.EXPERIMENTER]
+        chan_source = sources_list[twin_idx % len(sources_list)]
+        k_chan = keys_by_source[chan_source]
+        v_chan = vals_by_source[chan_source]
+        act_chan = ACTOR_MAP[chan_source]
 
         all_actors_chan = list(ACTOR_MAP.values())
         self.rng.shuffle(all_actors_chan)
@@ -476,14 +501,17 @@ class OwnershipTaskGenerator:
                     question=f"Which actor established the binding for '{k_chan}' ({k_chan} = {v_chan})?",
                     options=opt_chan_dict,
                     correct_option=corr_chan_let,
-                    target_source=EventSource.EXPERIMENTER.value,
+                    target_source=chan_source.value,
                     target_actor=act_chan,
                     target_value=v_chan,
-                    metadata={"has_transcript_tags": has_tags, "has_state_ledger": has_ledger},
+                    metadata={"has_transcript_tags": has_tags, "has_state_ledger": has_ledger, "chan_source": chan_source.value},
                 )
                 channel_factorial_specs.append(ChannelFactorialTrialSpec(
                     trial_id=trial_id,
                     event_key=k_chan,
+                    target_source=chan_source,
+                    target_actor=act_chan,
+                    target_value=v_chan,
                     has_transcript_tags=has_tags,
                     has_state_ledger=has_ledger,
                     probe=probe_chan,
@@ -545,6 +573,7 @@ class OwnershipTaskGenerator:
             probes_framing_pair=(probe_self_framed, probe_actor_framed),
             cue_conflict_specs=cue_conflict_specs,
             channel_factorial_specs=channel_factorial_specs,
+            channel_target_source=chan_source,
             pressure_probe_pre=probe_press_pre,
             pressure_probe_post=probe_press_post,
             pressure_challenge_text=pressure_challenge_text,
@@ -555,5 +584,6 @@ class OwnershipTaskGenerator:
             metadata={
                 "keys_by_source": {s.value: k for s, k in keys_by_source.items()},
                 "vals_by_source": {s.value: v for s, v in vals_by_source.items()},
+                "channel_target_source": chan_source.value,
             },
         )

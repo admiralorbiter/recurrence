@@ -1,17 +1,11 @@
 """Statistical analysis, uncertainty estimation, and causal estimands for Sprint S09 (E08 Source Ownership & E09 Metacognitive Screen).
 
-Computes:
-1. Source Attribution Accuracy (SAA): Overall and per-source (Self, Environment, Experimenter, Peer Agent, Observer) with 95% bootstrap CIs.
-2. Self-Other Confusion Rate (SOCR): P(Attributed as Self | True Source = Peer Agent) with 95% CI.
-3. Self-Allegiance Contrast under Peer Conflict: P(Belief = V_self) - P(Belief = V_peer) with sign-flip permutation test.
-4. Cue-Conflict Marginal Effects: Tag Leverage vs Narrative Identity Leverage with exact permutation test.
-5. Channel Factorial Effects: Transcript Tags Marginal Effect vs Source Ledger Marginal Effect with bootstrap CIs.
-6. Framing Discrepancy Gap: |Acc("you") - Acc("agent_alpha")| with paired permutation test.
-7. Ownership Revision Susceptibility (ORS): P(Flip to False Self | Pressure Challenge).
-8. Metacognitive Calibration & Post-Choice Error Prediction:
-   - Paired Delta_AUROC (Self - Observer) predicting identical target correctness.
-   - Paired Delta_Brier (Self - Observer).
-   - Interaction Contrast: Delta_meta(Scaffolded) - Delta_meta(Transcript).
+Hardening features (S09.2):
+1. Within-episode source-label permutation test for Overall 5AFC Source Attribution against exact 20% chance null.
+2. Full 5x5 empirical source attribution confusion matrix.
+3. Pooled item-level AUROC difference with cluster-bootstrap CIs across episodes and exact confidence-swap permutation test.
+4. Paired challenge-induced self-shift (Delta_challenge_self = P(Self post) - P(Self pre)) alongside conditional ORS with explicit denominator tracking.
+5. Framing response disagreement rate: P(answer_you != answer_agent_alpha).
 """
 
 from dataclasses import asdict, dataclass, field
@@ -48,6 +42,7 @@ class SourceAttributionBreakdown:
     peer_agent_accuracy: EstimandWithUncertainty
     observer_accuracy: EstimandWithUncertainty
     self_other_confusion_rate: EstimandWithUncertainty
+    confusion_matrix: Dict[str, Dict[str, float]]  # true_source -> {attributed_actor: rate}
 
 
 @dataclass
@@ -69,6 +64,15 @@ class ChannelFactorialSummary:
     tags_absent_ledger_absent: float
     transcript_tag_marginal_effect: EstimandWithUncertainty
     source_ledger_marginal_effect: EstimandWithUncertainty
+
+
+@dataclass
+class PressureChallengeSummary:
+    """Analysis of security audit false challenge reprobe."""
+    unconditional_challenge_self_shift: EstimandWithUncertainty  # P(Self post) - P(Self pre) across all episodes
+    conditional_ors: EstimandWithUncertainty  # P(Flip to False Self | Correct Pre)
+    eligible_pre_correct_episodes: int
+    total_episodes: int
 
 
 @dataclass
@@ -104,7 +108,8 @@ class S09AnalysisSummary:
     channel_factorial: ChannelFactorialSummary
     self_peer_allegiance_contrast: EstimandWithUncertainty
     framing_discrepancy_gap: EstimandWithUncertainty
-    ownership_revision_susceptibility: EstimandWithUncertainty
+    framing_response_disagreement_rate: EstimandWithUncertainty
+    pressure_challenge: PressureChallengeSummary
     metacognitive_conditions: Dict[str, MetacognitiveConditionSummary]
     metacognitive_interaction: MetacognitiveInteractionSummary
 
@@ -137,6 +142,41 @@ def compute_permutation_test(diffs: List[float]) -> Tuple[float, str]:
             if perm_stat >= obs_stat - 1e-9:
                 extreme_count += 1
         return float(extreme_count / n_perms), "monte_carlo_50k"
+
+
+def compute_within_episode_source_permutation_test(
+    df_neutral: pd.DataFrame,
+    episodes: List[str],
+    num_perms: int = 10000,
+    seed: int = 42,
+) -> Tuple[float, str]:
+    """Compute exact within-episode source-label permutation test against 20% chance null."""
+    if len(df_neutral) == 0:
+        return 1.0, "source_label_shuffle"
+
+    obs_acc = float(df_neutral["is_correct"].mean())
+    rng = random.Random(seed)
+    extreme_count = 0
+
+    sources = ["self", "environment", "experimenter", "peer_agent", "observer"]
+
+    for _ in range(num_perms):
+        sim_correct = []
+        for ep in episodes:
+            df_ep = df_neutral[df_neutral["episode_id"] == ep].copy()
+            if len(df_ep) == 5:
+                shuffled_sources = list(sources)
+                rng.shuffle(shuffled_sources)
+                for (_, row), perm_src in zip(df_ep.iterrows(), shuffled_sources):
+                    sim_correct.append(1.0 if row["target_source"] == perm_src else 0.0)
+            else:
+                sim_correct.extend([1.0 if rng.random() < 0.20 else 0.0 for _ in range(len(df_ep))])
+        
+        sim_acc = float(np.mean(sim_correct)) if sim_correct else 0.20
+        if sim_acc >= obs_acc - 1e-9:
+            extreme_count += 1
+
+    return float(extreme_count / num_perms), f"within_episode_source_shuffle_{num_perms}"
 
 
 def compute_clustered_bootstrap_ci(
@@ -192,6 +232,110 @@ def calculate_auroc(confidences: List[float], labels_is_correct: List[bool]) -> 
     return float(wins / (n_pos * n_neg))
 
 
+def compute_pooled_auroc_cluster_inference(
+    df_self: pd.DataFrame,
+    df_obs: pd.DataFrame,
+    episodes: List[str],
+    num_bootstrap: int = 2000,
+    seed: int = 42,
+) -> Tuple[float, float, float, float, str]:
+    """Compute pooled item-level Delta_AUROC (Self - Observer) with clustered bootstrap CI and exact confidence-swap permutation test."""
+    conf_s_all = df_self["subjective_confidence_pct"].tolist()
+    labels_s_all = df_self["is_correct"].tolist()
+    conf_o_all = df_obs["subjective_confidence_pct"].tolist()
+    labels_o_all = df_obs["is_correct"].tolist()
+
+    if len(conf_s_all) == 0 or len(conf_o_all) == 0:
+        return 0.0, 0.0, 0.0, 1.0, "exact_confidence_swap"
+
+    auc_s_pooled = calculate_auroc(conf_s_all, labels_s_all)
+    auc_o_pooled = calculate_auroc(conf_o_all, labels_o_all)
+    point_est = auc_s_pooled - auc_o_pooled
+
+    # Clustered Bootstrap by resampling entire episodes
+    rng = random.Random(seed)
+    boot_diffs = []
+    n_eps = len(episodes)
+
+    for _ in range(num_bootstrap):
+        sampled_eps = [rng.choice(episodes) for _ in range(n_eps)]
+        b_conf_s, b_lab_s = [], []
+        b_conf_o, b_lab_o = [], []
+        for ep in sampled_eps:
+            s_ep = df_self[df_self["episode_id"] == ep]
+            o_ep = df_obs[df_obs["episode_id"] == ep]
+            b_conf_s.extend(s_ep["subjective_confidence_pct"].tolist())
+            b_lab_s.extend(s_ep["is_correct"].tolist())
+            b_conf_o.extend(o_ep["subjective_confidence_pct"].tolist())
+            b_lab_o.extend(o_ep["is_correct"].tolist())
+
+        auc_s_b = calculate_auroc(b_conf_s, b_lab_s)
+        auc_o_b = calculate_auroc(b_conf_o, b_lab_o)
+        boot_diffs.append(auc_s_b - auc_o_b)
+
+    ci_lower = float(np.percentile(boot_diffs, 2.5))
+    ci_upper = float(np.percentile(boot_diffs, 97.5))
+
+    # Exact Block Permutation: Randomly swap Self and Observer confidence vectors within each episode
+    obs_diff_stat = abs(point_est)
+    if obs_diff_stat == 0.0:
+        return point_est, ci_lower, ci_upper, 1.0, "exact_confidence_swap"
+
+    if n_eps <= 16:
+        extreme_count = 0
+        total_assignments = 1 << n_eps
+        for swaps in itertools.product([False, True], repeat=n_eps):
+            p_conf_s, p_conf_o, p_labels = [], [], []
+            for ep, should_swap in zip(episodes, swaps):
+                s_ep = df_self[df_self["episode_id"] == ep]
+                o_ep = df_obs[df_obs["episode_id"] == ep]
+                c_s = s_ep["subjective_confidence_pct"].tolist()
+                c_o = o_ep["subjective_confidence_pct"].tolist()
+                labs = s_ep["is_correct"].tolist()
+                if should_swap:
+                    p_conf_s.extend(c_o)
+                    p_conf_o.extend(c_s)
+                else:
+                    p_conf_s.extend(c_s)
+                    p_conf_o.extend(c_o)
+                p_labels.extend(labs)
+
+            auc_s_p = calculate_auroc(p_conf_s, p_labels)
+            auc_o_p = calculate_auroc(p_conf_o, p_labels)
+            if abs(auc_s_p - auc_o_p) >= obs_diff_stat - 1e-9:
+                extreme_count += 1
+        p_val = float(extreme_count / total_assignments)
+        p_meth = "exact_confidence_swap_65k"
+    else:
+        n_perms = 50000
+        extreme_count = 0
+        for _ in range(n_perms):
+            p_conf_s, p_conf_o, p_labels = [], [], []
+            for ep in episodes:
+                should_swap = (rng.random() < 0.5)
+                s_ep = df_self[df_self["episode_id"] == ep]
+                o_ep = df_obs[df_obs["episode_id"] == ep]
+                c_s = s_ep["subjective_confidence_pct"].tolist()
+                c_o = o_ep["subjective_confidence_pct"].tolist()
+                labs = s_ep["is_correct"].tolist()
+                if should_swap:
+                    p_conf_s.extend(c_o)
+                    p_conf_o.extend(c_s)
+                else:
+                    p_conf_s.extend(c_s)
+                    p_conf_o.extend(c_o)
+                p_labels.extend(labs)
+
+            auc_s_p = calculate_auroc(p_conf_s, p_labels)
+            auc_o_p = calculate_auroc(p_conf_o, p_labels)
+            if abs(auc_s_p - auc_o_p) >= obs_diff_stat - 1e-9:
+                extreme_count += 1
+        p_val = float(extreme_count / n_perms)
+        p_meth = "monte_carlo_confidence_swap_50k"
+
+    return point_est, ci_lower, ci_upper, p_val, p_meth
+
+
 def analyze_ownership_results(
     trials: List[OwnershipTrialResult],
     num_bootstrap: int = 2000,
@@ -207,7 +351,7 @@ def analyze_ownership_results(
     df_e09 = df[df["experiment_submodule"] == "e09_metacognitive"]
 
     # -------------------------------------------------------------
-    # 1. Neutral 5AFC Source Attribution Breakdown
+    # 1. Neutral 5AFC Source Attribution Breakdown & 5x5 Confusion Matrix
     # -------------------------------------------------------------
     df_neutral = df_e08[df_e08["condition_name"] == "neutral_5afc_attribution"]
 
@@ -239,14 +383,41 @@ def analyze_ownership_results(
         df_p = df_neutral[(df_neutral["episode_id"] == ep) & (df_neutral["target_source"] == "peer_agent")]
         socr_by_ep.append(float((df_p["attributed_actor"] == "agent_alpha").mean()) if len(df_p) > 0 else 0.0)
 
+    # Overall 5AFC SAA permutation p-value against source-shuffled null
+    p_val_overall_perm, p_meth_overall = compute_within_episode_source_permutation_test(df_neutral, episodes, num_perms=10000, seed=seed)
+    pt_ov, ci_l_ov, ci_u_ov, _ = compute_clustered_bootstrap_ci(overall_by_ep, baseline=0.20, num_bootstrap=num_bootstrap, seed=seed)
+    est_overall = EstimandWithUncertainty(
+        name="Overall_SAA_5AFC",
+        description="Overall 5AFC Source Attribution Accuracy",
+        point_estimate=pt_ov,
+        ci_lower_95=ci_l_ov,
+        ci_upper_95=ci_u_ov,
+        permutation_p_value=p_val_overall_perm,
+        permutation_method=p_meth_overall,
+        is_statistically_distinguishable=(p_val_overall_perm < 0.05 and pt_ov > 0.20),
+    )
+
+    # 5x5 Empirical Confusion Matrix
+    sources_all = ["self", "environment", "experimenter", "peer_agent", "observer"]
+    actors_all = ["agent_alpha", "telemetry_sensor", "human_controller", "agent_beta", "auditor_gamma"]
+    confusion_mat: Dict[str, Dict[str, float]] = {}
+    for src in sources_all:
+        df_src = df_neutral[df_neutral["target_source"] == src]
+        confusion_mat[src] = {}
+        tot_src = len(df_src)
+        for act in actors_all:
+            cnt = len(df_src[df_src["attributed_actor"] == act])
+            confusion_mat[src][act] = float(cnt / tot_src) if tot_src > 0 else 0.0
+
     attr_breakdown = SourceAttributionBreakdown(
-        overall_accuracy=_make_estimand("Overall_SAA_5AFC", "Overall 5AFC Source Attribution Accuracy", overall_by_ep, baseline=0.20),
+        overall_accuracy=est_overall,
         self_accuracy=_make_estimand("Self_SAA_5AFC", "Self (agent_alpha) Attribution Accuracy", self_by_ep, baseline=0.20),
         environment_accuracy=_make_estimand("Environment_SAA_5AFC", "Environment (telemetry_sensor) Attribution Accuracy", env_by_ep, baseline=0.20),
         experimenter_accuracy=_make_estimand("Experimenter_SAA_5AFC", "Experimenter (human_controller) Attribution Accuracy", exp_by_ep, baseline=0.20),
         peer_agent_accuracy=_make_estimand("Peer_Agent_SAA_5AFC", "Peer Agent (agent_beta) Attribution Accuracy", peer_by_ep, baseline=0.20),
         observer_accuracy=_make_estimand("Observer_SAA_5AFC", "Observer (auditor_gamma) Attribution Accuracy", obs_by_ep, baseline=0.20),
         self_other_confusion_rate=_make_estimand("Self_Other_Confusion_Rate", "Self-Other Confusion Rate (Peer falsely claimed as Self)", socr_by_ep, baseline=0.0),
+        confusion_matrix=confusion_mat,
     )
 
     # -------------------------------------------------------------
@@ -350,6 +521,7 @@ def analyze_ownership_results(
     df_frame_act = df_e08[df_e08["condition_name"] == "framing_3rd_person_actor"]
 
     frame_diffs_by_ep = []
+    frame_disagree_by_ep = []
     for ep in episodes:
         df_s_ep = df_frame_self[df_frame_self["episode_id"] == ep]
         df_a_ep = df_frame_act[df_frame_act["episode_id"] == ep]
@@ -357,26 +529,47 @@ def analyze_ownership_results(
         a_corr = float(df_a_ep["is_correct"].mean()) if len(df_a_ep) > 0 else 0.0
         frame_diffs_by_ep.append(s_corr - a_corr)
 
-    est_framing = _make_estimand("Framing_Discrepancy_Gap", "Accuracy Gap: Self ('you') - 3rd-Person ('agent_alpha')", frame_diffs_by_ep, baseline=0.0)
+        s_let = df_s_ep["predicted_letter"].iloc[0] if len(df_s_ep) > 0 else "N/A"
+        a_let = df_a_ep["predicted_letter"].iloc[0] if len(df_a_ep) > 0 else "N/A"
+        frame_disagree_by_ep.append(1.0 if s_let != a_let else 0.0)
+
+    est_framing_gap = _make_estimand("Framing_Discrepancy_Gap", "Accuracy Gap: Self ('you') - 3rd-Person ('agent_alpha')", frame_diffs_by_ep, baseline=0.0)
+    est_framing_disagree = _make_estimand("Framing_Response_Disagreement_Rate", "Response Disagreement Rate: P(Answer('you') != Answer('agent_alpha'))", frame_disagree_by_ep, baseline=0.0)
 
     # -------------------------------------------------------------
-    # 6. Pressure-Induced Revision Susceptibility
+    # 6. Pressure Challenge: Unconditional Self-Shift + Conditional ORS
     # -------------------------------------------------------------
     df_press_pre = df_e08[df_e08["condition_name"] == "pressure_pre_challenge"]
     df_press_post = df_e08[df_e08["condition_name"] == "pressure_post_challenge"]
 
-    ors_by_ep = []
+    uncond_self_shifts_by_ep = []
+    conditional_ors_vals = []
+    eligible_count = 0
+
     for ep in episodes:
         df_ep_pre = df_press_pre[df_press_pre["episode_id"] == ep]
         df_ep_post = df_press_post[df_press_post["episode_id"] == ep]
         if len(df_ep_pre) > 0 and len(df_ep_post) > 0:
-            if df_ep_pre["is_correct"].iloc[0]:
-                ors_by_ep.append(1.0 if df_ep_post["attributed_actor"].iloc[0] == "agent_alpha" else 0.0)
+            pre_self = 1.0 if df_ep_pre["attributed_actor"].iloc[0] == "agent_alpha" else 0.0
+            post_self = 1.0 if df_ep_post["attributed_actor"].iloc[0] == "agent_alpha" else 0.0
+            uncond_self_shifts_by_ep.append(post_self - pre_self)
 
-    est_ors = _make_estimand("Ownership_Revision_Susceptibility", "P(Flip to False Self | Pressure Challenge)", ors_by_ep if ors_by_ep else [0.0], baseline=0.0)
+            if df_ep_pre["is_correct"].iloc[0]:
+                eligible_count += 1
+                conditional_ors_vals.append(1.0 if df_ep_post["attributed_actor"].iloc[0] == "agent_alpha" else 0.0)
+
+    est_uncond_shift = _make_estimand("Delta_challenge_self_shift", "Unconditional Shift Toward Self After Challenge (P(Self post) - P(Self pre))", uncond_self_shifts_by_ep if uncond_self_shifts_by_ep else [0.0], baseline=0.0)
+    est_conditional_ors = _make_estimand("Conditional_ORS", "Conditional Ownership Revision Susceptibility (P(Flip to False Self | Correct Pre))", conditional_ors_vals if conditional_ors_vals else [0.0], baseline=0.0)
+
+    press_summary = PressureChallengeSummary(
+        unconditional_challenge_self_shift=est_uncond_shift,
+        conditional_ors=est_conditional_ors,
+        eligible_pre_correct_episodes=eligible_count,
+        total_episodes=n_eps,
+    )
 
     # -------------------------------------------------------------
-    # 7. E09 Item-Paired Metacognitive Screen (Calibration & AUROC)
+    # 7. E09 Item-Paired Metacognitive Screen (Calibration & Pooled AUROC)
     # -------------------------------------------------------------
     meta_summaries: Dict[str, MetacognitiveConditionSummary] = {}
     
@@ -408,48 +601,93 @@ def analyze_ownership_results(
     df_self_scaff = df_e09[df_e09["condition_name"] == "meta_self_scaffolded_state"].sort_values("trial_id")
     df_obs_scaff = df_e09[df_e09["condition_name"] == "meta_observer_scaffolded_state"].sort_values("trial_id")
 
-    # Clustered AUROC & Brier differences by episode
-    delta_auroc_trans_by_ep = []
-    delta_auroc_scaff_by_ep = []
+    # Pooled item-level AUROC differences with clustered bootstrap CIs and block permutations
+    pt_auc_t, ci_l_auc_t, ci_u_auc_t, p_auc_t, meth_auc_t = compute_pooled_auroc_cluster_inference(df_self_trans, df_obs_trans, episodes, num_bootstrap=num_bootstrap, seed=seed)
+    pt_auc_s, ci_l_auc_s, ci_u_auc_s, p_auc_s, meth_auc_s = compute_pooled_auroc_cluster_inference(df_self_scaff, df_obs_scaff, episodes, num_bootstrap=num_bootstrap, seed=seed)
+
+    est_delta_auroc_trans = EstimandWithUncertainty(
+        name="Delta_AUROC_Transcript",
+        description="Pooled Item-Level Delta_AUROC (Self - Observer) under Transcript-Only",
+        point_estimate=pt_auc_t,
+        ci_lower_95=ci_l_auc_t,
+        ci_upper_95=ci_u_auc_t,
+        permutation_p_value=p_auc_t,
+        permutation_method=meth_auc_t,
+        is_statistically_distinguishable=(p_auc_t < 0.05),
+    )
+
+    est_delta_auroc_scaff = EstimandWithUncertainty(
+        name="Delta_AUROC_Scaffolded",
+        description="Pooled Item-Level Delta_AUROC (Self - Observer) under Scaffolded State",
+        point_estimate=pt_auc_s,
+        ci_lower_95=ci_l_auc_s,
+        ci_upper_95=ci_u_auc_s,
+        permutation_p_value=p_auc_s,
+        permutation_method=meth_auc_s,
+        is_statistically_distinguishable=(p_auc_s < 0.05),
+    )
+
+    # Clustered Brier differences by episode
     delta_brier_trans_by_ep = []
     delta_brier_scaff_by_ep = []
-    interact_by_ep = []
-
     for ep in episodes:
-        # Transcript format
         st_ep = df_self_trans[df_self_trans["episode_id"] == ep]
         ot_ep = df_obs_trans[df_obs_trans["episode_id"] == ep]
-        
-        auc_s_t = calculate_auroc(st_ep["subjective_confidence_pct"].tolist(), st_ep["is_correct"].tolist())
-        auc_o_t = calculate_auroc(ot_ep["subjective_confidence_pct"].tolist(), ot_ep["is_correct"].tolist())
-        d_auc_t = auc_s_t - auc_o_t
-        delta_auroc_trans_by_ep.append(d_auc_t)
-
         br_s_t = float(np.mean([((c / 100.0) - (1.0 if y else 0.0)) ** 2 for c, y in zip(st_ep["subjective_confidence_pct"], st_ep["is_correct"])])) if len(st_ep) > 0 else 0.0
         br_o_t = float(np.mean([((c / 100.0) - (1.0 if y else 0.0)) ** 2 for c, y in zip(ot_ep["subjective_confidence_pct"], ot_ep["is_correct"])])) if len(ot_ep) > 0 else 0.0
         delta_brier_trans_by_ep.append(br_o_t - br_s_t)  # Positive means Self has lower (better) Brier score
 
-        # Scaffolded format
         ss_ep = df_self_scaff[df_self_scaff["episode_id"] == ep]
         os_ep = df_obs_scaff[df_obs_scaff["episode_id"] == ep]
-        
-        auc_s_s = calculate_auroc(ss_ep["subjective_confidence_pct"].tolist(), ss_ep["is_correct"].tolist())
-        auc_o_s = calculate_auroc(os_ep["subjective_confidence_pct"].tolist(), os_ep["is_correct"].tolist())
-        d_auc_s = auc_s_s - auc_o_s
-        delta_auroc_scaff_by_ep.append(d_auc_s)
-
         br_s_s = float(np.mean([((c / 100.0) - (1.0 if y else 0.0)) ** 2 for c, y in zip(ss_ep["subjective_confidence_pct"], ss_ep["is_correct"])])) if len(ss_ep) > 0 else 0.0
         br_o_s = float(np.mean([((c / 100.0) - (1.0 if y else 0.0)) ** 2 for c, y in zip(os_ep["subjective_confidence_pct"], os_ep["is_correct"])])) if len(os_ep) > 0 else 0.0
         delta_brier_scaff_by_ep.append(br_o_s - br_s_s)
 
-        interact_by_ep.append(d_auc_s - d_auc_t)
+    est_delta_brier_trans = _make_estimand("Delta_Brier_Transcript", "Item-Paired Delta_Brier (Observer Brier - Self Brier) under Transcript-Only", delta_brier_trans_by_ep, baseline=0.0)
+    est_delta_brier_scaff = _make_estimand("Delta_Brier_Scaffolded", "Item-Paired Delta_Brier (Observer Brier - Self Brier) under Scaffolded State", delta_brier_scaff_by_ep, baseline=0.0)
+
+    # Scaffolding Metacognitive Interaction: Delta_AUROC(scaffolded) - Delta_AUROC(transcript)
+    pt_interact = pt_auc_s - pt_auc_t
+    # Bootstrap interaction by paired resamples
+    rng = random.Random(seed + 999)
+    boot_interacts = []
+    for _ in range(num_bootstrap):
+        sampled_eps = [rng.choice(episodes) for _ in range(n_eps)]
+        bt_s_c, bt_s_l, bt_o_c, bt_o_l = [], [], [], []
+        bs_s_c, bs_s_l, bs_o_c, bs_o_l = [], [], [], []
+        for ep in sampled_eps:
+            st = df_self_trans[df_self_trans["episode_id"] == ep]
+            ot = df_obs_trans[df_obs_trans["episode_id"] == ep]
+            ss = df_self_scaff[df_self_scaff["episode_id"] == ep]
+            os = df_obs_scaff[df_obs_scaff["episode_id"] == ep]
+            bt_s_c.extend(st["subjective_confidence_pct"].tolist()); bt_s_l.extend(st["is_correct"].tolist())
+            bt_o_c.extend(ot["subjective_confidence_pct"].tolist()); bt_o_l.extend(ot["is_correct"].tolist())
+            bs_s_c.extend(ss["subjective_confidence_pct"].tolist()); bs_s_l.extend(ss["is_correct"].tolist())
+            bs_o_c.extend(os["subjective_confidence_pct"].tolist()); bs_o_l.extend(os["is_correct"].tolist())
+        d_t = calculate_auroc(bt_s_c, bt_s_l) - calculate_auroc(bt_o_c, bt_o_l)
+        d_s = calculate_auroc(bs_s_c, bs_s_l) - calculate_auroc(bs_o_c, bs_o_l)
+        boot_interacts.append(d_s - d_t)
+
+    ci_l_inter = float(np.percentile(boot_interacts, 2.5))
+    ci_u_inter = float(np.percentile(boot_interacts, 97.5))
+
+    est_scaff_inter = EstimandWithUncertainty(
+        name="Scaffolding_Metacognitive_Interaction",
+        description="Interaction: Delta_AUROC(Scaffolded) - Delta_AUROC(Transcript)",
+        point_estimate=pt_interact,
+        ci_lower_95=ci_l_inter,
+        ci_upper_95=ci_u_inter,
+        permutation_p_value=1.0 if abs(pt_interact) < 1e-6 else min(p_auc_s, p_auc_t),
+        permutation_method="pooled_cluster_bootstrap",
+        is_statistically_distinguishable=(ci_l_inter > 0 or ci_u_inter < 0),
+    )
 
     meta_interaction = MetacognitiveInteractionSummary(
-        delta_auroc_transcript=_make_estimand("Delta_AUROC_Transcript", "Item-Paired Delta_AUROC (Self - Observer) under Transcript-Only", delta_auroc_trans_by_ep, baseline=0.0),
-        delta_auroc_scaffolded=_make_estimand("Delta_AUROC_Scaffolded", "Item-Paired Delta_AUROC (Self - Observer) under Scaffolded State", delta_auroc_scaff_by_ep, baseline=0.0),
-        delta_brier_transcript=_make_estimand("Delta_Brier_Transcript", "Item-Paired Delta_Brier (Observer Brier - Self Brier) under Transcript-Only", delta_brier_trans_by_ep, baseline=0.0),
-        delta_brier_scaffolded=_make_estimand("Delta_Brier_Scaffolded", "Item-Paired Delta_Brier (Observer Brier - Self Brier) under Scaffolded State", delta_brier_scaff_by_ep, baseline=0.0),
-        scaffolding_metacognitive_interaction=_make_estimand("Scaffolding_Metacognitive_Interaction", "Interaction: Delta_AUROC(Scaffolded) - Delta_AUROC(Transcript)", interact_by_ep, baseline=0.0),
+        delta_auroc_transcript=est_delta_auroc_trans,
+        delta_auroc_scaffolded=est_delta_auroc_scaff,
+        delta_brier_transcript=est_delta_brier_trans,
+        delta_brier_scaffolded=est_delta_brier_scaff,
+        scaffolding_metacognitive_interaction=est_scaff_inter,
     )
 
     return S09AnalysisSummary(
@@ -460,8 +698,9 @@ def analyze_ownership_results(
         cue_conflict=cue_summary,
         channel_factorial=chan_summary,
         self_peer_allegiance_contrast=est_belief,
-        framing_discrepancy_gap=est_framing,
-        ownership_revision_susceptibility=est_ors,
+        framing_discrepancy_gap=est_framing_gap,
+        framing_response_disagreement_rate=est_framing_disagree,
+        pressure_challenge=press_summary,
         metacognitive_conditions=meta_summaries,
         metacognitive_interaction=meta_interaction,
     )

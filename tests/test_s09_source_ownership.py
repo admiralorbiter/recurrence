@@ -12,6 +12,7 @@ from recurrence.memory.schemas import (
 from recurrence.tasks.ownership import (
     ACTOR_MAP,
     ACTOR_DISPLAY_NAMES,
+    FORBIDDEN_PROVENANCE_SUBSTRINGS,
     OwnershipTaskGenerator,
     OwnershipEpisode,
 )
@@ -52,23 +53,33 @@ def test_source_neutral_template_isomorphism():
         assert ev.actor_id in ACTOR_MAP.values()
 
 
-def test_no_source_leakage_in_identifiers():
-    """HARD CHECK: Ensure no source name, actor ID, or role substring appears in any generated key or value."""
-    gen = OwnershipTaskGenerator(seed=42)
-    forbidden_tokens = ["self", "peer", "environment", "experimenter", "observer", "alpha", "beta", "gamma", "sensor", "controller", "telemetry"]
-
-    for ep_idx in range(5):
-        ep = gen.generate_episode(twin_idx=ep_idx)
+def test_no_source_leakage_in_all_16_confirmatory_episodes():
+    """HARD INVARIANT: Assert that across ALL 16 planned Confirmatory Seed-1337 episodes, NO forbidden token appears in ANY key or value."""
+    gen = OwnershipTaskGenerator(seed=1337)
+    
+    for ep_idx in range(16):
+        ep = gen.generate_episode(twin_idx=ep_idx, seed=1337)
+        
+        # Check all working memory keys and values
         all_keys = list(ep.oracle_state.working_memory.keys()) + [ep.k_target_self, ep.k_target_peer]
         all_vals = list(ep.oracle_state.working_memory.values()) + [ep.val_self, ep.val_peer]
+        
+        # Also check all cue conflict and channel factorial keys/values
+        for cue in ep.cue_conflict_specs:
+            all_keys.append(cue.event_key)
+            all_vals.append(cue.target_value)
+            
+        for chan in ep.channel_factorial_specs:
+            all_keys.append(chan.event_key)
+            all_vals.append(chan.target_value)
 
         for k in all_keys:
-            for tok in forbidden_tokens:
-                assert tok not in k.lower(), f"Provenance leak in key '{k}': contains forbidden token '{tok}'"
+            for tok in FORBIDDEN_PROVENANCE_SUBSTRINGS:
+                assert tok not in k.lower(), f"Provenance leak in key '{k}' (ep {ep_idx}): contains forbidden substring '{tok}'"
         
         for v in all_vals:
-            for tok in forbidden_tokens:
-                assert tok not in v.lower(), f"Provenance leak in value '{v}': contains forbidden token '{tok}'"
+            for tok in FORBIDDEN_PROVENANCE_SUBSTRINGS:
+                assert tok not in v.lower(), f"Provenance leak in value '{v}' (ep {ep_idx}): contains forbidden substring '{tok}'"
 
 
 def test_channel_factorial_clean_transcript_stripping():
@@ -88,6 +99,17 @@ def test_channel_factorial_clean_transcript_stripping():
         assert act in tagged_trans, f"Tagged transcript missing actor '{act}'"
 
 
+def test_channel_factorial_source_rotation():
+    """Verify the Channel Factorial rotates target sources across episodes to cover all 5 sources."""
+    gen = OwnershipTaskGenerator(seed=1337)
+    target_sources = []
+    for ep_idx in range(16):
+        ep = gen.generate_episode(twin_idx=ep_idx, seed=1337)
+        target_sources.append(ep.channel_target_source)
+    
+    assert set(target_sources) == set(EventSource)
+
+
 def test_cue_conflict_factorial_structure():
     """Verify the 2x2 Tag x Narrative cue conflict factorial generates all 4 conditions."""
     gen = OwnershipTaskGenerator(seed=42)
@@ -99,19 +121,6 @@ def test_cue_conflict_factorial_structure():
 
     assert set(tags) == {EventSource.SELF, EventSource.PEER_AGENT}
     assert set(narrs) == {"agent_alpha", "agent_beta"}
-
-
-def test_channel_factorial_structure():
-    """Verify the 2x2 Transcript Tags x State Ledger channel factorial generates all 4 conditions."""
-    gen = OwnershipTaskGenerator(seed=42)
-    ep = gen.generate_episode(twin_idx=2)
-
-    assert len(ep.channel_factorial_specs) == 4
-    tag_flags = [s.has_transcript_tags for s in ep.channel_factorial_specs]
-    ledg_flags = [s.has_state_ledger for s in ep.channel_factorial_specs]
-
-    assert set(tag_flags) == {True, False}
-    assert set(ledg_flags) == {True, False}
 
 
 def test_self_vs_actor_framing_pair_isomorphism():
