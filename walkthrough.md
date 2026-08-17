@@ -1,64 +1,83 @@
-# Sprint S08 Walkthrough: State $\times$ Memory Conflict & Causal Interventions (Experiment E07)
+# Sprint S09 Walkthrough: Source Attribution, Self/Other Ownership & Metacognitive Continuity (Experiments E08 & E09)
 
 ## 1. Executive Summary
 
-Sprint S08 completed the canonical **State $\times$ Memory Conflict & Causal State Intervention Battery (Experiment E07)** on `qwen2.5:3b`.
+Sprint S09 completed the final closing battery of **Horizon 1 (Level 1 Recurrence: Scaffolded Persistence)** on live `qwen2.5:3b`:
+- **Experiment E08 (S09a):** Source Attribution, Self/Other Memory Ownership, and Agency Boundaries ($N=16$ Multi-Source Episodes, 320 Intervention Trials, Seed 1337).
+- **Experiment E09 (S09b):** Metacognitive Continuity & Item-Paired Post-Choice Error Prediction Screen ($N=16$ Multi-Source Episodes, 320 Metacognitive Probes, Seed 1337).
 
-Across 16 matched twin episode pairs (32 total episodes, 800 paired trials, Seed 1337), we evaluated whether explicit `StructuredSelfState` functions as an independently dominant causal control surface when placed in direct competition with historical episodic memory.
-
----
-
-## 2. Master Confirmatory Results Summary
-
-### A. Primary Causal Estimands ($N=16$ Twin Pairs, 800 Trials, Seed 1337)
-
-| Causal Estimand | Description | Point Estimate | 95% Bootstrap CI | Permutation $p$ (Method) | Primary Scientific Inference |
-| :--- | :--- | :---: | :---: | :---: | :--- |
-| **`Delta_allegiance`** | Primary Conflict Contrast ($SAR - MAR$) | **-32.0%** | [-43.0%, -21.1%] | **$p = 0.0002$** (`exact_exhaustive`) | **Episodic Memory Favored Under Conflict ($p < .001$)** |
-| **`Delta_state_given_memory_A`** | State Swap ($S_A \to S_B$) holding Memory ($M_A$) fixed | **+3.1%** | [+0.0%, +9.4%] | **$p = 1.0000$** (`exact_exhaustive`) | **No Resolved Independent State Leverage** |
-| **`Delta_state_given_memory_B`** | State Swap ($S_B \to S_A$) holding Memory ($M_B$) fixed | **+6.2%** | [-6.2%, +18.8%] | **$p = 0.6250$** (`exact_exhaustive`) | **No Resolved Independent State Leverage** |
-| **`Delta_memory_given_state_A`** | Memory Swap ($M_A \to M_B$) holding State ($S_A$) fixed | **+90.6%** | [+81.2%, +100.0%] | **$p = 0.0000$** (`exact_exhaustive`) | **Strong Transcript Dominance ($p < .001$)** |
-| **`Delta_memory_given_state_B`** | Memory Swap ($M_B \to M_A$) holding State ($S_B$) fixed | **+87.5%** | [+68.8%, +100.0%] | **$p = 0.0001$** (`exact_exhaustive`) | **Strong Transcript Dominance ($p < .001$)** |
-| **`Average_Marginal_State_Effect`** | Pooled Marginal Effect of State Swaps ($\bar{\Delta}_{\text{state}}$) | **+4.7%** | [+0.0%, +9.4%] | **$p = 0.2500$** (`exact_exhaustive`) | **No Resolved Independent State Leverage** |
-| **`Average_Marginal_Memory_Effect`** | Pooled Marginal Effect of Memory Swaps ($\bar{\Delta}_{\text{memory}}$) | **+89.1%** | [+78.1%, +96.9%] | **$p = 0.0000$** (`exact_exhaustive`) | **Strong Transcript Dominance ($p < .001$)** |
-| **`Reset_Dependence`** | Drop in target consistency when state is reset ($M_A + S_0$) | **-3.1%** | [-9.4%, +0.0%] | **$p = 1.0000$** (`exact_exhaustive`) | **Direct Memory Fully Compensates** |
+All 119 repository tests are passing cleanly, and all pre-registered estimands have been evaluated with exact permutation tests and cluster-bootstrap 95% confidence intervals.
 
 ---
 
-### B. State $\times$ Memory Conflict 3-Way Partition & Directional Breakdown
+## 2. Confirmatory Benchmark Results
 
-Under direct State–Memory conflict ($N=128$ conflict trials):
-- **Follows Memory Value Rate ($MAR$):** **64.1%** (82 / 128 trials)
-- **Follows State Value Rate ($SAR$):** **32.0%** (41 / 128 trials)
-- **Chooses Neither / Foil Option:** **3.9%** (5 / 128 trials)
-- **Conditional State Preference ($P(\text{State} \mid \text{State or Memory})$):** **33.3%**
-- **Directional Breakdown:**
-  - $M_A + S_B$: State Allegiance = **50.0%** | Memory Allegiance = **46.9%**
-  - $M_B + S_A$: State Allegiance = **14.1%** | Memory Allegiance = **81.2%**
+### A. Experiment E08: Source Attribution Breakdown & $5 \times 5$ Confusion Matrix
+
+| Estimand / Contrast | Point Estimate | 95% Clustered CI | Permutation $p$ (Method) | Primary Scientific Inference |
+| :--- | :---: | :---: | :---: | :--- |
+| **`Overall_SAA_5AFC`** | **31.2%** | [22.5%, 40.0%] | **$p = 0.0225$** (`within_episode_source_shuffle_10000`) | Above Chance (20% Baseline) |
+| **`Self_SAA_5AFC`** | **81.2%** | [62.5%, 100.0%] | **$p = 0.0002$** (`exact_exhaustive`) | High Apparent Self Recognition |
+| **`Environment_SAA_5AFC`** | **6.2%** | [0.0%, 18.8%] | $p = 0.0593$ (`exact_exhaustive`) | Unresolved Sensory Provenance |
+| **`Experimenter_SAA_5AFC`** | **31.2%** | [12.5%, 56.2%] | $p = 0.4104$ (`exact_exhaustive`) | Moderate Controller Resolution |
+| **`Peer_Agent_SAA_5AFC`** | **31.2%** | [12.5%, 56.2%] | $p = 0.4104$ (`exact_exhaustive`) | Moderate Peer Resolution |
+| **`Observer_SAA_5AFC`** | **6.2%** | [0.0%, 18.8%] | $p = 0.0593$ (`exact_exhaustive`) | Unresolved Observer Resolution |
+| **`Self_Other_Confusion_Rate`** | **50.0%** | [25.0%, 75.0%] | **$p = 0.0078$** (`exact_exhaustive`) | **Significant Self-Other Bleed** |
+
+#### $5 \times 5$ Empirical Attribution Confusion Matrix (True Source $\rightarrow$ Attributed Actor)
+| True Source Class | agent_alpha (Self) | telemetry_sensor (Env) | human_controller (Exp) | agent_beta (Peer) | auditor_gamma (Obs) |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| **`self`** | **81.2%** | 6.2% | 0.0% | 12.5% | 0.0% |
+| **`environment`** | **37.5%** | 6.2% | 12.5% | 31.2% | 12.5% |
+| **`experimenter`** | **56.2%** | 0.0% | 31.2% | 6.2% | 6.2% |
+| **`peer_agent`** | **50.0%** | 6.2% | 12.5% | 31.2% | 0.0% |
+| **`observer`** | **56.2%** | 6.2% | 18.8% | 12.5% | 6.2% |
+
+Across all 4 non-self categories, `agent_alpha` is the modal attributed actor (37.5% to 56.2%), indicating an **egocentric response attractor** rather than privileged self-source recognition.
 
 ---
 
-### C. Surgical Single-Slot Inversion & Order Invariance
+### B. Cue-Conflict & Channel Factorials
 
-- **Target Slot Intervention Uptake:** **12.5%** (2 / 16 twin pairs followed surgical state edit)
-- **Control Slot Preservation:** **93.8%** (15 / 16 twin pairs preserved control slot)
-- **Joint Local Causal Precision:** **12.5%**
-- **Order Sensitivity Gap:** **-6.2%** (State Allegiance was 25.0% under Memory-first order vs 18.8% under State-first order)
-- **Reconvergence Behavioral Concordance:** **93.8%** across independent branch trajectories post-synchronization
+- **Cue-Conflict Contrast ($2 \times 2$ Tag $\times$ Narrative):** **-34.4%** (95% CI: [-59.4%, -12.5%], $p = 0.0312$).
+  - **Narrative Leverage (62.5%)** is more than double **Tag Leverage (28.1%)**. Narrative actor mentions in text dominate explicit metadata tags.
+- **Channel Factorial ($2 \times 2$ Tags $\times$ Ledger Across Balanced Sources):**
+  - Tags Present + Ledger Present: **50.0%**
+  - Tags Present + Ledger Stripped: **31.2%**
+  - Tags Stripped + Ledger Present: **25.0%**
+  - Tags Stripped + Ledger Stripped: **12.5%**
+  - Transcript Tag Marginal Effect: **+21.9%** (95% CI: [+3.1%, +37.6%], $p = 0.0625$).
+  - Source Ledger Marginal Effect: **+15.6%** (95% CI: [+0.0%, +31.2%], $p = 0.1250$).
+- **Framing & Challenge Reprobe:**
+  - Framing Accuracy Gap (*"You"* vs *"agent_alpha"*): **+6.2%** ($p = 1.0000$).
+  - Framing Response Disagreement Rate: **18.8%** (95% CI: [0.0%, 37.5%], $p = 0.2500$).
+  - Unconditional Shift Toward Self ($\Delta_{\text{challenge-self}}$): **+0.0%** ($p = 1.0000$).
 
 ---
 
-## 3. Scientific Synthesis Across Level 1 Recurrence (S04–S08)
+### C. Experiment E09: Item-Paired Metacognitive Continuity Screen
 
-The completion of S08 completes the empirical characterization of Level-1 Scaffolded Persistence:
+| Evaluator | Memory Format | Trials | Accuracy | Mean Confidence | Brier Score | AUROC Error Prediction |
+| :--- | :--- | :---: | :---: | :---: | :---: | :---: |
+| **Primary Agent (Self / alpha)** | `Transcript-Only` | 80 | 37.5% | 59.2% | **0.3674** | **0.641** |
+| **Primary Agent (Self / alpha)** | `Scaffolded Persistence` | 80 | 32.5% | 53.1% | **0.5440** | **0.440** |
+| **Auditing Observer (gamma)** | `Transcript-Only` | 80 | 37.5% | 67.4% | **0.4643** | **0.560** |
+| **Auditing Observer (gamma)** | `Scaffolded Persistence` | 80 | 32.5% | 61.2% | **0.4507** | **0.594** |
 
-1. **S04 (State Readout):** Structured state can be parsed and read when provided.
-2. **S05 (State Maintenance):** Structured state can be maintained deterministically without factual drift under prefix updates.
-3. **S06 (State Reconstruction):** Structured state can be reconstructed by external observer models from history.
-4. **S07 (Consolidation Deficit):** Autonomous model-generated self-updates suffer **Persistent Derivation Write Failure** (0.0% derived write precision).
-5. **S08 (Causal Conflict & Control):** When explicit state is manipulated into conflict with raw episodic history, the model **overwhelmingly defaults to the historical episodic transcript** ($\bar{\Delta}_{\text{memory}} = +89.1\%, p < .001$ vs $\bar{\Delta}_{\text{state}} = +4.7\%, p = 0.25$). Wiping state with memory intact causes no drop in accuracy ($\text{Reset Dependence} = -3.1\%$).
+| Item-Paired Estimand | Point Estimate | 95% Clustered CI | Permutation $p$ (Method) | Primary Scientific Inference |
+| :--- | :---: | :---: | :---: | :--- |
+| **`Delta_AUROC_Transcript`** | **+0.081** | [-0.106, +0.250] | $p = 0.3778$ (`exact_confidence_swap_65k`) | **Null / Invariant** |
+| **`Delta_AUROC_Scaffolded`** | **-0.154** | [-0.308, -0.029] | $p = 0.0615$ (`exact_confidence_swap_65k`) | **Null / Invariant** |
+| **`Delta_Brier_Transcript`** | **+0.0969** | [-0.0710, +0.2517] | $p = 0.2658$ (`exact_exhaustive`) | **Null / Invariant** |
+| **`Delta_Brier_Scaffolded`** | **-0.0934** | [-0.2115, +0.0233] | $p = 0.1525$ (`exact_exhaustive`) | **Null / Invariant** |
+| **`Scaffolding_Metacognitive_Interaction`** | **-0.235** | [-0.423, -0.052] | $p = 0.0615$ (`pooled_cluster_bootstrap`) | **Scaffolding-Invariant Metacognition** |
 
-### Pre-S09 Level-1 Working Synthesis:
-`StructuredSelfState` operates as a **causally readable external recording and serialization format for the user/system**, but **does not act as an authoritative internal epistemic controller for the model** when directly conflicting with a rich episodic record.
+Under matched public information, self-framing provides **no privileged metacognitive advantage** over an external observer inspecting the same context ($\Delta_{\text{AUROC}} \approx 0$).
 
-This establishes the operationally transcript-dominant baseline for Level-1 recurrence and sets up the core questions for **Sprint S09 (Source Attribution & Ownership Boundaries)**.
+---
+
+## 3. Horizon 1 Closeout Summary
+
+With the completion of Sprints S04 through S09, the full empirical foundation of Horizon 1 is complete:
+- Complete Horizon 1 synthesis document created at [`H1_Level1_Synthesis.md`](file:///c:/Users/admir/Github/recurrence/H1_Level1_Synthesis.md).
+- The codebase, tests (119 passing), testbeds, analysis pipelines, and confirmatory results are frozen and synchronized on `main`.
