@@ -87,6 +87,10 @@ class StoreMetrics:
     cossim: float = 1.0
     frobenius: float = 0.0
     retention_ratio: float = 1.0
+    # Additional separate K / V and recent-entry metrics (for KV channel)
+    key_d_rel: float = 0.0
+    val_d_rel: float = 0.0
+    recent_kv_d_rel: float = 0.0
 
 
 @dataclass
@@ -95,13 +99,16 @@ class LayerTraceRecord:
     pair_id: str
     regime: str
     lag: int
-    channel: str  # 'rglru', 'conv', 'kv'
+    channel: str  # 'rglru', 'conv', 'kv', 'k', 'v'
     layer_idx: int
     rmsdiff: float
     scale_relative_dist: float
     cossim: float
     frobenius: float
     retention_ratio: float
+    key_d_rel: float = 0.0
+    val_d_rel: float = 0.0
+    recent_kv_d_rel: float = 0.0
 
 
 @dataclass
@@ -116,9 +123,14 @@ class LagCheckpointRecord:
     mean_rglru_d_rel: float = 0.0
     mean_conv_d_rel: float = 0.0
     mean_kv_d_rel: float = 0.0
+    mean_k_d_rel: float = 0.0
+    mean_v_d_rel: float = 0.0
+    mean_recent_kv_d_rel: float = 0.0
     mean_rglru_retention: float = 1.0
     mean_conv_retention: float = 1.0
     mean_kv_retention: float = 1.0
+    mean_k_retention: float = 1.0
+    mean_v_retention: float = 1.0
     jensen_shannon_div: float = 0.0
     top1_disagreement: bool = False
     twoway_2afc_margin: float = 0.0
@@ -127,28 +139,52 @@ class LagCheckpointRecord:
     sham_jensen_shannon_div: float = 0.0
 
 
+def compute_continuation_log_likelihood(
+    adapter: RecurrentGemmaAdapter,
+    base_snapshot: RecurrentStateSnapshot,
+    cloze_tokens: List[int],
+    target_tokens: List[int],
+) -> float:
+    """Compute exact log P(target_tokens | cloze_tokens, base_snapshot) using multi-token unroll."""
+    if not target_tokens:
+        return 0.0
+
+    probe = base_snapshot.clone()
+    logits, probe = adapter.encode_sequence(cloze_tokens, initial_snapshot=probe, step_by_step=False)
+
+    total_log_prob = 0.0
+    for t_idx, tok_id in enumerate(target_tokens):
+        log_probs = torch.log_softmax(logits, dim=-1)
+        if tok_id < log_probs.shape[-1]:
+            tok_log_prob = log_probs[0, tok_id].item()
+        else:
+            tok_log_prob = -100.0
+        total_log_prob += tok_log_prob
+
+        if t_idx < len(target_tokens) - 1:
+            logits, probe = adapter.step(tok_id, probe)
+
+    return float(total_log_prob)
+
+
 def evaluate_cloze_retrieval(
     adapter: RecurrentGemmaAdapter,
     snapshot_a: RecurrentStateSnapshot,
     snapshot_b: RecurrentStateSnapshot,
     cloze_tokens: List[int],
-    target_a_id: int,
-    target_b_id: int,
+    target_a_tokens: List[int],
+    target_b_tokens: List[int],
 ) -> Tuple[float, float]:
-    """Evaluate 2AFC cloze retrieval logit margin and accuracy from cloned snapshots."""
+    """Evaluate 2AFC cloze retrieval log-likelihood margin and accuracy from cloned snapshots."""
     # 1. Probe Branch A (detached clone)
-    probe_a = snapshot_a.clone()
-    logits_a, _ = adapter.encode_sequence(cloze_tokens, initial_snapshot=probe_a)
-    score_a_target_a = logits_a[0, target_a_id].item() if logits_a.numel() > target_a_id else 0.0
-    score_a_target_b = logits_a[0, target_b_id].item() if logits_a.numel() > target_b_id else 0.0
-    margin_a = score_a_target_a - score_a_target_b
+    ll_a_target_a = compute_continuation_log_likelihood(adapter, snapshot_a, cloze_tokens, target_a_tokens)
+    ll_a_target_b = compute_continuation_log_likelihood(adapter, snapshot_a, cloze_tokens, target_b_tokens)
+    margin_a = ll_a_target_a - ll_a_target_b
 
     # 2. Probe Branch B (detached clone)
-    probe_b = snapshot_b.clone()
-    logits_b, _ = adapter.encode_sequence(cloze_tokens, initial_snapshot=probe_b)
-    score_b_target_b = logits_b[0, target_b_id].item() if logits_b.numel() > target_b_id else 0.0
-    score_b_target_a = logits_b[0, target_a_id].item() if logits_b.numel() > target_a_id else 0.0
-    margin_b = score_b_target_b - score_b_target_a
+    ll_b_target_b = compute_continuation_log_likelihood(adapter, snapshot_b, cloze_tokens, target_b_tokens)
+    ll_b_target_a = compute_continuation_log_likelihood(adapter, snapshot_b, cloze_tokens, target_a_tokens)
+    margin_b = ll_b_target_b - ll_b_target_a
 
     mean_margin = (margin_a + margin_b) / 2.0
     accuracy = 1.0 if (margin_a > 0 and margin_b > 0) else (0.5 if (margin_a > 0 or margin_b > 0) else 0.0)
@@ -173,24 +209,23 @@ def evaluate_impulse_trajectory(
         cloze_tokens = tokenizer.encode(pair.cloze_prompt, add_special_tokens=False)
         target_a_tokens = tokenizer.encode(" " + pair.target_a.strip(), add_special_tokens=False)
         target_b_tokens = tokenizer.encode(" " + pair.target_b.strip(), add_special_tokens=False)
-        target_a_id = target_a_tokens[0] if target_a_tokens else 10
-        target_b_id = target_b_tokens[0] if target_b_tokens else 11
     else:
         prefix_tokens = [10, 11]
         event_a_tokens = [20, 21, 22]
         event_b_tokens = [30, 31, 32]
         cloze_tokens = [40, 41]
-        target_a_id = 22
-        target_b_id = 32
+        target_a_tokens = [22]
+        target_b_tokens = [32]
 
     assert len(event_a_tokens) == len(event_b_tokens), (
         f"Event A ({len(event_a_tokens)}) and Event B ({len(event_b_tokens)}) have mismatched token lengths!"
     )
 
     max_lag = max(lag_grid)
-    exclude_set = {target_a_id, target_b_id}
+    # Pair-disjoint token exclusions
+    pair_excluded = set(target_a_tokens + target_b_tokens + event_a_tokens + event_b_tokens + prefix_tokens)
     if audited_pool is None:
-        audited_pool, _ = build_audited_vocabulary_pool(tokenizer, excluded_token_ids=exclude_set)
+        audited_pool, _ = build_audited_vocabulary_pool(tokenizer, excluded_token_ids=pair_excluded)
 
     filler_tokens = get_filler_tokens_for_regime(
         regime=regime,
@@ -198,18 +233,19 @@ def evaluate_impulse_trajectory(
         seed=seed,
         audited_pool=audited_pool,
         tokenizer=tokenizer,
+        excluded_token_ids=pair_excluded,
     )
 
     conv1d_width = getattr(adapter.config, "conv1d_width", 4)
     sliding_window = getattr(adapter.config, "attention_window_size", getattr(adapter.config, "sliding_window", 2048))
 
     # 2. Unroll prefix
-    _, init_state = adapter.encode_sequence(prefix_tokens)
+    _, init_state = adapter.encode_sequence(prefix_tokens, step_by_step=False)
 
     # 3. Unroll Branch A, Branch B, and Sham A2
-    logits_a, state_a = adapter.encode_sequence(event_a_tokens, initial_snapshot=init_state.clone())
-    logits_b, state_b = adapter.encode_sequence(event_b_tokens, initial_snapshot=init_state.clone())
-    logits_sham, state_sham = adapter.encode_sequence(event_a_tokens, initial_snapshot=init_state.clone())
+    logits_a, state_a = adapter.encode_sequence(event_a_tokens, initial_snapshot=init_state.clone(), step_by_step=False)
+    logits_b, state_b = adapter.encode_sequence(event_b_tokens, initial_snapshot=init_state.clone(), step_by_step=False)
+    logits_sham, state_sham = adapter.encode_sequence(event_a_tokens, initial_snapshot=init_state.clone(), step_by_step=False)
 
     records: List[LagCheckpointRecord] = []
     layer_records: List[LayerTraceRecord] = []
@@ -217,6 +253,8 @@ def evaluate_impulse_trajectory(
     initial_d_rel_rglru: Dict[int, float] = {}
     initial_d_rel_conv: Dict[int, float] = {}
     initial_d_rel_kv: Dict[int, float] = {}
+    initial_d_rel_k: Dict[int, float] = {}
+    initial_d_rel_v: Dict[int, float] = {}
 
     prev_lag = 0
     for current_lag in sorted(lag_grid):
@@ -300,21 +338,47 @@ def evaluate_impulse_trajectory(
                     )
                 )
 
-        # KV
+        # KV (Separate K and V, plus aligned recent-entry divergence)
         for l in state_a.kv:
             if l in state_b.kv:
                 k1, k2 = state_a.kv[l]["key"], state_b.kv[l]["key"]
-                d_rel = compute_scale_relative_dist(k1, k2)
+                v1, v2 = state_a.kv[l]["value"], state_b.kv[l]["value"]
+                
+                # Whole-cache Key and Value distances
+                d_k = compute_scale_relative_dist(k1, k2)
+                d_v = compute_scale_relative_dist(v1, v2)
+                d_kv_comb = (d_k + d_v) / 2.0
+                
+                # Aligned recent-entry divergence (last min(cache_len, 16) tokens)
+                recent_len = min(k1.shape[-2], 16) if k1.numel() > 0 else 0
+                if recent_len > 0:
+                    rec_k1 = k1[..., -recent_len:, :]
+                    rec_k2 = k2[..., -recent_len:, :]
+                    rec_v1 = v1[..., -recent_len:, :]
+                    rec_v2 = v2[..., -recent_len:, :]
+                    rec_d_k = compute_scale_relative_dist(rec_k1, rec_k2)
+                    rec_d_v = compute_scale_relative_dist(rec_v1, rec_v2)
+                    recent_kv_d = (rec_d_k + rec_d_v) / 2.0
+                else:
+                    recent_kv_d = 0.0
+
                 if current_lag == 0:
-                    initial_d_rel_kv[l] = d_rel
-                init_d = initial_d_rel_kv.get(l, d_rel)
-                retention = d_rel / (init_d + 1e-8) if init_d > 0 else 1.0
+                    initial_d_rel_kv[l] = d_kv_comb
+                    initial_d_rel_k[l] = d_k
+                    initial_d_rel_v[l] = d_v
+
+                init_d_kv = initial_d_rel_kv.get(l, d_kv_comb)
+                retention_kv = d_kv_comb / (init_d_kv + 1e-8) if init_d_kv > 0 else 1.0
+
                 m = StoreMetrics(
                     rmsdiff=compute_rmsdiff(k1, k2),
-                    scale_relative_dist=d_rel,
+                    scale_relative_dist=d_kv_comb,
                     cossim=compute_cossim(k1, k2),
                     frobenius=float(torch.norm(k1.float() - k2.float()).item()),
-                    retention_ratio=retention,
+                    retention_ratio=retention_kv,
+                    key_d_rel=d_k,
+                    val_d_rel=d_v,
+                    recent_kv_d_rel=recent_kv_d,
                 )
                 kv_metrics[l] = m
                 layer_records.append(
@@ -329,30 +393,41 @@ def evaluate_impulse_trajectory(
                         cossim=m.cossim,
                         frobenius=m.frobenius,
                         retention_ratio=m.retention_ratio,
+                        key_d_rel=d_k,
+                        val_d_rel=d_v,
+                        recent_kv_d_rel=recent_kv_d,
                     )
                 )
 
-        # Means
+        # Means across layers
         mean_rglru_d = sum(m.scale_relative_dist for m in rglru_metrics.values()) / max(len(rglru_metrics), 1)
         mean_conv_d = sum(m.scale_relative_dist for m in conv_metrics.values()) / max(len(conv_metrics), 1)
         mean_kv_d = sum(m.scale_relative_dist for m in kv_metrics.values()) / max(len(kv_metrics), 1)
+        mean_k_d = sum(m.key_d_rel for m in kv_metrics.values()) / max(len(kv_metrics), 1)
+        mean_v_d = sum(m.val_d_rel for m in kv_metrics.values()) / max(len(kv_metrics), 1)
+        mean_recent_kv_d = sum(m.recent_kv_d_rel for m in kv_metrics.values()) / max(len(kv_metrics), 1)
 
         mean_rglru_ret = sum(m.retention_ratio for m in rglru_metrics.values()) / max(len(rglru_metrics), 1)
         mean_conv_ret = sum(m.retention_ratio for m in conv_metrics.values()) / max(len(conv_metrics), 1)
         mean_kv_ret = sum(m.retention_ratio for m in kv_metrics.values()) / max(len(kv_metrics), 1)
+        
+        init_k_mean = sum(initial_d_rel_k.values()) / max(len(initial_d_rel_k), 1)
+        init_v_mean = sum(initial_d_rel_v.values()) / max(len(initial_d_rel_v), 1)
+        mean_k_ret = mean_k_d / (init_k_mean + 1e-8) if init_k_mean > 0 else 1.0
+        mean_v_ret = mean_v_d / (init_v_mean + 1e-8) if init_v_mean > 0 else 1.0
 
         # Behavioral divergence
         js_div = compute_jensen_shannon_div(logits_a, logits_b)
         pred_disagree = bool(torch.argmax(logits_a).item() != torch.argmax(logits_b).item())
 
-        # 2AFC Cloze Probing (from cloned snapshots)
+        # 2AFC Cloze Probing (multi-token log-likelihood)
         margin_2afc, acc_2afc = evaluate_cloze_retrieval(
             adapter=adapter,
             snapshot_a=state_a,
             snapshot_b=state_b,
             cloze_tokens=cloze_tokens,
-            target_a_id=target_a_id,
-            target_b_id=target_b_id,
+            target_a_tokens=target_a_tokens,
+            target_b_tokens=target_b_tokens,
         )
 
         # Sham floor
@@ -374,9 +449,14 @@ def evaluate_impulse_trajectory(
                 mean_rglru_d_rel=mean_rglru_d,
                 mean_conv_d_rel=mean_conv_d,
                 mean_kv_d_rel=mean_kv_d,
+                mean_k_d_rel=mean_k_d,
+                mean_v_d_rel=mean_v_d,
+                mean_recent_kv_d_rel=mean_recent_kv_d,
                 mean_rglru_retention=mean_rglru_ret,
                 mean_conv_retention=mean_conv_ret,
                 mean_kv_retention=mean_kv_ret,
+                mean_k_retention=mean_k_ret,
+                mean_v_retention=mean_v_ret,
                 jensen_shannon_div=js_div,
                 top1_disagreement=pred_disagree,
                 twoway_2afc_margin=margin_2afc,

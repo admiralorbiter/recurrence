@@ -238,19 +238,16 @@ FROZEN_NATURAL_PROSE_PASSAGES = [
 
 FROZEN_SEMANTIC_INTERFERENCE_PASSAGES = [
     (
-        "The second specimen was marble. The third specimen was bronze. The fourth specimen was obsidian. "
-        "The auxiliary unit was brass. The backup unit was platinum. The primary unit was limestone. "
-        "The external fixture was slate. The internal fixture was chromium. The final component was sandstone. "
-        "The first sample was titanium. The second sample was granite. The third sample was nickel. "
-        "The fourth sample was iron. The fifth sample was dolomite. The sixth sample was diamond. "
-        "The remaining sample was sapphire. The upper casing was aluminum. The lower casing was silicon."
+        "The sector Alpha reading was crystalline. The sector Beta reading was metallic. The sector Gamma reading was amorphous. "
+        "The sector Delta reading was vitrified. The sector Epsilon reading was vesicular. The sector Zeta reading was foliated. "
+        "The sector Eta reading was pyroclastic. The sector Theta reading was pegmatitic. The sector Iota reading was porphyritic. "
+        "The sector Kappa reading was granular. The sector Lambda reading was fibrous. The sector Mu reading was lamellar."
     ),
     (
-        "The alpha container contained zinc. The beta container contained lead. The gamma container contained tin. "
-        "The delta specimen was quartz. The epsilon specimen was basalt. The zeta specimen was calcite. "
-        "The primary deposit was copper. The secondary deposit was silver. The tertiary deposit was gold. "
-        "The northern artifact was zircon. The southern artifact was garnet. The western artifact was topaz. "
-        "The eastern shard was beryl. The central shard was pyrite. The outer shard was gypsum."
+        "The primary matrix was polymeric. The secondary matrix was ceramic. The tertiary matrix was composite. "
+        "The northern specimen was vitreous. The southern specimen was resinous. The western specimen was pearly. "
+        "The eastern specimen was adamantine. The central specimen was earthy. The outer specimen was waxy. "
+        "The upper aggregate was colloidal. The lower aggregate was granular. The final aggregate was porous."
     ),
 ]
 
@@ -294,9 +291,13 @@ def build_audited_vocabulary_pool(
 def generate_constant_filler(
     length: int,
     audited_pool: List[int],
+    excluded_token_ids: Optional[Set[int]] = None,
 ) -> List[int]:
     """Generate constant-token filler by repeating the median token ID from audited pool."""
-    constant_token = audited_pool[len(audited_pool) // 2] if audited_pool else 15
+    clean_pool = [t for t in audited_pool if t not in (excluded_token_ids or set())]
+    if not clean_pool:
+        clean_pool = audited_pool or [15]
+    constant_token = clean_pool[len(clean_pool) // 2]
     return [constant_token] * length
 
 
@@ -304,16 +305,22 @@ def generate_random_filler(
     length: int,
     seed: int,
     audited_pool: List[int],
+    excluded_token_ids: Optional[Set[int]] = None,
 ) -> List[int]:
     """Generate diverse random tokens sampled uniformly from audited neutral pool."""
+    clean_pool = [t for t in audited_pool if t not in (excluded_token_ids or set())]
+    if not clean_pool:
+        clean_pool = audited_pool or [15]
     rng = random.Random(seed)
-    return [rng.choice(audited_pool) for _ in range(length)]
+    return [rng.choice(clean_pool) for _ in range(length)]
 
 
 def generate_natural_filler(
     length: int,
     seed: int = 42,
     tokenizer: Optional[Any] = None,
+    excluded_token_ids: Optional[Set[int]] = None,
+    audited_pool: Optional[List[int]] = None,
 ) -> List[int]:
     """Generate natural prose narrative filler from frozen corpus passages."""
     passage_idx = seed % len(FROZEN_NATURAL_PROSE_PASSAGES)
@@ -323,6 +330,11 @@ def generate_natural_filler(
         tokens = tokenizer.encode(text, add_special_tokens=False)
     else:
         tokens = [((i * 17 + seed * 13 + 23) % 150) + 10 for i in range(100)]
+
+    # Filter out excluded token IDs
+    excluded = set(excluded_token_ids or set())
+    replacement_token = (audited_pool[0] if audited_pool else 15)
+    tokens = [replacement_token if t in excluded else t for t in tokens]
 
     out: List[int] = []
     while len(out) < length:
@@ -334,6 +346,8 @@ def generate_interfering_filler(
     length: int,
     seed: int = 42,
     tokenizer: Optional[Any] = None,
+    excluded_token_ids: Optional[Set[int]] = None,
+    audited_pool: Optional[List[int]] = None,
 ) -> List[int]:
     """Generate active semantic interference filler from frozen distractor passages."""
     passage_idx = seed % len(FROZEN_SEMANTIC_INTERFERENCE_PASSAGES)
@@ -343,6 +357,11 @@ def generate_interfering_filler(
         tokens = tokenizer.encode(text, add_special_tokens=False)
     else:
         tokens = [((i * 31 + seed * 19 + 47) % 150) + 10 for i in range(100)]
+
+    # Filter out excluded token IDs
+    excluded = set(excluded_token_ids or set())
+    replacement_token = (audited_pool[0] if audited_pool else 15)
+    tokens = [replacement_token if t in excluded else t for t in tokens]
 
     out: List[int] = []
     while len(out) < length:
@@ -356,16 +375,17 @@ def get_filler_tokens_for_regime(
     seed: int,
     audited_pool: Optional[List[int]] = None,
     tokenizer: Optional[Any] = None,
+    excluded_token_ids: Optional[Set[int]] = None,
 ) -> List[int]:
     """Dispatch filler token generation for the specified regime."""
     pool = audited_pool or [10, 11, 12, 13, 14, 15]
     if regime in ("constant", "neutral_repeated"):
-        return generate_constant_filler(length, audited_pool=pool)
+        return generate_constant_filler(length, audited_pool=pool, excluded_token_ids=excluded_token_ids)
     elif regime in ("random", "random_tokens"):
-        return generate_random_filler(length, seed=seed, audited_pool=pool)
+        return generate_random_filler(length, seed=seed, audited_pool=pool, excluded_token_ids=excluded_token_ids)
     elif regime in ("natural", "natural_prose"):
-        return generate_natural_filler(length, seed=seed, tokenizer=tokenizer)
+        return generate_natural_filler(length, seed=seed, tokenizer=tokenizer, excluded_token_ids=excluded_token_ids, audited_pool=pool)
     elif regime in ("interfering", "semantic_interference"):
-        return generate_interfering_filler(length, seed=seed, tokenizer=tokenizer)
+        return generate_interfering_filler(length, seed=seed, tokenizer=tokenizer, excluded_token_ids=excluded_token_ids, audited_pool=pool)
     else:
         raise ValueError(f"Unknown filler regime '{regime}'")

@@ -247,3 +247,26 @@ def test_end_to_end_all_regimes_with_layer_traces(test_adapter: RecurrentGemmaAd
         for lr in layer_records:
             assert lr.channel in ("rglru", "conv", "kv")
             assert not math.isnan(lr.scale_relative_dist)
+
+
+def test_chunk_vs_step_complete_temporal_state_parity(test_adapter: RecurrentGemmaAdapter):
+    """S11.2 Invariant: Verify strict 3-channel state parity between chunked forward and step-by-step stepping across W-1, W, W+1."""
+    # Sequence crosses sliding-window boundary W=8 (W-1=7, W=8, W+1=9)
+    tokens = [12, 24, 36, 48, 60, 72, 84, 96, 108, 120, 132, 144, 156, 168, 180, 192]
+
+    # Mode 1: Step-by-step unroll
+    s_step = test_adapter.create_canonical_initial_state()
+    for tok in tokens:
+        l_step, s_step = test_adapter.step(tok, s_step)
+
+    # Mode 2: Chunked parallel forward unroll
+    l_chunk, s_chunk = test_adapter.encode_sequence(tokens, step_by_step=False)
+
+    # Strict 3-channel state comparison (RGLRU, Conv, KV key/value tensors, cumulative length, position)
+    s_step.assert_strict_equal(s_chunk, atol=1e-4)
+
+    # Logit parity
+    assert torch.allclose(l_step, l_chunk, atol=1e-4), (
+        f"Logit divergence between step-by-step and chunked forward: max diff = {torch.max(torch.abs(l_step - l_chunk)).item()}"
+    )
+

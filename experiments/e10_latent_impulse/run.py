@@ -172,9 +172,14 @@ def run_experiment(
                             "mean_rglru_d_rel": round(rec.mean_rglru_d_rel, 6),
                             "mean_conv_d_rel": round(rec.mean_conv_d_rel, 6),
                             "mean_kv_d_rel": round(rec.mean_kv_d_rel, 6),
+                            "mean_k_d_rel": round(rec.mean_k_d_rel, 6),
+                            "mean_v_d_rel": round(rec.mean_v_d_rel, 6),
+                            "mean_recent_kv_d_rel": round(rec.mean_recent_kv_d_rel, 6),
                             "mean_rglru_retention": round(rec.mean_rglru_retention, 6),
                             "mean_conv_retention": round(rec.mean_conv_retention, 6),
                             "mean_kv_retention": round(rec.mean_kv_retention, 6),
+                            "mean_k_retention": round(rec.mean_k_retention, 6),
+                            "mean_v_retention": round(rec.mean_v_retention, 6),
                             "jensen_shannon_div": round(rec.jensen_shannon_div, 6),
                             "top1_disagreement": rec.top1_disagreement,
                             "twoway_2afc_margin": round(rec.twoway_2afc_margin, 6),
@@ -199,6 +204,9 @@ def run_experiment(
                             "cossim": round(l_rec.cossim, 6),
                             "frobenius": round(l_rec.frobenius, 6),
                             "retention_ratio": round(l_rec.retention_ratio, 6),
+                            "key_d_rel": round(l_rec.key_d_rel, 6),
+                            "val_d_rel": round(l_rec.val_d_rel, 6),
+                            "recent_kv_d_rel": round(l_rec.recent_kv_d_rel, 6),
                         }
                         f_layer.write(json.dumps(l_row) + "\n")
                         total_layer_records += 1
@@ -206,6 +214,7 @@ def run_experiment(
     elapsed = time.time() - start_time
     print(f"[E10] Complete! Wrote {total_records} summary rows and {total_layer_records} layer rows in {elapsed:.2f}s.")
 
+    import transformers
     summary = {
         "phase": phase,
         "timestamp": timestamp,
@@ -219,8 +228,8 @@ def run_experiment(
         "audited_vocab_pool_hash": pool_hash,
         "audited_vocab_pool_size": len(audited_pool),
         "environment": {
-            "torch_version": torch.__version__,
-            "transformers_version": "5.15.0",
+            "torch_version": getattr(torch, "__version__", "unknown"),
+            "transformers_version": getattr(transformers, "__version__", "unknown"),
             "device": str(target_device),
             "device_name": torch.cuda.get_device_name(0) if torch.cuda.is_available() and "cuda" in str(target_device) else "CPU",
             "dtype": str(torch_dtype),

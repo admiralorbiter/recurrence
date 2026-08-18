@@ -1,16 +1,79 @@
-"""Experiment E10 Analysis Script (Sprint S11 Hardened).
-
-Aggregates empirical retention trajectories, layer x lag store localization,
-first observed vs sustained 50%-retention crossings, normalized/log-lag AUC,
-and behavioral readout with calibrated scientific reporting.
-"""
-
 import argparse
 from collections import defaultdict
 import json
 import math
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+import random
+from typing import Any, Dict, List, Optional, Tuple
+
+
+def compute_pair_cluster_bootstrap(
+    rows: List[Dict[str, Any]],
+    n_boot: int = 1000,
+    seed: int = 42,
+) -> Dict[str, Any]:
+    """Compute pair-cluster bootstrap 95% confidence intervals for primary estimands."""
+    rng = random.Random(seed)
+    pairs = sorted(list({r["pair_id"] for r in rows}))
+    if not pairs:
+        return {}
+
+    # Index rows by pair_id
+    pair_rows = defaultdict(list)
+    for r in rows:
+        pair_rows[r["pair_id"]].append(r)
+
+    boot_stats: Dict[str, List[float]] = defaultdict(list)
+
+    for _ in range(n_boot):
+        # Sample pairs with replacement
+        sample_pairs = [rng.choice(pairs) for _ in pairs]
+        sample_rows = []
+        for p in sample_pairs:
+            sample_rows.extend(pair_rows[p])
+
+        # Compute sample metrics per regime
+        reg_lags = defaultdict(list)
+        for r in sample_rows:
+            reg_lags[(r["regime"], r["lag"])].append(r)
+
+        for reg in ["constant", "interfering", "natural", "random"]:
+            lags = sorted(list({r["lag"] for r in sample_rows if r["regime"] == reg}))
+            if not lags:
+                continue
+            max_l = max(lags)
+            
+            # W+1 lag (approx 2049 if present, else highest < max_l)
+            w_plus_1 = 2049 if 2049 in lags else (lags[-2] if len(lags) > 1 else lags[-1])
+            items_w1 = reg_lags.get((reg, w_plus_1), [])
+            if items_w1:
+                r_w1 = sum(x["mean_rglru_retention"] for x in items_w1) / len(items_w1)
+                boot_stats[f"{reg}_rglru_ret_w1"].append(r_w1)
+
+            # 2W lag (max lag, e.g. 4096)
+            items_2w = reg_lags.get((reg, max_l), [])
+            if items_2w:
+                r_2w = sum(x["mean_rglru_retention"] for x in items_2w) / len(items_2w)
+                margin_2w = sum(x["twoway_2afc_margin"] for x in items_2w) / len(items_2w)
+                acc_2w = sum(x["twoway_2afc_accuracy"] for x in items_2w) / len(items_2w)
+                boot_stats[f"{reg}_rglru_ret_2w"].append(r_2w)
+                boot_stats[f"{reg}_cloze_margin_2w"].append(margin_2w)
+                boot_stats[f"{reg}_cloze_acc_2w"].append(acc_2w)
+
+    # Compute 95% CIs
+    ci_results: Dict[str, Dict[str, float]] = {}
+    for stat_name, vals in boot_stats.items():
+        if vals:
+            sorted_v = sorted(vals)
+            low_idx = int(0.025 * len(sorted_v))
+            high_idx = int(0.975 * len(sorted_v))
+            ci_results[stat_name] = {
+                "mean": round(sum(sorted_v) / len(sorted_v), 4),
+                "ci_low": round(sorted_v[low_idx], 4),
+                "ci_high": round(sorted_v[high_idx], 4),
+            }
+
+    return ci_results
 
 
 def analyze_run(run_dir: str) -> Dict[str, Any]:
@@ -65,9 +128,14 @@ def analyze_run(run_dir: str) -> Dict[str, Any]:
                 "rglru_d_rel": sum(x["mean_rglru_d_rel"] for x in items) / n,
                 "conv_d_rel": sum(x["mean_conv_d_rel"] for x in items) / n,
                 "kv_d_rel": sum(x["mean_kv_d_rel"] for x in items) / n,
+                "k_d_rel": sum(x.get("mean_k_d_rel", x["mean_kv_d_rel"]) for x in items) / n,
+                "v_d_rel": sum(x.get("mean_v_d_rel", x["mean_kv_d_rel"]) for x in items) / n,
+                "recent_kv_d_rel": sum(x.get("mean_recent_kv_d_rel", 0.0) for x in items) / n,
                 "rglru_retention": sum(x["mean_rglru_retention"] for x in items) / n,
                 "conv_retention": sum(x["mean_conv_retention"] for x in items) / n,
                 "kv_retention": sum(x["mean_kv_retention"] for x in items) / n,
+                "k_retention": sum(x.get("mean_k_retention", x["mean_kv_retention"]) for x in items) / n,
+                "v_retention": sum(x.get("mean_v_retention", x["mean_kv_retention"]) for x in items) / n,
                 "jensen_shannon_div": sum(x["jensen_shannon_div"] for x in items) / n,
                 "twoway_2afc_margin": sum(x["twoway_2afc_margin"] for x in items) / n,
                 "twoway_2afc_accuracy": sum(x["twoway_2afc_accuracy"] for x in items) / n,
@@ -81,7 +149,7 @@ def analyze_run(run_dir: str) -> Dict[str, Any]:
                     return item["lag"]
             return None
 
-        # 2. Sustained <50% retention crossing (remains below 0.50 for all subsequent lags)
+        # 2. Sustained <50% retention crossing
         def find_sustained_sub50(key: str) -> Optional[int]:
             for i, item in enumerate(lag_records):
                 if item[key] < 0.50:
@@ -125,7 +193,6 @@ def analyze_run(run_dir: str) -> Dict[str, Any]:
     # Layer x Lag Anatomy
     layer_map: Dict[str, Dict[str, Dict[int, float]]] = defaultdict(lambda: defaultdict(dict))
     if layer_rows:
-        # Group by (regime, channel, layer_idx, lag)
         l_grouped = defaultdict(list)
         for lr in layer_rows:
             l_grouped[(lr["regime"], lr["channel"], lr["layer_idx"], lr["lag"])].append(lr["scale_relative_dist"])
@@ -133,12 +200,16 @@ def analyze_run(run_dir: str) -> Dict[str, Any]:
             mean_v = sum(vals) / len(vals)
             layer_map[f"{reg}_{chan}"][f"layer_{layer_idx}"][lag] = round(mean_v, 4)
 
+    # Compute Pair-Cluster Bootstrap CIs
+    bootstrap_cis = compute_pair_cluster_bootstrap(rows, n_boot=1000, seed=42)
+
     analysis_result = {
         "run_dir": str(run_path),
         "model_provenance": run_meta.get("model_provenance", {}),
         "regimes": regimes,
         "lags": lags,
         "regime_curves": regime_curves,
+        "bootstrap_cis": bootstrap_cis,
         "layer_anatomy_summary": dict(layer_map),
     }
 
@@ -171,12 +242,19 @@ def analyze_run(run_dir: str) -> Dict[str, Any]:
             kv_first = f"L={c['kv_first_sub50']}" if c['kv_first_sub50'] is not None else "> max lag"
             f_rep.write(f"| **{reg}** | {rglru_first} | {rglru_sust} | {conv_first} | {kv_first} | {c['rglru_log_auc']} | {c['kv_log_auc']} |\n")
 
-        f_rep.write("\n## 2. Dynamic Trajectories Across Tested Lags\n\n")
-        f_rep.write("| Lag $L$ | Conv Res? | KV Res? | RGLRU Ret (Const) | KV Ret (Const) | RGLRU Ret (Interf) | KV Ret (Interf) | $D_{\\text{JS}}$ (Const) |\n")
-        f_rep.write("| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |\n")
+        if bootstrap_cis:
+            f_rep.write("\n## 2. Primary S11b Estimands & 95% Pair-Cluster Bootstrap CIs\n\n")
+            f_rep.write("| Estimand | Point Estimate / Mean | 95% Bootstrap CI |\n")
+            f_rep.write("| :--- | :---: | :---: |\n")
+            for k, ci in sorted(bootstrap_cis.items()):
+                f_rep.write(f"| `{k}` | {ci['mean']} | [{ci['ci_low']}, {ci['ci_high']}] |\n")
+
+        f_rep.write("\n## 3. Dynamic Trajectories Across Tested Lags\n\n")
+        f_rep.write("| Lag $L$ | Conv Res? | KV Res? | RGLRU Ret (Const) | KV Ret (Const) | RGLRU Ret (Interf) | KV Ret (Interf) | Cloze Margin (Const) | Cloze Acc (Const) |\n")
+        f_rep.write("| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |\n")
         const_recs = {r["lag"]: r for r in regime_curves.get("constant", {}).get("lag_records", [])}
         interf_recs = {r["lag"]: r for r in regime_curves.get("interfering", {}).get("lag_records", [])}
-        
+
         for lag in lags:
             c_r = const_recs.get(lag, {})
             i_r = interf_recs.get(lag, {})
@@ -186,12 +264,12 @@ def analyze_run(run_dir: str) -> Dict[str, Any]:
                 f"| {lag} | {conv_res} | {kv_res} | "
                 f"{c_r.get('rglru_retention', 0.0):.3f} | {c_r.get('kv_retention', 0.0):.3f} | "
                 f"{i_r.get('rglru_retention', 0.0):.3f} | {i_r.get('kv_retention', 0.0):.3f} | "
-                f"{c_r.get('jensen_shannon_div', 0.0):.4f} |\n"
+                f"{c_r.get('twoway_2afc_margin', 0.0):+.2f} | {c_r.get('twoway_2afc_accuracy', 0.0):.2f} |\n"
             )
 
-        f_rep.write("\n## 3. Epistemic Assessment & Structural Findings\n\n")
+        f_rep.write("\n## 4. Epistemic Assessment & Structural Findings\n\n")
         f_rep.write("1. **Direct Residency vs Downstream Divergence:** After direct event residency ends, branch-specific differences persist in later Conv and KV representations, consistent with historical information being propagated through the hybrid recurrent system.\n")
-        f_rep.write("2. **Input-Dependent Recurrent Trajectories:** Distinct filler sequences modulate the persistence and decay rate of latent states across the dynamic lag spectrum.\n")
+        f_rep.write("2. **Factual Usability Across Windows:** The cloze log-likelihood margin measures the usable factual trace surviving in the recurrent state even after sliding-window attention eviction ($L \\ge 2047$).\n")
         f_rep.write("3. **Zero Sham Floor:** Identical $A_1 / A_2$ controls confirm an empirical measurement floor of $0.00000000$ for scale-relative distance and Jensen-Shannon divergence.\n")
 
     print(f"[E10] Analysis complete! Wrote calibrated report to {report_file}")
