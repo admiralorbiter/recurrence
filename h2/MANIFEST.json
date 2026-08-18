@@ -1,0 +1,26 @@
+{
+  "artifact": "The Memory That Couldn't Remember",
+  "horizon": 2,
+  "version": "0.1.0",
+  "date": "2026-08-18",
+  "scope": "Causal Latent-Continuity Core",
+  "core_sprints": ["S10", "S11b", "S12b"],
+  "evidence_status": {
+    "S10": "FROZEN",
+    "S11b": "FROZEN",
+    "S12b": "FROZEN",
+    "S12c": "LIVE",
+    "S13": "OPEN QUESTION",
+    "S14": "OPEN QUESTION",
+    "S15": "OPEN QUESTION",
+    "S16": "OPEN QUESTION"
+  },
+  "entrypoint": "site/index.html",
+  "evidence_contract": "data/core.json",
+  "canonical_sources": [
+    "docs/H2_Core_Retrospective_Memo.md",
+    "docs/S11_Latent_Impulse_Retention_Report.md",
+    "docs/S12_Surgical_Store_Swaps_Report.md",
+    "docs/H2_Recurrent_Architecture_Roadmap.md"
+  ]
+}
