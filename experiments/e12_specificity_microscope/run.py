@@ -244,60 +244,60 @@ def run_experiment(
                 # 1. Baseline Intact Outputs
                 out_intact_a, _ = adapter.encode_sequence(toks_query, initial_snapshot=state_a.clone(), step_by_step=False)
                 out_intact_b, _ = adapter.encode_sequence(toks_query, initial_snapshot=state_b.clone(), step_by_step=False)
-                z_intact_a = out_intact_a[0, -1]
-                z_intact_b = out_intact_b[0, -1]
+                z_intact_a = out_intact_a[0]
+                z_intact_b = out_intact_b[0]
 
                 # 2. Direction A -> B Interventions (Recipient B, Donor A/C/D/Cross)
                 state_match_a_into_b = swap_stores(recipient=state_b, donor=state_a, channels="rglru")
                 out_match_a_into_b, _ = adapter.encode_sequence(toks_query, initial_snapshot=state_match_a_into_b, step_by_step=False)
-                z_match_a_into_b = out_match_a_into_b[0, -1]
+                z_match_a_into_b = out_match_a_into_b[0]
 
                 state_wrong_c_into_b = swap_stores(recipient=state_b, donor=state_c, channels="rglru")
                 out_wrong_c_into_b, _ = adapter.encode_sequence(toks_query, initial_snapshot=state_wrong_c_into_b, step_by_step=False)
-                z_wrong_c_into_b = out_wrong_c_into_b[0, -1]
+                z_wrong_c_into_b = out_wrong_c_into_b[0]
 
                 state_wrong_d_into_b = swap_stores(recipient=state_b, donor=state_d, channels="rglru")
                 out_wrong_d_into_b, _ = adapter.encode_sequence(toks_query, initial_snapshot=state_wrong_d_into_b, step_by_step=False)
-                z_wrong_d_into_b = out_wrong_d_into_b[0, -1]
+                z_wrong_d_into_b = out_wrong_d_into_b[0]
 
                 state_cross_into_b = swap_stores(recipient=state_b, donor=state_cross, channels="rglru")
                 out_cross_into_b, _ = adapter.encode_sequence(toks_query, initial_snapshot=state_cross_into_b, step_by_step=False)
-                z_cross_into_b = out_cross_into_b[0, -1]
+                z_cross_into_b = out_cross_into_b[0]
 
                 state_noise_a_into_b = add_intervention_matched_noise(
                     recipient=state_b, donor=state_a, channel="rglru", seed=cur_seed + 10
                 )
                 out_noise_a_into_b, _ = adapter.encode_sequence(toks_query, initial_snapshot=state_noise_a_into_b, step_by_step=False)
-                z_noise_a_into_b = out_noise_a_into_b[0, -1]
+                z_noise_a_into_b = out_noise_a_into_b[0]
 
                 out_whole_a_into_b, _ = adapter.encode_sequence(toks_query, initial_snapshot=state_a.clone(), step_by_step=False)
-                z_whole_a_into_b = out_whole_a_into_b[0, -1]
+                z_whole_a_into_b = out_whole_a_into_b[0]
 
                 # 3. Direction B -> A Interventions (Recipient A, Donor B/C/D/Cross)
                 state_match_b_into_a = swap_stores(recipient=state_a, donor=state_b, channels="rglru")
                 out_match_b_into_a, _ = adapter.encode_sequence(toks_query, initial_snapshot=state_match_b_into_a, step_by_step=False)
-                z_match_b_into_a = out_match_b_into_a[0, -1]
+                z_match_b_into_a = out_match_b_into_a[0]
 
                 state_wrong_c_into_a = swap_stores(recipient=state_a, donor=state_c, channels="rglru")
                 out_wrong_c_into_a, _ = adapter.encode_sequence(toks_query, initial_snapshot=state_wrong_c_into_a, step_by_step=False)
-                z_wrong_c_into_a = out_wrong_c_into_a[0, -1]
+                z_wrong_c_into_a = out_wrong_c_into_a[0]
 
                 state_wrong_d_into_a = swap_stores(recipient=state_a, donor=state_d, channels="rglru")
                 out_wrong_d_into_a, _ = adapter.encode_sequence(toks_query, initial_snapshot=state_wrong_d_into_a, step_by_step=False)
-                z_wrong_d_into_a = out_wrong_d_into_a[0, -1]
+                z_wrong_d_into_a = out_wrong_d_into_a[0]
 
                 state_cross_into_a = swap_stores(recipient=state_a, donor=state_cross, channels="rglru")
                 out_cross_into_a, _ = adapter.encode_sequence(toks_query, initial_snapshot=state_cross_into_a, step_by_step=False)
-                z_cross_into_a = out_cross_into_a[0, -1]
+                z_cross_into_a = out_cross_into_a[0]
 
                 state_noise_b_into_a = add_intervention_matched_noise(
                     recipient=state_a, donor=state_b, channel="rglru", seed=cur_seed + 11
                 )
                 out_noise_b_into_a, _ = adapter.encode_sequence(toks_query, initial_snapshot=state_noise_b_into_a, step_by_step=False)
-                z_noise_b_into_a = out_noise_b_into_a[0, -1]
+                z_noise_b_into_a = out_noise_b_into_a[0]
 
                 out_whole_b_into_a, _ = adapter.encode_sequence(toks_query, initial_snapshot=state_b.clone(), step_by_step=False)
-                z_whole_b_into_a = out_whole_b_into_a[0, -1]
+                z_whole_b_into_a = out_whole_b_into_a[0]
 
                 # Record Direction A -> B conditions
                 eval_conditions_a_into_b = [
