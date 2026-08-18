@@ -218,176 +218,172 @@ def evaluate_impulse_trajectory(
     initial_d_rel_conv: Dict[int, float] = {}
     initial_d_rel_kv: Dict[int, float] = {}
 
-    current_lag = 0
-    lag_set = set(lag_grid)
+    prev_lag = 0
+    for current_lag in sorted(lag_grid):
+        if current_lag > prev_lag:
+            chunk = filler_tokens[prev_lag:current_lag]
+            logits_a, state_a = adapter.encode_sequence(chunk, initial_snapshot=state_a, step_by_step=False)
+            logits_b, state_b = adapter.encode_sequence(chunk, initial_snapshot=state_b, step_by_step=False)
+            logits_sham, state_sham = adapter.encode_sequence(chunk, initial_snapshot=state_sham, step_by_step=False)
+            prev_lag = current_lag
 
-    while current_lag <= max_lag:
-        if current_lag in lag_set:
-            # Check direct physical residency
-            conv_resident = current_lag < (conv1d_width - 1)
-            kv_resident = current_lag < (sliding_window - 1)
+        # Check direct physical residency
+        conv_resident = current_lag < (conv1d_width - 1)
+        kv_resident = current_lag < (sliding_window - 1)
 
-            # Measure layer-wise channel metrics
-            rglru_metrics: Dict[int, StoreMetrics] = {}
-            conv_metrics: Dict[int, StoreMetrics] = {}
-            kv_metrics: Dict[int, StoreMetrics] = {}
+        # Measure layer-wise channel metrics
+        rglru_metrics: Dict[int, StoreMetrics] = {}
+        conv_metrics: Dict[int, StoreMetrics] = {}
+        kv_metrics: Dict[int, StoreMetrics] = {}
 
-            # RGLRU
-            for l in state_a.rglru:
-                if l in state_b.rglru:
-                    t1, t2 = state_a.rglru[l], state_b.rglru[l]
-                    d_rel = compute_scale_relative_dist(t1, t2)
-                    if current_lag == 0:
-                        initial_d_rel_rglru[l] = d_rel
-                    init_d = initial_d_rel_rglru.get(l, d_rel)
-                    retention = d_rel / (init_d + 1e-8) if init_d > 0 else 1.0
-                    m = StoreMetrics(
-                        rmsdiff=compute_rmsdiff(t1, t2),
-                        scale_relative_dist=d_rel,
-                        cossim=compute_cossim(t1, t2),
-                        frobenius=float(torch.norm(t1.float() - t2.float()).item()),
-                        retention_ratio=retention,
-                    )
-                    rglru_metrics[l] = m
-                    layer_records.append(
-                        LayerTraceRecord(
-                            pair_id=pair.pair_id,
-                            regime=regime,
-                            lag=current_lag,
-                            channel="rglru",
-                            layer_idx=l,
-                            rmsdiff=m.rmsdiff,
-                            scale_relative_dist=m.scale_relative_dist,
-                            cossim=m.cossim,
-                            frobenius=m.frobenius,
-                            retention_ratio=m.retention_ratio,
-                        )
-                    )
-
-            # Conv
-            for l in state_a.conv:
-                if l in state_b.conv:
-                    t1, t2 = state_a.conv[l], state_b.conv[l]
-                    d_rel = compute_scale_relative_dist(t1, t2)
-                    if current_lag == 0:
-                        initial_d_rel_conv[l] = d_rel
-                    init_d = initial_d_rel_conv.get(l, d_rel)
-                    retention = d_rel / (init_d + 1e-8) if init_d > 0 else 1.0
-                    m = StoreMetrics(
-                        rmsdiff=compute_rmsdiff(t1, t2),
-                        scale_relative_dist=d_rel,
-                        cossim=compute_cossim(t1, t2),
-                        frobenius=float(torch.norm(t1.float() - t2.float()).item()),
-                        retention_ratio=retention,
-                    )
-                    conv_metrics[l] = m
-                    layer_records.append(
-                        LayerTraceRecord(
-                            pair_id=pair.pair_id,
-                            regime=regime,
-                            lag=current_lag,
-                            channel="conv",
-                            layer_idx=l,
-                            rmsdiff=m.rmsdiff,
-                            scale_relative_dist=m.scale_relative_dist,
-                            cossim=m.cossim,
-                            frobenius=m.frobenius,
-                            retention_ratio=m.retention_ratio,
-                        )
-                    )
-
-            # KV
-            for l in state_a.kv:
-                if l in state_b.kv:
-                    k1, k2 = state_a.kv[l]["key"], state_b.kv[l]["key"]
-                    d_rel = compute_scale_relative_dist(k1, k2)
-                    if current_lag == 0:
-                        initial_d_rel_kv[l] = d_rel
-                    init_d = initial_d_rel_kv.get(l, d_rel)
-                    retention = d_rel / (init_d + 1e-8) if init_d > 0 else 1.0
-                    m = StoreMetrics(
-                        rmsdiff=compute_rmsdiff(k1, k2),
-                        scale_relative_dist=d_rel,
-                        cossim=compute_cossim(k1, k2),
-                        frobenius=float(torch.norm(k1.float() - k2.float()).item()),
-                        retention_ratio=retention,
-                    )
-                    kv_metrics[l] = m
-                    layer_records.append(
-                        LayerTraceRecord(
-                            pair_id=pair.pair_id,
-                            regime=regime,
-                            lag=current_lag,
-                            channel="kv",
-                            layer_idx=l,
-                            rmsdiff=m.rmsdiff,
-                            scale_relative_dist=m.scale_relative_dist,
-                            cossim=m.cossim,
-                            frobenius=m.frobenius,
-                            retention_ratio=m.retention_ratio,
-                        )
-                    )
-
-            # Means
-            mean_rglru_d = sum(m.scale_relative_dist for m in rglru_metrics.values()) / max(len(rglru_metrics), 1)
-            mean_conv_d = sum(m.scale_relative_dist for m in conv_metrics.values()) / max(len(conv_metrics), 1)
-            mean_kv_d = sum(m.scale_relative_dist for m in kv_metrics.values()) / max(len(kv_metrics), 1)
-
-            mean_rglru_ret = sum(m.retention_ratio for m in rglru_metrics.values()) / max(len(rglru_metrics), 1)
-            mean_conv_ret = sum(m.retention_ratio for m in conv_metrics.values()) / max(len(conv_metrics), 1)
-            mean_kv_ret = sum(m.retention_ratio for m in kv_metrics.values()) / max(len(kv_metrics), 1)
-
-            # Behavioral divergence
-            js_div = compute_jensen_shannon_div(logits_a, logits_b)
-            pred_disagree = bool(torch.argmax(logits_a).item() != torch.argmax(logits_b).item())
-
-            # 2AFC Cloze Probing (from cloned snapshots)
-            margin_2afc, acc_2afc = evaluate_cloze_retrieval(
-                adapter=adapter,
-                snapshot_a=state_a,
-                snapshot_b=state_b,
-                cloze_tokens=cloze_tokens,
-                target_a_id=target_a_id,
-                target_b_id=target_b_id,
-            )
-
-            # Sham floor
-            sham_dists = [
-                compute_scale_relative_dist(state_a.rglru[l], state_sham.rglru[l])
-                for l in state_a.rglru if l in state_sham.rglru
-            ]
-            sham_mean_d = sum(sham_dists) / max(len(sham_dists), 1)
-            sham_js = compute_jensen_shannon_div(logits_a, logits_sham)
-
-            records.append(
-                LagCheckpointRecord(
-                    lag=current_lag,
-                    conv_directly_resident=conv_resident,
-                    kv_directly_resident=kv_resident,
-                    rglru_layers=rglru_metrics,
-                    conv_layers=conv_metrics,
-                    kv_layers=kv_metrics,
-                    mean_rglru_d_rel=mean_rglru_d,
-                    mean_conv_d_rel=mean_conv_d,
-                    mean_kv_d_rel=mean_kv_d,
-                    mean_rglru_retention=mean_rglru_ret,
-                    mean_conv_retention=mean_conv_ret,
-                    mean_kv_retention=mean_kv_ret,
-                    jensen_shannon_div=js_div,
-                    top1_disagreement=pred_disagree,
-                    twoway_2afc_margin=margin_2afc,
-                    twoway_2afc_accuracy=acc_2afc,
-                    sham_mean_d_rel=sham_mean_d,
-                    sham_jensen_shannon_div=sham_js,
+        # RGLRU
+        for l in state_a.rglru:
+            if l in state_b.rglru:
+                t1, t2 = state_a.rglru[l], state_b.rglru[l]
+                d_rel = compute_scale_relative_dist(t1, t2)
+                if current_lag == 0:
+                    initial_d_rel_rglru[l] = d_rel
+                init_d = initial_d_rel_rglru.get(l, d_rel)
+                retention = d_rel / (init_d + 1e-8) if init_d > 0 else 1.0
+                m = StoreMetrics(
+                    rmsdiff=compute_rmsdiff(t1, t2),
+                    scale_relative_dist=d_rel,
+                    cossim=compute_cossim(t1, t2),
+                    frobenius=float(torch.norm(t1.float() - t2.float()).item()),
+                    retention_ratio=retention,
                 )
+                rglru_metrics[l] = m
+                layer_records.append(
+                    LayerTraceRecord(
+                        pair_id=pair.pair_id,
+                        regime=regime,
+                        lag=current_lag,
+                        channel="rglru",
+                        layer_idx=l,
+                        rmsdiff=m.rmsdiff,
+                        scale_relative_dist=m.scale_relative_dist,
+                        cossim=m.cossim,
+                        frobenius=m.frobenius,
+                        retention_ratio=m.retention_ratio,
+                    )
+                )
+
+        # Conv
+        for l in state_a.conv:
+            if l in state_b.conv:
+                t1, t2 = state_a.conv[l], state_b.conv[l]
+                d_rel = compute_scale_relative_dist(t1, t2)
+                if current_lag == 0:
+                    initial_d_rel_conv[l] = d_rel
+                init_d = initial_d_rel_conv.get(l, d_rel)
+                retention = d_rel / (init_d + 1e-8) if init_d > 0 else 1.0
+                m = StoreMetrics(
+                    rmsdiff=compute_rmsdiff(t1, t2),
+                    scale_relative_dist=d_rel,
+                    cossim=compute_cossim(t1, t2),
+                    frobenius=float(torch.norm(t1.float() - t2.float()).item()),
+                    retention_ratio=retention,
+                )
+                conv_metrics[l] = m
+                layer_records.append(
+                    LayerTraceRecord(
+                        pair_id=pair.pair_id,
+                        regime=regime,
+                        lag=current_lag,
+                        channel="conv",
+                        layer_idx=l,
+                        rmsdiff=m.rmsdiff,
+                        scale_relative_dist=m.scale_relative_dist,
+                        cossim=m.cossim,
+                        frobenius=m.frobenius,
+                        retention_ratio=m.retention_ratio,
+                    )
+                )
+
+        # KV
+        for l in state_a.kv:
+            if l in state_b.kv:
+                k1, k2 = state_a.kv[l]["key"], state_b.kv[l]["key"]
+                d_rel = compute_scale_relative_dist(k1, k2)
+                if current_lag == 0:
+                    initial_d_rel_kv[l] = d_rel
+                init_d = initial_d_rel_kv.get(l, d_rel)
+                retention = d_rel / (init_d + 1e-8) if init_d > 0 else 1.0
+                m = StoreMetrics(
+                    rmsdiff=compute_rmsdiff(k1, k2),
+                    scale_relative_dist=d_rel,
+                    cossim=compute_cossim(k1, k2),
+                    frobenius=float(torch.norm(k1.float() - k2.float()).item()),
+                    retention_ratio=retention,
+                )
+                kv_metrics[l] = m
+                layer_records.append(
+                    LayerTraceRecord(
+                        pair_id=pair.pair_id,
+                        regime=regime,
+                        lag=current_lag,
+                        channel="kv",
+                        layer_idx=l,
+                        rmsdiff=m.rmsdiff,
+                        scale_relative_dist=m.scale_relative_dist,
+                        cossim=m.cossim,
+                        frobenius=m.frobenius,
+                        retention_ratio=m.retention_ratio,
+                    )
+                )
+
+        # Means
+        mean_rglru_d = sum(m.scale_relative_dist for m in rglru_metrics.values()) / max(len(rglru_metrics), 1)
+        mean_conv_d = sum(m.scale_relative_dist for m in conv_metrics.values()) / max(len(conv_metrics), 1)
+        mean_kv_d = sum(m.scale_relative_dist for m in kv_metrics.values()) / max(len(kv_metrics), 1)
+
+        mean_rglru_ret = sum(m.retention_ratio for m in rglru_metrics.values()) / max(len(rglru_metrics), 1)
+        mean_conv_ret = sum(m.retention_ratio for m in conv_metrics.values()) / max(len(conv_metrics), 1)
+        mean_kv_ret = sum(m.retention_ratio for m in kv_metrics.values()) / max(len(kv_metrics), 1)
+
+        # Behavioral divergence
+        js_div = compute_jensen_shannon_div(logits_a, logits_b)
+        pred_disagree = bool(torch.argmax(logits_a).item() != torch.argmax(logits_b).item())
+
+        # 2AFC Cloze Probing (from cloned snapshots)
+        margin_2afc, acc_2afc = evaluate_cloze_retrieval(
+            adapter=adapter,
+            snapshot_a=state_a,
+            snapshot_b=state_b,
+            cloze_tokens=cloze_tokens,
+            target_a_id=target_a_id,
+            target_b_id=target_b_id,
+        )
+
+        # Sham floor
+        sham_dists = [
+            compute_scale_relative_dist(state_a.rglru[l], state_sham.rglru[l])
+            for l in state_a.rglru if l in state_sham.rglru
+        ]
+        sham_mean_d = sum(sham_dists) / max(len(sham_dists), 1)
+        sham_js = compute_jensen_shannon_div(logits_a, logits_sham)
+
+        records.append(
+            LagCheckpointRecord(
+                lag=current_lag,
+                conv_directly_resident=conv_resident,
+                kv_directly_resident=kv_resident,
+                rglru_layers=rglru_metrics,
+                conv_layers=conv_metrics,
+                kv_layers=kv_metrics,
+                mean_rglru_d_rel=mean_rglru_d,
+                mean_conv_d_rel=mean_conv_d,
+                mean_kv_d_rel=mean_kv_d,
+                mean_rglru_retention=mean_rglru_ret,
+                mean_conv_retention=mean_conv_ret,
+                mean_kv_retention=mean_kv_ret,
+                jensen_shannon_div=js_div,
+                top1_disagreement=pred_disagree,
+                twoway_2afc_margin=margin_2afc,
+                twoway_2afc_accuracy=acc_2afc,
+                sham_mean_d_rel=sham_mean_d,
+                sham_jensen_shannon_div=sham_js,
             )
-
-        if current_lag < max_lag:
-            tok = filler_tokens[current_lag]
-            logits_a, state_a = adapter.step(tok, state_a)
-            logits_b, state_b = adapter.step(tok, state_b)
-            logits_sham, state_sham = adapter.step(tok, state_sham)
-
-        current_lag += 1
+        )
 
     return records, layer_records

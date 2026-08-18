@@ -227,8 +227,35 @@ class RecurrentGemmaAdapter:
         self,
         token_ids: List[int],
         initial_snapshot: Optional[RecurrentStateSnapshot] = None,
+        step_by_step: bool = True,
     ) -> Tuple[torch.Tensor, RecurrentStateSnapshot]:
-        """Unroll a token sequence step-by-step and return final logits and state snapshot."""
+        """Unroll a token sequence step-by-step (or in parallel chunk) and return final logits and state snapshot."""
+        if not token_ids:
+            state = initial_snapshot if initial_snapshot is not None else self.create_canonical_initial_state()
+            return torch.empty(0, device=self.device), state
+
+        if not step_by_step:
+            state = initial_snapshot if initial_snapshot is not None else self.create_canonical_initial_state()
+            cache = self.inject_state_snapshot(state)
+            input_ids = torch.tensor([token_ids], device=self.device, dtype=torch.long)
+            pos = state.cache_position
+            position_ids = torch.arange(pos, pos + len(token_ids), device=self.device, dtype=torch.long).unsqueeze(0)
+
+            outputs = self.model(
+                input_ids=input_ids,
+                position_ids=position_ids,
+                past_key_values=cache,
+                use_cache=True,
+                return_dict=True,
+            )
+
+            next_logits = outputs.logits[:, -1, :]
+            new_snapshot = self.extract_state_snapshot(
+                past_key_values=cache,
+                cache_position=pos + len(token_ids),
+            )
+            return next_logits, new_snapshot
+
         state = initial_snapshot if initial_snapshot is not None else self.create_canonical_initial_state()
         last_logits = torch.empty(0, device=self.device)
 

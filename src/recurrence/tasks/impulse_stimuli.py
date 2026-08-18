@@ -263,30 +263,30 @@ def build_audited_vocabulary_pool(
     excluded = set(excluded_token_ids or set())
     if tokenizer is not None and hasattr(tokenizer, "all_special_ids"):
         excluded.update(tokenizer.all_special_ids)
-    
-    vocab_size = len(tokenizer) if tokenizer is not None else 200
+
     pool: List[int] = []
 
-    for token_id in range(10, vocab_size):
-        if token_id in excluded:
-            continue
-        # If tokenizer available, verify token is alphanumeric and not control
-        if tokenizer is not None and hasattr(tokenizer, "decode"):
-            try:
-                text = tokenizer.decode([token_id])
-                if not text.strip() or len(text.strip()) > 15:
-                    continue
-                if any(c in text for c in ["<", ">", "[", "]", "{", "}", "\\", "/"]):
-                    continue
-            except Exception:
+    if tokenizer is not None and hasattr(tokenizer, "get_vocab"):
+        vocab_dict = tokenizer.get_vocab()
+        for token_text, token_id in vocab_dict.items():
+            if token_id in excluded or token_id < 10:
                 continue
-        pool.append(token_id)
-
-    if not pool:
+            cleaned = token_text.strip().lstrip(" ")
+            if not cleaned or len(cleaned) > 15:
+                continue
+            if any(c in token_text for c in ["<", ">", "[", "]", "{", "}", "\\", "/", "\n", "\t", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]):
+                continue
+            pool.append(token_id)
+    else:
+        vocab_size = len(tokenizer) if tokenizer is not None else 200
         pool = [t for t in range(10, min(vocab_size, 100)) if t not in excluded]
 
+    pool = sorted(list(set(pool)))
+    if not pool:
+        pool = [t for t in range(10, 50) if t not in excluded]
+
     # Compute SHA256 digest of pool
-    pool_str = ",".join(str(x) for x in sorted(pool))
+    pool_str = ",".join(str(x) for x in pool)
     pool_hash = hashlib.sha256(pool_str.encode("utf-8")).hexdigest()[:16]
     return pool, pool_hash
 
