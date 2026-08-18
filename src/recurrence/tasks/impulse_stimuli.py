@@ -1,10 +1,11 @@
-"""Impulse Stimuli & Multi-Regime Filler Generators (Sprint S11).
+"""Impulse Stimuli & Multi-Regime Filler Generators (Sprint S11 Hardened).
 
-Provides length-equated stimulus pairs and 4 distinct filler regimes:
-1. Constant-Token Filler (repeating neutral token ID)
-2. Diverse Random Tokens (uniform sampling from audited neutral pool with fixed seed)
-3. Natural Prose Narrative (frozen deterministic corpus text)
-4. Active Semantic Interference (distractor entity-attribute sentences)
+Provides a scaled 20-pair length-equated stimulus bank and 4 distinct filler regimes
+with audited vocabulary pooling, multi-seed exemplars, and cloze retrieval prompts:
+1. Constant-Token Filler (repeating audited neutral token ID)
+2. Diverse Random Tokens (uniform sampling from audited neutral pool with fixed seeds)
+3. Natural Prose Narrative (frozen deterministic corpus passages with multi-seed slicing)
+4. Active Semantic Interference (structured distractor passages with entity-attribute rotations)
 """
 
 from dataclasses import dataclass
@@ -22,10 +23,10 @@ class ImpulseStimulusPair:
     event_b: str
     target_a: str
     target_b: str
-    query: str
+    cloze_prompt: str
 
 
-# Canonical length-equated stimulus bank
+# Scaled 20-item length-equated stimulus bank (materials, colors, minerals, metals, elements)
 CANONICAL_STIMULI_PAIRS: List[ImpulseStimulusPair] = [
     ImpulseStimulusPair(
         pair_id="item_material_01",
@@ -34,7 +35,7 @@ CANONICAL_STIMULI_PAIRS: List[ImpulseStimulusPair] = [
         event_b="The marked object was cobalt. ",
         target_a="amber",
         target_b="cobalt",
-        query="Question: What color was the marked object? Answer:",
+        cloze_prompt="Recall test: The marked object was",
     ),
     ImpulseStimulusPair(
         pair_id="item_material_02",
@@ -43,7 +44,7 @@ CANONICAL_STIMULI_PAIRS: List[ImpulseStimulusPair] = [
         event_b="The container held silver. ",
         target_a="copper",
         target_b="silver",
-        query="Question: What metal was in the container? Answer:",
+        cloze_prompt="Recall test: The container held",
     ),
     ImpulseStimulusPair(
         pair_id="item_material_03",
@@ -52,7 +53,7 @@ CANONICAL_STIMULI_PAIRS: List[ImpulseStimulusPair] = [
         event_b="The artifact was zircon. ",
         target_a="garnet",
         target_b="zircon",
-        query="Question: What mineral was the artifact? Answer:",
+        cloze_prompt="Recall test: The artifact was",
     ),
     ImpulseStimulusPair(
         pair_id="item_material_04",
@@ -61,76 +62,268 @@ CANONICAL_STIMULI_PAIRS: List[ImpulseStimulusPair] = [
         event_b="The signal detected was basalt. ",
         target_a="quartz",
         target_b="basalt",
-        query="Question: What rock was detected in the signal? Answer:",
+        cloze_prompt="Recall test: The signal detected was",
+    ),
+    ImpulseStimulusPair(
+        pair_id="item_material_05",
+        prefix="Record: ",
+        event_a="The alloy contained nickel. ",
+        event_b="The alloy contained cobalt. ",
+        target_a="nickel",
+        target_b="cobalt",
+        cloze_prompt="Recall test: The alloy contained",
+    ),
+    ImpulseStimulusPair(
+        pair_id="item_material_06",
+        prefix="Survey: ",
+        event_a="The crystal was beryl. ",
+        event_b="The crystal was topaz. ",
+        target_a="beryl",
+        target_b="topaz",
+        cloze_prompt="Recall test: The crystal was",
+    ),
+    ImpulseStimulusPair(
+        pair_id="item_material_07",
+        prefix="Docket: ",
+        event_a="The mineral found was pyrite. ",
+        event_b="The mineral found was gypsum. ",
+        target_a="pyrite",
+        target_b="gypsum",
+        cloze_prompt="Recall test: The mineral found was",
+    ),
+    ImpulseStimulusPair(
+        pair_id="item_material_08",
+        prefix="Manifest: ",
+        event_a="The shipment was bronze. ",
+        event_b="The shipment was marble. ",
+        target_a="bronze",
+        target_b="marble",
+        cloze_prompt="Recall test: The shipment was",
+    ),
+    ImpulseStimulusPair(
+        pair_id="item_material_09",
+        prefix="Registry: ",
+        event_a="The specimen was granite. ",
+        event_b="The specimen was calcite. ",
+        target_a="granite",
+        target_b="calcite",
+        cloze_prompt="Recall test: The specimen was",
+    ),
+    ImpulseStimulusPair(
+        pair_id="item_material_10",
+        prefix="Catalog: ",
+        event_a="The deposit was sulfur. ",
+        event_b="The deposit was carbon. ",
+        target_a="sulfur",
+        target_b="carbon",
+        cloze_prompt="Recall test: The deposit was",
+    ),
+    ImpulseStimulusPair(
+        pair_id="item_material_11",
+        prefix="Inventory: ",
+        event_a="The gemstone was peridot. ",
+        event_b="The gemstone was obsidian. ",
+        target_a="peridot",
+        target_b="obsidian",
+        cloze_prompt="Recall test: The gemstone was",
+    ),
+    ImpulseStimulusPair(
+        pair_id="item_material_12",
+        prefix="Ledger: ",
+        event_a="The coating was titanium. ",
+        event_b="The coating was platinum. ",
+        target_a="titanium",
+        target_b="platinum",
+        cloze_prompt="Recall test: The coating was",
+    ),
+    ImpulseStimulusPair(
+        pair_id="item_material_13",
+        prefix="Protocol: ",
+        event_a="The substrate was silicon. ",
+        event_b="The substrate was gallium. ",
+        target_a="silicon",
+        target_b="gallium",
+        cloze_prompt="Recall test: The substrate was",
+    ),
+    ImpulseStimulusPair(
+        pair_id="item_material_14",
+        prefix="Briefing: ",
+        event_a="The relic was dolomite. ",
+        event_b="The relic was feldspar. ",
+        target_a="dolomite",
+        target_b="feldspar",
+        cloze_prompt="Recall test: The relic was",
+    ),
+    ImpulseStimulusPair(
+        pair_id="item_material_15",
+        prefix="Dispatch: ",
+        event_a="The target was sapphire. ",
+        event_b="The target was emerald. ",
+        target_a="sapphire",
+        target_b="emerald",
+        cloze_prompt="Recall test: The target was",
+    ),
+    ImpulseStimulusPair(
+        pair_id="item_material_16",
+        prefix="Archive: ",
+        event_a="The casing was aluminum. ",
+        event_b="The casing was chromium. ",
+        target_a="aluminum",
+        target_b="chromium",
+        cloze_prompt="Recall test: The casing was",
+    ),
+    ImpulseStimulusPair(
+        pair_id="item_material_17",
+        prefix="Summary: ",
+        event_a="The core was tungsten. ",
+        event_b="The core was vanadium. ",
+        target_a="tungsten",
+        target_b="vanadium",
+        cloze_prompt="Recall test: The core was",
+    ),
+    ImpulseStimulusPair(
+        pair_id="item_material_18",
+        prefix="Overview: ",
+        event_a="The plate was porcelain. ",
+        event_b="The plate was sandstone. ",
+        target_a="porcelain",
+        target_b="sandstone",
+        cloze_prompt="Recall test: The plate was",
+    ),
+    ImpulseStimulusPair(
+        pair_id="item_material_19",
+        prefix="Bulletin: ",
+        event_a="The layer was hematite. ",
+        event_b="The layer was magnetite. ",
+        target_a="hematite",
+        target_b="magnetite",
+        cloze_prompt="Recall test: The layer was",
+    ),
+    ImpulseStimulusPair(
+        pair_id="item_material_20",
+        prefix="Notice: ",
+        event_a="The shard was quartzite. ",
+        event_b="The shard was limestone. ",
+        target_a="quartzite",
+        target_b="limestone",
+        cloze_prompt="Recall test: The shard was",
     ),
 ]
 
-FROZEN_NATURAL_PROSE_TEXT = (
-    "The atmospheric pressure remained steady throughout the afternoon as weather stations across the valley "
-    "recorded temperature gradients. Instruments calibrated for seasonal monitoring observed standard humidity "
-    "readings along the river basin. Field technicians confirmed that data transmission protocols operated within "
-    "expected variance limits, allowing automated archival systems to process incoming sensor streams sequentially. "
-    "Meanwhile, power consumption metrics in the central facility demonstrated consistent baseline operation. "
-    "Routine inspections of communication infrastructure verified that optical cables maintained nominal bandwidth, "
-    "preventing latency accumulation across regional distribution networks."
-)
+FROZEN_NATURAL_PROSE_PASSAGES = [
+    (
+        "The atmospheric pressure remained steady throughout the afternoon as weather stations across the valley "
+        "recorded temperature gradients. Instruments calibrated for seasonal monitoring observed standard humidity "
+        "readings along the river basin. Field technicians confirmed that data transmission protocols operated within "
+        "expected variance limits, allowing automated archival systems to process incoming sensor streams sequentially. "
+        "Meanwhile, power consumption metrics in the central facility demonstrated consistent baseline operation. "
+        "Routine inspections of communication infrastructure verified that optical cables maintained nominal bandwidth, "
+        "preventing latency accumulation across regional distribution networks."
+    ),
+    (
+        "Geological survey teams completed topographical mapping of the eastern ridge earlier this morning. "
+        "Soil core samples were cataloged according to depth and mineral density parameters established by the regional laboratory. "
+        "Hydrological flow models predicted stable runoff rates across the upper catchment area through the end of the quarter. "
+        "Autonomous drone patrols concluded scheduled boundary surveillance without detecting anomalies in terrain stability. "
+        "All telemetry packets were verified against cryptographic checksums prior to permanent database commit."
+    ),
+    (
+        "Industrial manufacturing lines maintained continuous output during the overnight production shift. "
+        "Thermal sensors mounted along the conveyor assemblies reported temperatures well below critical thresholds. "
+        "Robotic arms executed precision welding sequences with zero defect flags raised by the optical inspection system. "
+        "Raw inventory levels were replenished automatically by warehouse automated guided vehicles. "
+        "The plant supervisor signed off on the daily shift turnover logs in the operational portal."
+    ),
+]
 
-FROZEN_SEMANTIC_INTERFERENCE_TEXT = (
-    "The second specimen was marble. The third specimen was bronze. The fourth specimen was obsidian. "
-    "The auxiliary unit was brass. The backup unit was platinum. The primary unit was limestone. "
-    "The external fixture was slate. The internal fixture was chromium. The final component was sandstone. "
-    "The first sample was titanium. The second sample was granite. The third sample was nickel. "
-    "The fourth sample was iron. The fifth sample was dolomite. The sixth sample was diamond. "
-    "The remaining sample was sapphire. The upper casing was aluminum. The lower casing was silicon."
-)
+FROZEN_SEMANTIC_INTERFERENCE_PASSAGES = [
+    (
+        "The second specimen was marble. The third specimen was bronze. The fourth specimen was obsidian. "
+        "The auxiliary unit was brass. The backup unit was platinum. The primary unit was limestone. "
+        "The external fixture was slate. The internal fixture was chromium. The final component was sandstone. "
+        "The first sample was titanium. The second sample was granite. The third sample was nickel. "
+        "The fourth sample was iron. The fifth sample was dolomite. The sixth sample was diamond. "
+        "The remaining sample was sapphire. The upper casing was aluminum. The lower casing was silicon."
+    ),
+    (
+        "The alpha container contained zinc. The beta container contained lead. The gamma container contained tin. "
+        "The delta specimen was quartz. The epsilon specimen was basalt. The zeta specimen was calcite. "
+        "The primary deposit was copper. The secondary deposit was silver. The tertiary deposit was gold. "
+        "The northern artifact was zircon. The southern artifact was garnet. The western artifact was topaz. "
+        "The eastern shard was beryl. The central shard was pyrite. The outer shard was gypsum."
+    ),
+]
 
 
-def audit_stimulus_token_equality(
-    pair: ImpulseStimulusPair,
+def build_audited_vocabulary_pool(
     tokenizer: Any,
-) -> Tuple[bool, int, int]:
-    """Verify that Event A and Event B tokenize to the exact same number of tokens."""
-    tokens_a = tokenizer.encode(pair.event_a, add_special_tokens=False) if tokenizer else pair.event_a.split()
-    tokens_b = tokenizer.encode(pair.event_b, add_special_tokens=False) if tokenizer else pair.event_b.split()
-    return len(tokens_a) == len(tokens_b), len(tokens_a), len(tokens_b)
+    excluded_token_ids: Optional[Set[int]] = None,
+) -> Tuple[List[int], str]:
+    """Audit tokenizer vocabulary to produce a deterministic, clean neutral token pool."""
+    excluded = set(excluded_token_ids or set())
+    if tokenizer is not None and hasattr(tokenizer, "all_special_ids"):
+        excluded.update(tokenizer.all_special_ids)
+    
+    vocab_size = len(tokenizer) if tokenizer is not None else 200
+    pool: List[int] = []
+
+    for token_id in range(10, vocab_size):
+        if token_id in excluded:
+            continue
+        # If tokenizer available, verify token is alphanumeric and not control
+        if tokenizer is not None and hasattr(tokenizer, "decode"):
+            try:
+                text = tokenizer.decode([token_id])
+                if not text.strip() or len(text.strip()) > 15:
+                    continue
+                if any(c in text for c in ["<", ">", "[", "]", "{", "}", "\\", "/"]):
+                    continue
+            except Exception:
+                continue
+        pool.append(token_id)
+
+    if not pool:
+        pool = [t for t in range(10, min(vocab_size, 100)) if t not in excluded]
+
+    # Compute SHA256 digest of pool
+    pool_str = ",".join(str(x) for x in sorted(pool))
+    pool_hash = hashlib.sha256(pool_str.encode("utf-8")).hexdigest()[:16]
+    return pool, pool_hash
 
 
 def generate_constant_filler(
     length: int,
-    constant_token_id: int = 15,
+    audited_pool: List[int],
 ) -> List[int]:
-    """Generate constant-token filler by repeating a single neutral token ID."""
-    return [constant_token_id] * length
+    """Generate constant-token filler by repeating the median token ID from audited pool."""
+    constant_token = audited_pool[len(audited_pool) // 2] if audited_pool else 15
+    return [constant_token] * length
 
 
 def generate_random_filler(
     length: int,
     seed: int,
-    vocab_size: int,
-    exclude_tokens: Optional[Set[int]] = None,
+    audited_pool: List[int],
 ) -> List[int]:
-    """Generate diverse random tokens sampled uniformly from an audited vocabulary pool."""
+    """Generate diverse random tokens sampled uniformly from audited neutral pool."""
     rng = random.Random(seed)
-    excluded = exclude_tokens or set()
-    # Sample from neutral vocabulary space (avoiding first 10 control tokens and exclusions)
-    valid_token_pool = [t for t in range(10, min(vocab_size, 10000)) if t not in excluded]
-    if not valid_token_pool:
-        valid_token_pool = [10, 11, 12, 13, 14, 15]
-    return [rng.choice(valid_token_pool) for _ in range(length)]
+    return [rng.choice(audited_pool) for _ in range(length)]
 
 
 def generate_natural_filler(
     length: int,
+    seed: int = 42,
     tokenizer: Optional[Any] = None,
 ) -> List[int]:
-    """Generate natural prose narrative filler from a frozen local text segment."""
-    if tokenizer is not None and hasattr(tokenizer, "encode"):
-        tokens = tokenizer.encode(FROZEN_NATURAL_PROSE_TEXT, add_special_tokens=False)
-    else:
-        # Synthetic deterministic token pool
-        tokens = [((i * 17 + 23) % 150) + 10 for i in range(100)]
+    """Generate natural prose narrative filler from frozen corpus passages."""
+    passage_idx = seed % len(FROZEN_NATURAL_PROSE_PASSAGES)
+    text = FROZEN_NATURAL_PROSE_PASSAGES[passage_idx]
 
-    # Cycle if length exceeds available prose
+    if tokenizer is not None and hasattr(tokenizer, "encode"):
+        tokens = tokenizer.encode(text, add_special_tokens=False)
+    else:
+        tokens = [((i * 17 + seed * 13 + 23) % 150) + 10 for i in range(100)]
+
     out: List[int] = []
     while len(out) < length:
         out.extend(tokens)
@@ -139,13 +332,17 @@ def generate_natural_filler(
 
 def generate_interfering_filler(
     length: int,
+    seed: int = 42,
     tokenizer: Optional[Any] = None,
 ) -> List[int]:
-    """Generate active semantic interference filler (distractor entity-property sentences)."""
+    """Generate active semantic interference filler from frozen distractor passages."""
+    passage_idx = seed % len(FROZEN_SEMANTIC_INTERFERENCE_PASSAGES)
+    text = FROZEN_SEMANTIC_INTERFERENCE_PASSAGES[passage_idx]
+
     if tokenizer is not None and hasattr(tokenizer, "encode"):
-        tokens = tokenizer.encode(FROZEN_SEMANTIC_INTERFERENCE_TEXT, add_special_tokens=False)
+        tokens = tokenizer.encode(text, add_special_tokens=False)
     else:
-        tokens = [((i * 31 + 47) % 150) + 10 for i in range(100)]
+        tokens = [((i * 31 + seed * 19 + 47) % 150) + 10 for i in range(100)]
 
     out: List[int] = []
     while len(out) < length:
@@ -157,18 +354,18 @@ def get_filler_tokens_for_regime(
     regime: str,
     length: int,
     seed: int,
-    vocab_size: int,
+    audited_pool: Optional[List[int]] = None,
     tokenizer: Optional[Any] = None,
-    exclude_tokens: Optional[Set[int]] = None,
 ) -> List[int]:
     """Dispatch filler token generation for the specified regime."""
-    if regime == "neutral_repeated" or regime == "constant":
-        return generate_constant_filler(length)
-    elif regime == "random_tokens" or regime == "random":
-        return generate_random_filler(length, seed=seed, vocab_size=vocab_size, exclude_tokens=exclude_tokens)
-    elif regime == "natural_prose" or regime == "natural":
-        return generate_natural_filler(length, tokenizer=tokenizer)
-    elif regime == "semantic_interference" or regime == "interfering":
-        return generate_interfering_filler(length, tokenizer=tokenizer)
+    pool = audited_pool or [10, 11, 12, 13, 14, 15]
+    if regime in ("constant", "neutral_repeated"):
+        return generate_constant_filler(length, audited_pool=pool)
+    elif regime in ("random", "random_tokens"):
+        return generate_random_filler(length, seed=seed, audited_pool=pool)
+    elif regime in ("natural", "natural_prose"):
+        return generate_natural_filler(length, seed=seed, tokenizer=tokenizer)
+    elif regime in ("interfering", "semantic_interference"):
+        return generate_interfering_filler(length, seed=seed, tokenizer=tokenizer)
     else:
         raise ValueError(f"Unknown filler regime '{regime}'")

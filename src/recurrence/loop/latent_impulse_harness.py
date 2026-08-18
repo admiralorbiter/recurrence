@@ -1,8 +1,7 @@
-"""Latent Impulse Response & Store Localization Harness (Sprint S11).
+"""Latent Impulse Response & Store Localization Harness (Sprint S11 Hardened).
 
-Evaluates the physical persistence, behavioral divergence, and task usability
-of historical perturbations across the 3 physical temporal stores (RG-LRU, Conv1D, KV cache)
-without off-manifold synthetic injections.
+Evaluates physical persistence, layer-level spatial store traces, behavioral divergence,
+and task usability across RG-LRU, Conv1D, and KV cache without off-manifold injections.
 """
 
 from dataclasses import dataclass, field
@@ -17,6 +16,7 @@ from recurrence.models.recurrent_gemma_adapter import RecurrentGemmaAdapter
 from recurrence.state.temporal_inventory import RecurrentStateSnapshot
 from recurrence.tasks.impulse_stimuli import (
     ImpulseStimulusPair,
+    build_audited_vocabulary_pool,
     get_filler_tokens_for_regime,
 )
 
@@ -24,7 +24,8 @@ from recurrence.tasks.impulse_stimuli import (
 def generate_dynamic_lag_grid(config: RecurrentGemmaConfig) -> List[int]:
     """Generate dynamic lag steps aligned with model's physical architectural boundaries."""
     conv1d_width = getattr(config, "conv1d_width", 4)
-    sliding_window = getattr(config, "sliding_window", 2048)
+    # Check official RecurrentGemmaConfig field attention_window_size first
+    sliding_window = getattr(config, "attention_window_size", getattr(config, "sliding_window", 2048))
 
     raw_lags = [
         0, 1, 2, 3, 4, 8, 16, 32, 64, 128, 256, 512,
@@ -89,8 +90,23 @@ class StoreMetrics:
 
 
 @dataclass
+class LayerTraceRecord:
+    """Per-layer, per-store metric record for layer x lag anatomy."""
+    pair_id: str
+    regime: str
+    lag: int
+    channel: str  # 'rglru', 'conv', 'kv'
+    layer_idx: int
+    rmsdiff: float
+    scale_relative_dist: float
+    cossim: float
+    frobenius: float
+    retention_ratio: float
+
+
+@dataclass
 class LagCheckpointRecord:
-    """Recorded metrics at a single lag step L."""
+    """Recorded summary metrics at a single lag step L."""
     lag: int
     conv_directly_resident: bool
     kv_directly_resident: bool
@@ -111,25 +127,25 @@ class LagCheckpointRecord:
     sham_jensen_shannon_div: float = 0.0
 
 
-def evaluate_2afc_retrieval(
+def evaluate_cloze_retrieval(
     adapter: RecurrentGemmaAdapter,
     snapshot_a: RecurrentStateSnapshot,
     snapshot_b: RecurrentStateSnapshot,
-    query_tokens: List[int],
+    cloze_tokens: List[int],
     target_a_id: int,
     target_b_id: int,
 ) -> Tuple[float, float]:
-    """Evaluate 2AFC factual retrieval logit margin and accuracy from cloned snapshots."""
+    """Evaluate 2AFC cloze retrieval logit margin and accuracy from cloned snapshots."""
     # 1. Probe Branch A (detached clone)
     probe_a = snapshot_a.clone()
-    logits_a, _ = adapter.encode_sequence(query_tokens, initial_snapshot=probe_a)
+    logits_a, _ = adapter.encode_sequence(cloze_tokens, initial_snapshot=probe_a)
     score_a_target_a = logits_a[0, target_a_id].item() if logits_a.numel() > target_a_id else 0.0
     score_a_target_b = logits_a[0, target_b_id].item() if logits_a.numel() > target_b_id else 0.0
     margin_a = score_a_target_a - score_a_target_b
 
     # 2. Probe Branch B (detached clone)
     probe_b = snapshot_b.clone()
-    logits_b, _ = adapter.encode_sequence(query_tokens, initial_snapshot=probe_b)
+    logits_b, _ = adapter.encode_sequence(cloze_tokens, initial_snapshot=probe_b)
     score_b_target_b = logits_b[0, target_b_id].item() if logits_b.numel() > target_b_id else 0.0
     score_b_target_a = logits_b[0, target_a_id].item() if logits_b.numel() > target_a_id else 0.0
     margin_b = score_b_target_b - score_b_target_a
@@ -146,24 +162,24 @@ def evaluate_impulse_trajectory(
     lag_grid: List[int],
     seed: int = 42,
     tokenizer: Optional[Any] = None,
-) -> List[LagCheckpointRecord]:
-    """Execute matched trajectory impulse response and return metric records across all lag steps."""
+    audited_pool: Optional[List[int]] = None,
+) -> Tuple[List[LagCheckpointRecord], List[LayerTraceRecord]]:
+    """Execute matched trajectory impulse response and return summary and per-layer records."""
     # 1. Tokenize inputs
     if tokenizer is not None:
         prefix_tokens = tokenizer.encode(pair.prefix, add_special_tokens=False)
         event_a_tokens = tokenizer.encode(pair.event_a, add_special_tokens=False)
         event_b_tokens = tokenizer.encode(pair.event_b, add_special_tokens=False)
-        query_tokens = tokenizer.encode(pair.query, add_special_tokens=False)
-        target_a_tokens = tokenizer.encode(pair.target_a, add_special_tokens=False)
-        target_b_tokens = tokenizer.encode(pair.target_b, add_special_tokens=False)
+        cloze_tokens = tokenizer.encode(pair.cloze_prompt, add_special_tokens=False)
+        target_a_tokens = tokenizer.encode(" " + pair.target_a.strip(), add_special_tokens=False)
+        target_b_tokens = tokenizer.encode(" " + pair.target_b.strip(), add_special_tokens=False)
         target_a_id = target_a_tokens[0] if target_a_tokens else 10
         target_b_id = target_b_tokens[0] if target_b_tokens else 11
     else:
-        # Reference test tokenization
         prefix_tokens = [10, 11]
         event_a_tokens = [20, 21, 22]
         event_b_tokens = [30, 31, 32]
-        query_tokens = [40, 41]
+        cloze_tokens = [40, 41]
         target_a_id = 22
         target_b_id = 32
 
@@ -173,17 +189,19 @@ def evaluate_impulse_trajectory(
 
     max_lag = max(lag_grid)
     exclude_set = {target_a_id, target_b_id}
+    if audited_pool is None:
+        audited_pool, _ = build_audited_vocabulary_pool(tokenizer, excluded_token_ids=exclude_set)
+
     filler_tokens = get_filler_tokens_for_regime(
         regime=regime,
         length=max_lag,
         seed=seed,
-        vocab_size=adapter.config.vocab_size,
+        audited_pool=audited_pool,
         tokenizer=tokenizer,
-        exclude_tokens=exclude_set,
     )
 
     conv1d_width = getattr(adapter.config, "conv1d_width", 4)
-    sliding_window = getattr(adapter.config, "sliding_window", 2048)
+    sliding_window = getattr(adapter.config, "attention_window_size", getattr(adapter.config, "sliding_window", 2048))
 
     # 2. Unroll prefix
     _, init_state = adapter.encode_sequence(prefix_tokens)
@@ -194,6 +212,8 @@ def evaluate_impulse_trajectory(
     logits_sham, state_sham = adapter.encode_sequence(event_a_tokens, initial_snapshot=init_state.clone())
 
     records: List[LagCheckpointRecord] = []
+    layer_records: List[LayerTraceRecord] = []
+
     initial_d_rel_rglru: Dict[int, float] = {}
     initial_d_rel_conv: Dict[int, float] = {}
     initial_d_rel_kv: Dict[int, float] = {}
@@ -221,12 +241,27 @@ def evaluate_impulse_trajectory(
                         initial_d_rel_rglru[l] = d_rel
                     init_d = initial_d_rel_rglru.get(l, d_rel)
                     retention = d_rel / (init_d + 1e-8) if init_d > 0 else 1.0
-                    rglru_metrics[l] = StoreMetrics(
+                    m = StoreMetrics(
                         rmsdiff=compute_rmsdiff(t1, t2),
                         scale_relative_dist=d_rel,
                         cossim=compute_cossim(t1, t2),
                         frobenius=float(torch.norm(t1.float() - t2.float()).item()),
                         retention_ratio=retention,
+                    )
+                    rglru_metrics[l] = m
+                    layer_records.append(
+                        LayerTraceRecord(
+                            pair_id=pair.pair_id,
+                            regime=regime,
+                            lag=current_lag,
+                            channel="rglru",
+                            layer_idx=l,
+                            rmsdiff=m.rmsdiff,
+                            scale_relative_dist=m.scale_relative_dist,
+                            cossim=m.cossim,
+                            frobenius=m.frobenius,
+                            retention_ratio=m.retention_ratio,
+                        )
                     )
 
             # Conv
@@ -238,12 +273,27 @@ def evaluate_impulse_trajectory(
                         initial_d_rel_conv[l] = d_rel
                     init_d = initial_d_rel_conv.get(l, d_rel)
                     retention = d_rel / (init_d + 1e-8) if init_d > 0 else 1.0
-                    conv_metrics[l] = StoreMetrics(
+                    m = StoreMetrics(
                         rmsdiff=compute_rmsdiff(t1, t2),
                         scale_relative_dist=d_rel,
                         cossim=compute_cossim(t1, t2),
                         frobenius=float(torch.norm(t1.float() - t2.float()).item()),
                         retention_ratio=retention,
+                    )
+                    conv_metrics[l] = m
+                    layer_records.append(
+                        LayerTraceRecord(
+                            pair_id=pair.pair_id,
+                            regime=regime,
+                            lag=current_lag,
+                            channel="conv",
+                            layer_idx=l,
+                            rmsdiff=m.rmsdiff,
+                            scale_relative_dist=m.scale_relative_dist,
+                            cossim=m.cossim,
+                            frobenius=m.frobenius,
+                            retention_ratio=m.retention_ratio,
+                        )
                     )
 
             # KV
@@ -255,12 +305,27 @@ def evaluate_impulse_trajectory(
                         initial_d_rel_kv[l] = d_rel
                     init_d = initial_d_rel_kv.get(l, d_rel)
                     retention = d_rel / (init_d + 1e-8) if init_d > 0 else 1.0
-                    kv_metrics[l] = StoreMetrics(
+                    m = StoreMetrics(
                         rmsdiff=compute_rmsdiff(k1, k2),
                         scale_relative_dist=d_rel,
                         cossim=compute_cossim(k1, k2),
                         frobenius=float(torch.norm(k1.float() - k2.float()).item()),
                         retention_ratio=retention,
+                    )
+                    kv_metrics[l] = m
+                    layer_records.append(
+                        LayerTraceRecord(
+                            pair_id=pair.pair_id,
+                            regime=regime,
+                            lag=current_lag,
+                            channel="kv",
+                            layer_idx=l,
+                            rmsdiff=m.rmsdiff,
+                            scale_relative_dist=m.scale_relative_dist,
+                            cossim=m.cossim,
+                            frobenius=m.frobenius,
+                            retention_ratio=m.retention_ratio,
+                        )
                     )
 
             # Means
@@ -276,12 +341,12 @@ def evaluate_impulse_trajectory(
             js_div = compute_jensen_shannon_div(logits_a, logits_b)
             pred_disagree = bool(torch.argmax(logits_a).item() != torch.argmax(logits_b).item())
 
-            # 2AFC Retrieval Probing (from cloned snapshots)
-            margin_2afc, acc_2afc = evaluate_2afc_retrieval(
+            # 2AFC Cloze Probing (from cloned snapshots)
+            margin_2afc, acc_2afc = evaluate_cloze_retrieval(
                 adapter=adapter,
                 snapshot_a=state_a,
                 snapshot_b=state_b,
-                query_tokens=query_tokens,
+                cloze_tokens=cloze_tokens,
                 target_a_id=target_a_id,
                 target_b_id=target_b_id,
             )
@@ -325,4 +390,4 @@ def evaluate_impulse_trajectory(
 
         current_lag += 1
 
-    return records
+    return records, layer_records
