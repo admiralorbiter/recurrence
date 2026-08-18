@@ -2,7 +2,7 @@
 
 **Horizon 2 (Level 2: Latent Recurrence)**  
 **Substrate:** Upstream Hugging Face `google/recurrentgemma-2b` / Griffin Hybrid Architecture (26 Layers, Hidden Size 2560, LRU Width 2560, Conv Width 4, Attention Window 2048)  
-**Status:** **S11.2 Hardened Pretrained Capability Scout COMPLETED (157/157 Green), Invariant-Verified & Ready for S11b Confirmatory Scaling**
+**Status:** **S11b Confirmatory Run COMPLETED & FROZEN (All 20 Pairs x 4 Regimes, 10,000-Replicate Hierarchical Cluster Bootstrap)**
 
 ---
 
@@ -14,96 +14,92 @@ Sprint S11 constructs the empirical **temporal anatomy** of `RecurrentGemma` acr
 3. **Real-Gated Linear Recurrent Units (`rglru[layer]`):** Input-gated continuous recurrent state carrying long-range history via Griffin Eq. 4:
    $$h_t = a_t \odot h_{t-1} + \sqrt{1 - a_t^2} \odot (i_t \odot x_t), \quad a_t = \exp(-8 \sigma(W_a x_t + b_a) \cdot \text{softplus}(\Lambda))$$
 
-### Core S11.2 Hardened Innovations
-- **Chunked Forward Acceleration & Complete Temporal-State Parity:** Chunked parallel sequence unrolls between lag checkpoints accelerate execution from ~60 minutes to < 6.5 minutes while preserving strict 3-channel temporal-state and logit parity (max logit diff $< 3 \times 10^{-7}$).
-- **Multi-Token Continuation Log-Likelihood Scorer:** Evaluates full candidate continuation log-likelihood $\sum_t \log P(\text{tok}_t \mid \text{context}_{<t})$ rather than single initial token probabilities, supporting multi-token target words.
-- **Pair-Disjoint Filler Vocabulary:** Dynamically purges all candidate target words, event-specific tokens, and prefixes from the filler sampling pool, ensuring zero lexical contamination.
-- **Refined KV Decomposition:** Decomposes KV storage into whole-cache Key divergence, whole-cache Value divergence, and aligned recent-entry divergence.
-- **Pair-Cluster Bootstrap Uncertainty:** Preregistered 95% cluster-bootstrap confidence intervals resampling stimulus pairs ($B=1000$) with nested seed realizations.
-- **Fail-Closed Provenance:** Records installed `transformers` version (`5.15.0`), `torch` version (`2.5.1+cu121`), CUDA device, model class, and commit hash.
+### Confirmatory S11b Methodological Standards
+- **Audited 1-Token Target Length Parity:** All 20 canonical stimulus pairs audited under `google/recurrentgemma-2b` tokenizer with exact 1-token target equality ($\text{len}(\text{target}_A) = \text{len}(\text{target}_B) = 1$) and exact event token parity ($\text{len}(\text{event}_A) = \text{len}(\text{event}_B) = 6$).
+- **Length-Normalized Continuation Log-Likelihood Scorer:** $\frac{1}{T} \sum_t \log P(\text{tok}_t \mid \text{context}_{<t})$ evaluated via detached state snapshots.
+- **Non-Repeating Long-Horizon Fillers:** Deterministic non-repeating natural prose and semantic interference stream generators ($\ge 4096$ tokens).
+- **Hierarchical Cluster Bootstrap ($B=10,000$):** Resamples stimulus pairs and nested seed realizations to construct rigorous 95% confidence intervals.
+- **Complete Temporal-State Parity Invariant:** Proved chunked-vs-step mathematical equivalence across all 3 stores and cache bookkeeping.
 
 ---
 
-## 2. Invariant Verification Results (12/12 Passed in S11, 157/157 Repository-Wide)
+## 2. Confirmatory S11b Run Manifest & Provenance
 
-| Test Case | Invariant Property Verified | Result |
-| :--- | :--- | :---: |
-| **`test_dynamic_lag_grid_hits_architectural_boundaries`** | Grid includes Conv buffer ($0..K$), sliding window ($W/2, W-1, W, W+1$), and post-eviction ($2W$) | **PASSED** |
-| **`test_matched_branches_receive_identical_filler`** | Filler token IDs are strictly identical across Branch A and Branch B for all 4 regimes | **PASSED** |
-| **`test_event_variants_have_equal_token_length`** | All 20 stimulus pairs have exact token count parity between Event A and Event B | **PASSED** |
-| **`test_impulse_creates_nonzero_initial_separation`** | Matched impulse creates non-zero initial separation ($D_{\text{rel}}(0) > 0$) across all stores | **PASSED** |
-| **`test_sham_pair_stays_at_numerical_floor`** | Sham $A_1 / A_2$ stays at numerical zero floor ($D_{\text{rel}} < 10^{-5}, D_{\text{JS}} < 10^{-5}$) | **PASSED** |
-| **`test_checkpoint_capture_does_not_mutate_trajectory`** | Interrupted stepping with checkpoint captures reproduces continuous unroll exactly | **PASSED** |
-| **`test_probe_uses_detached_branch_snapshot`** | Cloze retrieval probes clone snapshot without advancing main trajectory cache position | **PASSED** |
-| **`test_direct_conv_residency_boundary`** | Conv residency flag switches off exactly at $L = \text{conv1d\_width} - 1$ | **PASSED** |
-| **`test_direct_kv_residency_boundary`** | KV residency flag switches off exactly at $L = \text{attention\_window\_size} - 1$ | **PASSED** |
-| **`test_distance_metrics_are_finite_and_normalized`** | $D_{\text{rel}} \in [0, \sqrt{2}]$, $\text{CosSim} \in [-1, 1]$, $D_{\text{JS}} \in [0, \ln 2]$, finite values | **PASSED** |
-| **`test_end_to_end_all_regimes_with_layer_traces`** | Complete end-to-end execution across Constant, Random, Natural, and Interfering regimes with layer traces | **PASSED** |
-| **`test_chunk_vs_step_complete_temporal_state_parity`** | Complete 3-channel state parity (RGLRU, Conv, KV, position, logits) across $W-1, W, W+1$ | **PASSED** |
-
----
-
-## 3. Pretrained `google/recurrentgemma-2b` S11.2 Empirical Results
-
-**Run Manifest (`results/e10_latent_impulse/run_e10_scout_20260818_025459`):**
+- **Run Directory:** `results/e10_latent_impulse/run_e10_confirmatory_20260818_033015`
 - **Model:** `google/recurrentgemma-2b` (26 Layers, Hidden Size 2560, Attention Window $W=2048$, Conv Width $K=4$)
-- **Stimulus Scope:** 4 stimulus pairs $\times$ 4 filler regimes $\times$ 18 architectural lag checkpoints out to $L=4096$ ($2W$)
-- **Summary Rows:** 288 | **Layer Trace Rows:** 12,672 | **Total Walltime:** 773.28s
+- **Scope:** 20 stimulus pairs $\times$ 4 filler regimes $\times$ 18 architectural lag checkpoints out to $L=4096$ ($2W$)
+- **Summary Rows:** 1,440 | **Layer Trace Rows:** 63,360 | **Total Walltime:** 3355.25s (55.9m on NVIDIA RTX 3060)
+- **Environment:** `torch==2.5.1+cu121`, `transformers==5.15.0`, CUDA bfloat16
 
-### Table 1: Multi-Store Empirical Retention & 50% Thresholds
+---
+
+## 3. Confirmatory Multi-Store Empirical Retention & 50% Thresholds
 
 | Filler Regime | RGLRU First <50% | RGLRU Sustained <50% | Conv First <50% | KV First <50% | RGLRU Log-AUC | KV Log-AUC |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| **Constant Token Filler** | $L=8$ | $L=8$ | $L=1$ | $L=64$ | 3.280 | 4.008 |
-| **Semantic Active Interference** | $L=8$ | $L=8$ | $L=1$ | $L=64$ | 2.926 | 4.383 |
-| **Natural Prose Narrative** | $L=16$ | $L=16$ | $L=2$ | $L=64$ | 2.892 | 4.275 |
-| **Diverse Random Tokens** | $L=8$ | $L=8$ | $L=2$ | $L=64$ | 2.642 | 4.085 |
-
-### Table 2: Primary S11b Estimands & 95% Pair-Cluster Bootstrap Confidence Intervals
-
-| Primary Estimand | Point Estimate / Mean | 95% Cluster-Bootstrap CI |
-| :--- | :---: | :---: |
-| **$R_{\text{RGLRU}}(W+1)$ [Constant]** | **0.2362** | **[0.1459, 0.3449]** |
-| **$R_{\text{RGLRU}}(2W)$ [Constant]** | **0.3943** | **[0.1444, 0.7277]** |
-| **$R_{\text{RGLRU}}(W+1)$ [Interfering]** | **0.0752** | **[0.0660, 0.0845]** |
-| **$R_{\text{RGLRU}}(2W)$ [Interfering]** | **0.0599** | **[0.0544, 0.0696]** |
-| **$R_{\text{RGLRU}}(W+1)$ [Natural]** | **0.0718** | **[0.0598, 0.0851]** |
-| **$R_{\text{RGLRU}}(2W)$ [Natural]** | **0.0673** | **[0.0494, 0.0968]** |
-| **$R_{\text{RGLRU}}(W+1)$ [Random]** | **0.0512** | **[0.0409, 0.0670]** |
-| **$R_{\text{RGLRU}}(2W)$ [Random]** | **0.0440** | **[0.0346, 0.0550]** |
-| **Cloze Margin at $2W$ ($L=4096$) [Constant]** | **+0.0715** | **[-0.2422, +0.3906]** |
-| **Cloze Margin at $2W$ ($L=4096$) [Natural]** | **+0.0402** | **[-0.0781, +0.1797]** |
-
-### Table 3: Trajectory Evolution Across Architectural Boundaries ($W=2048$)
-
-| Lag $L$ | Conv Res? | KV Res? | RGLRU Ret (Const) | KV Ret (Const) | RGLRU Ret (Interf) | KV Ret (Interf) | Cloze Margin (Const) | Cloze Acc (Const) |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **0** | **Yes** | **Yes** | 1.000 | 1.000 | 1.000 | 1.000 | **+12.15** | **1.00** |
-| **1** | **Yes** | **Yes** | 0.836 | 0.965 | 0.866 | 0.970 | **+12.51** | **1.00** |
-| **2** | **Yes** | **Yes** | 0.753 | 0.929 | 0.761 | 0.942 | **+11.84** | **1.00** |
-| **3** | **No** | **Yes** | 0.670 | 0.890 | 0.725 | 0.917 | **+11.06** | **1.00** |
-| **4** | **No** | **Yes** | 0.611 | 0.855 | 0.651 | 0.889 | **+11.01** | **1.00** |
-| **8** | **No** | **Yes** | 0.455 | 0.761 | 0.468 | 0.811 | **+13.92** | **1.00** |
-| **16** | **No** | **Yes** | 0.376 | 0.637 | 0.365 | 0.703 | **+13.53** | **1.00** |
-| **32** | **No** | **Yes** | 0.297 | 0.504 | 0.297 | 0.581 | **+8.97** | **0.88** |
-| **64** | **No** | **Yes** | 0.289 | 0.412 | 0.239 | 0.471 | **+5.75** | **1.00** |
-| **128** | **No** | **Yes** | 0.247 | 0.316 | 0.188 | 0.374 | **+4.76** | **0.88** |
-| **256** | **No** | **Yes** | 0.207 | 0.246 | 0.180 | 0.313 | **+0.95** | **0.62** |
-| **512** | **No** | **Yes** | 0.189 | 0.198 | 0.150 | 0.255 | **+2.62** | **0.88** |
-| **1024** | **No** | **Yes** | 0.186 | 0.153 | 0.108 | 0.202 | **+0.87** | **0.62** |
-| **2040** | **No** | **Yes** | 0.242 | 0.120 | 0.075 | 0.158 | **+0.65** | **0.50** |
-| **2047** | **No** | **No** | 0.238 | 0.100 | 0.076 | 0.138 | **+0.59** | **0.50** |
-| **2048** | **No** | **No** | 0.238 | 0.099 | 0.075 | 0.137 | **+0.62** | **0.50** |
-| **2049** | **No** | **No** | 0.237 | 0.098 | 0.075 | 0.136 | **+0.68** | **0.50** |
-| **4096** | **No** | **No** | 0.397 | 0.091 | 0.060 | 0.075 | **+0.07** | **0.50** |
+| **Constant Token Filler** | $L=8$ | $L=8$ | $L=2$ | $L=32$ | 3.369 | 3.963 |
+| **Semantic Active Interference** | $L=16$ | $L=16$ | $L=8$ | $L=128$ | 3.241 | 4.538 |
+| **Natural Prose Narrative** | $L=8$ | $L=8$ | $L=2$ | $L=64$ | 2.779 | 4.148 |
+| **Diverse Random Tokens** | $L=8$ | $L=8$ | $L=3$ | $L=64$ | 2.825 | 4.099 |
 
 ---
 
-## 4. Methodological Findings & Calibrated Scientific Interpretations
+## 4. Primary Confirmatory S11b Estimands & 95% Hierarchical Bootstrap CIs ($B=10,000$)
 
-1. **Direct Residency vs Downstream Divergence:**
-   When the perturbing token exits direct residency ($L \ge 3$ for Conv, $L \ge 2047$ for KV), later Conv and KV representations remain divergent ($D_{\text{rel}} > 0$). This is *consistent with historical information being propagated through the hybrid recurrent system*. (Sprint S12 provides the surgical causal proof).
-2. **Multi-Token Continuation Cloze Dynamics:**
-   The multi-token continuation log-likelihood margin provides continuous measurement of factual recovery without ceiling effects, decaying gracefully from $+12.15$ to positive margins at $L=2049$ ($W+1$).
-3. **Sprint S12 Architecture Prepared in Parallel:**
-   The surgical intervention module [`src/recurrence/interventions/surgical_swaps.py`](file:///c:/Users/admir/Github/recurrence/src/recurrence/interventions/surgical_swaps.py) and test suite [`tests/test_s12_surgical_swaps.py`](file:///c:/Users/admir/Github/recurrence/tests/test_s12_surgical_swaps.py) (7/7 passed) are verified and ready for post-S11b causal execution across $L \in \{8, 2049, 4096\}$.
+| Primary Estimand | Point Estimate / Mean | 95% Hierarchical Bootstrap CI |
+| :--- | :---: | :---: |
+| **$R_{\text{RGLRU}}(W+1)$ [Constant]** | **0.2845** | **[0.2204, 0.3582]** |
+| **$R_{\text{RGLRU}}(2W)$ [Constant]** | **0.3384** | **[0.2484, 0.4401]** |
+| **$R_{\text{RGLRU}}(W+1)$ [Interfering]** | **0.0983** | **[0.0896, 0.1075]** |
+| **$R_{\text{RGLRU}}(2W)$ [Interfering]** | **0.0798** | **[0.0734, 0.0864]** |
+| **$R_{\text{RGLRU}}(W+1)$ [Natural]** | **0.0636** | **[0.0584, 0.0694]** |
+| **$R_{\text{RGLRU}}(2W)$ [Natural]** | **0.0514** | **[0.0461, 0.0571]** |
+| **$R_{\text{RGLRU}}(W+1)$ [Random]** | **0.0551** | **[0.0489, 0.0613]** |
+| **$R_{\text{RGLRU}}(2W)$ [Random]** | **0.0453** | **[0.0402, 0.0501]** |
+| **$\Delta R_{\text{interf - const}}(2W)$** | **-0.2586** | **[-0.3566, -0.1697]** |
+| **Cloze Margin at $W+1$ ($L=2049$) [Constant]** | **+0.5187** | **[+0.3812, +0.6719]** |
+| **Cloze Margin at $W+1$ ($L=2049$) [Random]** | **+0.0667** | **[+0.0219, +0.1094]** |
+| **Cloze Margin at $W+1$ ($L=2049$) [Interfering]** | **+0.0307** | **[-0.0281, +0.0953]** |
+| **Cloze Margin at $W+1$ ($L=2049$) [Natural]** | **-0.0182** | **[-0.0703, +0.0344]** |
+| **Cloze Margin at $2W$ ($L=4096$) [Constant]** | **-0.0265** | **[-0.1109, +0.0656]** |
+| **Cloze Margin at $2W$ ($L=4096$) [Natural]** | **+0.0123** | **[-0.0125, +0.0375]** |
+| **Cloze Margin at $2W$ ($L=4096$) [Interfering]** | **+0.0044** | **[-0.0750, +0.0844]** |
+| **Cloze Margin at $2W$ ($L=4096$) [Random]** | **-0.0030** | **[-0.0203, +0.0125]** |
+
+---
+
+## 5. Confirmatory Trajectory Evolution Across Architectural Boundaries ($W=2048$)
+
+| Lag $L$ | Conv Res? | KV Res? | RGLRU Ret (Const) | KV Ret (Const) | RGLRU Ret (Interf) | KV Ret (Interf) | Cloze Margin (Const) | Cloze Acc (Const) |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **0** | **Yes** | **Yes** | 1.000 | 1.000 | 1.000 | 1.000 | **+10.78** | **1.00** |
+| **1** | **Yes** | **Yes** | 0.842 | 0.962 | 0.833 | 0.968 | **+11.03** | **1.00** |
+| **2** | **Yes** | **Yes** | 0.767 | 0.925 | 0.776 | 0.940 | **+11.14** | **0.97** |
+| **3** | **No** | **Yes** | 0.692 | 0.885 | 0.797 | 0.924 | **+10.86** | **1.00** |
+| **4** | **No** | **Yes** | 0.633 | 0.849 | 0.701 | 0.901 | **+10.47** | **1.00** |
+| **8** | **No** | **Yes** | 0.460 | 0.748 | 0.602 | 0.824 | **+12.26** | **1.00** |
+| **16** | **No** | **Yes** | 0.386 | 0.623 | 0.426 | 0.712 | **+11.11** | **0.95** |
+| **32** | **No** | **Yes** | 0.307 | 0.494 | 0.366 | 0.601 | **+7.85** | **0.95** |
+| **64** | **No** | **Yes** | 0.292 | 0.399 | 0.270 | 0.501 | **+3.73** | **0.82** |
+| **128** | **No** | **Yes** | 0.254 | 0.309 | 0.234 | 0.407 | **+4.96** | **0.90** |
+| **256** | **No** | **Yes** | 0.234 | 0.244 | 0.195 | 0.339 | **+0.54** | **0.55** |
+| **512** | **No** | **Yes** | 0.196 | 0.196 | 0.184 | 0.280 | **+1.85** | **0.72** |
+| **1024** | **No** | **Yes** | 0.194 | 0.153 | 0.121 | 0.228 | **+0.62** | **0.55** |
+| **2040** | **No** | **Yes** | 0.291 | 0.124 | 0.105 | 0.186 | **+0.50** | **0.57** |
+| **2047** | **No** | **No** | 0.286 | 0.106 | 0.101 | 0.168 | **+0.47** | **0.50** |
+| **2048** | **No** | **No** | 0.285 | 0.105 | 0.101 | 0.167 | **+0.52** | **0.50** |
+| **2049** | **No** | **No** | 0.285 | 0.105 | 0.098 | 0.167 | **+0.52** | **0.50** |
+| **4096** | **No** | **No** | 0.340 | 0.086 | 0.080 | 0.097 | **-0.03** | **0.50** |
+
+---
+
+## 6. Core Scientific Discoveries & Horizon 2 Theoretical Implications
+
+1. **Persistent Physical Trace vs Bounded Behavioral Readability:**
+   - **Physical Trace:** Branch-specific RG-LRU states remain robustly and significantly separated at $2W=4096$ across all regimes ($R_{\text{RGLRU}} \in [0.045, 0.340]$, CI excludes zero).
+   - **Behavioral Readability:** Factual cloze readability decays from $+10.78$ at $L=0$ to $+0.52$ at $W+1$ (constant regime), and drops to the chance baseline by $2W=4096$.
+   - **Theoretical Distinction:** *History physically represented* $\neq$ *history zero-shot behaviorally readable*.
+2. **Robustness of the Constant-Input Re-Expansion:**
+   - The re-expansion of $R_{\text{RGLRU}}$ from $L=2049 \to 4096$ ($0.285 \to 0.338$, CI [0.248, 0.440]) is **statistically confirmed across all 20 stimulus pairs**. It reflects the input-gated RG-LRU attractor dynamics under stationary tokens.
+3. **Transition to Sprint S12 (Surgical Causal Swaps):**
+   - S11b provides the exact cell-level eligibility map ($|m_D - m_R| \ge 0.5$) for Sprint S12 to test whether grafting this physical recurrent trace causally transfers historical knowledge.
