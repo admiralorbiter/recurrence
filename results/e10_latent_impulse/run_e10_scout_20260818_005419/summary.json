@@ -1,0 +1,36 @@
+{
+  "phase": "scout",
+  "timestamp": "20260818_005419",
+  "elapsed_seconds": 99.26,
+  "total_records": 224,
+  "num_pairs": 4,
+  "regimes": [
+    "constant",
+    "random",
+    "natural",
+    "interfering"
+  ],
+  "lag_grid": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    8,
+    15,
+    16,
+    17,
+    32,
+    64,
+    128,
+    256,
+    512
+  ],
+  "model_config": {
+    "num_hidden_layers": 4,
+    "hidden_size": 64,
+    "conv1d_width": 4,
+    "sliding_window": 16
+  },
+  "mean_sham_floor_d_rel": 0.0
+}
