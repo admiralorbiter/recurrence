@@ -1,0 +1,118 @@
+{
+  "run_manifest": {
+    "phase": "confirmatory",
+    "timestamp": "20260818_155145",
+    "elapsed_seconds": 5269.888151,
+    "total_records": 1344,
+    "num_pairs": 24,
+    "num_families": 4,
+    "regimes": [
+      "constant",
+      "interfering",
+      "natural",
+      "random"
+    ],
+    "target_lag": 4096,
+    "panel_hash": "d6c5d00168478f67b6440b653a92462c6bb79d3f61ffbb44e949079f3c719b18",
+    "protocol_code_sha256": "4511c424d566ced17708a8194973f83ed428cee2dbcacda869466910ce32d987",
+    "git_provenance": {
+      "commit_sha": "484b16b207bf1d267599766c51500a7a7b7e16c4",
+      "is_clean": true
+    },
+    "model_provenance": {
+      "model_id": "google/recurrentgemma-2b",
+      "is_reference_model": false,
+      "model_revision": "3620f4ca9c5d16ee56c00180474a3201ec7f734a",
+      "model_class": "RecurrentGemmaForCausalLM",
+      "vocab_size": 256000,
+      "num_hidden_layers": 26,
+      "hidden_size": 2560,
+      "conv1d_width": 4,
+      "attention_window_size": 2048
+    },
+    "environment": {
+      "torch_version": "2.5.1+cu121",
+      "cuda_available": true,
+      "device_name": "NVIDIA GeForce RTX 3060"
+    }
+  },
+  "meta": {
+    "n_pairs": 24,
+    "n_boot": 10000,
+    "seed": 42,
+    "regimes": [
+      "constant",
+      "interfering",
+      "natural",
+      "random"
+    ],
+    "families": [
+      "archived_artifact",
+      "marked_object",
+      "monitored_signal",
+      "sealed_container"
+    ]
+  },
+  "results": {
+    "p_match": {
+      "estimate": 121.61904087197036,
+      "bootstrap_mean": 121.62191223793104,
+      "ci_low": 105.9816149875444,
+      "ci_high": 138.25511060376496
+    },
+    "p_wrong_val": {
+      "estimate": 83.12518471246585,
+      "bootstrap_mean": 83.12568755119354,
+      "ci_low": 71.77176187825778,
+      "ci_high": 95.18685615326201
+    },
+    "p_cross": {
+      "estimate": 75.74535213938604,
+      "bootstrap_mean": 75.86273231843991,
+      "ci_low": 58.92454257570983,
+      "ci_high": 92.08105682317012
+    },
+    "p_noise": {
+      "estimate": 48.23023758362979,
+      "bootstrap_mean": 48.51351389240567,
+      "ci_low": 15.57309155803329,
+      "ci_high": 74.7612191865531
+    },
+    "p_whole": {
+      "estimate": 218.75958784421286,
+      "bootstrap_mean": 218.81995870869957,
+      "ci_low": 197.12653319636982,
+      "ci_high": 241.80218981305757
+    },
+    "delta_p_value_spec": {
+      "estimate": 38.4938561595045,
+      "bootstrap_mean": 38.49622468673751,
+      "ci_low": 25.817965848728395,
+      "ci_high": 50.85244273585266
+    },
+    "delta_p_template_align": {
+      "estimate": 7.379832573079814,
+      "bootstrap_mean": 7.262955232753605,
+      "ci_low": -8.255309980176389,
+      "ci_high": 24.73252933624898
+    },
+    "delta_p_template_vs_noise": {
+      "estimate": 34.894947128836066,
+      "bootstrap_mean": 34.61217365878786,
+      "ci_low": 5.969919176779999,
+      "ci_high": 69.61883381405299
+    },
+    "delta_p_match_vs_cross": {
+      "estimate": 45.87368873258432,
+      "bootstrap_mean": 45.75917991949112,
+      "ci_low": 30.717755401778653,
+      "ci_high": 61.61301814249405
+    },
+    "delta_p_match_vs_noise": {
+      "estimate": 73.38880328834057,
+      "bootstrap_mean": 73.10839834552537,
+      "ci_low": 39.73441718708103,
+      "ci_high": 111.81212735815593
+    }
+  }
+}
