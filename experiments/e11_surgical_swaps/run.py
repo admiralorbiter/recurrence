@@ -168,7 +168,6 @@ def run_experiment(
             model = AutoModelForCausalLM.from_pretrained(
                 model_id,
                 torch_dtype=dtype,
-                device_map=device if device != "cpu" else None,
             )
             adapter = RecurrentGemmaAdapter(model=model, device=device, dtype=dtype)
             model_commit = getattr(model.config, "_commit_hash", None) or getattr(tokenizer, "_commit_hash", "resolved_hub_head")
