@@ -2,7 +2,7 @@
 
 **Horizon 2 (Level 2: Latent Recurrence)**  
 **Substrate:** Upstream Hugging Face `google/recurrentgemma-2b` / Griffin Hybrid Architecture (26 Layers, Hidden Size 2560, LRU Width 2560, Conv Width 4, Attention Window 2048)  
-**Status:** **S11b Confirmatory Run COMPLETED & FROZEN (All 20 Pairs x 4 Regimes, 10,000-Replicate Hierarchical Cluster Bootstrap)**
+**Status:** **S11b Confirmatory Run COMPLETED & FROZEN (All 20 Pairs x 4 Regimes, 10,000-Draw Pair-Cluster Bootstrap)**
 
 ---
 

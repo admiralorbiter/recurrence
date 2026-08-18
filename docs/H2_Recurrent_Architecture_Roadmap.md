@@ -13,8 +13,12 @@ Horizon 1 (Level 1: Explicit Prompt Scaffolding) established a definitive empiri
 Horizon 2 transitions from **public externalized prompt tokens** to **private internal continuous recurrent trajectories**:
 $$\mathbf{h}_t = f_{\theta}(\mathbf{h}_{t-1}, \mathbf{x}_t)$$
 
-> **The Horizon 2 Question:**  
-> *Is native recurrent state merely hidden, or is it unreconstructible from public history? Does a private recurrent trajectory contain information with selective causal consequences that public prompt explanations cannot reconstruct?*
+> **The Horizon 2 Core Insight (Privacy $\ne$ Privilege):**  
+> Under deterministic execution, $S_t = \mathcal{F}_{\theta}(x_{1:t})$ is operationally hidden from prompt text but exactly reconstructible by an observer supplied with the same public tokens (S10 Replay Invariant). The central Horizon 2 questions are:
+> 1. *Physical Persistence:* Does historical information physically survive in recurrent state long after local attention has evicted it? (Answered: Yes, S11b).
+> 2. *Causal Leverage:* Does that surviving latent state actively steer subsequent model computation? (Answered: Yes, S12b).
+> 3. *Dynamical Evolution:* How does recurrent state evolve when no new task-relevant information enters? (S13).
+> 4. *Introspective Access & Ownership:* Can the model distinguish internal interventions on its own recurrent state from external narrative events? (S14).
 
 ```
 Level 1 (Prompt-Level Memory & Scaffolding)          Level 2 (Latent Recurrent Continuity)
@@ -27,7 +31,7 @@ Level 1 (Prompt-Level Memory & Scaffolding)          Level 2 (Latent Recurrent C
 │ Causal Mechanism:                      │          │ Causal Mechanism:                      │
 │  - Attention re-reads prompt tokens    │          │  - Native state transition function    │
 │  - History dominates state             │          │  - Vector snapshot, zero, swap, inject │
-│  - Matched Observer reads same prompt  │          │  - Observer replays public history     │
+│  - Matched Observer reads same prompt  │          │  - Replay Observer reconstructs state  │
 └────────────────────────────────────────┘          └────────────────────────────────────────┘
 ```
 
@@ -35,76 +39,48 @@ Level 1 (Prompt-Level Memory & Scaffolding)          Level 2 (Latent Recurrent C
 
 ## 2. Model Substrate & Multi-Store Temporal Inventory
 
-Horizon 2 instruments the **pinned upstream Hugging Face RecurrentGemma (`google/recurrentgemma-2b`)** (Griffin Architecture), wrapping the official model modules rather than rebuilding layer dynamics from scratch.
+Horizon 2 instruments **upstream Hugging Face RecurrentGemma (`google/recurrentgemma-2b`)** (Griffin Architecture), exposing all three physical stores via `RecurrentStateInventory`:
 
-### The Layer-Indexed Multi-Store Architecture
-Recurrent blocks maintain internal state inside module layers, while attention layers write K/V representations to the cache. The `RecurrentStateInventory` exposes this cleanly through layer-indexed mappings:
-
-1. **RGLRU Recurrent States (`rglru[layer_idx] -> Tensor`):** Continuous linear recurrence carry across unrolled token sequences.
-2. **1D Temporal Convolution Buffers (`conv[layer_idx] -> Tensor`):** Depthwise convolution buffers maintaining local short-range n-gram history.
-3. **Local Attention Sliding KV Cache (`kv[layer_idx] -> {key: Tensor, value: Tensor}`):** Sliding key-value representations bounded within the local attention window.
+1. **RGLRU Recurrent States (`rglru[layer_idx] -> Tensor`):** Continuous linear recurrence carrying long-range history ($W_a, W_x, \Lambda$ parameterizations).
+2. **1D Temporal Convolution Buffers (`conv[layer_idx] -> Tensor`):** Depthwise convolution buffers maintaining local short-range n-gram history ($K=4$).
+3. **Sliding Window Attention KV Cache (`kv[layer_idx] -> {key: Tensor, value: Tensor}`):** Sliding key-value representations bounded within the local attention window ($W=2048$).
 
 ```
 Token Input x_t ──► [ Conv1D Buffer c_t[l] ] ──► [ RG-LRU Recurrence h_t[l] ] ──► [ Sliding KV Cache [l] ] ──► Output y_t
 ```
 
-**Experimental Invariant:** No cognitive or self-related probe may be executed before a formal state-inventory API can independently snapshot, serialize, clone, swap, zero, and restore each of these three stores in layer-wise isolation.
-
 ---
 
 ## 3. Horizon 2 Sprint Progression
 
-### Sprint S10: Multi-Store Plumbing, Replay Reconstruction & Invariants
-- **Goal:** Instrument upstream RecurrentGemma-2B, build `RecurrentStateInventory`, implement explicit token stepping, and verify core invariants.
-- **Core Deliverables:**
-  - `RecurrentGemmaAdapter`: Explicit single-token stepping adapter around upstream `model.forward()`.
-  - `RecurrentStateInventory`: Layer-indexed container with device-local deep cloning and canonical CPU serialization.
-  - **Invariance Test 1 (Snapshot $\to$ Restore):** Verifies restored state reproduces exact next-step logits (deterministic reference) and greedy tokens.
-  - **Invariance Test 2 (Store Isolation):** Zeroing RGLRU changes no conv/KV tensor; zeroing conv changes no RGLRU/KV tensor; KV surgery changes neither recurrent store.
-  - **Invariance Test 3 (One-Step RG-LRU Equation Parity):** Captures real $(x_t, r_t, i_t, h_{t-1}, h_t)$ from a live step and independently verifies Griffin Equation 4:
-    $$r_t = \sigma(W_a x_t + b_a), \quad i_t = \sigma(W_x x_t + b_x), \quad a_t = a_c^{r_t}, \quad h_t = a_t \odot h_{t-1} + \sqrt{1 - a_t^2} \odot (i_t \odot x_t)$$
-  - **Invariance Test 4 (Mandatory Public-History Replay Reconstruction):**
-    Process token history $x_{1:t} \to S_t$. Reset model to canonical zero state and replay identical tokens $x_{1:t} \to S_t'$. Compare every RGLRU state, conv buffer, KV cache, and output logit to establish whether native recurrent state is merely operationally private or informationally privileged.
-  - **Invariance Test 5 (Cloned Branch Independence):** Mutations on branch $B$ do not alter branch $A$.
+### Sprint S10: Multi-Store Plumbing, Replay Reconstruction & Invariants (COMPLETE)
+- **Outcome:** Hardened snapshot, restore, store isolation, and single-step equation parity.
+- **Key Result:** Proved exact public-history replay reconstruction ($S_t = \mathcal{F}_{\theta}(x_{1:t})$). State is private but not informationally privileged.
 
-### Sprint S11: Latent Impulse Response, Retention & Store Localization
-- **Goal:** Build the first real temporal anatomy of RecurrentGemma without synthetic off-manifold injections: when a historical perturbation enters the model, where does its physical trace go, how long does each physical store retain it, when does it stop being decodable, and when does it stop mattering to behavior?
-- **Dynamic Architectural Lag Grid:** Build grid dynamically from model config (`conv1d_width`, attention sliding window $W$):
-  $$L \in \{0, 1, 2, 3, 4, 8, 16, 32, 128, 512, W/2, W-8, W-1, W, W+1, 2W\}$$
-  (For RecurrentGemma-2B with $W=2048$, captures direct Conv1D buffer horizon, pre-eviction sliding attention, exact window boundary $W$, and post-eviction pure recurrence).
-- **Protocol (Two-Layer Measurement):**
-  1. **Layer 1: Latent Impulse Response (Matched Trajectory Separation):**
-     - Branch A: $[\text{Prefix}] + [\text{Event } A] + [\text{Filler}_{1:L}]$
-     - Branch B: $[\text{Prefix}] + [\text{Event } B] + [\text{Filler}_{1:L}]$
-     - Measure layer-wise Frobenius and cosine separation: $D_{\text{RGLRU}}(L)$, $D_{\text{Conv}}(L)$, $D_{\text{KV}}(L)$.
-     - Measure behavioral distribution divergence: $D_{\text{KL}}(P_A(y_{t+1}) \parallel P_B(y_{t+1}))$.
-     - Test across 4 input-dependent filler regimes: repeated neutral, diverse random, natural language, and semantically interfering.
-  2. **Layer 2: Factual Binding & Usability Probes:**
-     - Probes whether surviving physical state difference remains decodable and functional for the originally bound information.
-     - Separates *state differs* from *state carries useful memory* from *state controls output*.
+### Sprint S11: Latent Impulse Response, Retention & Store Localization (FROZEN)
+- **Outcome:** Temporal anatomy across 20 canonical stimulus pairs $\times$ 4 filler regimes ($B=10,000$ Pair-Cluster Bootstrap).
+- **Key Result:** Physical branch-specific RG-LRU separation remains resolved at $2W=4096$, while factual zero-shot cloze recall decays within the attention window.
 
-### Sprint S12: Multi-Store Causal Factorials (State $\times$ Memory & Component Decompositions)
-- **Goal:** Execute causal interventions in continuous latent state using a scout $\to$ establish methodology.
-- **Protocol (Two Stages):**
-  1. **Stage 1 (Whole-State Causal Contrast):** Test entire temporal state $\mathbf{S}^A$ vs $\mathbf{S}^B$ under identical subsequent inputs to measure baseline state leverage.
-  2. **Stage 2 (Component Decomposition):** Perform one-store swaps against matched baselines:
-     $$\text{RGLRU}^A / \text{RGLRU}^B \quad \times \quad \text{Conv}^A / \text{Conv}^B \quad \times \quad \text{KV}^A / \text{KV}^B$$
-     Isolate which physical temporal mechanism carries which causal history.
+### Sprint S12: Multi-Store Surgical State Swaps & Causal Attribution (FROZEN)
+- **Outcome:** 5,280 swap records + 160 mediation unrolls ($B=10,000$ Pair-Cluster Bootstrap).
+- **Key Result:** Matching RG-LRU state transplantation produces positive donor-directed logit displacement ($P_{\text{RGLRU}} = +74.10$ $[+46.79, +106.72]$). Resolves matching-history enrichment ($\Delta P = +19.68$) above a substantial cross-history recurrent steering baseline ($+54.42$). Absolute store contrast ($P_{\text{KV}} - P_{\text{RGLRU}} = -11.65$) spans zero.
 
-### Sprint S13: Reality Monitoring, Prefill Introspection & Reconstructed Observers
-- **Goal:** Execute the introspective ownership battery using validated paradigms and reconstructed observer baselines.
-- **Protocol:**
-  1. **Binary Reality-Monitoring Benchmark (2AFC):** Model generates token $A$; environment supplies matched token $B$. Immediate positive control must achieve $\ge 90\%$ accuracy. Delayed source probe evaluates retention.
-  2. **Reconstructed Observer Baseline:** Observer is a fresh matched RecurrentGemma initialized at zero state that reconstructs its trajectory $R(x_{1:t})$ from the public transcript. Privileged access ($PAI$) evaluates what the carried target trajectory $\mathbf{S}_t$ knows that the strongest replay observer cannot recover.
-  3. **Forced-Prefill Introspection (Lindsey Paradigm):** Snapshot pre-output state $\mathbf{S}_t$, force conflicting token $y_t^{\text{forced}} \neq y_t^*$, and probe whether pre-activation state encoded intended vs forced action.
+### Sprint S12c: Specificity Microscope (COMPACT FOLLOW-UP)
+- **Goal:** Disentangle value-specific memory from same-task/template alignment on a compact held-out panel.
+- **Protocol:** Identical syntactic templates with 4 historical values (e.g. `amber`, `cobalt`, `garnet`, `zircon`). Compare matching historical state vs same-template wrong-value state vs different-template state vs matched noise at $2W$. Cap at $\sim 128$ evaluations.
 
----
+### Sprint S13: Null-Observation / Controlled Recurrent Dynamics (NEXT MAJOR SPRINT)
+- **Question:** How does recurrent state evolve when no new task-relevant exogenous semantic input enters?
+- **S13.0 Native Null-Transition Audit:** Architectural test verifying whether `RecurrentGemma` undergoes any state update without input tokens (confirming discrete token-clock nature).
+- **S13.1 Controlled Null-State Dynamics:** Sweep neutral transition steps (16, 64, 256, 1024), measuring state velocity $\|R_{t+1} - R_t\|$, trajectory divergence $\|R_t^A - R_t^B\|$, projection along historical axis, and causal output leverage ($P_C$).
+- **Key Control:** RG-LRU-clamped null processing (restoring pre-null recurrent state each step) to separate token count from continuous recurrent accumulation.
 
-## 4. Targeted Cross-Model Sentinel Panel
+### Sprint S14: Latent Metacognition, Reality Monitoring & State Ownership
+- **Question:** Can the model detect or identify internal interventions on its own recurrent state that an exact public-replay observer cannot recover?
+- **Protocol:** Secret on-manifold RG-LRU state transplantation across legitimate trajectories. Compare base (`google/recurrentgemma-2b`) vs instruction-tuned (`google/recurrentgemma-2b-it`) models against an exact public-history replay observer.
 
-| Model Candidate | Architectural Contrast | Tested Sentinel Tasks |
-| :--- | :--- | :--- |
-| **`Qwen2.5:3B-Instruct` (FP16)** | Full-precision baseline vs Q4_K_M | Direct-mention control, E08c role counterbalance |
-| **`Qwen2.5:7B-Instruct`** | Scale contrast within family | S07 quiet derivation, S08 state-memory conflict |
-| **`Gemma-3-4B-IT`** | Cross-family dense transformer baseline | S08 conflict, 2AFC reality monitoring |
-| **`RecurrentGemma-2B` (Base vs IT)** | Pinned recurrent hybrid substrate | S10 plumbing, S12 continuous causal factorial |
+### Sprint S15: Recurrent Adapter Prototype & Low-Rank State Continuity
+- **Question:** Can low-rank trainable recurrent adapters induce stable cross-session state carry?
+
+### Sprint S16: Monitor/Content Dissociation & Level 2 Synthesis
+- **Question:** Does latent recurrent continuity support a functional Attention Schema (internal self-model of attention/state) dissociated from first-order factual content? Final H2 Synthesis Memo and Go/No-Go Decision for Horizon 3.
