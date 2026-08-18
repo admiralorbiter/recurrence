@@ -265,7 +265,7 @@ def run_experiment(
                 z_cross_into_b = out_cross_into_b[0, -1]
 
                 state_noise_a_into_b = add_intervention_matched_noise(
-                    recipient=state_b, donor=state_a, channels="rglru", seed=cur_seed + 10
+                    recipient=state_b, donor=state_a, channel="rglru", seed=cur_seed + 10
                 )
                 out_noise_a_into_b, _ = adapter.encode_sequence(toks_query, initial_snapshot=state_noise_a_into_b, step_by_step=False)
                 z_noise_a_into_b = out_noise_a_into_b[0, -1]
@@ -291,7 +291,7 @@ def run_experiment(
                 z_cross_into_a = out_cross_into_a[0, -1]
 
                 state_noise_b_into_a = add_intervention_matched_noise(
-                    recipient=state_a, donor=state_b, channels="rglru", seed=cur_seed + 11
+                    recipient=state_a, donor=state_b, channel="rglru", seed=cur_seed + 11
                 )
                 out_noise_b_into_a, _ = adapter.encode_sequence(toks_query, initial_snapshot=state_noise_b_into_a, step_by_step=False)
                 z_noise_b_into_a = out_noise_b_into_a[0, -1]
