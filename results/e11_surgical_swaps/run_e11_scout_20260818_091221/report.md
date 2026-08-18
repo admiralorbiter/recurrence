@@ -1,11 +1,36 @@
 # E11 Multi-Store Surgical State Swaps Causal Attribution Report
 
 **Model Target:** `google/recurrentgemma-2b`
-**Run Path:** `results\e11_surgical_swaps\run_e11_scout_20260818_091221`
+**Run Path:** `C:\Users\admir\Github\recurrence\results\e11_surgical_swaps\run_e11_scout_20260818_091221`
 
-## 1. Causal Transfer & Directional Logit Displacement Across Lags
+**Bootstrap Inference:** Pair-Cluster Bootstrap ($B=1,000$) conditional on frozen filler panel / deterministic seed assignment.
 
-| Lag $L$ | Condition | Signed Graft $\bar{\Delta}_C$ | Abs Displacement $P_C$ | Logit Proj $\alpha_C^{\text{logit}}$ | Attrib Index $\alpha_C^{\text{cloze}}$ | Eligible N | Donor Concord |
+## 1. Primary S12 Estimands & 95% Pair-Cluster Bootstrap CIs
+
+| Estimand | Description | Point Estimate / Mean | 95% Bootstrap CI |
+| :--- | :--- | :---: | :---: |
+| `alpha_kv_2w` | KV Relative Directional Share: $\alpha_{\text{KV}}^{\text{logit}}(2W)$ | +0.6512 | [+0.5732, +0.7282] |
+| `alpha_match_2w` | RG-LRU Relative Directional Share: $\alpha_{\text{RGLRU}}^{\text{logit}}(2W)$ | +0.3488 | [+0.2718, +0.4268] |
+| `alpha_unrel_2w` | alpha_unrel_2w | +0.0000 | [+0.0000, +0.0000] |
+| `delta_kv_2w` | delta_kv_2w | +0.0062 | [-0.0469, +0.0508] |
+| `delta_match_2w` | delta_match_2w | -0.0677 | [-0.2305, +0.0625] |
+| `delta_p_growth_2w_minus_w1` | Temporal Causal Growth: $P_{\text{match}}(2W) - P_{\text{match}}(W+1)$ | +0.0000 | [+0.0000, +0.0000] |
+| `delta_p_kv_minus_rglru_2w` | Store Causal Contrast: $P_{\text{KV}}(2W) - P_{\text{match}}(2W)$ | +0.0000 | [+0.0000, +0.0000] |
+| `delta_p_spec_noise_2w` | Matched Frobenius Noise Contrast: $P_{\text{match}}(2W) - P_{\text{noise}}(2W)$ | +0.0000 | [+0.0000, +0.0000] |
+| `delta_p_spec_perm_2w` | Secondary Paired Specificity Contrast: $P_{\text{match}}(2W) - P_{\text{perm}}(2W)$ | +0.0000 | [+0.0000, +0.0000] |
+| `delta_p_spec_unrel_2w` | Primary Paired Specificity Contrast: $P_{\text{match}}(2W) - P_{\text{unrel}}(2W)$ | +0.0000 | [+0.0000, +0.0000] |
+| `p_kv_2w` | p_kv_2w | +0.0000 | [+0.0000, +0.0000] |
+| `p_match_2w` | Primary Physical Causal Endpoint: $P_{\text{RGLRU}}(2W)$ | +0.0000 | [+0.0000, +0.0000] |
+| `p_match_l8` | RG-LRU Displacement at $L=8$: $P_{\text{RGLRU}}(L=8)$ | +0.0000 | [+0.0000, +0.0000] |
+| `p_match_w1` | RG-LRU Displacement at $W+1$: $P_{\text{RGLRU}}(W+1)$ | +0.0000 | [+0.0000, +0.0000] |
+| `p_noise_2w` | p_noise_2w | +0.0000 | [+0.0000, +0.0000] |
+| `p_perm_2w` | p_perm_2w | +0.0000 | [+0.0000, +0.0000] |
+| `p_unrel_2w` | p_unrel_2w | +0.0000 | [+0.0000, +0.0000] |
+| `p_whole_2w` | p_whole_2w | +0.0000 | [+0.0000, +0.0000] |
+
+## 2. Causal Factorial Panel & Directional Logit Displacement Across Lags
+
+| Lag $L$ | Condition | Signed Graft $\bar{\Delta}_C$ | Directional Displacement $P_C$ | Logit Proj $\alpha_C^{\text{logit}}$ | Attrib Index $\alpha_C^{\text{cloze}}$ | Eligible N | Donor Concord |
 | :---: | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
 | 8 | `conv_only_a_into_b` | +0.00 | +0.00 | +0.000 | 0.000 | 16/16 | 0.0% |
 | 8 | `conv_only_b_into_a` | +0.00 | +0.00 | +0.000 | 0.000 | 16/16 | 0.0% |
@@ -56,7 +81,7 @@
 | 4096 | `whole_swap_a_into_b` | -0.06 | +119.70 | +1.000 | 1.000 | 1/16 | 43.8% |
 | 4096 | `whole_swap_b_into_a` | -0.06 | +119.70 | +1.000 | 1.000 | 1/16 | 50.0% |
 
-## 2. Mediational Forward Dynamic Propagation ($R^B \to K_{\text{future}}^B$)
+## 3. Mediational Forward Dynamic Propagation ($R^B \to K_{\text{future}}^B$)
 
 | Pair ID | Regime | Init Lag | Future Tokens | Turnover? | Post Dist Rec A | Post Dist Don B | Post Migr $\mathcal{M}_{\text{post}}$ | Full Migr $\mathcal{M}_{\text{full}}$ |
 | :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
@@ -77,8 +102,8 @@
 | `item_material_04` | `natural` | 8 | 512 | No | 0.0201 | 0.0304 | -0.2774 | -0.5023 |
 | `item_material_04` | `random` | 8 | 512 | No | 0.0125 | 0.0320 | -0.5783 | -0.7146 |
 
-## 3. Causal Interpretation & Control Framework
+## 4. Epistemic Assessment & Causal Framework
 
-1. **Absolute Displacement ($P_C$) as Primary Causal Metric:** Directional displacement $P_C = (z_G - z_R) \cdot \frac{z_D - z_R}{\|z_D - z_R\|}$ distinguishes true causal steering magnitude from normalized share $\alpha_C^{\text{logit}}$ when the total donor-recipient contrast $\|z_D - z_R\|$ collapses at deep lags.
-2. **Historical Specificity vs Matched Perturbations:** Matching donor RG-LRU is compared against unrelated-donor, permuted-donor, and Frobenius-matched Gaussian noise controls projected along the real donor direction ($P_{\text{match}} > P_{\text{control}}$).
+1. **Directional Displacement ($P_C$) as Primary Causal Endpoint:** Directional displacement $P_C = (z_G - z_R) \cdot \frac{z_D - z_R}{\|z_D - z_R\|}$ distinguishes true causal steering magnitude from normalized share $\alpha_C^{\text{logit}}$ when the total donor-recipient contrast $\|z_D - z_R\|$ collapses at deep lags.
+2. **Historical Specificity Contrast:** Primary inference tests $P_{\text{matching}} > P_{\text{unrelated}}$ across balanced cyclic derangements conditional on frozen filler streams.
 3. **Dynamic Post-Graft KV Mediation:** Measures distances strictly over newly generated post-graft cache entries to determine whether continuous recurrent state propagates historical steering into downstream attention representations.

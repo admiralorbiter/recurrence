@@ -1,5 +1,5 @@
 {
-  "run_dir": "results\\e11_surgical_swaps\\run_e11_scout_20260818_091221",
+  "run_dir": "C:\\Users\\admir\\Github\\recurrence\\results\\e11_surgical_swaps\\run_e11_scout_20260818_091221",
   "model_provenance": {
     "model_id": "google/recurrentgemma-2b",
     "is_reference_model": false,
@@ -10,6 +10,13 @@
     "hidden_size": 2560,
     "conv1d_width": 4,
     "attention_window_size": 2048
+  },
+  "protocol_metadata": {},
+  "bootstrap_metadata": {
+    "method": "Pair-Cluster Bootstrap",
+    "B": 1000,
+    "cluster_unit": "pair_id",
+    "conditioning": "frozen filler panel / deterministic seed assignment"
   },
   "lags": [
     8,
@@ -39,7 +46,7 @@
       "conv_only_a_into_b": {
         "mean_cloze_margin": -10.9629,
         "mean_signed_graft_effect": 0.0,
-        "mean_absolute_displacement": 0.0,
+        "mean_directional_displacement": 0.0,
         "mean_donor_recipient_norm": 1046.7777,
         "mean_logit_projection": 0.0,
         "mean_attribution_index": 0.0,
@@ -50,7 +57,7 @@
       "conv_only_b_into_a": {
         "mean_cloze_margin": 12.1641,
         "mean_signed_graft_effect": 0.0,
-        "mean_absolute_displacement": 0.0,
+        "mean_directional_displacement": 0.0,
         "mean_donor_recipient_norm": 1046.7777,
         "mean_logit_projection": 0.0,
         "mean_attribution_index": 0.0,
@@ -61,7 +68,7 @@
       "intact_a": {
         "mean_cloze_margin": 12.1641,
         "mean_signed_graft_effect": 0.0,
-        "mean_absolute_displacement": 0.0,
+        "mean_directional_displacement": 0.0,
         "mean_donor_recipient_norm": 0.0,
         "mean_logit_projection": 0.0,
         "mean_attribution_index": null,
@@ -72,7 +79,7 @@
       "intact_b": {
         "mean_cloze_margin": -10.9629,
         "mean_signed_graft_effect": 0.0,
-        "mean_absolute_displacement": 0.0,
+        "mean_directional_displacement": 0.0,
         "mean_donor_recipient_norm": 0.0,
         "mean_logit_projection": 0.0,
         "mean_attribution_index": null,
@@ -83,7 +90,7 @@
       "kv_only_a_into_b": {
         "mean_cloze_margin": 11.8477,
         "mean_signed_graft_effect": 22.8105,
-        "mean_absolute_displacement": 1032.2443,
+        "mean_directional_displacement": 1032.2443,
         "mean_donor_recipient_norm": 1046.7777,
         "mean_logit_projection": 0.9868,
         "mean_attribution_index": 0.9862,
@@ -94,7 +101,7 @@
       "kv_only_b_into_a": {
         "mean_cloze_margin": -10.6804,
         "mean_signed_graft_effect": 22.8445,
-        "mean_absolute_displacement": 1035.408,
+        "mean_directional_displacement": 1035.408,
         "mean_donor_recipient_norm": 1046.7777,
         "mean_logit_projection": 0.9893,
         "mean_attribution_index": 0.9861,
@@ -105,7 +112,7 @@
       "noise_control_rglru_seed1": {
         "mean_cloze_margin": -11.0505,
         "mean_signed_graft_effect": -0.0876,
-        "mean_absolute_displacement": 1.8589,
+        "mean_directional_displacement": 1.8589,
         "mean_donor_recipient_norm": 1046.7777,
         "mean_logit_projection": 0.0015,
         "mean_attribution_index": -0.003,
@@ -116,7 +123,7 @@
       "noise_control_rglru_seed2": {
         "mean_cloze_margin": -10.9824,
         "mean_signed_graft_effect": -0.0195,
-        "mean_absolute_displacement": -3.4217,
+        "mean_directional_displacement": -3.4217,
         "mean_donor_recipient_norm": 1046.7777,
         "mean_logit_projection": -0.0026,
         "mean_attribution_index": -0.002,
@@ -127,7 +134,7 @@
       "permuted_donor_rglru": {
         "mean_cloze_margin": -11.0584,
         "mean_signed_graft_effect": -0.0955,
-        "mean_absolute_displacement": 0.1673,
+        "mean_directional_displacement": 0.1673,
         "mean_donor_recipient_norm": 1046.7777,
         "mean_logit_projection": 0.001,
         "mean_attribution_index": -0.0043,
@@ -138,7 +145,7 @@
       "recurrent_core_a_into_b": {
         "mean_cloze_margin": -10.6804,
         "mean_signed_graft_effect": 0.2825,
-        "mean_absolute_displacement": 11.3704,
+        "mean_directional_displacement": 11.3704,
         "mean_donor_recipient_norm": 1046.7777,
         "mean_logit_projection": 0.0107,
         "mean_attribution_index": 0.0139,
@@ -149,7 +156,7 @@
       "rglru_only_a_into_b": {
         "mean_cloze_margin": -10.6804,
         "mean_signed_graft_effect": 0.2825,
-        "mean_absolute_displacement": 11.3704,
+        "mean_directional_displacement": 11.3704,
         "mean_donor_recipient_norm": 1046.7777,
         "mean_logit_projection": 0.0107,
         "mean_attribution_index": 0.0139,
@@ -160,7 +167,7 @@
       "rglru_only_b_into_a": {
         "mean_cloze_margin": 11.8477,
         "mean_signed_graft_effect": 0.3164,
-        "mean_absolute_displacement": 14.5332,
+        "mean_directional_displacement": 14.5332,
         "mean_donor_recipient_norm": 1046.7777,
         "mean_logit_projection": 0.0132,
         "mean_attribution_index": 0.0138,
@@ -171,7 +178,7 @@
       "sham_a2_into_a1": {
         "mean_cloze_margin": 12.1641,
         "mean_signed_graft_effect": 0.0,
-        "mean_absolute_displacement": 0.0,
+        "mean_directional_displacement": 0.0,
         "mean_donor_recipient_norm": 0.0,
         "mean_logit_projection": 0.0,
         "mean_attribution_index": null,
@@ -182,7 +189,7 @@
       "unrelated_donor_rglru": {
         "mean_cloze_margin": -11.0291,
         "mean_signed_graft_effect": -0.0662,
-        "mean_absolute_displacement": 6.132,
+        "mean_directional_displacement": 6.132,
         "mean_donor_recipient_norm": 1046.7777,
         "mean_logit_projection": 0.0056,
         "mean_attribution_index": -0.0029,
@@ -193,7 +200,7 @@
       "whole_swap_a_into_b": {
         "mean_cloze_margin": 12.1641,
         "mean_signed_graft_effect": 23.127,
-        "mean_absolute_displacement": 1046.7777,
+        "mean_directional_displacement": 1046.7777,
         "mean_donor_recipient_norm": 1046.7777,
         "mean_logit_projection": 1.0,
         "mean_attribution_index": 1.0,
@@ -204,7 +211,7 @@
       "whole_swap_b_into_a": {
         "mean_cloze_margin": -10.9629,
         "mean_signed_graft_effect": 23.127,
-        "mean_absolute_displacement": 1046.7777,
+        "mean_directional_displacement": 1046.7777,
         "mean_donor_recipient_norm": 1046.7777,
         "mean_logit_projection": 1.0,
         "mean_attribution_index": 1.0,
@@ -217,7 +224,7 @@
       "conv_only_a_into_b": {
         "mean_cloze_margin": -0.3867,
         "mean_signed_graft_effect": 0.0,
-        "mean_absolute_displacement": 0.0,
+        "mean_directional_displacement": 0.0,
         "mean_donor_recipient_norm": 91.1733,
         "mean_logit_projection": 0.0,
         "mean_attribution_index": 0.0,
@@ -228,7 +235,7 @@
       "conv_only_b_into_a": {
         "mean_cloze_margin": 0.168,
         "mean_signed_graft_effect": 0.0,
-        "mean_absolute_displacement": 0.0,
+        "mean_directional_displacement": 0.0,
         "mean_donor_recipient_norm": 91.1733,
         "mean_logit_projection": 0.0,
         "mean_attribution_index": 0.0,
@@ -239,7 +246,7 @@
       "intact_a": {
         "mean_cloze_margin": 0.168,
         "mean_signed_graft_effect": 0.0,
-        "mean_absolute_displacement": 0.0,
+        "mean_directional_displacement": 0.0,
         "mean_donor_recipient_norm": 0.0,
         "mean_logit_projection": 0.0,
         "mean_attribution_index": null,
@@ -250,7 +257,7 @@
       "intact_b": {
         "mean_cloze_margin": -0.3867,
         "mean_signed_graft_effect": 0.0,
-        "mean_absolute_displacement": 0.0,
+        "mean_directional_displacement": 0.0,
         "mean_donor_recipient_norm": 0.0,
         "mean_logit_projection": 0.0,
         "mean_attribution_index": null,
@@ -261,7 +268,7 @@
       "kv_only_a_into_b": {
         "mean_cloze_margin": 0.1484,
         "mean_signed_graft_effect": 0.5352,
-        "mean_absolute_displacement": 79.176,
+        "mean_directional_displacement": 79.176,
         "mean_donor_recipient_norm": 91.1733,
         "mean_logit_projection": 0.8062,
         "mean_attribution_index": 1.0327,
@@ -272,7 +279,7 @@
       "kv_only_b_into_a": {
         "mean_cloze_margin": -0.4141,
         "mean_signed_graft_effect": 0.582,
-        "mean_absolute_displacement": 69.3711,
+        "mean_directional_displacement": 69.3711,
         "mean_donor_recipient_norm": 91.1733,
         "mean_logit_projection": 0.8004,
         "mean_attribution_index": 1.0942,
@@ -283,7 +290,7 @@
       "noise_control_rglru_seed1": {
         "mean_cloze_margin": -0.4219,
         "mean_signed_graft_effect": -0.0352,
-        "mean_absolute_displacement": -3.3781,
+        "mean_directional_displacement": -3.3781,
         "mean_donor_recipient_norm": 91.1733,
         "mean_logit_projection": 0.0672,
         "mean_attribution_index": -0.0977,
@@ -294,7 +301,7 @@
       "noise_control_rglru_seed2": {
         "mean_cloze_margin": -0.4062,
         "mean_signed_graft_effect": -0.0195,
-        "mean_absolute_displacement": 6.0892,
+        "mean_directional_displacement": 6.0892,
         "mean_donor_recipient_norm": 91.1733,
         "mean_logit_projection": 0.1362,
         "mean_attribution_index": -0.0077,
@@ -305,7 +312,7 @@
       "permuted_donor_rglru": {
         "mean_cloze_margin": -0.4141,
         "mean_signed_graft_effect": -0.0273,
-        "mean_absolute_displacement": 29.3587,
+        "mean_directional_displacement": 29.3587,
         "mean_donor_recipient_norm": 91.1733,
         "mean_logit_projection": 0.2663,
         "mean_attribution_index": -0.0488,
@@ -316,7 +323,7 @@
       "recurrent_core_a_into_b": {
         "mean_cloze_margin": -0.4141,
         "mean_signed_graft_effect": -0.0273,
-        "mean_absolute_displacement": 21.8022,
+        "mean_directional_displacement": 21.8022,
         "mean_donor_recipient_norm": 91.1733,
         "mean_logit_projection": 0.1996,
         "mean_attribution_index": -0.0942,
@@ -327,7 +334,7 @@
       "rglru_only_a_into_b": {
         "mean_cloze_margin": -0.4141,
         "mean_signed_graft_effect": -0.0273,
-        "mean_absolute_displacement": 21.8022,
+        "mean_directional_displacement": 21.8022,
         "mean_donor_recipient_norm": 91.1733,
         "mean_logit_projection": 0.1996,
         "mean_attribution_index": -0.0942,
@@ -338,7 +345,7 @@
       "rglru_only_b_into_a": {
         "mean_cloze_margin": 0.1484,
         "mean_signed_graft_effect": 0.0195,
-        "mean_absolute_displacement": 11.9974,
+        "mean_directional_displacement": 11.9974,
         "mean_donor_recipient_norm": 91.1733,
         "mean_logit_projection": 0.1938,
         "mean_attribution_index": -0.0327,
@@ -349,7 +356,7 @@
       "sham_a2_into_a1": {
         "mean_cloze_margin": 0.168,
         "mean_signed_graft_effect": 0.0,
-        "mean_absolute_displacement": 0.0,
+        "mean_directional_displacement": 0.0,
         "mean_donor_recipient_norm": 0.0,
         "mean_logit_projection": 0.0,
         "mean_attribution_index": null,
@@ -360,7 +367,7 @@
       "unrelated_donor_rglru": {
         "mean_cloze_margin": -0.4102,
         "mean_signed_graft_effect": -0.0234,
-        "mean_absolute_displacement": 27.9724,
+        "mean_directional_displacement": 27.9724,
         "mean_donor_recipient_norm": 91.1733,
         "mean_logit_projection": 0.2438,
         "mean_attribution_index": -0.0321,
@@ -371,7 +378,7 @@
       "whole_swap_a_into_b": {
         "mean_cloze_margin": 0.168,
         "mean_signed_graft_effect": 0.5547,
-        "mean_absolute_displacement": 91.1733,
+        "mean_directional_displacement": 91.1733,
         "mean_donor_recipient_norm": 91.1733,
         "mean_logit_projection": 1.0,
         "mean_attribution_index": 1.0,
@@ -382,7 +389,7 @@
       "whole_swap_b_into_a": {
         "mean_cloze_margin": -0.3867,
         "mean_signed_graft_effect": 0.5547,
-        "mean_absolute_displacement": 91.1733,
+        "mean_directional_displacement": 91.1733,
         "mean_donor_recipient_norm": 91.1733,
         "mean_logit_projection": 1.0,
         "mean_attribution_index": 1.0,
@@ -395,7 +402,7 @@
       "conv_only_a_into_b": {
         "mean_cloze_margin": -0.9453,
         "mean_signed_graft_effect": 0.0,
-        "mean_absolute_displacement": 0.0,
+        "mean_directional_displacement": 0.0,
         "mean_donor_recipient_norm": 119.6962,
         "mean_logit_projection": 0.0,
         "mean_attribution_index": 0.0,
@@ -406,7 +413,7 @@
       "conv_only_b_into_a": {
         "mean_cloze_margin": -1.0078,
         "mean_signed_graft_effect": 0.0,
-        "mean_absolute_displacement": 0.0,
+        "mean_directional_displacement": 0.0,
         "mean_donor_recipient_norm": 119.6962,
         "mean_logit_projection": 0.0,
         "mean_attribution_index": 0.0,
@@ -417,7 +424,7 @@
       "intact_a": {
         "mean_cloze_margin": -1.0078,
         "mean_signed_graft_effect": 0.0,
-        "mean_absolute_displacement": 0.0,
+        "mean_directional_displacement": 0.0,
         "mean_donor_recipient_norm": 0.0,
         "mean_logit_projection": 0.0,
         "mean_attribution_index": null,
@@ -428,7 +435,7 @@
       "intact_b": {
         "mean_cloze_margin": -0.9453,
         "mean_signed_graft_effect": 0.0,
-        "mean_absolute_displacement": 0.0,
+        "mean_directional_displacement": 0.0,
         "mean_donor_recipient_norm": 0.0,
         "mean_logit_projection": 0.0,
         "mean_attribution_index": null,
@@ -439,7 +446,7 @@
       "kv_only_a_into_b": {
         "mean_cloze_margin": -0.9727,
         "mean_signed_graft_effect": -0.0273,
-        "mean_absolute_displacement": 77.7037,
+        "mean_directional_displacement": 77.7037,
         "mean_donor_recipient_norm": 119.6962,
         "mean_logit_projection": 0.6772,
         "mean_attribution_index": 0.1,
@@ -450,7 +457,7 @@
       "kv_only_b_into_a": {
         "mean_cloze_margin": -1.0469,
         "mean_signed_graft_effect": 0.0391,
-        "mean_absolute_displacement": 67.8084,
+        "mean_directional_displacement": 67.8084,
         "mean_donor_recipient_norm": 119.6962,
         "mean_logit_projection": 0.6242,
         "mean_attribution_index": 0.1,
@@ -461,7 +468,7 @@
       "noise_control_rglru_seed1": {
         "mean_cloze_margin": -1.1094,
         "mean_signed_graft_effect": -0.1641,
-        "mean_absolute_displacement": 54.5784,
+        "mean_directional_displacement": 54.5784,
         "mean_donor_recipient_norm": 119.6962,
         "mean_logit_projection": 0.3669,
         "mean_attribution_index": 0.8,
@@ -472,7 +479,7 @@
       "noise_control_rglru_seed2": {
         "mean_cloze_margin": -1.0312,
         "mean_signed_graft_effect": -0.0859,
-        "mean_absolute_displacement": 70.0728,
+        "mean_directional_displacement": 70.0728,
         "mean_donor_recipient_norm": 119.6962,
         "mean_logit_projection": 0.3542,
         "mean_attribution_index": 1.5,
@@ -483,7 +490,7 @@
       "permuted_donor_rglru": {
         "mean_cloze_margin": -0.8828,
         "mean_signed_graft_effect": 0.0625,
-        "mean_absolute_displacement": -13.9615,
+        "mean_directional_displacement": -13.9615,
         "mean_donor_recipient_norm": 119.6962,
         "mean_logit_projection": 0.0472,
         "mean_attribution_index": -0.2,
@@ -494,7 +501,7 @@
       "recurrent_core_a_into_b": {
         "mean_cloze_margin": -1.0469,
         "mean_signed_graft_effect": -0.1016,
-        "mean_absolute_displacement": 51.8879,
+        "mean_directional_displacement": 51.8879,
         "mean_donor_recipient_norm": 119.6962,
         "mean_logit_projection": 0.3758,
         "mean_attribution_index": 0.9,
@@ -505,7 +512,7 @@
       "rglru_only_a_into_b": {
         "mean_cloze_margin": -1.0469,
         "mean_signed_graft_effect": -0.1016,
-        "mean_absolute_displacement": 51.8879,
+        "mean_directional_displacement": 51.8879,
         "mean_donor_recipient_norm": 119.6962,
         "mean_logit_projection": 0.3758,
         "mean_attribution_index": 0.9,
@@ -516,7 +523,7 @@
       "rglru_only_b_into_a": {
         "mean_cloze_margin": -0.9727,
         "mean_signed_graft_effect": -0.0352,
-        "mean_absolute_displacement": 41.9923,
+        "mean_directional_displacement": 41.9923,
         "mean_donor_recipient_norm": 119.6962,
         "mean_logit_projection": 0.3228,
         "mean_attribution_index": 0.9,
@@ -527,7 +534,7 @@
       "sham_a2_into_a1": {
         "mean_cloze_margin": -1.0078,
         "mean_signed_graft_effect": 0.0,
-        "mean_absolute_displacement": 0.0,
+        "mean_directional_displacement": 0.0,
         "mean_donor_recipient_norm": 0.0,
         "mean_logit_projection": 0.0,
         "mean_attribution_index": null,
@@ -538,7 +545,7 @@
       "unrelated_donor_rglru": {
         "mean_cloze_margin": -0.9531,
         "mean_signed_graft_effect": -0.0078,
-        "mean_absolute_displacement": -35.4111,
+        "mean_directional_displacement": -35.4111,
         "mean_donor_recipient_norm": 119.6962,
         "mean_logit_projection": -0.1771,
         "mean_attribution_index": -0.2,
@@ -549,7 +556,7 @@
       "whole_swap_a_into_b": {
         "mean_cloze_margin": -1.0078,
         "mean_signed_graft_effect": -0.0625,
-        "mean_absolute_displacement": 119.6962,
+        "mean_directional_displacement": 119.6962,
         "mean_donor_recipient_norm": 119.6962,
         "mean_logit_projection": 1.0,
         "mean_attribution_index": 1.0,
@@ -560,7 +567,7 @@
       "whole_swap_b_into_a": {
         "mean_cloze_margin": -0.9453,
         "mean_signed_graft_effect": -0.0625,
-        "mean_absolute_displacement": 119.6962,
+        "mean_directional_displacement": 119.6962,
         "mean_donor_recipient_norm": 119.6962,
         "mean_logit_projection": 1.0,
         "mean_attribution_index": 1.0,
@@ -568,6 +575,98 @@
         "n_samples": 16,
         "n_eligible": 1
       }
+    }
+  },
+  "bootstrap_cis": {
+    "p_match_2w": {
+      "mean": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.0
+    },
+    "p_match_w1": {
+      "mean": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.0
+    },
+    "p_match_l8": {
+      "mean": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.0
+    },
+    "p_unrel_2w": {
+      "mean": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.0
+    },
+    "p_perm_2w": {
+      "mean": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.0
+    },
+    "p_noise_2w": {
+      "mean": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.0
+    },
+    "p_kv_2w": {
+      "mean": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.0
+    },
+    "p_whole_2w": {
+      "mean": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.0
+    },
+    "delta_p_spec_unrel_2w": {
+      "mean": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.0
+    },
+    "delta_p_spec_perm_2w": {
+      "mean": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.0
+    },
+    "delta_p_spec_noise_2w": {
+      "mean": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.0
+    },
+    "delta_p_growth_2w_minus_w1": {
+      "mean": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.0
+    },
+    "delta_p_kv_minus_rglru_2w": {
+      "mean": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.0
+    },
+    "alpha_match_2w": {
+      "mean": 0.3488,
+      "ci_low": 0.2718,
+      "ci_high": 0.4268
+    },
+    "alpha_kv_2w": {
+      "mean": 0.6512,
+      "ci_low": 0.5732,
+      "ci_high": 0.7282
+    },
+    "alpha_unrel_2w": {
+      "mean": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.0
+    },
+    "delta_match_2w": {
+      "mean": -0.0677,
+      "ci_low": -0.2305,
+      "ci_high": 0.0625
+    },
+    "delta_kv_2w": {
+      "mean": 0.0062,
+      "ci_low": -0.0469,
+      "ci_high": 0.0508
     }
   },
   "mediational_propagation": [

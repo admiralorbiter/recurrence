@@ -1454,24 +1454,24 @@
   },
   "bootstrap_cis": {
     "constant_rglru_ret_w1": {
-      "mean": 0.2844,
-      "ci_low": 0.2239,
-      "ci_high": 0.353
+      "mean": 0.2846,
+      "ci_low": 0.2251,
+      "ci_high": 0.3521
     },
     "constant_cloze_margin_w1": {
-      "mean": 0.5186,
-      "ci_low": 0.3797,
+      "mean": 0.5189,
+      "ci_low": 0.375,
       "ci_high": 0.6719
     },
     "constant_rglru_ret_2w": {
-      "mean": 0.3394,
-      "ci_low": 0.2502,
-      "ci_high": 0.4435
+      "mean": 0.3391,
+      "ci_low": 0.2481,
+      "ci_high": 0.4433
     },
     "constant_cloze_margin_2w": {
-      "mean": -0.0276,
+      "mean": -0.0279,
       "ci_low": -0.1125,
-      "ci_high": 0.0625
+      "ci_high": 0.0641
     },
     "constant_cloze_acc_2w": {
       "mean": 0.5,
@@ -1479,44 +1479,44 @@
       "ci_high": 0.5
     },
     "interfering_rglru_ret_w1": {
-      "mean": 0.0983,
-      "ci_low": 0.0896,
-      "ci_high": 0.1075
+      "mean": 0.0984,
+      "ci_low": 0.0897,
+      "ci_high": 0.1074
     },
     "interfering_cloze_margin_w1": {
-      "mean": 0.0312,
+      "mean": 0.031,
       "ci_low": -0.0297,
       "ci_high": 0.0938
     },
     "interfering_rglru_ret_2w": {
       "mean": 0.0797,
-      "ci_low": 0.0734,
-      "ci_high": 0.0864
+      "ci_low": 0.0735,
+      "ci_high": 0.0863
     },
     "interfering_cloze_margin_2w": {
-      "mean": 0.0066,
-      "ci_low": -0.0703,
+      "mean": 0.0063,
+      "ci_low": -0.0688,
       "ci_high": 0.0813
     },
     "interfering_cloze_acc_2w": {
-      "mean": 0.4505,
+      "mean": 0.4503,
       "ci_low": 0.375,
       "ci_high": 0.5
     },
     "natural_rglru_ret_w1": {
       "mean": 0.0638,
       "ci_low": 0.0585,
-      "ci_high": 0.0696
+      "ci_high": 0.0695
     },
     "natural_cloze_margin_w1": {
-      "mean": -0.0171,
+      "mean": -0.0172,
       "ci_low": -0.0672,
       "ci_high": 0.0375
     },
     "natural_rglru_ret_2w": {
       "mean": 0.0514,
-      "ci_low": 0.0461,
-      "ci_high": 0.0571
+      "ci_low": 0.0459,
+      "ci_high": 0.0572
     },
     "natural_cloze_margin_2w": {
       "mean": 0.0126,
@@ -1524,28 +1524,28 @@
       "ci_high": 0.0375
     },
     "natural_cloze_acc_2w": {
-      "mean": 0.4749,
+      "mean": 0.4751,
       "ci_low": 0.425,
       "ci_high": 0.5
     },
     "random_rglru_ret_w1": {
-      "mean": 0.055,
-      "ci_low": 0.0489,
-      "ci_high": 0.0615
+      "mean": 0.0551,
+      "ci_low": 0.0488,
+      "ci_high": 0.0618
     },
     "random_cloze_margin_w1": {
       "mean": 0.0671,
       "ci_low": 0.0219,
-      "ci_high": 0.1109
+      "ci_high": 0.1125
     },
     "random_rglru_ret_2w": {
       "mean": 0.0453,
       "ci_low": 0.0406,
-      "ci_high": 0.05
+      "ci_high": 0.0501
     },
     "random_cloze_margin_2w": {
       "mean": -0.0032,
-      "ci_low": -0.0219,
+      "ci_low": -0.0203,
       "ci_high": 0.0125
     },
     "random_cloze_acc_2w": {
@@ -1554,14 +1554,14 @@
       "ci_high": 0.5
     },
     "delta_rglru_ret_interf_minus_const_2w": {
-      "mean": -0.2597,
-      "ci_low": -0.3609,
-      "ci_high": -0.1724
+      "mean": -0.2594,
+      "ci_low": -0.3612,
+      "ci_high": -0.1708
     },
     "delta_rglru_ret_reexpand_const_2w_minus_w1": {
-      "mean": 0.055,
-      "ci_low": -0.0101,
-      "ci_high": 0.1392
+      "mean": 0.0545,
+      "ci_low": -0.0104,
+      "ci_high": 0.14
     }
   },
   "layer_decay_curves": {

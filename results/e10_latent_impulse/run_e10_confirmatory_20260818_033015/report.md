@@ -19,27 +19,27 @@
 | Estimand | Point Estimate / Mean | 95% Bootstrap CI |
 | :--- | :---: | :---: |
 | `constant_cloze_acc_2w` | 0.5 | [0.5, 0.5] |
-| `constant_cloze_margin_2w` | -0.0276 | [-0.1125, 0.0625] |
-| `constant_cloze_margin_w1` | 0.5186 | [0.3797, 0.6719] |
-| `constant_rglru_ret_2w` | 0.3394 | [0.2502, 0.4435] |
-| `constant_rglru_ret_w1` | 0.2844 | [0.2239, 0.353] |
-| `delta_rglru_ret_interf_minus_const_2w` | -0.2597 | [-0.3609, -0.1724] |
-| `delta_rglru_ret_reexpand_const_2w_minus_w1` | 0.055 | [-0.0101, 0.1392] |
-| `interfering_cloze_acc_2w` | 0.4505 | [0.375, 0.5] |
-| `interfering_cloze_margin_2w` | 0.0066 | [-0.0703, 0.0813] |
-| `interfering_cloze_margin_w1` | 0.0312 | [-0.0297, 0.0938] |
-| `interfering_rglru_ret_2w` | 0.0797 | [0.0734, 0.0864] |
-| `interfering_rglru_ret_w1` | 0.0983 | [0.0896, 0.1075] |
-| `natural_cloze_acc_2w` | 0.4749 | [0.425, 0.5] |
+| `constant_cloze_margin_2w` | -0.0279 | [-0.1125, 0.0641] |
+| `constant_cloze_margin_w1` | 0.5189 | [0.375, 0.6719] |
+| `constant_rglru_ret_2w` | 0.3391 | [0.2481, 0.4433] |
+| `constant_rglru_ret_w1` | 0.2846 | [0.2251, 0.3521] |
+| `delta_rglru_ret_interf_minus_const_2w` | -0.2594 | [-0.3612, -0.1708] |
+| `delta_rglru_ret_reexpand_const_2w_minus_w1` | 0.0545 | [-0.0104, 0.14] |
+| `interfering_cloze_acc_2w` | 0.4503 | [0.375, 0.5] |
+| `interfering_cloze_margin_2w` | 0.0063 | [-0.0688, 0.0813] |
+| `interfering_cloze_margin_w1` | 0.031 | [-0.0297, 0.0938] |
+| `interfering_rglru_ret_2w` | 0.0797 | [0.0735, 0.0863] |
+| `interfering_rglru_ret_w1` | 0.0984 | [0.0897, 0.1074] |
+| `natural_cloze_acc_2w` | 0.4751 | [0.425, 0.5] |
 | `natural_cloze_margin_2w` | 0.0126 | [-0.0125, 0.0375] |
-| `natural_cloze_margin_w1` | -0.0171 | [-0.0672, 0.0375] |
-| `natural_rglru_ret_2w` | 0.0514 | [0.0461, 0.0571] |
-| `natural_rglru_ret_w1` | 0.0638 | [0.0585, 0.0696] |
+| `natural_cloze_margin_w1` | -0.0172 | [-0.0672, 0.0375] |
+| `natural_rglru_ret_2w` | 0.0514 | [0.0459, 0.0572] |
+| `natural_rglru_ret_w1` | 0.0638 | [0.0585, 0.0695] |
 | `random_cloze_acc_2w` | 0.5 | [0.5, 0.5] |
-| `random_cloze_margin_2w` | -0.0032 | [-0.0219, 0.0125] |
-| `random_cloze_margin_w1` | 0.0671 | [0.0219, 0.1109] |
-| `random_rglru_ret_2w` | 0.0453 | [0.0406, 0.05] |
-| `random_rglru_ret_w1` | 0.055 | [0.0489, 0.0615] |
+| `random_cloze_margin_2w` | -0.0032 | [-0.0203, 0.0125] |
+| `random_cloze_margin_w1` | 0.0671 | [0.0219, 0.1125] |
+| `random_rglru_ret_2w` | 0.0453 | [0.0406, 0.0501] |
+| `random_rglru_ret_w1` | 0.0551 | [0.0488, 0.0618] |
 
 ## 3. Dynamic Trajectories Across Tested Lags
 
