@@ -18,6 +18,7 @@ import torch
 import torch.nn.functional as F
 
 from recurrence.models.recurrent_gemma_adapter import RecurrentGemmaAdapter, RecurrentGemmaConfig
+from recurrence.interventions.surgical_swaps import swap_stores, add_intervention_matched_noise
 from recurrence.tasks.impulse_stimuli import (
     get_filler_tokens_for_regime,
     build_audited_vocabulary_pool,
@@ -28,7 +29,6 @@ from recurrence.tasks.specificity_microscope import (
     MicroscopePair,
     MICROSCOPE_FAMILIES,
 )
-from recurrence.interventions.surgical_swaps import swap_stores, add_intervention_matched_noise
 
 
 def compute_directional_metrics(
@@ -100,7 +100,7 @@ def run_experiment(
         fpath = Path("experiments") / "e12_specificity_microscope" / fname
         if fpath.exists():
             code_hasher.update(fpath.read_bytes())
-    for frel in ["tasks/specificity_microscope.py", "loop/surgical_swaps.py"]:
+    for frel in ["tasks/specificity_microscope.py", "interventions/surgical_swaps.py"]:
         fpath = Path("src") / "recurrence" / frel
         if fpath.exists():
             code_hasher.update(fpath.read_bytes())
@@ -223,88 +223,81 @@ def run_experiment(
                     excluded_token_ids=pair_excluded,
                 )
 
-                # Initialize states
-                state_a = adapter.init_state()
-                state_b = adapter.init_state()
-                state_c = adapter.init_state()
-                state_d = adapter.init_state()
-                state_cross = adapter.init_state()
-
                 # Process initial prompts
-                state_a, _ = adapter.step_chunk(state_a, toks_prompt_a)
-                state_b, _ = adapter.step_chunk(state_b, toks_prompt_b)
-                state_c, _ = adapter.step_chunk(state_c, toks_prompt_c)
-                state_d, _ = adapter.step_chunk(state_d, toks_prompt_d)
-                state_cross, _ = adapter.step_chunk(state_cross, toks_prompt_cross)
+                _, state_a = adapter.encode_sequence(toks_prompt_a, step_by_step=False)
+                _, state_b = adapter.encode_sequence(toks_prompt_b, step_by_step=False)
+                _, state_c = adapter.encode_sequence(toks_prompt_c, step_by_step=False)
+                _, state_d = adapter.encode_sequence(toks_prompt_d, step_by_step=False)
+                _, state_cross = adapter.encode_sequence(toks_prompt_cross, step_by_step=False)
 
                 # Process filler chunk-by-chunk to target lag
                 chunk_size = 512
                 for i in range(0, target_lag, chunk_size):
                     end_idx = min(i + chunk_size, target_lag)
                     chunk = filler_tokens[i:end_idx]
-                    state_a, _ = adapter.step_chunk(state_a, chunk)
-                    state_b, _ = adapter.step_chunk(state_b, chunk)
-                    state_c, _ = adapter.step_chunk(state_c, chunk)
-                    state_d, _ = adapter.step_chunk(state_d, chunk)
-                    state_cross, _ = adapter.step_chunk(state_cross, chunk)
+                    _, state_a = adapter.encode_sequence(chunk, initial_snapshot=state_a, step_by_step=False)
+                    _, state_b = adapter.encode_sequence(chunk, initial_snapshot=state_b, step_by_step=False)
+                    _, state_c = adapter.encode_sequence(chunk, initial_snapshot=state_c, step_by_step=False)
+                    _, state_d = adapter.encode_sequence(chunk, initial_snapshot=state_d, step_by_step=False)
+                    _, state_cross = adapter.encode_sequence(chunk, initial_snapshot=state_cross, step_by_step=False)
 
                 # 1. Baseline Intact Outputs
-                _, out_intact_a = adapter.step_chunk(state_a.clone(), toks_query)
-                _, out_intact_b = adapter.step_chunk(state_b.clone(), toks_query)
-                z_intact_a = out_intact_a.logits[0, -1]
-                z_intact_b = out_intact_b.logits[0, -1]
+                out_intact_a, _ = adapter.encode_sequence(toks_query, initial_snapshot=state_a.clone(), step_by_step=False)
+                out_intact_b, _ = adapter.encode_sequence(toks_query, initial_snapshot=state_b.clone(), step_by_step=False)
+                z_intact_a = out_intact_a[0, -1]
+                z_intact_b = out_intact_b[0, -1]
 
                 # 2. Direction A -> B Interventions (Recipient B, Donor A/C/D/Cross)
                 state_match_a_into_b = swap_stores(recipient=state_b, donor=state_a, channels="rglru")
-                _, out_match_a_into_b = adapter.step_chunk(state_match_a_into_b, toks_query)
-                z_match_a_into_b = out_match_a_into_b.logits[0, -1]
+                out_match_a_into_b, _ = adapter.encode_sequence(toks_query, initial_snapshot=state_match_a_into_b, step_by_step=False)
+                z_match_a_into_b = out_match_a_into_b[0, -1]
 
                 state_wrong_c_into_b = swap_stores(recipient=state_b, donor=state_c, channels="rglru")
-                _, out_wrong_c_into_b = adapter.step_chunk(state_wrong_c_into_b, toks_query)
-                z_wrong_c_into_b = out_wrong_c_into_b.logits[0, -1]
+                out_wrong_c_into_b, _ = adapter.encode_sequence(toks_query, initial_snapshot=state_wrong_c_into_b, step_by_step=False)
+                z_wrong_c_into_b = out_wrong_c_into_b[0, -1]
 
                 state_wrong_d_into_b = swap_stores(recipient=state_b, donor=state_d, channels="rglru")
-                _, out_wrong_d_into_b = adapter.step_chunk(state_wrong_d_into_b, toks_query)
-                z_wrong_d_into_b = out_wrong_d_into_b.logits[0, -1]
+                out_wrong_d_into_b, _ = adapter.encode_sequence(toks_query, initial_snapshot=state_wrong_d_into_b, step_by_step=False)
+                z_wrong_d_into_b = out_wrong_d_into_b[0, -1]
 
                 state_cross_into_b = swap_stores(recipient=state_b, donor=state_cross, channels="rglru")
-                _, out_cross_into_b = adapter.step_chunk(state_cross_into_b, toks_query)
-                z_cross_into_b = out_cross_into_b.logits[0, -1]
+                out_cross_into_b, _ = adapter.encode_sequence(toks_query, initial_snapshot=state_cross_into_b, step_by_step=False)
+                z_cross_into_b = out_cross_into_b[0, -1]
 
                 state_noise_a_into_b = add_intervention_matched_noise(
                     recipient=state_b, donor=state_a, channels="rglru", seed=cur_seed + 10
                 )
-                _, out_noise_a_into_b = adapter.step_chunk(state_noise_a_into_b, toks_query)
-                z_noise_a_into_b = out_noise_a_into_b.logits[0, -1]
+                out_noise_a_into_b, _ = adapter.encode_sequence(toks_query, initial_snapshot=state_noise_a_into_b, step_by_step=False)
+                z_noise_a_into_b = out_noise_a_into_b[0, -1]
 
-                _, out_whole_a_into_b = adapter.step_chunk(state_a.clone(), toks_query)
-                z_whole_a_into_b = out_whole_a_into_b.logits[0, -1]
+                out_whole_a_into_b, _ = adapter.encode_sequence(toks_query, initial_snapshot=state_a.clone(), step_by_step=False)
+                z_whole_a_into_b = out_whole_a_into_b[0, -1]
 
                 # 3. Direction B -> A Interventions (Recipient A, Donor B/C/D/Cross)
                 state_match_b_into_a = swap_stores(recipient=state_a, donor=state_b, channels="rglru")
-                _, out_match_b_into_a = adapter.step_chunk(state_match_b_into_a, toks_query)
-                z_match_b_into_a = out_match_b_into_a.logits[0, -1]
+                out_match_b_into_a, _ = adapter.encode_sequence(toks_query, initial_snapshot=state_match_b_into_a, step_by_step=False)
+                z_match_b_into_a = out_match_b_into_a[0, -1]
 
                 state_wrong_c_into_a = swap_stores(recipient=state_a, donor=state_c, channels="rglru")
-                _, out_wrong_c_into_a = adapter.step_chunk(state_wrong_c_into_a, toks_query)
-                z_wrong_c_into_a = out_wrong_c_into_a.logits[0, -1]
+                out_wrong_c_into_a, _ = adapter.encode_sequence(toks_query, initial_snapshot=state_wrong_c_into_a, step_by_step=False)
+                z_wrong_c_into_a = out_wrong_c_into_a[0, -1]
 
                 state_wrong_d_into_a = swap_stores(recipient=state_a, donor=state_d, channels="rglru")
-                _, out_wrong_d_into_a = adapter.step_chunk(state_wrong_d_into_a, toks_query)
-                z_wrong_d_into_a = out_wrong_d_into_a.logits[0, -1]
+                out_wrong_d_into_a, _ = adapter.encode_sequence(toks_query, initial_snapshot=state_wrong_d_into_a, step_by_step=False)
+                z_wrong_d_into_a = out_wrong_d_into_a[0, -1]
 
                 state_cross_into_a = swap_stores(recipient=state_a, donor=state_cross, channels="rglru")
-                _, out_cross_into_a = adapter.step_chunk(state_cross_into_a, toks_query)
-                z_cross_into_a = out_cross_into_a.logits[0, -1]
+                out_cross_into_a, _ = adapter.encode_sequence(toks_query, initial_snapshot=state_cross_into_a, step_by_step=False)
+                z_cross_into_a = out_cross_into_a[0, -1]
 
                 state_noise_b_into_a = add_intervention_matched_noise(
                     recipient=state_a, donor=state_b, channels="rglru", seed=cur_seed + 11
                 )
-                _, out_noise_b_into_a = adapter.step_chunk(state_noise_b_into_a, toks_query)
-                z_noise_b_into_a = out_noise_b_into_a.logits[0, -1]
+                out_noise_b_into_a, _ = adapter.encode_sequence(toks_query, initial_snapshot=state_noise_b_into_a, step_by_step=False)
+                z_noise_b_into_a = out_noise_b_into_a[0, -1]
 
-                _, out_whole_b_into_a = adapter.step_chunk(state_b.clone(), toks_query)
-                z_whole_b_into_a = out_whole_b_into_a.logits[0, -1]
+                out_whole_b_into_a, _ = adapter.encode_sequence(toks_query, initial_snapshot=state_b.clone(), step_by_step=False)
+                z_whole_b_into_a = out_whole_b_into_a[0, -1]
 
                 # Record Direction A -> B conditions
                 eval_conditions_a_into_b = [
