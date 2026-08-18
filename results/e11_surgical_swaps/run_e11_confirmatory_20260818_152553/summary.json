@@ -1,0 +1,156 @@
+{
+  "phase": "confirmatory",
+  "timestamp": "20260818_152553",
+  "elapsed_seconds": 14723.1,
+  "total_swap_records": 5280,
+  "total_mediational_records": 160,
+  "num_pairs": 20,
+  "regimes": [
+    "constant",
+    "interfering",
+    "natural",
+    "random"
+  ],
+  "target_lags": [
+    8,
+    2049,
+    4096
+  ],
+  "mediation_horizons": [
+    512,
+    2048
+  ],
+  "donor_mapping": {
+    "item_material_01": {
+      "unrelated_donor_pair_id": "item_material_02",
+      "permuted_donor_pair_id": "item_material_08"
+    },
+    "item_material_02": {
+      "unrelated_donor_pair_id": "item_material_03",
+      "permuted_donor_pair_id": "item_material_09"
+    },
+    "item_material_03": {
+      "unrelated_donor_pair_id": "item_material_04",
+      "permuted_donor_pair_id": "item_material_10"
+    },
+    "item_material_04": {
+      "unrelated_donor_pair_id": "item_material_05",
+      "permuted_donor_pair_id": "item_material_11"
+    },
+    "item_material_05": {
+      "unrelated_donor_pair_id": "item_material_06",
+      "permuted_donor_pair_id": "item_material_12"
+    },
+    "item_material_06": {
+      "unrelated_donor_pair_id": "item_material_07",
+      "permuted_donor_pair_id": "item_material_13"
+    },
+    "item_material_07": {
+      "unrelated_donor_pair_id": "item_material_08",
+      "permuted_donor_pair_id": "item_material_14"
+    },
+    "item_material_08": {
+      "unrelated_donor_pair_id": "item_material_09",
+      "permuted_donor_pair_id": "item_material_15"
+    },
+    "item_material_09": {
+      "unrelated_donor_pair_id": "item_material_10",
+      "permuted_donor_pair_id": "item_material_16"
+    },
+    "item_material_10": {
+      "unrelated_donor_pair_id": "item_material_11",
+      "permuted_donor_pair_id": "item_material_17"
+    },
+    "item_material_11": {
+      "unrelated_donor_pair_id": "item_material_12",
+      "permuted_donor_pair_id": "item_material_18"
+    },
+    "item_material_12": {
+      "unrelated_donor_pair_id": "item_material_13",
+      "permuted_donor_pair_id": "item_material_19"
+    },
+    "item_material_13": {
+      "unrelated_donor_pair_id": "item_material_14",
+      "permuted_donor_pair_id": "item_material_20"
+    },
+    "item_material_14": {
+      "unrelated_donor_pair_id": "item_material_15",
+      "permuted_donor_pair_id": "item_material_01"
+    },
+    "item_material_15": {
+      "unrelated_donor_pair_id": "item_material_16",
+      "permuted_donor_pair_id": "item_material_02"
+    },
+    "item_material_16": {
+      "unrelated_donor_pair_id": "item_material_17",
+      "permuted_donor_pair_id": "item_material_03"
+    },
+    "item_material_17": {
+      "unrelated_donor_pair_id": "item_material_18",
+      "permuted_donor_pair_id": "item_material_04"
+    },
+    "item_material_18": {
+      "unrelated_donor_pair_id": "item_material_19",
+      "permuted_donor_pair_id": "item_material_05"
+    },
+    "item_material_19": {
+      "unrelated_donor_pair_id": "item_material_20",
+      "permuted_donor_pair_id": "item_material_06"
+    },
+    "item_material_20": {
+      "unrelated_donor_pair_id": "item_material_01",
+      "permuted_donor_pair_id": "item_material_07"
+    }
+  },
+  "donor_mapping_sha256": "6bd47bddd1daba45e3fbac3ace4d505eaa397bddb9b337e94ede5a89e601437a",
+  "audited_pool_sha256": "29f280e76627890b0b4468e72b684c5b9d0dee348b6691f1bac36b32952e03c1",
+  "protocol_code_sha256": "83ef4b6135aead5487a6bcad1a29464dfa308880c780b92c1af8428b5eb78a94",
+  "git_provenance": {
+    "commit_sha": "870e0a9fabcef1778fcd2c06d55021fe9fb92363",
+    "is_clean": true,
+    "dirty_files": []
+  },
+  "protocol": {
+    "protocol_version": "S12b-Confirmatory-v1.0",
+    "required_model_id": "google/recurrentgemma-2b",
+    "required_dtype": "bfloat16",
+    "required_device": "cuda",
+    "required_num_pairs": 20,
+    "required_regimes": [
+      "constant",
+      "interfering",
+      "natural",
+      "random"
+    ],
+    "required_target_lags": [
+      8,
+      2049,
+      4096
+    ],
+    "required_mediation_horizons": [
+      512,
+      2048
+    ],
+    "eligibility_threshold": 0.5,
+    "bootstrap_replicates": 10000,
+    "cluster_unit": "pair_id",
+    "conditioning": "frozen filler panel / deterministic seed assignment"
+  },
+  "model_provenance": {
+    "model_id": "google/recurrentgemma-2b",
+    "is_reference_model": false,
+    "model_revision": "3620f4ca9c5d16ee56c00180474a3201ec7f734a",
+    "model_class": "RecurrentGemmaForCausalLM",
+    "vocab_size": 256000,
+    "num_hidden_layers": 26,
+    "hidden_size": 2560,
+    "conv1d_width": 4,
+    "attention_window_size": 2048
+  },
+  "environment": {
+    "torch_version": "2.5.1+cu121",
+    "transformers_version": "5.15.0",
+    "cuda_available": true,
+    "device_name": "NVIDIA GeForce RTX 3060"
+  }
+}
