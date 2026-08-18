@@ -6,8 +6,9 @@ Preregistered statistical engine computing:
 3. Secondary paired specificity contrast: Delta P_spec_perm = P_match(2W) - P_perm(2W).
 4. Secondary paired growth contrast: Delta P_growth = P_match(2W) - P_match(W+1).
 5. Secondary KV vs RG-LRU contrast: Delta P_kv_minus_rglru at 2W.
-6. 10,000-draw Pair-Cluster Bootstrap 95% Confidence Intervals.
-7. Mediational sliced post-graft and full-window turnover migration indices.
+6. Fail-closed dataset completeness validation (no silent zeros).
+7. Separation of observed sample point estimates from 10,000-draw Pair-Cluster Bootstrap distributions.
+8. Mediational sliced post-graft and full-window turnover migration indices.
 """
 
 import argparse
@@ -23,20 +24,38 @@ def compute_s12_pair_cluster_bootstrap(
     rows: List[Dict[str, Any]],
     n_boot: int = 10000,
     seed: int = 42,
+    is_confirmatory: bool = False,
 ) -> Dict[str, Dict[str, float]]:
     """Compute 10,000-replicate Pair-Cluster Bootstrap 95% CIs across stimulus pairs.
 
     Aggregates the 4 fixed regimes within each stimulus pair cluster, computes pair-level
     causal estimands and specificity contrasts, then bootstraps the 20 pair-level summaries.
+    Fails closed if any expected condition cell is missing.
     """
     # Index rows by (pair_id, regime, lag, condition)
     cell_map = {}
     for r in rows:
-        cell_map[(r["pair_id"], r["regime"], r["lag"], r["condition"])] = r
+        cell_key = (r["pair_id"], r["regime"], r["lag"], r["condition"])
+        if cell_key in cell_map:
+            raise ValueError(f"[Fail-Closed Gate] Duplicate cell detected in dataset: {cell_key}")
+        cell_map[cell_key] = r
 
     pairs = sorted(list({r["pair_id"] for r in rows}))
     regimes = sorted(list({r["regime"] for r in rows}))
     lags = sorted(list({r["lag"] for r in rows}))
+
+    # Fail-closed checks for confirmatory mode
+    if is_confirmatory or len(pairs) == 20:
+        assert len(pairs) == 20, f"[Fail-Closed Gate] Expected 20 stimulus pairs, found {len(pairs)}"
+        assert set(regimes) == {"constant", "interfering", "natural", "random"}, (
+            f"[Fail-Closed Gate] Regimes mismatch: {set(regimes)}"
+        )
+        assert set(lags) == {8, 2049, 4096}, f"[Fail-Closed Gate] Lags mismatch: {set(lags)}"
+        expected_total = 20 * 4 * 3 * 22
+        assert len(rows) == expected_total, (
+            f"[Fail-Closed Gate] Expected {expected_total} rows, found {len(rows)}"
+        )
+
     max_lag = max(lags) if lags else 4096
     w1_lag = 2049 if 2049 in lags else (lags[-2] if len(lags) > 1 else max_lag)
     short_lag = 8 if 8 in lags else (lags[0] if lags else 0)
@@ -47,12 +66,18 @@ def compute_s12_pair_cluster_bootstrap(
     for p in pairs:
         reg_metrics = []
         for reg in regimes:
-            # Helper to get symmetric average of A->B and B->A
+            # Helper to get symmetric average of A->B and B->A (FAILS CLOSED ON MISSING CELL)
             def get_sym_metric(lag_val: int, cond_ab: str, cond_ba: str, key: str) -> float:
-                row_ab = cell_map.get((p, reg, lag_val, cond_ab), {})
-                row_ba = cell_map.get((p, reg, lag_val, cond_ba), {})
-                val_ab = row_ab.get(key, 0.0)
-                val_ba = row_ba.get(key, 0.0)
+                key_ab = (p, reg, lag_val, cond_ab)
+                key_ba = (p, reg, lag_val, cond_ba)
+                if key_ab not in cell_map:
+                    raise KeyError(f"[Fail-Closed Gate] Missing confirmatory cell: {key_ab}")
+                if key_ba not in cell_map:
+                    raise KeyError(f"[Fail-Closed Gate] Missing confirmatory cell: {key_ba}")
+                row_ab = cell_map[key_ab]
+                row_ba = cell_map[key_ba]
+                val_ab = row_ab[key]
+                val_ba = row_ba[key]
                 return 0.5 * (val_ab + val_ba)
 
             # Directional Displacements P_C
@@ -103,14 +128,19 @@ def compute_s12_pair_cluster_bootstrap(
 
         # Average over the 4 fixed regimes within pair cluster p
         pair_summary = {}
-        keys = reg_metrics[0].keys()
+        keys = list(reg_metrics[0].keys())
         for k in keys:
             pair_summary[k] = sum(rm[k] for rm in reg_metrics) / len(reg_metrics)
         pair_vectors.append(pair_summary)
 
+    # Compute observed point estimates directly from pair_vectors
+    n_pairs = len(pair_vectors)
+    observed_estimates = {}
+    for k in pair_vectors[0].keys():
+        observed_estimates[k] = sum(pv[k] for pv in pair_vectors) / n_pairs
+
     # 10,000-draw bootstrap over pair summaries
     rng = random.Random(seed)
-    n_pairs = len(pair_vectors)
     boot_samples = defaultdict(list)
 
     for _ in range(n_boot):
@@ -125,7 +155,8 @@ def compute_s12_pair_cluster_bootstrap(
         low_idx = int(0.025 * len(sorted_v))
         high_idx = int(0.975 * len(sorted_v))
         ci_results[stat_name] = {
-            "mean": round(sum(sorted_v) / len(sorted_v), 4),
+            "estimate": round(observed_estimates[stat_name], 4),
+            "bootstrap_mean": round(sum(sorted_v) / len(sorted_v), 4),
             "ci_low": round(sorted_v[low_idx], 4),
             "ci_high": round(sorted_v[high_idx], 4),
         }
@@ -146,6 +177,8 @@ def analyze_run(run_dir: str, n_boot: int = 10000) -> Dict[str, Any]:
     if summary_file.exists():
         with open(summary_file, "r", encoding="utf-8") as f:
             run_meta = json.load(f)
+
+    is_confirmatory = (run_meta.get("phase") == "confirmatory")
 
     rows = []
     with open(trace_file, "r", encoding="utf-8") as f:
@@ -198,9 +231,6 @@ def analyze_run(run_dir: str, n_boot: int = 10000) -> Dict[str, Any]:
                 "n_eligible": len(eligible_items),
             }
 
-    # Pair-Cluster Bootstrap CIs
-    bootstrap_cis = compute_s12_pair_cluster_bootstrap(rows, n_boot=n_boot)
-
     # Mediational propagation analysis
     med_results = []
     if med_file.exists():
@@ -209,10 +239,27 @@ def analyze_run(run_dir: str, n_boot: int = 10000) -> Dict[str, Any]:
                 if line.strip():
                     med_results.append(json.loads(line))
 
+    # Fail-closed mediational checks for confirmatory
+    if is_confirmatory:
+        assert len(med_results) == 160, f"[Fail-Closed Gate] Expected 160 mediation records, found {len(med_results)}"
+        med_horizons = {m["future_tokens"] for m in med_results}
+        assert med_horizons == {512, 2048}, f"[Fail-Closed Gate] Expected horizons {{512, 2048}}, found {med_horizons}"
+
+    # Pair-Cluster Bootstrap CIs
+    bootstrap_cis = compute_s12_pair_cluster_bootstrap(
+        rows,
+        n_boot=n_boot,
+        is_confirmatory=is_confirmatory,
+    )
+
     analysis_result = {
         "run_dir": str(run_path),
+        "phase": run_meta.get("phase", "scout"),
         "model_provenance": run_meta.get("model_provenance", {}),
         "protocol_metadata": run_meta.get("protocol", {}),
+        "git_provenance": run_meta.get("git_provenance", {}),
+        "protocol_code_sha256": run_meta.get("protocol_code_sha256", "unknown"),
+        "donor_mapping_sha256": run_meta.get("donor_mapping_sha256", "unknown"),
         "bootstrap_metadata": {
             "method": "Pair-Cluster Bootstrap",
             "B": n_boot,
@@ -236,11 +283,12 @@ def analyze_run(run_dir: str, n_boot: int = 10000) -> Dict[str, Any]:
     with open(report_file, "w", encoding="utf-8") as f_rep:
         f_rep.write(f"# E11 Multi-Store Surgical State Swaps Causal Attribution Report\n\n")
         f_rep.write(f"**Model Target:** `{model_name}`\n")
+        f_rep.write(f"**Phase:** `{run_meta.get('phase', 'scout')}`\n")
         f_rep.write(f"**Run Path:** `{run_path}`\n\n")
         f_rep.write(f"**Bootstrap Inference:** Pair-Cluster Bootstrap ($B={n_boot:,}$) conditional on frozen filler panel / deterministic seed assignment.\n\n")
 
         f_rep.write("## 1. Primary S12 Estimands & 95% Pair-Cluster Bootstrap CIs\n\n")
-        f_rep.write("| Estimand | Description | Point Estimate / Mean | 95% Bootstrap CI |\n")
+        f_rep.write("| Estimand | Description | Observed Estimate | 95% Bootstrap CI |\n")
         f_rep.write("| :--- | :--- | :---: | :---: |\n")
         
         descriptions = {
@@ -259,7 +307,7 @@ def analyze_run(run_dir: str, n_boot: int = 10000) -> Dict[str, Any]:
         for k in sorted(bootstrap_cis.keys()):
             desc = descriptions.get(k, k)
             ci = bootstrap_cis[k]
-            f_rep.write(f"| `{k}` | {desc} | {ci['mean']:+.4f} | [{ci['ci_low']:+.4f}, {ci['ci_high']:+.4f}] |\n")
+            f_rep.write(f"| `{k}` | {desc} | {ci['estimate']:+.4f} | [{ci['ci_low']:+.4f}, {ci['ci_high']:+.4f}] |\n")
 
         f_rep.write("\n## 2. Causal Factorial Panel & Directional Logit Displacement Across Lags\n\n")
         f_rep.write("| Lag $L$ | Condition | Signed Graft $\\bar{\\Delta}_C$ | Directional Displacement $P_C$ | Logit Proj $\\alpha_C^{\\text{logit}}$ | Attrib Index $\\alpha_C^{\\text{cloze}}$ | Eligible N | Donor Concord |\n")
@@ -274,7 +322,7 @@ def analyze_run(run_dir: str, n_boot: int = 10000) -> Dict[str, Any]:
 
         if med_results:
             f_rep.write("\n## 3. Mediational Forward Dynamic Propagation ($R^B \\to K_{\\text{future}}^B$)\n\n")
-            f_rep.write("| Pair ID | Regime | Init Lag | Future Tokens | Turnover? | Post Dist Rec A | Post Dist Don B | Post Migr $\\mathcal{M}_{\\text{post}}$ | Full Migr $\\mathcal{M}_{\\text{full}}$ |\n")
+            f_rep.write("| Pair ID | Regime | Init Lag | Future Tokens | Turnover? | Raw Post Dist Rec A | Raw Post Dist Don B | Post Migr $\\mathcal{M}_{\\text{post}}$ | Full Migr $\\mathcal{M}_{\\text{full}}$ |\n")
             f_rep.write("| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |\n")
             for m in med_results:
                 turn_str = "Yes" if m.get("is_full_window_turnover") else "No"

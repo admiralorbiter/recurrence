@@ -399,19 +399,19 @@ def evaluate_mediational_propagation(
         k_b = end_state_b.kv[l]["key"].float()
         k_med = end_state_med.kv[l]["key"].float()
 
-        # Full cache distance
-        d_full_med_to_a += float(torch.norm(k_med - k_a) / (torch.norm(k_a) + 1e-8))
-        d_full_med_to_b += float(torch.norm(k_med - k_b) / (torch.norm(k_b) + 1e-8))
-        d_full_a_to_b += float(torch.norm(k_a - k_b) / (torch.norm(k_b) + 1e-8))
+        # Raw layer-wise Frobenius norms across all KV layers
+        d_full_med_to_a += float(torch.norm(k_med - k_a).item())
+        d_full_med_to_b += float(torch.norm(k_med - k_b).item())
+        d_full_a_to_b += float(torch.norm(k_a - k_b).item())
 
         # Sliced post-graft distance (last num_new tokens)
         k_a_post = k_a[..., -num_new:, :] if k_a.shape[-2] >= num_new else k_a
         k_b_post = k_b[..., -num_new:, :] if k_b.shape[-2] >= num_new else k_b
         k_med_post = k_med[..., -num_new:, :] if k_med.shape[-2] >= num_new else k_med
 
-        d_post_med_to_a += float(torch.norm(k_med_post - k_a_post) / (torch.norm(k_a_post) + 1e-8))
-        d_post_med_to_b += float(torch.norm(k_med_post - k_b_post) / (torch.norm(k_b_post) + 1e-8))
-        d_post_a_to_b += float(torch.norm(k_a_post - k_b_post) / (torch.norm(k_b_post) + 1e-8))
+        d_post_med_to_a += float(torch.norm(k_med_post - k_a_post).item())
+        d_post_med_to_b += float(torch.norm(k_med_post - k_b_post).item())
+        d_post_a_to_b += float(torch.norm(k_a_post - k_b_post).item())
 
     d_full_med_to_a /= max(n_layers, 1)
     d_full_med_to_b /= max(n_layers, 1)

@@ -9,6 +9,7 @@ from datetime import datetime, timezone
 import hashlib
 import json
 from pathlib import Path
+import subprocess
 import time
 from typing import Any, Dict, List, Optional, Tuple
 import torch
@@ -27,6 +28,9 @@ from recurrence.tasks.impulse_stimuli import (
 
 S12B_CONFIRMATORY_PROTOCOL: Dict[str, Any] = {
     "protocol_version": "S12b-Confirmatory-v1.0",
+    "required_model_id": "google/recurrentgemma-2b",
+    "required_dtype": "bfloat16",
+    "required_device": "cuda",
     "required_num_pairs": 20,
     "required_regimes": ["constant", "interfering", "natural", "random"],
     "required_target_lags": [8, 2049, 4096],
@@ -36,6 +40,36 @@ S12B_CONFIRMATORY_PROTOCOL: Dict[str, Any] = {
     "cluster_unit": "pair_id",
     "conditioning": "frozen filler panel / deterministic seed assignment",
 }
+
+
+def get_git_provenance() -> Dict[str, Any]:
+    """Capture Git commit SHA and cleanliness of worktree."""
+    try:
+        commit_sha = subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip()
+        status_out = subprocess.check_output(["git", "status", "--porcelain"], text=True).strip()
+        is_clean = (len(status_out) == 0)
+        return {
+            "commit_sha": commit_sha,
+            "is_clean": is_clean,
+            "dirty_files": status_out.splitlines() if status_out else [],
+        }
+    except Exception as e:
+        return {"commit_sha": "unknown", "is_clean": False, "error": str(e)}
+
+
+def compute_protocol_code_hash() -> str:
+    """Compute SHA-256 hash over the active S12 intervention and analysis code files."""
+    hasher = hashlib.sha256()
+    paths = [
+        Path(__file__),
+        Path(__file__).parent.parent.parent / "src" / "recurrence" / "loop" / "surgical_swap_harness.py",
+        Path(__file__).parent.parent.parent / "src" / "recurrence" / "interventions" / "surgical_swaps.py",
+        Path(__file__).parent / "analyze.py",
+    ]
+    for p in sorted(paths):
+        if p.exists():
+            hasher.update(p.read_bytes())
+    return hasher.hexdigest()
 
 
 def compute_donor_map_hash(pairs: List[Any]) -> Tuple[Dict[str, Dict[str, str]], str]:
@@ -70,6 +104,21 @@ def run_experiment(
     out_path.mkdir(parents=True, exist_ok=True)
 
     print(f"[E11] Initializing {phase.upper()} Phase on device={device}, dtype={dtype_str}...")
+
+    # Strict Fail-Closed Environment Validation for Confirmatory Phase
+    if phase == "confirmatory":
+        assert model_id == "google/recurrentgemma-2b", (
+            f"[Fail-Closed Gate] Confirmatory run requires google/recurrentgemma-2b, got '{model_id}'"
+        )
+        assert dtype_str == "bfloat16", (
+            f"[Fail-Closed Gate] Confirmatory run requires bfloat16, got '{dtype_str}'"
+        )
+        assert device.startswith("cuda"), (
+            f"[Fail-Closed Gate] Confirmatory run requires CUDA, got '{device}'"
+        )
+        assert torch.cuda.is_available(), (
+            "[Fail-Closed Gate] CUDA must be available for confirmatory run"
+        )
 
     # Configure precision
     dtype_map = {
@@ -109,6 +158,7 @@ def run_experiment(
             "hidden_size": 64,
             "conv1d_width": 4,
             "attention_window_size": 8,
+            "model_revision": "local_mock",
         }
     else:
         print(f"[E11] Loading required pretrained model '{model_id}' (FAIL-CLOSED)...")
@@ -121,9 +171,11 @@ def run_experiment(
                 device_map=device if device != "cpu" else None,
             )
             adapter = RecurrentGemmaAdapter(model=model, device=device, dtype=dtype)
+            model_commit = getattr(model.config, "_commit_hash", None) or getattr(tokenizer, "_commit_hash", "resolved_hub_head")
             model_provenance = {
                 "model_id": model_id,
                 "is_reference_model": False,
+                "model_revision": model_commit,
                 "model_class": model.__class__.__name__,
                 "vocab_size": getattr(model.config, "vocab_size", None),
                 "num_hidden_layers": getattr(model.config, "num_hidden_layers", 26),
@@ -151,9 +203,6 @@ def run_experiment(
         assert lags_to_eval == S12B_CONFIRMATORY_PROTOCOL["required_target_lags"], (
             "Confirmatory run must evaluate lags [8, 2049, 4096]"
         )
-        assert not model_provenance.get("is_reference_model", False), (
-            "Confirmatory run must evaluate pretrained google/recurrentgemma-2b"
-        )
     else:
         # Exploratory Scout
         n_pairs = num_pairs if num_pairs is not None else 4
@@ -163,6 +212,8 @@ def run_experiment(
         mediation_horizons = [512] if model_provenance.get("is_reference_model") else [512]
 
     donor_mapping, donor_map_hash = compute_donor_map_hash(pairs_to_run)
+    git_prov = get_git_provenance()
+    protocol_code_sha = compute_protocol_code_hash()
 
     # Audited pool
     audited_pool = None
@@ -249,6 +300,8 @@ def run_experiment(
         "donor_mapping": donor_mapping,
         "donor_mapping_sha256": donor_map_hash,
         "audited_pool_sha256": audited_pool_hash,
+        "protocol_code_sha256": protocol_code_sha,
+        "git_provenance": git_prov,
         "protocol": S12B_CONFIRMATORY_PROTOCOL if phase == "confirmatory" else {"phase": "scout"},
         "model_provenance": model_provenance,
         "environment": {
