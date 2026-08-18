@@ -12,31 +12,25 @@ def compute_pair_cluster_bootstrap(
     n_boot: int = 10000,
     seed: int = 42,
 ) -> Dict[str, Any]:
-    """Compute hierarchical pair-cluster bootstrap 95% confidence intervals for primary estimands."""
+    """Compute Pair-Cluster Bootstrap 95% confidence intervals conditional on frozen filler streams."""
     rng = random.Random(seed)
     pairs = sorted(list({r["pair_id"] for r in rows}))
     if not pairs:
         return {}
 
-    # Index rows by (pair_id, seed_idx)
-    pair_seed_rows = defaultdict(lambda: defaultdict(list))
-    pair_seeds = defaultdict(set)
+    # Index rows by pair_id
+    pair_rows = defaultdict(list)
     for r in rows:
-        pair_seed_rows[r["pair_id"]][r.get("seed_idx", 0)].append(r)
-        pair_seeds[r["pair_id"]].add(r.get("seed_idx", 0))
+        pair_rows[r["pair_id"]].append(r)
 
     boot_stats: Dict[str, List[float]] = defaultdict(list)
 
     for _ in range(n_boot):
-        # 1. Sample pairs with replacement
+        # 1. Sample stimulus pair clusters with replacement
         sample_pairs = [rng.choice(pairs) for _ in pairs]
         sample_rows = []
         for p in sample_pairs:
-            # 2. Hierarchical: sample seed realizations within pair with replacement
-            avail_seeds = sorted(list(pair_seeds[p]))
-            sampled_seeds = [rng.choice(avail_seeds) for _ in avail_seeds]
-            for s in sampled_seeds:
-                sample_rows.extend(pair_seed_rows[p][s])
+            sample_rows.extend(pair_rows[p])
 
         # Compute sample metrics per regime
         reg_lags = defaultdict(list)

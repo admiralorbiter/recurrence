@@ -163,7 +163,7 @@ def test_add_intervention_matched_noise(test_adapter: RecurrentGemmaAdapter):
 
 
 def test_end_to_end_surgical_swap_harness(test_adapter: RecurrentGemmaAdapter):
-    """End-to-end dry run verifying all 16 causal swap conditions execute cleanly with signed and logit metrics."""
+    """End-to-end dry run verifying all 22 causal swap conditions execute cleanly with signed and logit metrics."""
     pair = CANONICAL_STIMULI_PAIRS[0]
     target_lags = [0, 2, 8]
 
@@ -175,12 +175,12 @@ def test_end_to_end_surgical_swap_harness(test_adapter: RecurrentGemmaAdapter):
         seed=42,
     )
 
-    # 3 lags x 16 conditions = 48 records
-    assert len(records) == 48
+    # 3 lags x 22 conditions = 66 records
+    assert len(records) == 66
     for r in records:
         assert not math.isnan(r.cloze_margin)
         assert not math.isnan(r.signed_graft_effect)
-        assert not math.isnan(r.absolute_displacement)
+        assert not math.isnan(r.directional_displacement)
         assert not math.isnan(r.donor_recipient_norm)
         assert not math.isnan(r.logit_directional_projection)
         assert r.target_choice in ("A", "B")

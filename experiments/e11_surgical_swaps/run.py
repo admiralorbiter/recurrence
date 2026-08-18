@@ -1,21 +1,23 @@
 """Experiment E11 Runner: Multi-Store Surgical State Swaps (Sprint S12).
 
-Executes causal factorial channel interventions at key lag checkpoints
-(e.g., L=8, L=W+1=2049, L=2W=4096) on pretrained RecurrentGemma-2B
-to establish causal store attribution.
+Executes surgical channel interventions across target lag checkpoints (L=8, L=2049, L=4096)
+under scout and fail-closed confirmatory protocols on RecurrentGemma.
 """
 
 import argparse
-from datetime import datetime
+from datetime import datetime, timezone
+import hashlib
 import json
 from pathlib import Path
 import time
-from typing import List, Optional
-
+from typing import Any, Dict, List, Optional, Tuple
 import torch
-from transformers import AutoTokenizer, RecurrentGemmaForCausalLM, RecurrentGemmaConfig
 
-from recurrence.loop.surgical_swap_harness import evaluate_surgical_swaps
+from recurrence.loop.surgical_swap_harness import (
+    evaluate_surgical_swaps,
+    evaluate_mediational_propagation,
+    get_balanced_donor_pairs,
+)
 from recurrence.models.recurrent_gemma_adapter import RecurrentGemmaAdapter
 from recurrence.tasks.impulse_stimuli import (
     CANONICAL_STIMULI_PAIRS,
@@ -23,65 +25,70 @@ from recurrence.tasks.impulse_stimuli import (
 )
 
 
+S12B_CONFIRMATORY_PROTOCOL: Dict[str, Any] = {
+    "protocol_version": "S12b-Confirmatory-v1.0",
+    "required_num_pairs": 20,
+    "required_regimes": ["constant", "interfering", "natural", "random"],
+    "required_target_lags": [8, 2049, 4096],
+    "required_mediation_horizons": [512, 2048],
+    "eligibility_threshold": 0.5,
+    "bootstrap_replicates": 10000,
+    "cluster_unit": "pair_id",
+    "conditioning": "frozen filler panel / deterministic seed assignment",
+}
+
+
+def compute_donor_map_hash(pairs: List[Any]) -> Tuple[Dict[str, Dict[str, str]], str]:
+    """Compute balanced cyclic derangements and return deterministic mapping with SHA-256 hash."""
+    mapping = {}
+    for p in pairs:
+        unrel, perm = get_balanced_donor_pairs(pairs, p)
+        mapping[p.pair_id] = {
+            "unrelated_donor_pair_id": unrel.pair_id,
+            "permuted_donor_pair_id": perm.pair_id,
+        }
+    map_str = json.dumps(mapping, sort_keys=True)
+    map_hash = hashlib.sha256(map_str.encode("utf-8")).hexdigest()
+    return mapping, map_hash
+
+
 def run_experiment(
     phase: str = "scout",
+    model_id: str = "google/recurrentgemma-2b",
+    dtype_str: str = "bfloat16",
+    device: str = "cuda",
+    num_pairs: Optional[int] = None,
     regimes: Optional[List[str]] = None,
-    num_pairs: int = 4,
     target_lags: Optional[List[int]] = None,
-    model_id: Optional[str] = None,
-    dtype: str = "bfloat16",
-    output_dir: Optional[str] = None,
-    device: Optional[str] = None,
     seed: int = 42,
+    output_dir: str = "results/e11_surgical_swaps",
 ) -> Path:
-    """Execute E11 Multi-Store Surgical State Swaps Experiment."""
     start_time = time.time()
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-
-    selected_regimes = regimes or ["constant", "interfering", "natural", "random"]
-    lags_to_eval = target_lags or [8, 2049, 4096]
-
-    if output_dir:
-        out_path = Path(output_dir)
-    else:
-        out_path = Path(f"results/e11_surgical_swaps/run_e11_{phase}_{timestamp}")
+    timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
+    run_id = f"run_e11_{phase}_{timestamp}"
+    out_path = Path(output_dir) / run_id
     out_path.mkdir(parents=True, exist_ok=True)
 
-    if device is not None:
-        target_device = torch.device(device)
-    else:
-        target_device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    print(f"[E11] Initializing {phase.upper()} Phase on device={device}, dtype={dtype_str}...")
 
-    torch_dtype = getattr(torch, dtype) if hasattr(torch, dtype) else torch.bfloat16
+    # Configure precision
+    dtype_map = {
+        "bfloat16": torch.bfloat16,
+        "float16": torch.float16,
+        "float32": torch.float32,
+    }
+    dtype = dtype_map.get(dtype_str, torch.bfloat16)
 
-    print(f"[E11] Initializing {phase.upper()} Phase on device={target_device}, dtype={torch_dtype}...")
+    # 1. Load Model (Fail-Closed)
+    adapter = None
+    tokenizer = None
+    model_provenance = {}
 
-    # Load model
-    target_model_id = model_id or ("google/recurrentgemma-2b" if phase == "confirmatory" or target_device.type == "cuda" else None)
-
-    if target_model_id:
-        print(f"[E11] Loading required pretrained model '{target_model_id}' (FAIL-CLOSED)...")
-        try:
-            tokenizer = AutoTokenizer.from_pretrained(target_model_id)
-            model = RecurrentGemmaForCausalLM.from_pretrained(target_model_id, torch_dtype=torch_dtype)
-            adapter = RecurrentGemmaAdapter(model=model, tokenizer=tokenizer, device=target_device, dtype=torch_dtype)
-            model_provenance = {
-                "model_id": target_model_id,
-                "is_reference_model": False,
-                "model_class": model.__class__.__name__,
-                "commit_hash": getattr(model.config, "_commit_hash", getattr(model.config, "revision", "main")),
-                "vocab_size": len(tokenizer),
-                "num_hidden_layers": model.config.num_hidden_layers,
-                "hidden_size": model.config.hidden_size,
-                "conv1d_width": getattr(model.config, "conv1d_width", 4),
-                "attention_window_size": getattr(model.config, "attention_window_size", getattr(model.config, "sliding_window", 2048)),
-            }
-        except Exception as e:
-            err_msg = f"FATAL: Failed to load required model '{target_model_id}': {e}"
-            print(f"[E11] {err_msg}")
-            raise RuntimeError(err_msg) from e
-    else:
-        print("[E11] Running reference-model engineering scout (random weights).")
+    if model_id == "reference_model":
+        if phase == "confirmatory":
+            raise ValueError("[E11 Fail-Closed Gate] Confirmatory S12b cannot run on reference model!")
+        print("[E11] Initializing lightweight Reference Model for local dry-run...")
+        from transformers import RecurrentGemmaConfig
         config = RecurrentGemmaConfig(
             num_hidden_layers=4,
             hidden_size=64,
@@ -91,26 +98,80 @@ def run_experiment(
             head_dim=32,
             lru_width=64,
             conv1d_width=4,
-            sliding_window=16,
-            block_types=["recurrent", "recurrent", "attention", "recurrent"],
+            sliding_window=8,
             vocab_size=200,
         )
         torch.manual_seed(seed)
-        adapter = RecurrentGemmaAdapter(config=config, device=target_device, dtype=torch.float32)
+        adapter = RecurrentGemmaAdapter(config=config, device=device, dtype=torch.float32)
         model_provenance = {
-            "model_id": "reference_random_recurrentgemma",
+            "model_id": "reference_model",
             "is_reference_model": True,
-            "vocab_size": config.vocab_size,
-            "num_hidden_layers": config.num_hidden_layers,
-            "hidden_size": config.hidden_size,
-            "conv1d_width": config.conv1d_width,
-            "attention_window_size": getattr(config, "attention_window_size", getattr(config, "sliding_window", 16)),
+            "hidden_size": 64,
+            "conv1d_width": 4,
+            "attention_window_size": 8,
         }
-        lags_to_eval = [2, 8, 16]
+    else:
+        print(f"[E11] Loading required pretrained model '{model_id}' (FAIL-CLOSED)...")
+        from transformers import AutoTokenizer, AutoModelForCausalLM
+        try:
+            tokenizer = AutoTokenizer.from_pretrained(model_id)
+            model = AutoModelForCausalLM.from_pretrained(
+                model_id,
+                torch_dtype=dtype,
+                device_map=device if device != "cpu" else None,
+            )
+            adapter = RecurrentGemmaAdapter(model=model, device=device, dtype=dtype)
+            model_provenance = {
+                "model_id": model_id,
+                "is_reference_model": False,
+                "model_class": model.__class__.__name__,
+                "vocab_size": getattr(model.config, "vocab_size", None),
+                "num_hidden_layers": getattr(model.config, "num_hidden_layers", 26),
+                "hidden_size": getattr(model.config, "hidden_size", 2560),
+                "conv1d_width": getattr(model.config, "conv1d_width", 4),
+                "attention_window_size": getattr(model.config, "sliding_window", 2048),
+            }
+        except Exception as e:
+            raise RuntimeError(f"[E11 Fail-Closed Gate] Pretrained model load failed: {e}") from e
 
-    audited_pool, pool_hash = build_audited_vocabulary_pool(tokenizer)
-    pairs_to_run = CANONICAL_STIMULI_PAIRS[:num_pairs]
+    # 2. Select Stimulus Panel & Regimes
+    if phase == "confirmatory":
+        # FAIL-CLOSED CONFIRMATORY PROTOCOL VALIDATION
+        pairs_to_run = CANONICAL_STIMULI_PAIRS
+        selected_regimes = S12B_CONFIRMATORY_PROTOCOL["required_regimes"]
+        lags_to_eval = S12B_CONFIRMATORY_PROTOCOL["required_target_lags"]
+        mediation_horizons = S12B_CONFIRMATORY_PROTOCOL["required_mediation_horizons"]
 
+        assert len(pairs_to_run) == S12B_CONFIRMATORY_PROTOCOL["required_num_pairs"], (
+            f"Confirmatory run must use exactly 20 stimulus pairs, got {len(pairs_to_run)}"
+        )
+        assert set(selected_regimes) == set(S12B_CONFIRMATORY_PROTOCOL["required_regimes"]), (
+            "Confirmatory run must evaluate all 4 regimes: constant, interfering, natural, random"
+        )
+        assert lags_to_eval == S12B_CONFIRMATORY_PROTOCOL["required_target_lags"], (
+            "Confirmatory run must evaluate lags [8, 2049, 4096]"
+        )
+        assert not model_provenance.get("is_reference_model", False), (
+            "Confirmatory run must evaluate pretrained google/recurrentgemma-2b"
+        )
+    else:
+        # Exploratory Scout
+        n_pairs = num_pairs if num_pairs is not None else 4
+        pairs_to_run = CANONICAL_STIMULI_PAIRS[:n_pairs]
+        selected_regimes = regimes if regimes is not None else ["constant", "interfering", "natural", "random"]
+        lags_to_eval = target_lags if target_lags is not None else ([0, 2, 8] if model_provenance.get("is_reference_model") else [8, 2049, 4096])
+        mediation_horizons = [512] if model_provenance.get("is_reference_model") else [512]
+
+    donor_mapping, donor_map_hash = compute_donor_map_hash(pairs_to_run)
+
+    # Audited pool
+    audited_pool = None
+    audited_pool_hash = None
+    if tokenizer is not None:
+        audited_pool, _ = build_audited_vocabulary_pool(tokenizer)
+        audited_pool_hash = hashlib.sha256(json.dumps(audited_pool).encode("utf-8")).hexdigest()
+
+    # 3. Execute Surgical Swaps Factorial
     trace_file = out_path / "swap_trace.jsonl"
     all_records = []
 
@@ -118,7 +179,6 @@ def run_experiment(
         for pair_idx, pair in enumerate(pairs_to_run):
             for regime in selected_regimes:
                 cur_seed = seed + pair_idx * 100
-                perm_pair = pairs_to_run[(pair_idx + 1) % len(pairs_to_run)]
                 records = evaluate_surgical_swaps(
                     adapter=adapter,
                     pair=pair,
@@ -127,7 +187,7 @@ def run_experiment(
                     seed=cur_seed,
                     tokenizer=tokenizer,
                     audited_pool=audited_pool,
-                    permuted_pair=perm_pair,
+                    all_pairs=pairs_to_run,
                 )
                 for rec in records:
                     row = {
@@ -141,7 +201,7 @@ def run_experiment(
                         "cloze_margin": rec.cloze_margin,
                         "target_choice": rec.target_choice,
                         "signed_graft_effect": rec.signed_graft_effect,
-                        "absolute_displacement": rec.absolute_displacement,
+                        "directional_displacement": rec.directional_displacement,
                         "donor_recipient_norm": rec.donor_recipient_norm,
                         "logit_directional_projection": rec.logit_directional_projection,
                         "is_eligible_for_attribution": rec.is_eligible_for_attribution,
@@ -150,27 +210,27 @@ def run_experiment(
                     f_trace.write(json.dumps(row) + "\n")
                     all_records.append(row)
 
-    # Run mediational forward propagation experiments
-    from recurrence.loop.surgical_swap_harness import evaluate_mediational_propagation
+    # 4. Execute Mediational Forward Dynamic Propagation
     med_file = out_path / "mediational_propagation.jsonl"
     all_med_records = []
     with open(med_file, "w", encoding="utf-8") as f_med:
         for pair_idx, pair in enumerate(pairs_to_run):
             for regime in selected_regimes:
-                cur_seed = seed + pair_idx * 100
-                is_ref = model_provenance.get("is_reference_model", False)
-                med_res = evaluate_mediational_propagation(
-                    adapter=adapter,
-                    pair=pair,
-                    regime=regime,
-                    initial_lag=8 if not is_ref else 2,
-                    future_tokens=512 if not is_ref else 8,
-                    seed=cur_seed,
-                    tokenizer=tokenizer,
-                    audited_pool=audited_pool,
-                )
-                f_med.write(json.dumps(med_res) + "\n")
-                all_med_records.append(med_res)
+                for horizon in mediation_horizons:
+                    cur_seed = seed + pair_idx * 100
+                    is_ref = model_provenance.get("is_reference_model", False)
+                    med_res = evaluate_mediational_propagation(
+                        adapter=adapter,
+                        pair=pair,
+                        regime=regime,
+                        initial_lag=8 if not is_ref else 2,
+                        future_tokens=horizon if not is_ref else 8,
+                        seed=cur_seed,
+                        tokenizer=tokenizer,
+                        audited_pool=audited_pool,
+                    )
+                    f_med.write(json.dumps(med_res) + "\n")
+                    all_med_records.append(med_res)
 
     elapsed = time.time() - start_time
     print(f"[E11] Complete! Recorded {len(all_records)} swap condition results and {len(all_med_records)} mediational unrolls in {elapsed:.2f}s.")
@@ -185,14 +245,18 @@ def run_experiment(
         "num_pairs": len(pairs_to_run),
         "regimes": selected_regimes,
         "target_lags": lags_to_eval,
-        "environment": {
-            "torch_version": getattr(torch, "__version__", "unknown"),
-            "transformers_version": getattr(transformers, "__version__", "unknown"),
-            "device": str(target_device),
-            "device_name": torch.cuda.get_device_name(0) if torch.cuda.is_available() and "cuda" in str(target_device) else "CPU",
-            "dtype": str(torch_dtype),
-        },
+        "mediation_horizons": mediation_horizons,
+        "donor_mapping": donor_mapping,
+        "donor_mapping_sha256": donor_map_hash,
+        "audited_pool_sha256": audited_pool_hash,
+        "protocol": S12B_CONFIRMATORY_PROTOCOL if phase == "confirmatory" else {"phase": "scout"},
         "model_provenance": model_provenance,
+        "environment": {
+            "torch_version": torch.__version__,
+            "transformers_version": transformers.__version__,
+            "cuda_available": torch.cuda.is_available(),
+            "device_name": torch.cuda.get_device_name(0) if torch.cuda.is_available() else "CPU",
+        },
     }
 
     with open(out_path / "summary.json", "w", encoding="utf-8") as f_sum:
@@ -202,29 +266,30 @@ def run_experiment(
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Run E11 Multi-Store Surgical Swaps Experiment")
+    parser = argparse.ArgumentParser(description="Run E11 Multi-Store Surgical State Swaps (Sprint S12)")
     parser.add_argument("--phase", type=str, default="scout", choices=["scout", "confirmatory"])
-    parser.add_argument("--regimes", type=str, default="constant,interfering,natural,random")
-    parser.add_argument("--num_pairs", type=int, default=4)
-    parser.add_argument("--target_lags", type=str, default="8,2049,4096")
-    parser.add_argument("--model_id", type=str, default=None)
+    parser.add_argument("--model_id", type=str, default="google/recurrentgemma-2b")
     parser.add_argument("--dtype", type=str, default="bfloat16")
-    parser.add_argument("--output_dir", type=str, default=None)
-    parser.add_argument("--device", type=str, default=None)
+    parser.add_argument("--device", type=str, default="cuda" if torch.cuda.is_available() else "cpu")
+    parser.add_argument("--num_pairs", type=int, default=None)
+    parser.add_argument("--regimes", type=str, default=None)
+    parser.add_argument("--target_lags", type=str, default=None)
     parser.add_argument("--seed", type=int, default=42)
+    parser.add_argument("--output_dir", type=str, default="results/e11_surgical_swaps")
+
     args = parser.parse_args()
 
-    regimes_list = [r.strip() for r in args.regimes.split(",")]
-    lags_list = [int(l.strip()) for l in args.target_lags.split(",")]
+    regimes_list = [r.strip() for r in args.regimes.split(",")] if args.regimes else None
+    lags_list = [int(l.strip()) for l in args.target_lags.split(",")] if args.target_lags else None
 
     run_experiment(
         phase=args.phase,
-        regimes=regimes_list,
-        num_pairs=args.num_pairs,
-        target_lags=lags_list,
         model_id=args.model_id,
-        dtype=args.dtype,
-        output_dir=args.output_dir,
+        dtype_str=args.dtype,
         device=args.device,
+        num_pairs=args.num_pairs,
+        regimes=regimes_list,
+        target_lags=lags_list,
         seed=args.seed,
+        output_dir=args.output_dir,
     )
