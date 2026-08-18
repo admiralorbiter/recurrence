@@ -67,9 +67,21 @@ Token Input x_t ──► [ Conv1D Buffer c_t[l] ] ──► [ RG-LRU Recurrence
     Process token history $x_{1:t} \to S_t$. Reset model to canonical zero state and replay identical tokens $x_{1:t} \to S_t'$. Compare every RGLRU state, conv buffer, KV cache, and output logit to establish whether native recurrent state is merely operationally private or informationally privileged.
   - **Invariance Test 5 (Cloned Branch Independence):** Mutations on branch $B$ do not alter branch $A$.
 
-### Sprint S11: Latent State Capacity, Store Localization & Natural Decay
-- **Goal:** Characterize the empirical information retention limits across RGLRU, Conv1D, and KV cache without injecting synthetic off-manifold vectors.
-- **Protocol:** Expose the real model to arbitrary neutral factual bindings through normal token processing, snapshot naturally resulting states, and measure retention across sequence lengths $T \in \{10, 50, 200, 1000\}$ and distractor intervals.
+### Sprint S11: Latent Impulse Response, Retention & Store Localization
+- **Goal:** Build the first real temporal anatomy of RecurrentGemma without synthetic off-manifold injections: when a historical perturbation enters the model, where does its physical trace go, how long does each physical store retain it, when does it stop being decodable, and when does it stop mattering to behavior?
+- **Dynamic Architectural Lag Grid:** Build grid dynamically from model config (`conv1d_width`, attention sliding window $W$):
+  $$L \in \{0, 1, 2, 3, 4, 8, 16, 32, 128, 512, W/2, W-8, W-1, W, W+1, 2W\}$$
+  (For RecurrentGemma-2B with $W=2048$, captures direct Conv1D buffer horizon, pre-eviction sliding attention, exact window boundary $W$, and post-eviction pure recurrence).
+- **Protocol (Two-Layer Measurement):**
+  1. **Layer 1: Latent Impulse Response (Matched Trajectory Separation):**
+     - Branch A: $[\text{Prefix}] + [\text{Event } A] + [\text{Filler}_{1:L}]$
+     - Branch B: $[\text{Prefix}] + [\text{Event } B] + [\text{Filler}_{1:L}]$
+     - Measure layer-wise Frobenius and cosine separation: $D_{\text{RGLRU}}(L)$, $D_{\text{Conv}}(L)$, $D_{\text{KV}}(L)$.
+     - Measure behavioral distribution divergence: $D_{\text{KL}}(P_A(y_{t+1}) \parallel P_B(y_{t+1}))$.
+     - Test across 4 input-dependent filler regimes: repeated neutral, diverse random, natural language, and semantically interfering.
+  2. **Layer 2: Factual Binding & Usability Probes:**
+     - Probes whether surviving physical state difference remains decodable and functional for the originally bound information.
+     - Separates *state differs* from *state carries useful memory* from *state controls output*.
 
 ### Sprint S12: Multi-Store Causal Factorials (State $\times$ Memory & Component Decompositions)
 - **Goal:** Execute causal interventions in continuous latent state using a scout $\to$ establish methodology.

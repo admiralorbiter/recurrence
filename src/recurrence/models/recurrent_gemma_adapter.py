@@ -1,4 +1,4 @@
-"""Upstream RecurrentGemma Model Adapter & State Plumbing (Sprint S10).
+"""Upstream RecurrentGemma Model Adapter & State Plumbing (Sprint S10 / S10.1).
 
 Instruments the official upstream Hugging Face RecurrentGemma model (`google/recurrentgemma-2b`),
 wrapping module-internal recurrence (rg_lru.recurrent_states), temporal convolution (conv1d_state),
@@ -30,14 +30,19 @@ class RecurrentGemmaAdapter:
         device: Optional[Union[str, torch.device]] = None,
         dtype: Optional[torch.dtype] = None,
     ):
-        self.device = torch.device(device) if device is not None else torch.device("cpu")
-        self.dtype = dtype if dtype is not None else torch.float32
-
         if model is not None:
-            self.model = model.to(device=self.device, dtype=self.dtype)
+            self.model = model
             self.config = model.config
+            # S10.1: Preserve caller device and dtype if not explicitly provided
+            first_param = next(model.parameters(), None)
+            self.device = torch.device(device) if device is not None else (first_param.device if first_param is not None else torch.device("cpu"))
+            self.dtype = dtype if dtype is not None else (first_param.dtype if first_param is not None else torch.float32)
+            if device is not None or dtype is not None:
+                self.model = self.model.to(device=self.device, dtype=self.dtype)
         elif config is not None:
             self.config = config
+            self.device = torch.device(device) if device is not None else torch.device("cpu")
+            self.dtype = dtype if dtype is not None else torch.float32
             self.model = RecurrentGemmaForCausalLM(config).to(device=self.device, dtype=self.dtype)
         else:
             # Default lightweight reference configuration for testing
@@ -50,9 +55,12 @@ class RecurrentGemmaAdapter:
                 head_dim=32,
                 lru_width=128,
                 conv1d_width=4,
+                sliding_window=8,
                 block_types=["recurrent", "recurrent", "attention", "recurrent"],
                 vocab_size=1000,
             )
+            self.device = torch.device(device) if device is not None else torch.device("cpu")
+            self.dtype = dtype if dtype is not None else torch.float32
             self.model = RecurrentGemmaForCausalLM(self.config).to(device=self.device, dtype=self.dtype)
 
         self.model.eval()
@@ -65,7 +73,7 @@ class RecurrentGemmaAdapter:
         """Create a canonical zero-initialized state snapshot for all layers."""
         rglru: Dict[int, torch.Tensor] = {}
         conv: Dict[int, torch.Tensor] = {}
-        kv: Dict[int, Dict[str, torch.Tensor]] = {}
+        kv: Dict[int, Dict[str, Any]] = {}
 
         for l_idx, layer in enumerate(self.model.model.layers):
             block = layer.temporal_block
@@ -95,6 +103,8 @@ class RecurrentGemmaAdapter:
                         device=self.device,
                         dtype=self.dtype,
                     ),
+                    "cumulative_length": 0,
+                    "sliding_window": getattr(self.config, "sliding_window", None),
                 }
 
         return RecurrentStateSnapshot(
@@ -115,7 +125,7 @@ class RecurrentGemmaAdapter:
         """Extract current layer-indexed state from model modules and KV cache."""
         rglru: Dict[int, torch.Tensor] = {}
         conv: Dict[int, torch.Tensor] = {}
-        kv: Dict[int, Dict[str, torch.Tensor]] = {}
+        kv: Dict[int, Dict[str, Any]] = {}
 
         for l_idx, layer in enumerate(self.model.model.layers):
             block = layer.temporal_block
@@ -130,11 +140,19 @@ class RecurrentGemmaAdapter:
                     if l_idx < len(past_key_values.layers):
                         layer_cache = past_key_values.layers[l_idx]
                         if getattr(layer_cache, "is_initialized", False) and getattr(layer_cache, "keys", None) is not None:
-                            if layer_cache.keys.numel() > 0:
-                                kv[l_idx] = {
-                                    "key": layer_cache.keys.detach().clone(),
-                                    "value": layer_cache.values.detach().clone(),
-                                }
+                            kv[l_idx] = {
+                                "key": layer_cache.keys.detach().clone(),
+                                "value": layer_cache.values.detach().clone(),
+                                "cumulative_length": getattr(layer_cache, "cumulative_length", layer_cache.keys.shape[-2]),
+                                "sliding_window": getattr(layer_cache, "sliding_window", getattr(self.config, "sliding_window", None)),
+                            }
+                        else:
+                            kv[l_idx] = {
+                                "key": torch.empty((1, self.config.num_key_value_heads, 0, self.config.head_dim), device=self.device, dtype=self.dtype),
+                                "value": torch.empty((1, self.config.num_key_value_heads, 0, self.config.head_dim), device=self.device, dtype=self.dtype),
+                                "cumulative_length": 0,
+                                "sliding_window": getattr(self.config, "sliding_window", None),
+                            }
 
         return RecurrentStateSnapshot(
             rglru=rglru,
@@ -164,13 +182,15 @@ class RecurrentGemmaAdapter:
                 if l_idx in snapshot.kv and l_idx < len(cache.layers):
                     k = snapshot.kv[l_idx]["key"].detach().clone().to(device=self.device, dtype=self.dtype)
                     v = snapshot.kv[l_idx]["value"].detach().clone().to(device=self.device, dtype=self.dtype)
-                    if k.numel() > 0:
-                        layer_cache = cache.layers[l_idx]
-                        layer_cache.keys = k
-                        layer_cache.values = v
-                        layer_cache.is_initialized = True
-                        layer_cache.device = self.device
-                        layer_cache.dtype = self.dtype
+                    layer_cache = cache.layers[l_idx]
+                    layer_cache.keys = k
+                    layer_cache.values = v
+                    layer_cache.is_initialized = True
+                    layer_cache.device = self.device
+                    layer_cache.dtype = self.dtype
+                    layer_cache.cumulative_length = snapshot.kv[l_idx].get("cumulative_length", k.shape[-2])
+                    if "sliding_window" in snapshot.kv[l_idx] and hasattr(layer_cache, "sliding_window"):
+                        layer_cache.sliding_window = snapshot.kv[l_idx]["sliding_window"]
 
         return cache
 

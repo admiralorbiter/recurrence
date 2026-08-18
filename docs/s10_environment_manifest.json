@@ -1,0 +1,28 @@
+{
+  "provenance": {
+    "framework": "PyTorch",
+    "torch_version": "2.5.1+cu121",
+    "transformers_version": "5.15.0",
+    "os_platform": "Windows-11-10.0.26220-SP0",
+    "python_version": "3.12.0",
+    "hardware_acceleration": "CUDA capable / CPU verified CI"
+  },
+  "model_target": {
+    "model_id": "google/recurrentgemma-2b",
+    "architecture": "RecurrentGemmaForCausalLM",
+    "block_types": ["recurrent", "recurrent", "attention", "recurrent"],
+    "temporal_channels": {
+      "rglru": "Real-Gated Linear Recurrent Unit (Griffin Eq 4)",
+      "conv1d": "1D Temporal Convolution (width=4)",
+      "sliding_kv": "Sliding Window Attention (window=2048)"
+    }
+  },
+  "invariant_verification": {
+    "one_step_griffin_eq4_parity": "PASSED (atol=1e-5)",
+    "store_isolation_3_channels": "PASSED (bitwise / torch.equal)",
+    "snapshot_restore_determinism": "PASSED (atol=1e-5)",
+    "public_history_replay_reconstruction": "PASSED (atol=1e-5)",
+    "sliding_window_boundary_restore": "PASSED (atol=1e-5)",
+    "explicit_step_vs_prefill_parity": "PASSED (atol=1e-5)"
+  }
+}
