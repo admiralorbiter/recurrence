@@ -1,0 +1,393 @@
+{
+  "run_dir": "results\\e11_surgical_swaps\\run_e11_scout_20260817_232654",
+  "model_provenance": {
+    "model_id": "google/recurrentgemma-2b",
+    "is_reference_model": false,
+    "model_class": "RecurrentGemmaForCausalLM",
+    "commit_hash": "3620f4ca9c5d16ee56c00180474a3201ec7f734a",
+    "vocab_size": 256000,
+    "num_hidden_layers": 26,
+    "hidden_size": 2560,
+    "conv1d_width": 4,
+    "attention_window_size": 2048
+  },
+  "lags": [
+    8,
+    2049,
+    4096
+  ],
+  "conditions": [
+    "conv_only_a_into_b",
+    "conv_only_b_into_a",
+    "intact_a",
+    "intact_b",
+    "kv_only_a_into_b",
+    "kv_only_b_into_a",
+    "noise_control_rglru",
+    "recurrent_core_a_into_b",
+    "rglru_only_a_into_b",
+    "rglru_only_b_into_a",
+    "sham_a2_into_a1",
+    "whole_swap_a_into_b",
+    "whole_swap_b_into_a"
+  ],
+  "causal_table": {
+    "8": {
+      "conv_only_a_into_b": {
+        "mean_cloze_margin": -10.9629,
+        "mean_raw_graft_effect": 0.0,
+        "mean_logit_projection": 0.0,
+        "mean_attribution_index": 0.0,
+        "donor_concordance_rate": 0.0,
+        "n_samples": 16,
+        "n_eligible": 16
+      },
+      "conv_only_b_into_a": {
+        "mean_cloze_margin": 12.1641,
+        "mean_raw_graft_effect": 0.0,
+        "mean_logit_projection": 0.0,
+        "mean_attribution_index": 0.0,
+        "donor_concordance_rate": 0.0,
+        "n_samples": 16,
+        "n_eligible": 16
+      },
+      "intact_a": {
+        "mean_cloze_margin": 12.1641,
+        "mean_raw_graft_effect": 0.0,
+        "mean_logit_projection": 0.0,
+        "mean_attribution_index": null,
+        "donor_concordance_rate": 1.0,
+        "n_samples": 16,
+        "n_eligible": 0
+      },
+      "intact_b": {
+        "mean_cloze_margin": -10.9629,
+        "mean_raw_graft_effect": 0.0,
+        "mean_logit_projection": 0.0,
+        "mean_attribution_index": null,
+        "donor_concordance_rate": 1.0,
+        "n_samples": 16,
+        "n_eligible": 0
+      },
+      "kv_only_a_into_b": {
+        "mean_cloze_margin": 11.8477,
+        "mean_raw_graft_effect": 22.8105,
+        "mean_logit_projection": 0.9868,
+        "mean_attribution_index": 0.9862,
+        "donor_concordance_rate": 1.0,
+        "n_samples": 16,
+        "n_eligible": 16
+      },
+      "kv_only_b_into_a": {
+        "mean_cloze_margin": -10.6804,
+        "mean_raw_graft_effect": -22.8445,
+        "mean_logit_projection": 0.9893,
+        "mean_attribution_index": 0.9861,
+        "donor_concordance_rate": 1.0,
+        "n_samples": 16,
+        "n_eligible": 16
+      },
+      "noise_control_rglru": {
+        "mean_cloze_margin": 11.7678,
+        "mean_raw_graft_effect": -0.3962,
+        "mean_logit_projection": 0.0,
+        "mean_attribution_index": null,
+        "donor_concordance_rate": 0.0,
+        "n_samples": 16,
+        "n_eligible": 0
+      },
+      "recurrent_core_a_into_b": {
+        "mean_cloze_margin": -10.6804,
+        "mean_raw_graft_effect": 0.2825,
+        "mean_logit_projection": 0.0107,
+        "mean_attribution_index": 0.0139,
+        "donor_concordance_rate": 0.0,
+        "n_samples": 16,
+        "n_eligible": 16
+      },
+      "rglru_only_a_into_b": {
+        "mean_cloze_margin": -10.6804,
+        "mean_raw_graft_effect": 0.2825,
+        "mean_logit_projection": 0.0107,
+        "mean_attribution_index": 0.0139,
+        "donor_concordance_rate": 0.0,
+        "n_samples": 16,
+        "n_eligible": 16
+      },
+      "rglru_only_b_into_a": {
+        "mean_cloze_margin": 11.8477,
+        "mean_raw_graft_effect": -0.3164,
+        "mean_logit_projection": 0.0132,
+        "mean_attribution_index": 0.0138,
+        "donor_concordance_rate": 0.0,
+        "n_samples": 16,
+        "n_eligible": 16
+      },
+      "sham_a2_into_a1": {
+        "mean_cloze_margin": 12.1641,
+        "mean_raw_graft_effect": 0.0,
+        "mean_logit_projection": 0.0,
+        "mean_attribution_index": null,
+        "donor_concordance_rate": 0.0,
+        "n_samples": 16,
+        "n_eligible": 0
+      },
+      "whole_swap_a_into_b": {
+        "mean_cloze_margin": 12.1641,
+        "mean_raw_graft_effect": 23.127,
+        "mean_logit_projection": 1.0,
+        "mean_attribution_index": 1.0,
+        "donor_concordance_rate": 1.0,
+        "n_samples": 16,
+        "n_eligible": 16
+      },
+      "whole_swap_b_into_a": {
+        "mean_cloze_margin": -10.9629,
+        "mean_raw_graft_effect": -23.127,
+        "mean_logit_projection": 1.0,
+        "mean_attribution_index": 1.0,
+        "donor_concordance_rate": 1.0,
+        "n_samples": 16,
+        "n_eligible": 16
+      }
+    },
+    "2049": {
+      "conv_only_a_into_b": {
+        "mean_cloze_margin": -0.3867,
+        "mean_raw_graft_effect": 0.0,
+        "mean_logit_projection": 0.0,
+        "mean_attribution_index": 0.0,
+        "donor_concordance_rate": 0.4375,
+        "n_samples": 16,
+        "n_eligible": 6
+      },
+      "conv_only_b_into_a": {
+        "mean_cloze_margin": 0.168,
+        "mean_raw_graft_effect": 0.0,
+        "mean_logit_projection": 0.0,
+        "mean_attribution_index": 0.0,
+        "donor_concordance_rate": 0.5,
+        "n_samples": 16,
+        "n_eligible": 6
+      },
+      "intact_a": {
+        "mean_cloze_margin": 0.168,
+        "mean_raw_graft_effect": 0.0,
+        "mean_logit_projection": 0.0,
+        "mean_attribution_index": null,
+        "donor_concordance_rate": 0.5,
+        "n_samples": 16,
+        "n_eligible": 0
+      },
+      "intact_b": {
+        "mean_cloze_margin": -0.3867,
+        "mean_raw_graft_effect": 0.0,
+        "mean_logit_projection": 0.0,
+        "mean_attribution_index": null,
+        "donor_concordance_rate": 0.5625,
+        "n_samples": 16,
+        "n_eligible": 0
+      },
+      "kv_only_a_into_b": {
+        "mean_cloze_margin": 0.1484,
+        "mean_raw_graft_effect": 0.5352,
+        "mean_logit_projection": 0.8062,
+        "mean_attribution_index": 1.0327,
+        "donor_concordance_rate": 0.5,
+        "n_samples": 16,
+        "n_eligible": 6
+      },
+      "kv_only_b_into_a": {
+        "mean_cloze_margin": -0.4141,
+        "mean_raw_graft_effect": -0.582,
+        "mean_logit_projection": 0.8004,
+        "mean_attribution_index": 1.0942,
+        "donor_concordance_rate": 0.5,
+        "n_samples": 16,
+        "n_eligible": 6
+      },
+      "noise_control_rglru": {
+        "mean_cloze_margin": 0.6914,
+        "mean_raw_graft_effect": 0.5234,
+        "mean_logit_projection": 0.0,
+        "mean_attribution_index": null,
+        "donor_concordance_rate": 0.0,
+        "n_samples": 16,
+        "n_eligible": 0
+      },
+      "recurrent_core_a_into_b": {
+        "mean_cloze_margin": -0.4141,
+        "mean_raw_graft_effect": -0.0273,
+        "mean_logit_projection": 0.1996,
+        "mean_attribution_index": -0.0942,
+        "donor_concordance_rate": 0.5,
+        "n_samples": 16,
+        "n_eligible": 6
+      },
+      "rglru_only_a_into_b": {
+        "mean_cloze_margin": -0.4141,
+        "mean_raw_graft_effect": -0.0273,
+        "mean_logit_projection": 0.1996,
+        "mean_attribution_index": -0.0942,
+        "donor_concordance_rate": 0.5,
+        "n_samples": 16,
+        "n_eligible": 6
+      },
+      "rglru_only_b_into_a": {
+        "mean_cloze_margin": 0.1484,
+        "mean_raw_graft_effect": -0.0195,
+        "mean_logit_projection": 0.1938,
+        "mean_attribution_index": -0.0327,
+        "donor_concordance_rate": 0.5,
+        "n_samples": 16,
+        "n_eligible": 6
+      },
+      "sham_a2_into_a1": {
+        "mean_cloze_margin": 0.168,
+        "mean_raw_graft_effect": 0.0,
+        "mean_logit_projection": 0.0,
+        "mean_attribution_index": null,
+        "donor_concordance_rate": 0.0,
+        "n_samples": 16,
+        "n_eligible": 0
+      },
+      "whole_swap_a_into_b": {
+        "mean_cloze_margin": 0.168,
+        "mean_raw_graft_effect": 0.5547,
+        "mean_logit_projection": 1.0,
+        "mean_attribution_index": 1.0,
+        "donor_concordance_rate": 0.5,
+        "n_samples": 16,
+        "n_eligible": 6
+      },
+      "whole_swap_b_into_a": {
+        "mean_cloze_margin": -0.3867,
+        "mean_raw_graft_effect": -0.5547,
+        "mean_logit_projection": 1.0,
+        "mean_attribution_index": 1.0,
+        "donor_concordance_rate": 0.5625,
+        "n_samples": 16,
+        "n_eligible": 6
+      }
+    },
+    "4096": {
+      "conv_only_a_into_b": {
+        "mean_cloze_margin": -0.9453,
+        "mean_raw_graft_effect": 0.0,
+        "mean_logit_projection": 0.0,
+        "mean_attribution_index": 0.0,
+        "donor_concordance_rate": 0.5,
+        "n_samples": 16,
+        "n_eligible": 1
+      },
+      "conv_only_b_into_a": {
+        "mean_cloze_margin": -1.0078,
+        "mean_raw_graft_effect": 0.0,
+        "mean_logit_projection": 0.0,
+        "mean_attribution_index": 0.0,
+        "donor_concordance_rate": 0.5625,
+        "n_samples": 16,
+        "n_eligible": 1
+      },
+      "intact_a": {
+        "mean_cloze_margin": -1.0078,
+        "mean_raw_graft_effect": 0.0,
+        "mean_logit_projection": 0.0,
+        "mean_attribution_index": null,
+        "donor_concordance_rate": 0.4375,
+        "n_samples": 16,
+        "n_eligible": 0
+      },
+      "intact_b": {
+        "mean_cloze_margin": -0.9453,
+        "mean_raw_graft_effect": 0.0,
+        "mean_logit_projection": 0.0,
+        "mean_attribution_index": null,
+        "donor_concordance_rate": 0.5,
+        "n_samples": 16,
+        "n_eligible": 0
+      },
+      "kv_only_a_into_b": {
+        "mean_cloze_margin": -0.9727,
+        "mean_raw_graft_effect": -0.0273,
+        "mean_logit_projection": 0.6772,
+        "mean_attribution_index": 0.1,
+        "donor_concordance_rate": 0.5,
+        "n_samples": 16,
+        "n_eligible": 1
+      },
+      "kv_only_b_into_a": {
+        "mean_cloze_margin": -1.0469,
+        "mean_raw_graft_effect": -0.0391,
+        "mean_logit_projection": 0.6242,
+        "mean_attribution_index": 0.1,
+        "donor_concordance_rate": 0.5625,
+        "n_samples": 16,
+        "n_eligible": 1
+      },
+      "noise_control_rglru": {
+        "mean_cloze_margin": -0.1484,
+        "mean_raw_graft_effect": 0.8594,
+        "mean_logit_projection": 0.0,
+        "mean_attribution_index": null,
+        "donor_concordance_rate": 0.0,
+        "n_samples": 16,
+        "n_eligible": 0
+      },
+      "recurrent_core_a_into_b": {
+        "mean_cloze_margin": -1.0469,
+        "mean_raw_graft_effect": -0.1016,
+        "mean_logit_projection": 0.3758,
+        "mean_attribution_index": 0.9,
+        "donor_concordance_rate": 0.4375,
+        "n_samples": 16,
+        "n_eligible": 1
+      },
+      "rglru_only_a_into_b": {
+        "mean_cloze_margin": -1.0469,
+        "mean_raw_graft_effect": -0.1016,
+        "mean_logit_projection": 0.3758,
+        "mean_attribution_index": 0.9,
+        "donor_concordance_rate": 0.4375,
+        "n_samples": 16,
+        "n_eligible": 1
+      },
+      "rglru_only_b_into_a": {
+        "mean_cloze_margin": -0.9727,
+        "mean_raw_graft_effect": 0.0352,
+        "mean_logit_projection": 0.3228,
+        "mean_attribution_index": 0.9,
+        "donor_concordance_rate": 0.5,
+        "n_samples": 16,
+        "n_eligible": 1
+      },
+      "sham_a2_into_a1": {
+        "mean_cloze_margin": -1.0078,
+        "mean_raw_graft_effect": 0.0,
+        "mean_logit_projection": 0.0,
+        "mean_attribution_index": null,
+        "donor_concordance_rate": 0.0,
+        "n_samples": 16,
+        "n_eligible": 0
+      },
+      "whole_swap_a_into_b": {
+        "mean_cloze_margin": -1.0078,
+        "mean_raw_graft_effect": -0.0625,
+        "mean_logit_projection": 1.0,
+        "mean_attribution_index": 1.0,
+        "donor_concordance_rate": 0.4375,
+        "n_samples": 16,
+        "n_eligible": 1
+      },
+      "whole_swap_b_into_a": {
+        "mean_cloze_margin": -0.9453,
+        "mean_raw_graft_effect": 0.0625,
+        "mean_logit_projection": 1.0,
+        "mean_attribution_index": 1.0,
+        "donor_concordance_rate": 0.5,
+        "n_samples": 16,
+        "n_eligible": 1
+      }
+    }
+  }
+}
