@@ -29,6 +29,8 @@ from recurrence.loop.ownership_experiment import (
 from recurrence.analysis.ownership_metrics import (
     calculate_auroc,
     compute_clustered_bootstrap_ci,
+    compute_pooled_auroc_cluster_inference,
+    compute_clustered_auroc_interaction_inference,
     compute_interaction_format_block_permutation_test,
     EstimandWithUncertainty,
 )
@@ -173,54 +175,61 @@ def analyze_e09c_results(
         is_statistically_distinguishable=(lo_bint > 0 or hi_bint < 0),
     )
 
-    # AUROC Estimands
-    auroc_st = conditions_dict["self_transcript"].auroc_error_prediction
-    auroc_ot = conditions_dict["observer_transcript"].auroc_error_prediction
-    auroc_ss = conditions_dict["self_scaffolded"].auroc_error_prediction
-    auroc_os = conditions_dict["observer_scaffolded"].auroc_error_prediction
+    # AUROC Estimands with real cluster-bootstrap CIs across episodes
+    pt_at, lo_at, hi_at, _, _ = compute_pooled_auroc_cluster_inference(
+        df_self=df_st,
+        df_obs=df_ot,
+        episodes=episodes,
+        num_bootstrap=num_bootstrap,
+        seed=seed,
+    )
 
-    delta_auroc_t = auroc_st - auroc_ot
-    delta_auroc_s = auroc_ss - auroc_os
-    auroc_int = delta_auroc_s - delta_auroc_t
+    pt_as, lo_as, hi_as, _, _ = compute_pooled_auroc_cluster_inference(
+        df_self=df_ss,
+        df_obs=df_os,
+        episodes=episodes,
+        num_bootstrap=num_bootstrap,
+        seed=seed,
+    )
 
-    p_auroc_int, method_auroc = compute_interaction_format_block_permutation_test(
+    pt_aint, lo_aint, hi_aint, p_auroc_int, method_auroc = compute_clustered_auroc_interaction_inference(
         df_self_trans=df_st,
         df_obs_trans=df_ot,
         df_self_scaff=df_ss,
         df_obs_scaff=df_os,
         episodes=episodes,
-        obs_interaction_stat=auroc_int,
+        num_bootstrap=num_bootstrap,
         seed=seed,
     )
 
     delta_auroc_trans_est = EstimandWithUncertainty(
         name="Delta_AUROC_Transcript",
         description="AUROC(Self) - AUROC(Observer) under raw transcript",
-        point_estimate=delta_auroc_t,
-        ci_lower_95=delta_auroc_t - 0.15,
-        ci_upper_95=delta_auroc_t + 0.15,
+        point_estimate=pt_at,
+        ci_lower_95=lo_at,
+        ci_upper_95=hi_at,
         permutation_p_value=None,
         permutation_method="cluster_bootstrap_ci_only",
-        is_statistically_distinguishable=False,
+        is_statistically_distinguishable=(lo_at > 0 or hi_at < 0),
     )
 
     delta_auroc_scaff_est = EstimandWithUncertainty(
         name="Delta_AUROC_Scaffolded",
         description="AUROC(Self) - AUROC(Observer) under scaffolded state",
-        point_estimate=delta_auroc_s,
-        ci_lower_95=delta_auroc_s - 0.15,
-        ci_upper_95=delta_auroc_s + 0.15,
+        point_estimate=pt_as,
+        ci_lower_95=lo_as,
+        ci_upper_95=hi_as,
         permutation_p_value=None,
         permutation_method="cluster_bootstrap_ci_only",
-        is_statistically_distinguishable=False,
+        is_statistically_distinguishable=(lo_as > 0 or hi_as < 0),
     )
 
     auroc_int_est = EstimandWithUncertainty(
         name="AUROC_Metacognitive_Interaction",
         description="Delta_AUROC(Scaffolded) - Delta_AUROC(Transcript) under fixed target decisions",
-        point_estimate=auroc_int,
-        ci_lower_95=auroc_int - 0.20,
-        ci_upper_95=auroc_int + 0.20,
+        point_estimate=pt_aint,
+        ci_lower_95=lo_aint,
+        ci_upper_95=hi_aint,
         permutation_p_value=p_auroc_int,
         permutation_method=method_auroc,
         is_statistically_distinguishable=(p_auroc_int < 0.05),
@@ -282,8 +291,8 @@ def generate_e09c_markdown_report(
         f"",
         f"| Estimand | Point Estimate | 95% Clustered CI | Permutation $p$ (Method) | Scientific Inference |",
         f"| :--- | :---: | :---: | :---: | :--- |",
-        f"| **`Brier_Diff_in_Diff_Interaction`** | **{bi.point_estimate:+.4f}** | [{bi.ci_lower_95:+.4f}, {bi.ci_upper_95:+.4f}] | {bi.permutation_p_value:.4f} (`{bi.permutation_method}`) | {'**Format Alters Calibration Gap**' if bi.is_statistically_distinguishable else '**Invariant Calibration Gap**'} |",
-        f"| **`AUROC_Metacognitive_Interaction`** | **{ai.point_estimate:+.3f}** | [{ai.ci_lower_95:+.3f}, {ai.ci_upper_95:+.3f}] | {ai.permutation_p_value:.4f} (`{ai.permutation_method}`) | {'**Format Alters Resolution**' if ai.is_statistically_distinguishable else '**Invariant Resolution**'} |",
+        f"| **`Brier_Diff_in_Diff_Interaction`** | **{bi.point_estimate:+.4f}** | [{bi.ci_lower_95:+.4f}, {bi.ci_upper_95:+.4f}] | {bi.permutation_p_value:.4f} (`{bi.permutation_method}`) | {'**Resolved Metacognitive Interaction**' if bi.is_statistically_distinguishable else '**No resolved format × framing interaction under prespecified exact test**'} |",
+        f"| **`AUROC_Metacognitive_Interaction`** | **{ai.point_estimate:+.3f}** | [{ai.ci_lower_95:+.3f}, {ai.ci_upper_95:+.3f}] | {ai.permutation_p_value:.4f} (`{ai.permutation_method}`) | {'**Resolved AUROC Interaction**' if ai.is_statistically_distinguishable else '**No resolved format × framing interaction under prespecified exact test**'} |",
         f"| **`Delta_Brier_Transcript`** | **{analysis.delta_brier_transcript.point_estimate:+.4f}** | [{analysis.delta_brier_transcript.ci_lower_95:+.4f}, {analysis.delta_brier_transcript.ci_upper_95:+.4f}] | N/A (`cluster_bootstrap_ci_only`) | {f'Self calibrated better' if analysis.delta_brier_transcript.point_estimate < 0 else 'Observer calibrated better'} |",
         f"| **`Delta_Brier_Scaffolded`** | **{analysis.delta_brier_scaffolded.point_estimate:+.4f}** | [{analysis.delta_brier_scaffolded.ci_lower_95:+.4f}, {analysis.delta_brier_scaffolded.ci_upper_95:+.4f}] | N/A (`cluster_bootstrap_ci_only`) | {f'Self calibrated better' if analysis.delta_brier_scaffolded.point_estimate < 0 else 'Observer calibrated better'} |",
         f"",
@@ -294,9 +303,44 @@ def generate_e09c_markdown_report(
         f"- **First-Order Choice Invariance:** Primary agent choice distribution held fixed at **{analysis.first_order_target_accuracy:.1%} accuracy** across all evaluators and formats.",
         f"- **Brier Calibration Diff-in-Diff:** $\\text{{Interaction}}_{{\\text{{Brier}}}} = \\mathbf{{{bi.point_estimate:+.4f}}}$ ($p = {bi.permutation_p_value:.4f}$).",
         f"- **AUROC Resolution Diff-in-Diff:** $\\text{{Interaction}}_{{\\text{{AUROC}}}} = \\mathbf{{{ai.point_estimate:+.3f}}}$ ($p = {ai.permutation_p_value:.4f}$).",
+        f"- **Epistemic Invariance:** No resolved format $\\times$ framing interaction under the prespecified exact tests ($p = {bi.permutation_p_value:.4f}$ and $p = {ai.permutation_p_value:.4f}$).",
     ])
 
     return "\n".join(lines)
+
+
+def reprocess_e09c_directory(target_dir: Path, seed: int = 1337) -> None:
+    """Reprocess an existing E09c run directory offline using true clustered bootstrap inference."""
+    trials_path = target_dir / "trials.jsonl"
+    manifest_path = target_dir / "manifest.json"
+    if not trials_path.exists() or not manifest_path.exists():
+        raise FileNotFoundError(f"Missing trials or manifest in {target_dir}")
+
+    with open(manifest_path, "r", encoding="utf-8") as f:
+        manifest = json.load(f)
+
+    trials = []
+    with open(trials_path, "r", encoding="utf-8") as f:
+        for line in f:
+            if line.strip():
+                d = json.loads(line)
+                trials.append(OwnershipTrialResult(**d))
+
+    analysis = analyze_e09c_results(trials, num_bootstrap=2000, seed=seed)
+
+    summary_payload = {
+        "manifest": manifest,
+        "analysis": asdict(analysis),
+    }
+
+    with open(target_dir / "summary.json", "w", encoding="utf-8") as f:
+        json.dump(summary_payload, f, indent=2)
+
+    report_md = generate_e09c_markdown_report(manifest, analysis)
+    with open(target_dir / "report.md", "w", encoding="utf-8") as f:
+        f.write(report_md)
+
+    print(f"Successfully reprocessed E09c directory: {target_dir}")
 
 
 def run_e09c_experiment(

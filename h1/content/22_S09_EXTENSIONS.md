@@ -10,8 +10,8 @@ They do not reopen H1 broadly.
 They target the exact remaining alternative explanations.
 
 <div class="live-banner">
-<strong>Live evidence boundary</strong>
-<p>The values on this page are exploratory N=4 results supplied while the confirmatory runs are still in progress. They are included because they change the question the final site must teach, but they are not part of the frozen claim ledger yet.</p>
+<strong>Confirmatory Evidence Frozen</strong>
+<p>The values on this page report the completed $N=16$ confirmatory results for E08c (32 episodes, 800 trials, Seed 1337) and E09c (16 episodes, 80 fixed items, 320 evaluator probes, Seed 1337). All analyses carry cluster-bootstrapped confidence intervals and exact permutation tests.</p>
 </div>
 
 ## E08c · Does the attribution attractor follow the Self role?
@@ -47,45 +47,27 @@ agent_alpha = Peer
 
 Everything else is structurally matched.
 
-### Exploratory N=4 result
+### Confirmatory N=16 Result
 
-- role-reversal shift: **+40.0pp**;
-- exploratory CI `[+12.5,+62.5]`;
-- residual Alpha token bias: **+5.0pp**;
-- Alpha-as-Self attribution: 55.0%;
-- Beta-as-Peer attribution: 10.0%;
-- Beta-as-Self attribution: 50.0%;
-- Alpha-as-Peer attribution: 15.0%.
+- role-reversal shift: **+28.1pp** ($95\%$ CI: $[+15.6\%, +41.2\%]$, exact sign-flip $p = \mathbf{0.0012}$);
+- residual Alpha token bias: **+8.1pp** ($95\%$ CI: $[+1.2\%, +14.4\%]$);
+- Role A (Alpha=Self): 47.5% Alpha (Self), 11.2% Beta (Peer);
+- Role B (Beta=Self): 40.0% Beta (Self), 20.0% Alpha (Peer);
+- True-Self accuracy: identical at **75.0%** across both roles.
 
-The attractor appears to move with the designated Self/primary role rather than staying attached to `agent_alpha`.
+Role designation is a strong causal contributor to attribution, dominating but not eliminating a smaller residual actor-token preference.
 
 <div class="interactive-lab" data-widget="e08c-role-explorer">
-<div class="kicker">Exploratory role counterbalance</div>
+<div class="kicker">Confirmatory role counterbalance</div>
 <h2>Flip the Self assignment</h2>
 <div id="e08c-role-explorer"></div>
 </div>
 
-### Instrument ceiling
+### Failed Direct-Mention Positive Control
 
-An isolated, explicit provenance-lookup positive control reaches only **30.0%** exploratory accuracy.
+An isolated, explicit provenance-lookup positive control reaches only **21.2%** accuracy (5AFC chance: 20.0%), collapsing toward Self (**68.8%**) while external sources range from 3.1% to 15.6%.
 
-That is surprisingly low for a 5AFC task with minimal memory load.
-
-It suggests the instrument itself is hard for Qwen2.5-3B and motivates careful interpretation of ownership deficits.
-
-### What the confirmatory result will decide
-
-If the attractor again moves with the role assignment:
-
-> H1 has evidence for a **prompt-role anchoring effect**, not merely an Alpha token prior.
-
-If it stays attached to Alpha:
-
-> The canonical “Self” pattern is substantially lexical.
-
-If it weakens:
-
-> The original arrangement contributed more than either simple explanation.
+This is not an instrument ceiling; it is a **failed positive control**. Even under direct explicit mention without memory load, the model collapses toward the designated primary Self role, establishing that prompt-level role packaging interferes with source lookup and motivating role-channel ablation (E08d).
 
 ## E09c · Does the metacognitive reversal survive a fixed target?
 
@@ -100,23 +82,13 @@ E09c freezes the first-order target decision per item across:
 
 Now the only intended change is the assessment format and framing—not the decision being evaluated.
 
-### Exploratory N=4 result
+### Confirmatory N=16 Result
 
-- first-order accuracy fixed at **25.0%** in all four cells;
-- Brier difference-in-differences: **−0.0921**, `p = .8824`;
-- AUROC difference-in-differences: **+0.053**, `p = .75`.
+- first-order accuracy fixed at **47.5%** (38/80 items) in all four cells;
+- Brier difference-in-differences: **+0.1880** ($95\%$ CI: $[-0.0232, +0.4242]$, exact sign-flip $p = \mathbf{0.1501}$);
+- AUROC difference-in-differences: **−0.209** ($95\%$ clustered CI: $[-0.458, +0.021]$, exact format-block swap $p = \mathbf{0.1406}$).
 
-No resolved interaction appears when the target choice is strictly fixed.
-
-### What confirmation will decide
-
-If N=16 remains null:
-
-> The earlier canonical format reversal belongs to the broader format-conditioned decision distribution, not an isolated change in metacognitive evaluation of the same choice.
-
-If the interaction reappears:
-
-> Explicit scaffolded state changes the relative Self/Observer calibration even when the target decision is identical.
+**Epistemic takeaway:** Under strictly matched first-order target decisions, there is **no resolved format × framing interaction under the prespecified exact test** ($p > 0.14$), confirming that explicit Level-1 prompt scaffolding provides no privileged self-calibration channel.
 
 ## Why these extensions are worth doing
 

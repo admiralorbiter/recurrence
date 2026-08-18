@@ -1,0 +1,157 @@
+{
+  "manifest": {
+    "run_id": "run_e08d_ablation_20260817_190440_exploratory",
+    "experiment": "e08d_role_ablation",
+    "phase": "exploratory",
+    "start_time": "2026-08-18T00:04:40.158604+00:00",
+    "end_time": "2026-08-18T00:11:19.708361+00:00",
+    "target_model": "qwen2.5:3b",
+    "model_digest": "357c53fb659c5076de1d65ccb0b397446227b71a42be9d1603d46168015c9e4b",
+    "seed": 42,
+    "total_episode_pairs": 4,
+    "total_episodes": 8,
+    "total_trials": 160,
+    "episodes": [
+      {
+        "episode_id": "ownership_s09_000_roleA",
+        "twin_index": 0,
+        "role_mapping": "alpha_self_beta_peer"
+      },
+      {
+        "episode_id": "ownership_s09_000_roleB",
+        "twin_index": 0,
+        "role_mapping": "beta_self_alpha_peer"
+      },
+      {
+        "episode_id": "ownership_s09_001_roleA",
+        "twin_index": 1,
+        "role_mapping": "alpha_self_beta_peer"
+      },
+      {
+        "episode_id": "ownership_s09_001_roleB",
+        "twin_index": 1,
+        "role_mapping": "beta_self_alpha_peer"
+      },
+      {
+        "episode_id": "ownership_s09_002_roleA",
+        "twin_index": 2,
+        "role_mapping": "alpha_self_beta_peer"
+      },
+      {
+        "episode_id": "ownership_s09_002_roleB",
+        "twin_index": 2,
+        "role_mapping": "beta_self_alpha_peer"
+      },
+      {
+        "episode_id": "ownership_s09_003_roleA",
+        "twin_index": 3,
+        "role_mapping": "alpha_self_beta_peer"
+      },
+      {
+        "episode_id": "ownership_s09_003_roleB",
+        "twin_index": 3,
+        "role_mapping": "beta_self_alpha_peer"
+      }
+    ]
+  },
+  "analysis": {
+    "total_episode_pairs": 4,
+    "total_episodes": 8,
+    "total_trials": 160,
+    "conditions": {
+      "c1_full_package": {
+        "condition_id": "c1_full_package",
+        "condition_label": "Full Role Package (Preamble + Legend + Labeled Choices)",
+        "total_trials": 40,
+        "overall_accuracy": 0.325,
+        "ci_lower_95": 0.25,
+        "ci_upper_95": 0.375,
+        "self_attribution_rate": 0.725,
+        "accuracy_by_source": {
+          "self": 0.875,
+          "environment": 0.0,
+          "experimenter": 0.25,
+          "peer_agent": 0.375,
+          "observer": 0.125
+        },
+        "attribution_by_actor": {
+          "agent_alpha": 0.4,
+          "agent_beta": 0.45,
+          "telemetry_sensor": 0.025,
+          "human_controller": 0.1,
+          "auditor_gamma": 0.025
+        }
+      },
+      "c2_actor_only_choices": {
+        "condition_id": "c2_actor_only_choices",
+        "condition_label": "Actor-Only Choices (Preamble + Legend + Actor IDs)",
+        "total_trials": 40,
+        "overall_accuracy": 0.275,
+        "ci_lower_95": 0.225,
+        "ci_upper_95": 0.35000000000000003,
+        "self_attribution_rate": 0.8,
+        "accuracy_by_source": {
+          "self": 1.0,
+          "environment": 0.0,
+          "experimenter": 0.0,
+          "peer_agent": 0.25,
+          "observer": 0.125
+        },
+        "attribution_by_actor": {
+          "agent_alpha": 0.45,
+          "agent_beta": 0.45,
+          "telemetry_sensor": 0.0,
+          "human_controller": 0.05,
+          "auditor_gamma": 0.05
+        }
+      },
+      "c3_no_legend": {
+        "condition_id": "c3_no_legend",
+        "condition_label": "No Legend (Preamble + Actor IDs)",
+        "total_trials": 40,
+        "overall_accuracy": 0.4,
+        "ci_lower_95": 0.32500000000000007,
+        "ci_upper_95": 0.475,
+        "self_attribution_rate": 0.475,
+        "accuracy_by_source": {
+          "self": 0.375,
+          "environment": 0.0,
+          "experimenter": 0.875,
+          "peer_agent": 0.625,
+          "observer": 0.125
+        },
+        "attribution_by_actor": {
+          "agent_alpha": 0.475,
+          "agent_beta": 0.175,
+          "telemetry_sensor": 0.025,
+          "human_controller": 0.275,
+          "auditor_gamma": 0.05
+        }
+      },
+      "c4_neutral_lookup": {
+        "condition_id": "c4_neutral_lookup",
+        "condition_label": "Fully Neutral Direct Lookup (No Role Language)",
+        "total_trials": 40,
+        "overall_accuracy": 0.725,
+        "ci_lower_95": 0.625,
+        "ci_upper_95": 0.825,
+        "self_attribution_rate": 0.15,
+        "accuracy_by_source": {
+          "self": 0.625,
+          "environment": 0.5,
+          "experimenter": 0.625,
+          "peer_agent": 0.875,
+          "observer": 1.0
+        },
+        "attribution_by_actor": {
+          "agent_alpha": 0.325,
+          "agent_beta": 0.175,
+          "telemetry_sensor": 0.125,
+          "human_controller": 0.175,
+          "auditor_gamma": 0.2
+        }
+      }
+    },
+    "diagnostic_conclusion": "Substantial role-interference effect: Neutral direct lookup (72.5%) significantly outperforms the full role package (32.5%)."
+  }
+}

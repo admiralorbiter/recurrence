@@ -24,8 +24,8 @@
 
 | Estimand | Point Estimate | 95% Clustered CI | Permutation $p$ (Method) | Scientific Inference |
 | :--- | :---: | :---: | :---: | :--- |
-| **`Brier_Diff_in_Diff_Interaction`** | **+0.1880** | [-0.0232, +0.4242] | 0.1501 (`exact_sign_flip_2^16`) | **Invariant Calibration Gap** |
-| **`AUROC_Metacognitive_Interaction`** | **-0.209** | [-0.409, -0.009] | 0.1406 (`exact_format_block_swap_65k`) | **Invariant Resolution** |
+| **`Brier_Diff_in_Diff_Interaction`** | **+0.1880** | [-0.0232, +0.4242] | 0.1501 (`exact_sign_flip_2^16`) | **No resolved format × framing interaction under prespecified exact test** |
+| **`AUROC_Metacognitive_Interaction`** | **-0.209** | [-0.458, +0.021] | 0.1406 (`exact_format_block_swap_65k`) | **No resolved format × framing interaction under prespecified exact test** |
 | **`Delta_Brier_Transcript`** | **-0.0284** | [-0.1722, +0.1367] | N/A (`cluster_bootstrap_ci_only`) | Self calibrated better |
 | **`Delta_Brier_Scaffolded`** | **+0.1596** | [-0.0097, +0.3384] | N/A (`cluster_bootstrap_ci_only`) | Observer calibrated better |
 
@@ -36,3 +36,4 @@
 - **First-Order Choice Invariance:** Primary agent choice distribution held fixed at **47.5% accuracy** across all evaluators and formats.
 - **Brier Calibration Diff-in-Diff:** $\text{Interaction}_{\text{Brier}} = \mathbf{+0.1880}$ ($p = 0.1501$).
 - **AUROC Resolution Diff-in-Diff:** $\text{Interaction}_{\text{AUROC}} = \mathbf{-0.209}$ ($p = 0.1406$).
+- **Epistemic Invariance:** No resolved format $\times$ framing interaction under the prespecified exact tests ($p = 0.1501$ and $p = 0.1406$).

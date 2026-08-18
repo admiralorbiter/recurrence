@@ -1,0 +1,55 @@
+{
+  "run_id": "run_e08d_ablation_20260817_190440_exploratory",
+  "experiment": "e08d_role_ablation",
+  "phase": "exploratory",
+  "start_time": "2026-08-18T00:04:40.158604+00:00",
+  "end_time": "2026-08-18T00:11:19.708361+00:00",
+  "target_model": "qwen2.5:3b",
+  "model_digest": "357c53fb659c5076de1d65ccb0b397446227b71a42be9d1603d46168015c9e4b",
+  "seed": 42,
+  "total_episode_pairs": 4,
+  "total_episodes": 8,
+  "total_trials": 160,
+  "episodes": [
+    {
+      "episode_id": "ownership_s09_000_roleA",
+      "twin_index": 0,
+      "role_mapping": "alpha_self_beta_peer"
+    },
+    {
+      "episode_id": "ownership_s09_000_roleB",
+      "twin_index": 0,
+      "role_mapping": "beta_self_alpha_peer"
+    },
+    {
+      "episode_id": "ownership_s09_001_roleA",
+      "twin_index": 1,
+      "role_mapping": "alpha_self_beta_peer"
+    },
+    {
+      "episode_id": "ownership_s09_001_roleB",
+      "twin_index": 1,
+      "role_mapping": "beta_self_alpha_peer"
+    },
+    {
+      "episode_id": "ownership_s09_002_roleA",
+      "twin_index": 2,
+      "role_mapping": "alpha_self_beta_peer"
+    },
+    {
+      "episode_id": "ownership_s09_002_roleB",
+      "twin_index": 2,
+      "role_mapping": "beta_self_alpha_peer"
+    },
+    {
+      "episode_id": "ownership_s09_003_roleA",
+      "twin_index": 3,
+      "role_mapping": "alpha_self_beta_peer"
+    },
+    {
+      "episode_id": "ownership_s09_003_roleB",
+      "twin_index": 3,
+      "role_mapping": "beta_self_alpha_peer"
+    }
+  ]
+}

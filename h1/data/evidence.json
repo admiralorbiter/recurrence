@@ -781,35 +781,52 @@
         "caveat": "first-order target choices were independently generated across formats"
       }
     },
-    "e08c_exploratory": {
-      "pairs": 4,
-      "trials": 200,
-      "role_shift": 40.0,
+    "e08c_confirmatory": {
+      "run_id": "run_e08c_role_20260817_153635_confirmatory",
+      "pairs": 16,
+      "episodes": 32,
+      "trials": 800,
+      "role_shift": 28.1,
       "ci": [
-        12.5,
-        62.5
+        15.6,
+        41.2
       ],
-      "roleA_alpha_self": 55.0,
-      "roleA_beta_peer": 10.0,
-      "roleB_beta_self": 50.0,
-      "roleB_alpha_peer": 15.0,
-      "alpha_bias": 5.0,
+      "p": 0.0012,
+      "roleA_alpha_self": 47.5,
+      "roleA_beta_peer": 11.2,
+      "roleB_beta_self": 40.0,
+      "roleB_alpha_peer": 20.0,
+      "alpha_bias": 8.1,
       "alpha_bias_ci": [
-        -5.0,
-        15.0
+        1.2,
+        14.4
       ],
-      "ceiling": 30.0,
-      "status": "confirmatory running"
+      "direct_mention_control": 21.2,
+      "direct_mention_control_ci": [
+        15.6,
+        27.5
+      ],
+      "status": "confirmatory frozen"
     },
-    "e09c_exploratory": {
-      "episodes": 4,
-      "probes": 80,
-      "accuracy": 25.0,
-      "brier_interaction": -0.0921,
-      "brier_p": 0.8824,
-      "auroc_interaction": 0.053,
-      "auroc_p": 0.75,
-      "status": "confirmatory pending/running"
+    "e09c_confirmatory": {
+      "run_id": "run_e09c_meta_20260817_161013_confirmatory",
+      "episodes": 16,
+      "items": 80,
+      "probes": 320,
+      "target_accuracy": 47.5,
+      "brier_interaction": 0.1880,
+      "brier_ci": [
+        -0.0232,
+        0.4242
+      ],
+      "brier_p": 0.1501,
+      "auroc_interaction": -0.209,
+      "auroc_ci": [
+        -0.458,
+        0.021
+      ],
+      "auroc_p": 0.1406,
+      "status": "confirmatory frozen"
     }
   }
 }

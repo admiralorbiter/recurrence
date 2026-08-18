@@ -1,0 +1,137 @@
+{
+  "manifest": {
+    "run_id": "run_e08d_ablation_20260817_190434_exploratory",
+    "experiment": "e08d_role_ablation",
+    "phase": "exploratory",
+    "start_time": "2026-08-18T00:04:34.847983+00:00",
+    "end_time": "2026-08-18T00:04:34.996165+00:00",
+    "target_model": "qwen2.5:3b",
+    "model_digest": "mock_digest_dryrun_e08",
+    "seed": 42,
+    "total_episode_pairs": 2,
+    "total_episodes": 4,
+    "total_trials": 80,
+    "episodes": [
+      {
+        "episode_id": "ownership_s09_000_roleA",
+        "twin_index": 0,
+        "role_mapping": "alpha_self_beta_peer"
+      },
+      {
+        "episode_id": "ownership_s09_000_roleB",
+        "twin_index": 0,
+        "role_mapping": "beta_self_alpha_peer"
+      },
+      {
+        "episode_id": "ownership_s09_001_roleA",
+        "twin_index": 1,
+        "role_mapping": "alpha_self_beta_peer"
+      },
+      {
+        "episode_id": "ownership_s09_001_roleB",
+        "twin_index": 1,
+        "role_mapping": "beta_self_alpha_peer"
+      }
+    ]
+  },
+  "analysis": {
+    "total_episode_pairs": 2,
+    "total_episodes": 4,
+    "total_trials": 80,
+    "conditions": {
+      "c1_full_package": {
+        "condition_id": "c1_full_package",
+        "condition_label": "Full Role Package (Preamble + Legend + Labeled Choices)",
+        "total_trials": 20,
+        "overall_accuracy": 0.1,
+        "ci_lower_95": 0.0,
+        "ci_upper_95": 0.2,
+        "self_attribution_rate": 0.3,
+        "accuracy_by_source": {
+          "self": 0.0,
+          "environment": 0.0,
+          "experimenter": 0.0,
+          "peer_agent": 0.5,
+          "observer": 0.0
+        },
+        "attribution_by_actor": {
+          "agent_alpha": 0.3,
+          "agent_beta": 0.3,
+          "telemetry_sensor": 0.0,
+          "human_controller": 0.1,
+          "auditor_gamma": 0.3
+        }
+      },
+      "c2_actor_only_choices": {
+        "condition_id": "c2_actor_only_choices",
+        "condition_label": "Actor-Only Choices (Preamble + Legend + Actor IDs)",
+        "total_trials": 20,
+        "overall_accuracy": 0.1,
+        "ci_lower_95": 0.0,
+        "ci_upper_95": 0.2,
+        "self_attribution_rate": 0.3,
+        "accuracy_by_source": {
+          "self": 0.0,
+          "environment": 0.0,
+          "experimenter": 0.0,
+          "peer_agent": 0.5,
+          "observer": 0.0
+        },
+        "attribution_by_actor": {
+          "agent_alpha": 0.3,
+          "agent_beta": 0.3,
+          "telemetry_sensor": 0.0,
+          "human_controller": 0.1,
+          "auditor_gamma": 0.3
+        }
+      },
+      "c3_no_legend": {
+        "condition_id": "c3_no_legend",
+        "condition_label": "No Legend (Preamble + Actor IDs)",
+        "total_trials": 20,
+        "overall_accuracy": 0.1,
+        "ci_lower_95": 0.0,
+        "ci_upper_95": 0.2,
+        "self_attribution_rate": 0.3,
+        "accuracy_by_source": {
+          "self": 0.0,
+          "environment": 0.0,
+          "experimenter": 0.0,
+          "peer_agent": 0.5,
+          "observer": 0.0
+        },
+        "attribution_by_actor": {
+          "agent_alpha": 0.3,
+          "agent_beta": 0.3,
+          "telemetry_sensor": 0.0,
+          "human_controller": 0.1,
+          "auditor_gamma": 0.3
+        }
+      },
+      "c4_neutral_lookup": {
+        "condition_id": "c4_neutral_lookup",
+        "condition_label": "Fully Neutral Direct Lookup (No Role Language)",
+        "total_trials": 20,
+        "overall_accuracy": 0.1,
+        "ci_lower_95": 0.0,
+        "ci_upper_95": 0.2,
+        "self_attribution_rate": 0.3,
+        "accuracy_by_source": {
+          "self": 0.0,
+          "environment": 0.0,
+          "experimenter": 0.0,
+          "peer_agent": 0.5,
+          "observer": 0.0
+        },
+        "attribution_by_actor": {
+          "agent_alpha": 0.3,
+          "agent_beta": 0.3,
+          "telemetry_sensor": 0.0,
+          "human_controller": 0.1,
+          "auditor_gamma": 0.3
+        }
+      }
+    },
+    "diagnostic_conclusion": "The 5AFC direct-mention task format remains difficult even under neutral lookup (10.0%), motivating transition to a binary 2AFC reality-monitoring benchmark."
+  }
+}

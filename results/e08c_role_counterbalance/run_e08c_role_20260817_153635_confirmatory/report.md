@@ -1,11 +1,11 @@
-# Experiment E08c: Primary-Role Counterbalance & Instrument Ceiling Control Report (Sprint S09c)
+# Experiment E08c: Primary-Role Counterbalance & Instrument Control Report (Sprint S09c)
 
 **Run ID:** `run_e08c_role_20260817_153635_confirmatory`  
 **Model:** `qwen2.5:3b` (`357c53fb659c...`)  
 **Phase:** `CONFIRMATORY` (Seed: `1337`)  
 **Date:** 2026-08-17T20:36:35.335840+00:00  
 **Scope:** 16 Matched Episode Pairs (32 Episodes) | 800 Total Counterbalance Trials  
-**Primary Question:** *Does the primary-agent attribution attractor follow the prompt-designated Self role or the lexical token 'agent_alpha'? What is the direct prompt instrument ceiling?*
+**Primary Question:** *Does the primary-agent attribution attractor follow the prompt-designated Self role or the lexical token 'agent_alpha'? What is direct prompt lookup accuracy?*
 
 ---
 
@@ -14,8 +14,8 @@
 | Estimand | Point Estimate | 95% Clustered CI | Permutation $p$ (Method) | Scientific Inference |
 | :--- | :---: | :---: | :---: | :--- |
 | **`Delta_Role_Reversal_Shift`** | **+28.1%** | [+15.6%, +41.2%] | 0.0012 (`exact_sign_flip_2^16`) | **Attractor follows designated Self role** |
-| **`Alpha_Lexical_Token_Bias`** | **+8.1%** | [+1.2%, +14.4%] | N/A (`cluster_bootstrap_ci_only`) | Preference for agent_alpha over agent_beta |
-| **`Isolated_Positive_Control_Ceiling`** | **21.2%** | [15.6%, 27.5%] | N/A (`cluster_bootstrap_ci_only`) | **Prompt Instrument Ceiling (No Memory Load)** |
+| **`Alpha_Lexical_Token_Bias`** | **+8.1%** | [+1.2%, +14.4%] | N/A (`cluster_bootstrap_ci_only`) | Residual preference for agent_alpha |
+| **`Direct_Mention_Positive_Control`** | **21.2%** | [15.6%, 27.5%] | N/A (`cluster_bootstrap_ci_only`) | **Failed Positive Control (5AFC Chance: 20%)** |
 
 ---
 
@@ -30,7 +30,7 @@
 
 ---
 
-## 3. Isolated Positive Control Ceiling Breakdown (Per Source)
+## 3. Direct Mention Positive Control Breakdown (Per Source)
 
 | Epistemic Source | Direct Isolated 5AFC Accuracy | Theoretical Baseline |
 | :--- | :---: | :---: |
@@ -66,6 +66,5 @@
 
 ## 5. Scientific Conclusion
 
-- **Primary Role Reversal:** $\Delta_{\text{role}} = \mathbf{+28.1%}$ (95% CI: [+15.6%, +41.2%], $p = 0.0012$).
-- **Lexical Bias:** $\text{Bias}_{\text{alpha}} = \mathbf{+8.1%}$.
-- **Instrument Ceiling:** $\text{Ceiling} = \mathbf{21.2%}$ without memory load.
+- **Primary Role Reversal:** Role designation is a strong causal contributor to attribution ($\Delta_{\text{role}} = \mathbf{+28.1%}$, 95% CI: [+15.6%, +41.2%], $p = 0.0012$), dominating but not eliminating a smaller residual actor-token preference ($\text{Bias}_{\text{alpha}} = \mathbf{+8.1%}$).
+- **Failed Positive Control:** Direct isolated explicit-mention lookup reached only $\mathbf{21.2%}$ (5AFC chance: 20.0%), with $68.8\%$ collapse toward Self and 3-16% on external sources, establishing that prompt-level role packaging interferes with source lookup and motivating role-channel ablation (E08d).

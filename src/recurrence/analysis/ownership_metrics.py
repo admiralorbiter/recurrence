@@ -445,6 +445,74 @@ def compute_interaction_format_block_permutation_test(
         return float((extreme_count + 1) / (n_perms + 1)), "monte_carlo_format_block_swap_50k"
 
 
+def compute_clustered_auroc_interaction_inference(
+    df_self_trans: pd.DataFrame,
+    df_obs_trans: pd.DataFrame,
+    df_self_scaff: pd.DataFrame,
+    df_obs_scaff: pd.DataFrame,
+    episodes: List[str],
+    num_bootstrap: int = 2000,
+    seed: int = 42,
+) -> Tuple[float, float, float, float, str]:
+    """Compute pooled AUROC interaction (Delta_Scaffolded - Delta_Transcript) with cluster-bootstrap CI and permutation test."""
+    auc_st = calculate_auroc(df_self_trans["subjective_confidence_pct"].tolist(), df_self_trans["is_correct"].tolist())
+    auc_ot = calculate_auroc(df_obs_trans["subjective_confidence_pct"].tolist(), df_obs_trans["is_correct"].tolist())
+    auc_ss = calculate_auroc(df_self_scaff["subjective_confidence_pct"].tolist(), df_self_scaff["is_correct"].tolist())
+    auc_os = calculate_auroc(df_obs_scaff["subjective_confidence_pct"].tolist(), df_obs_scaff["is_correct"].tolist())
+
+    delta_t = auc_st - auc_ot
+    delta_s = auc_ss - auc_os
+    point_est = delta_s - delta_t
+
+    # Pre-extract data per episode
+    ep_data = {}
+    for ep in episodes:
+        st = df_self_trans[df_self_trans["episode_id"] == ep]
+        ot = df_obs_trans[df_obs_trans["episode_id"] == ep]
+        ss = df_self_scaff[df_self_scaff["episode_id"] == ep]
+        os = df_obs_scaff[df_obs_scaff["episode_id"] == ep]
+        ep_data[ep] = {
+            "st_c": st["subjective_confidence_pct"].tolist(), "st_l": st["is_correct"].tolist(),
+            "ot_c": ot["subjective_confidence_pct"].tolist(), "ot_l": ot["is_correct"].tolist(),
+            "ss_c": ss["subjective_confidence_pct"].tolist(), "ss_l": ss["is_correct"].tolist(),
+            "os_c": os["subjective_confidence_pct"].tolist(), "os_l": os["is_correct"].tolist(),
+        }
+
+    rng = random.Random(seed)
+    n_eps = len(episodes)
+    boot_interactions = []
+
+    for _ in range(num_bootstrap):
+        sampled_eps = [rng.choice(episodes) for _ in range(n_eps)]
+        b_st_c, b_st_l, b_ot_c, b_ot_l = [], [], [], []
+        b_ss_c, b_ss_l, b_os_c, b_os_l = [], [], [], []
+        for ep in sampled_eps:
+            d = ep_data[ep]
+            b_st_c.extend(d["st_c"]); b_st_l.extend(d["st_l"])
+            b_ot_c.extend(d["ot_c"]); b_ot_l.extend(d["ot_l"])
+            b_ss_c.extend(d["ss_c"]); b_ss_l.extend(d["ss_l"])
+            b_os_c.extend(d["os_c"]); b_os_l.extend(d["os_l"])
+
+        b_dt = calculate_auroc(b_st_c, b_st_l) - calculate_auroc(b_ot_c, b_ot_l)
+        b_ds = calculate_auroc(b_ss_c, b_ss_l) - calculate_auroc(b_os_c, b_os_l)
+        boot_interactions.append(b_ds - b_dt)
+
+    ci_lower = float(np.percentile(boot_interactions, 2.5))
+    ci_upper = float(np.percentile(boot_interactions, 97.5))
+
+    p_val, p_meth = compute_interaction_format_block_permutation_test(
+        df_self_trans=df_self_trans,
+        df_obs_trans=df_obs_trans,
+        df_self_scaff=df_self_scaff,
+        df_obs_scaff=df_obs_scaff,
+        episodes=episodes,
+        obs_interaction_stat=point_est,
+        seed=seed,
+    )
+
+    return point_est, ci_lower, ci_upper, p_val, p_meth
+
+
 def analyze_ownership_results(
     trials: List[OwnershipTrialResult],
     num_bootstrap: int = 2000,

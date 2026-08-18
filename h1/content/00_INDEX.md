@@ -3,7 +3,7 @@
 
 <div class="hero-note">
 <strong>Evidence status</strong>
-<p>The S04–S09 core battery is frozen. S09 analyses carry explicit post-confirmatory provenance. E08c and E09c are presented as <em>live closure extensions</em>: exploratory findings are visible, but their N=16 confirmatory results are not yet canonized here.</p>
+<p>The S04–S09 core battery and closure extensions (E08c, E09c) are fully frozen and synchronized. S09 analyses carry explicit post-confirmatory provenance and exact permutation tests.</p>
 </div>
 
 You do **not** need a background in machine learning, statistics, cognitive science, or philosophy of mind to follow this site.

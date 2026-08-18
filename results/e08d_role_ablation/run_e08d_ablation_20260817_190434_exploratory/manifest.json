@@ -1,0 +1,35 @@
+{
+  "run_id": "run_e08d_ablation_20260817_190434_exploratory",
+  "experiment": "e08d_role_ablation",
+  "phase": "exploratory",
+  "start_time": "2026-08-18T00:04:34.847983+00:00",
+  "end_time": "2026-08-18T00:04:34.996165+00:00",
+  "target_model": "qwen2.5:3b",
+  "model_digest": "mock_digest_dryrun_e08",
+  "seed": 42,
+  "total_episode_pairs": 2,
+  "total_episodes": 4,
+  "total_trials": 80,
+  "episodes": [
+    {
+      "episode_id": "ownership_s09_000_roleA",
+      "twin_index": 0,
+      "role_mapping": "alpha_self_beta_peer"
+    },
+    {
+      "episode_id": "ownership_s09_000_roleB",
+      "twin_index": 0,
+      "role_mapping": "beta_self_alpha_peer"
+    },
+    {
+      "episode_id": "ownership_s09_001_roleA",
+      "twin_index": 1,
+      "role_mapping": "alpha_self_beta_peer"
+    },
+    {
+      "episode_id": "ownership_s09_001_roleB",
+      "twin_index": 1,
+      "role_mapping": "beta_self_alpha_peer"
+    }
+  ]
+}

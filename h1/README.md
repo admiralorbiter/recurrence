@@ -27,7 +27,7 @@ A curious reader with no prior machine-learning or statistics background should 
 
 - **Frozen core:** S04/E03 through S09/E09 raw confirmatory evidence.
 - **Repaired analysis:** S09 raw trials remain frozen; response-preserving source inference and the format-block metacognitive interaction were repaired transparently afterward.
-- **Live extensions:** E08c and E09c exploratory values are shown only with visible provisional labels. Their N=16 confirmatory results should replace the exploratory blocks before the final public freeze.
+- **Confirmatory extensions:** E08c (N=16 pairs / 32 episodes) and E09c (N=16 episodes / 320 probes) confirmatory results are frozen and synchronized.
 
 ## Open the site
 

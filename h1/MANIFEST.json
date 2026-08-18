@@ -10,11 +10,11 @@
     "Act IV \u00b7 Ownership",
     "Synthesis"
   ],
-  "core_evidence": "frozen S04\u2013S09",
+  "core_evidence": "frozen S04–S09",
   "s09_analysis": "post-confirmatory repaired; raw trials unchanged",
   "live_extensions": {
-    "E08c": "exploratory included; N=16 running",
-    "E09c": "exploratory included; N=16 pending/running"
+    "E08c": "confirmatory frozen (N=16 pairs / 32 episodes)",
+    "E09c": "confirmatory frozen (N=16 episodes / 320 probes)"
   },
   "files": {
     "content": "one Markdown file per chapter",

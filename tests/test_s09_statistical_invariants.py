@@ -182,3 +182,70 @@ def test_canonical_e08_e09_offline_replay():
     assert analysis_e09.metacognitive_interaction.delta_auroc_transcript.point_estimate == pytest.approx(0.081, abs=1e-3)
     assert analysis_e09.metacognitive_interaction.delta_auroc_scaffolded.point_estimate == pytest.approx(-0.154, abs=1e-3)
     assert analysis_e09.metacognitive_interaction.scaffolding_metacognitive_interaction.point_estimate == pytest.approx(-0.235, abs=1e-3)
+
+
+def test_canonical_e08c_e09c_offline_replay():
+    """Verify that offline reprocessing of frozen E08c and E09c confirmatory trials reproduces exact canonical outputs."""
+    from experiments.e08c_role_counterbalance.run import analyze_e08c_results
+    from experiments.e09c_fixed_target_meta.run import analyze_e09c_results
+
+    # 1. E08c Replay Test
+    e08c_dirs = list(Path("results/e08c_role_counterbalance").glob("run_*_confirmatory"))
+    if e08c_dirs and (e08c_dirs[0] / "trials.jsonl").exists():
+        trials_e08c = []
+        with open(e08c_dirs[0] / "trials.jsonl", "r", encoding="utf-8") as f:
+            for line in f:
+                if line.strip():
+                    trials_e08c.append(OwnershipTrialResult(**json.loads(line)))
+
+        analysis_e08c = analyze_e08c_results(trials_e08c, num_bootstrap=1000, seed=1337)
+        assert analysis_e08c.delta_role_reversal_shift.point_estimate == pytest.approx(0.28125, abs=1e-3)
+        assert analysis_e08c.alpha_lexical_token_bias.point_estimate == pytest.approx(0.08125, abs=1e-3)
+        assert analysis_e08c.isolated_ceiling_overall_accuracy.point_estimate == pytest.approx(0.2125, abs=1e-3)
+        assert analysis_e08c.delta_role_reversal_shift.permutation_p_value == pytest.approx(0.0012, abs=1e-3)
+
+    # 2. E09c Replay Test
+    e09c_dirs = list(Path("results/e09c_fixed_target_meta").glob("run_*_confirmatory"))
+    if e09c_dirs and (e09c_dirs[0] / "trials.jsonl").exists():
+        trials_e09c = []
+        with open(e09c_dirs[0] / "trials.jsonl", "r", encoding="utf-8") as f:
+            for line in f:
+                if line.strip():
+                    trials_e09c.append(OwnershipTrialResult(**json.loads(line)))
+
+        analysis_e09c = analyze_e09c_results(trials_e09c, num_bootstrap=1000, seed=1337)
+        assert analysis_e09c.first_order_target_accuracy == pytest.approx(0.475, abs=1e-3)
+        assert analysis_e09c.brier_diff_in_diff_interaction.point_estimate == pytest.approx(0.1880, abs=1e-3)
+        assert analysis_e09c.auroc_interaction.point_estimate == pytest.approx(-0.209, abs=1e-3)
+        assert analysis_e09c.brier_diff_in_diff_interaction.permutation_p_value == pytest.approx(0.1501, abs=1e-3)
+        assert analysis_e09c.auroc_interaction.permutation_p_value == pytest.approx(0.1406, abs=1e-3)
+        # Verify that the true clustered bootstrap CI for AUROC interaction spans zero
+        assert analysis_e09c.auroc_interaction.ci_lower_95 < 0.0
+        assert analysis_e09c.auroc_interaction.ci_upper_95 > 0.0
+
+
+def test_e08d_role_ablation_analyzer():
+    """Verify that E08d analyzer computes correct condition summaries and diagnostic inferences."""
+    from experiments.e08d_role_ablation.run import analyze_e08d_results, run_e08d_experiment
+    import tempfile
+
+    with tempfile.TemporaryDirectory() as tmpdir:
+        res_dir = run_e08d_experiment(
+            phase="exploratory",
+            seed=42,
+            total_episode_pairs=2,
+            use_mock=True,
+            output_dir=Path(tmpdir),
+        )
+        assert (res_dir / "summary.json").exists()
+        assert (res_dir / "report.md").exists()
+        assert (res_dir / "trials.jsonl").exists()
+
+        with open(res_dir / "summary.json", "r", encoding="utf-8") as f:
+            summary = json.load(f)
+
+        assert summary["manifest"]["total_trials"] == 80
+        assert len(summary["analysis"]["conditions"]) == 4
+        assert "c1_full_package" in summary["analysis"]["conditions"]
+        assert "c4_neutral_lookup" in summary["analysis"]["conditions"]
+

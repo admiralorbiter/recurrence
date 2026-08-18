@@ -1,7 +1,7 @@
 {
   "built": "2026-08-17",
-  "core": "S04\u2013S09 canonical core evidence frozen",
+  "core": "S04–S09 canonical core evidence frozen",
   "s09_analysis": "post-confirmatory repaired analysis; raw trials unchanged",
-  "E08c": "exploratory N=4 included; N=16 confirmatory running",
-  "E09c": "exploratory N=4 included; N=16 confirmatory pending/running"
+  "E08c": "confirmatory frozen (N=16 pairs / 32 episodes, Seed 1337)",
+  "E09c": "confirmatory frozen (N=16 episodes / 320 probes, Seed 1337)"
 }
