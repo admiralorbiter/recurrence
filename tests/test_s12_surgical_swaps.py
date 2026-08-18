@@ -151,7 +151,7 @@ def test_sham_swap_produces_zero_difference(test_adapter: RecurrentGemmaAdapter)
 
 
 def test_end_to_end_surgical_swap_harness(test_adapter: RecurrentGemmaAdapter):
-    """End-to-end dry run verifying all 12 causal swap conditions execute cleanly."""
+    """End-to-end dry run verifying all 14 causal swap conditions execute cleanly with raw and logit metrics."""
     pair = CANONICAL_STIMULI_PAIRS[0]
     target_lags = [0, 2, 8]
 
@@ -163,9 +163,36 @@ def test_end_to_end_surgical_swap_harness(test_adapter: RecurrentGemmaAdapter):
         seed=42,
     )
 
-    # 3 lags x 12 conditions = 36 records
-    assert len(records) == 36
+    # 3 lags x 14 conditions = 42 records
+    assert len(records) == 42
     for r in records:
         assert not math.isnan(r.cloze_margin)
-        assert not math.isnan(r.causal_attribution_index)
+        assert not math.isnan(r.raw_graft_effect)
+        assert not math.isnan(r.absolute_displacement)
+        assert not math.isnan(r.donor_recipient_norm)
+        assert not math.isnan(r.logit_directional_projection)
         assert r.target_choice in ("A", "B")
+        if r.causal_attribution_index is not None:
+            assert not math.isnan(r.causal_attribution_index)
+
+
+def test_mediational_dynamic_forward_propagation(test_adapter: RecurrentGemmaAdapter):
+    """Verify that mediational forward unroll evaluates KV migration toward donor cleanly."""
+    from recurrence.loop.surgical_swap_harness import evaluate_mediational_propagation
+    pair = CANONICAL_STIMULI_PAIRS[0]
+    res = evaluate_mediational_propagation(
+        adapter=test_adapter,
+        pair=pair,
+        regime="constant",
+        initial_lag=2,
+        future_tokens=8,
+        seed=42,
+    )
+
+    assert "kv_migration_index" in res
+    assert not math.isnan(res["kv_migration_index"])
+    assert "d_med_to_a" in res
+    assert "d_med_to_b" in res
+    assert "d_a_to_b" in res
+
+

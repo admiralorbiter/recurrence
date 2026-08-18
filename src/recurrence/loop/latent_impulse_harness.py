@@ -164,7 +164,7 @@ def compute_continuation_log_likelihood(
         if t_idx < len(target_tokens) - 1:
             logits, probe = adapter.step(tok_id, probe)
 
-    return float(total_log_prob)
+    return float(total_log_prob / max(len(target_tokens), 1))
 
 
 def evaluate_cloze_retrieval(
@@ -219,6 +219,9 @@ def evaluate_impulse_trajectory(
 
     assert len(event_a_tokens) == len(event_b_tokens), (
         f"Event A ({len(event_a_tokens)}) and Event B ({len(event_b_tokens)}) have mismatched token lengths!"
+    )
+    assert len(target_a_tokens) == len(target_b_tokens), (
+        f"Target A ({len(target_a_tokens)}) and Target B ({len(target_b_tokens)}) have mismatched token lengths!"
     )
 
     max_lag = max(lag_grid)

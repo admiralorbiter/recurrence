@@ -76,11 +76,11 @@ CANONICAL_STIMULI_PAIRS: List[ImpulseStimulusPair] = [
     ImpulseStimulusPair(
         pair_id="item_material_06",
         prefix="Survey: ",
-        event_a="The crystal was beryl. ",
-        event_b="The crystal was topaz. ",
-        target_a="beryl",
-        target_b="topaz",
-        cloze_prompt="Recall test: The crystal was",
+        event_a="The discovery was zinc. ",
+        event_b="The discovery was lead. ",
+        target_a="zinc",
+        target_b="lead",
+        cloze_prompt="Recall test: The discovery was",
     ),
     ImpulseStimulusPair(
         pair_id="item_material_07",
@@ -121,10 +121,10 @@ CANONICAL_STIMULI_PAIRS: List[ImpulseStimulusPair] = [
     ImpulseStimulusPair(
         pair_id="item_material_11",
         prefix="Inventory: ",
-        event_a="The gemstone was peridot. ",
-        event_b="The gemstone was obsidian. ",
-        target_a="peridot",
-        target_b="obsidian",
+        event_a="The gemstone was ruby. ",
+        event_b="The gemstone was jasper. ",
+        target_a="ruby",
+        target_b="jasper",
         cloze_prompt="Recall test: The gemstone was",
     ),
     ImpulseStimulusPair(
@@ -139,10 +139,10 @@ CANONICAL_STIMULI_PAIRS: List[ImpulseStimulusPair] = [
     ImpulseStimulusPair(
         pair_id="item_material_13",
         prefix="Protocol: ",
-        event_a="The substrate was silicon. ",
-        event_b="The substrate was gallium. ",
-        target_a="silicon",
-        target_b="gallium",
+        event_a="The substrate was sodium. ",
+        event_b="The substrate was lithium. ",
+        target_a="sodium",
+        target_b="lithium",
         cloze_prompt="Recall test: The substrate was",
     ),
     ImpulseStimulusPair(
@@ -193,11 +193,11 @@ CANONICAL_STIMULI_PAIRS: List[ImpulseStimulusPair] = [
     ImpulseStimulusPair(
         pair_id="item_material_19",
         prefix="Bulletin: ",
-        event_a="The layer was hematite. ",
-        event_b="The layer was magnetite. ",
-        target_a="hematite",
-        target_b="magnetite",
-        cloze_prompt="Recall test: The layer was",
+        event_a="The core was graphite. ",
+        event_b="The core was bismuth. ",
+        target_a="graphite",
+        target_b="bismuth",
+        cloze_prompt="Recall test: The core was",
     ),
     ImpulseStimulusPair(
         pair_id="item_material_20",
@@ -210,46 +210,78 @@ CANONICAL_STIMULI_PAIRS: List[ImpulseStimulusPair] = [
     ),
 ]
 
-FROZEN_NATURAL_PROSE_PASSAGES = [
-    (
-        "The atmospheric pressure remained steady throughout the afternoon as weather stations across the valley "
-        "recorded temperature gradients. Instruments calibrated for seasonal monitoring observed standard humidity "
-        "readings along the river basin. Field technicians confirmed that data transmission protocols operated within "
-        "expected variance limits, allowing automated archival systems to process incoming sensor streams sequentially. "
-        "Meanwhile, power consumption metrics in the central facility demonstrated consistent baseline operation. "
-        "Routine inspections of communication infrastructure verified that optical cables maintained nominal bandwidth, "
-        "preventing latency accumulation across regional distribution networks."
-    ),
-    (
-        "Geological survey teams completed topographical mapping of the eastern ridge earlier this morning. "
-        "Soil core samples were cataloged according to depth and mineral density parameters established by the regional laboratory. "
-        "Hydrological flow models predicted stable runoff rates across the upper catchment area through the end of the quarter. "
-        "Autonomous drone patrols concluded scheduled boundary surveillance without detecting anomalies in terrain stability. "
-        "All telemetry packets were verified against cryptographic checksums prior to permanent database commit."
-    ),
-    (
-        "Industrial manufacturing lines maintained continuous output during the overnight production shift. "
-        "Thermal sensors mounted along the conveyor assemblies reported temperatures well below critical thresholds. "
-        "Robotic arms executed precision welding sequences with zero defect flags raised by the optical inspection system. "
-        "Raw inventory levels were replenished automatically by warehouse automated guided vehicles. "
-        "The plant supervisor signed off on the daily shift turnover logs in the operational portal."
-    ),
-]
 
-FROZEN_SEMANTIC_INTERFERENCE_PASSAGES = [
-    (
-        "The sector Alpha reading was crystalline. The sector Beta reading was metallic. The sector Gamma reading was amorphous. "
-        "The sector Delta reading was vitrified. The sector Epsilon reading was vesicular. The sector Zeta reading was foliated. "
-        "The sector Eta reading was pyroclastic. The sector Theta reading was pegmatitic. The sector Iota reading was porphyritic. "
-        "The sector Kappa reading was granular. The sector Lambda reading was fibrous. The sector Mu reading was lamellar."
-    ),
-    (
-        "The primary matrix was polymeric. The secondary matrix was ceramic. The tertiary matrix was composite. "
-        "The northern specimen was vitreous. The southern specimen was resinous. The western specimen was pearly. "
-        "The eastern specimen was adamantine. The central specimen was earthy. The outer specimen was waxy. "
-        "The upper aggregate was colloidal. The lower aggregate was granular. The final aggregate was porous."
-    ),
-]
+def _generate_nonrepeating_prose(seed: int, target_tokens: int) -> str:
+    """Generate extensive, non-repeating natural prose narrative deterministically."""
+    rng = random.Random(seed)
+    subjects = [
+        "The atmospheric pressure", "The regional environmental station", "The hydrological sensor array",
+        "The oceanographic observatory", "The geological survey expedition", "The automated meteorological telemetry",
+        "The alpine monitoring station", "The acoustic telemetry unit", "The orbital tracking facility",
+        "The coastal research vessel", "The botanical expedition team", "The geothermal monitoring network"
+    ]
+    actions = [
+        "recorded steady measurements throughout the monitoring period",
+        "observed consistent baseline signals along the valley corridor",
+        "transmitted synchronized operational telemetry to the central archive",
+        "verified that diagnostic parameters stayed within nominal boundaries",
+        "documented standard temperature gradients across the experimental zone",
+        "processed incoming multi-spectral sensor feeds sequentially",
+        "calibrated precision instruments prior to scheduled data collection",
+        "reported continuous operation with zero transmission latency"
+    ]
+    connectors = [
+        "Meanwhile, secondary backup generators operated at nominal capacity.",
+        "Furthermore, auxiliary communications maintained uninterrupted optical link quality.",
+        "In addition, independent calibration sensors confirmed instrument stability.",
+        "Similarly, atmospheric humidity readings reflected standard seasonal patterns.",
+        "Concurrently, ground telemetry verified that data integrity checks succeeded.",
+        "Subsequently, automated processing queues cleared all scheduled tasks without exception."
+    ]
+
+    sentences = []
+    current_len = 0
+    # Approximate ~15 words per sentence
+    while current_len < (target_tokens * 2):
+        s = f"{rng.choice(subjects)} {rng.choice(actions)}. {rng.choice(connectors)}"
+        sentences.append(s)
+        current_len += len(s.split())
+    return " ".join(sentences)
+
+
+def _generate_nonrepeating_interference(seed: int, target_tokens: int) -> str:
+    """Generate extensive, non-repeating semantic interference distractor statements deterministically."""
+    rng = random.Random(seed)
+    sectors = [
+        "Alpha", "Beta", "Gamma", "Delta", "Epsilon", "Zeta", "Eta", "Theta", "Iota", "Kappa",
+        "Lambda", "Mu", "Nu", "Xi", "Omicron", "Pi", "Rho", "Sigma", "Tau", "Upsilon", "Phi", "Chi", "Psi", "Omega"
+    ]
+    descriptors = [
+        "crystalline", "metallic", "amorphous", "vitrified", "vesicular", "foliated", "pyroclastic",
+        "pegmatitic", "porphyritic", "granular", "fibrous", "lamellar", "polymeric", "ceramic", "composite",
+        "vitreous", "resinous", "pearly", "adamantine", "earthy", "waxy", "colloidal", "porous", "dense",
+        "brittle", "ductile", "elastic", "magnetic", "diamagnetic", "paramagnetic", "refractory", "luminescent"
+    ]
+    structures = [
+        "specimen", "matrix", "substrate", "layer", "aggregate", "formation", "compound", "lattice",
+        "inclusion", "fragment", "sample", "core", "deposit", "casing", "concretion", "nodule"
+    ]
+
+    sentences = []
+    current_len = 0
+    step = 0
+    while current_len < (target_tokens * 2):
+        sec = sectors[step % len(sectors)]
+        desc1 = rng.choice(descriptors)
+        desc2 = rng.choice(descriptors)
+        struct1 = rng.choice(structures)
+        struct2 = rng.choice(structures)
+        idx_num = (step * 7 + seed * 13) % 1000
+        s = f"Sector {sec}-{idx_num} confirmed the {struct1} was {desc1}. Auxiliary survey {idx_num+1} verified the {struct2} was {desc2}."
+        sentences.append(s)
+        current_len += len(s.split())
+        step += 1
+    return " ".join(sentences)
 
 
 def build_audited_vocabulary_pool(
@@ -322,24 +354,21 @@ def generate_natural_filler(
     excluded_token_ids: Optional[Set[int]] = None,
     audited_pool: Optional[List[int]] = None,
 ) -> List[int]:
-    """Generate natural prose narrative filler from frozen corpus passages."""
-    passage_idx = seed % len(FROZEN_NATURAL_PROSE_PASSAGES)
-    text = FROZEN_NATURAL_PROSE_PASSAGES[passage_idx]
+    """Generate natural prose narrative filler with non-repeating long-horizon streams."""
+    text = _generate_nonrepeating_prose(seed=seed, target_tokens=length)
 
     if tokenizer is not None and hasattr(tokenizer, "encode"):
         tokens = tokenizer.encode(text, add_special_tokens=False)
     else:
-        tokens = [((i * 17 + seed * 13 + 23) % 150) + 10 for i in range(100)]
+        rng = random.Random(seed)
+        tokens = [rng.randint(10, 150) for _ in range(length * 2)]
 
     # Filter out excluded token IDs
     excluded = set(excluded_token_ids or set())
     replacement_token = (audited_pool[0] if audited_pool else 15)
     tokens = [replacement_token if t in excluded else t for t in tokens]
 
-    out: List[int] = []
-    while len(out) < length:
-        out.extend(tokens)
-    return out[:length]
+    return tokens[:length]
 
 
 def generate_interfering_filler(
@@ -349,24 +378,21 @@ def generate_interfering_filler(
     excluded_token_ids: Optional[Set[int]] = None,
     audited_pool: Optional[List[int]] = None,
 ) -> List[int]:
-    """Generate active semantic interference filler from frozen distractor passages."""
-    passage_idx = seed % len(FROZEN_SEMANTIC_INTERFERENCE_PASSAGES)
-    text = FROZEN_SEMANTIC_INTERFERENCE_PASSAGES[passage_idx]
+    """Generate active semantic interference filler with non-repeating distractor statements."""
+    text = _generate_nonrepeating_interference(seed=seed, target_tokens=length)
 
     if tokenizer is not None and hasattr(tokenizer, "encode"):
         tokens = tokenizer.encode(text, add_special_tokens=False)
     else:
-        tokens = [((i * 31 + seed * 19 + 47) % 150) + 10 for i in range(100)]
+        rng = random.Random(seed + 100)
+        tokens = [rng.randint(10, 150) for _ in range(length * 2)]
 
     # Filter out excluded token IDs
     excluded = set(excluded_token_ids or set())
     replacement_token = (audited_pool[0] if audited_pool else 15)
     tokens = [replacement_token if t in excluded else t for t in tokens]
 
-    out: List[int] = []
-    while len(out) < length:
-        out.extend(tokens)
-    return out[:length]
+    return tokens[:length]
 
 
 def get_filler_tokens_for_regime(

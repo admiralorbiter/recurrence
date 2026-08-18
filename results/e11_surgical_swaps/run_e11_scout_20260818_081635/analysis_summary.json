@@ -1,0 +1,683 @@
+{
+  "run_dir": "results\\e11_surgical_swaps\\run_e11_scout_20260818_081635",
+  "model_provenance": {
+    "model_id": "google/recurrentgemma-2b",
+    "is_reference_model": false,
+    "model_class": "RecurrentGemmaForCausalLM",
+    "commit_hash": "3620f4ca9c5d16ee56c00180474a3201ec7f734a",
+    "vocab_size": 256000,
+    "num_hidden_layers": 26,
+    "hidden_size": 2560,
+    "conv1d_width": 4,
+    "attention_window_size": 2048
+  },
+  "lags": [
+    8,
+    2049,
+    4096
+  ],
+  "conditions": [
+    "conv_only_a_into_b",
+    "conv_only_b_into_a",
+    "intact_a",
+    "intact_b",
+    "kv_only_a_into_b",
+    "kv_only_b_into_a",
+    "noise_control_rglru",
+    "recurrent_core_a_into_b",
+    "rglru_only_a_into_b",
+    "rglru_only_b_into_a",
+    "sham_a2_into_a1",
+    "unrelated_donor_rglru",
+    "whole_swap_a_into_b",
+    "whole_swap_b_into_a"
+  ],
+  "causal_table": {
+    "8": {
+      "conv_only_a_into_b": {
+        "mean_cloze_margin": -10.9629,
+        "mean_raw_graft_effect": 0.0,
+        "mean_absolute_displacement": 0.0,
+        "mean_donor_recipient_norm": 1046.7777,
+        "mean_logit_projection": 0.0,
+        "mean_attribution_index": 0.0,
+        "donor_concordance_rate": 0.0,
+        "n_samples": 16,
+        "n_eligible": 16
+      },
+      "conv_only_b_into_a": {
+        "mean_cloze_margin": 12.1641,
+        "mean_raw_graft_effect": 0.0,
+        "mean_absolute_displacement": 0.0,
+        "mean_donor_recipient_norm": 1046.7777,
+        "mean_logit_projection": 0.0,
+        "mean_attribution_index": 0.0,
+        "donor_concordance_rate": 0.0,
+        "n_samples": 16,
+        "n_eligible": 16
+      },
+      "intact_a": {
+        "mean_cloze_margin": 12.1641,
+        "mean_raw_graft_effect": 0.0,
+        "mean_absolute_displacement": 0.0,
+        "mean_donor_recipient_norm": 0.0,
+        "mean_logit_projection": 0.0,
+        "mean_attribution_index": null,
+        "donor_concordance_rate": 1.0,
+        "n_samples": 16,
+        "n_eligible": 0
+      },
+      "intact_b": {
+        "mean_cloze_margin": -10.9629,
+        "mean_raw_graft_effect": 0.0,
+        "mean_absolute_displacement": 0.0,
+        "mean_donor_recipient_norm": 0.0,
+        "mean_logit_projection": 0.0,
+        "mean_attribution_index": null,
+        "donor_concordance_rate": 1.0,
+        "n_samples": 16,
+        "n_eligible": 0
+      },
+      "kv_only_a_into_b": {
+        "mean_cloze_margin": 11.8477,
+        "mean_raw_graft_effect": 22.8105,
+        "mean_absolute_displacement": 1032.2443,
+        "mean_donor_recipient_norm": 1046.7777,
+        "mean_logit_projection": 0.9868,
+        "mean_attribution_index": 0.9862,
+        "donor_concordance_rate": 1.0,
+        "n_samples": 16,
+        "n_eligible": 16
+      },
+      "kv_only_b_into_a": {
+        "mean_cloze_margin": -10.6804,
+        "mean_raw_graft_effect": -22.8445,
+        "mean_absolute_displacement": 1035.408,
+        "mean_donor_recipient_norm": 1046.7777,
+        "mean_logit_projection": 0.9893,
+        "mean_attribution_index": 0.9861,
+        "donor_concordance_rate": 1.0,
+        "n_samples": 16,
+        "n_eligible": 16
+      },
+      "noise_control_rglru": {
+        "mean_cloze_margin": 11.7678,
+        "mean_raw_graft_effect": -0.3962,
+        "mean_absolute_displacement": 0.0,
+        "mean_donor_recipient_norm": 0.0,
+        "mean_logit_projection": 0.0,
+        "mean_attribution_index": null,
+        "donor_concordance_rate": 0.0,
+        "n_samples": 16,
+        "n_eligible": 0
+      },
+      "recurrent_core_a_into_b": {
+        "mean_cloze_margin": -10.6804,
+        "mean_raw_graft_effect": 0.2825,
+        "mean_absolute_displacement": 11.3704,
+        "mean_donor_recipient_norm": 1046.7777,
+        "mean_logit_projection": 0.0107,
+        "mean_attribution_index": 0.0139,
+        "donor_concordance_rate": 0.0,
+        "n_samples": 16,
+        "n_eligible": 16
+      },
+      "rglru_only_a_into_b": {
+        "mean_cloze_margin": -10.6804,
+        "mean_raw_graft_effect": 0.2825,
+        "mean_absolute_displacement": 11.3704,
+        "mean_donor_recipient_norm": 1046.7777,
+        "mean_logit_projection": 0.0107,
+        "mean_attribution_index": 0.0139,
+        "donor_concordance_rate": 0.0,
+        "n_samples": 16,
+        "n_eligible": 16
+      },
+      "rglru_only_b_into_a": {
+        "mean_cloze_margin": 11.8477,
+        "mean_raw_graft_effect": -0.3164,
+        "mean_absolute_displacement": 14.5332,
+        "mean_donor_recipient_norm": 1046.7777,
+        "mean_logit_projection": 0.0132,
+        "mean_attribution_index": 0.0138,
+        "donor_concordance_rate": 0.0,
+        "n_samples": 16,
+        "n_eligible": 16
+      },
+      "sham_a2_into_a1": {
+        "mean_cloze_margin": 12.1641,
+        "mean_raw_graft_effect": 0.0,
+        "mean_absolute_displacement": 0.0,
+        "mean_donor_recipient_norm": 0.0,
+        "mean_logit_projection": 0.0,
+        "mean_attribution_index": null,
+        "donor_concordance_rate": 0.0,
+        "n_samples": 16,
+        "n_eligible": 0
+      },
+      "unrelated_donor_rglru": {
+        "mean_cloze_margin": -11.0291,
+        "mean_raw_graft_effect": -0.0662,
+        "mean_absolute_displacement": 6.132,
+        "mean_donor_recipient_norm": 1046.7777,
+        "mean_logit_projection": 0.0056,
+        "mean_attribution_index": -0.0029,
+        "donor_concordance_rate": 0.0,
+        "n_samples": 16,
+        "n_eligible": 16
+      },
+      "whole_swap_a_into_b": {
+        "mean_cloze_margin": 12.1641,
+        "mean_raw_graft_effect": 23.127,
+        "mean_absolute_displacement": 1046.7777,
+        "mean_donor_recipient_norm": 1046.7777,
+        "mean_logit_projection": 1.0,
+        "mean_attribution_index": 1.0,
+        "donor_concordance_rate": 1.0,
+        "n_samples": 16,
+        "n_eligible": 16
+      },
+      "whole_swap_b_into_a": {
+        "mean_cloze_margin": -10.9629,
+        "mean_raw_graft_effect": -23.127,
+        "mean_absolute_displacement": 1046.7777,
+        "mean_donor_recipient_norm": 1046.7777,
+        "mean_logit_projection": 1.0,
+        "mean_attribution_index": 1.0,
+        "donor_concordance_rate": 1.0,
+        "n_samples": 16,
+        "n_eligible": 16
+      }
+    },
+    "2049": {
+      "conv_only_a_into_b": {
+        "mean_cloze_margin": -0.3867,
+        "mean_raw_graft_effect": 0.0,
+        "mean_absolute_displacement": 0.0,
+        "mean_donor_recipient_norm": 91.1733,
+        "mean_logit_projection": 0.0,
+        "mean_attribution_index": 0.0,
+        "donor_concordance_rate": 0.4375,
+        "n_samples": 16,
+        "n_eligible": 6
+      },
+      "conv_only_b_into_a": {
+        "mean_cloze_margin": 0.168,
+        "mean_raw_graft_effect": 0.0,
+        "mean_absolute_displacement": 0.0,
+        "mean_donor_recipient_norm": 91.1733,
+        "mean_logit_projection": 0.0,
+        "mean_attribution_index": 0.0,
+        "donor_concordance_rate": 0.5,
+        "n_samples": 16,
+        "n_eligible": 6
+      },
+      "intact_a": {
+        "mean_cloze_margin": 0.168,
+        "mean_raw_graft_effect": 0.0,
+        "mean_absolute_displacement": 0.0,
+        "mean_donor_recipient_norm": 0.0,
+        "mean_logit_projection": 0.0,
+        "mean_attribution_index": null,
+        "donor_concordance_rate": 0.5,
+        "n_samples": 16,
+        "n_eligible": 0
+      },
+      "intact_b": {
+        "mean_cloze_margin": -0.3867,
+        "mean_raw_graft_effect": 0.0,
+        "mean_absolute_displacement": 0.0,
+        "mean_donor_recipient_norm": 0.0,
+        "mean_logit_projection": 0.0,
+        "mean_attribution_index": null,
+        "donor_concordance_rate": 0.5625,
+        "n_samples": 16,
+        "n_eligible": 0
+      },
+      "kv_only_a_into_b": {
+        "mean_cloze_margin": 0.1484,
+        "mean_raw_graft_effect": 0.5352,
+        "mean_absolute_displacement": 79.176,
+        "mean_donor_recipient_norm": 91.1733,
+        "mean_logit_projection": 0.8062,
+        "mean_attribution_index": 1.0327,
+        "donor_concordance_rate": 0.5,
+        "n_samples": 16,
+        "n_eligible": 6
+      },
+      "kv_only_b_into_a": {
+        "mean_cloze_margin": -0.4141,
+        "mean_raw_graft_effect": -0.582,
+        "mean_absolute_displacement": 69.3711,
+        "mean_donor_recipient_norm": 91.1733,
+        "mean_logit_projection": 0.8004,
+        "mean_attribution_index": 1.0942,
+        "donor_concordance_rate": 0.5,
+        "n_samples": 16,
+        "n_eligible": 6
+      },
+      "noise_control_rglru": {
+        "mean_cloze_margin": 0.6914,
+        "mean_raw_graft_effect": 0.5234,
+        "mean_absolute_displacement": 0.0,
+        "mean_donor_recipient_norm": 0.0,
+        "mean_logit_projection": 0.0,
+        "mean_attribution_index": null,
+        "donor_concordance_rate": 0.0,
+        "n_samples": 16,
+        "n_eligible": 0
+      },
+      "recurrent_core_a_into_b": {
+        "mean_cloze_margin": -0.4141,
+        "mean_raw_graft_effect": -0.0273,
+        "mean_absolute_displacement": 21.8022,
+        "mean_donor_recipient_norm": 91.1733,
+        "mean_logit_projection": 0.1996,
+        "mean_attribution_index": -0.0942,
+        "donor_concordance_rate": 0.5,
+        "n_samples": 16,
+        "n_eligible": 6
+      },
+      "rglru_only_a_into_b": {
+        "mean_cloze_margin": -0.4141,
+        "mean_raw_graft_effect": -0.0273,
+        "mean_absolute_displacement": 21.8022,
+        "mean_donor_recipient_norm": 91.1733,
+        "mean_logit_projection": 0.1996,
+        "mean_attribution_index": -0.0942,
+        "donor_concordance_rate": 0.5,
+        "n_samples": 16,
+        "n_eligible": 6
+      },
+      "rglru_only_b_into_a": {
+        "mean_cloze_margin": 0.1484,
+        "mean_raw_graft_effect": -0.0195,
+        "mean_absolute_displacement": 11.9974,
+        "mean_donor_recipient_norm": 91.1733,
+        "mean_logit_projection": 0.1938,
+        "mean_attribution_index": -0.0327,
+        "donor_concordance_rate": 0.5,
+        "n_samples": 16,
+        "n_eligible": 6
+      },
+      "sham_a2_into_a1": {
+        "mean_cloze_margin": 0.168,
+        "mean_raw_graft_effect": 0.0,
+        "mean_absolute_displacement": 0.0,
+        "mean_donor_recipient_norm": 0.0,
+        "mean_logit_projection": 0.0,
+        "mean_attribution_index": null,
+        "donor_concordance_rate": 0.0,
+        "n_samples": 16,
+        "n_eligible": 0
+      },
+      "unrelated_donor_rglru": {
+        "mean_cloze_margin": -0.4102,
+        "mean_raw_graft_effect": -0.0234,
+        "mean_absolute_displacement": 27.9724,
+        "mean_donor_recipient_norm": 91.1733,
+        "mean_logit_projection": 0.2438,
+        "mean_attribution_index": -0.0321,
+        "donor_concordance_rate": 0.0,
+        "n_samples": 16,
+        "n_eligible": 6
+      },
+      "whole_swap_a_into_b": {
+        "mean_cloze_margin": 0.168,
+        "mean_raw_graft_effect": 0.5547,
+        "mean_absolute_displacement": 91.1733,
+        "mean_donor_recipient_norm": 91.1733,
+        "mean_logit_projection": 1.0,
+        "mean_attribution_index": 1.0,
+        "donor_concordance_rate": 0.5,
+        "n_samples": 16,
+        "n_eligible": 6
+      },
+      "whole_swap_b_into_a": {
+        "mean_cloze_margin": -0.3867,
+        "mean_raw_graft_effect": -0.5547,
+        "mean_absolute_displacement": 91.1733,
+        "mean_donor_recipient_norm": 91.1733,
+        "mean_logit_projection": 1.0,
+        "mean_attribution_index": 1.0,
+        "donor_concordance_rate": 0.5625,
+        "n_samples": 16,
+        "n_eligible": 6
+      }
+    },
+    "4096": {
+      "conv_only_a_into_b": {
+        "mean_cloze_margin": -0.9453,
+        "mean_raw_graft_effect": 0.0,
+        "mean_absolute_displacement": 0.0,
+        "mean_donor_recipient_norm": 119.6962,
+        "mean_logit_projection": 0.0,
+        "mean_attribution_index": 0.0,
+        "donor_concordance_rate": 0.5,
+        "n_samples": 16,
+        "n_eligible": 1
+      },
+      "conv_only_b_into_a": {
+        "mean_cloze_margin": -1.0078,
+        "mean_raw_graft_effect": 0.0,
+        "mean_absolute_displacement": 0.0,
+        "mean_donor_recipient_norm": 119.6962,
+        "mean_logit_projection": 0.0,
+        "mean_attribution_index": 0.0,
+        "donor_concordance_rate": 0.5625,
+        "n_samples": 16,
+        "n_eligible": 1
+      },
+      "intact_a": {
+        "mean_cloze_margin": -1.0078,
+        "mean_raw_graft_effect": 0.0,
+        "mean_absolute_displacement": 0.0,
+        "mean_donor_recipient_norm": 0.0,
+        "mean_logit_projection": 0.0,
+        "mean_attribution_index": null,
+        "donor_concordance_rate": 0.4375,
+        "n_samples": 16,
+        "n_eligible": 0
+      },
+      "intact_b": {
+        "mean_cloze_margin": -0.9453,
+        "mean_raw_graft_effect": 0.0,
+        "mean_absolute_displacement": 0.0,
+        "mean_donor_recipient_norm": 0.0,
+        "mean_logit_projection": 0.0,
+        "mean_attribution_index": null,
+        "donor_concordance_rate": 0.5,
+        "n_samples": 16,
+        "n_eligible": 0
+      },
+      "kv_only_a_into_b": {
+        "mean_cloze_margin": -0.9727,
+        "mean_raw_graft_effect": -0.0273,
+        "mean_absolute_displacement": 77.7037,
+        "mean_donor_recipient_norm": 119.6962,
+        "mean_logit_projection": 0.6772,
+        "mean_attribution_index": 0.1,
+        "donor_concordance_rate": 0.5,
+        "n_samples": 16,
+        "n_eligible": 1
+      },
+      "kv_only_b_into_a": {
+        "mean_cloze_margin": -1.0469,
+        "mean_raw_graft_effect": -0.0391,
+        "mean_absolute_displacement": 67.8084,
+        "mean_donor_recipient_norm": 119.6962,
+        "mean_logit_projection": 0.6242,
+        "mean_attribution_index": 0.1,
+        "donor_concordance_rate": 0.5625,
+        "n_samples": 16,
+        "n_eligible": 1
+      },
+      "noise_control_rglru": {
+        "mean_cloze_margin": -0.1484,
+        "mean_raw_graft_effect": 0.8594,
+        "mean_absolute_displacement": 0.0,
+        "mean_donor_recipient_norm": 0.0,
+        "mean_logit_projection": 0.0,
+        "mean_attribution_index": null,
+        "donor_concordance_rate": 0.0,
+        "n_samples": 16,
+        "n_eligible": 0
+      },
+      "recurrent_core_a_into_b": {
+        "mean_cloze_margin": -1.0469,
+        "mean_raw_graft_effect": -0.1016,
+        "mean_absolute_displacement": 51.8879,
+        "mean_donor_recipient_norm": 119.6962,
+        "mean_logit_projection": 0.3758,
+        "mean_attribution_index": 0.9,
+        "donor_concordance_rate": 0.4375,
+        "n_samples": 16,
+        "n_eligible": 1
+      },
+      "rglru_only_a_into_b": {
+        "mean_cloze_margin": -1.0469,
+        "mean_raw_graft_effect": -0.1016,
+        "mean_absolute_displacement": 51.8879,
+        "mean_donor_recipient_norm": 119.6962,
+        "mean_logit_projection": 0.3758,
+        "mean_attribution_index": 0.9,
+        "donor_concordance_rate": 0.4375,
+        "n_samples": 16,
+        "n_eligible": 1
+      },
+      "rglru_only_b_into_a": {
+        "mean_cloze_margin": -0.9727,
+        "mean_raw_graft_effect": 0.0352,
+        "mean_absolute_displacement": 41.9923,
+        "mean_donor_recipient_norm": 119.6962,
+        "mean_logit_projection": 0.3228,
+        "mean_attribution_index": 0.9,
+        "donor_concordance_rate": 0.5,
+        "n_samples": 16,
+        "n_eligible": 1
+      },
+      "sham_a2_into_a1": {
+        "mean_cloze_margin": -1.0078,
+        "mean_raw_graft_effect": 0.0,
+        "mean_absolute_displacement": 0.0,
+        "mean_donor_recipient_norm": 0.0,
+        "mean_logit_projection": 0.0,
+        "mean_attribution_index": null,
+        "donor_concordance_rate": 0.0,
+        "n_samples": 16,
+        "n_eligible": 0
+      },
+      "unrelated_donor_rglru": {
+        "mean_cloze_margin": -0.9531,
+        "mean_raw_graft_effect": -0.0078,
+        "mean_absolute_displacement": -35.4111,
+        "mean_donor_recipient_norm": 119.6962,
+        "mean_logit_projection": -0.1771,
+        "mean_attribution_index": -0.2,
+        "donor_concordance_rate": 0.0,
+        "n_samples": 16,
+        "n_eligible": 1
+      },
+      "whole_swap_a_into_b": {
+        "mean_cloze_margin": -1.0078,
+        "mean_raw_graft_effect": -0.0625,
+        "mean_absolute_displacement": 119.6962,
+        "mean_donor_recipient_norm": 119.6962,
+        "mean_logit_projection": 1.0,
+        "mean_attribution_index": 1.0,
+        "donor_concordance_rate": 0.4375,
+        "n_samples": 16,
+        "n_eligible": 1
+      },
+      "whole_swap_b_into_a": {
+        "mean_cloze_margin": -0.9453,
+        "mean_raw_graft_effect": 0.0625,
+        "mean_absolute_displacement": 119.6962,
+        "mean_donor_recipient_norm": 119.6962,
+        "mean_logit_projection": 1.0,
+        "mean_attribution_index": 1.0,
+        "donor_concordance_rate": 0.5,
+        "n_samples": 16,
+        "n_eligible": 1
+      }
+    }
+  },
+  "mediational_propagation": [
+    {
+      "pair_id": "item_material_01",
+      "regime": "constant",
+      "initial_lag": 8,
+      "future_tokens": 512,
+      "d_med_to_a": 0.0169,
+      "d_med_to_b": 0.0459,
+      "d_a_to_b": 0.047,
+      "kv_migration_index": -0.6165,
+      "propagated_history_to_future_kv": false
+    },
+    {
+      "pair_id": "item_material_01",
+      "regime": "interfering",
+      "initial_lag": 8,
+      "future_tokens": 512,
+      "d_med_to_a": 0.0163,
+      "d_med_to_b": 0.0497,
+      "d_a_to_b": 0.0502,
+      "kv_migration_index": -0.6645,
+      "propagated_history_to_future_kv": false
+    },
+    {
+      "pair_id": "item_material_01",
+      "regime": "natural",
+      "initial_lag": 8,
+      "future_tokens": 512,
+      "d_med_to_a": 0.0145,
+      "d_med_to_b": 0.037,
+      "d_a_to_b": 0.0389,
+      "kv_migration_index": -0.578,
+      "propagated_history_to_future_kv": false
+    },
+    {
+      "pair_id": "item_material_01",
+      "regime": "random",
+      "initial_lag": 8,
+      "future_tokens": 512,
+      "d_med_to_a": 0.0114,
+      "d_med_to_b": 0.0394,
+      "d_a_to_b": 0.0402,
+      "kv_migration_index": -0.6972,
+      "propagated_history_to_future_kv": false
+    },
+    {
+      "pair_id": "item_material_02",
+      "regime": "constant",
+      "initial_lag": 8,
+      "future_tokens": 512,
+      "d_med_to_a": 0.0143,
+      "d_med_to_b": 0.0307,
+      "d_a_to_b": 0.0328,
+      "kv_migration_index": -0.5007,
+      "propagated_history_to_future_kv": false
+    },
+    {
+      "pair_id": "item_material_02",
+      "regime": "interfering",
+      "initial_lag": 8,
+      "future_tokens": 512,
+      "d_med_to_a": 0.0213,
+      "d_med_to_b": 0.0561,
+      "d_a_to_b": 0.0598,
+      "kv_migration_index": -0.5825,
+      "propagated_history_to_future_kv": false
+    },
+    {
+      "pair_id": "item_material_02",
+      "regime": "natural",
+      "initial_lag": 8,
+      "future_tokens": 512,
+      "d_med_to_a": 0.014,
+      "d_med_to_b": 0.0363,
+      "d_a_to_b": 0.0378,
+      "kv_migration_index": -0.5894,
+      "propagated_history_to_future_kv": false
+    },
+    {
+      "pair_id": "item_material_02",
+      "regime": "random",
+      "initial_lag": 8,
+      "future_tokens": 512,
+      "d_med_to_a": 0.0115,
+      "d_med_to_b": 0.0348,
+      "d_a_to_b": 0.0355,
+      "kv_migration_index": -0.6551,
+      "propagated_history_to_future_kv": false
+    },
+    {
+      "pair_id": "item_material_03",
+      "regime": "constant",
+      "initial_lag": 8,
+      "future_tokens": 512,
+      "d_med_to_a": 0.0169,
+      "d_med_to_b": 0.0454,
+      "d_a_to_b": 0.048,
+      "kv_migration_index": -0.5932,
+      "propagated_history_to_future_kv": false
+    },
+    {
+      "pair_id": "item_material_03",
+      "regime": "interfering",
+      "initial_lag": 8,
+      "future_tokens": 512,
+      "d_med_to_a": 0.022,
+      "d_med_to_b": 0.0628,
+      "d_a_to_b": 0.0657,
+      "kv_migration_index": -0.6201,
+      "propagated_history_to_future_kv": false
+    },
+    {
+      "pair_id": "item_material_03",
+      "regime": "natural",
+      "initial_lag": 8,
+      "future_tokens": 512,
+      "d_med_to_a": 0.0156,
+      "d_med_to_b": 0.0463,
+      "d_a_to_b": 0.0469,
+      "kv_migration_index": -0.6564,
+      "propagated_history_to_future_kv": false
+    },
+    {
+      "pair_id": "item_material_03",
+      "regime": "random",
+      "initial_lag": 8,
+      "future_tokens": 512,
+      "d_med_to_a": 0.0134,
+      "d_med_to_b": 0.0494,
+      "d_a_to_b": 0.0508,
+      "kv_migration_index": -0.7099,
+      "propagated_history_to_future_kv": false
+    },
+    {
+      "pair_id": "item_material_04",
+      "regime": "constant",
+      "initial_lag": 8,
+      "future_tokens": 512,
+      "d_med_to_a": 0.0152,
+      "d_med_to_b": 0.0417,
+      "d_a_to_b": 0.0438,
+      "kv_migration_index": -0.6054,
+      "propagated_history_to_future_kv": false
+    },
+    {
+      "pair_id": "item_material_04",
+      "regime": "interfering",
+      "initial_lag": 8,
+      "future_tokens": 512,
+      "d_med_to_a": 0.0212,
+      "d_med_to_b": 0.0577,
+      "d_a_to_b": 0.0575,
+      "kv_migration_index": -0.6349,
+      "propagated_history_to_future_kv": false
+    },
+    {
+      "pair_id": "item_material_04",
+      "regime": "natural",
+      "initial_lag": 8,
+      "future_tokens": 512,
+      "d_med_to_a": 0.0198,
+      "d_med_to_b": 0.0448,
+      "d_a_to_b": 0.0497,
+      "kv_migration_index": -0.5023,
+      "propagated_history_to_future_kv": false
+    },
+    {
+      "pair_id": "item_material_04",
+      "regime": "random",
+      "initial_lag": 8,
+      "future_tokens": 512,
+      "d_med_to_a": 0.0123,
+      "d_med_to_b": 0.0449,
+      "d_a_to_b": 0.0456,
+      "kv_migration_index": -0.7146,
+      "propagated_history_to_future_kv": false
+    }
+  ]
+}

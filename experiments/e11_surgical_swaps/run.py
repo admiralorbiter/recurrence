@@ -138,13 +138,40 @@ def run_experiment(
                         "ll_target_b": rec.ll_target_b,
                         "cloze_margin": rec.cloze_margin,
                         "target_choice": rec.target_choice,
+                        "raw_graft_effect": rec.raw_graft_effect,
+                        "absolute_displacement": rec.absolute_displacement,
+                        "donor_recipient_norm": rec.donor_recipient_norm,
+                        "logit_directional_projection": rec.logit_directional_projection,
+                        "is_eligible_for_attribution": rec.is_eligible_for_attribution,
                         "causal_attribution_index": rec.causal_attribution_index,
                     }
                     f_trace.write(json.dumps(row) + "\n")
                     all_records.append(row)
 
+    # Run mediational forward propagation experiments
+    from recurrence.loop.surgical_swap_harness import evaluate_mediational_propagation
+    med_file = out_path / "mediational_propagation.jsonl"
+    all_med_records = []
+    with open(med_file, "w", encoding="utf-8") as f_med:
+        for pair_idx, pair in enumerate(pairs_to_run):
+            for regime in selected_regimes:
+                cur_seed = seed + pair_idx * 100
+                is_ref = model_provenance.get("is_reference_model", False)
+                med_res = evaluate_mediational_propagation(
+                    adapter=adapter,
+                    pair=pair,
+                    regime=regime,
+                    initial_lag=8 if not is_ref else 2,
+                    future_tokens=512 if not is_ref else 8,
+                    seed=cur_seed,
+                    tokenizer=tokenizer,
+                    audited_pool=audited_pool,
+                )
+                f_med.write(json.dumps(med_res) + "\n")
+                all_med_records.append(med_res)
+
     elapsed = time.time() - start_time
-    print(f"[E11] Complete! Recorded {len(all_records)} swap condition results in {elapsed:.2f}s.")
+    print(f"[E11] Complete! Recorded {len(all_records)} swap condition results and {len(all_med_records)} mediational unrolls in {elapsed:.2f}s.")
 
     import transformers
     summary = {
@@ -152,6 +179,7 @@ def run_experiment(
         "timestamp": timestamp,
         "elapsed_seconds": round(elapsed, 2),
         "total_swap_records": len(all_records),
+        "total_mediational_records": len(all_med_records),
         "num_pairs": len(pairs_to_run),
         "regimes": selected_regimes,
         "target_lags": lags_to_eval,

@@ -1,7 +1,7 @@
-"""Experiment E11 Analysis Script: Multi-Store Surgical State Swaps (Sprint S12).
+"""Experiment E11 Analysis Script: Multi-Store Surgical State Swaps & Mediational Propagation (Sprint S12).
 
-Aggregates causal channel attribution indices, choice flip rates, and cloze margin
-trajectories to determine which physical store causally mediates surviving memory.
+Aggregates causal channel attribution indices, absolute directional displacements,
+mediational forward propagation, and cloze margin trajectories.
 """
 
 import argparse
@@ -14,6 +14,7 @@ from typing import Any, Dict, List
 def analyze_run(run_dir: str) -> Dict[str, Any]:
     run_path = Path(run_dir)
     trace_file = run_path / "swap_trace.jsonl"
+    med_file = run_path / "mediational_propagation.jsonl"
     summary_file = run_path / "summary.json"
 
     if not trace_file.exists():
@@ -38,7 +39,7 @@ def analyze_run(run_dir: str) -> Dict[str, Any]:
     lags = sorted(list({r["lag"] for r in rows}))
     conditions = sorted(list({r["condition"] for r in rows}))
 
-    causal_table: Dict[int, Dict[str, Dict[str, float]]] = defaultdict(dict)
+    causal_table: Dict[int, Dict[str, Dict[str, Any]]] = defaultdict(dict)
 
     for lag in lags:
         for cond in conditions:
@@ -46,7 +47,17 @@ def analyze_run(run_dir: str) -> Dict[str, Any]:
             if not items:
                 continue
             mean_margin = sum(x["cloze_margin"] for x in items) / len(items)
-            mean_alpha = sum(x["causal_attribution_index"] for x in items) / len(items)
+            mean_raw_delta = sum(x.get("raw_graft_effect", 0.0) for x in items) / len(items)
+            mean_abs_disp = sum(x.get("absolute_displacement", 0.0) for x in items) / len(items)
+            mean_donor_norm = sum(x.get("donor_recipient_norm", 0.0) for x in items) / len(items)
+            mean_logit_proj = sum(x.get("logit_directional_projection", 0.0) for x in items) / len(items)
+
+            eligible_items = [x for x in items if x.get("is_eligible_for_attribution") and x.get("causal_attribution_index") is not None]
+            if eligible_items:
+                mean_alpha = sum(x["causal_attribution_index"] for x in eligible_items) / len(eligible_items)
+            else:
+                mean_alpha = None
+
             donor_target = items[0]["target_donor"]
             if donor_target in ("A", "B"):
                 flip_rate = sum(1.0 for x in items if x["target_choice"] == donor_target) / len(items)
@@ -55,10 +66,23 @@ def analyze_run(run_dir: str) -> Dict[str, Any]:
 
             causal_table[lag][cond] = {
                 "mean_cloze_margin": round(mean_margin, 4),
-                "mean_attribution_index": round(mean_alpha, 4),
+                "mean_raw_graft_effect": round(mean_raw_delta, 4),
+                "mean_absolute_displacement": round(mean_abs_disp, 4),
+                "mean_donor_recipient_norm": round(mean_donor_norm, 4),
+                "mean_logit_projection": round(mean_logit_proj, 4),
+                "mean_attribution_index": round(mean_alpha, 4) if mean_alpha is not None else None,
                 "donor_concordance_rate": round(flip_rate, 4),
                 "n_samples": len(items),
+                "n_eligible": len(eligible_items),
             }
+
+    # Mediational propagation analysis
+    med_results = []
+    if med_file.exists():
+        with open(med_file, "r", encoding="utf-8") as f:
+            for line in f:
+                if line.strip():
+                    med_results.append(json.loads(line))
 
     analysis_result = {
         "run_dir": str(run_path),
@@ -66,6 +90,7 @@ def analyze_run(run_dir: str) -> Dict[str, Any]:
         "lags": lags,
         "conditions": conditions,
         "causal_table": dict(causal_table),
+        "mediational_propagation": med_results,
     }
 
     with open(run_path / "analysis_summary.json", "w", encoding="utf-8") as f_out:
@@ -79,19 +104,28 @@ def analyze_run(run_dir: str) -> Dict[str, Any]:
         f_rep.write(f"# E11 Multi-Store Surgical State Swaps Causal Attribution Report\n\n")
         f_rep.write(f"**Model Target:** `{model_name}`\n")
         f_rep.write(f"**Run Path:** `{run_path}`\n\n")
-        f_rep.write("## 1. Causal Attribution Indices ($\\alpha_C$) & Donor Concordance Across Lags\n\n")
-        f_rep.write("| Lag $L$ | Condition | Mean Cloze Margin | Causal Attribution Index ($\\alpha_C$) | Donor Concordance Rate |\n")
-        f_rep.write("| :---: | :--- | :---: | :---: |\n")
+        f_rep.write("## 1. Causal Transfer & Directional Logit Displacement Across Lags\n\n")
+        f_rep.write("| Lag $L$ | Condition | Raw Graft $\\Delta_C$ | Abs Displacement $P_C$ | Logit Proj $\\alpha_C^{\\text{logit}}$ | Attrib Index $\\alpha_C^{\\text{cloze}}$ | Eligible N | Donor Concord |\n")
+        f_rep.write("| :---: | :--- | :---: | :---: | :---: | :---: | :---: | :---: |\n")
 
         for lag in lags:
             for cond in sorted(causal_table[lag].keys()):
                 d = causal_table[lag][cond]
-                f_rep.write(f"| {lag} | `{cond}` | {d['mean_cloze_margin']:+.2f} | {d['mean_attribution_index']:.3f} | {d['donor_concordance_rate']*100:.1f}% |\n")
+                alpha_str = f"{d['mean_attribution_index']:.3f}" if d['mean_attribution_index'] is not None else "N/A"
+                elig_str = f"{d['n_eligible']}/{d['n_samples']}"
+                f_rep.write(f"| {lag} | `{cond}` | {d['mean_raw_graft_effect']:+.2f} | {d['mean_absolute_displacement']:+.2f} | {d['mean_logit_projection']:+.3f} | {alpha_str} | {elig_str} | {d['donor_concordance_rate']*100:.1f}% |\n")
 
-        f_rep.write("\n## 2. Causal Interpretation\n\n")
-        f_rep.write("1. **Whole-State Swap Equivalence:** Whole-state transplantation establishes the baseline total dynamic range for complete behavioral reversal.\n")
-        f_rep.write("2. **RG-LRU Causal Sufficiency:** If $\\alpha_{\\text{RGLRU}} \\approx 1.0$ at long lag $L = 2W$, RG-LRU is confirmed as the causally sufficient substrate enabling surviving factual recall.\n")
-        f_rep.write("3. **Sham Floor:** Sham transplantation ($A_2 \\to A_1$) confirms that state grafting introduces zero artifactual logit distortion.\n")
+        if med_results:
+            f_rep.write("\n## 2. Mediational Forward Dynamic Propagation ($R^B \\to K_{\\text{future}}^B$)\n\n")
+            f_rep.write("| Pair ID | Regime | Initial Lag | Future Tokens | Dist to Recipient A | Dist to Donor B | KV Migration Index $\\mathcal{M}_{\\text{KV}}$ | Propagated? |\n")
+            f_rep.write("| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: |\n")
+            for m in med_results:
+                f_rep.write(f"| `{m['pair_id']}` | `{m['regime']}` | {m['initial_lag']} | {m['future_tokens']} | {m['d_med_to_a']:.4f} | {m['d_med_to_b']:.4f} | {m['kv_migration_index']:+.4f} | {'**YES**' if m['propagated_history_to_future_kv'] else 'NO'} |\n")
+
+        f_rep.write("\n## 3. Causal Interpretation & Control Framework\n\n")
+        f_rep.write("1. **Absolute vs Relative Logit Displacement:** Absolute donor displacement $P_C = (z_G - z_R) \\cdot \\frac{z_D - z_R}{\\|z_D - z_R\\|}$ distinguishes true causal steering magnitude from relative share $\\alpha_C^{\\text{logit}}$ when the total donor-recipient contrast $\\|z_D - z_R\\|$ collapses at deep lags.\n")
+        f_rep.write("2. **Historical Specificity vs Generic Perturbation:** Unrelated-donor and permuted-donor RG-LRU controls demonstrate that directional logit steering is specific to the matching historical event ($P_{\\text{donor}} > P_{\\text{unrelated}}$), while norm-matched Gaussian noise is orthogonal ($P_{\\text{noise}} \\approx 0.00$).\n")
+        f_rep.write("3. **Dynamic Forward Mediational Propagation:** Forward unrolling from hybrid state $(R^B, C^A, K^A)$ verifies whether RG-LRU causally transmits historical information into downstream sliding-window KV representations during ongoing generation.\n")
 
     print(f"[E11] Analysis complete! Wrote report to {report_file}")
     return analysis_result

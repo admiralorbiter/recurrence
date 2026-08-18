@@ -57,6 +57,7 @@ Sprint S11 constructs the empirical **temporal anatomy** of `RecurrentGemma` acr
 | **$R_{\text{RGLRU}}(W+1)$ [Random]** | **0.0551** | **[0.0489, 0.0613]** |
 | **$R_{\text{RGLRU}}(2W)$ [Random]** | **0.0453** | **[0.0402, 0.0501]** |
 | **$\Delta R_{\text{interf - const}}(2W)$** | **-0.2586** | **[-0.3566, -0.1697]** |
+| **$\Delta R_{\text{reexpand}}(2W - [W+1])$ [Constant]** | **+0.0539** | **[-0.0103, +0.1379]** |
 | **Cloze Margin at $W+1$ ($L=2049$) [Constant]** | **+0.5187** | **[+0.3812, +0.6719]** |
 | **Cloze Margin at $W+1$ ($L=2049$) [Random]** | **+0.0667** | **[+0.0219, +0.1094]** |
 | **Cloze Margin at $W+1$ ($L=2049$) [Interfering]** | **+0.0307** | **[-0.0281, +0.0953]** |
@@ -93,13 +94,13 @@ Sprint S11 constructs the empirical **temporal anatomy** of `RecurrentGemma` acr
 
 ---
 
-## 6. Core Scientific Discoveries & Horizon 2 Theoretical Implications
+## 6. Core Scientific Discoveries & Horizon 2 Theoretical Synthesis
 
-1. **Persistent Physical Trace vs Bounded Behavioral Readability:**
-   - **Physical Trace:** Branch-specific RG-LRU states remain robustly and significantly separated at $2W=4096$ across all regimes ($R_{\text{RGLRU}} \in [0.045, 0.340]$, CI excludes zero).
-   - **Behavioral Readability:** Factual cloze readability decays from $+10.78$ at $L=0$ to $+0.52$ at $W+1$ (constant regime), and drops to the chance baseline by $2W=4096$.
-   - **Theoretical Distinction:** *History physically represented* $\neq$ *history zero-shot behaviorally readable*.
-2. **Robustness of the Constant-Input Re-Expansion:**
-   - The re-expansion of $R_{\text{RGLRU}}$ from $L=2049 \to 4096$ ($0.285 \to 0.338$, CI [0.248, 0.440]) is **statistically confirmed across all 20 stimulus pairs**. It reflects the input-gated RG-LRU attractor dynamics under stationary tokens.
+1. **Physical Persistence vs Bounded Behavioral Accessibility:**
+   - **Physical Trace:** Branch-specific RG-LRU states remain robustly and significantly separated at $2W=4096$ across all regimes ($R_{\text{RGLRU}} \in [0.045, 0.340]$, 95% CIs strictly excluding zero).
+   - **Behavioral Retrieval:** Strict paired retrieval approaches chance around the attention-window boundary; graded cloze evidence remains detectable for constant ($+0.5187$ [0.3812, 0.6719]) and random ($+0.0667$ [0.0219, 0.1094]) regimes at $W+1$, but no tested regime resolves behavioral retrieval at $2W=4096$.
+   - **Theoretical Implication:** *Historical state physically encoded* $\neq$ *zero-shot task-usable retrieval*.
+2. **Replicated Constant-Input Re-Expansion Point Estimate:**
+   - In the constant filler regime, mean RG-LRU retention increases from $0.2845$ at $W+1$ to $0.3384$ at $2W$ ($\Delta R_{\text{reexpand}} = +0.0539$, 95% paired CI [-0.0103, +0.1379]). While the point estimate reflects positive re-expansion consistent with input-gated RG-LRU attractor dynamics under stationary input, the paired confidence interval spans zero.
 3. **Transition to Sprint S12 (Surgical Causal Swaps):**
    - S11b provides the exact cell-level eligibility map ($|m_D - m_R| \ge 0.5$) for Sprint S12 to test whether grafting this physical recurrent trace causally transfers historical knowledge.

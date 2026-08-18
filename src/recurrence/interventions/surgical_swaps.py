@@ -95,3 +95,30 @@ def swap_stores(
     grafted.metadata["swapped_channels"] = channels_list
     grafted.metadata["swap_layers"] = layers if layers is not None else "all"
     return grafted
+
+
+def add_norm_matched_noise(
+    snapshot: RecurrentStateSnapshot,
+    channel: str = "rglru",
+    noise_scale: float = 1.0,
+    seed: int = 42,
+) -> RecurrentStateSnapshot:
+    """Add norm-matched Gaussian noise to a specific channel as a control against generic state corruption."""
+    grafted = snapshot.clone()
+    torch.manual_seed(seed)
+
+    if channel == "rglru":
+        for l in grafted.rglru:
+            t = grafted.rglru[l]
+            rms = float(torch.sqrt(torch.mean(t.float() ** 2)).item())
+            noise = torch.randn_like(t.float()) * rms * noise_scale
+            grafted.rglru[l] = (t.float() + noise.to(t.device)).to(t.dtype)
+    elif channel == "conv":
+        for l in grafted.conv:
+            t = grafted.conv[l]
+            rms = float(torch.sqrt(torch.mean(t.float() ** 2)).item())
+            noise = torch.randn_like(t.float()) * rms * noise_scale
+            grafted.conv[l] = (t.float() + noise.to(t.device)).to(t.dtype)
+
+    grafted.metadata["noise_perturbed_channel"] = channel
+    return grafted

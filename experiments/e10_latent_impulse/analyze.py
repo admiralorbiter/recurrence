@@ -9,46 +9,56 @@ from typing import Any, Dict, List, Optional, Tuple
 
 def compute_pair_cluster_bootstrap(
     rows: List[Dict[str, Any]],
-    n_boot: int = 1000,
+    n_boot: int = 10000,
     seed: int = 42,
 ) -> Dict[str, Any]:
-    """Compute pair-cluster bootstrap 95% confidence intervals for primary estimands."""
+    """Compute hierarchical pair-cluster bootstrap 95% confidence intervals for primary estimands."""
     rng = random.Random(seed)
     pairs = sorted(list({r["pair_id"] for r in rows}))
     if not pairs:
         return {}
 
-    # Index rows by pair_id
-    pair_rows = defaultdict(list)
+    # Index rows by (pair_id, seed_idx)
+    pair_seed_rows = defaultdict(lambda: defaultdict(list))
+    pair_seeds = defaultdict(set)
     for r in rows:
-        pair_rows[r["pair_id"]].append(r)
+        pair_seed_rows[r["pair_id"]][r.get("seed_idx", 0)].append(r)
+        pair_seeds[r["pair_id"]].add(r.get("seed_idx", 0))
 
     boot_stats: Dict[str, List[float]] = defaultdict(list)
 
     for _ in range(n_boot):
-        # Sample pairs with replacement
+        # 1. Sample pairs with replacement
         sample_pairs = [rng.choice(pairs) for _ in pairs]
         sample_rows = []
         for p in sample_pairs:
-            sample_rows.extend(pair_rows[p])
+            # 2. Hierarchical: sample seed realizations within pair with replacement
+            avail_seeds = sorted(list(pair_seeds[p]))
+            sampled_seeds = [rng.choice(avail_seeds) for _ in avail_seeds]
+            for s in sampled_seeds:
+                sample_rows.extend(pair_seed_rows[p][s])
 
         # Compute sample metrics per regime
         reg_lags = defaultdict(list)
         for r in sample_rows:
             reg_lags[(r["regime"], r["lag"])].append(r)
 
+        ret_2w_by_reg = {}
+
         for reg in ["constant", "interfering", "natural", "random"]:
             lags = sorted(list({r["lag"] for r in sample_rows if r["regime"] == reg}))
             if not lags:
                 continue
             max_l = max(lags)
-            
+
             # W+1 lag (approx 2049 if present, else highest < max_l)
             w_plus_1 = 2049 if 2049 in lags else (lags[-2] if len(lags) > 1 else lags[-1])
             items_w1 = reg_lags.get((reg, w_plus_1), [])
             if items_w1:
                 r_w1 = sum(x["mean_rglru_retention"] for x in items_w1) / len(items_w1)
+                margin_w1 = sum(x["twoway_2afc_margin"] for x in items_w1) / len(items_w1)
                 boot_stats[f"{reg}_rglru_ret_w1"].append(r_w1)
+                boot_stats[f"{reg}_cloze_margin_w1"].append(margin_w1)
 
             # 2W lag (max lag, e.g. 4096)
             items_2w = reg_lags.get((reg, max_l), [])
@@ -59,6 +69,20 @@ def compute_pair_cluster_bootstrap(
                 boot_stats[f"{reg}_rglru_ret_2w"].append(r_2w)
                 boot_stats[f"{reg}_cloze_margin_2w"].append(margin_2w)
                 boot_stats[f"{reg}_cloze_acc_2w"].append(acc_2w)
+                ret_2w_by_reg[reg] = r_2w
+
+        # Paired regime contrast: Interfering vs Constant at 2W
+        if "interfering" in ret_2w_by_reg and "constant" in ret_2w_by_reg:
+            delta_ret = ret_2w_by_reg["interfering"] - ret_2w_by_reg["constant"]
+            boot_stats["delta_rglru_ret_interf_minus_const_2w"].append(delta_ret)
+
+        # Paired re-expansion contrast for Constant regime: 2W vs W+1
+        items_const_2w = reg_lags.get(("constant", 4096), [])
+        items_const_w1 = reg_lags.get(("constant", 2049), [])
+        if items_const_2w and items_const_w1 and len(items_const_2w) == len(items_const_w1):
+            r_c_2w = sum(x["mean_rglru_retention"] for x in items_const_2w) / len(items_const_2w)
+            r_c_w1 = sum(x["mean_rglru_retention"] for x in items_const_w1) / len(items_const_w1)
+            boot_stats["delta_rglru_ret_reexpand_const_2w_minus_w1"].append(r_c_2w - r_c_w1)
 
     # Compute 95% CIs
     ci_results: Dict[str, Dict[str, float]] = {}
