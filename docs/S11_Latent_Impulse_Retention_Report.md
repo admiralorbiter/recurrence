@@ -18,7 +18,7 @@ Sprint S11 constructs the empirical **temporal anatomy** of `RecurrentGemma` acr
 - **Audited 1-Token Target Length Parity:** All 20 canonical stimulus pairs audited under `google/recurrentgemma-2b` tokenizer with exact 1-token target equality ($\text{len}(\text{target}_A) = \text{len}(\text{target}_B) = 1$) and exact event token parity ($\text{len}(\text{event}_A) = \text{len}(\text{event}_B) = 6$).
 - **Length-Normalized Continuation Log-Likelihood Scorer:** $\frac{1}{T} \sum_t \log P(\text{tok}_t \mid \text{context}_{<t})$ evaluated via detached state snapshots.
 - **Non-Repeating Long-Horizon Fillers:** Deterministic non-repeating natural prose and semantic interference stream generators ($\ge 4096$ tokens).
-- **Hierarchical Cluster Bootstrap ($B=10,000$):** Resamples stimulus pairs and nested seed realizations to construct rigorous 95% confidence intervals.
+- **Pair-Cluster Bootstrap ($B=10,000$):** Resamples stimulus pairs conditional on the frozen filler panel and deterministic seed assignment to construct rigorous 95% confidence intervals.
 - **Complete Temporal-State Parity Invariant:** Proved chunked-vs-step mathematical equivalence across all 3 stores and cache bookkeeping.
 
 ---
@@ -44,9 +44,9 @@ Sprint S11 constructs the empirical **temporal anatomy** of `RecurrentGemma` acr
 
 ---
 
-## 4. Primary Confirmatory S11b Estimands & 95% Hierarchical Bootstrap CIs ($B=10,000$)
+## 4. Primary Confirmatory S11b Estimands & 95% Pair-Cluster Bootstrap CIs ($B=10,000$)
 
-| Primary Estimand | Point Estimate / Mean | 95% Hierarchical Bootstrap CI |
+| Primary Estimand | Point Estimate / Mean | 95% Pair-Cluster Bootstrap CI |
 | :--- | :---: | :---: |
 | **$R_{\text{RGLRU}}(W+1)$ [Constant]** | **0.2845** | **[0.2204, 0.3582]** |
 | **$R_{\text{RGLRU}}(2W)$ [Constant]** | **0.3384** | **[0.2484, 0.4401]** |

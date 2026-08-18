@@ -3,41 +3,43 @@
 **Model Target:** `google/recurrentgemma-2b` (Reference Model: False)
 **Run Path:** `results\e10_latent_impulse\run_e10_confirmatory_20260818_033015`
 
+**Bootstrap Inference:** Pair-Cluster Bootstrap ($B=10,000$) conditional on frozen filler panel / deterministic seed assignment.
+
 ## 1. Multi-Store Empirical Retention & 50% Thresholds
 
 | Filler Regime | RGLRU First <50% | RGLRU Sustained <50% | Conv First <50% | KV First <50% | RGLRU Log-AUC | KV Log-AUC |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| **constant** | L=8 | L=8 | L=2 | L=32 | 3.369 | 3.963 |
-| **interfering** | L=16 | L=16 | L=8 | L=128 | 3.241 | 4.538 |
-| **natural** | L=8 | L=8 | L=2 | L=64 | 2.779 | 4.148 |
-| **random** | L=8 | L=8 | L=3 | L=64 | 2.825 | 4.099 |
+| **constant** | L=8 | L=8 | L=2 | L=32 | 3.3685 | 3.9632 |
+| **interfering** | L=16 | L=16 | L=8 | L=128 | 3.2409 | 4.538 |
+| **natural** | L=8 | L=8 | L=2 | L=64 | 2.7793 | 4.148 |
+| **random** | L=8 | L=8 | L=3 | L=64 | 2.8245 | 4.0994 |
 
 ## 2. Primary S11b Estimands & 95% Pair-Cluster Bootstrap CIs
 
 | Estimand | Point Estimate / Mean | 95% Bootstrap CI |
 | :--- | :---: | :---: |
 | `constant_cloze_acc_2w` | 0.5 | [0.5, 0.5] |
-| `constant_cloze_margin_2w` | -0.0265 | [-0.1109, 0.0656] |
-| `constant_cloze_margin_w1` | 0.5187 | [0.3812, 0.6719] |
-| `constant_rglru_ret_2w` | 0.3384 | [0.2484, 0.4401] |
-| `constant_rglru_ret_w1` | 0.2845 | [0.2204, 0.3582] |
-| `delta_rglru_ret_interf_minus_const_2w` | -0.2586 | [-0.3566, -0.1697] |
-| `delta_rglru_ret_reexpand_const_2w_minus_w1` | 0.0539 | [-0.0103, 0.1379] |
-| `interfering_cloze_acc_2w` | 0.4497 | [0.375, 0.5] |
-| `interfering_cloze_margin_2w` | 0.0044 | [-0.075, 0.0844] |
-| `interfering_cloze_margin_w1` | 0.0307 | [-0.0281, 0.0953] |
-| `interfering_rglru_ret_2w` | 0.0798 | [0.0734, 0.0864] |
+| `constant_cloze_margin_2w` | -0.0276 | [-0.1125, 0.0625] |
+| `constant_cloze_margin_w1` | 0.5186 | [0.3797, 0.6719] |
+| `constant_rglru_ret_2w` | 0.3394 | [0.2502, 0.4435] |
+| `constant_rglru_ret_w1` | 0.2844 | [0.2239, 0.353] |
+| `delta_rglru_ret_interf_minus_const_2w` | -0.2597 | [-0.3609, -0.1724] |
+| `delta_rglru_ret_reexpand_const_2w_minus_w1` | 0.055 | [-0.0101, 0.1392] |
+| `interfering_cloze_acc_2w` | 0.4505 | [0.375, 0.5] |
+| `interfering_cloze_margin_2w` | 0.0066 | [-0.0703, 0.0813] |
+| `interfering_cloze_margin_w1` | 0.0312 | [-0.0297, 0.0938] |
+| `interfering_rglru_ret_2w` | 0.0797 | [0.0734, 0.0864] |
 | `interfering_rglru_ret_w1` | 0.0983 | [0.0896, 0.1075] |
-| `natural_cloze_acc_2w` | 0.476 | [0.425, 0.5] |
-| `natural_cloze_margin_2w` | 0.0123 | [-0.0125, 0.0375] |
-| `natural_cloze_margin_w1` | -0.0182 | [-0.0703, 0.0344] |
+| `natural_cloze_acc_2w` | 0.4749 | [0.425, 0.5] |
+| `natural_cloze_margin_2w` | 0.0126 | [-0.0125, 0.0375] |
+| `natural_cloze_margin_w1` | -0.0171 | [-0.0672, 0.0375] |
 | `natural_rglru_ret_2w` | 0.0514 | [0.0461, 0.0571] |
-| `natural_rglru_ret_w1` | 0.0636 | [0.0584, 0.0694] |
+| `natural_rglru_ret_w1` | 0.0638 | [0.0585, 0.0696] |
 | `random_cloze_acc_2w` | 0.5 | [0.5, 0.5] |
-| `random_cloze_margin_2w` | -0.003 | [-0.0203, 0.0125] |
-| `random_cloze_margin_w1` | 0.0667 | [0.0219, 0.1094] |
-| `random_rglru_ret_2w` | 0.0453 | [0.0402, 0.0501] |
-| `random_rglru_ret_w1` | 0.0551 | [0.0489, 0.0613] |
+| `random_cloze_margin_2w` | -0.0032 | [-0.0219, 0.0125] |
+| `random_cloze_margin_w1` | 0.0671 | [0.0219, 0.1109] |
+| `random_rglru_ret_2w` | 0.0453 | [0.0406, 0.05] |
+| `random_rglru_ret_w1` | 0.055 | [0.0489, 0.0615] |
 
 ## 3. Dynamic Trajectories Across Tested Lags
 

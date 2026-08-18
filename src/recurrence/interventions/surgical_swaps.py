@@ -97,28 +97,41 @@ def swap_stores(
     return grafted
 
 
-def add_norm_matched_noise(
-    snapshot: RecurrentStateSnapshot,
+def add_intervention_matched_noise(
+    recipient: RecurrentStateSnapshot,
+    donor: RecurrentStateSnapshot,
     channel: str = "rglru",
-    noise_scale: float = 1.0,
     seed: int = 42,
 ) -> RecurrentStateSnapshot:
-    """Add norm-matched Gaussian noise to a specific channel as a control against generic state corruption."""
-    grafted = snapshot.clone()
-    torch.manual_seed(seed)
+    """Add random Gaussian noise to recipient matching the layer-wise Frobenius norm of ||donor - recipient||."""
+    grafted = recipient.clone()
+    gen = torch.Generator().manual_seed(seed)
 
     if channel == "rglru":
         for l in grafted.rglru:
-            t = grafted.rglru[l]
-            rms = float(torch.sqrt(torch.mean(t.float() ** 2)).item())
-            noise = torch.randn_like(t.float()) * rms * noise_scale
-            grafted.rglru[l] = (t.float() + noise.to(t.device)).to(t.dtype)
+            if l in donor.rglru:
+                t_rec = recipient.rglru[l].float()
+                t_don = donor.rglru[l].float()
+                diff_frob = float(torch.norm(t_don - t_rec).item())
+                if diff_frob > 1e-8:
+                    noise = torch.randn(t_rec.shape, generator=gen)
+                    noise_frob = float(torch.norm(noise).item())
+                    scaled_noise = noise * (diff_frob / (noise_frob + 1e-8))
+                    grafted.rglru[l] = (t_rec + scaled_noise.to(t_rec.device)).to(recipient.rglru[l].dtype)
     elif channel == "conv":
         for l in grafted.conv:
-            t = grafted.conv[l]
-            rms = float(torch.sqrt(torch.mean(t.float() ** 2)).item())
-            noise = torch.randn_like(t.float()) * rms * noise_scale
-            grafted.conv[l] = (t.float() + noise.to(t.device)).to(t.dtype)
+            if l in donor.conv:
+                t_rec = recipient.conv[l].float()
+                t_don = donor.conv[l].float()
+                diff_frob = float(torch.norm(t_don - t_rec).item())
+                if diff_frob > 1e-8:
+                    noise = torch.randn(t_rec.shape, generator=gen)
+                    noise_frob = float(torch.norm(noise).item())
+                    scaled_noise = noise * (diff_frob / (noise_frob + 1e-8))
+                    grafted.conv[l] = (t_rec + scaled_noise.to(t_rec.device)).to(recipient.conv[l].dtype)
 
     grafted.metadata["noise_perturbed_channel"] = channel
+    grafted.metadata["noise_matched_donor"] = True
+    grafted.metadata["noise_seed"] = seed
     return grafted
+

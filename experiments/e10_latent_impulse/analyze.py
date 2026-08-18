@@ -100,7 +100,16 @@ def compute_pair_cluster_bootstrap(
     return ci_results
 
 
-def analyze_run(run_dir: str) -> Dict[str, Any]:
+def compute_log_auc(lags: List[int], vals: List[float]) -> float:
+    auc = 0.0
+    for i in range(len(lags) - 1):
+        l1, l2 = lags[i], lags[i + 1]
+        v1, v2 = vals[i], vals[i + 1]
+        auc += 0.5 * (v1 + v2) * (math.log(l2 + 1) - math.log(l1 + 1))
+    return auc
+
+
+def analyze_run(run_dir: str, n_boot: int = 10000) -> Dict[str, Any]:
     run_path = Path(run_dir)
     trace_file = run_path / "state_trace.jsonl"
     layer_trace_file = run_path / "layer_trace.jsonl"
@@ -138,103 +147,120 @@ def analyze_run(run_dir: str) -> Dict[str, Any]:
 
     regime_curves: Dict[str, Dict[str, Any]] = {}
 
-    for regime in regimes:
+    for reg in regimes:
         lag_records = []
+        rglru_sub50_first = None
+        rglru_sub50_sust = None
+        conv_sub50_first = None
+        kv_sub50_first = None
+
+        rglru_ret_series = []
+        kv_ret_series = []
+        lags_series = []
+
         for lag in lags:
-            items = grouped.get((regime, lag), [])
+            items = grouped.get((reg, lag), [])
             if not items:
                 continue
-            n = len(items)
-            agg = {
+
+            mean_rglru_d_rel = sum(x["mean_rglru_d_rel"] for x in items) / len(items)
+            mean_conv_d_rel = sum(x["mean_conv_d_rel"] for x in items) / len(items)
+            mean_kv_d_rel = sum(x["mean_kv_d_rel"] for x in items) / len(items)
+            mean_k_d_rel = sum(x.get("mean_k_d_rel", mean_kv_d_rel) for x in items) / len(items)
+            mean_v_d_rel = sum(x.get("mean_v_d_rel", mean_kv_d_rel) for x in items) / len(items)
+            mean_recent_kv_d_rel = sum(x.get("mean_recent_kv_d_rel", mean_kv_d_rel) for x in items) / len(items)
+            mean_rglru_ret = sum(x["mean_rglru_retention"] for x in items) / len(items)
+            mean_conv_ret = sum(x["mean_conv_retention"] for x in items) / len(items)
+            mean_kv_ret = sum(x["mean_kv_retention"] for x in items) / len(items)
+            mean_k_ret = sum(x.get("mean_k_retention", mean_kv_ret) for x in items) / len(items)
+            mean_v_ret = sum(x.get("mean_v_retention", mean_kv_ret) for x in items) / len(items)
+            mean_js = sum(x["jensen_shannon_div"] for x in items) / len(items)
+            mean_margin = sum(x["twoway_2afc_margin"] for x in items) / len(items)
+            mean_acc = sum(x["twoway_2afc_accuracy"] for x in items) / len(items)
+
+            # Conv direct residency: L < conv1d_width - 1
+            conv_width = run_meta.get("model_provenance", {}).get("conv1d_width", 4)
+            kv_window = run_meta.get("model_provenance", {}).get("attention_window_size", 2048)
+            conv_resident = bool(lag < (conv_width - 1))
+            kv_resident = bool(lag < (kv_window - 1))
+
+            if rglru_sub50_first is None and mean_rglru_ret < 0.5:
+                rglru_sub50_first = lag
+            if conv_sub50_first is None and mean_conv_ret < 0.5:
+                conv_sub50_first = lag
+            if kv_sub50_first is None and mean_kv_ret < 0.5:
+                kv_sub50_first = lag
+
+            rglru_ret_series.append(mean_rglru_ret)
+            kv_ret_series.append(mean_kv_ret)
+            lags_series.append(lag)
+
+            lag_records.append({
                 "lag": lag,
-                "conv_directly_resident": items[0]["conv_directly_resident"],
-                "kv_directly_resident": items[0]["kv_directly_resident"],
-                "rglru_d_rel": sum(x["mean_rglru_d_rel"] for x in items) / n,
-                "conv_d_rel": sum(x["mean_conv_d_rel"] for x in items) / n,
-                "kv_d_rel": sum(x["mean_kv_d_rel"] for x in items) / n,
-                "k_d_rel": sum(x.get("mean_k_d_rel", x["mean_kv_d_rel"]) for x in items) / n,
-                "v_d_rel": sum(x.get("mean_v_d_rel", x["mean_kv_d_rel"]) for x in items) / n,
-                "recent_kv_d_rel": sum(x.get("mean_recent_kv_d_rel", 0.0) for x in items) / n,
-                "rglru_retention": sum(x["mean_rglru_retention"] for x in items) / n,
-                "conv_retention": sum(x["mean_conv_retention"] for x in items) / n,
-                "kv_retention": sum(x["mean_kv_retention"] for x in items) / n,
-                "k_retention": sum(x.get("mean_k_retention", x["mean_kv_retention"]) for x in items) / n,
-                "v_retention": sum(x.get("mean_v_retention", x["mean_kv_retention"]) for x in items) / n,
-                "jensen_shannon_div": sum(x["jensen_shannon_div"] for x in items) / n,
-                "twoway_2afc_margin": sum(x["twoway_2afc_margin"] for x in items) / n,
-                "twoway_2afc_accuracy": sum(x["twoway_2afc_accuracy"] for x in items) / n,
-            }
-            lag_records.append(agg)
+                "conv_directly_resident": conv_resident,
+                "kv_directly_resident": kv_resident,
+                "rglru_d_rel": round(mean_rglru_d_rel, 6),
+                "conv_d_rel": round(mean_conv_d_rel, 6),
+                "kv_d_rel": round(mean_kv_d_rel, 6),
+                "k_d_rel": round(mean_k_d_rel, 6),
+                "v_d_rel": round(mean_v_d_rel, 6),
+                "recent_kv_d_rel": round(mean_recent_kv_d_rel, 6),
+                "rglru_retention": round(mean_rglru_ret, 6),
+                "conv_retention": round(mean_conv_ret, 6),
+                "kv_retention": round(mean_kv_ret, 6),
+                "k_retention": round(mean_k_ret, 6),
+                "v_retention": round(mean_v_ret, 6),
+                "jensen_shannon_div": round(mean_js, 6),
+                "twoway_2afc_margin": round(mean_margin, 6),
+                "twoway_2afc_accuracy": round(mean_acc, 4),
+            })
 
-        # 1. First observed <50% retention checkpoint
-        def find_first_sub50(key: str) -> Optional[int]:
-            for item in lag_records:
-                if item[key] < 0.50:
-                    return item["lag"]
-            return None
+        # Sustained sub-50%
+        for i, ret in enumerate(rglru_ret_series):
+            if all(r < 0.5 for r in rglru_ret_series[i:]):
+                rglru_sub50_sust = lags_series[i]
+                break
 
-        # 2. Sustained <50% retention crossing
-        def find_sustained_sub50(key: str) -> Optional[int]:
-            for i, item in enumerate(lag_records):
-                if item[key] < 0.50:
-                    if all(lag_records[j][key] < 0.50 for j in range(i, len(lag_records))):
-                        return item["lag"]
-            return None
+        rglru_log_auc = compute_log_auc(lags_series, rglru_ret_series)
+        kv_log_auc = compute_log_auc(lags_series, kv_ret_series)
 
-        # 3. Normalized trapezoidal AUC
-        def compute_normalized_auc(key: str) -> float:
-            auc = 0.0
-            for i in range(len(lag_records) - 1):
-                l1, l2 = lag_records[i]["lag"], lag_records[i + 1]["lag"]
-                v1, v2 = lag_records[i][key], lag_records[i + 1][key]
-                auc += 0.5 * (v1 + v2) * (l2 - l1)
-            return round(auc / max(max_lag, 1), 4)
-
-        # 4. Log-lag AUC
-        def compute_log_lag_auc(key: str) -> float:
-            log_auc = 0.0
-            for i in range(len(lag_records) - 1):
-                l1, l2 = lag_records[i]["lag"], lag_records[i + 1]["lag"]
-                v1, v2 = lag_records[i][key], lag_records[i + 1][key]
-                dl = math.log(l2 + 1) - math.log(l1 + 1)
-                log_auc += 0.5 * (v1 + v2) * dl
-            return round(log_auc, 3)
-
-        regime_curves[regime] = {
+        regime_curves[reg] = {
+            "rglru_first_sub50": rglru_sub50_first,
+            "rglru_sustained_sub50": rglru_sub50_sust,
+            "conv_first_sub50": conv_sub50_first,
+            "kv_first_sub50": kv_sub50_first,
+            "rglru_log_auc": round(rglru_log_auc, 4),
+            "kv_log_auc": round(kv_log_auc, 4),
             "lag_records": lag_records,
-            "rglru_first_sub50": find_first_sub50("rglru_retention"),
-            "rglru_sustained_sub50": find_sustained_sub50("rglru_retention"),
-            "conv_first_sub50": find_first_sub50("conv_retention"),
-            "conv_sustained_sub50": find_sustained_sub50("conv_retention"),
-            "kv_first_sub50": find_first_sub50("kv_retention"),
-            "kv_sustained_sub50": find_sustained_sub50("kv_retention"),
-            "rglru_norm_auc": compute_normalized_auc("rglru_retention"),
-            "kv_norm_auc": compute_normalized_auc("kv_retention"),
-            "rglru_log_auc": compute_log_lag_auc("rglru_retention"),
-            "kv_log_auc": compute_log_lag_auc("kv_retention"),
         }
 
-    # Layer x Lag Anatomy
-    layer_map: Dict[str, Dict[str, Dict[int, float]]] = defaultdict(lambda: defaultdict(dict))
+    # Per-layer decay curves if layer_rows exist
+    layer_curves: Dict[str, Dict[str, Dict[str, float]]] = defaultdict(lambda: defaultdict(dict))
     if layer_rows:
-        l_grouped = defaultdict(list)
         for lr in layer_rows:
-            l_grouped[(lr["regime"], lr["channel"], lr["layer_idx"], lr["lag"])].append(lr["scale_relative_dist"])
-        for (reg, chan, layer_idx, lag), vals in l_grouped.items():
-            mean_v = sum(vals) / len(vals)
-            layer_map[f"{reg}_{chan}"][f"layer_{layer_idx}"][lag] = round(mean_v, 4)
+            store = lr.get("channel", lr.get("store", "unknown"))
+            l_idx = f"layer_{lr['layer_idx']}"
+            lag_str = str(lr["lag"])
+            ret_val = lr.get("retention_ratio", lr.get("retention", lr.get("scale_relative_dist", 0.0)))
+            layer_curves[store][l_idx][lag_str] = round(ret_val, 4)
 
     # Compute Pair-Cluster Bootstrap CIs
-    bootstrap_cis = compute_pair_cluster_bootstrap(rows, n_boot=1000, seed=42)
+    bootstrap_cis = compute_pair_cluster_bootstrap(rows, n_boot=n_boot)
 
     analysis_result = {
         "run_dir": str(run_path),
         "model_provenance": run_meta.get("model_provenance", {}),
+        "bootstrap_metadata": {
+            "method": "Pair-Cluster Bootstrap",
+            "B": n_boot,
+            "cluster_unit": "pair_id",
+            "conditioning": "frozen filler panel / deterministic seed assignment",
+        },
         "regimes": regimes,
         "lags": lags,
         "regime_curves": regime_curves,
         "bootstrap_cis": bootstrap_cis,
-        "layer_anatomy_summary": dict(layer_map),
+        "layer_decay_curves": {s: dict(lc) for s, lc in layer_curves.items()},
     }
 
     with open(run_path / "analysis_summary.json", "w", encoding="utf-8") as f_out:
@@ -249,6 +275,7 @@ def analyze_run(run_dir: str) -> Dict[str, Any]:
         f_rep.write(f"# E10 Latent Impulse Response & Store Localization Report\n\n")
         f_rep.write(f"**Model Target:** `{model_name}` (Reference Model: {is_ref})\n")
         f_rep.write(f"**Run Path:** `{run_path}`\n\n")
+        f_rep.write(f"**Bootstrap Inference:** Pair-Cluster Bootstrap ($B={n_boot:,}$) conditional on frozen filler panel / deterministic seed assignment.\n\n")
 
         if is_ref:
             f_rep.write("> [!NOTE]\n")
@@ -303,5 +330,6 @@ def analyze_run(run_dir: str) -> Dict[str, Any]:
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Analyze E10 Latent Impulse Run")
     parser.add_argument("run_dir", type=str, help="Path to run output directory")
+    parser.add_argument("--n_boot", type=int, default=10000, help="Number of bootstrap replicates")
     args = parser.parse_args()
-    analyze_run(args.run_dir)
+    analyze_run(args.run_dir, n_boot=args.n_boot)

@@ -140,18 +140,30 @@ def test_whole_swap_matches_donor_state(test_adapter: RecurrentGemmaAdapter):
     grafted.assert_strict_equal(state_a)
 
 
-def test_sham_swap_produces_zero_difference(test_adapter: RecurrentGemmaAdapter):
-    """Verify that sham swap A2 -> A1 reproduces exact original state."""
-    tokens = [10, 20, 30]
-    _, state_a1 = test_adapter.encode_sequence(tokens)
-    _, state_a2 = test_adapter.encode_sequence(tokens)
+def test_add_intervention_matched_noise(test_adapter: RecurrentGemmaAdapter):
+    """Verify that intervention-matched noise matches the layer Frobenius norm of ||donor - recipient||."""
+    from recurrence.interventions.surgical_swaps import add_intervention_matched_noise
+    tokens_a = [10, 20, 30]
+    tokens_b = [10, 50, 60]
 
-    grafted = swap_stores(recipient=state_a1, donor=state_a2, channels="all")
-    grafted.assert_strict_equal(state_a1)
+    _, state_a = test_adapter.encode_sequence(tokens_a)
+    _, state_b = test_adapter.encode_sequence(tokens_b)
+
+    noisy = add_intervention_matched_noise(recipient=state_b, donor=state_a, channel="rglru", seed=42)
+
+    for l in state_b.rglru:
+        t_rec = state_b.rglru[l].float()
+        t_don = state_a.rglru[l].float()
+        t_noisy = noisy.rglru[l].float()
+
+        target_diff = float(torch.norm(t_don - t_rec).item())
+        actual_noise = float(torch.norm(t_noisy - t_rec).item())
+
+        assert abs(actual_noise - target_diff) < 1e-4, f"Noise norm mismatch at layer {l}: {actual_noise} vs {target_diff}"
 
 
 def test_end_to_end_surgical_swap_harness(test_adapter: RecurrentGemmaAdapter):
-    """End-to-end dry run verifying all 14 causal swap conditions execute cleanly with raw and logit metrics."""
+    """End-to-end dry run verifying all 16 causal swap conditions execute cleanly with signed and logit metrics."""
     pair = CANONICAL_STIMULI_PAIRS[0]
     target_lags = [0, 2, 8]
 
@@ -163,11 +175,11 @@ def test_end_to_end_surgical_swap_harness(test_adapter: RecurrentGemmaAdapter):
         seed=42,
     )
 
-    # 3 lags x 14 conditions = 42 records
-    assert len(records) == 42
+    # 3 lags x 16 conditions = 48 records
+    assert len(records) == 48
     for r in records:
         assert not math.isnan(r.cloze_margin)
-        assert not math.isnan(r.raw_graft_effect)
+        assert not math.isnan(r.signed_graft_effect)
         assert not math.isnan(r.absolute_displacement)
         assert not math.isnan(r.donor_recipient_norm)
         assert not math.isnan(r.logit_directional_projection)
@@ -177,7 +189,7 @@ def test_end_to_end_surgical_swap_harness(test_adapter: RecurrentGemmaAdapter):
 
 
 def test_mediational_dynamic_forward_propagation(test_adapter: RecurrentGemmaAdapter):
-    """Verify that mediational forward unroll evaluates KV migration toward donor cleanly."""
+    """Verify that mediational forward unroll evaluates sliced post-graft KV migration toward donor cleanly."""
     from recurrence.loop.surgical_swap_harness import evaluate_mediational_propagation
     pair = CANONICAL_STIMULI_PAIRS[0]
     res = evaluate_mediational_propagation(
@@ -189,10 +201,12 @@ def test_mediational_dynamic_forward_propagation(test_adapter: RecurrentGemmaAda
         seed=42,
     )
 
-    assert "kv_migration_index" in res
-    assert not math.isnan(res["kv_migration_index"])
-    assert "d_med_to_a" in res
-    assert "d_med_to_b" in res
-    assert "d_a_to_b" in res
+    assert "post_migration_index" in res
+    assert not math.isnan(res["post_migration_index"])
+    assert "d_post_med_to_a" in res
+    assert "d_post_med_to_b" in res
+    assert "d_post_a_to_b" in res
+    assert "full_migration_index" in res
+
 
 

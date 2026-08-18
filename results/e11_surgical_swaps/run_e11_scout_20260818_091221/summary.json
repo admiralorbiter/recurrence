@@ -1,0 +1,37 @@
+{
+  "phase": "scout",
+  "timestamp": "20260818_091221",
+  "elapsed_seconds": 1441.6,
+  "total_swap_records": 768,
+  "total_mediational_records": 16,
+  "num_pairs": 4,
+  "regimes": [
+    "constant",
+    "interfering",
+    "natural",
+    "random"
+  ],
+  "target_lags": [
+    8,
+    2049,
+    4096
+  ],
+  "environment": {
+    "torch_version": "2.5.1+cu121",
+    "transformers_version": "5.15.0",
+    "device": "cuda",
+    "device_name": "NVIDIA GeForce RTX 3060",
+    "dtype": "torch.bfloat16"
+  },
+  "model_provenance": {
+    "model_id": "google/recurrentgemma-2b",
+    "is_reference_model": false,
+    "model_class": "RecurrentGemmaForCausalLM",
+    "commit_hash": "3620f4ca9c5d16ee56c00180474a3201ec7f734a",
+    "vocab_size": 256000,
+    "num_hidden_layers": 26,
+    "hidden_size": 2560,
+    "conv1d_width": 4,
+    "attention_window_size": 2048
+  }
+}

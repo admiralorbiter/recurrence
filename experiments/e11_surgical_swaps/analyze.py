@@ -47,7 +47,7 @@ def analyze_run(run_dir: str) -> Dict[str, Any]:
             if not items:
                 continue
             mean_margin = sum(x["cloze_margin"] for x in items) / len(items)
-            mean_raw_delta = sum(x.get("raw_graft_effect", 0.0) for x in items) / len(items)
+            mean_signed_delta = sum(x.get("signed_graft_effect", x.get("raw_graft_effect", 0.0)) for x in items) / len(items)
             mean_abs_disp = sum(x.get("absolute_displacement", 0.0) for x in items) / len(items)
             mean_donor_norm = sum(x.get("donor_recipient_norm", 0.0) for x in items) / len(items)
             mean_logit_proj = sum(x.get("logit_directional_projection", 0.0) for x in items) / len(items)
@@ -66,7 +66,7 @@ def analyze_run(run_dir: str) -> Dict[str, Any]:
 
             causal_table[lag][cond] = {
                 "mean_cloze_margin": round(mean_margin, 4),
-                "mean_raw_graft_effect": round(mean_raw_delta, 4),
+                "mean_signed_graft_effect": round(mean_signed_delta, 4),
                 "mean_absolute_displacement": round(mean_abs_disp, 4),
                 "mean_donor_recipient_norm": round(mean_donor_norm, 4),
                 "mean_logit_projection": round(mean_logit_proj, 4),
@@ -105,7 +105,7 @@ def analyze_run(run_dir: str) -> Dict[str, Any]:
         f_rep.write(f"**Model Target:** `{model_name}`\n")
         f_rep.write(f"**Run Path:** `{run_path}`\n\n")
         f_rep.write("## 1. Causal Transfer & Directional Logit Displacement Across Lags\n\n")
-        f_rep.write("| Lag $L$ | Condition | Raw Graft $\\Delta_C$ | Abs Displacement $P_C$ | Logit Proj $\\alpha_C^{\\text{logit}}$ | Attrib Index $\\alpha_C^{\\text{cloze}}$ | Eligible N | Donor Concord |\n")
+        f_rep.write("| Lag $L$ | Condition | Signed Graft $\\bar{\\Delta}_C$ | Abs Displacement $P_C$ | Logit Proj $\\alpha_C^{\\text{logit}}$ | Attrib Index $\\alpha_C^{\\text{cloze}}$ | Eligible N | Donor Concord |\n")
         f_rep.write("| :---: | :--- | :---: | :---: | :---: | :---: | :---: | :---: |\n")
 
         for lag in lags:
@@ -113,19 +113,24 @@ def analyze_run(run_dir: str) -> Dict[str, Any]:
                 d = causal_table[lag][cond]
                 alpha_str = f"{d['mean_attribution_index']:.3f}" if d['mean_attribution_index'] is not None else "N/A"
                 elig_str = f"{d['n_eligible']}/{d['n_samples']}"
-                f_rep.write(f"| {lag} | `{cond}` | {d['mean_raw_graft_effect']:+.2f} | {d['mean_absolute_displacement']:+.2f} | {d['mean_logit_projection']:+.3f} | {alpha_str} | {elig_str} | {d['donor_concordance_rate']*100:.1f}% |\n")
+                f_rep.write(f"| {lag} | `{cond}` | {d['mean_signed_graft_effect']:+.2f} | {d['mean_absolute_displacement']:+.2f} | {d['mean_logit_projection']:+.3f} | {alpha_str} | {elig_str} | {d['donor_concordance_rate']*100:.1f}% |\n")
 
         if med_results:
             f_rep.write("\n## 2. Mediational Forward Dynamic Propagation ($R^B \\to K_{\\text{future}}^B$)\n\n")
-            f_rep.write("| Pair ID | Regime | Initial Lag | Future Tokens | Dist to Recipient A | Dist to Donor B | KV Migration Index $\\mathcal{M}_{\\text{KV}}$ | Propagated? |\n")
-            f_rep.write("| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: |\n")
+            f_rep.write("| Pair ID | Regime | Init Lag | Future Tokens | Turnover? | Post Dist Rec A | Post Dist Don B | Post Migr $\\mathcal{M}_{\\text{post}}$ | Full Migr $\\mathcal{M}_{\\text{full}}$ |\n")
+            f_rep.write("| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |\n")
             for m in med_results:
-                f_rep.write(f"| `{m['pair_id']}` | `{m['regime']}` | {m['initial_lag']} | {m['future_tokens']} | {m['d_med_to_a']:.4f} | {m['d_med_to_b']:.4f} | {m['kv_migration_index']:+.4f} | {'**YES**' if m['propagated_history_to_future_kv'] else 'NO'} |\n")
+                turn_str = "Yes" if m.get("is_full_window_turnover") else "No"
+                post_migr = m.get("post_migration_index", m.get("kv_migration_index", 0.0))
+                full_migr = m.get("full_migration_index", 0.0)
+                d_post_a = m.get("d_post_med_to_a", m.get("d_med_to_a", 0.0))
+                d_post_b = m.get("d_post_med_to_b", m.get("d_med_to_b", 0.0))
+                f_rep.write(f"| `{m['pair_id']}` | `{m['regime']}` | {m['initial_lag']} | {m['future_tokens']} | {turn_str} | {d_post_a:.4f} | {d_post_b:.4f} | {post_migr:+.4f} | {full_migr:+.4f} |\n")
 
         f_rep.write("\n## 3. Causal Interpretation & Control Framework\n\n")
-        f_rep.write("1. **Absolute vs Relative Logit Displacement:** Absolute donor displacement $P_C = (z_G - z_R) \\cdot \\frac{z_D - z_R}{\\|z_D - z_R\\|}$ distinguishes true causal steering magnitude from relative share $\\alpha_C^{\\text{logit}}$ when the total donor-recipient contrast $\\|z_D - z_R\\|$ collapses at deep lags.\n")
-        f_rep.write("2. **Historical Specificity vs Generic Perturbation:** Unrelated-donor and permuted-donor RG-LRU controls demonstrate that directional logit steering is specific to the matching historical event ($P_{\\text{donor}} > P_{\\text{unrelated}}$), while norm-matched Gaussian noise is orthogonal ($P_{\\text{noise}} \\approx 0.00$).\n")
-        f_rep.write("3. **Dynamic Forward Mediational Propagation:** Forward unrolling from hybrid state $(R^B, C^A, K^A)$ verifies whether RG-LRU causally transmits historical information into downstream sliding-window KV representations during ongoing generation.\n")
+        f_rep.write("1. **Absolute Displacement ($P_C$) as Primary Causal Metric:** Directional displacement $P_C = (z_G - z_R) \\cdot \\frac{z_D - z_R}{\\|z_D - z_R\\|}$ distinguishes true causal steering magnitude from normalized share $\\alpha_C^{\\text{logit}}$ when the total donor-recipient contrast $\\|z_D - z_R\\|$ collapses at deep lags.\n")
+        f_rep.write("2. **Historical Specificity vs Matched Perturbations:** Matching donor RG-LRU is compared against unrelated-donor, permuted-donor, and Frobenius-matched Gaussian noise controls projected along the real donor direction ($P_{\\text{match}} > P_{\\text{control}}$).\n")
+        f_rep.write("3. **Dynamic Post-Graft KV Mediation:** Measures distances strictly over newly generated post-graft cache entries to determine whether continuous recurrent state propagates historical steering into downstream attention representations.\n")
 
     print(f"[E11] Analysis complete! Wrote report to {report_file}")
     return analysis_result

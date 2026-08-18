@@ -118,6 +118,7 @@ def run_experiment(
         for pair_idx, pair in enumerate(pairs_to_run):
             for regime in selected_regimes:
                 cur_seed = seed + pair_idx * 100
+                perm_pair = pairs_to_run[(pair_idx + 1) % len(pairs_to_run)]
                 records = evaluate_surgical_swaps(
                     adapter=adapter,
                     pair=pair,
@@ -126,6 +127,7 @@ def run_experiment(
                     seed=cur_seed,
                     tokenizer=tokenizer,
                     audited_pool=audited_pool,
+                    permuted_pair=perm_pair,
                 )
                 for rec in records:
                     row = {
@@ -138,7 +140,7 @@ def run_experiment(
                         "ll_target_b": rec.ll_target_b,
                         "cloze_margin": rec.cloze_margin,
                         "target_choice": rec.target_choice,
-                        "raw_graft_effect": rec.raw_graft_effect,
+                        "signed_graft_effect": rec.signed_graft_effect,
                         "absolute_displacement": rec.absolute_displacement,
                         "donor_recipient_norm": rec.donor_recipient_norm,
                         "logit_directional_projection": rec.logit_directional_projection,
