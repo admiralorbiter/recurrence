@@ -1,16 +1,20 @@
 const fmt = n => `${n >= 0 ? '+' : '−'}${Math.abs(n).toFixed(2)}`;
 const clamp = (n, lo, hi) => Math.max(lo, Math.min(hi, n));
 
-fetch('../data/core.json')
-  .then(r => {
-    if (!r.ok) throw new Error(`Evidence contract failed to load (${r.status})`);
-    return r.json();
-  })
-  .then(data => init(data))
-  .catch(err => {
-    console.error(err);
-    document.body.insertAdjacentHTML('afterbegin', `<div style="background:#ff6b57;padding:14px;font-weight:800">Could not load H2 evidence contract. Serve the repository over HTTP (for example, <code>python -m http.server 8000</code>).</div>`);
-  });
+if (window.H2_DATA) {
+  init(window.H2_DATA);
+} else {
+  fetch('../data/core.json')
+    .then(r => {
+      if (!r.ok) throw new Error(`Evidence contract failed to load (${r.status})`);
+      return r.json();
+    })
+    .then(data => init(data))
+    .catch(err => {
+      console.error(err);
+      document.body.insertAdjacentHTML('afterbegin', `<div style="background:#ff6b57;padding:14px;font-weight:800">Could not load H2 evidence contract.</div>`);
+    });
+}
 
 function init(data){
   renderStores(data.architecture);

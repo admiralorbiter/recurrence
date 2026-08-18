@@ -41,15 +41,18 @@ h2/
 │   └── core.json
 └── site/
     ├── index.html
+    ├── data.js
     ├── app.js
     └── styles.css
 ```
 
-`data/core.json` is the presentation evidence contract. The interactive site reads values from that file rather than hard-coding empirical results throughout the JavaScript.
+`data/core.json` is the presentation evidence contract, mirrored in `site/data.js` for standalone zero-server execution.
 
 ## Run locally
 
-Because the site loads the evidence contract with `fetch()`, serve the repository over HTTP rather than opening `index.html` directly:
+Open `site/index.html`.
+
+No framework, package install, build step, or server is required. If local JavaScript execution is restricted by your environment:
 
 ```bash
 python -m http.server 8000
@@ -60,8 +63,6 @@ Then open:
 ```text
 http://localhost:8000/h2/site/
 ```
-
-No framework, package install, or build step is required.
 
 ## Design principles
 
