@@ -22,6 +22,7 @@
 | `constant_rglru_ret_2w` | 0.3384 | [0.2484, 0.4401] |
 | `constant_rglru_ret_w1` | 0.2845 | [0.2204, 0.3582] |
 | `delta_rglru_ret_interf_minus_const_2w` | -0.2586 | [-0.3566, -0.1697] |
+| `delta_rglru_ret_reexpand_const_2w_minus_w1` | 0.0539 | [-0.0103, 0.1379] |
 | `interfering_cloze_acc_2w` | 0.4497 | [0.375, 0.5] |
 | `interfering_cloze_margin_2w` | 0.0044 | [-0.075, 0.0844] |
 | `interfering_cloze_margin_w1` | 0.0307 | [-0.0281, 0.0953] |

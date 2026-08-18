@@ -1,0 +1,55 @@
+{
+  "phase": "scout",
+  "timestamp": "20260818_023615",
+  "elapsed_seconds": 393.57,
+  "total_summary_records": 144,
+  "total_layer_records": 6336,
+  "num_pairs": 2,
+  "num_seeds": 1,
+  "regimes": [
+    "constant",
+    "random",
+    "natural",
+    "interfering"
+  ],
+  "lag_grid": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    8,
+    16,
+    32,
+    64,
+    128,
+    256,
+    512,
+    1024,
+    2040,
+    2047,
+    2048,
+    2049,
+    4096
+  ],
+  "audited_vocab_pool_hash": "246cc067841c5cff",
+  "audited_vocab_pool_size": 252727,
+  "environment": {
+    "torch_version": "2.5.1+cu121",
+    "transformers_version": "5.15.0",
+    "device": "cuda",
+    "device_name": "NVIDIA GeForce RTX 3060",
+    "dtype": "torch.bfloat16"
+  },
+  "model_provenance": {
+    "model_id": "google/recurrentgemma-2b",
+    "is_reference_model": false,
+    "model_class": "RecurrentGemmaForCausalLM",
+    "vocab_size": 256000,
+    "num_hidden_layers": 26,
+    "hidden_size": 2560,
+    "conv1d_width": 4,
+    "attention_window_size": 2048
+  },
+  "mean_sham_floor_d_rel": 0.0
+}

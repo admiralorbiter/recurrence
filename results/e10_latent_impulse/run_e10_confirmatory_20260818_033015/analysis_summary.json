@@ -1567,6 +1567,11 @@
       "mean": -0.2586,
       "ci_low": -0.3566,
       "ci_high": -0.1697
+    },
+    "delta_rglru_ret_reexpand_const_2w_minus_w1": {
+      "mean": 0.0539,
+      "ci_low": -0.0103,
+      "ci_high": 0.1379
     }
   },
   "layer_anatomy_summary": {
