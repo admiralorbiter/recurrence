@@ -51,7 +51,113 @@
       "marked_object",
       "monitored_signal",
       "sealed_container"
-    ]
+    ],
+    "regime_breakdown": {
+      "constant": {
+        "delta_p_value_spec": 113.60013289004564,
+        "ci_low": 79.82395435863485,
+        "ci_high": 148.81285780227432,
+        "p_match": 265.93983051429194,
+        "p_wrong_val": 152.33969762424627,
+        "p_noise": 20.55979711189866,
+        "delta_proj_value_spec": 0.35040803205723847
+      },
+      "interfering": {
+        "delta_p_value_spec": 2.63194566903015,
+        "ci_low": -0.16424629425940412,
+        "ci_high": 5.529796837239214,
+        "p_match": 17.927961003035307,
+        "p_wrong_val": 15.296015334005157,
+        "p_noise": 12.116756071647009,
+        "delta_proj_value_spec": 0.01935388806199444
+      },
+      "natural": {
+        "delta_p_value_spec": -1.8333818738659222,
+        "ci_low": -35.91969588566572,
+        "ci_high": 28.477309716989588,
+        "p_match": 75.39246494571368,
+        "p_wrong_val": 77.2258468195796,
+        "p_noise": 65.37258105476697,
+        "delta_proj_value_spec": 0.03440641017801593
+      },
+      "random": {
+        "delta_p_value_spec": 39.57672795280814,
+        "ci_low": 4.194264405220749,
+        "ci_high": 76.49454588657244,
+        "p_match": 127.21590702484052,
+        "p_wrong_val": 87.63917907203238,
+        "p_noise": 94.8718160962065,
+        "delta_proj_value_spec": 0.293317338399732
+      }
+    },
+    "family_breakdown": {
+      "archived_artifact": {
+        "num_pairs": 6,
+        "delta_p_value_spec": 14.345694459974766,
+        "ci_low": -9.333255533128977,
+        "ci_high": 42.213948706785835,
+        "p_match": 94.44250191375613,
+        "p_wrong_val": 80.09680745378137,
+        "delta_proj_value_spec": 0.03720177846352997
+      },
+      "marked_object": {
+        "num_pairs": 6,
+        "delta_p_value_spec": 33.24982866520683,
+        "ci_low": 21.548108189056318,
+        "ci_high": 45.59885981182257,
+        "p_match": 95.49710556368034,
+        "p_wrong_val": 62.2472768984735,
+        "delta_proj_value_spec": 0.20502180787945304
+      },
+      "monitored_signal": {
+        "num_pairs": 6,
+        "delta_p_value_spec": 64.24181071234246,
+        "ci_low": 52.58745270719131,
+        "ci_high": 76.28174130246043,
+        "p_match": 143.8166365722815,
+        "p_wrong_val": 79.57482585993905,
+        "delta_proj_value_spec": 0.2778280929241328
+      },
+      "sealed_container": {
+        "num_pairs": 6,
+        "delta_p_value_spec": 42.138090800493956,
+        "ci_low": 18.936120486507814,
+        "ci_high": 67.06865325197577,
+        "p_match": 152.71991943816343,
+        "p_wrong_val": 110.58182863766949,
+        "delta_proj_value_spec": 0.17743398942986502
+      }
+    },
+    "lofo_breakdown": {
+      "leave_out_archived_artifact": {
+        "left_out_family": "archived_artifact",
+        "remaining_pairs": 18,
+        "delta_p_value_spec": 46.543243392681084,
+        "ci_low": 34.727668794229004,
+        "ci_high": 58.2406640703169
+      },
+      "leave_out_marked_object": {
+        "left_out_family": "marked_object",
+        "remaining_pairs": 18,
+        "delta_p_value_spec": 40.24186532427039,
+        "ci_low": 24.273743770111146,
+        "ci_high": 55.83065977737618
+      },
+      "leave_out_monitored_signal": {
+        "left_out_family": "monitored_signal",
+        "remaining_pairs": 18,
+        "delta_p_value_spec": 29.91120464189185,
+        "ci_low": 16.36971881177483,
+        "ci_high": 44.11143328297055
+      },
+      "leave_out_sealed_container": {
+        "left_out_family": "sealed_container",
+        "remaining_pairs": 18,
+        "delta_p_value_spec": 37.279111279174685,
+        "ci_low": 23.349585636079105,
+        "ci_high": 50.79538706992753
+      }
+    }
   },
   "results": {
     "p_match": {
@@ -113,6 +219,36 @@
       "bootstrap_mean": 73.10839834552537,
       "ci_low": 39.73441718708103,
       "ci_high": 111.81212735815593
+    },
+    "proj_match": {
+      "estimate": 0.5149067589261634,
+      "bootstrap_mean": 0.5147164402245852,
+      "ci_low": 0.4513083151939906,
+      "ci_high": 0.5807910310083966
+    },
+    "proj_wrong_val": {
+      "estimate": 0.3405353417519182,
+      "bootstrap_mean": 0.3404669316126605,
+      "ci_low": 0.29169679084175987,
+      "ci_high": 0.3898432838855023
+    },
+    "proj_cross": {
+      "estimate": 0.31746992814239944,
+      "bootstrap_mean": 0.3179786242537004,
+      "ci_low": 0.24712466563432012,
+      "ci_high": 0.3850857123893112
+    },
+    "proj_noise": {
+      "estimate": 0.2559350098740177,
+      "bootstrap_mean": 0.2568804213065348,
+      "ci_low": 0.15564341812647006,
+      "ci_high": 0.34532216449769954
+    },
+    "delta_proj_value_spec": {
+      "estimate": 0.1743714171742452,
+      "bootstrap_mean": 0.1742495086119246,
+      "ci_low": 0.10011970869911328,
+      "ci_high": 0.2535565105010638
     }
   }
 }

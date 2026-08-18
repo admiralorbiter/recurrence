@@ -301,16 +301,16 @@ def run_experiment(
 
                 # Record Direction A -> B conditions
                 eval_conditions_a_into_b = [
-                    ("intact_b", z_intact_b, False),
-                    ("whole_swap_a_into_b", z_whole_a_into_b, False),
-                    ("matching_rglru_a_into_b", z_match_a_into_b, True),
-                    ("same_template_wrong_c_into_b", z_wrong_c_into_b, False),
-                    ("same_template_wrong_d_into_b", z_wrong_d_into_b, False),
-                    ("cross_template_e_into_b", z_cross_into_b, False),
-                    ("noise_rglru_a_into_b", z_noise_a_into_b, False),
+                    ("intact_b", z_intact_b, "none"),
+                    ("whole_swap_a_into_b", z_whole_a_into_b, "A"),
+                    ("matching_rglru_a_into_b", z_match_a_into_b, "A"),
+                    ("same_template_wrong_c_into_b", z_wrong_c_into_b, "C"),
+                    ("same_template_wrong_d_into_b", z_wrong_d_into_b, "D"),
+                    ("cross_template_e_into_b", z_cross_into_b, "cross"),
+                    ("noise_rglru_a_into_b", z_noise_a_into_b, "noise"),
                 ]
 
-                for c_name, z_int, is_match in eval_conditions_a_into_b:
+                for c_name, z_int, don_label in eval_conditions_a_into_b:
                     m = compute_directional_metrics(
                         z_intact_rec=z_intact_b,
                         z_intact_don=z_intact_a,
@@ -327,7 +327,7 @@ def run_experiment(
                         "lag": target_lag,
                         "direction": "a_into_b",
                         "recipient": "B",
-                        "donor": "A" if is_match else ("C" if "wrong_c" in c_name else ("D" if "wrong_d" in c_name else "cross")),
+                        "donor": don_label,
                         "condition": c_name,
                         **m,
                     }
@@ -336,16 +336,16 @@ def run_experiment(
 
                 # Record Direction B -> A conditions
                 eval_conditions_b_into_a = [
-                    ("intact_a", z_intact_a, False),
-                    ("whole_swap_b_into_a", z_whole_b_into_a, False),
-                    ("matching_rglru_b_into_a", z_match_b_into_a, True),
-                    ("same_template_wrong_c_into_a", z_wrong_c_into_a, False),
-                    ("same_template_wrong_d_into_a", z_wrong_d_into_a, False),
-                    ("cross_template_e_into_a", z_cross_into_a, False),
-                    ("noise_rglru_b_into_a", z_noise_b_into_a, False),
+                    ("intact_a", z_intact_a, "none"),
+                    ("whole_swap_b_into_a", z_whole_b_into_a, "B"),
+                    ("matching_rglru_b_into_a", z_match_b_into_a, "B"),
+                    ("same_template_wrong_c_into_a", z_wrong_c_into_a, "C"),
+                    ("same_template_wrong_d_into_a", z_wrong_d_into_a, "D"),
+                    ("cross_template_e_into_a", z_cross_into_a, "cross"),
+                    ("noise_rglru_b_into_a", z_noise_b_into_a, "noise"),
                 ]
 
-                for c_name, z_int, is_match in eval_conditions_b_into_a:
+                for c_name, z_int, don_label in eval_conditions_b_into_a:
                     m = compute_directional_metrics(
                         z_intact_rec=z_intact_a,
                         z_intact_don=z_intact_b,
@@ -362,7 +362,7 @@ def run_experiment(
                         "lag": target_lag,
                         "direction": "b_into_a",
                         "recipient": "A",
-                        "donor": "B" if is_match else ("C" if "wrong_c" in c_name else ("D" if "wrong_d" in c_name else "cross")),
+                        "donor": don_label,
                         "condition": c_name,
                         **m,
                     }

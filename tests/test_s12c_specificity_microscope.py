@@ -110,3 +110,15 @@ def test_s12c_synthetic_bootstrap_reconstructs_known_estimands():
     assert np.isclose(results["delta_p_template_align"]["estimate"], expected_template_align, atol=1e-5)
     assert results["delta_p_value_spec"]["ci_low"] > 25.0
     assert results["delta_p_value_spec"]["ci_high"] < 35.0
+
+    # Sensitivity tests
+    assert "delta_proj_value_spec" in results
+    assert np.isclose(results["delta_proj_value_spec"]["estimate"], 0.30, atol=1e-5)
+    assert len(meta["regime_breakdown"]) == 4
+    for reg in regimes:
+        assert np.isclose(meta["regime_breakdown"][reg]["delta_p_value_spec"], 30.0, atol=1e-5)
+    assert len(meta["family_breakdown"]) == 4
+    assert len(meta["lofo_breakdown"]) == 4
+    for lofo_k, lofo_data in meta["lofo_breakdown"].items():
+        assert np.isclose(lofo_data["delta_p_value_spec"], 30.0, atol=1e-5)
+        assert lofo_data["remaining_pairs"] == 18

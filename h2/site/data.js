@@ -5,8 +5,7 @@ window.H2_DATA = {
     "model": "google/recurrentgemma-2b",
     "attention_window": 2048,
     "conv_width": 4,
-    "frozen_core": ["S10", "S11b", "S12b"],
-    "live_extension": "S12c",
+    "frozen_core": ["S10", "S11b", "S12b", "S12c"],
     "next_major_sprint": "S13"
   },
   "architecture": [
@@ -168,14 +167,23 @@ window.H2_DATA = {
     ],
     "source": "docs/S12_Surgical_Store_Swaps_Report.md"
   },
+  "s12c": {
+    "status": "FROZEN",
+    "title": "Specificity Microscope",
+    "question": "Does RG-LRU state carry value-specific historical information when sentence template is held fixed?",
+    "implemented_panel": "24 value pairs across 4 template families × 4 filler regimes × 14 intervention conditions (1344 records)",
+    "delta_p_value_spec": 38.4939,
+    "delta_p_value_spec_ci": [25.8180, 50.8524],
+    "delta_proj_value_spec": 0.1744,
+    "delta_proj_value_spec_ci": [0.1001, 0.2536],
+    "p_match": 121.6190,
+    "p_wrong_val": 83.1252,
+    "p_cross": 75.7454,
+    "p_noise": 48.2302,
+    "p_whole": 218.7596,
+    "source": "docs/S12c_Specificity_Microscope_Report.md"
+  },
   "frontier": {
-    "s12c": {
-      "status": "LIVE",
-      "title": "Specificity Microscope",
-      "question": "How much of cross-history steering is value-specific binding versus shared template/event geometry?",
-      "implemented_panel": "24 value pairs × 4 filler regimes × 14 intervention conditions",
-      "results": "not frozen in the core evidence contract"
-    },
     "s13": {
       "status": "OPEN QUESTION",
       "title": "Null-Observation / Controlled Recurrent Dynamics",
@@ -202,10 +210,10 @@ window.H2_DATA = {
       "note": "Matching RG-LRU transplantation causally steers downstream logits."
     },
     {
-      "property": "Specific",
-      "answer": "PARTIALLY",
-      "status": "LIVE",
-      "note": "Matching history adds a selective increment, but structured cross-history donors also steer substantially."
+      "property": "Value-specific",
+      "answer": "YES",
+      "status": "FROZEN",
+      "note": "Holding sentence template fixed, matching history adds +38.49 [25.82, 50.85] over same-template wrong values."
     },
     {
       "property": "Owned / privileged",

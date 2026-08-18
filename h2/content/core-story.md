@@ -80,24 +80,25 @@ The physical trace is therefore not merely residual geometry. It has causal leve
 
 ---
 
-## Act V — The suspicious result
+## Act V — The specific past
 
-Matching history is not the only structured history that steers the recipient.
+Move the wrong past.
+It moves.
 
-At 2W:
+Move the right past.
+It moves farther.
 
-- matching RG-LRU donor: +74.10;
-- unrelated cyclic donor: +54.42;
-- other permuted donor: +44.46;
-- matched Frobenius noise: +17.64.
+Now use the exact same sentence with the wrong value (S12c Specificity Microscope):
+The right past still wins.
 
-Matching history adds a resolved selective increment over unrelated histories:
+The frozen S12c confirmatory result across 24 value pairs at 2W establishes:
 
-> **+19.68, 95% CI [+1.84, +39.12].**
+> **P_match − P_same_template_wrong = +38.49, 95% CI [+25.82, +50.85].**  
+> **Δα_value_spec = +0.1744, 95% CI [+0.1001, +0.2536].**
 
-But the large cross-history baseline matters scientifically. The frozen result establishes **partial specificity**, not a clean “only the correct memory works” story.
+So something about *which* past happened survived the window.
 
-This is where S12c attaches as a live Specificity Microscope: same-template wrong values versus cross-template histories versus matched history.
+RG-LRU recurrent state contains **value-specific historical information** with selective causal consequences for downstream generation, even when sentence template is held fixed.
 
 ---
 
@@ -150,9 +151,9 @@ The thread remains open.
 
 **YES.** Surgical recurrent-state transplantation steers downstream logits.
 
-### SPECIFIC?
+### VALUE-SPECIFIC?
 
-**PARTIALLY.** Matching history has a resolved selective increment, but other structured histories also steer substantially. S12c is live.
+**YES.** Holding syntactic template fixed, matching history adds +38.49 [25.82, 50.85] over same-template wrong values.
 
 ### OWNED / PRIVILEGED?
 
@@ -164,4 +165,4 @@ The thread remains open.
 
 The next major question is dynamical rather than mnemonic:
 
-> The past survives. The past matters. What happens to that past when no new task-relevant information enters?
+> The past survives. The past matters. It carries specific historical information. What happens to that information under controlled, task-irrelevant drive?
