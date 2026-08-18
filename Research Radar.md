@@ -221,3 +221,11 @@ The radar should flag:
 - responsible research standards or policy changes for AI consciousness/welfare work.
 
 These are not predictions that the results will support the program. They are the developments most likely to change its direction.
+
+---
+
+# Ingested Literature Registry
+
+| Date Added | Citation | Venues / Domains | Radar Score | Relevance & Program Consequence | Note Link |
+| :--- | :--- | :---: | :---: | :--- | :--- |
+| 2026-08-18 | Strachan et al. (2024) *Testing theory of mind in large language models and humans* | *Nature Human Behaviour* (R1, R2, R5) | 13/18 (Detailed Note) | AST connection (Graziano co-author); demonstrates how behavioral ToM benchmarks dissociate from internal representations via heuristic biases and conservative thresholds. Informs Horizon 3 1st-vs-3rd person state attribution battery. | [`notes/paper_strachan2024_theory_of_mind.md`](file:///c:/Users/admir/Github/recurrence/notes/paper_strachan2024_theory_of_mind.md) |
