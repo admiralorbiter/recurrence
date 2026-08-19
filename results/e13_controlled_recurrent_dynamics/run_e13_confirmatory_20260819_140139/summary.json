@@ -1,0 +1,47 @@
+{
+  "phase": "confirmatory",
+  "timestamp": "20260819_140139",
+  "git_commit": "1ba5cc5e0344bfe6347af2bdde3cca9db5c42700",
+  "is_clean_worktree": true,
+  "protocol_code_sha256": "f097d23eebbe6d0dc9bbd7399c02a76c74cfd02b17b8f9cd21c2c4717ee60c57",
+  "panel_hash_sha256": "d6c5d00168478f67b6440b653a92462c6bb79d3f61ffbb44e949079f3c719b18",
+  "model_provenance": {
+    "model_id": "google/recurrentgemma-2b",
+    "is_reference_model": false,
+    "model_revision": "3620f4ca9c5d16ee56c00180474a3201ec7f734a",
+    "model_class": "RecurrentGemmaForCausalLM",
+    "vocab_size": 256000,
+    "num_hidden_layers": 26,
+    "hidden_size": 2560,
+    "conv1d_width": 4,
+    "attention_window_size": 2048
+  },
+  "total_pairs": 24,
+  "total_records_written": 11520,
+  "total_elapsed_seconds": 11398.23928,
+  "seconds_per_pair": 474.92663666666664,
+  "config": {
+    "base_lag": 4096,
+    "horizons": [
+      0,
+      16,
+      64,
+      256,
+      1024,
+      2048
+    ],
+    "regimes": [
+      "constant",
+      "random",
+      "natural",
+      "interfering"
+    ],
+    "arms": [
+      "intact_recurrence",
+      "rglru_carry_clamped"
+    ],
+    "seed": 42,
+    "dtype": "bfloat16",
+    "device": "cuda"
+  }
+}
