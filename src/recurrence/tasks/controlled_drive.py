@@ -88,6 +88,54 @@ def project_onto_axis(
     return dir_disp, proj_fraction
 
 
+def compute_logit_axis_cosine(
+    u_0: torch.Tensor,
+    u_N: torch.Tensor,
+) -> float:
+    """Compute cosine similarity between frozen baseline axis u_0 and contemporaneous axis u_N.
+    
+    Since both u_0 and u_N are unit vectors, C_logit(N) = u_0^T u_N.
+    """
+    return float(torch.sum(u_0.flatten().float() * u_N.flatten().float()).item())
+
+
+def compute_recurrent_state_diff_vec(
+    state_don: RecurrentStateSnapshot,
+    state_rec: RecurrentStateSnapshot,
+) -> torch.Tensor:
+    """Concatenate layerwise RG-LRU recurrent state differences into a single 1D tensor r in R^D."""
+    diffs = []
+    for l_idx in sorted(state_don.rglru.keys()):
+        d = (state_don.rglru[l_idx].float() - state_rec.rglru[l_idx].float()).flatten()
+        diffs.append(d)
+    if not diffs:
+        return torch.tensor([], dtype=torch.float32)
+    return torch.cat(diffs, dim=0)
+
+
+def compute_recurrent_geometry(
+    r_0: torch.Tensor,
+    r_N: torch.Tensor,
+) -> Tuple[float, float]:
+    """Compute recurrent state rotation cosine C_R(N) and magnitude retention quotient Q_R(N).
+    
+    Returns:
+        (C_R, Q_R) where:
+            C_R(N) = (r_0^T r_N) / (||r_0||_2 * ||r_N||_2)
+            Q_R(N) = ||r_N||_2 / ||r_0||_2
+    """
+    norm_0 = float(torch.norm(r_0).item())
+    norm_N = float(torch.norm(r_N).item())
+
+    if norm_0 < 1e-6 or norm_N < 1e-6:
+        c_r = 0.0
+    else:
+        c_r = float((torch.sum(r_0 * r_N) / (norm_0 * norm_N)).item())
+
+    q_r = float(norm_N / norm_0) if norm_0 > 1e-6 else 0.0
+    return c_r, q_r
+
+
 @torch.no_grad()
 def advance_stream(
     adapter: RecurrentGemmaAdapter,

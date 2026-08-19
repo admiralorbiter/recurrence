@@ -11,6 +11,9 @@ from recurrence.tasks.controlled_drive import (
     generate_single_drive_stream,
     compute_frozen_axis,
     project_onto_axis,
+    compute_logit_axis_cosine,
+    compute_recurrent_state_diff_vec,
+    compute_recurrent_geometry,
     advance_stream,
     advance_stream_along_horizons,
 )
@@ -72,6 +75,30 @@ def test_s13_frozen_axis_and_projection_invariants():
     disp, proj = project_onto_axis(z_int, z_rec, u_0, norm_0)
     assert np.isclose(disp, 6.0)
     assert np.isclose(proj, 0.60)
+
+
+def test_s13_geometry_metrics():
+    """Verify C_logit, C_R, and Q_R computation and properties."""
+    u_0 = torch.tensor([1.0, 0.0, 0.0])
+    u_N = torch.tensor([0.0, 1.0, 0.0])
+    u_opp = torch.tensor([-1.0, 0.0, 0.0])
+
+    assert np.isclose(compute_logit_axis_cosine(u_0, u_0), 1.0)
+    assert np.isclose(compute_logit_axis_cosine(u_0, u_N), 0.0)
+    assert np.isclose(compute_logit_axis_cosine(u_0, u_opp), -1.0)
+
+    # Recurrent state vector geometry
+    r_0 = torch.tensor([3.0, 4.0])  # norm = 5.0
+    r_N = torch.tensor([6.0, 8.0])  # norm = 10.0, aligned
+    c_r, q_r = compute_recurrent_geometry(r_0, r_N)
+    assert np.isclose(c_r, 1.0)
+    assert np.isclose(q_r, 2.0)
+
+    # Orthogonal and decaying
+    r_orth = torch.tensor([-4.0, 3.0]) * 0.5  # norm = 2.5
+    c_r_orth, q_r_orth = compute_recurrent_geometry(r_0, r_orth)
+    assert np.isclose(c_r_orth, 0.0)
+    assert np.isclose(q_r_orth, 0.5)
 
 
 def test_s13_advance_stream_arm_mechanics():
@@ -187,3 +214,21 @@ def test_s13_synthetic_longitudinal_bootstrap():
     assert np.isclose(results["delta_v0_carry_effect_N2048"]["estimate"], 20.0, atol=1e-4)
     # Verify struct vs noise at N=0: 60.0 - 20.0 = 40.0
     assert np.isclose(results["intact_recurrence_N0_v0_struct_vs_noise"]["estimate"], 40.0, atol=1e-4)
+    # Verify regime-specific field exists
+    assert "reg_constant_intact_N0_v0_spec" in results
+    assert np.isclose(results["reg_constant_intact_N0_v0_spec"]["estimate"], 40.0, atol=1e-4)
+
+
+def test_s13_duplicate_cell_rejection():
+    """Verify that compute_s13_pair_cluster_bootstrap raises ValueError on duplicate cell records."""
+    row = {
+        "pair_id": "test_pair",
+        "family_id": "test_fam",
+        "regime": "random",
+        "arm": "intact_recurrence",
+        "horizon": 0,
+        "condition": "matching_rglru_a_into_b",
+        "directional_displacement_u0": 10.0,
+    }
+    with pytest.raises(ValueError, match="Duplicate cell record detected"):
+        compute_s13_pair_cluster_bootstrap([row, row], n_boot=10, seed=42)

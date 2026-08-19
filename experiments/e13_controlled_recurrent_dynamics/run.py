@@ -35,6 +35,9 @@ from recurrence.tasks.controlled_drive import (
     generate_single_drive_stream,
     compute_frozen_axis,
     project_onto_axis,
+    compute_logit_axis_cosine,
+    compute_recurrent_state_diff_vec,
+    compute_recurrent_geometry,
     advance_stream,
     advance_stream_along_horizons,
 )
@@ -128,6 +131,11 @@ def run_experiment(
     print(f"[E13] Initializing {phase.upper()} Controlled Recurrent Dynamics on device={device}, dtype={dtype_str}...")
 
     if phase == "confirmatory":
+        if not is_clean:
+            raise RuntimeError(
+                "[E13 Fail-Closed Gate] Confirmatory run requires a completely clean git worktree. "
+                "Commit or stash all uncommitted changes before launching."
+            )
         assert model_id == "google/recurrentgemma-2b", f"Confirmatory requires google/recurrentgemma-2b, got {model_id}"
         assert dtype_str == "bfloat16", f"Confirmatory requires bfloat16, got {dtype_str}"
         assert device.startswith("cuda"), f"Confirmatory requires cuda, got {device}"
@@ -205,10 +213,12 @@ def run_experiment(
         print(f"[E13 Scout] Selected {len(pairs)} scout pairs (1 per template family).")
     else:
         pairs = all_pairs
+        assert len(pairs) == 24, f"[E13 Fail-Closed Gate] Confirmatory requires exactly 24 pairs, got {len(pairs)}"
         print(f"[E13 Confirmatory] Running all {len(pairs)} pairs across 4 template families.")
 
     start_time = datetime.datetime.now()
     records_written = 0
+    seen_cells: Set[Tuple[str, str, str, int, str]] = set()
 
     with open(trace_file, "w", encoding="utf-8") as f_trace:
         for p_idx, pair in enumerate(pairs):
@@ -274,9 +284,11 @@ def run_experiment(
             z_intact_a_0 = out_intact_a_0[0]
             z_intact_b_0 = out_intact_b_0[0]
 
-            # 2. Compute and Cache Frozen Baseline Axes at N=0
+            # 2. Compute and Cache Frozen Baseline Axes & State Difference Vectors at N=0
             u_0_a2b, norm_0_a2b = compute_frozen_axis(z_intact_a_0, z_intact_b_0)
             u_0_b2a, norm_0_b2a = compute_frozen_axis(z_intact_b_0, z_intact_a_0)
+            r_0_a2b = compute_recurrent_state_diff_vec(state_a_0, state_b_0)
+            r_0_b2a = compute_recurrent_state_diff_vec(state_b_0, state_a_0)
 
             # 3. Fork into Future Drive Regimes
             for reg in regimes:
@@ -312,9 +324,17 @@ def run_experiment(
                         z_intact_a_N = out_intact_a_N[0]
                         z_intact_b_N = out_intact_b_N[0]
 
-                        # Contemporaneous axes at horizon N
+                        # Contemporaneous axes and state diff vectors at horizon N
                         u_N_a2b, norm_N_a2b = compute_frozen_axis(z_intact_a_N, z_intact_b_N)
                         u_N_b2a, norm_N_b2a = compute_frozen_axis(z_intact_b_N, z_intact_a_N)
+                        r_N_a2b = compute_recurrent_state_diff_vec(state_a_N, state_b_N)
+                        r_N_b2a = compute_recurrent_state_diff_vec(state_b_N, state_a_N)
+
+                        c_logit_a2b = compute_logit_axis_cosine(u_0_a2b, u_N_a2b)
+                        c_logit_b2a = compute_logit_axis_cosine(u_0_b2a, u_N_b2a)
+
+                        c_r_a2b, q_r_a2b = compute_recurrent_geometry(r_0_a2b, r_N_a2b)
+                        c_r_b2a, q_r_b2a = compute_recurrent_geometry(r_0_b2a, r_N_b2a)
 
                         # Physical RG-LRU divergence
                         dist_ab = float(sum(torch.norm(state_a_N.rglru[l].float() - state_b_N.rglru[l].float()).item() for l in state_a_N.rglru))
@@ -399,6 +419,11 @@ def run_experiment(
 
                         # Record Direction A -> B
                         for c_name, z_int, don_label in eval_conditions_a2b:
+                            cell_key = (pair.pair_id, reg, arm, horizon, c_name)
+                            if cell_key in seen_cells:
+                                raise ValueError(f"[E13 Fail-Closed Gate] Duplicate cell detected: {cell_key}")
+                            seen_cells.add(cell_key)
+
                             m = compute_condition_metrics(
                                 z_intervened=z_int,
                                 z_recipient=z_intact_b_N,
@@ -421,6 +446,9 @@ def run_experiment(
                                 "recipient": "B",
                                 "donor": don_label,
                                 "condition": c_name,
+                                "c_logit": c_logit_a2b,
+                                "c_r": c_r_a2b,
+                                "q_r": q_r_a2b,
                                 "physical_dist_ab": dist_ab,
                                 "physical_dist_ac": dist_ac,
                                 **m,
@@ -430,6 +458,11 @@ def run_experiment(
 
                         # Record Direction B -> A
                         for c_name, z_int, don_label in eval_conditions_b2a:
+                            cell_key = (pair.pair_id, reg, arm, horizon, c_name)
+                            if cell_key in seen_cells:
+                                raise ValueError(f"[E13 Fail-Closed Gate] Duplicate cell detected: {cell_key}")
+                            seen_cells.add(cell_key)
+
                             m = compute_condition_metrics(
                                 z_intervened=z_int,
                                 z_recipient=z_intact_a_N,
@@ -452,6 +485,9 @@ def run_experiment(
                                 "recipient": "A",
                                 "donor": don_label,
                                 "condition": c_name,
+                                "c_logit": c_logit_b2a,
+                                "c_r": c_r_b2a,
+                                "q_r": q_r_b2a,
                                 "physical_dist_ab": dist_ab,
                                 "physical_dist_ac": dist_ac,
                                 **m,
@@ -466,6 +502,12 @@ def run_experiment(
             print(f"[E13] Pair {p_idx+1:02d}/{len(pairs)} ({pair.pair_id}) complete in {pair_dur:.1f}s ({records_written} total rows)")
 
     total_elapsed = (datetime.datetime.now() - start_time).total_seconds()
+
+    expected_records = 11520 if phase == "confirmatory" else 1920
+    if len(pairs) == (24 if phase == "confirmatory" else 4):
+        assert records_written == expected_records, (
+            f"[E13 Fail-Closed Gate] Expected exactly {expected_records} records, wrote {records_written}"
+        )
 
     summary_data = {
         "phase": phase,
