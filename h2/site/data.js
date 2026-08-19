@@ -216,6 +216,12 @@ window.H2_DATA = {
       "note": "Holding sentence template fixed, matching history adds +38.49 [25.82, 50.85] over same-template wrong values."
     },
     {
+      "property": "Explicitly reportable at 2W",
+      "answer": "NO RESOLVED RETRIEVAL",
+      "status": "FROZEN",
+      "note": "Zero-shot factual cloze margins at 2W span zero across tested filler regimes."
+    },
+    {
       "property": "Owned / privileged",
       "answer": "UNKNOWN",
       "status": "OPEN QUESTION",

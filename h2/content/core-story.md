@@ -155,6 +155,10 @@ The thread remains open.
 
 **YES.** Holding syntactic template fixed, matching history adds +38.49 [25.82, 50.85] over same-template wrong values.
 
+### EXPLICITLY REPORTABLE AT 2W?
+
+**NO RESOLVED RETRIEVAL.** Zero-shot factual cloze margins at 2W span zero across tested filler regimes.
+
 ### OWNED / PRIVILEGED?
 
 **UNKNOWN.** The frozen core establishes neither introspective access nor source ownership.

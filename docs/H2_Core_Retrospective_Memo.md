@@ -56,7 +56,7 @@ At twice the local attention window ($2W=4096$), S11b, S12b, and S12c establish 
 $$\text{Physical State Divergence Remains } \implies \text{ Value-Specific Causal Steering Remains } \centernot\implies \text{ Explicit Fact Retrieval}$$
 
 1. **Physical Persistence (S11b):**
-   Branch-specific RG-LRU state separation remains clearly above the sham floor across all 4 filler regimes ($R_{\text{RGLRU}} \approx 0.34$, 95% CI $[0.26, 0.42]$).
+   Branch-specific RG-LRU state separation remains clearly above the sham floor across all 4 filler regimes at $2W=4096$ tokens, with retention ranging roughly $0.045$ to $0.338$ ($R_{\text{constant}} \approx 0.338$, $R_{\text{interfering}} \approx 0.080$, $R_{\text{natural}} \approx 0.051$, $R_{\text{random}} \approx 0.045$; all 95% CIs strictly exclude zero).
 2. **Value-Specific Causal Output Steering (S12c):**
    Transplanting matching RG-LRU state produces a strongly resolved value-specific advantage over same-template wrong-value states ($\Delta P_{\text{value\_spec}} = +38.49$, 95% CI $[+25.82, +50.85]$; $\Delta \alpha = +0.1744$ $[+0.1001, +0.2536]$).
 3. **Behavioral Usability Failure (S11b/S12b):**

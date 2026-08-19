@@ -114,7 +114,7 @@ P_{\text{whole}} &= +218.76 \quad \text{[Whole-state reference / positive contro
 \end{aligned}$$
 
 1. **Non-Matching Structured Histories Exceed Noise:**  
-   Any structured historical recurrent state (same-template $+83.13$ or cross-template $+75.75$) steers significantly more along the target axis than matched-norm Gaussian noise ($+48.23$, contrast $+34.89$ $[+5.97, +69.62]$).
+   Structured historical recurrent states steer substantially more along the target axis than matched-norm Gaussian noise ($+48.23$): the same-template wrong-value state exceeds noise by $+34.89$ $[+5.97, +69.62]$, and the cross-template point estimate is likewise well above noise ($+75.75$ vs $+48.23$).
 2. **Matching History Provides a Selective Advantage:**  
    Holding sentence syntax identical, the matching historical state provides an additional $+38.49$ $[+25.82, +50.85]$ increment over alternate values in the same template.
 3. **Whole-State Reference is Not a Ceiling:**  
