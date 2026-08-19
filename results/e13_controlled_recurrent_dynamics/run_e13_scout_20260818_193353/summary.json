@@ -1,0 +1,50 @@
+{
+  "phase": "scout",
+  "timestamp": "20260818_193353",
+  "elapsed_seconds": 12551.903165,
+  "total_records": 1920,
+  "num_pairs": 4,
+  "num_families": 4,
+  "base_lag": 4096,
+  "horizons": [
+    0,
+    16,
+    64,
+    256,
+    1024,
+    2048
+  ],
+  "regimes": [
+    "constant",
+    "random",
+    "natural",
+    "interfering"
+  ],
+  "arms": [
+    "intact_recurrence",
+    "rglru_carry_clamped"
+  ],
+  "token_clock_audit": "PASSED (T_theta^(0)(S) = S)",
+  "panel_hash": "d6c5d00168478f67b6440b653a92462c6bb79d3f61ffbb44e949079f3c719b18",
+  "protocol_code_sha256": "ad2ce59635f59a5eba5f5d5de6f85c54415a73baf8fedcccd36babb605476a29",
+  "git_provenance": {
+    "commit_sha": "590f89c6e81c84f095b8f7ddbd72aa456caf3f6d",
+    "is_clean": false
+  },
+  "model_provenance": {
+    "model_id": "google/recurrentgemma-2b",
+    "is_reference_model": false,
+    "model_revision": "3620f4ca9c5d16ee56c00180474a3201ec7f734a",
+    "model_class": "RecurrentGemmaForCausalLM",
+    "vocab_size": 256000,
+    "num_hidden_layers": 26,
+    "hidden_size": 2560,
+    "conv1d_width": 4,
+    "attention_window_size": 2048
+  },
+  "environment": {
+    "torch_version": "2.5.1+cu121",
+    "cuda_available": true,
+    "device_name": "NVIDIA GeForce RTX 3060"
+  }
+}
