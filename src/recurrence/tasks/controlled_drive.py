@@ -11,7 +11,11 @@ Provides:
 from typing import Any, Dict, List, Optional, Set, Tuple
 import torch
 
-from recurrence.models.recurrent_gemma_adapter import RecurrentGemmaAdapter
+from recurrence.models.recurrent_gemma_adapter import (
+    RecurrentGemmaAdapter,
+    stack_snapshots,
+    unstack_snapshot,
+)
 from recurrence.state.temporal_inventory import RecurrentStateSnapshot
 from recurrence.tasks.impulse_stimuli import (
     get_filler_tokens_for_regime,
@@ -46,13 +50,13 @@ def generate_single_drive_stream(
     audited_pool: Optional[List[int]] = None,
     excluded_token_ids: Optional[Set[int]] = None,
 ) -> List[int]:
-    """Generate a single frozen drive stream of specified length from which prefixes are sliced."""
+    """Generate a single reproducible drive token stream of specified length."""
     return get_filler_tokens_for_regime(
         regime=regime,
         length=length,
         seed=seed,
-        audited_pool=audited_pool,
         tokenizer=tokenizer,
+        audited_pool=audited_pool,
         excluded_token_ids=excluded_token_ids,
     )
 
@@ -153,19 +157,20 @@ def advance_stream(
         for i in range(0, len(token_ids), chunk_size):
             end_idx = min(i + chunk_size, len(token_ids))
             chunk = token_ids[i:end_idx]
-            _, state = adapter.encode_sequence(chunk, initial_snapshot=state, step_by_step=False)
+            _, state = adapter.encode_sequence(chunk, initial_snapshot=state, step_by_step=False, return_logits=False)
         return state
 
     elif arm == "rglru_carry_clamped":
         cache = adapter.inject_state_snapshot(initial_snapshot)
         s0_rglru = {l: initial_snapshot.rglru[l].detach().clone().to(device=adapter.device) for l in initial_snapshot.rglru}
         pos = initial_snapshot.cache_position
+        model_fn = adapter.model.model if hasattr(adapter.model, "model") else adapter.model
 
         for i, tok in enumerate(token_ids):
             input_ids = torch.tensor([[tok]], device=adapter.device, dtype=torch.long)
             position_ids = torch.tensor([[pos + i]], device=adapter.device, dtype=torch.long)
 
-            adapter.model(
+            model_fn(
                 input_ids=input_ids,
                 position_ids=position_ids,
                 past_key_values=cache,
@@ -214,7 +219,7 @@ def advance_stream_along_horizons(
             for i in range(0, len(interval_tokens), chunk_size):
                 end_idx = min(i + chunk_size, len(interval_tokens))
                 chunk = interval_tokens[i:end_idx]
-                _, cur_state = adapter.encode_sequence(chunk, initial_snapshot=cur_state, step_by_step=False)
+                _, cur_state = adapter.encode_sequence(chunk, initial_snapshot=cur_state, step_by_step=False, return_logits=False)
             snapshots[h] = cur_state.clone()
             prev_h = h
         return snapshots
@@ -225,13 +230,14 @@ def advance_stream_along_horizons(
         pos = initial_snapshot.cache_position
         max_h = max(horizons)
         stream_tokens = stream_2048[:max_h]
+        model_fn = adapter.model.model if hasattr(adapter.model, "model") else adapter.model
 
         for i, tok in enumerate(stream_tokens):
             cur_pos = pos + i
             input_ids = torch.tensor([[tok]], device=adapter.device, dtype=torch.long)
             position_ids = torch.tensor([[cur_pos]], device=adapter.device, dtype=torch.long)
 
-            adapter.model(
+            model_fn(
                 input_ids=input_ids,
                 position_ids=position_ids,
                 past_key_values=cache,
@@ -255,6 +261,91 @@ def advance_stream_along_horizons(
                 snapshots[step_h] = snap
 
         return snapshots
+
+    else:
+        raise ValueError(f"Unknown causal arm '{arm}'")
+
+
+@torch.no_grad()
+def advance_batched_stream_along_horizons(
+    adapter: RecurrentGemmaAdapter,
+    initial_snapshots: List[RecurrentStateSnapshot],
+    stream_2048: List[int],
+    horizons: List[int] = [0, 16, 64, 256, 1024, 2048],
+    arm: str = "intact_recurrence",
+) -> List[Dict[int, RecurrentStateSnapshot]]:
+    """Advance B state snapshots in parallel across horizon checkpoints along a single stream."""
+    b_size = len(initial_snapshots)
+    batched_s0 = stack_snapshots(initial_snapshots)
+
+    # Pre-populate N=0 for all branches
+    branch_snapshots: List[Dict[int, RecurrentStateSnapshot]] = [{0: s.clone()} for s in initial_snapshots]
+    if not stream_2048:
+        return [{h: s.clone() for h in horizons} for s in initial_snapshots]
+
+    if arm == "intact_recurrence":
+        cur_batched = batched_s0.clone()
+        prev_h = 0
+        for h in horizons:
+            if h == 0:
+                continue
+            interval_tokens = stream_2048[prev_h:h]
+            chunk_size = 512
+            for i in range(0, len(interval_tokens), chunk_size):
+                end_idx = min(i + chunk_size, len(interval_tokens))
+                chunk = interval_tokens[i:end_idx]
+                chunk_batch = torch.tensor([chunk] * b_size, device=adapter.device, dtype=torch.long)
+                _, cur_batched = adapter.encode_sequence(
+                    chunk_batch,
+                    initial_snapshot=cur_batched,
+                    step_by_step=False,
+                    return_logits=False,
+                )
+            unstacked = unstack_snapshot(cur_batched)
+            for b_idx in range(b_size):
+                branch_snapshots[b_idx][h] = unstacked[b_idx].clone()
+            prev_h = h
+        return branch_snapshots
+
+    elif arm == "rglru_carry_clamped":
+        cache = adapter.inject_state_snapshot(batched_s0)
+        s0_rglru_batch = {l: batched_s0.rglru[l].detach().clone().to(device=adapter.device) for l in batched_s0.rglru}
+        pos = batched_s0.cache_position
+        max_h = max(horizons)
+        stream_tokens = stream_2048[:max_h]
+        model_fn = adapter.model.model if hasattr(adapter.model, "model") else adapter.model
+
+        for i, tok in enumerate(stream_tokens):
+            cur_pos = pos + i
+            input_ids = torch.full((b_size, 1), tok, device=adapter.device, dtype=torch.long)
+            position_ids = torch.full((b_size, 1), cur_pos, device=adapter.device, dtype=torch.long)
+
+            model_fn(
+                input_ids=input_ids,
+                position_ids=position_ids,
+                past_key_values=cache,
+                use_cache=True,
+                return_dict=True,
+            )
+
+            # Vectorized restore across all layers simultaneously
+            for l_idx, layer in enumerate(adapter.model.model.layers):
+                block = layer.temporal_block
+                if hasattr(block, "rg_lru") and l_idx in s0_rglru_batch:
+                    block.rg_lru.recurrent_states = s0_rglru_batch[l_idx].clone()
+
+            step_h = i + 1
+            if step_h in horizons:
+                batched_snap = adapter.extract_state_snapshot(
+                    past_key_values=cache,
+                    cache_position=cur_pos + 1,
+                )
+                unstacked = unstack_snapshot(batched_snap)
+                for b_idx in range(b_size):
+                    branch_snapshots[b_idx][step_h] = unstacked[b_idx].clone()
+                    branch_snapshots[b_idx][step_h].metadata["arm"] = "rglru_carry_clamped"
+
+        return branch_snapshots
 
     else:
         raise ValueError(f"Unknown causal arm '{arm}'")

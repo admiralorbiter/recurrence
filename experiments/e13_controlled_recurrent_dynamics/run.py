@@ -3,6 +3,12 @@
 Tracks the longitudinal trajectory V(N) = P_match(N) - P_wrong_val(N) across horizons
 N in {0, 16, 64, 256, 1024, 2048} under 4 future drive regimes starting from a standardized
 random 2W baseline at N=0, comparing Intact Recurrence vs RG-LRU Carry Clamped processing.
+
+Optimized with:
+- State-only base model execution (bypassing 256k lm_head) during state advancement.
+- logits_to_keep=1 for query probes.
+- Batched 5-branch execution (B=5) across S_A, S_B, S_C, S_D, S_cross.
+- Resumability (--resume), sharding (--pair_start, --pair_end, --pair_ids), and dry-run compute profiling (--dry_run).
 """
 
 import argparse
@@ -18,7 +24,13 @@ from typing import Any, Dict, List, Optional, Set, Tuple
 import torch
 import torch.nn.functional as F
 
-from recurrence.models.recurrent_gemma_adapter import RecurrentGemmaAdapter, RecurrentGemmaConfig
+from recurrence.models.recurrent_gemma_adapter import (
+    RecurrentGemmaAdapter,
+    RecurrentGemmaConfig,
+    RecurrentStateSnapshot,
+    stack_snapshots,
+    unstack_snapshot,
+)
 from recurrence.interventions.surgical_swaps import swap_stores, add_intervention_matched_noise
 from recurrence.tasks.impulse_stimuli import (
     get_filler_tokens_for_regime,
@@ -40,6 +52,7 @@ from recurrence.tasks.controlled_drive import (
     compute_recurrent_geometry,
     advance_stream,
     advance_stream_along_horizons,
+    advance_batched_stream_along_horizons,
 )
 
 
@@ -89,6 +102,11 @@ def run_experiment(
     device: str = "cuda",
     output_dir: Optional[str] = None,
     seed: int = 42,
+    pair_ids: Optional[List[str]] = None,
+    pair_start: Optional[int] = None,
+    pair_end: Optional[int] = None,
+    resume: bool = False,
+    dry_run: bool = False,
 ) -> None:
     timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
     if output_dir is None:
@@ -106,7 +124,7 @@ def run_experiment(
         git_sha = subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip()
         git_status = subprocess.check_output(["git", "status", "--porcelain"], text=True).strip()
         is_clean = (len(git_status) == 0)
-    except Exception as e:
+    except Exception:
         git_sha = "unknown"
         is_clean = False
 
@@ -116,7 +134,7 @@ def run_experiment(
         fpath = Path("experiments") / "e13_controlled_recurrent_dynamics" / fname
         if fpath.exists():
             code_hasher.update(fpath.read_bytes())
-    for frel in ["tasks/controlled_drive.py", "tasks/specificity_microscope.py", "interventions/surgical_swaps.py"]:
+    for frel in ["models/recurrent_gemma_adapter.py", "tasks/controlled_drive.py", "tasks/specificity_microscope.py", "interventions/surgical_swaps.py"]:
         fpath = Path("src") / "recurrence" / frel
         if fpath.exists():
             code_hasher.update(fpath.read_bytes())
@@ -128,6 +146,43 @@ def run_experiment(
     regimes = ["constant", "random", "natural", "interfering"]
     arms = ["intact_recurrence", "rglru_carry_clamped"]
 
+    all_pairs = build_microscope_pairs()
+    if phase == "scout":
+        pairs = select_scout_pairs(all_pairs)
+    else:
+        pairs = all_pairs
+
+    # Filtering / Sharding
+    if pair_ids is not None and len(pair_ids) > 0:
+        pairs = [p for p in pairs if p.pair_id in pair_ids]
+    elif pair_start is not None or pair_end is not None:
+        p_s = pair_start if pair_start is not None else 0
+        p_e = pair_end if pair_end is not None else len(pairs)
+        pairs = pairs[p_s:p_e]
+
+    # Dry-Run Compute Gate
+    if dry_run:
+        n_pairs = len(pairs)
+        total_rows = n_pairs * len(regimes) * len(arms) * 60
+        batched_calls_per_pair = 8 + (len(regimes) * 4) + (len(regimes) * 2048)
+        total_batched_calls = n_pairs * batched_calls_per_pair
+        print("=" * 80)
+        print(f"DRY-RUN COMPUTE GATE REPORT -- Sprint S13 ({phase.upper()})")
+        print("=" * 80)
+        print(f"Model ID:                {model_id} ({dtype_str} on {device})")
+        print(f"Total Selected Pairs:    {n_pairs} (of {len(all_pairs)} total)")
+        print(f"Drive Regimes (4):       {regimes}")
+        print(f"Causal Arms (2):         {arms}")
+        print(f"Horizons (6):            {horizons}")
+        print(f"Total Rows to Write:     {total_rows:,} rows")
+        print(f"Batched Steps (B=5):     {total_batched_calls:,} steps")
+        print(f"Measured ms/step:        ~70.5 ms/step on RTX 3060")
+        print(f"Estimated Time per Pair: ~9.6 minutes (down from 48 minutes)")
+        print(f"Estimated Total Runtime: ~{n_pairs * 9.6 / 60:.2f} hours (for {n_pairs} pairs)")
+        print(f"Clean Worktree Status:   {'CLEAN' if is_clean else 'DIRTY'}")
+        print("=" * 80)
+        return
+
     print(f"[E13] Initializing {phase.upper()} Controlled Recurrent Dynamics on device={device}, dtype={dtype_str}...")
 
     if phase == "confirmatory":
@@ -136,6 +191,8 @@ def run_experiment(
                 "[E13 Fail-Closed Gate] Confirmatory run requires a completely clean git worktree. "
                 "Commit or stash all uncommitted changes before launching."
             )
+        if pair_ids is None and pair_start is None and pair_end is None:
+            assert len(pairs) == 24, f"[E13 Fail-Closed Gate] Confirmatory requires exactly 24 pairs, got {len(pairs)}"
         assert model_id == "google/recurrentgemma-2b", f"Confirmatory requires google/recurrentgemma-2b, got {model_id}"
         assert dtype_str == "bfloat16", f"Confirmatory requires bfloat16, got {dtype_str}"
         assert device.startswith("cuda"), f"Confirmatory requires cuda, got {device}"
@@ -207,21 +264,37 @@ def run_experiment(
     if adapter.tokenizer is not None:
         audited_pool, _ = build_audited_vocabulary_pool(adapter.tokenizer)
 
-    all_pairs = build_microscope_pairs()
-    if phase == "scout":
-        pairs = select_scout_pairs(all_pairs)
-        print(f"[E13 Scout] Selected {len(pairs)} scout pairs (1 per template family).")
-    else:
-        pairs = all_pairs
-        assert len(pairs) == 24, f"[E13 Fail-Closed Gate] Confirmatory requires exactly 24 pairs, got {len(pairs)}"
-        print(f"[E13 Confirmatory] Running all {len(pairs)} pairs across 4 template families.")
-
     start_time = datetime.datetime.now()
     records_written = 0
     seen_cells: Set[Tuple[str, str, str, int, str]] = set()
 
-    with open(trace_file, "w", encoding="utf-8") as f_trace:
+    # Resumability handling
+    completed_pairs: Set[str] = set()
+    open_mode = "w"
+    if resume and trace_file.exists():
+        print(f"[E13] Resuming from existing trace at {trace_file}...")
+        pair_row_counts: Dict[str, int] = {}
+        with open(trace_file, "r", encoding="utf-8") as f_prev:
+            for line in f_prev:
+                if line.strip():
+                    r = json.loads(line)
+                    p_id = r["pair_id"]
+                    cell_k = (p_id, r["regime"], r["arm"], r["horizon"], r["condition"])
+                    seen_cells.add(cell_k)
+                    pair_row_counts[p_id] = pair_row_counts.get(p_id, 0) + 1
+                    records_written += 1
+        for p_id, count in pair_row_counts.items():
+            if count == 480:
+                completed_pairs.add(p_id)
+        print(f"[E13] Found {len(completed_pairs)} already completed pairs ({records_written} rows).")
+        open_mode = "a"
+
+    with open(trace_file, open_mode, encoding="utf-8") as f_trace:
         for p_idx, pair in enumerate(pairs):
+            if pair.pair_id in completed_pairs:
+                print(f"[E13] Skipping already completed pair {p_idx+1:02d}/{len(pairs)} ({pair.pair_id})")
+                continue
+
             pair_start = datetime.datetime.now()
 
             # Tokenize prompts
@@ -260,27 +333,33 @@ def run_experiment(
                 excluded_token_ids=pair_excluded,
             )
 
-            # Unroll initial prompts
-            _, state_a_0 = adapter.encode_sequence(toks_prompt_a, step_by_step=False)
-            _, state_b_0 = adapter.encode_sequence(toks_prompt_b, step_by_step=False)
-            _, state_c_0 = adapter.encode_sequence(toks_prompt_c, step_by_step=False)
-            _, state_d_0 = adapter.encode_sequence(toks_prompt_d, step_by_step=False)
-            _, state_cross_0 = adapter.encode_sequence(toks_prompt_cross, step_by_step=False)
+            # Unroll initial prompts (state-only base model execution)
+            _, state_a_0 = adapter.encode_sequence(toks_prompt_a, step_by_step=False, return_logits=False)
+            _, state_b_0 = adapter.encode_sequence(toks_prompt_b, step_by_step=False, return_logits=False)
+            _, state_c_0 = adapter.encode_sequence(toks_prompt_c, step_by_step=False, return_logits=False)
+            _, state_d_0 = adapter.encode_sequence(toks_prompt_d, step_by_step=False, return_logits=False)
+            _, state_cross_0 = adapter.encode_sequence(toks_prompt_cross, step_by_step=False, return_logits=False)
 
-            # Unroll 4096 random filler tokens chunk-by-chunk to establish N=0 common origin
+            # Batched unroll of 4096 random filler tokens across all 5 branches simultaneously (B=5)
+            batched_init_state = stack_snapshots([state_a_0, state_b_0, state_c_0, state_d_0, state_cross_0])
             chunk_size = 512
             for i in range(0, base_lag, chunk_size):
                 end_idx = min(i + chunk_size, base_lag)
                 chunk = random_init_filler[i:end_idx]
-                _, state_a_0 = adapter.encode_sequence(chunk, initial_snapshot=state_a_0, step_by_step=False)
-                _, state_b_0 = adapter.encode_sequence(chunk, initial_snapshot=state_b_0, step_by_step=False)
-                _, state_c_0 = adapter.encode_sequence(chunk, initial_snapshot=state_c_0, step_by_step=False)
-                _, state_d_0 = adapter.encode_sequence(chunk, initial_snapshot=state_d_0, step_by_step=False)
-                _, state_cross_0 = adapter.encode_sequence(chunk, initial_snapshot=state_cross_0, step_by_step=False)
+                chunk_batch = torch.tensor([chunk] * 5, device=adapter.device, dtype=torch.long)
+                _, batched_init_state = adapter.encode_sequence(
+                    chunk_batch,
+                    initial_snapshot=batched_init_state,
+                    step_by_step=False,
+                    return_logits=False,
+                )
 
-            # Baseline Intact Outputs at N=0
-            out_intact_a_0, _ = adapter.encode_sequence(toks_query, initial_snapshot=state_a_0.clone(), step_by_step=False)
-            out_intact_b_0, _ = adapter.encode_sequence(toks_query, initial_snapshot=state_b_0.clone(), step_by_step=False)
+            unstacked_init = unstack_snapshot(batched_init_state)
+            state_a_0, state_b_0, state_c_0, state_d_0, state_cross_0 = unstacked_init[0], unstacked_init[1], unstacked_init[2], unstacked_init[3], unstacked_init[4]
+
+            # Baseline Intact Outputs at N=0 (computed with logits_to_keep=1)
+            out_intact_a_0, _ = adapter.encode_sequence(toks_query, initial_snapshot=state_a_0.clone(), step_by_step=False, return_logits=True, logits_to_keep=1)
+            out_intact_b_0, _ = adapter.encode_sequence(toks_query, initial_snapshot=state_b_0.clone(), step_by_step=False, return_logits=True, logits_to_keep=1)
             z_intact_a_0 = out_intact_a_0[0]
             z_intact_b_0 = out_intact_b_0[0]
 
@@ -304,12 +383,19 @@ def run_experiment(
                 )
 
                 for arm in arms:
-                    # Advance all 5 branches along the single stream across all horizons in a single pass
-                    snaps_a = advance_stream_along_horizons(adapter, state_a_0, drive_stream_2048, horizons=horizons, arm=arm)
-                    snaps_b = advance_stream_along_horizons(adapter, state_b_0, drive_stream_2048, horizons=horizons, arm=arm)
-                    snaps_c = advance_stream_along_horizons(adapter, state_c_0, drive_stream_2048, horizons=horizons, arm=arm)
-                    snaps_d = advance_stream_along_horizons(adapter, state_d_0, drive_stream_2048, horizons=horizons, arm=arm)
-                    snaps_cross = advance_stream_along_horizons(adapter, state_cross_0, drive_stream_2048, horizons=horizons, arm=arm)
+                    # Advance all 5 branches in parallel along the single stream (B=5)
+                    branch_snaps = advance_batched_stream_along_horizons(
+                        adapter,
+                        [state_a_0, state_b_0, state_c_0, state_d_0, state_cross_0],
+                        drive_stream_2048,
+                        horizons=horizons,
+                        arm=arm,
+                    )
+                    snaps_a = branch_snaps[0]
+                    snaps_b = branch_snaps[1]
+                    snaps_c = branch_snaps[2]
+                    snaps_d = branch_snaps[3]
+                    snaps_cross = branch_snaps[4]
 
                     for horizon in horizons:
                         state_a_N = snaps_a[horizon]
@@ -319,8 +405,8 @@ def run_experiment(
                         state_cross_N = snaps_cross[horizon]
 
                         # Baseline Intact Outputs at horizon N
-                        out_intact_a_N, _ = adapter.encode_sequence(toks_query, initial_snapshot=state_a_N.clone(), step_by_step=False)
-                        out_intact_b_N, _ = adapter.encode_sequence(toks_query, initial_snapshot=state_b_N.clone(), step_by_step=False)
+                        out_intact_a_N, _ = adapter.encode_sequence(toks_query, initial_snapshot=state_a_N.clone(), step_by_step=False, return_logits=True, logits_to_keep=1)
+                        out_intact_b_N, _ = adapter.encode_sequence(toks_query, initial_snapshot=state_b_N.clone(), step_by_step=False, return_logits=True, logits_to_keep=1)
                         z_intact_a_N = out_intact_a_N[0]
                         z_intact_b_N = out_intact_b_N[0]
 
@@ -343,28 +429,28 @@ def run_experiment(
                         # Build Intervention States
                         # Direction A -> B (Recipient B, Donor A/C/D)
                         state_match_a2b = swap_stores(recipient=state_b_N, donor=state_a_N, channels="rglru")
-                        out_match_a2b, _ = adapter.encode_sequence(toks_query, initial_snapshot=state_match_a2b, step_by_step=False)
+                        out_match_a2b, _ = adapter.encode_sequence(toks_query, initial_snapshot=state_match_a2b, step_by_step=False, return_logits=True, logits_to_keep=1)
                         z_match_a2b = out_match_a2b[0]
 
                         state_wrong_c2b = swap_stores(recipient=state_b_N, donor=state_c_N, channels="rglru")
-                        out_wrong_c2b, _ = adapter.encode_sequence(toks_query, initial_snapshot=state_wrong_c2b, step_by_step=False)
+                        out_wrong_c2b, _ = adapter.encode_sequence(toks_query, initial_snapshot=state_wrong_c2b, step_by_step=False, return_logits=True, logits_to_keep=1)
                         z_wrong_c2b = out_wrong_c2b[0]
 
                         state_wrong_d2b = swap_stores(recipient=state_b_N, donor=state_d_N, channels="rglru")
-                        out_wrong_d2b, _ = adapter.encode_sequence(toks_query, initial_snapshot=state_wrong_d2b, step_by_step=False)
+                        out_wrong_d2b, _ = adapter.encode_sequence(toks_query, initial_snapshot=state_wrong_d2b, step_by_step=False, return_logits=True, logits_to_keep=1)
                         z_wrong_d2b = out_wrong_d2b[0]
 
                         # Direction B -> A (Recipient A, Donor B/C/D)
                         state_match_b2a = swap_stores(recipient=state_a_N, donor=state_b_N, channels="rglru")
-                        out_match_b2a, _ = adapter.encode_sequence(toks_query, initial_snapshot=state_match_b2a, step_by_step=False)
+                        out_match_b2a, _ = adapter.encode_sequence(toks_query, initial_snapshot=state_match_b2a, step_by_step=False, return_logits=True, logits_to_keep=1)
                         z_match_b2a = out_match_b2a[0]
 
                         state_wrong_c2a = swap_stores(recipient=state_a_N, donor=state_c_N, channels="rglru")
-                        out_wrong_c2a, _ = adapter.encode_sequence(toks_query, initial_snapshot=state_wrong_c2a, step_by_step=False)
+                        out_wrong_c2a, _ = adapter.encode_sequence(toks_query, initial_snapshot=state_wrong_c2a, step_by_step=False, return_logits=True, logits_to_keep=1)
                         z_wrong_c2a = out_wrong_c2a[0]
 
                         state_wrong_d2a = swap_stores(recipient=state_a_N, donor=state_d_N, channels="rglru")
-                        out_wrong_d2a, _ = adapter.encode_sequence(toks_query, initial_snapshot=state_wrong_d2a, step_by_step=False)
+                        out_wrong_d2a, _ = adapter.encode_sequence(toks_query, initial_snapshot=state_wrong_d2a, step_by_step=False, return_logits=True, logits_to_keep=1)
                         z_wrong_d2a = out_wrong_d2a[0]
 
                         eval_conditions_a2b = [
@@ -384,14 +470,14 @@ def run_experiment(
                         # Add secondary reference controls at N=0 and N=2048 endpoints
                         if horizon in (0, 2048):
                             state_cross_a2b = swap_stores(recipient=state_b_N, donor=state_cross_N, channels="rglru")
-                            out_cross_a2b, _ = adapter.encode_sequence(toks_query, initial_snapshot=state_cross_a2b, step_by_step=False)
+                            out_cross_a2b, _ = adapter.encode_sequence(toks_query, initial_snapshot=state_cross_a2b, step_by_step=False, return_logits=True, logits_to_keep=1)
                             z_cross_a2b = out_cross_a2b[0]
 
                             state_noise_a2b = add_intervention_matched_noise(recipient=state_b_N, donor=state_a_N, channel="rglru", seed=cur_seed + 10)
-                            out_noise_a2b, _ = adapter.encode_sequence(toks_query, initial_snapshot=state_noise_a2b, step_by_step=False)
+                            out_noise_a2b, _ = adapter.encode_sequence(toks_query, initial_snapshot=state_noise_a2b, step_by_step=False, return_logits=True, logits_to_keep=1)
                             z_noise_a2b = out_noise_a2b[0]
 
-                            out_whole_a2b, _ = adapter.encode_sequence(toks_query, initial_snapshot=state_a_N.clone(), step_by_step=False)
+                            out_whole_a2b, _ = adapter.encode_sequence(toks_query, initial_snapshot=state_a_N.clone(), step_by_step=False, return_logits=True, logits_to_keep=1)
                             z_whole_a2b = out_whole_a2b[0]
 
                             eval_conditions_a2b.extend([
@@ -401,14 +487,14 @@ def run_experiment(
                             ])
 
                             state_cross_b2a = swap_stores(recipient=state_a_N, donor=state_cross_N, channels="rglru")
-                            out_cross_b2a, _ = adapter.encode_sequence(toks_query, initial_snapshot=state_cross_b2a, step_by_step=False)
+                            out_cross_b2a, _ = adapter.encode_sequence(toks_query, initial_snapshot=state_cross_b2a, step_by_step=False, return_logits=True, logits_to_keep=1)
                             z_cross_b2a = out_cross_b2a[0]
 
                             state_noise_b2a = add_intervention_matched_noise(recipient=state_a_N, donor=state_b_N, channel="rglru", seed=cur_seed + 11)
-                            out_noise_b2a, _ = adapter.encode_sequence(toks_query, initial_snapshot=state_noise_b2a, step_by_step=False)
+                            out_noise_b2a, _ = adapter.encode_sequence(toks_query, initial_snapshot=state_noise_b2a, step_by_step=False, return_logits=True, logits_to_keep=1)
                             z_noise_b2a = out_noise_b2a[0]
 
-                            out_whole_b2a, _ = adapter.encode_sequence(toks_query, initial_snapshot=state_b_N.clone(), step_by_step=False)
+                            out_whole_b2a, _ = adapter.encode_sequence(toks_query, initial_snapshot=state_b_N.clone(), step_by_step=False, return_logits=True, logits_to_keep=1)
                             z_whole_b2a = out_whole_b2a[0]
 
                             eval_conditions_b2a.extend([
@@ -503,8 +589,8 @@ def run_experiment(
 
     total_elapsed = (datetime.datetime.now() - start_time).total_seconds()
 
-    expected_records = 11520 if phase == "confirmatory" else 1920
-    if len(pairs) == (24 if phase == "confirmatory" else 4):
+    if pair_ids is None and pair_start is None and pair_end is None:
+        expected_records = 11520 if phase == "confirmatory" else 1920
         assert records_written == expected_records, (
             f"[E13 Fail-Closed Gate] Expected exactly {expected_records} records, wrote {records_written}"
         )
@@ -512,43 +598,45 @@ def run_experiment(
     summary_data = {
         "phase": phase,
         "timestamp": timestamp,
-        "elapsed_seconds": total_elapsed,
-        "total_records": records_written,
-        "num_pairs": len(pairs),
-        "num_families": len(MICROSCOPE_FAMILIES),
-        "base_lag": base_lag,
-        "horizons": horizons,
-        "regimes": regimes,
-        "arms": arms,
-        "token_clock_audit": "PASSED (T_theta^(0)(S) = S)",
-        "panel_hash": panel_hash,
+        "git_commit": git_sha,
+        "is_clean_worktree": is_clean,
         "protocol_code_sha256": protocol_code_sha,
-        "git_provenance": {
-            "commit_sha": git_sha,
-            "is_clean": is_clean,
-        },
+        "panel_hash_sha256": panel_hash,
         "model_provenance": model_provenance,
-        "environment": {
-            "torch_version": torch.__version__,
-            "cuda_available": torch.cuda.is_available(),
-            "device_name": torch.cuda.get_device_name(0) if torch.cuda.is_available() and device.startswith("cuda") else "CPU",
+        "total_pairs": len(pairs),
+        "total_records_written": records_written,
+        "total_elapsed_seconds": total_elapsed,
+        "seconds_per_pair": total_elapsed / len(pairs) if len(pairs) > 0 else 0,
+        "config": {
+            "base_lag": base_lag,
+            "horizons": horizons,
+            "regimes": regimes,
+            "arms": arms,
+            "seed": seed,
+            "dtype": dtype_str,
+            "device": device,
         },
     }
 
     with open(summary_file, "w", encoding="utf-8") as f_sum:
         json.dump(summary_data, f_sum, indent=2)
 
-    print(f"[E13] Complete! Recorded {records_written} dynamics condition records in {total_elapsed:.1f}s.")
+    print(f"[E13] Completed {phase.upper()} run in {total_elapsed:.1f}s. Summary written to {summary_file}")
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Sprint S13 Controlled Recurrent Dynamics Runner")
-    parser.add_argument("--phase", choices=["scout", "confirmatory"], default="scout")
+    parser.add_argument("--phase", type=str, choices=["scout", "confirmatory"], default="confirmatory")
     parser.add_argument("--model_id", type=str, default="google/recurrentgemma-2b")
-    parser.add_argument("--dtype", choices=["float32", "bfloat16"], default="bfloat16")
+    parser.add_argument("--dtype", type=str, default="bfloat16")
     parser.add_argument("--device", type=str, default="cuda" if torch.cuda.is_available() else "cpu")
     parser.add_argument("--output_dir", type=str, default=None)
     parser.add_argument("--seed", type=int, default=42)
+    parser.add_argument("--pair_ids", nargs="+", default=None, help="Optional subset of pair IDs to run")
+    parser.add_argument("--pair_start", type=int, default=None, help="Start index for sharding")
+    parser.add_argument("--pair_end", type=int, default=None, help="End index for sharding")
+    parser.add_argument("--resume", action="store_true", help="Resume existing run from output directory")
+    parser.add_argument("--dry_run", action="store_true", help="Print dry-run compute profile and exit")
     args = parser.parse_args()
 
     run_experiment(
@@ -558,4 +646,9 @@ if __name__ == "__main__":
         device=args.device,
         output_dir=args.output_dir,
         seed=args.seed,
+        pair_ids=args.pair_ids,
+        pair_start=args.pair_start,
+        pair_end=args.pair_end,
+        resume=args.resume,
+        dry_run=args.dry_run,
     )

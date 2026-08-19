@@ -199,6 +199,7 @@ class RecurrentGemmaAdapter:
         self,
         token_id: int,
         snapshot: RecurrentStateSnapshot,
+        return_logits: bool = True,
     ) -> Tuple[torch.Tensor, RecurrentStateSnapshot]:
         """Execute a single token step and return next-token logits and advanced state snapshot."""
         cache = self.inject_state_snapshot(snapshot)
@@ -206,7 +207,9 @@ class RecurrentGemmaAdapter:
         pos = snapshot.cache_position
         position_ids = torch.tensor([[pos]], device=self.device, dtype=torch.long)
 
-        outputs = self.model(
+        model_fn = self.model.model if (not return_logits and hasattr(self.model, "model")) else self.model
+
+        outputs = model_fn(
             input_ids=input_ids,
             position_ids=position_ids,
             past_key_values=cache,
@@ -214,7 +217,7 @@ class RecurrentGemmaAdapter:
             return_dict=True,
         )
 
-        next_logits = outputs.logits[:, -1, :]
+        next_logits = outputs.logits[:, -1, :] if hasattr(outputs, "logits") and outputs.logits is not None else torch.empty(0, device=self.device)
         new_snapshot = self.extract_state_snapshot(
             past_key_values=outputs.past_key_values if hasattr(outputs, "past_key_values") else cache,
             cache_position=pos + 1,
@@ -225,44 +228,151 @@ class RecurrentGemmaAdapter:
     @torch.no_grad()
     def encode_sequence(
         self,
-        token_ids: List[int],
+        token_ids: Any,
         initial_snapshot: Optional[RecurrentStateSnapshot] = None,
         step_by_step: bool = True,
+        return_logits: bool = True,
+        logits_to_keep: Optional[int] = None,
     ) -> Tuple[torch.Tensor, RecurrentStateSnapshot]:
         """Unroll a token sequence step-by-step (or in parallel chunk) and return final logits and state snapshot."""
-        if not token_ids:
+        if isinstance(token_ids, list) and len(token_ids) == 0:
             state = initial_snapshot if initial_snapshot is not None else self.create_canonical_initial_state()
             return torch.empty(0, device=self.device), state
 
+        state = initial_snapshot if initial_snapshot is not None else self.create_canonical_initial_state()
+
         if not step_by_step:
-            state = initial_snapshot if initial_snapshot is not None else self.create_canonical_initial_state()
             cache = self.inject_state_snapshot(state)
-            input_ids = torch.tensor([token_ids], device=self.device, dtype=torch.long)
             pos = state.cache_position
-            position_ids = torch.arange(pos, pos + len(token_ids), device=self.device, dtype=torch.long).unsqueeze(0)
 
-            outputs = self.model(
-                input_ids=input_ids,
-                position_ids=position_ids,
-                past_key_values=cache,
-                use_cache=True,
-                return_dict=True,
-            )
+            if isinstance(token_ids, torch.Tensor):
+                input_ids = token_ids.to(device=self.device, dtype=torch.long)
+                seq_len = input_ids.shape[-1]
+                b_size = input_ids.shape[0]
+            elif isinstance(token_ids, list) and len(token_ids) > 0 and isinstance(token_ids[0], list):
+                input_ids = torch.tensor(token_ids, device=self.device, dtype=torch.long)
+                seq_len = input_ids.shape[-1]
+                b_size = input_ids.shape[0]
+            else:
+                input_ids = torch.tensor([token_ids], device=self.device, dtype=torch.long)
+                seq_len = len(token_ids)
+                b_size = 1
 
-            next_logits = outputs.logits[:, -1, :]
+            position_ids = torch.arange(pos, pos + seq_len, device=self.device, dtype=torch.long).unsqueeze(0).expand(b_size, -1)
+
+            # State-only path: call base model directly, bypassing lm_head linear projection
+            model_fn = self.model.model if (not return_logits and hasattr(self.model, "model")) else self.model
+
+            call_kwargs: Dict[str, Any] = {
+                "input_ids": input_ids,
+                "position_ids": position_ids,
+                "past_key_values": cache,
+                "use_cache": True,
+                "return_dict": True,
+            }
+            if return_logits and logits_to_keep is not None:
+                # Check if model accepts logits_to_keep
+                try:
+                    outputs = model_fn(**call_kwargs, logits_to_keep=logits_to_keep)
+                except TypeError:
+                    outputs = model_fn(**call_kwargs)
+            else:
+                outputs = model_fn(**call_kwargs)
+
+            if return_logits and hasattr(outputs, "logits") and outputs.logits is not None:
+                next_logits = outputs.logits[:, -1, :]
+            else:
+                next_logits = torch.empty(0, device=self.device)
+
             new_snapshot = self.extract_state_snapshot(
                 past_key_values=cache,
-                cache_position=pos + len(token_ids),
+                cache_position=pos + seq_len,
             )
             return next_logits, new_snapshot
 
-        state = initial_snapshot if initial_snapshot is not None else self.create_canonical_initial_state()
         last_logits = torch.empty(0, device=self.device)
-
         for tok in token_ids:
-            last_logits, state = self.step(tok, state)
+            last_logits, state = self.step(tok, state, return_logits=return_logits)
 
         return last_logits, state
+
+
+def stack_snapshots(snapshots: List[RecurrentStateSnapshot]) -> RecurrentStateSnapshot:
+    """Stack a list of B single-batch snapshots into a single batched snapshot with batch_size=B."""
+    assert len(snapshots) > 0
+    b = len(snapshots)
+    device = snapshots[0].device
+    dtype = snapshots[0].dtype
+    pos = snapshots[0].cache_position
+    for s in snapshots:
+        assert s.cache_position == pos, "All snapshots to stack must share cache_position"
+
+    rglru = {}
+    for l_idx in snapshots[0].rglru:
+        rglru[l_idx] = torch.cat([s.rglru[l_idx] for s in snapshots], dim=0)
+
+    conv = {}
+    for l_idx in snapshots[0].conv:
+        conv[l_idx] = torch.cat([s.conv[l_idx] for s in snapshots], dim=0)
+
+    kv = {}
+    for l_idx in snapshots[0].kv:
+        k_list = [s.kv[l_idx]["key"] for s in snapshots]
+        v_list = [s.kv[l_idx]["value"] for s in snapshots]
+        kv[l_idx] = {
+            "key": torch.cat(k_list, dim=0),
+            "value": torch.cat(v_list, dim=0),
+            "cumulative_length": snapshots[0].kv[l_idx].get("cumulative_length", 0),
+            "sliding_window": snapshots[0].kv[l_idx].get("sliding_window", None),
+        }
+
+    return RecurrentStateSnapshot(
+        rglru=rglru,
+        conv=conv,
+        kv=kv,
+        cache_position=pos,
+        device=device,
+        dtype=dtype,
+        metadata={"batch_size": b},
+    )
+
+
+def unstack_snapshot(batched_snapshot: RecurrentStateSnapshot) -> List[RecurrentStateSnapshot]:
+    """Split a batched snapshot with batch_size=B into a list of B individual snapshots."""
+    if batched_snapshot.rglru:
+        first_k = next(iter(batched_snapshot.rglru))
+        b = batched_snapshot.rglru[first_k].shape[0]
+    elif batched_snapshot.conv:
+        first_k = next(iter(batched_snapshot.conv))
+        b = batched_snapshot.conv[first_k].shape[0]
+    else:
+        first_k = next(iter(batched_snapshot.kv))
+        b = batched_snapshot.kv[first_k]["key"].shape[0]
+
+    res = []
+    for i in range(b):
+        rglru_i = {l: batched_snapshot.rglru[l][i : i + 1].clone() for l in batched_snapshot.rglru}
+        conv_i = {l: batched_snapshot.conv[l][i : i + 1].clone() for l in batched_snapshot.conv}
+        kv_i = {}
+        for l in batched_snapshot.kv:
+            kv_i[l] = {
+                "key": batched_snapshot.kv[l]["key"][i : i + 1].clone(),
+                "value": batched_snapshot.kv[l]["value"][i : i + 1].clone(),
+                "cumulative_length": batched_snapshot.kv[l].get("cumulative_length", 0),
+                "sliding_window": batched_snapshot.kv[l].get("sliding_window", None),
+            }
+        res.append(
+            RecurrentStateSnapshot(
+                rglru=rglru_i,
+                conv=conv_i,
+                kv=kv_i,
+                cache_position=batched_snapshot.cache_position,
+                device=batched_snapshot.device,
+                dtype=batched_snapshot.dtype,
+                metadata={"batch_size": 1},
+            )
+        )
+    return res
 
     def generate_greedy(
         self,
