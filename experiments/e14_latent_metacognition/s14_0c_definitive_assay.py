@@ -261,33 +261,37 @@ def run_definitive_trial(
     delta_fact = d_t - d_o
     is_opposite_sign = (d_t * d_o) < 0
     is_strict_c = is_opposite_sign and (abs(d_t) >= STRICT_C_MARGIN) and (abs(d_o) >= STRICT_C_MARGIN)
-    is_boundary = is_opposite_sign and not is_strict_c or (abs(d_t) < 0.05)
-    
+    is_boundary = (is_opposite_sign and not is_strict_c) or (abs(d_t) < 0.05)
+
     if is_strict_c:
         c_tier = "TIER_1_STRICT_C_DISAGREEMENT"
-    elif is_opposite_sign:
-        c_tier = "TIER_2_WEAK_DISAGREEMENT"
+    elif is_boundary:
+        c_tier = "TIER_2_BOUNDARY_WEAK_DISAGREEMENT"
     else:
         c_tier = "TIER_3_SAME_CHOICE_PERTURBATION"
 
-    # Only assign ground-truth choice sign g if |d_t| > 0.05
+    # Only assign ground-truth choice sign g if |d_t| >= 0.05
     if abs(d_t) >= 0.05:
         g = 1.0 if d_t > 0 else -1.0
         true_preferred = word_x if g > 0 else word_y
     else:
         g = 0.0
-        true_preferred = "TIE (NONE)"
+        true_preferred = "TIE (INDETERMINATE)"
 
     m_pre_cal = bop_pre["m_calibrated"]
     m_obs_cal = bop_obs["m_calibrated"]
     m_post_evolved_cal = bop_post_evolved["m_calibrated"]
     m_post_matched_cal = bop_post_matched["m_calibrated"]
 
-    # Target-aligned metrics (when g != 0)
+    # Raw temporal timing differences (Delta M_timing = M_PRE - M_POST)
+    delta_m_timing_evolved = m_pre_cal - m_post_evolved_cal
+    delta_m_timing_matched = m_pre_cal - m_post_matched_cal
+
+    # Target-aligned metrics (only meaningful when g != 0)
     s_pre = g * m_pre_cal if g != 0 else 0.0
     pai_aligned = g * (m_pre_cal - m_obs_cal) if g != 0 else 0.0
-    t_aligned_evolved = g * (m_pre_cal - m_post_evolved_cal) if g != 0 else 0.0
-    t_aligned_matched = g * (m_pre_cal - m_post_matched_cal) if g != 0 else 0.0
+    t_aligned_evolved = g * delta_m_timing_evolved if g != 0 else 0.0
+    t_aligned_matched = g * delta_m_timing_matched if g != 0 else 0.0
 
     # Unsigned causal report tracking delta
     raw_report_shift = m_pre_cal - m_obs_cal
@@ -307,6 +311,10 @@ def run_definitive_trial(
         "bop_obs": bop_obs,
         "bop_post_evolved": bop_post_evolved,
         "bop_post_matched": bop_post_matched,
+        "timing_differences": {
+            "delta_m_timing_evolved": delta_m_timing_evolved,
+            "delta_m_timing_matched": delta_m_timing_matched,
+        },
         "aligned_metrics": {
             "s_pre": s_pre,
             "pai_aligned": pai_aligned,
@@ -318,35 +326,55 @@ def run_definitive_trial(
     }
 
 
-def compute_tost_equivalence(differences: List[float], bound: float = 0.10) -> Dict[str, Any]:
-    """Compute Two One-Sided Tests (TOST) for equivalence."""
+def compute_exact_tost(differences: List[float], bound: float = 0.10) -> Dict[str, Any]:
+    """Compute exact Student's t Two One-Sided Tests (TOST) and 90% / 95% CIs."""
+    from scipy.stats import t as t_dist
+
     n = len(differences)
+    df = n - 1
     mean_diff = sum(differences) / n
-    var_diff = sum((d - mean_diff) ** 2 for d in differences) / (n - 1)
+    var_diff = sum((d - mean_diff) ** 2 for d in differences) / df
     std_diff = math.sqrt(var_diff)
     se_diff = std_diff / math.sqrt(n)
 
-    # 95% Confidence Interval (z approx)
-    t_crit = 1.753 if n == 16 else 2.145  # t-distribution approx
-    ci_lower = mean_diff - t_crit * se_diff
-    ci_upper = mean_diff + t_crit * se_diff
+    # Exact critical values
+    t_crit_90 = t_dist.ppf(0.95, df=df)  # 90% two-sided CI (alpha=0.05 each side)
+    t_crit_95 = t_dist.ppf(0.975, df=df) # 95% two-sided CI
 
-    # TOST t-statistics
+    ci_90_lower = mean_diff - t_crit_90 * se_diff
+    ci_90_upper = mean_diff + t_crit_90 * se_diff
+
+    ci_95_lower = mean_diff - t_crit_95 * se_diff
+    ci_95_upper = mean_diff + t_crit_95 * se_diff
+
+    # TOST t-statistics: test H01: mean <= -bound vs H11: mean > -bound
     t1 = (mean_diff - (-bound)) / se_diff
-    t2 = (bound - mean_diff) / se_diff
+    p1 = 1.0 - t_dist.cdf(t1, df=df)
 
-    # Equivalent if 95% CI is entirely within [-bound, +bound]
-    is_equivalent = (ci_lower >= -bound) and (ci_upper <= bound)
+    # test H02: mean >= bound vs H12: mean < bound
+    t2 = (bound - mean_diff) / se_diff
+    p2 = 1.0 - t_dist.cdf(t2, df=df)
+
+    p_tost = max(p1, p2)
+    is_equivalent_alpha_05 = bool(p_tost < 0.05)
 
     return {
-        "bound": bound,
-        "n": n,
-        "mean_diff": mean_diff,
-        "std_diff": std_diff,
-        "se_diff": se_diff,
-        "ci_95_lower": ci_lower,
-        "ci_95_upper": ci_upper,
-        "is_equivalent_at_bound": is_equivalent,
+        "bound": float(bound),
+        "n": int(n),
+        "df": int(df),
+        "mean_diff": float(mean_diff),
+        "std_diff": float(std_diff),
+        "se_diff": float(se_diff),
+        "ci_90_lower": float(ci_90_lower),
+        "ci_90_upper": float(ci_90_upper),
+        "ci_95_lower": float(ci_95_lower),
+        "ci_95_upper": float(ci_95_upper),
+        "t1_stat": float(t1),
+        "p1": float(p1),
+        "t2_stat": float(t2),
+        "p2": float(p2),
+        "p_tost": float(p_tost),
+        "is_equivalent_at_bound": is_equivalent_alpha_05,
     }
 
 
@@ -404,13 +432,29 @@ def main():
 
     # Stratification Analysis
     strict_c_trials = [t for t in trials if t["result"]["c_tier"] == "TIER_1_STRICT_C_DISAGREEMENT"]
+    boundary_trials = [t for t in trials if t["result"]["c_tier"] == "TIER_2_BOUNDARY_WEAK_DISAGREEMENT"]
     same_choice_trials = [t for t in trials if t["result"]["c_tier"] == "TIER_3_SAME_CHOICE_PERTURBATION"]
 
-    # Equivalence Analysis for Temporal Invariance (T_aligned)
-    t_diffs_evolved = [t["result"]["bop_pre"]["m_calibrated"] - t["result"]["bop_post_evolved"]["m_calibrated"] for t in trials]
-    t_diffs_matched = [t["result"]["bop_pre"]["m_calibrated"] - t["result"]["bop_post_matched"]["m_calibrated"] for t in trials]
-    tost_evolved = compute_tost_equivalence(t_diffs_evolved, bound=EQUIVALENCE_BOUND)
-    tost_matched = compute_tost_equivalence(t_diffs_matched, bound=EQUIVALENCE_BOUND)
+    # Trial-level timing differences
+    t_diffs_evolved = [t["result"]["timing_differences"]["delta_m_timing_evolved"] for t in trials]
+    t_diffs_matched = [t["result"]["timing_differences"]["delta_m_timing_matched"] for t in trials]
+    tost_evolved_trial = compute_exact_tost(t_diffs_evolved, bound=EQUIVALENCE_BOUND)
+    tost_matched_trial = compute_exact_tost(t_diffs_matched, bound=EQUIVALENCE_BOUND)
+
+    # Cluster-level (8 cells, paired mean of FWD and REV)
+    cell_clusters = {}
+    for t in trials:
+        pid = t["cell"]["pair_id"]
+        if pid not in cell_clusters:
+            cell_clusters[pid] = {"evolved": [], "matched": []}
+        cell_clusters[pid]["evolved"].append(t["result"]["timing_differences"]["delta_m_timing_evolved"])
+        cell_clusters[pid]["matched"].append(t["result"]["timing_differences"]["delta_m_timing_matched"])
+
+    cluster_diffs_evolved = [sum(v["evolved"]) / len(v["evolved"]) for v in cell_clusters.values()]
+    cluster_diffs_matched = [sum(v["matched"]) / len(v["matched"]) for v in cell_clusters.values()]
+
+    tost_evolved_cluster = compute_exact_tost(cluster_diffs_evolved, bound=EQUIVALENCE_BOUND)
+    tost_matched_cluster = compute_exact_tost(cluster_diffs_matched, bound=EQUIVALENCE_BOUND)
 
     # Order Bias Analysis (quantifying how much bias BOP canceled)
     mean_order_bias_pre = sum(abs(t["result"]["bop_pre"]["order_bias"]) for t in trials) / len(trials)
@@ -420,18 +464,22 @@ def main():
     print("=" * 125)
     print(f"\n1. C-LEVEL STRATIFICATION:")
     print(f"   - Tier 1 (Strict-C Binary Disagreement): {len(strict_c_trials)}/16 trials (quartz_basalt FWD & REV)")
-    print(f"   - Tier 2 (Weak / Boundary Disagreement): {sum(1 for t in trials if t['result']['c_tier'] == 'TIER_2_WEAK_DISAGREEMENT')}/16 trials")
-    print(f"   - Tier 3 (Same-Choice Causal Controls):  {len(same_choice_trials)}/16 trials")
+    print(f"   - Tier 2 (Boundary / Weak / Indeterminate): {len(boundary_trials)}/16 trials (marble_quartz FWD, basalt_granite REV [d_t=0], amber_garnet REV [d_t=-0.03])")
+    print(f"   - Tier 3 (Clear Same-Choice Controls):   {len(same_choice_trials)}/16 trials")
 
-    print(f"\n2. TIER 1 (STRICT-C PRIVILEGED ACCESS RESULTS):")
+    print(f"\n2. TIER 1 (STRICT-C STATE-CONDITIONED REPORT MODULATION):")
     for t in strict_c_trials:
         r = t["result"]
         aln = r["aligned_metrics"]
-        print(f"   - {r['word_x']} vs {r['word_y']} [{r['direction'].upper()}]: D_T={r['d_t']:+.3f}, D_O={r['d_o']:+.3f} | S_PRE={aln['s_pre']:+.3f} (Correct: {aln['s_pre'] > 0}) | PAI_aligned={aln['pai_aligned']:+.3f} (Access: {aln['pai_aligned'] > 0}) | T_matched={aln['t_aligned_matched']:+.3f}")
+        print(f"   - {r['word_x']} vs {r['word_y']} [{r['direction'].upper()}]: D_T={r['d_t']:+.3f}, D_O={r['d_o']:+.3f} | S_PRE={aln['s_pre']:+.3f} (Correct: {aln['s_pre'] > 0}) | PAI_aligned={aln['pai_aligned']:+.3f} (Aligned shift: {aln['pai_aligned'] > 0}) | T_matched={aln['t_aligned_matched']:+.3f}")
 
-    print(f"\n3. TEMPORAL SPECIFICITY & EQUIVALENCE TESTING (TOST delta_equiv = +/- {EQUIVALENCE_BOUND} logits):")
-    print(f"   - Contemporaneously Evolved POST: Mean diff = {tost_evolved['mean_diff']:+.4f} | 95% CI: [{tost_evolved['ci_95_lower']:+.4f}, {tost_evolved['ci_95_upper']:+.4f}] -> Equivalent at +/-0.10: {tost_evolved['is_equivalent_at_bound']}")
-    print(f"   - Exact State-Matched POST:       Mean diff = {tost_matched['mean_diff']:+.4f} | 95% CI: [{tost_matched['ci_95_lower']:+.4f}, {tost_matched['ci_95_upper']:+.4f}] -> Equivalent at +/-0.10: {tost_matched['is_equivalent_at_bound']}")
+    print(f"\n3. TEMPORAL INVARIANCE & EQUIVALENCE TESTING (TOST delta_equiv = +/- {EQUIVALENCE_BOUND} logits):")
+    print(f"   A. 8-Cell Cluster-Level Analysis (Nested FWD/REV):")
+    print(f"      - Evolved POST:  Mean = {tost_evolved_cluster['mean_diff']:+.4f} | 90% CI: [{tost_evolved_cluster['ci_90_lower']:+.4f}, {tost_evolved_cluster['ci_90_upper']:+.4f}] | 95% CI: [{tost_evolved_cluster['ci_95_lower']:+.4f}, {tost_evolved_cluster['ci_95_upper']:+.4f}] | p_TOST = {tost_evolved_cluster['p_tost']:.4e} -> Equivalent: {tost_evolved_cluster['is_equivalent_at_bound']}")
+    print(f"      - Matched POST:  Mean = {tost_matched_cluster['mean_diff']:+.4f} | 90% CI: [{tost_matched_cluster['ci_90_lower']:+.4f}, {tost_matched_cluster['ci_90_upper']:+.4f}] | 95% CI: [{tost_matched_cluster['ci_95_lower']:+.4f}, {tost_matched_cluster['ci_95_upper']:+.4f}] | p_TOST = {tost_matched_cluster['p_tost']:.4e} -> Equivalent: {tost_matched_cluster['is_equivalent_at_bound']}")
+    print(f"   B. 16-Trial Unpooled Analysis:")
+    print(f"      - Evolved POST:  Mean = {tost_evolved_trial['mean_diff']:+.4f} | 90% CI: [{tost_evolved_trial['ci_90_lower']:+.4f}, {tost_evolved_trial['ci_90_upper']:+.4f}] | 95% CI: [{tost_evolved_trial['ci_95_lower']:+.4f}, {tost_evolved_trial['ci_95_upper']:+.4f}] | p_TOST = {tost_evolved_trial['p_tost']:.4e} -> Equivalent: {tost_evolved_trial['is_equivalent_at_bound']}")
+    print(f"      - Matched POST:  Mean = {tost_matched_trial['mean_diff']:+.4f} | 90% CI: [{tost_matched_trial['ci_90_lower']:+.4f}, {tost_matched_trial['ci_90_upper']:+.4f}] | 95% CI: [{tost_matched_trial['ci_95_lower']:+.4f}, {tost_matched_trial['ci_95_upper']:+.4f}] | p_TOST = {tost_matched_trial['p_tost']:.4e} -> Equivalent: {tost_matched_trial['is_equivalent_at_bound']}")
 
     print(f"\n4. R-LEVEL BOP ORDER BIAS MITIGATION:")
     print(f"   - Visible Control Accuracy: 8/8 distinct candidate interfaces passed 100% visible accuracy.")
@@ -450,12 +498,16 @@ def main():
             "equivalence_bound": EQUIVALENCE_BOUND,
             "stratification": {
                 "n_tier_1_strict_c": len(strict_c_trials),
-                "n_tier_2_weak_c": sum(1 for t in trials if t["result"]["c_tier"] == "TIER_2_WEAK_DISAGREEMENT"),
+                "n_tier_2_boundary_weak": len(boundary_trials),
                 "n_tier_3_same_choice": len(same_choice_trials),
             },
-            "tost_equivalence": {
-                "evolved_post": tost_evolved,
-                "state_matched_post": tost_matched,
+            "cluster_level_equivalence": {
+                "evolved_post": tost_evolved_cluster,
+                "state_matched_post": tost_matched_cluster,
+            },
+            "trial_level_equivalence": {
+                "evolved_post": tost_evolved_trial,
+                "state_matched_post": tost_matched_trial,
             },
             "trials": trials,
         }, f, indent=2)
