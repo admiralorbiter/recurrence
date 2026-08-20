@@ -1,0 +1,171 @@
+{
+  "experiment_id": "Q07b_harsher_economic_selection_pressure",
+  "gate": "GATE_C",
+  "run_id": "run_20260820_234359_3d52e72c",
+  "created_at": "2026-08-20T23:43:59.524308+00:00",
+  "git_sha": "471a31e0cfdad102a32d2a6dca1d8377f9efb166",
+  "worktree_dirty": false,
+  "evidence_mode": "TRAINED_MODEL",
+  "status": "SCOUT_GATE_PASS",
+  "model_revision": "v0.1.0",
+  "environment_revision": "v0.1.0",
+  "seed": 42,
+  "lineage": {
+    "lineage_id": "garden_v1_q07b",
+    "parent_lineage_id": null,
+    "fork_step": 0,
+    "event_hash": null
+  },
+  "execution": {
+    "device": "cpu",
+    "precision": "fp32",
+    "batch_size": 1,
+    "torch_version": null,
+    "python_version": "3.12.0",
+    "platform": "Windows-11-10.0.26220-SP0"
+  },
+  "condition": {
+    "name": "harsher_economic_selection_pressure",
+    "manipulation_type": "payoff_matrix_adjustment",
+    "intervention_target": null,
+    "parameters": {}
+  },
+  "provenance": {
+    "forward_calls": 5600,
+    "training_steps": 28000,
+    "raw_record_count": 800,
+    "raw_trial_table_path": "results\\e19_garden_q07_controllability\\run_q07b_harsher_economics_20260820_234018\\raw_trials.jsonl",
+    "raw_trial_table_sha256": "1510234047cc371aefda21d23dec06890d54a02411d48c886d0a63022ba9c3e6",
+    "activation_cache_hash": null,
+    "raw_results_hash": "7ad3295ed17ccf7bfb85a2cbfcb5f2e2cc07cd9f13f46ea589b503c001cee87e",
+    "source_run_ids": []
+  },
+  "metrics": {
+    "ctrl_mean_return": {
+      "mean": 0.45625,
+      "std": 0.09822646028438571
+    },
+    "yoked_mean_return": {
+      "mean": -0.48275000000000007,
+      "std": 0.17226415036216905
+    },
+    "p_exploit_ctrl": {
+      "mean": 1.0,
+      "std": 0.0
+    },
+    "p_abstain_yoked": {
+      "mean": 0.02,
+      "std": 0.033166247903554
+    },
+    "contingency_sensitivity": {
+      "mean": 0.020000000000000004,
+      "std": 0.033166247903554
+    },
+    "ctrl_exploit_success_rate": {
+      "mean": 0.9025,
+      "std": 0.03929058411375428
+    },
+    "per_seed_data": [
+      {
+        "seed": 42,
+        "ctrl_mean_return": 0.55,
+        "yoked_mean_return": -0.7140000000000001,
+        "p_exploit_ctrl": 1.0,
+        "p_abstain_ctrl": 0.0,
+        "p_exploit_yoked": 0.98,
+        "p_abstain_yoked": 0.02,
+        "contingency_sensitivity": 0.020000000000000018,
+        "ctrl_exploit_success_rate": 0.94,
+        "yoked_exploit_success_rate": 0.42857142857142855
+      },
+      {
+        "seed": 43,
+        "ctrl_mean_return": 0.45,
+        "yoked_mean_return": -0.27,
+        "p_exploit_ctrl": 1.0,
+        "p_abstain_ctrl": 0.0,
+        "p_exploit_yoked": 0.9,
+        "p_abstain_yoked": 0.1,
+        "contingency_sensitivity": 0.09999999999999998,
+        "ctrl_exploit_success_rate": 0.9,
+        "yoked_exploit_success_rate": 0.6
+      },
+      {
+        "seed": 44,
+        "ctrl_mean_return": 0.4,
+        "yoked_mean_return": -0.5780000000000001,
+        "p_exploit_ctrl": 1.0,
+        "p_abstain_ctrl": 0.0,
+        "p_exploit_yoked": 0.96,
+        "p_abstain_yoked": 0.04,
+        "contingency_sensitivity": 0.040000000000000036,
+        "ctrl_exploit_success_rate": 0.88,
+        "yoked_exploit_success_rate": 0.4791666666666667
+      },
+      {
+        "seed": 45,
+        "ctrl_mean_return": 0.24999999999999997,
+        "yoked_mean_return": -0.4500000000000001,
+        "p_exploit_ctrl": 1.0,
+        "p_abstain_ctrl": 0.0,
+        "p_exploit_yoked": 1.0,
+        "p_abstain_yoked": 0.0,
+        "contingency_sensitivity": 0.0,
+        "ctrl_exploit_success_rate": 0.82,
+        "yoked_exploit_success_rate": 0.54
+      },
+      {
+        "seed": 46,
+        "ctrl_mean_return": 0.5,
+        "yoked_mean_return": -0.5000000000000001,
+        "p_exploit_ctrl": 1.0,
+        "p_abstain_ctrl": 0.0,
+        "p_exploit_yoked": 1.0,
+        "p_abstain_yoked": 0.0,
+        "contingency_sensitivity": 0.0,
+        "ctrl_exploit_success_rate": 0.92,
+        "yoked_exploit_success_rate": 0.52
+      },
+      {
+        "seed": 47,
+        "ctrl_mean_return": 0.6,
+        "yoked_mean_return": -0.6999999999999998,
+        "p_exploit_ctrl": 1.0,
+        "p_abstain_ctrl": 0.0,
+        "p_exploit_yoked": 1.0,
+        "p_abstain_yoked": 0.0,
+        "contingency_sensitivity": 0.0,
+        "ctrl_exploit_success_rate": 0.96,
+        "yoked_exploit_success_rate": 0.44
+      },
+      {
+        "seed": 48,
+        "ctrl_mean_return": 0.45,
+        "yoked_mean_return": -0.20000000000000004,
+        "p_exploit_ctrl": 1.0,
+        "p_abstain_ctrl": 0.0,
+        "p_exploit_yoked": 1.0,
+        "p_abstain_yoked": 0.0,
+        "contingency_sensitivity": 0.0,
+        "ctrl_exploit_success_rate": 0.9,
+        "yoked_exploit_success_rate": 0.64
+      },
+      {
+        "seed": 49,
+        "ctrl_mean_return": 0.45,
+        "yoked_mean_return": -0.45,
+        "p_exploit_ctrl": 1.0,
+        "p_abstain_ctrl": 0.0,
+        "p_exploit_yoked": 1.0,
+        "p_abstain_yoked": 0.0,
+        "contingency_sensitivity": 0.0,
+        "ctrl_exploit_success_rate": 0.9,
+        "yoked_exploit_success_rate": 0.54
+      }
+    ]
+  },
+  "artifacts": {
+    "summary_json": "results\\e19_garden_q07_controllability\\run_q07b_harsher_economics_20260820_234018\\q07b_harsher_economics_summary.json",
+    "raw_trials_jsonl": "results\\e19_garden_q07_controllability\\run_q07b_harsher_economics_20260820_234018\\raw_trials.jsonl"
+  }
+}
