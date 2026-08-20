@@ -9,7 +9,22 @@ Our goal is not to simulate consciousness but to construct something that must b
 
 ---
 
-## Program Vision & Core Goals
+## Current Program State
+
+- **Horizon 0 (Foundations):** **COMPLETE** (S00–S03 reproducible baseline battery).
+- **Horizon 1 (Scaffolded Persistence):** **FROZEN** (S04–S09 narrative primacy, memory dominance, no independent state leverage).
+- **Horizon 2 Core (Latent Recurrence):** **FROZEN** (S10–S13 reconstructibility, physical persistence at 2W, causal steering $P=+74.10$, value specificity $\Delta P=+38.49$, coordinate loss on $u_0$, state reorientation $C_R \to 0.12$, contemporaneous steerability $V^{(N)}>0$).
+- **Active Frontier:** **Sprint S14 (Latent Metacognition, Reality Monitoring & State Ownership)**.
+
+### Canonical Synthesis & Governance Documents
+- [Walkthrough & Synthesis](walkthrough.md) — Comprehensive S10–S13 empirical synthesis and six guardrails.
+- [H2 Core Freeze Manifest](docs/H2_Core_Freeze_Manifest.md) — Frozen evidence contract, artifact hashes, and freeze rules.
+- [H2 Core Retrospective Memo](docs/H2_Core_Retrospective_Memo.md) — Detailed scientific synthesis of Horizon 2 Core.
+- [H2 Recurrent Architecture Roadmap](docs/H2_Recurrent_Architecture_Roadmap.md) — Architectural progression from S10 to S16.
+- [S14 Research Starter](docs/S14_Research_Starter.md) — Planning and measurement-validation guide for Sprint S14.
+- [Interactive Web Exhibit](h2/README.md) — Standalone presentation of the H2 Core narrative (`h2/site/index.html`).
+
+---
 
 This project investigates whether large language models with persistent recurrence acquire forms of metacognition, self-indexing, source ownership, or workspace organization that are weak, absent, or qualitatively different in episodically invoked language models.
 

@@ -133,7 +133,32 @@ At N=2048 — a full attention-window turnover — recipient anchoring is reduce
 
 Something changes as the old local attention window turns over. The frozen S12 evidence does **not** justify calling that process confirmed mediation.
 
-The thread remains open.
+---
+
+## Act VIII — The coordinate dissolves, the distinction turns (S13)
+
+Now drive the model forward through another 2,048 tokens of task-irrelevant text.
+
+Does the value-specific memory stay frozen in its original output direction?
+
+**No.**
+
+Across the 24-pair confirmatory panel ($N=11,520$ records), historical value-specific steering along the original baseline axis $u_0$ dissipates to near-zero:
+
+> **V_intact^(0)(2048) = +4.70, 95% CI [−5.52, +15.85].**
+
+The old coordinate system no longer aligns with the memory.
+
+Did the memory erase?
+
+**No.** The recurrent state difference vector $r(t) = s_A(t) - s_B(t)$ does not vanish; it rotates toward near-orthogonality ($C_R(2048) = +0.1238$ [0.0953, 0.1545]), while contemporaneous causal steerability remains resolved positive in the model's evolved output geometry:
+
+> **V_intact^(N)(2048) = +13.95, 95% CI [+3.20, +24.72].**
+
+Under long recurrent trajectories, the realized output path is sensitive to computational batch geometry, but the aggregate physical state-space reorientation ($C_R$) is robust.
+
+> **Specific ≠ coordinate-stable.**  
+> **Same mathematical model ≠ identical realized trajectory.**
 
 ---
 
@@ -141,19 +166,23 @@ The thread remains open.
 
 ### RECONSTRUCTIBLE?
 
-**YES.** Public-history replay reconstructs deterministic hidden state.
+**YES.** Public-history replay reconstructs deterministic hidden state (S10).
 
 ### PERSISTENT?
 
-**YES.** Branch-specific recurrent state remains physically differentiated at 2W.
+**YES.** Branch-specific recurrent state remains physically differentiated at 2W (S11b).
 
 ### CAUSALLY OPERATIVE?
 
-**YES.** Surgical recurrent-state transplantation steers downstream logits.
+**YES.** Surgical recurrent-state transplantation steers downstream logits (S12b).
 
 ### VALUE-SPECIFIC?
 
-**YES.** Holding syntactic template fixed, matching history adds +38.49 [25.82, 50.85] over same-template wrong values.
+**YES.** Holding syntactic template fixed, matching history adds +38.49 [25.82, 50.85] over same-template wrong values (S12c).
+
+### COORDINATE-STABLE OVER TIME?
+
+**NO.** Historical $u_0$ steering decays to zero (+4.70 [-5.52, +15.85]) while the state difference reorients ($C_R \to 0.12$) and contemporaneous steering remains positive ($V^{(N)} = +13.95$ [3.20, 24.72]) (S13).
 
 ### EXPLICITLY REPORTABLE AT 2W?
 
@@ -165,8 +194,8 @@ The thread remains open.
 
 ---
 
-# S13 — What happens when nothing meaningful happens?
+# S14 — The Frontier: Introspective Access & State Ownership
 
-The next major question is dynamical rather than mnemonic:
+With the memory/causality/dynamics core frozen (S10–S13), Horizon 2 turns to its central philosophical frontier:
 
-> The past survives. The past matters. It carries specific historical information. What happens to that information under controlled, task-irrelevant drive?
+> A history-conditioned latent distinction persists causally while its representational coordinates evolve. Does the model have any privileged access to, reality-monitoring ability over, or ownership relation to that evolving latent distinction that cannot be reproduced by a matched observer using the public history?

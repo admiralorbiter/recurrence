@@ -1,0 +1,51 @@
+{
+  "meta": {
+    "manifest_name": "Horizon 2 Environment & Architecture Lock",
+    "status": "FROZEN",
+    "substantive_freeze_commit": "db65b0b6bd8045adbef8da8e01da56d3e285924f",
+    "scope": "Horizon 2 Core (S10-S13) & S14 Baseline"
+  },
+  "model_substrate": {
+    "model_id": "google/recurrentgemma-2b",
+    "pinned_revision": "3620f4ca9c5d16ee56c00180474a3201ec7f734a",
+    "architecture": "RecurrentGemmaForCausalLM",
+    "layer_count": 26,
+    "block_types": ["recurrent", "recurrent", "attention", "recurrent"],
+    "temporal_stores": {
+      "rglru": "Real-Gated Linear Recurrent Unit (Griffin Eq 4)",
+      "conv1d": "1D Temporal Convolution (width=4, state_width=3)",
+      "sliding_kv": "Sliding Window Multi-Head Attention (window=2048)"
+    }
+  },
+  "software_environment": {
+    "python_version": "3.12.0",
+    "torch_version": "2.5.1+cu121",
+    "transformers_version": "5.15.0",
+    "os_platform": "Windows-11-10.0.26220-SP0",
+    "cuda_runtime": "12.1",
+    "execution_dtype": "bfloat16",
+    "inference_mode": "torch.inference_mode()"
+  },
+  "hardware_environment": {
+    "gpu_device": "NVIDIA GeForce RTX 3060",
+    "vram_total_bytes": 12884901888,
+    "vram_total_gb": 12.0,
+    "cuda_device_count": 1
+  },
+  "frozen_hashes": {
+    "specificity_panel_sha256": "d6c5d00168478f67b6440b653a92462c6bb79d3f61ffbb44e949079f3c719b18",
+    "confirmatory_summary_sha256": "d3b5b6cf1b0451cfbfbcfa4aa7899b8015c92c306443c7b7440409c9b5f5be4f"
+  },
+  "guardrails": [
+    "Hidden does not imply informational privilege.",
+    "Recurrent does not imply autonomous wall-time evolution.",
+    "Persistent does not imply behaviorally reportable.",
+    "State difference does not imply causal relevance.",
+    "Causal relevance does not imply value specificity.",
+    "Value specificity does not imply a static or coordinate-stable representation.",
+    "Contemporaneous steerability does not prove the same information is preserved unchanged.",
+    "A causal latent state does not imply metacognitive access, source ownership, self-awareness, or consciousness.",
+    "The sparse B=1 sensitivity panel is a numerical-method sensitivity test, not a population replication of the 24-pair confirmatory panel.",
+    "Exact long-horizon causal trajectories are sensitive to execution geometry in BF16."
+  ]
+}
