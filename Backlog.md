@@ -29,23 +29,22 @@ Retire or demote a direction when:
 
 ---
 
-## P0 — Strategic Horizon 2 Plateau & Transition Decision
+## P0 — Moonshot Gate A: Final Frozen-Model Bridge (Active Frontier)
 
 | Item | Scope | Exit Condition / Gate |
 |---|---|---|
-| **Horizon 2 Complete Synthesis** | Integrate S10–S14 into unified scientific retrospective (`docs/H2_Complete_Synthesis_and_Retrospective_Memo.md`) and freeze Horizon 2. | Comprehensive 7-way taxonomy and dissociation ladder documented and synchronized across repo. |
-| **Mainline Transition Selection** | Choose between (A) Higher-Order Monitor/Content Dissociation (S16 promoted), (B) Base vs. IT Post-Training Scout, and (C) Horizon 3 Developmental Organism Bring-Up. | Formal Decision Record committed. |
+| **Q01 & Q02: Monitor / Content Coda** | Two-phase scout on `recurrentgemma-2b-it`: Phase A Discovery $\to$ Phase B Causal $2 \times 2$ ($C_\pm \times M_\pm$). Protocol: `docs/S16_Monitor_Content_Dissociation_Protocol.md`. | Pass if double dissociation found ($|\Delta D| \le 0.15$, $|\Delta \text{Report}| \ge 0.40$); if symmetrical coupling, terminate and proceed to Gate B. |
+| **Q03: Base vs. IT Metacognition Scout** | Strict-C `quartz_basalt` micro-assay on matched `google/recurrentgemma-2b` (base) vs `google/recurrentgemma-2b-it`. | Determines whether report modulation is intrinsic to pretraining or installed by alignment. |
 
 ---
 
-## P1 — Strategic Frontier Candidate Queue
+## P1 — Moonshot Gate B: Minimal Developmental Substrate (The Continuity Garden)
 
 | Item | Focus | Key Question / Theoretical Stakes |
 |---|---|---|
-| **Candidate 1: Monitor/Content Dissociation** | Orthogonal 2x2 content vs monitor interventions (S16 promoted). | Is there a latent variable that monitors first-order computation without merely duplicating it? Can monitoring be lesioned independently of content? |
-| **Candidate 2: Global Workspace Search** | Test for operational workspace hallmarks (reportability, controllability, flexible reuse, causal mediation). | Does RecurrentGemma possess a privileged recurrent subspace broadcast to multiple downstream consumers? |
-| **Candidate 3: Base vs. IT Comparison** | Scout `google/recurrentgemma-2b` (base) on the S14.0C strict-C assay. | Is state-conditioned report modulation intrinsic to recurrent pretraining or installed/amplified by instruction tuning? |
-| **Candidate 4: Horizon 3 Developmental Organism** | Small end-to-end recurrent model in minimal interactive environment. | Under what developmental pressures do self/world boundaries, regulation, and source models emerge when persistent state is necessary for survival? |
+| **Q04: Temporally Extended POMDP** | Small recurrent organism baseline in minimal symbolic POMDP without language. | Does persistent latent state confer a selective advantage over feed-forward and reset baselines? |
+| **Q05: Latent Continuity vs. Restored Memory** | Interruption assay: memory restored vs. latent preserved vs. replay. | Does latent developmental state carry function beyond explicit prompt memory restoration? |
+| **Q06: Ground-Truth Construct Separation** | 3-layer architecture: Ground Truth $\to$ Sensor $\to$ Learned State. | Zero target-variable leakage into observations (`uncertainty`, `self_state`, `source`). |
 
 ---
 

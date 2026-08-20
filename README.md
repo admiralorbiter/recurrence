@@ -14,14 +14,17 @@ Our goal is not to simulate consciousness but to construct something that must b
 - **Horizon 0 (Foundations):** **COMPLETE** (S00–S03 reproducible baseline battery).
 - **Horizon 1 (Scaffolded Persistence):** **FROZEN** (S04–S09 narrative primacy, memory dominance, no independent state leverage).
 - **Horizon 2 (Latent Recurrence):** **FROZEN (S10–S14)** — Seven-way taxonomy established: Reconstructibility, physical persistence at 2W, causal steering $P=+74.10$, value specificity $\Delta P=+38.49$, coordinate loss on $u_0$, state reorientation $C_R \to 0.12$, and state-conditioned reporting without historical provenance access ($\Delta M_{\text{timing}} \approx 0$, $p_{\text{TOST}} = 0.0048$).
-- **Active Frontier:** **Horizon 2 Complete Synthesis & Strategic Transition** (Monitor/Workspace State Dissociation vs. Horizon 3 Developmental Organism).
+- **Long-Range Moonshot:** [Moonshot Research Map](docs/Moonshot_Research_Map.md) — *Toward a Causal Developmental Science of Artificial Self-Models* (Gates A through I).
+- **Active Frontier:** **Gate A (Final Frozen-Model Bridge)** $\to$ **Gate B (The Continuity Garden / Minimal Developmental Substrate)**.
 
 ### Canonical Synthesis & Governance Documents
+- [Moonshot Research Map](docs/Moonshot_Research_Map.md) — The 10-year research compass, 5 futures, and Gates A–I.
 - [Walkthrough & Synthesis](walkthrough.md) — Comprehensive S10–S14 empirical synthesis and core guardrails.
-- [H2 Complete Synthesis & Retrospective Memo](docs/H2_Complete_Synthesis_and_Retrospective_Memo.md) — Full Horizon 2 scientific retrospective, 7-way taxonomy, and future roadmaps.
+- [H2 Final Synthesis Map](docs/H2_Final_Synthesis_Map.md) — Canonical 7-way empirical taxonomy blueprint.
+- [H2 Complete Synthesis & Retrospective Memo](docs/H2_Complete_Synthesis_and_Retrospective_Memo.md) — Full Horizon 2 scientific retrospective and literature context.
 - [S14 Metacognition & Intention Report](docs/S14_Latent_Metacognition_and_Intention_Report.md) — Complete S14 C/D/R/A framework, BOP calibration, and 16-trial panel report.
-- [H2 Core Freeze Manifest](docs/H2_Core_Freeze_Manifest.md) — Frozen evidence contract, artifact hashes, and freeze rules.
-- [H2 Recurrent Architecture Roadmap](docs/H2_Recurrent_Architecture_Roadmap.md) — Architectural progression and transition options.
+- [S16 Monitor/Content Coda Protocol](docs/S16_Monitor_Content_Dissociation_Protocol.md) — Pre-registered Gate A $2 \times 2$ scout protocol.
+- [The Continuity Garden](9.%20The%20Continuity%20Garden.md) — Minimal developmental environment specification (Gate B).
 - [Interactive Web Exhibit](h2/README.md) — Standalone presentation of the H2 narrative (`h2/site/index.html`).
 
 ---
