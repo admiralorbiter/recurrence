@@ -55,14 +55,24 @@ Token Input x_t ──► [ Conv1D Buffer c_t[l] ] ──► [ RG-LRU Recurrence
 
 ---
 
-## 4. Horizon 2 Frontier: Ownership, Metacognition & Self-Modeling (S14+)
+## 4. Horizon 2 Frontier & Final Metacognition Assessment (S14)
 
-### Sprint S14: Latent Metacognition, Reality Monitoring & State Ownership (ACTIVE NEXT SPRINT)
+### Sprint S14: Latent Metacognition, Reality Monitoring & State Ownership (FROZEN)
 - **Refined Question:** A history-conditioned latent distinction persists causally while its representational coordinates evolve. Does the model have any privileged, introspective access to that evolving latent distinction?
-- **Protocol:** Secret on-manifold RG-LRU state transplantation across legitimate trajectories. Compare base (`google/recurrentgemma-2b`) vs instruction-tuned (`google/recurrentgemma-2b-it`) models against an exact public-history replay observer.
+- **Delivered Outcome:**
+  1. *C/D/R/A Framework & BOP Calibration:* Balanced Order Permutation (BOP) canceled presentation bias across 8 candidate interfaces (100% visible control accuracy).
+  2. *C-Tier Stratification (2 Strict-C / 3 Boundary-Weak / 11 Same-Choice):* In `quartz_basalt` ($\Delta = \pm 1.02$), secret grafts produced bidirectional state-conditioned report modulation ($\text{PAI}_{\text{aligned}} = +0.270$ FWD, $+0.083$ REV; $S_{\text{PRE}} = +1.74$). Across Tier 3 perturbation controls, report shifts show no correlation with continuous decision shifts ($r \approx 0.064$).
+  3. *Matched-POST Provenance Invariance ($\Delta M_{\text{timing}} \approx 0$):* Cluster-level TOST against $\pm 0.10$ logits confirms practical equivalence between pre-decision presence and post-decision state installation ($p_{\text{TOST}} = 0.0048$ for matched POST, $p_{\text{TOST}} = 8.99 \times 10^{-5}$ for evolved POST).
+- **Core Aphorism:** *State-conditioned reporting $\neq$ historical-provenance discrimination.*
+- **Report:** `docs/S14_Latent_Metacognition_and_Intention_Report.md`.
 
-### Sprint S15: Recurrent Adapter Prototype & Low-Rank State Continuity
-- **Question:** Can low-rank trainable recurrent adapters induce stable cross-session state carry?
+---
 
-### Sprint S16: Monitor/Content Dissociation & Level 2 Synthesis
-- **Question:** Does latent recurrent continuity support a functional Attention Schema (internal self-model of attention/state) dissociated from first-order factual content? Final H2 Synthesis Memo and Go/No-Go Decision for Horizon 3.
+## 5. Strategic Transition Options Beyond Horizon 2
+
+1. **Option A — Monitor/Content Dissociation & Workspace Search (H2 Frontier Bridge):**  
+   Promote S16 ahead of S15 to test whether recurrent dynamics contain a causally separable monitor/workspace state rather than merely first-order state content (orthogonal 2x2 factorial interventions and operational global-workspace properties).
+2. **Option B — Base vs. Instruction-Tuned Scout:**  
+   Compare `google/recurrentgemma-2b` (base) on the S14.0C strict-C assay to determine whether state-conditioned report modulation is intrinsic to pretraining or installed/amplified by instruction tuning.
+3. **Option C — Horizon 3 Developmental Organism Bring-Up:**  
+   Transition from observing frozen pretrained models to training small, end-to-end recurrent organisms where persistent state is required for environmental prediction and active self-regulation.

@@ -13,17 +13,16 @@ Our goal is not to simulate consciousness but to construct something that must b
 
 - **Horizon 0 (Foundations):** **COMPLETE** (S00–S03 reproducible baseline battery).
 - **Horizon 1 (Scaffolded Persistence):** **FROZEN** (S04–S09 narrative primacy, memory dominance, no independent state leverage).
-- **Horizon 2 Core (Latent Recurrence):** **FROZEN** (S10–S13 reconstructibility, physical persistence at 2W, causal steering $P=+74.10$, value specificity $\Delta P=+38.49$, coordinate loss on $u_0$, state reorientation $C_R \to 0.12$, contemporaneous steerability $V^{(N)}>0$).
-- **Active Frontier:** **Sprint S14 (Latent Metacognition, Reality Monitoring & State Ownership)** — Completed & Calibrated ($T_{\text{aligned}} \equiv 0$, $r = 0.9998$).
+- **Horizon 2 (Latent Recurrence):** **FROZEN (S10–S14)** — Seven-way taxonomy established: Reconstructibility, physical persistence at 2W, causal steering $P=+74.10$, value specificity $\Delta P=+38.49$, coordinate loss on $u_0$, state reorientation $C_R \to 0.12$, and state-conditioned reporting without historical provenance access ($\Delta M_{\text{timing}} \approx 0$, $p_{\text{TOST}} = 0.0048$).
+- **Active Frontier:** **Horizon 2 Complete Synthesis & Strategic Transition** (Monitor/Workspace State Dissociation vs. Horizon 3 Developmental Organism).
 
 ### Canonical Synthesis & Governance Documents
-- [Walkthrough & Synthesis](walkthrough.md) — Comprehensive S10–S14 empirical synthesis and six guardrails.
+- [Walkthrough & Synthesis](walkthrough.md) — Comprehensive S10–S14 empirical synthesis and core guardrails.
+- [H2 Complete Synthesis & Retrospective Memo](docs/H2_Complete_Synthesis_and_Retrospective_Memo.md) — Full Horizon 2 scientific retrospective, 7-way taxonomy, and future roadmaps.
 - [S14 Metacognition & Intention Report](docs/S14_Latent_Metacognition_and_Intention_Report.md) — Complete S14 C/D/R/A framework, BOP calibration, and 16-trial panel report.
 - [H2 Core Freeze Manifest](docs/H2_Core_Freeze_Manifest.md) — Frozen evidence contract, artifact hashes, and freeze rules.
-- [H2 Core Retrospective Memo](docs/H2_Core_Retrospective_Memo.md) — Detailed scientific synthesis of Horizon 2 Core.
-- [H2 Recurrent Architecture Roadmap](docs/H2_Recurrent_Architecture_Roadmap.md) — Architectural progression from S10 to S16.
-- [S14 Research Starter](docs/S14_Research_Starter.md) — Planning and measurement-validation guide for Sprint S14.
-- [Interactive Web Exhibit](h2/README.md) — Standalone presentation of the H2 Core narrative (`h2/site/index.html`).
+- [H2 Recurrent Architecture Roadmap](docs/H2_Recurrent_Architecture_Roadmap.md) — Architectural progression and transition options.
+- [Interactive Web Exhibit](h2/README.md) — Standalone presentation of the H2 narrative (`h2/site/index.html`).
 
 ---
 

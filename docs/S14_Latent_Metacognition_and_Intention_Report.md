@@ -96,6 +96,6 @@ Both 90% and 95% confidence intervals fit strictly inside $[-0.10, +0.10]$, demo
 1. **Source Monitoring vs. Content Memory (Johnson et al. 1993):**
    Remembering or possessing state information and remembering where that state originated are computationally separable. RecurrentGemma can carry state content that modulates verbal reporting, but fails to distinguish whether that state was active during prior decision formation or installed post hoc.
 2. **Partial Introspection ("Feeling the Strength but Not the Source"):**
-   Consistent with Hahami et al. (2024), models exhibit sensitivity to internal state magnitude/content without robustly discriminating internal provenance or temporal origin.
+   Consistent with Hahami et al. (December 2025), models exhibit sensitivity to internal state magnitude/content without robustly discriminating internal provenance or temporal origin.
 3. **Prior Intention Assays Require POST-Style Controls:**
    In prior-intention paradigms (e.g. Anthropic's activation perturbation assays), intention-endorsement shifts by themselves do not establish retrospective episodic access. Installing the relevant state vector *after* the action but before the probe reproduces identical endorsement on RecurrentGemma. Future intention ownership assays must include matched post-hoc installation controls.
