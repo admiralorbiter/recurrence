@@ -6,7 +6,7 @@
   "git_sha": "d91156ad0e96d58893017fa4b0bdbe659809bfb8",
   "worktree_dirty": true,
   "evidence_mode": "TRAINED_MODEL",
-  "status": "SCOUT_GATE_PASS",
+  "status": "PARTIAL_PRIMARY_GATE_MISS",
   "model_revision": "v0.1.0",
   "environment_revision": "v0.1.0",
   "seed": 42,
