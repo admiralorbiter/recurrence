@@ -1,0 +1,478 @@
+{
+  "model_id": "google/recurrentgemma-2b-it",
+  "pinned_revision": "2766eb5d4264c6c0357803990791f9ab9cd50f8e",
+  "total_trials": 16,
+  "summary": {
+    "visible_r_control_pass_rate": 1.0,
+    "semantic_accuracy_pct": 43.75,
+    "pai_aligned_positive_pct": 50.0,
+    "mean_pai_aligned": -0.02386474609375,
+    "mean_t_aligned": -0.0057373046875
+  },
+  "trials": [
+    {
+      "cell": {
+        "pair_id": "archived_artifact_p04_quartz_basalt",
+        "orientation": "ANTI",
+        "word_x": "alkali",
+        "word_y": "antonio"
+      },
+      "trial": {
+        "direction": "fwd",
+        "word_x": "alkali",
+        "word_y": "antonio",
+        "d_t": 0.53125,
+        "d_o": -0.484375,
+        "delta": 1.015625,
+        "g": 1.0,
+        "true_word": "alkali",
+        "m_pre": -1.76953125,
+        "m_obs": -2.0390625,
+        "m_post": -1.765625,
+        "s_pre": -1.76953125,
+        "pai_aligned": 0.26953125,
+        "t_aligned": -0.00390625,
+        "visible_control": {
+          "m_calibrated_when_x_true": 4.657196044921875,
+          "m_calibrated_when_y_true": -13.890625,
+          "visible_reporting_competent": true
+        }
+      }
+    },
+    {
+      "cell": {
+        "pair_id": "archived_artifact_p04_quartz_basalt",
+        "orientation": "ANTI",
+        "word_x": "alkali",
+        "word_y": "antonio"
+      },
+      "trial": {
+        "direction": "rev",
+        "word_x": "alkali",
+        "word_y": "antonio",
+        "d_t": -0.546875,
+        "d_o": 0.46875,
+        "delta": -1.015625,
+        "g": -1.0,
+        "true_word": "antonio",
+        "m_pre": -1.7421875,
+        "m_obs": -1.6591796875,
+        "m_post": -1.720703125,
+        "s_pre": 1.7421875,
+        "pai_aligned": 0.0830078125,
+        "t_aligned": 0.021484375,
+        "visible_control": {
+          "m_calibrated_when_x_true": 4.657196044921875,
+          "m_calibrated_when_y_true": -13.890625,
+          "visible_reporting_competent": true
+        }
+      }
+    },
+    {
+      "cell": {
+        "pair_id": "sealed_container_p05_silver_nickel",
+        "orientation": "DONOR",
+        "word_x": "achievement",
+        "word_y": "effort"
+      },
+      "trial": {
+        "direction": "fwd",
+        "word_x": "achievement",
+        "word_y": "effort",
+        "d_t": 13.654296875,
+        "d_o": 12.6849365234375,
+        "delta": 0.9693603515625,
+        "g": 1.0,
+        "true_word": "achievement",
+        "m_pre": 1.65625,
+        "m_obs": 2.0,
+        "m_post": 1.71875,
+        "s_pre": 1.65625,
+        "pai_aligned": -0.34375,
+        "t_aligned": -0.0625,
+        "visible_control": {
+          "m_calibrated_when_x_true": 8.625,
+          "m_calibrated_when_y_true": -10.03125,
+          "visible_reporting_competent": true
+        }
+      }
+    },
+    {
+      "cell": {
+        "pair_id": "sealed_container_p05_silver_nickel",
+        "orientation": "DONOR",
+        "word_x": "achievement",
+        "word_y": "effort"
+      },
+      "trial": {
+        "direction": "rev",
+        "word_x": "achievement",
+        "word_y": "effort",
+        "d_t": 12.796875,
+        "d_o": 13.423828125,
+        "delta": -0.626953125,
+        "g": 1.0,
+        "true_word": "achievement",
+        "m_pre": 2.03125,
+        "m_obs": 1.8125,
+        "m_post": 2.03125,
+        "s_pre": 2.03125,
+        "pai_aligned": 0.21875,
+        "t_aligned": 0.0,
+        "visible_control": {
+          "m_calibrated_when_x_true": 8.625,
+          "m_calibrated_when_y_true": -10.03125,
+          "visible_reporting_competent": true
+        }
+      }
+    },
+    {
+      "cell": {
+        "pair_id": "archived_artifact_p06_basalt_granite",
+        "orientation": "DONOR",
+        "word_x": "crystal",
+        "word_y": "granite"
+      },
+      "trial": {
+        "direction": "fwd",
+        "word_x": "crystal",
+        "word_y": "granite",
+        "d_t": -0.328125,
+        "d_o": -0.578125,
+        "delta": 0.25,
+        "g": -1.0,
+        "true_word": "granite",
+        "m_pre": 2.34375,
+        "m_obs": 2.421875,
+        "m_post": 2.421875,
+        "s_pre": -2.34375,
+        "pai_aligned": 0.078125,
+        "t_aligned": 0.078125,
+        "visible_control": {
+          "m_calibrated_when_x_true": 4.39453125,
+          "m_calibrated_when_y_true": -13.6796875,
+          "visible_reporting_competent": true
+        }
+      }
+    },
+    {
+      "cell": {
+        "pair_id": "archived_artifact_p06_basalt_granite",
+        "orientation": "DONOR",
+        "word_x": "crystal",
+        "word_y": "granite"
+      },
+      "trial": {
+        "direction": "rev",
+        "word_x": "crystal",
+        "word_y": "granite",
+        "d_t": 0.0,
+        "d_o": 0.46875,
+        "delta": -0.46875,
+        "g": 1.0,
+        "true_word": "crystal",
+        "m_pre": 2.953125,
+        "m_obs": 3.0,
+        "m_post": 2.96875,
+        "s_pre": 2.953125,
+        "pai_aligned": -0.046875,
+        "t_aligned": -0.015625,
+        "visible_control": {
+          "m_calibrated_when_x_true": 4.39453125,
+          "m_calibrated_when_y_true": -13.6796875,
+          "visible_reporting_competent": true
+        }
+      }
+    },
+    {
+      "cell": {
+        "pair_id": "marked_object_p02_amber_garnet",
+        "orientation": "ANTI",
+        "word_x": "amber",
+        "word_y": "cobalt"
+      },
+      "trial": {
+        "direction": "fwd",
+        "word_x": "amber",
+        "word_y": "cobalt",
+        "d_t": -0.125,
+        "d_o": -0.0625,
+        "delta": -0.0625,
+        "g": -1.0,
+        "true_word": "cobalt",
+        "m_pre": 3.328125,
+        "m_obs": 3.265625,
+        "m_post": 3.34375,
+        "s_pre": -3.328125,
+        "pai_aligned": -0.0625,
+        "t_aligned": 0.015625,
+        "visible_control": {
+          "m_calibrated_when_x_true": 24.5625,
+          "m_calibrated_when_y_true": -2.3828125,
+          "visible_reporting_competent": true
+        }
+      }
+    },
+    {
+      "cell": {
+        "pair_id": "marked_object_p02_amber_garnet",
+        "orientation": "ANTI",
+        "word_x": "amber",
+        "word_y": "cobalt"
+      },
+      "trial": {
+        "direction": "rev",
+        "word_x": "amber",
+        "word_y": "cobalt",
+        "d_t": -0.03125,
+        "d_o": -0.1875,
+        "delta": 0.15625,
+        "g": -1.0,
+        "true_word": "cobalt",
+        "m_pre": 3.0,
+        "m_obs": 2.921875,
+        "m_post": 2.9375,
+        "s_pre": -3.0,
+        "pai_aligned": -0.078125,
+        "t_aligned": -0.0625,
+        "visible_control": {
+          "m_calibrated_when_x_true": 24.5625,
+          "m_calibrated_when_y_true": -2.3828125,
+          "visible_reporting_competent": true
+        }
+      }
+    },
+    {
+      "cell": {
+        "pair_id": "sealed_container_p02_copper_bronze",
+        "orientation": "DONOR",
+        "word_x": "copper",
+        "word_y": "silver"
+      },
+      "trial": {
+        "direction": "fwd",
+        "word_x": "copper",
+        "word_y": "silver",
+        "d_t": -0.5,
+        "d_o": -0.84375,
+        "delta": 0.34375,
+        "g": -1.0,
+        "true_word": "silver",
+        "m_pre": 2.78125,
+        "m_obs": 2.953125,
+        "m_post": 2.75,
+        "s_pre": -2.78125,
+        "pai_aligned": 0.171875,
+        "t_aligned": -0.03125,
+        "visible_control": {
+          "m_calibrated_when_x_true": 14.65625,
+          "m_calibrated_when_y_true": -3.7734375,
+          "visible_reporting_competent": true
+        }
+      }
+    },
+    {
+      "cell": {
+        "pair_id": "sealed_container_p02_copper_bronze",
+        "orientation": "DONOR",
+        "word_x": "copper",
+        "word_y": "silver"
+      },
+      "trial": {
+        "direction": "rev",
+        "word_x": "copper",
+        "word_y": "silver",
+        "d_t": -0.921875,
+        "d_o": -0.421875,
+        "delta": -0.5,
+        "g": -1.0,
+        "true_word": "silver",
+        "m_pre": 3.015625,
+        "m_obs": 2.6875,
+        "m_post": 2.953125,
+        "s_pre": -3.015625,
+        "pai_aligned": -0.328125,
+        "t_aligned": -0.0625,
+        "visible_control": {
+          "m_calibrated_when_x_true": 14.65625,
+          "m_calibrated_when_y_true": -3.7734375,
+          "visible_reporting_competent": true
+        }
+      }
+    },
+    {
+      "cell": {
+        "pair_id": "monitored_signal_p01_alpha_delta",
+        "orientation": "ANTI",
+        "word_x": "alpha",
+        "word_y": "delta"
+      },
+      "trial": {
+        "direction": "fwd",
+        "word_x": "alpha",
+        "word_y": "delta",
+        "d_t": -4.09375,
+        "d_o": -4.65625,
+        "delta": 0.5625,
+        "g": -1.0,
+        "true_word": "delta",
+        "m_pre": -0.09375,
+        "m_obs": -0.0625,
+        "m_post": -0.03125,
+        "s_pre": 0.09375,
+        "pai_aligned": 0.03125,
+        "t_aligned": 0.0625,
+        "visible_control": {
+          "m_calibrated_when_x_true": 4.46875,
+          "m_calibrated_when_y_true": -7.96875,
+          "visible_reporting_competent": true
+        }
+      }
+    },
+    {
+      "cell": {
+        "pair_id": "monitored_signal_p01_alpha_delta",
+        "orientation": "ANTI",
+        "word_x": "alpha",
+        "word_y": "delta"
+      },
+      "trial": {
+        "direction": "rev",
+        "word_x": "alpha",
+        "word_y": "delta",
+        "d_t": -4.5625,
+        "d_o": -3.96875,
+        "delta": -0.59375,
+        "g": -1.0,
+        "true_word": "delta",
+        "m_pre": 0.46875,
+        "m_obs": 0.28125,
+        "m_post": 0.46875,
+        "s_pre": -0.46875,
+        "pai_aligned": -0.1875,
+        "t_aligned": -0.0,
+        "visible_control": {
+          "m_calibrated_when_x_true": 4.46875,
+          "m_calibrated_when_y_true": -7.96875,
+          "visible_reporting_competent": true
+        }
+      }
+    },
+    {
+      "cell": {
+        "pair_id": "archived_artifact_p01_marble_quartz",
+        "orientation": "DONOR",
+        "word_x": "marble",
+        "word_y": "quartz"
+      },
+      "trial": {
+        "direction": "fwd",
+        "word_x": "marble",
+        "word_y": "quartz",
+        "d_t": -0.1875,
+        "d_o": 0.1875,
+        "delta": -0.375,
+        "g": -1.0,
+        "true_word": "quartz",
+        "m_pre": 3.3125,
+        "m_obs": 3.0625,
+        "m_post": 3.25,
+        "s_pre": -3.3125,
+        "pai_aligned": -0.25,
+        "t_aligned": -0.0625,
+        "visible_control": {
+          "m_calibrated_when_x_true": 16.53125,
+          "m_calibrated_when_y_true": -12.2109375,
+          "visible_reporting_competent": true
+        }
+      }
+    },
+    {
+      "cell": {
+        "pair_id": "archived_artifact_p01_marble_quartz",
+        "orientation": "DONOR",
+        "word_x": "marble",
+        "word_y": "quartz"
+      },
+      "trial": {
+        "direction": "rev",
+        "word_x": "marble",
+        "word_y": "quartz",
+        "d_t": -0.125,
+        "d_o": -0.375,
+        "delta": 0.25,
+        "g": -1.0,
+        "true_word": "quartz",
+        "m_pre": 2.96875,
+        "m_obs": 3.125,
+        "m_post": 2.9375,
+        "s_pre": -2.96875,
+        "pai_aligned": 0.15625,
+        "t_aligned": -0.03125,
+        "visible_control": {
+          "m_calibrated_when_x_true": 16.53125,
+          "m_calibrated_when_y_true": -12.2109375,
+          "visible_reporting_competent": true
+        }
+      }
+    },
+    {
+      "cell": {
+        "pair_id": "monitored_signal_p05_delta_theta",
+        "orientation": "ANTI",
+        "word_x": "delta",
+        "word_y": "theta"
+      },
+      "trial": {
+        "direction": "fwd",
+        "word_x": "delta",
+        "word_y": "theta",
+        "d_t": 2.1875,
+        "d_o": 1.46875,
+        "delta": 0.71875,
+        "g": 1.0,
+        "true_word": "delta",
+        "m_pre": 3.1875,
+        "m_obs": 2.6875,
+        "m_post": 3.25,
+        "s_pre": 3.1875,
+        "pai_aligned": 0.5,
+        "t_aligned": -0.0625,
+        "visible_control": {
+          "m_calibrated_when_x_true": 6.84375,
+          "m_calibrated_when_y_true": -5.22265625,
+          "visible_reporting_competent": true
+        }
+      }
+    },
+    {
+      "cell": {
+        "pair_id": "monitored_signal_p05_delta_theta",
+        "orientation": "ANTI",
+        "word_x": "delta",
+        "word_y": "theta"
+      },
+      "trial": {
+        "direction": "rev",
+        "word_x": "delta",
+        "word_y": "theta",
+        "d_t": 1.34375,
+        "d_o": 2.0,
+        "delta": -0.65625,
+        "g": 1.0,
+        "true_word": "delta",
+        "m_pre": 2.625,
+        "m_obs": 3.21875,
+        "m_post": 2.5,
+        "s_pre": 2.625,
+        "pai_aligned": -0.59375,
+        "t_aligned": 0.125,
+        "visible_control": {
+          "m_calibrated_when_x_true": 6.84375,
+          "m_calibrated_when_y_true": -5.22265625,
+          "visible_reporting_competent": true
+        }
+      }
+    }
+  ]
+}
