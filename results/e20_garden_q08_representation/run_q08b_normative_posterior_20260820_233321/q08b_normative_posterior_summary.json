@@ -1,0 +1,157 @@
+{
+  "aggregate_summary": {
+    "natural_decision_state": {
+      "mean_auc": 0.9079527243589745,
+      "std_auc": 0.032926836920582486,
+      "mean_rho": 0.9740609118603207,
+      "std_rho": 0.0035226456676797726,
+      "mean_r2": 0.9953770069094416
+    },
+    "forced_exploration_invariance": {
+      "mean_auc": 0.6606570512820512,
+      "std_auc": 0.2625198600858866,
+      "mean_rho": 0.37470668409570534,
+      "std_rho": 0.5612097839087344,
+      "mean_r2": -0.5478613902332845
+    }
+  },
+  "per_seed_results": {
+    "42": {
+      "natural_decision_state": {
+        "r2_score": 0.9963641034470424,
+        "spearman_rho": 0.9691094978644034,
+        "roc_auc": 0.9479166666666667
+      },
+      "natural_pregoal_state": {
+        "r2_score": 0.9374913761569003,
+        "spearman_rho": 0.9750776599902251,
+        "roc_auc": 0.9158653846153846
+      },
+      "forced_exploration_invariance": {
+        "r2_score": 0.9554215077246734,
+        "spearman_rho": 0.9656528870517518,
+        "roc_auc": 0.9294871794871795
+      }
+    },
+    "43": {
+      "natural_decision_state": {
+        "r2_score": 0.9944304088836853,
+        "spearman_rho": 0.9730940519367258,
+        "roc_auc": 0.8573717948717948
+      },
+      "natural_pregoal_state": {
+        "r2_score": 0.8870723487749448,
+        "spearman_rho": 0.9768186921233405,
+        "roc_auc": 0.8373397435897436
+      },
+      "forced_exploration_invariance": {
+        "r2_score": 0.2012722783886487,
+        "spearman_rho": 0.8402068685638983,
+        "roc_auc": 0.8878205128205128
+      }
+    },
+    "44": {
+      "natural_decision_state": {
+        "r2_score": 0.9942492126662854,
+        "spearman_rho": 0.9744815400705565,
+        "roc_auc": 0.9278846153846154
+      },
+      "natural_pregoal_state": {
+        "r2_score": 0.896609697916005,
+        "spearman_rho": 0.9664072212622706,
+        "roc_auc": 0.9342948717948718
+      },
+      "forced_exploration_invariance": {
+        "r2_score": 0.8376622624423682,
+        "spearman_rho": 0.8914703187156903,
+        "roc_auc": 0.9198717948717948
+      }
+    },
+    "45": {
+      "natural_decision_state": {
+        "r2_score": 0.9992392284198622,
+        "spearman_rho": 0.9755979564450662,
+        "roc_auc": 0.8629807692307693
+      },
+      "natural_pregoal_state": {
+        "r2_score": -1.5858208770514621,
+        "spearman_rho": 0.9419680182851564,
+        "roc_auc": 0.8894230769230769
+      },
+      "forced_exploration_invariance": {
+        "r2_score": -2.6940560516660432,
+        "spearman_rho": -0.6265961548851231,
+        "roc_auc": 0.20833333333333334
+      }
+    },
+    "46": {
+      "natural_decision_state": {
+        "r2_score": 0.9925362200964548,
+        "spearman_rho": 0.9713080063859578,
+        "roc_auc": 0.8958333333333333
+      },
+      "natural_pregoal_state": {
+        "r2_score": 0.39229363261552963,
+        "spearman_rho": 0.7016948053556524,
+        "roc_auc": 0.7852564102564102
+      },
+      "forced_exploration_invariance": {
+        "r2_score": 0.25950729413305806,
+        "spearman_rho": 0.5711960943760579,
+        "roc_auc": 0.7692307692307693
+      }
+    },
+    "47": {
+      "natural_decision_state": {
+        "r2_score": 0.9998365420515419,
+        "spearman_rho": 0.9738468688510244,
+        "roc_auc": 0.9286858974358974
+      },
+      "natural_pregoal_state": {
+        "r2_score": 0.9954813136103057,
+        "spearman_rho": 0.9865900065144965,
+        "roc_auc": 0.9118589743589743
+      },
+      "forced_exploration_invariance": {
+        "r2_score": -2.2116885658191157,
+        "spearman_rho": -0.422822155883778,
+        "roc_auc": 0.28205128205128205
+      }
+    },
+    "48": {
+      "natural_decision_state": {
+        "r2_score": 0.986507603613896,
+        "spearman_rho": 0.9819778727392979,
+        "roc_auc": 0.8974358974358975
+      },
+      "natural_pregoal_state": {
+        "r2_score": 0.9698031405557679,
+        "spearman_rho": 0.9861037982558325,
+        "roc_auc": 0.8733974358974359
+      },
+      "forced_exploration_invariance": {
+        "r2_score": -0.8582283192126918,
+        "spearman_rho": 0.3221653426800251,
+        "roc_auc": 0.6450320512820513
+      }
+    },
+    "49": {
+      "natural_decision_state": {
+        "r2_score": 0.999852736096765,
+        "spearman_rho": 0.9730715005895332,
+        "roc_auc": 0.9455128205128205
+      },
+      "natural_pregoal_state": {
+        "r2_score": 0.9610426135569713,
+        "spearman_rho": 0.9780456517509125,
+        "roc_auc": 0.9503205128205129
+      },
+      "forced_exploration_invariance": {
+        "r2_score": -0.8727815278571742,
+        "spearman_rho": 0.4563802721471205,
+        "roc_auc": 0.6434294871794871
+      }
+    }
+  },
+  "frozen_directions_path": "results\\e20_garden_q08_representation\\run_q08b_normative_posterior_20260820_233321\\frozen_controllability_directions.json"
+}
