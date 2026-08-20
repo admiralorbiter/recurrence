@@ -58,7 +58,7 @@ def evaluate_organism_controllability(
     trial_records = []
 
     for ep_idx in range(num_episodes):
-        world_type = "ctrl" if ep_idx % 2 == 0 else "yoked"
+        world_type = "ctrl" if (ep_idx // 2) % 2 == 0 else "yoked"
         goal = ep_idx % 2
         exp_len = 6
 
@@ -175,7 +175,7 @@ def evaluate_three_tier_observers(trial_records: List[Dict[str, Any]]) -> Dict[s
 def run_q07_controllability_experiment(
     seeds: List[int] = [42, 43, 44, 45, 46, 47, 48, 49],
     num_eval_episodes_per_seed: int = 100,
-    training_episodes: int = 1500,
+    training_episodes: int = 2500,
     output_dir: Optional[Path] = None,
 ) -> Dict[str, Any]:
     if output_dir is None:

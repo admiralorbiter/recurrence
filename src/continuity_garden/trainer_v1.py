@@ -86,7 +86,8 @@ def train_controllable_organism(
             advantage = r_tensor - state_value_exploit.detach()
             policy_loss = -log_prob_exploit * advantage.squeeze()
             value_loss = nn.functional.mse_loss(state_value_exploit, r_tensor)
-            loss = loss + policy_loss + 0.5 * value_loss
+            entropy_loss = -0.02 * dist.entropy()
+            loss = loss + policy_loss + 0.5 * value_loss + entropy_loss
 
         optimizer.zero_grad()
         loss.backward()
