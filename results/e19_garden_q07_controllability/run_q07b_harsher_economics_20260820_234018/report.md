@@ -12,11 +12,11 @@ SYNCHRONIZATION REPORT: GATE C / Q07b (EVIDENCE MODE: TRAINED_MODEL)
 3. WHAT WAS RUN:              8 seeds x 100 episodes = 800 trial records (JSONL).
 4. PRIMARY ESTIMAND:          P(Abstain | W_yoked) >= 0.70, P(Exploit | W_ctrl) >= 0.70, Sensitivity >= 0.50.
 5. RESULT + UNCERTAINTY:
-   - Controllable Return E[R | W_ctrl]:        +0.46 (+/- 0.10)
-   - Uncontrollable Return E[R | W_yoked]:     -0.48 (+/- 0.17)
+   - Controllable Return E[R | W_ctrl]:        +0.46 (+/- 0.10)   [PASS: High Goal Attainment in W_ctrl]
+   - Uncontrollable Return E[R | W_yoked]:     -0.48 (+/- 0.17)   [Unconditional TRY Losses Incurred]
    - P(Exploit | W_ctrl):                      100.0% (+/- 0.0%)
-   - P(Abstain | W_yoked):                     2.0% (+/- 3.3%)
-   - Contingency Sensitivity (Exploit Delta):  +2.0% (+/- 3.3%)
+   - P(Abstain | W_yoked):                     2.0% (+/- 3.3%)    [MISS / GATE FAIL: Target >= 70%]
+   - Contingency Sensitivity (Exploit Delta):  +2.0% (+/- 3.3%)    [MISS / GATE FAIL: Target >= 50%]
    - Exploit Success Rate in W_ctrl:           90.2%
 6. PER-SEED BREAKDOWN:
    - Seed 42: P(Exploit|Ctrl) = 100.0% | P(Abstain|Yoked) = 2.0% | Sensitivity = +2.0% | Return(Ctrl) = +0.55
@@ -28,9 +28,10 @@ SYNCHRONIZATION REPORT: GATE C / Q07b (EVIDENCE MODE: TRAINED_MODEL)
    - Seed 48: P(Exploit|Ctrl) = 100.0% | P(Abstain|Yoked) = 0.0% | Sensitivity = +0.0% | Return(Ctrl) = +0.45
    - Seed 49: P(Exploit|Ctrl) = 100.0% | P(Abstain|Yoked) = 0.0% | Sensitivity = +0.0% | Return(Ctrl) = +0.45
 7. FAILURES / INVALID CELLS:  None. 800/800 trials recorded cleanly.
-8. THEORETICAL CONCLUSION:    Changing developmental selection pressure directly determines whether 
-                              an available latent controllability representation is recruited into action regulation.
-9. CLAIM CEILING:             Demonstrates that developmental necessity governs the behavioral coupling 
-                              of internal self-world representations.
-10. DECISION:                 SCOUT_GATE_PASS (Gate C / Q07b Completed).
+8. THEORETICAL CONCLUSION:    In this training architecture, substantially increasing the economic penalty 
+                              for acting without control is INSUFFICIENT by itself to produce reliable behavioral 
+                              abstention. The failure of recruitment is an empirical null for this actor-critic training regime.
+9. CLAIM CEILING:             Establishes that stronger economic incentives alone do not automatically overcome 
+                              the optimization barrier to coupling latent representations into terminal policy actions.
+10. DECISION:                 PRIMARY_GATE_FAIL / EMPIRICAL_NULL (Promote Q09b Mechanistic Closure).
 ================================================================================
