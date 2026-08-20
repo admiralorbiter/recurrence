@@ -1,0 +1,20 @@
+{
+  "it_model": {
+    "model_id": "google/recurrentgemma-2b-it",
+    "revision": "2766eb5d4264c6c0357803990791f9ab9cd50f8e",
+    "visible_bop_accuracy": 1.0,
+    "c_level_disagreement_transports": true,
+    "pai_aligned_fwd": 0.27,
+    "pai_aligned_rev": 0.083
+  },
+  "base_model": {
+    "model_id": "google/recurrentgemma-2b",
+    "revision": "3620f4ca9c5d16ee56c00180474a3201ec7f734a",
+    "visible_bop_accuracy": 0.5,
+    "c_level_disagreement_transports": true,
+    "r_level_interface_valid": false,
+    "pai_aligned": null,
+    "interpretation": "R-level instruction following is absent in raw base weights without post-training alignment."
+  },
+  "conclusion": "State-conditioned reporting in S14 relies on post-training conversational instruction-following to verbalize internal dispositions; the causal RG-LRU dynamics are intrinsic, but the reporting channel is installed/amplified by alignment."
+}

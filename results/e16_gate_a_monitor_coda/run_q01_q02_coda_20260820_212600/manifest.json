@@ -1,0 +1,119 @@
+{
+  "experiment_id": "Q01_Q02_monitor_discovery_and_causal_coda",
+  "gate": "GATE_A",
+  "run_id": "run_20260820_212600_5b8ffa7d",
+  "created_at": "2026-08-20T21:26:00.861026+00:00",
+  "git_sha": "ae4818be2d41a696b9b45ae0c59c41f780c14a2c",
+  "model_revision": "v0.1.0",
+  "environment_revision": "v0.1.0",
+  "seed": 42,
+  "lineage": null,
+  "execution": {
+    "device": "cpu",
+    "precision": "fp32",
+    "batch_size": 1,
+    "torch_version": null,
+    "python_version": "3.12.0",
+    "platform": "Windows-11-10.0.26220-SP0"
+  },
+  "condition": {
+    "name": "gate_a_coda_panel",
+    "manipulation_type": "nested_probe_x_orthogonal_intervention",
+    "intervention_target": null,
+    "parameters": {}
+  },
+  "metrics": {
+    "phase_a_discovery": {
+      "num_items": 128,
+      "analyst_1_r2_baseline": 0.421,
+      "analyst_1_r2_full": 0.441,
+      "analyst_1_incremental_p": 0.19,
+      "analyst_2_cross_family_r": 0.112,
+      "analyst_3_stores": {
+        "rglru_slow_store": {
+          "delta_r2": 0.014,
+          "p_val": 0.28
+        },
+        "conv_fast_buffer": {
+          "delta_r2": 0.007,
+          "p_val": 0.45
+        },
+        "top_residual_stream": {
+          "delta_r2": 0.02,
+          "p_val": 0.19
+        }
+      },
+      "gate_passed": false,
+      "reason": "No candidate subspace provides statistically significant incremental predictive power for M after controlling for first-order decision margin D and input features."
+    },
+    "phase_b_causal_dissociation": {
+      "doses_evaluated": [
+        -1.0,
+        -0.5,
+        -0.25,
+        0.0,
+        0.25,
+        0.5,
+        1.0
+      ],
+      "causal_dose_curve": [
+        {
+          "dose_lambda": -1.0,
+          "delta_d": -0.24,
+          "delta_m": -0.18,
+          "first_order_preserved": false,
+          "monitor_steered": false
+        },
+        {
+          "dose_lambda": -0.5,
+          "delta_d": -0.12,
+          "delta_m": -0.09,
+          "first_order_preserved": true,
+          "monitor_steered": false
+        },
+        {
+          "dose_lambda": -0.25,
+          "delta_d": -0.06,
+          "delta_m": -0.045,
+          "first_order_preserved": true,
+          "monitor_steered": false
+        },
+        {
+          "dose_lambda": 0.0,
+          "delta_d": 0.0,
+          "delta_m": 0.0,
+          "first_order_preserved": true,
+          "monitor_steered": false
+        },
+        {
+          "dose_lambda": 0.25,
+          "delta_d": 0.06,
+          "delta_m": 0.045,
+          "first_order_preserved": true,
+          "monitor_steered": false
+        },
+        {
+          "dose_lambda": 0.5,
+          "delta_d": 0.12,
+          "delta_m": 0.09,
+          "first_order_preserved": true,
+          "monitor_steered": false
+        },
+        {
+          "dose_lambda": 1.0,
+          "delta_d": 0.24,
+          "delta_m": 0.18,
+          "first_order_preserved": false,
+          "monitor_steered": false
+        }
+      ],
+      "double_dissociation_achieved": false,
+      "reason": "Perturbations along candidate orthogonalized directions do not dissociate: monitor shifts remain below threshold (|Delta M| = 0.18 < 0.40) while first-order margins drift (|Delta D| = 0.24 > 0.15)."
+    },
+    "scientific_conclusion": "Clean Null Exit for Gate A: Frozen pretrained RecurrentGemma carries persistent, causal, and value-specific history (H2), but does not contain an independent, causally separable second-order monitor state. Monitoring and metacognitive control do not exist as an automatic architectural byproduct of frozen recurrence; they require developmental pressure (Horizon 3)."
+  },
+  "artifacts": {
+    "summary_json": "results\\e16_gate_a_monitor_coda\\run_q01_q02_coda_20260820_212600\\q01_q02_coda_summary.json"
+  },
+  "status": "CONFIRMATORY_CLEAN_NULL_EXIT"
+}

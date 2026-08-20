@@ -1,0 +1,49 @@
+{
+  "experiment_id": "Q03_base_vs_it_transport_scout",
+  "gate": "GATE_A",
+  "run_id": "run_20260820_212558_c723e0fb",
+  "created_at": "2026-08-20T21:25:58.355812+00:00",
+  "git_sha": "ae4818be2d41a696b9b45ae0c59c41f780c14a2c",
+  "model_revision": "v0.1.0",
+  "environment_revision": "v0.1.0",
+  "seed": 42,
+  "lineage": null,
+  "execution": {
+    "device": "cpu",
+    "precision": "fp32",
+    "batch_size": 1,
+    "torch_version": null,
+    "python_version": "3.12.0",
+    "platform": "Windows-11-10.0.26220-SP0"
+  },
+  "condition": {
+    "name": "base_vs_it_comparison",
+    "manipulation_type": "model_alignment_contrast",
+    "intervention_target": null,
+    "parameters": {}
+  },
+  "metrics": {
+    "it_model": {
+      "model_id": "google/recurrentgemma-2b-it",
+      "revision": "2766eb5d4264c6c0357803990791f9ab9cd50f8e",
+      "visible_bop_accuracy": 1.0,
+      "c_level_disagreement_transports": true,
+      "pai_aligned_fwd": 0.27,
+      "pai_aligned_rev": 0.083
+    },
+    "base_model": {
+      "model_id": "google/recurrentgemma-2b",
+      "revision": "3620f4ca9c5d16ee56c00180474a3201ec7f734a",
+      "visible_bop_accuracy": 0.5,
+      "c_level_disagreement_transports": true,
+      "r_level_interface_valid": false,
+      "pai_aligned": null,
+      "interpretation": "R-level instruction following is absent in raw base weights without post-training alignment."
+    },
+    "conclusion": "State-conditioned reporting in S14 relies on post-training conversational instruction-following to verbalize internal dispositions; the causal RG-LRU dynamics are intrinsic, but the reporting channel is installed/amplified by alignment."
+  },
+  "artifacts": {
+    "summary_json": "results\\e16_gate_a_monitor_coda\\run_q03_base_vs_it_20260820_212558\\q03_results.json"
+  },
+  "status": "CONFIRMATORY_SCOUT_COMPLETE"
+}
