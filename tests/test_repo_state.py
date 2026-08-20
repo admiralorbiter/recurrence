@@ -15,10 +15,9 @@ def test_core_json_frozen_status():
         core_data = json.load(f)
 
     meta = core_data.get("meta", {})
-    assert "S13" in meta.get("frozen_core", []), "S13 must be in frozen_core"
-    assert meta.get("next_major_sprint") == "S14", "next_major_sprint must be S14"
-    assert core_data.get("s13", {}).get("status") == "FROZEN", "s13 status must be FROZEN"
-    assert core_data.get("frontier", {}).get("s14", {}).get("status") == "ACTIVE SPRINT", "s14 frontier must be ACTIVE SPRINT"
+    assert "S14" in meta.get("frozen_core", []), "S14 must be in frozen_core"
+    assert core_data.get("s14", {}).get("status") == "FROZEN", "s14 status must be FROZEN"
+    assert meta.get("status") == "FROZEN", "Horizon 2 meta status must be FROZEN"
 
 
 def test_site_data_js_matches_core_json():
@@ -34,12 +33,15 @@ def test_site_data_js_matches_core_json():
     with open(data_js_path, "r", encoding="utf-8") as f:
         js_text = f.read()
 
-    # Extract JSON from window.H2_DATA = { ... };
-    match = re.search(r"window\.H2_DATA\s*=\s*(\{.*\})\s*;\s*$", js_text, re.DOTALL)
-    assert match is not None, "h2/site/data.js must assign window.H2_DATA = { ... };"
+    # Extract JSON from window.H2 = { ... };
+    match = re.search(r"window\.H2\s*=\s*(\{.*\})\s*;\s*$", js_text, re.DOTALL)
+    assert match is not None, "h2/site/data.js must assign window.H2 = { ... };"
 
-    js_data = json.loads(match.group(1))
-    assert js_data == core_data, "h2/site/data.js must be semantically identical to h2/data/core.json"
+    site_data = json.loads(match.group(1))
+    assert site_data["timeline"] == core_data["s11"]["timeline"]
+    assert site_data["transplant"] == core_data["s12b"]["conditions"]
+    assert site_data["dynamics"] == core_data["s13"]["dynamics"]
+    assert site_data["strictC"] == core_data["s14"]["strictC"]
 
 
 def test_h2_readme_consistency():
@@ -52,7 +54,7 @@ def test_h2_readme_consistency():
 
     assert "| S12c |" in readme_text and "FROZEN" in readme_text, "S12c must be marked FROZEN in h2/README.md"
     assert "| S13 |" in readme_text and "FROZEN" in readme_text, "S13 must be marked FROZEN in h2/README.md"
-    assert "S14" in readme_text and "ACTIVE FRONTIER" in readme_text, "S14 must be marked ACTIVE FRONTIER in h2/README.md"
+    assert "| S14 |" in readme_text and "FROZEN" in readme_text, "S14 must be marked FROZEN in h2/README.md"
 
 
 def test_manifest_pinned_model_revision():

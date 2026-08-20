@@ -17,11 +17,53 @@ If such a monitor exists in the frozen weights, Horizon 2 has a major discovery 
 
 ---
 
-## 2. The $2 \times 2$ Factorial Double Dissociation Design
+## 2. Two-Phase Experimental Design
 
-We define two measurable computational quantities in a decision task:
-1. **First-Order Content ($C$):** The specific task decision or token disposition ($D(x, y) = z(x) - z(y)$).
-2. **Monitor State ($M$):** The internal representation of uncertainty, conflict, or readiness (e.g., confidence margin, entropy, or metacognitive judgment).
+Rather than assuming a monitor subspace $M$ exists, S16 proceeds in two sequential phases with an explicit stop rule.
+
+```
+                              SPRINT S16 TWO-STAGE PIPELINE
+                              
+  [Phase A: Discovery & Localization]
+    │  - Search for internal variables predicting confidence/uncertainty after controlling for C
+    │  - Check linear probes, Jacobian sensitivity, and store/layer localization
+    ▼
+  Candidate Found? ───( NO )───► [ Clean Null Exit: Proceed to Horizon 3 Development ]
+    │ ( YES )
+    ▼
+  [Phase B: Causal 2x2 Factorial Dissociation]
+    │  - Factorial intervention: Content (C_0 vs C_1) x Candidate Monitor (M_0 vs M_1)
+    │  - Evaluate first-order preservation (|Delta C| < epsilon) and monitor steering
+    ▼
+  Double Dissociation Confirmed? ───( YES )───► [ Deeper Horizon 2 Characterization ]
+    │ ( NO )
+    ▼
+  [ Clean Null Exit: Horizon 3 Developmental Bring-Up ]
+```
+
+---
+
+## 3. Phase A: Discovery & Correlation Protocol
+
+**Objective:** Identify whether any internal variable or subspace $M$ predicts confidence, conflict, or reporting *after controlling for the first-order decision margin $D(x,y)$*.
+
+### Candidate Subspaces to Screen:
+1. **Store Dissociation:** Slow RG-LRU recurrent memory vs. Fast Conv1D rolling buffer / Top-layer residual stream.
+2. **Attention Entropy Direction:** The principal singular vector of attention weight dispersion during high-conflict prompts.
+3. **Task-Conflict Contrast Vector:** The differential activation vector between high-margin ($|D| > 2.0$) and near-zero-margin ($|D| < 0.10$) prompt evaluations.
+
+### Phase A Gate:
+A candidate subspace $M$ passes Phase A if:
+- Partial correlation $r(M, \text{Report} \mid C) > 0.30$ ($p < 0.01$).
+- The direction is stable across at least two distinct semantic template families.
+
+*If no candidate subspace satisfies these criteria across 40 screening trials, terminate S16 immediately and declare no separable monitor exists in frozen weights.*
+
+---
+
+## 4. Phase B: Causal $2 \times 2$ Factorial Intervention Protocol
+
+**Objective:** Test whether candidate subspace $M$ and first-order decision state $C$ can be causally double-dissociated.
 
 ```
                               THE 2 x 2 FACTORIAL INTERVENTION MATRIX
@@ -37,35 +79,18 @@ We define two measurable computational quantities in a decision task:
   └─────────────────────┴──────────────────────────────┴──────────────────────────────┘
 ```
 
-### Diagnostic Success Criteria:
-- **Cell $(C_0, M_1)$:** First-order answer remains stable ($|D_{C_0, M_1} - D_{C_0, M_0}| < \epsilon$), but the verbal confidence report or routing choice shifts significantly.
-- **Cell $(C_1, M_0)$:** First-order answer changes direction ($D_{C_1, M_0} \cdot D_{C_0, M_0} < 0$), while the monitor correctly reflects the new state without being identical to the content representation.
-
----
-
-## 3. Operational Global-Workspace Hallmarks
-
-Following recent operational workspace frameworks (e.g., Anthropic, 2026), a candidate monitor/workspace representation must satisfy four functional properties:
-
-1. **Reportability:** The monitor state can be queried and verbalized across different prompt formats.
-2. **Controllability:** Intervening on the candidate subspace predictably modulates confidence/routing.
-3. **Flexible Task Reuse:** The same candidate subspace is utilized across at least two distinct task domains (e.g. factual retrieval vs. lexical choice).
-4. **Selective Non-Destructive Mediation:** Lesioning or clamping the candidate monitor subspace alters self-assessment without destroying general language fluency or first-order accuracy.
-
----
-
-## 4. Candidate State Subspaces
-
-1. **Subspace 1 (Store Isolation):** RG-LRU recurrent memory (slow carrier) vs. Top-layer residual / Conv1D buffer (fast monitor).
-2. **Subspace 2 (Attention Entropy Direction):** The projection along the singular vector that tracks attention dispersion or token competition during ambiguous prompts.
-3. **Subspace 3 (Readiness Vector):** The differential activation vector between high-conflict and low-conflict decision states.
+### Pre-Registered Causal Thresholds:
+1. **First-Order Preservation Tolerance ($\epsilon$):** In the $(C_0, M_1)$ cell, first-order decision margin must remain stable within $|\Delta D| \le 0.15$ logits.
+2. **Monitor Steering Effect:** In the $(C_0, M_1)$ cell, the verbalized confidence report or downstream routing choice must shift by at least $|\Delta \text{Report}| \ge 0.40$ logits ($p < 0.05$).
+3. **Controls Required:**
+   - *Norm-matched random direction control:* Verifies effects are not generic activation shocks.
+   - *Language fluency check:* Output perplexity on standard filler text must increase by less than $10\%$.
+   - *Matched observer control:* Target report shift must exceed third-party text inference.
 
 ---
 
 ## 5. Hard Budget & Pre-Registered Stop Rules
 
-To prevent endless exploratory tuning of frozen pretrained weights, S16 operates under strict pre-registered stop rules:
-
 1. **Execution Budget:** Maximum 1 task domain, 3 candidate projection vectors, 40 total evaluation trials.
-2. **Stop Rule (No Dissociation):** If every intervention on $M$ symmetrically alters $C$ (or vice-versa), or if perturbing $M$ causes generic language degradation, **terminate the scout and declare that no separable monitor state exists in the frozen pretrained architecture.**
+2. **Stop Rule:** If every intervention on $M$ symmetrically alters $C$ (or vice-versa), or if perturbing $M$ causes generic language degradation, **terminate the scout and declare that no separable monitor state exists in the frozen pretrained architecture.**
 3. **Transition Trigger:** A clean null on this $2 \times 2$ scout establishes the definitive boundary of Horizon 2 and triggers the formal transition to **Horizon 3 (The Continuity Garden / Developmental Organism Bring-Up)**.

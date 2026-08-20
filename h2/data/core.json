@@ -3,10 +3,11 @@
     "title": "The Memory That Couldn't Remember",
     "subtitle": "A journey beyond the attention window",
     "model": "google/recurrentgemma-2b",
+    "model_it": "google/recurrentgemma-2b-it",
     "attention_window": 2048,
     "conv_width": 4,
-    "frozen_core": ["S10", "S11b", "S12b", "S12c", "S13"],
-    "next_major_sprint": "S14"
+    "frozen_core": ["S10", "S11b", "S12b", "S12c", "S13", "S14"],
+    "status": "FROZEN"
   },
   "architecture": [
     {
@@ -38,17 +39,18 @@
     "status": "FROZEN",
     "claim": "Under deterministic execution, hidden recurrent state is exactly reconstructible from the same public token history.",
     "guardrail": "Hidden does not imply informationally privileged.",
-    "source": "docs/H2_Core_Retrospective_Memo.md"
+    "source": "docs/S10_Multi_Store_Plumbing_Report.md"
   },
   "s11": {
     "status": "FROZEN",
-    "lags": [0, 1, 2, 3, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2040, 2047, 2048, 2049, 4096],
-    "constant": {
-      "rglru_retention": [1.0, 0.842, 0.767, 0.692, 0.633, 0.46, 0.386, 0.307, 0.292, 0.254, 0.234, 0.196, 0.194, 0.291, 0.286, 0.285, 0.285, 0.34],
-      "kv_retention": [1.0, 0.962, 0.925, 0.885, 0.849, 0.748, 0.623, 0.494, 0.399, 0.309, 0.244, 0.196, 0.153, 0.124, 0.106, 0.105, 0.105, 0.086],
-      "cloze_margin": [10.78, 11.03, 11.14, 10.86, 10.47, 12.26, 11.11, 7.85, 3.73, 4.96, 0.54, 1.85, 0.62, 0.5, 0.47, 0.52, 0.52, -0.03],
-      "cloze_accuracy": [1.0, 1.0, 0.97, 1.0, 1.0, 1.0, 0.95, 0.95, 0.82, 0.9, 0.55, 0.72, 0.55, 0.57, 0.5, 0.5, 0.5, 0.5]
-    },
+    "timeline": [
+      { "n": 0, "label": "Origin", "conv": true, "kv": true, "r": 1.0000, "recall": 1.0, "note": "The event is fresh. All stores carry direct traces." },
+      { "n": 3, "label": "Conv turnover", "conv": false, "kv": true, "r": 0.6920, "recall": 1.0, "note": "The four-token convolution buffer no longer directly contains the event." },
+      { "n": 256, "label": "256", "conv": false, "kv": true, "r": 0.2340, "recall": 0.55, "note": "Behavioral retrieval is already deteriorating while recurrent separation remains measurable." },
+      { "n": 1024, "label": "1024", "conv": false, "kv": true, "r": 0.1940, "recall": 0.55, "note": "The recurrent difference survives continued processing." },
+      { "n": 2048, "label": "1W", "conv": false, "kv": false, "r": 0.2850, "recall": 0.50, "note": "The original event has turned over from the local attention window." },
+      { "n": 4096, "label": "2W", "conv": false, "kv": false, "r": 0.3384, "recall": 0.50, "note": "At 2W, branch-specific RG-LRU separation is resolved while the paired cloze probe is unresolved." }
+    ],
     "two_window_regimes": [
       {
         "id": "constant",
@@ -64,7 +66,7 @@
         "rglru_retention": 0.0798,
         "retention_ci": [0.0734, 0.0864],
         "cloze_margin": 0.0044,
-        "cloze_ci": [-0.075, 0.0844]
+        "cloze_ci": [-0.0750, 0.0844]
       },
       {
         "id": "natural",
@@ -79,66 +81,23 @@
         "label": "Random tokens",
         "rglru_retention": 0.0453,
         "retention_ci": [0.0402, 0.0501],
-        "cloze_margin": -0.003,
+        "cloze_margin": -0.0030,
         "cloze_ci": [-0.0203, 0.0125]
       }
     ],
     "source": "docs/S11_Latent_Impulse_Retention_Report.md"
   },
-  "s12": {
+  "s12b": {
     "status": "FROZEN",
+    "title": "Causal State Swaps",
     "conditions": [
-      {
-        "id": "match",
-        "label": "Matching RG-LRU",
-        "short": "RIGHT PAST",
-        "estimate": 74.0994,
-        "ci": [46.7899, 106.7161]
-      },
-      {
-        "id": "unrelated",
-        "label": "Unrelated structured donor",
-        "short": "OTHER PAST +1",
-        "estimate": 54.4236,
-        "ci": [32.2609, 77.1805]
-      },
-      {
-        "id": "permuted",
-        "label": "Permuted structured donor",
-        "short": "OTHER PAST +7",
-        "estimate": 44.459,
-        "ci": [32.0241, 57.583]
-      },
-      {
-        "id": "noise",
-        "label": "Matched Frobenius noise",
-        "short": "MATCHED NOISE",
-        "estimate": 17.6393,
-        "ci": [10.7672, 25.4122]
-      },
-      {
-        "id": "kv",
-        "label": "KV state swap",
-        "short": "KV",
-        "estimate": 62.4483,
-        "ci": [54.7684, 69.7399]
-      },
-      {
-        "id": "whole",
-        "label": "Whole state swap",
-        "short": "WHOLE STATE",
-        "estimate": 136.5477,
-        "ci": [111.7998, 165.1752]
-      }
+      { "id": "match", "label": "Matching RG-LRU", "short": "MATCHING", "estimate": 74.0994, "ci": [46.7899, 106.7161], "copy": "Matching recurrent history strongly steers the recipient toward the donor trajectory." },
+      { "id": "unrelated", "label": "Unrelated structured donor", "short": "UNRELATED", "estimate": 54.4236, "ci": [32.2609, 77.1805], "copy": "Unrelated structured states also exert a large shared steering component." },
+      { "id": "permuted", "label": "Permuted structured donor", "short": "PERMUTED", "estimate": 44.4590, "ci": [32.0241, 57.5830], "copy": "Permuted donor states retain moderate causal leverage." },
+      { "id": "noise", "label": "Matched Frobenius noise", "short": "NOISE", "estimate": 17.6393, "ci": [10.7672, 25.4122], "copy": "Matched noise perturbs the system, but structured states are far more effective." },
+      { "id": "kv", "label": "KV state swap", "short": "KV SWAP", "estimate": 62.4483, "ci": [54.7684, 69.7399], "copy": "Transplanting sliding KV cache steers local generation." },
+      { "id": "whole", "label": "Whole state swap", "short": "WHOLE STATE", "estimate": 136.5477, "ci": [111.7998, 165.1752], "copy": "Whole-state transplantation is the positive-control ceiling for S12b." }
     ],
-    "specificity": {
-      "matching_minus_unrelated": 19.6759,
-      "matching_minus_unrelated_ci": [1.8384, 39.1219],
-      "matching_minus_permuted": 29.6404,
-      "matching_minus_permuted_ci": [11.8234, 52.4697],
-      "matching_minus_noise": 56.4601,
-      "matching_minus_noise_ci": [29.449, 89.4735]
-    },
     "store_race": {
       "alpha_kv": 0.632,
       "alpha_rglru": 0.368,
@@ -146,32 +105,11 @@
       "absolute_ci": [-49.0193, 20.1108],
       "inference": "UNRESOLVED"
     },
-    "growth": {
-      "p_rglru_l8": 18.2964,
-      "p_rglru_w_plus_1": 21.4408,
-      "p_rglru_2w": 74.0994,
-      "delta_2w_minus_w_plus_1": 52.6587,
-      "delta_ci": [26.6603, 83.781]
-    },
-    "mediation": [
-      {
-        "tokens_after_graft": 512,
-        "m_post": -0.451,
-        "interpretation": "strongly recipient-anchored"
-      },
-      {
-        "tokens_after_graft": 2048,
-        "m_post": -0.23,
-        "interpretation": "less recipient-anchored; grand mean still recipient-side"
-      }
-    ],
     "source": "docs/S12_Surgical_Store_Swaps_Report.md"
   },
   "s12c": {
     "status": "FROZEN",
     "title": "Specificity Microscope",
-    "question": "Does RG-LRU state carry value-specific historical information when sentence template is held fixed?",
-    "implemented_panel": "24 value pairs across 4 template families × 4 filler regimes × 14 intervention conditions (1344 records)",
     "delta_p_value_spec": 38.4939,
     "delta_p_value_spec_ci": [25.8180, 50.8524],
     "delta_proj_value_spec": 0.1744,
@@ -186,74 +124,41 @@
   "s13": {
     "status": "FROZEN",
     "title": "Controlled Recurrent Dynamics & Coordinate Reorientation",
-    "question": "How does surviving value-specific recurrent memory evolve across 2,048 tokens of future task-irrelevant drive?",
-    "implemented_panel": "24 value pairs × 4 drive regimes × 2 causal arms × 6 horizons (11,520 records, B=10,000 bootstrap)",
-    "v0_n0": 39.58,
-    "v0_n0_ci": [2.97, 77.03],
-    "v0_n2048": 4.70,
-    "v0_n2048_ci": [-5.52, 15.85],
-    "delta_v_carry_n2048": 4.41,
-    "delta_v_carry_n2048_ci": [-8.54, 17.71],
-    "vN_n2048": 13.95,
-    "vN_n2048_ci": [3.20, 24.72],
-    "c_r_n2048": 0.1238,
-    "c_r_n2048_ci": [0.0953, 0.1545],
-    "q_r_n2048": 4.8504,
-    "q_r_n2048_ci": [3.2012, 6.6837],
-    "c_logit_n2048": 0.0391,
-    "c_logit_n2048_ci": [-0.0504, 0.1280],
-    "sensitivity_panel": "4-pair strict same-four B=1 vs B=5 comparison confirms aggregate C_R reorientation robustness with trajectory-level execution sensitivity.",
+    "dynamics": [
+      { "n": 0, "v0": 39.58, "vn": 39.58, "cr": 1.0000, "qr": 1.00, "angle": 0 },
+      { "n": 16, "v0": 4.85, "vn": 11.44, "cr": 0.6092, "qr": 1.10, "angle": 22 },
+      { "n": 64, "v0": -2.96, "vn": 31.96, "cr": 0.4843, "qr": 1.10, "angle": 39 },
+      { "n": 256, "v0": 1.45, "vn": 7.21, "cr": 0.3306, "qr": 1.24, "angle": 58 },
+      { "n": 1024, "v0": -16.19, "vn": 9.57, "cr": 0.1660, "qr": 1.79, "angle": 76 },
+      { "n": 2048, "v0": 4.70, "vn": 13.95, "cr": 0.1238, "qr": 4.85, "angle": 83 }
+    ],
     "source": "results/e13_controlled_recurrent_dynamics/run_e13_confirmatory_20260819_140139/report.md"
   },
-  "frontier": {
-    "s14": {
-      "status": "ACTIVE SPRINT",
-      "title": "Latent Metacognition, Reality Monitoring & State Ownership",
-      "question": "A history-conditioned latent distinction persists causally while its representational coordinates evolve. Does the model have any privileged access to that evolving latent distinction?"
-    }
+  "s14": {
+    "status": "FROZEN",
+    "title": "Latent Metacognition & Intention Provenance",
+    "strictC": {
+      "fwd": { "truth": "alkali", "dt": 0.531, "d0": -0.484, "delta": 1.016, "mpre": -1.770, "mobs": -2.039, "pai": 0.270, "matched": -1.789, "timing": 0.020 },
+      "rev": { "truth": "antonio", "dt": -0.547, "d0": 0.469, "delta": -1.016, "mpre": -1.742, "mobs": -1.659, "pai": 0.083, "matched": -1.795, "timing": 0.053 }
+    },
+    "tost": {
+      "evolved": { "mean": 0.0033, "ci90": [-0.0222, 0.0288], "ci95": [-0.0285, 0.0351], "p": 8.99e-5 },
+      "matched": { "mean": 0.0348, "ci90": [-0.0002, 0.0698], "ci95": [-0.0089, 0.0785], "p": 0.0048 }
+    },
+    "tiers": [
+      { "name": "Strict-C", "n": 2, "detail": "quartz_basalt FWD & REV", "tone": "acid" },
+      { "name": "Boundary / weak", "n": 3, "detail": "marble_quartz FWD; basalt_granite REV; amber_garnet REV", "tone": "amber" },
+      { "name": "Clear same-choice controls", "n": 11, "detail": "continuous causal shifts without discrete target/observer disagreement", "tone": "cyan" }
+    ],
+    "source": "docs/S14_Latent_Metacognition_and_Intention_Report.md"
   },
-  "taxonomy": [
-    {
-      "property": "Reconstructible",
-      "answer": "YES",
-      "status": "FROZEN",
-      "note": "Public-history replay reconstructs deterministic hidden state (S10)."
-    },
-    {
-      "property": "Persistent",
-      "answer": "YES",
-      "status": "FROZEN",
-      "note": "Branch-specific RG-LRU traces remain at 2W (S11b)."
-    },
-    {
-      "property": "Causally operative",
-      "answer": "YES",
-      "status": "FROZEN",
-      "note": "Matching RG-LRU transplantation causally steers downstream logits (S12b)."
-    },
-    {
-      "property": "Value-specific",
-      "answer": "YES",
-      "status": "FROZEN",
-      "note": "Holding template fixed, matching history adds +38.49 [25.82, 50.85] over same-template wrong values (S12c)."
-    },
-    {
-      "property": "Coordinate-stable over time",
-      "answer": "NO",
-      "status": "FROZEN",
-      "note": "Historical u_0 steering decays to near-zero (+4.70 [-5.52, +15.85]) while state difference reorients (C_R -> 0.12) and contemporaneous steering remains positive (V^(N) = +13.95 [3.20, 24.72]) (S13)."
-    },
-    {
-      "property": "Explicitly reportable at 2W",
-      "answer": "NO RESOLVED RETRIEVAL",
-      "status": "FROZEN",
-      "note": "Zero-shot factual cloze margins at 2W span zero across tested filler regimes."
-    },
-    {
-      "property": "Owned / privileged",
-      "answer": "UNKNOWN",
-      "status": "OPEN QUESTION",
-      "note": "Topic of S14+: Testing whether the system has metacognitive access or ownership over evolving latent distinctions."
-    }
+  "ladder": [
+    { "n": "01", "left": "Hidden", "right": "Privileged", "answer": "NO", "detail": "S10: deterministic public-history replay reconstructs hidden state." },
+    { "n": "02", "left": "Persistent", "right": "Reportable", "answer": "NO", "detail": "S11b: RG-LRU separation survives after direct local residency and factual retrieval resolve apart." },
+    { "n": "03", "left": "Different", "right": "Causal", "answer": "NO", "detail": "S12b: only surgical transplantation establishes causal leverage." },
+    { "n": "04", "left": "Causal", "right": "Specific", "answer": "NO", "detail": "S12c: matching history adds a selective increment over wrong-value and cross-history states." },
+    { "n": "05", "left": "Specific", "right": "Coordinate-stable", "answer": "NO", "detail": "S13: the historical axis dissolves while contemporaneous steerability survives." },
+    { "n": "06", "left": "State-sensitive report", "right": "Generic read head", "answer": "NO", "detail": "S14: report modulation is local to the strict-C cell, not globally coupled to arbitrary perturbations." },
+    { "n": "07", "left": "State-conditioned reporting", "right": "Historical provenance", "answer": "NO", "detail": "S14: matched POST reproduces the report without prior decision participation." }
   ]
 }

@@ -34,7 +34,7 @@ This file indexes durable program decisions. Major future decisions should recei
 | **PD-01** | Primary matched base/instruct model family | model inventory and profile | S01–S03 | **RESOLVED** (Qwen2.5:3b for H1; RecurrentGemma-2B for H2) |
 | **PD-03** | Level 1 state representation: JSON, free text, or hybrid | E03 pilot | S04 | **RESOLVED** (Structured JSON state schema) |
 | **PD-04** | First native recurrent substrate | state-access prototype | S10 | **RESOLVED** (`google/recurrentgemma-2b` via DR-0014) |
-| **PD-05** | Recurrent adapter write/read locations | native-state findings | S13–S15 | Pending S14 findings |
-| **PD-06** | Organism v0 core architecture | Level 2 gate | S18 | Pending Level 2 synthesis |
-| **PD-07** | Initial endogenous variables | regulation pilot | S17–S18 | Pending Level 2 synthesis |
+| **PD-05** | Recurrent adapter write/read locations | native-state findings | S13–S15 | **RESOLVED** (S14 shows present RG-LRU modulates report; write/read locations target slow RG-LRU store vs top-layer fast monitor) |
+| **PD-06** | Organism v0 core architecture | Level 2 gate | S18 | **RESOLVED** (End-to-end small recurrent network in closed interactive environment via H2 Complete Synthesis) |
+| **PD-07** | Initial endogenous variables | regulation pilot | S17–S18 | **RESOLVED** (Delayed viability and homeostatic variables formalized in Horizon 3 design via H2 Complete Synthesis) |
 | **PD-08** | Public release tier for trained artifacts | safety/welfare review | before release | Pending Level 3 bring-up |

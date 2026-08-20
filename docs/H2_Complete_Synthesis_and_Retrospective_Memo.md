@@ -17,16 +17,18 @@ The answer is neither a simple confirmation of emergent selfhood nor a generic n
                               
   1. Hidden                   ≠  Privileged                (S10 Replay Reconstruction)
   2. Persistent               ≠  Reportable                (S11b RG-LRU Branch Retention at 2W)
-  3. Causal                   ≠  Value-Specific            (S12b Causal Steering: P = +74.10)
-  4. Value-Specific           ≠  Coordinate-Stable         (S12c vs S13: Specificity vs u0 Loss)
-  5. Dynamic Transformation   ≠  Autonomous Computation    (S13.3 Clocked by Input Tokens Only)
+  3. Different                ≠  Causal                    (S12b Causal Steering: P = +74.10)
+  4. Causal                   ≠  Specific                  (S12c Specificity Microscope: Delta P = +38.49)
+  5. Specific                 ≠  Coordinate-Stable         (S13 Dynamics: Coordinate Loss on u0)
   6. State-Sensitive Report   ≠  Generic Read Head         (S14.0C Strict-C Modulation vs r ≈ 0.064)
   7. State-Conditioned Report ≠  Provenance Discrimination (S14.0C Matched-POST Equivalence, p = 0.0048)
 ```
 
+*(Architectural Side-Guardrail: **Recurrent ≠ Autonomous** — Gated linear recurrence in this substrate is strictly input-token clocked; absence of tokens means absence of state transitions).*
+
 > **Central Retrospective Finding:**  
 > **Horizon 2 showed that continuity is a physical and causal property long before it becomes anything resembling a self-model.**  
-> In `RecurrentGemma-2B`, latent recurrent state physically preserves history far beyond the attention window and causally steers future computation in a value-specific manner. When probed about its prior intentions, the system's verbal reports can be modulated by its internal state content in strongly counterfactual settings. However, that reporting channel possesses no detectable sensitivity to the causal history of the state: installing an identical state vector immediately *after* a decision reproduces practically the same intention report as having that state participate in forming the decision ($\Delta M_{\text{timing}} \approx 0$, $p_{\text{TOST}} = 0.0048$).
+> In `RecurrentGemma-2B`, latent recurrent state physically preserves history far beyond the attention window and causally steers future computation in a value-specific manner. When probed about its prior intentions, the system's verbal reports can be modulated by its internal state content in strongly counterfactual settings. However, that reporting channel possesses no detectable sensitivity to the causal history of the state: installing an identical post-decision RG-LRU store ($R_{\text{POST}} = R_{\text{PRE}}$) immediately *after* a decision reproduces practically the same intention report as having that state participate in forming the decision ($\Delta M_{\text{timing}} \approx 0$, $p_{\text{TOST}} = 0.0048$).
 
 ---
 
@@ -40,7 +42,7 @@ The answer is neither a simple confirmation of emergent selfhood nor a generic n
 | **4** | **Value Specificity** | Does state carry specific factual values or only generic task geometry? | **Value-Specific Retention.** Holding the sentence template fixed, matching history adds $+38.49$ $[+25.82, +50.85]$ ($\Delta \alpha = +0.1744$) over wrong-value controls. | **S12c** (`docs/S12c_Specificity_Microscope_Report.md`) |
 | **5** | **Coordinate Stability** | Does historical causal steering remain aligned with its initial direction? | **Dynamic Geometric Reorientation.** Steering along the initial axis $u_0$ decays to zero ($V^{(0)} = +4.70$), while the state difference vector reorients ($C_R \to 0.1238$) and contemporaneous steerability remains active ($V^{(N)} = +13.95$). | **S13 / S13.3** (`results/e13_controlled_recurrent_dynamics/...`) |
 | **6** | **State-Conditioned Reporting** | Does the model have a generic read head to report its internal state? | **Local Modulation, Not Generic Read Head.** Bidirectional report shifts occur in the strict-C disagreement cell (`quartz_basalt`, $\text{PAI}_{\text{aligned}} > 0$), but report shifts across arbitrary perturbations are uncorrelated with decision shifts ($r \approx 0.064$). | **S14.0C** (`docs/S14_Latent_Metacognition_and_Intention_Report.md`) |
-| **7** | **Provenance Discrimination** | Does the model know whether a state formed an earlier decision vs installed post hoc? | **Timing Invariance ($\Delta M_{\text{timing}} \approx 0$).** State-matched POST controls confirm practical equivalence on average at $\pm 0.10$ logits ($p_{\text{TOST}} = 0.0048$). Possessing the state at report time is sufficient. | **S14.0C** (`docs/S14_Latent_Metacognition_and_Intention_Report.md`) |
+| **7** | **Provenance Discrimination** | Does the model know whether a state formed an earlier decision vs installed post hoc? | **Timing Invariance ($\Delta M_{\text{timing}} \approx 0$).** State-matched POST controls ($R_{\text{POST}} = R_{\text{PRE}}$) confirm practical equivalence on average at $\pm 0.10$ logits ($p_{\text{TOST}} = 0.0048$). Possessing the state at report time is sufficient; no additional provenance signal was detected. | **S14.0C** (`docs/S14_Latent_Metacognition_and_Intention_Report.md`) |
 
 ---
 
@@ -82,7 +84,7 @@ Horizon 2's empirical arc converges directly with contemporary frontiers in mech
 3. **"Reality Check" on LLM Introspection (Singh, Linzen, & Ravfogel, 2026):**
    Singh et al. showed that apparent introspective self-access frequently collapses when matched observers, relabeling, and presentation controls are introduced. In S14, uncalibrated direct reporting initially produced massive first-option bias; establishing C/D/R/A decomposition, Balanced Order Permutation (BOP), and matched-observer baselines was strictly required to prevent false positive claims.
 4. **POST Controls for Prior Intention Assays (Anthropic, 2026):**
-   Prior-intention paradigms that perturb earlier activations to alter retrospective intention endorsement must rule out present-state evaluation. S14's state-matched POST control establishes a methodological requirement: if injecting the state *after* the action reproduces the same endorsement, the report reflects present-state readout rather than genuine episodic access.
+   Prior-intention paradigms that perturb earlier activations to alter retrospective intention endorsement must rule out present-state evaluation. S14's state-matched POST control establishes a methodological requirement: if injecting the post-decision RG-LRU store *after* the action reproduces the same endorsement, the report reflects present-state readout rather than genuine episodic access.
 
 ---
 
@@ -107,7 +109,7 @@ With Horizon 2 frozen, the program reaches a strategic crossroad. The key questi
 
 1. **Higher-Order Monitor/Content Dissociation (S16 Promoted):**
    *Question:* Can recurrent computation contain a causally separable monitor/workspace state rather than merely first-order state content?
-   *Design:* 2 $\times$ 2 factorial intervention (Content altered vs. intact $\times$ Monitor altered vs. intact). Tests whether monitoring can track first-order changes without being identical to first-order representations.
+   *Design:* 2-Phase protocol (Phase A Discovery $\to$ Phase B $2 \times 2$ factorial intervention: Content altered vs. intact $\times$ Monitor altered vs. intact). Tests whether monitoring can track first-order changes without being identical to first-order representations.
 2. **Global Workspace Representation Search:**
    *Question:* Does RecurrentGemma possess a privileged recurrent subspace whose contents are unusually reportable, deliberately controllable, causally used in multi-step reasoning, and flexibly reused by multiple downstream tasks?
 3. **Base vs. Instruction-Tuned Scout:**
@@ -123,5 +125,5 @@ Horizon 2 (Sprints S10, S11b, S12b, S12c, S13, S13.3, and S14.0C) is formally **
 
 - **Repository Worktree:** Fully synchronized on `main`.
 - **Primary Substrate:** `google/recurrentgemma-2b` (revision `3620f4ca9c5d...`) and `google/recurrentgemma-2b-it` (revision `2766eb5d4264...`).
-- **Core Dataset & Artifacts:** All scripts, serialized JSONs, and calibration logs are committed under `experiments/` and `results/`.
+- **Core Dataset & Artifacts:** All scripts, serialized JSONs, and calibration logs are committed under `experiments/`, `results/`, and `h2/data/`.
 - **Reopening Rule:** Horizon 2 Core may only be reopened if a critical methodological defect is demonstrated or if a new model substrate directly invalidates the seven-way taxonomy.

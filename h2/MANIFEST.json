@@ -1,26 +1,30 @@
 {
   "artifact": "The Memory That Couldn't Remember",
   "horizon": 2,
-  "version": "0.1.0",
-  "date": "2026-08-18",
+  "version": "0.2.0",
+  "date": "2026-08-20",
   "scope": "Causal Latent-Continuity Core",
-  "core_sprints": ["S10", "S11b", "S12b"],
+  "core_sprints": ["S10", "S11b", "S12b", "S12c", "S13", "S14"],
   "evidence_status": {
     "S10": "FROZEN",
     "S11b": "FROZEN",
     "S12b": "FROZEN",
-    "S12c": "LIVE",
-    "S13": "OPEN QUESTION",
-    "S14": "OPEN QUESTION",
-    "S15": "OPEN QUESTION",
-    "S16": "OPEN QUESTION"
+    "S12c": "FROZEN",
+    "S13": "FROZEN",
+    "S14": "FROZEN",
+    "S15": "STRATEGIC FRONTIER",
+    "S16": "STRATEGIC FRONTIER"
   },
   "entrypoint": "site/index.html",
   "evidence_contract": "data/core.json",
   "canonical_sources": [
-    "docs/H2_Core_Retrospective_Memo.md",
+    "docs/H2_Final_Synthesis_Map.md",
+    "docs/H2_Complete_Synthesis_and_Retrospective_Memo.md",
+    "docs/S10_Multi_Store_Plumbing_Report.md",
     "docs/S11_Latent_Impulse_Retention_Report.md",
     "docs/S12_Surgical_Store_Swaps_Report.md",
+    "docs/S12c_Specificity_Microscope_Report.md",
+    "docs/S14_Latent_Metacognition_and_Intention_Report.md",
     "docs/H2_Recurrent_Architecture_Roadmap.md"
   ]
 }
