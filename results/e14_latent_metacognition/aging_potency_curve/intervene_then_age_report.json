@@ -1,0 +1,51 @@
+{
+  "pair_id": "marked_object_p01_amber_cobalt",
+  "endpoint_T": 256,
+  "curve": [
+    {
+      "t_intervention": 0,
+      "aging_tokens": 256,
+      "rglru_euclidean_dist": 0.2497867714199755,
+      "rglru_cosine_sim": 0.999979083462291,
+      "full_vocab_kl_nats": 0.0037111379206180573,
+      "max_logit_delta": 1.484375,
+      "donor_cloze_shift": -0.3046875
+    },
+    {
+      "t_intervention": 64,
+      "aging_tokens": 192,
+      "rglru_euclidean_dist": 0.38437648200326496,
+      "rglru_cosine_sim": 0.9999458387500708,
+      "full_vocab_kl_nats": 0.005432944744825363,
+      "max_logit_delta": 1.2119140625,
+      "donor_cloze_shift": -0.279296875
+    },
+    {
+      "t_intervention": 128,
+      "aging_tokens": 128,
+      "rglru_euclidean_dist": 0.3969118843475978,
+      "rglru_cosine_sim": 0.9999379133021485,
+      "full_vocab_kl_nats": 0.0028217844665050507,
+      "max_logit_delta": 1.375,
+      "donor_cloze_shift": -0.130859375
+    },
+    {
+      "t_intervention": 192,
+      "aging_tokens": 64,
+      "rglru_euclidean_dist": 0.47043735451168484,
+      "rglru_cosine_sim": 0.9999201182662725,
+      "full_vocab_kl_nats": 0.002848764881491661,
+      "max_logit_delta": 1.4375,
+      "donor_cloze_shift": -0.1640625
+    },
+    {
+      "t_intervention": 256,
+      "aging_tokens": 0,
+      "rglru_euclidean_dist": 0.2589178933865494,
+      "rglru_cosine_sim": 0.9999789674768491,
+      "full_vocab_kl_nats": 0.0051126424223184586,
+      "max_logit_delta": 1.2783203125,
+      "donor_cloze_shift": -0.34375
+    }
+  ]
+}
