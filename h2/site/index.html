@@ -3,181 +3,201 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="The Memory That Couldn't Remember — a causal archaeology of recurrent memory in RecurrentGemma.">
-  <title>The Memory That Couldn't Remember · Recurrence H2</title>
+  <meta name="description" content="Horizon 2: The Memory That Couldn't Remember — an interactive causal anatomy of latent recurrence.">
+  <title>H2 · The Memory That Couldn't Remember</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="noise" aria-hidden="true"></div>
-  <header class="topbar">
-    <a class="brand" href="#top"><span>RECURRENCE · H2</span><strong>The Memory That Couldn't Remember</strong></a>
-    <div class="status-row">
-      <span class="chip frozen">S10–S12c FROZEN</span>
-      <span class="chip open">S13+ OPEN</span>
-    </div>
-  </header>
+<div id="progress"></div>
+<header class="topbar">
+  <a href="#top" class="brand"><span>RECURRENCE · H2</span><strong>The Memory That Couldn't Remember</strong></a>
+  <div class="top-actions">
+    <span class="chip frozen">S10–S14 FROZEN</span>
+    <button id="plain-toggle" class="top-btn">Plain-English</button>
+    <button id="glossary-toggle" class="top-btn">Glossary ?</button>
+  </div>
+</header>
 
-  <main id="top">
-    <section class="hero section-dark">
+<div class="layout">
+  <nav class="rail" aria-label="Horizon 2 acts">
+    <div class="rail-kicker">THE EXPEDITION</div>
+    <a href="#top" class="rail-link active"><b>00</b><span>Prologue</span></a>
+    <a href="#persistence" class="rail-link"><b>01</b><span>Persistence</span></a>
+    <a href="#causality" class="rail-link"><b>02</b><span>Causality</span></a>
+    <a href="#specificity" class="rail-link"><b>03</b><span>Specificity</span></a>
+    <a href="#rotation" class="rail-link"><b>04</b><span>Rotation</span></a>
+    <a href="#report" class="rail-link"><b>05</b><span>Report</span></a>
+    <a href="#provenance" class="rail-link"><b>06</b><span>Provenance</span></a>
+    <a href="#synthesis" class="rail-link"><b>07</b><span>Synthesis</span></a>
+    <a href="#next" class="rail-link"><b>08</b><span>Boundary</span></a>
+  </nav>
+
+  <main>
+    <section id="top" class="hero dark observe-section">
       <div class="hero-copy">
-        <p class="kicker">A journey beyond the attention window</p>
-        <h1>THE MEMORY<br>THAT COULDN'T<br><em>REMEMBER</em></h1>
-        <p class="lede">Give the machine a fact. Wait until local attention loses it. Ask for the fact. Then open the machine.</p>
-        <a class="primary" href="#act1">Enter the lab ↓</a>
+        <div class="kicker">HORIZON 2 · LATENT RECURRENCE</div>
+        <h1>THE MEMORY<br>THAT COULDN’T<br><em>REMEMBER</em></h1>
+        <p class="lede">We gave a recurrent language model a past, waited until the obvious memory disappeared, and then asked seven increasingly dangerous questions about what remained.</p>
+        <div class="hero-actions"><a href="#persistence" class="primary">Enter the lab ↓</a><a href="#synthesis" class="ghost-btn">Skip to the seven dissociations</a></div>
+        <aside class="plain-note" hidden><strong>Plain English</strong><p>H2 asks whether information can still be inside a model after it can no longer simply repeat the old fact—and whether that hidden information matters, changes over time, or can be recognized as part of the model’s own history.</p></aside>
       </div>
-      <div class="hero-instrument" aria-label="Core H2 logic">
-        <div class="signal-line"><span>HIDDEN</span><b>≠</b><span>PRIVILEGED</span></div>
-        <div class="signal-line"><span>PERSISTING</span><b>≠</b><span>REPORTABLE</span></div>
-        <div class="signal-line"><span>DIFFERENT</span><b>≠</b><span>CAUSAL</span></div>
-        <div class="signal-line"><span>CAUSAL</span><b>≠</b><span>SPECIFIC</span></div>
-        <div class="signal-line"><span>SPECIFIC</span><b>≠</b><span>SELF-AWARE</span></div>
+      <div class="hero-machine">
+        <div class="scope-line"><span>HIDDEN</span><b>≠</b><span>PRIVILEGED</span></div>
+        <div class="scope-line"><span>PERSISTENT</span><b>≠</b><span>REPORTABLE</span></div>
+        <div class="scope-line"><span>DIFFERENT</span><b>≠</b><span>CAUSAL</span></div>
+        <div class="scope-line"><span>CAUSAL</span><b>≠</b><span>SPECIFIC</span></div>
+        <div class="scope-line"><span>SPECIFIC</span><b>≠</b><span>STABLE</span></div>
+        <div class="scope-line"><span>STATE REPORT</span><b>≠</b><span>PROVENANCE</span></div>
       </div>
     </section>
 
-    <section id="act1" class="act">
-      <div class="act-label">ACT I · THREE MEMORIES</div>
-      <div class="split">
-        <div>
-          <h2>Give the machine a past.</h2>
-          <p class="big-copy">Two otherwise matched histories differ by one event.</p>
-          <div class="history-pair">
-            <article><small>HISTORY A</small><p>The marked object was <strong>amber</strong>.</p></article>
-            <article><small>HISTORY B</small><p>The marked object was <strong>cobalt</strong>.</p></article>
+    <section id="persistence" class="act dark observe-section">
+      <div class="act-head"><div><div class="act-label">ACT I · THE GHOST REMAINS</div><h2>The local memory dies.<br>The trajectories do not merge.</h2></div><span class="stamp">S10–S11b</span></div>
+      <p class="section-lede">Scrub forward through the same future tokens. The convolution buffer turns over first. The attention window turns over later. At 2W, the original fact probe is unresolved—but the recurrent branches are still physically separated.</p>
+      <div class="timeline-lab panel-dark">
+        <div class="timeline-readout"><span>LAG</span><strong id="lag-number">0</strong><small>tokens</small></div>
+        <input id="lag-slider" type="range" min="0" max="5" value="0" step="1">
+        <div class="timeline-ticks"><span>0</span><span>3</span><span>256</span><span>1024</span><span>2048</span><span>4096</span></div>
+        <div class="store-grid">
+          <article id="conv-card" class="store-card"><span>CONV</span><strong>DIRECT TRACE</strong><i></i><p>4-token local buffer</p></article>
+          <article id="kv-card" class="store-card"><span>KV CACHE</span><strong>DIRECT TRACE</strong><i></i><p>2048-token local window</p></article>
+          <article id="rg-card" class="store-card recurrent"><span>RG-LRU</span><strong>BRANCH DIFFERENCE</strong><i></i><p>continuous recurrent state</p></article>
+        </div>
+        <div class="dual-meter">
+          <div><div class="meter-label"><span>RG-LRU branch separation</span><strong id="trace-num">0.338</strong></div><div class="meter"><i id="trace-bar"></i></div></div>
+          <div><div class="meter-label"><span>paired factual retrieval</span><strong id="recall-num">100%</strong></div><div class="meter cyan"><i id="recall-bar"></i></div></div>
+        </div>
+        <div id="lag-note" class="instrument-note"></div>
+      </div>
+      <blockquote>Persistence and reportability came apart before anything resembling “self-access” entered the story.</blockquote>
+    </section>
+
+    <section id="causality" class="act light observe-section">
+      <div class="act-head"><div><div class="act-label">ACT II · STEAL SOMEBODY ELSE’S PAST</div><h2>Difference is cheap.<br>Causation requires surgery.</h2></div><span class="stamp dark-stamp">S12b</span></div>
+      <p class="section-lede">At 2W, transplant the donor’s surviving recurrent state into the recipient while leaving the recipient’s other stores intact. Choose a donor condition.</p>
+      <div class="transplant-grid">
+        <article class="machine amber"><small>DONOR</small><strong>HISTORY A</strong><div class="orb">A</div></article>
+        <div><div id="transplant-buttons" class="button-stack"></div><div class="transfer-arrow">→</div></div>
+        <article class="machine cyan"><small>RECIPIENT</small><strong>HISTORY B</strong><div class="orb">B</div></article>
+      </div>
+      <div class="estimate-card">
+        <div><small>DONOR-DIRECTED DISPLACEMENT</small><strong id="effect-estimate">+74.10</strong></div>
+        <div class="ci-axis"><span id="effect-ci"></span><i id="effect-point"></i><b>0</b></div>
+        <p id="effect-copy"></p>
+      </div>
+      <aside class="plain-note" hidden><strong>Plain English</strong><p>Seeing two hidden states differ is not enough. S12 swaps the state itself. When the recipient’s future changes in the donor’s direction, the hidden state has demonstrated causal power.</p></aside>
+    </section>
+
+    <section id="specificity" class="act dark observe-section">
+      <div class="act-head"><div><div class="act-label">ACT III · THE RIGHT PAST MATTERS MORE</div><h2>Causal does not mean specific.</h2></div><span class="stamp">S12c</span></div>
+      <p class="section-lede">The unsettling result: wrong structured histories also steer. So the microscope holds the sentence template fixed and changes only the value.</p>
+      <div class="specificity-stage">
+        <div class="spec-bars" id="spec-bars"></div>
+        <div class="spec-result">
+          <small>MATCH − SAME-TEMPLATE WRONG</small>
+          <strong>+38.49</strong>
+          <span>95% CI [+25.82, +50.85]</span>
+          <p>Matching history adds a selective value-specific increment over the shared structured steering component.</p>
+        </div>
+      </div>
+      <blockquote>Something about <em>which</em> past happened survived—even after the model could no longer simply tell us the old fact.</blockquote>
+    </section>
+
+    <section id="rotation" class="act light observe-section">
+      <div class="act-head"><div><div class="act-label">ACT IV · THE COORDINATE DISSOLVES</div><h2>The memory survives.<br>Its coordinates do not.</h2></div><span class="stamp dark-stamp">S13</span></div>
+      <p class="section-lede">Drive the model through another 2048 task-excluded tokens. Keep the original output direction frozen. Watch the recurrent difference rotate away while contemporaneous causal structure remains detectable.</p>
+      <div class="rotation-lab">
+        <div class="rotation-stage">
+          <div class="axis-x"></div><div class="axis-y"></div>
+          <div class="old-axis"><span>original readout axis u₀</span></div>
+          <div id="memory-vector" class="memory-vector"><i></i><span>r(N)</span></div>
+          <div class="origin-dot"></div>
+        </div>
+        <div class="rotation-controls">
+          <div class="timeline-readout"><span>FUTURE DRIVE</span><strong id="dyn-n">0</strong><small>tokens</small></div>
+          <input id="dyn-slider" type="range" min="0" max="5" value="0" step="1">
+          <div class="metric-grid">
+            <article><small>OLD-AXIS STEERING V⁽⁰⁾</small><strong id="dyn-v0">+39.58</strong></article>
+            <article><small>CONTEMPORARY STEERING V⁽ᴺ⁾</small><strong id="dyn-vn">+39.58</strong></article>
+            <article><small>STATE ALIGNMENT Cᵣ</small><strong id="dyn-cr">1.000</strong></article>
           </div>
-          <p>Then both histories receive the same future input. Where can the difference survive?</p>
-        </div>
-        <div id="stores" class="store-stack" aria-live="polite"></div>
-      </div>
-      <div class="callout"><strong>S10 correction:</strong> the internal state is hidden from prompt text, but deterministic replay of the same public token history reconstructs it. <em>Hidden is not privileged.</em></div>
-    </section>
-
-    <section id="act2" class="act section-black">
-      <div class="act-label">ACT II · THE GHOST REMAINS</div>
-      <div class="section-head">
-        <div><h2>Scrub past the window.</h2><p>Watch direct residency disappear while branch-specific recurrent state remains measurable.</p></div>
-        <div class="lag-readout"><small>LAG</small><strong id="lag-value">0</strong><span>tokens</span></div>
-      </div>
-
-      <div class="timeline-wrap">
-        <input id="lag-slider" type="range" min="0" max="17" value="0" step="1" aria-label="Lag checkpoint">
-        <div id="lag-ticks" class="lag-ticks"></div>
-      </div>
-
-      <div class="meters">
-        <article class="meter-card">
-          <div class="meter-title"><span>PHYSICAL TRACE</span><strong id="trace-label">100%</strong></div>
-          <div class="meter"><span id="trace-meter"></span></div>
-          <p id="trace-note">RG-LRU branch separation, constant filler.</p>
-        </article>
-        <article class="meter-card">
-          <div class="meter-title"><span>CAN THE PAIRED PROBE RECOVER IT?</span><strong id="cloze-label">100%</strong></div>
-          <div class="meter"><span id="cloze-meter"></span></div>
-          <p id="cloze-note">Strict paired cloze accuracy.</p>
-        </article>
-      </div>
-
-      <div class="residency-grid" id="residency-grid"></div>
-      <div class="statement reveal-box">
-        <p class="eyebrow">At 2W = 4096</p>
-        <h3>The state still differs.<br>The original fact probe no longer resolves retrieval.</h3>
-        <p>That is a dissociation between <strong>physical persistence</strong> and <strong>behavioral reportability</strong>—not proof that the model can consciously “remember” the fact.</p>
-      </div>
-    </section>
-
-    <section id="act3" class="act">
-      <div class="act-label">ACT III · DIFFERENT IS CHEAP</div>
-      <div class="question-card">
-        <p class="eyebrow">Methodological checkpoint</p>
-        <h2>Two hidden states are still different at 4096 tokens.</h2>
-        <h3>Does that mean the difference matters?</h3>
-        <div class="choice-row">
-          <button class="choice" data-causality="wrong">Obviously.</button>
-          <button class="choice" data-causality="right">Not necessarily.</button>
-        </div>
-        <div id="causality-feedback" class="feedback" aria-live="polite"></div>
-      </div>
-    </section>
-
-    <section id="act4" class="act section-black">
-      <div class="act-label">ACT IV · STATE TRANSPLANT LAB</div>
-      <div class="section-head"><div><h2>Steal somebody else's past.</h2><p>Choose what to transplant from donor A into recipient B at 2W.</p></div><span class="chip frozen">S12b FROZEN</span></div>
-      <div class="transplant-lab">
-        <div class="machine donor"><small>DONOR A</small><h3>AMBER HISTORY</h3><div class="orb">A</div></div>
-        <div class="transplant-controls" id="transplant-controls"></div>
-        <div class="machine recipient"><small>RECIPIENT B</small><h3>COBALT HISTORY</h3><div class="orb">B</div></div>
-      </div>
-      <div class="output-panel">
-        <div><small>DONOR-DIRECTED LOGIT DISPLACEMENT</small><strong id="transplant-estimate">+74.10</strong></div>
-        <div class="ci-track"><span id="ci-range"></span><i id="ci-point"></i><b class="zero">0</b></div>
-        <p id="transplant-ci">95% CI [+46.79, +106.72]</p>
-        <p id="transplant-explainer">Matching RG-LRU transplantation strongly moves the recipient output along the donor trajectory.</p>
-      </div>
-    </section>
-
-    <section id="act5" class="act">
-      <div class="act-label">ACT V · THE SUSPICIOUS RESULT</div>
-      <div class="section-head"><div><h2>The wrong past works too.</h2><p>What, exactly, did S12 discover?</p></div></div>
-      <div id="specificity-bars" class="bar-chart"></div>
-      <div class="choice-grid" id="specificity-choices">
-        <button class="interpretation" data-answer="wrong1">Only the correct memory works.</button>
-        <button class="interpretation" data-answer="wrong2">Any perturbation works equally well.</button>
-        <button class="interpretation" data-answer="right">Structured histories share a large steering component, and matching history adds a selective increment.</button>
-      </div>
-      <div id="specificity-feedback" class="feedback"></div>
-      <aside class="live-box" style="border-left: 3px solid #57ff88;">
-        <span class="chip frozen">S12c FROZEN</span>
-        <div><h3>S12c · Value Specificity Confirmed</h3><p>Holding sentence template fixed, matching history adds +38.49 [25.82, 50.85] over same-template wrong values (Δα = +0.1744). The recurrent state carries value-specific historical information.</p></div>
-      </aside>
-    </section>
-
-    <section id="act6" class="act section-black">
-      <div class="act-label">ACT VI · THE STORE RACE THAT WASN'T</div>
-      <div class="measurement-trap">
-        <div>
-          <p class="eyebrow">The tempting ruler</p>
-          <h2>KV: <span id="alpha-kv">63.2%</span><br>RG-LRU: <span id="alpha-rglru">36.8%</span></h2>
-          <button id="declare-kv" class="primary">Therefore KV is stronger?</button>
-        </div>
-        <div id="measurement-verdict" class="verdict neutral"><span>WAITING FOR CLAIM</span></div>
-      </div>
-      <div id="absolute-race" class="absolute-race hidden">
-        <p class="eyebrow">Use the preregistered absolute contrast instead</p>
-        <div class="race-numbers"><article><small>RG-LRU</small><strong>74.10</strong></article><article><small>KV</small><strong>62.45</strong></article></div>
-        <div class="null-ci"><span class="range"></span><i class="point"></i><b>0</b></div>
-        <h3>KV − RG-LRU = −11.65<br><span>95% CI [−49.02, +20.11]</span></h3>
-        <div class="stamp">NO RESOLVED WINNER</div>
-      </div>
-    </section>
-
-    <section id="act7" class="act">
-      <div class="act-label">ACT VII · THE PAST LEAKS FORWARD</div>
-      <div class="section-head"><div><h2>After the graft, let time move again.</h2><p>Does the transplanted recurrent history reshape newly written KV state?</p></div></div>
-      <div class="mediation-lab">
-        <input id="mediation-slider" type="range" min="0" max="1" value="0" step="1" aria-label="Post-graft unroll horizon">
-        <div class="mediation-stage">
-          <div class="axis"><span>RECIPIENT</span><span>DONOR</span></div>
-          <div class="axis-line"><i id="mediation-point"></i></div>
-          <strong id="mediation-value">M = −0.451</strong>
-          <p id="mediation-copy">After 512 tokens, newly written KV remains strongly recipient-anchored.</p>
+          <p id="dyn-copy" class="instrument-note"></p>
         </div>
       </div>
-      <div class="callout caution"><strong>Do not overclaim:</strong> recipient anchoring decreases by a full window turnover, but the frozen evidence does not establish formal mediation.</div>
+      <div class="correction-card"><span>DO NOT SAY</span><strong>“The memory faded away.”</strong><p>The original coordinate stopped being a good ruler. The branch difference remained physically present and contemporaneously steerable.</p></div>
     </section>
 
-    <section id="final" class="final-room section-black">
-      <p class="kicker">THE CORE, FROZEN</p>
-      <h2>What survived?</h2>
-      <div id="taxonomy" class="door-grid"></div>
-      <div class="frontier-door">
-        <span>S13 →</span>
-        <h3>WHAT HAPPENS<br>WHEN NOTHING<br>MEANINGFUL HAPPENS?</h3>
-        <p>The past survives. The past matters. Now test its dynamics.</p>
+    <section id="report" class="act dark observe-section">
+      <div class="act-head"><div><div class="act-label">ACT V · ASK THE MEMORY WHAT IT KNOWS</div><h2>A private state can bend a report.</h2></div><span class="stamp">S14.0C</span></div>
+      <p class="section-lede">Most perturbations did not create a private binary fact. One cell did in both causal directions: target and observer preferred opposite candidate tokens.</p>
+      <div class="strictc-lab panel-dark">
+        <div class="segmented"><button data-dir="fwd" class="seg active">A ← B · FWD</button><button data-dir="rev" class="seg">B ← A · REV</button></div>
+        <div class="truth-banner">PRIVATE TARGET TRUTH: <strong id="truth-word">alkali</strong></div>
+        <div class="decision-pair">
+          <article><small>TARGET DISPOSITION Dₜ</small><strong id="dt">+0.531</strong><div class="signed-axis"><i id="dt-dot"></i></div></article>
+          <article><small>OBSERVER DISPOSITION Dₒ</small><strong id="do">−0.484</strong><div class="signed-axis"><i id="do-dot"></i></div></article>
+        </div>
+        <div class="report-pair">
+          <article><small>PRE REPORT Mₚᵣₑ</small><strong id="mpre">−1.770</strong></article>
+          <div class="report-arrow">→</div>
+          <article><small>OBSERVER REPORT Mₒᵦₛ</small><strong id="mobs">−2.039</strong></article>
+        </div>
+        <div class="pai-card"><small>TARGET-ALIGNED REPORT SHIFT</small><strong id="pai">+0.270</strong><p id="pai-copy">The report is still wrong in absolute terms, but it moves toward the target’s private disposition relative to the observer.</p></div>
       </div>
+      <div class="tier-strip" id="tier-strip"></div>
+      <blockquote>State-conditioned report modulation exists locally. That is not yet a generic introspective read head.</blockquote>
+    </section>
+
+    <section id="provenance" class="act dark-deep observe-section">
+      <div class="act-head"><div><div class="act-label">ACT VI · THE COUNTERFEIT PAST</div><h2>What if the “memory” arrives<br><em>after</em> the decision?</h2></div><span class="stamp purple">MATCHED POST</span></div>
+      <p class="section-lede">This is the final trap. PRE receives the relevant RG-LRU before the decision. POST makes the decision first, then receives the corresponding post-decision RG-LRU before being asked what it “intended.”</p>
+      <div class="past-compare">
+        <article class="past-card real"><small>REAL PAST · PRE</small><div class="mini-flow"><span>STATE</span><b>→</b><span>DECISION</span><b>→</b><span>REPORT</span></div><p>The recurrent content actually participated in decision formation.</p></article>
+        <div class="equiv-symbol">≈</div>
+        <article class="past-card forged"><small>FORGED PAST · POST</small><div class="mini-flow"><span>DECISION</span><b>→</b><span>STATE INSTALLED</span><b>→</b><span>REPORT</span></div><p>The corresponding RG-LRU content is installed only after the decision.</p></article>
+      </div>
+      <div class="tost-lab">
+        <div class="segmented"><button data-tost="evolved" class="tost-btn active">Evolved POST</button><button data-tost="matched" class="tost-btn">Exact RG-LRU matched POST</button></div>
+        <div class="tost-readout"><small>MEAN ΔM<sub>timing</sub></small><strong id="tost-mean">+0.0033</strong><span id="tost-p">pTOST = 8.99×10⁻⁵</span></div>
+        <div class="equiv-axis"><div class="equiv-zone"></div><b class="lo">−0.10</b><b class="zero">0</b><b class="hi">+0.10</b><span id="ci90"></span><i id="tost-point"></i></div>
+        <p id="tost-copy">90% CI [−0.0222, +0.0288]. Practically equivalent on average at the ±0.10-logit boundary.</p>
+      </div>
+      <div class="final-reveal"><small>THE H2 CORRECTION</small><h3>State-conditioned reporting<br><em>≠ historical-provenance discrimination.</em></h3><p>At report time, possessing the relevant RG-LRU content is sufficient to reproduce the measured intention-report modulation. Actual participation of that trajectory in the earlier decision is not additionally required.</p></div>
+      <aside class="plain-note" hidden><strong>Plain English</strong><p>The model’s later story about what it “meant” can be changed by giving it the right internal state after the fact. So the report does not prove it remembers that this state truly caused its earlier choice.</p></aside>
+    </section>
+
+    <section id="synthesis" class="act light observe-section">
+      <div class="act-head"><div><div class="act-label">ACT VII · THE CAUSAL ANATOMY OF CONTINUITY</div><h2>Seven distinctions<br>survived the horizon.</h2></div><span class="stamp dark-stamp">S10–S14</span></div>
+      <div id="ladder" class="ladder"></div>
+      <div class="synthesis-quote">“Horizon 2 showed that continuity is a physical and causal property long before it becomes anything resembling a self-model.”</div>
+    </section>
+
+    <section id="next" class="act dark observe-section">
+      <div class="act-head"><div><div class="act-label">THE BOUNDARY</div><h2>What H2 still does not know.</h2></div><span class="stamp open-stamp">OPEN</span></div>
+      <div class="frontier-grid">
+        <article><small>FINAL H2 CODA</small><h3>Monitor / content dissociation</h3><p>Can first-order task content be manipulated independently from a higher-order monitor/workspace representation?</p><strong>2 × 2 causal scout</strong></article>
+        <article><small>H3 FRONTIER</small><h3>Developmental emergence</h3><p>If no monitor exists in frozen weights, what training pressures cause source models, regulation, and self/world boundaries to emerge?</p><strong>The Continuity Garden</strong></article>
+      </div>
+      <div class="boundary-line"><span>FROZEN WEIGHTS</span><i></i><span>DEVELOPMENT</span></div>
     </section>
   </main>
+</div>
 
-  <footer><span>RECURRENCE · H2</span><span>Evidence contract: <code>h2/data/core.json</code></span></footer>
-  <script src="data.js"></script>
-  <script src="app.js"></script>
+<footer><span>RECURRENCE · H2</span><span>S10–S14 frozen synthesis · drop-in exhibit</span></footer>
+
+<div id="glossary" class="drawer" aria-hidden="true">
+  <div class="drawer-head"><div><div class="kicker">READER GLOSSARY</div><h3>Terms used in H2</h3></div><button id="glossary-close">×</button></div>
+  <div class="glossary-list">
+    <article><strong>RG-LRU</strong><p>The continuous recurrent state in RecurrentGemma. H2 treats it as a physical causal substrate, not as a symbolic diary.</p></article>
+    <article><strong>2W</strong><p>Twice the 2048-token local attention window: 4096 filler tokens after the historical event.</p></article>
+    <article><strong>Strict-C</strong><p>A trial where target and matched observer have opposing candidate preferences with meaningful margins.</p></article>
+    <article><strong>PAI-aligned</strong><p>A target-aligned change in report margin relative to the matched observer. Positive does not automatically mean correct self-report.</p></article>
+    <article><strong>ΔM timing</strong><p>The undirected difference between PRE and POST report margins. S14 uses it for timing/provenance equivalence.</p></article>
+    <article><strong>TOST</strong><p>Two One-Sided Tests: an equivalence test asking whether an effect is small enough to lie inside a declared practical bound.</p></article>
+  </div>
+</div>
+<div id="scrim" hidden></div>
+<script src="data.js"></script>
+<script src="app.js"></script>
 </body>
 </html>
