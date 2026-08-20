@@ -1,12 +1,16 @@
 # Sprint S13.3 Methodological Sensitivity Report: Strict Same-Four Paired Analysis (B=1 vs B=5)
 
-**Target Scope:** 4 Canonical Scout Pairs (1 from each template family):
+**Target Scope:** Sparse 4-Pair Numerical Sensitivity Panel (1 canonical pair per template family):
 1. `archived_artifact_p01_marble_quartz` (Family: `archived_artifact`)
 2. `marked_object_p01_amber_cobalt` (Family: `marked_object`)
 3. `monitored_signal_p01_alpha_delta` (Family: `monitored_signal`)
 4. `sealed_container_p01_copper_silver` (Family: `sealed_container`)
 
-Evaluated across all 4 drive regimes (`constant`, `random`, `natural`, `interfering`) and 2 causal arms (`intact_recurrence`, `rglru_carry_clamped`) through $N=2048$ under pure sequential $B=1$ execution, compared directly against the same 4 pairs in the 11,520-row $B=5$ confirmatory dataset ([`5396259`](https://github.com/admiralorbiter/recurrence/commit/5396259)).
+**Methodological Design:**  
+Evaluated across all 4 drive regimes (`constant`, `random`, `natural`, `interfering`) and 2 causal arms (`intact_recurrence`, `rglru_carry_clamped`) through $N=2048$ under pure sequential $B=1$ execution. These results are compared directly against the exact same 4 pairs extracted from the 11,520-row $B=5$ confirmatory dataset ([`5396259`](https://github.com/admiralorbiter/recurrence/commit/5396259)).
+
+> **Panel Characterization Note:**  
+> This 4-pair panel begins at $V^{(0)}(0) = -30.84$ (matching bit-identically between $B=1$ and $B=5$), while the full 24-pair population begins at $V^{(0)}(0) = +39.58$. This panel is designed as a sparse numerical sensitivity test spanning all template families to evaluate computational batch-shape dependence, not as a population re-estimation.
 
 ---
 
@@ -37,25 +41,22 @@ $$\Delta_{\text{batch}} E = E_{B=1} - E_{B=5}$$
 
 ---
 
-## 3. Methodological Classification of Headline Findings
+## 3. Methodological Assessment & Theoretical Takeaways
 
-### 1. State-Space Rotation ($C_R(N)$): **BATCH ROBUST**
-* State cosine decay tracks with near-identity across both batch sizes:
-  * $N=16: 0.6679 \leftrightarrow 0.6830$
-  * $N=64: 0.5874 \leftrightarrow 0.5778$
-  * $N=256: 0.3941 \leftrightarrow 0.4059$
-  * $N=1024: 0.2038 \leftrightarrow 0.2010$
-  * $N=2048: 0.1953 \leftrightarrow 0.1444$
-* **Inference:** The progressive loss of directional alignment of the recurrent difference vector $r(t)$ is an invariant physical property of the RecurrentGemma state transition function, completely robust to computational batch geometry.
+### A. Aggregate State-Space Reorientation is Batch-Robust
+Physical state rotation $C_R(N) = \cos(r_0, r_N)$ exhibits nearly identical monotonic decay curves across both batch executions:
+- $N=16: 0.6679 \leftrightarrow 0.6830$
+- $N=64: 0.5874 \leftrightarrow 0.5778$
+- $N=256: 0.3941 \leftrightarrow 0.4059$
+- $N=1024: 0.2038 \leftrightarrow 0.2010$
+- $N=2048: 0.1953 \leftrightarrow 0.1444$
 
-### 2. Loss of Historical Alignment ($V^{(0)}(2048) \approx 0$): **QUALITATIVELY ROBUST**
-* At $N=2048$, the mean contrast along the frozen baseline axis $u_0$ is $+9.20$ under $B=1$ and $+1.64$ under $B=5$ (compared to $+4.70$ across the full 24-pair $B=5$ confirmatory panel).
-* In both execution regimes, the large initial steering capacity ($|V(0)| \approx 31\text{--}40$) has dissipated to near zero on the original coordinate system.
+The aggregate geometric trajectory of the recurrent state difference vector moving toward near-orthogonality relative to $r_0$ is a robust property of the model's recurrent dynamics.
 
-### 3. Contemporaneous Steerability ($V^{(N)}(2048) > 0$): **QUALITATIVELY ROBUST**
-* At $N=2048$, contemporaneous steerability remains positive under both batch sizes ($+30.89$ under $B=1$, $+24.60$ under $B=5$, compared to $+13.95$ confirmatory).
-* The model's evolved output geometry remains causally steerable by the contemporary recurrent state difference.
+### B. Trajectory-Level Causal Expression is Execution-Sensitive
+Individual pair-level causal projections show substantial path dependence:
+- At $N=2048$, 3 of the 4 pairs change sign on the old-axis contrast $V^{(0)}$ between $B=1$ and $B=5$, and the magnitude of contemporaneous steerability $V^{(N)}$ varies across batch paths.
+- While the aggregate mean at $N=2048$ remains consistent with the confirmatory story ($V^{(0)}(2048)$ near zero; $V^{(N)}(2048)$ positive), individual causal trajectories are sensitive to the finite-precision numerical execution geometry.
 
-### 4. Causal Carry Effect ($\Delta V_{\text{carry}}^{(0)}(2048)$): **UNRESOLVED / SCALE SENSITIVE**
-* Pooled carry contrast remains near zero ($+7.31$ under $B=1$, $-5.42$ under $B=5$, compared to $+4.41$ confirmatory).
-* Clamping the carry does not restore historical steering on $u_0$ in either batch mode.
+### C. Mechanistic Assessment
+Step-by-step diagnostic monitoring confirmed that $B=1$ and $B=5$ are bit-identical at tokens $N=1$ and $N=2$, with divergence appearing between $N=2$ and $N=4$. This coincides with the complete turnover of the 4-tap Conv1D rolling buffer (`conv1d_width=4`, state width 3). The precise mechanistic interaction between Conv state turnover, layer gating, and BF16 GEMM accumulation remains an open question for dedicated numerical methods work.

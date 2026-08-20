@@ -5,8 +5,8 @@
     "model": "google/recurrentgemma-2b",
     "attention_window": 2048,
     "conv_width": 4,
-    "frozen_core": ["S10", "S11b", "S12b", "S12c"],
-    "next_major_sprint": "S13"
+    "frozen_core": ["S10", "S11b", "S12b", "S12c", "S13"],
+    "next_major_sprint": "S14"
   },
   "architecture": [
     {
@@ -183,11 +183,33 @@
     "p_whole": 218.7596,
     "source": "docs/S12c_Specificity_Microscope_Report.md"
   },
+  "s13": {
+    "status": "FROZEN",
+    "title": "Controlled Recurrent Dynamics & Coordinate Reorientation",
+    "question": "How does surviving value-specific recurrent memory evolve across 2,048 tokens of future task-irrelevant drive?",
+    "implemented_panel": "24 value pairs × 4 drive regimes × 2 causal arms × 6 horizons (11,520 records, B=10,000 bootstrap)",
+    "v0_n0": 39.58,
+    "v0_n0_ci": [2.97, 77.03],
+    "v0_n2048": 4.70,
+    "v0_n2048_ci": [-5.52, 15.85],
+    "delta_v_carry_n2048": 4.41,
+    "delta_v_carry_n2048_ci": [-8.54, 17.71],
+    "vN_n2048": 13.95,
+    "vN_n2048_ci": [3.20, 24.72],
+    "c_r_n2048": 0.1238,
+    "c_r_n2048_ci": [0.0953, 0.1545],
+    "q_r_n2048": 4.8504,
+    "q_r_n2048_ci": [3.2012, 6.6837],
+    "c_logit_n2048": 0.0391,
+    "c_logit_n2048_ci": [-0.0504, 0.1280],
+    "sensitivity_panel": "4-pair strict same-four B=1 vs B=5 comparison confirms aggregate C_R reorientation robustness with trajectory-level execution sensitivity.",
+    "source": "results/e13_controlled_recurrent_dynamics/run_e13_confirmatory_20260819_140139/report.md"
+  },
   "frontier": {
-    "s13": {
-      "status": "OPEN QUESTION",
-      "title": "Null-Observation / Controlled Recurrent Dynamics",
-      "question": "What happens to surviving recurrent history when no new task-relevant semantic information enters?"
+    "s14": {
+      "status": "ACTIVE SPRINT",
+      "title": "Latent Metacognition, Reality Monitoring & State Ownership",
+      "question": "A history-conditioned latent distinction persists causally while its representational coordinates evolve. Does the model have any privileged access to that evolving latent distinction?"
     }
   },
   "taxonomy": [
@@ -195,25 +217,31 @@
       "property": "Reconstructible",
       "answer": "YES",
       "status": "FROZEN",
-      "note": "Public-history replay reconstructs deterministic hidden state."
+      "note": "Public-history replay reconstructs deterministic hidden state (S10)."
     },
     {
       "property": "Persistent",
       "answer": "YES",
       "status": "FROZEN",
-      "note": "Branch-specific RG-LRU traces remain at 2W."
+      "note": "Branch-specific RG-LRU traces remain at 2W (S11b)."
     },
     {
       "property": "Causally operative",
       "answer": "YES",
       "status": "FROZEN",
-      "note": "Matching RG-LRU transplantation causally steers downstream logits."
+      "note": "Matching RG-LRU transplantation causally steers downstream logits (S12b)."
     },
     {
       "property": "Value-specific",
       "answer": "YES",
       "status": "FROZEN",
-      "note": "Holding sentence template fixed, matching history adds +38.49 [25.82, 50.85] over same-template wrong values."
+      "note": "Holding template fixed, matching history adds +38.49 [25.82, 50.85] over same-template wrong values (S12c)."
+    },
+    {
+      "property": "Coordinate-stable over time",
+      "answer": "NO",
+      "status": "FROZEN",
+      "note": "Historical u_0 steering decays to near-zero (+4.70 [-5.52, +15.85]) while state difference reorients (C_R -> 0.12) and contemporaneous steering remains positive (V^(N) = +13.95 [3.20, 24.72]) (S13)."
     },
     {
       "property": "Explicitly reportable at 2W",
@@ -225,7 +253,7 @@
       "property": "Owned / privileged",
       "answer": "UNKNOWN",
       "status": "OPEN QUESTION",
-      "note": "The frozen core does not establish introspective access or source ownership."
+      "note": "Topic of S14+: Testing whether the system has metacognitive access or ownership over evolving latent distinctions."
     }
   ]
 }

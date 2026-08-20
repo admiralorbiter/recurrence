@@ -1,26 +1,26 @@
 # Horizon 2 Core Retrospective Memo: Causal Latent Continuity & Empirical Dissociations
 
-**Date:** 2026-08-18  
-**Scope:** Sprints S10–S12c (`google/recurrentgemma-2b`)  
-**Status:** **FROZEN RESEARCH MEMO (Calibrated with S12c.1 Specificity Microscope Results)**
+**Date:** 2026-08-20  
+**Scope:** Sprints S10–S13 (`google/recurrentgemma-2b`)  
+**Status:** **FROZEN RESEARCH MEMO (Calibrated with S13 Confirmatory & S13.3 Methodological Sensitivity Results)**
 
 ---
 
-## 1. Executive Synthesis: What Horizon 2 Established
+## 1. Executive Synthesis: What Horizon 2 Core Established
 
-Across Sprints S10, S11b, S12b, and S12c, Horizon 2 established **causal latent memory carrying value-specific historical information, not privileged or autonomous continuity**:
+Across Sprints S10, S11b, S12b, S12c, and S13, Horizon 2 Core established **causal latent memory carrying value-specific historical information that undergoes rapid geometric reorientation under continued processing, rather than static, autonomous, or privileged continuity**:
 
-> *The recurrent state of `RecurrentGemma-2B` is hidden from prompt text but exactly reconstructible from public token history ($S_t = \mathcal{F}_\theta(x_{1:t})$); it persists physically long after local sliding-window attention has evicted direct access to historical tokens ($L=4096 = 2W$); it directly and causally steers the downstream logit distribution along the donor trajectory ($P_{\text{RGLRU}} = +74.10$); it carries value-specific historical information beyond syntactic sentence templates ($\Delta P_{\text{value\_spec}} = +38.49$, $\Delta \alpha_{\text{value\_spec}} = +0.1744$); but explicit factual retrieval of the original binding has largely disappeared from behavioral output. The state has not yet demonstrated autonomous internal evolution, source ownership, metacognitive access, or informational privilege.*
+> *The recurrent state of `RecurrentGemma-2B` is hidden from prompt text but exactly reconstructible from public token history ($S_t = \mathcal{F}_\theta(x_{1:t})$); it persists physically long after local sliding-window attention has evicted direct access to historical tokens ($L=4096 = 2W$); it directly and causally steers the downstream logit distribution along the donor trajectory ($P_{\text{RGLRU}} = +74.10$); it carries value-specific historical information beyond syntactic sentence templates ($\Delta P_{\text{value\_spec}} = +38.49$, $\Delta \alpha_{\text{value\_spec}} = +0.1744$); but explicit factual retrieval of the original binding has largely disappeared from behavioral output. Under continued task-irrelevant drive (S13), historical value-specific steering rapidly loses stable alignment with its original output-space direction ($V^{(0)}(2048) = +4.70$ [$-5.52, +15.85$]), while value-specific causal structure remains detectable relative to the model's evolved output geometry ($V^{(N)}(2048) = +13.95$ [$+3.20, +24.72$]). Meanwhile, the recurrent A/B state difference remains physically present but becomes largely reoriented relative to its $N=0$ direction ($C_R(2048) = +0.1238$ [$+0.0953, +0.1545$]), with magnitude evolution strongly dependent on input statistics. The state has not yet demonstrated autonomous internal evolution, source ownership, metacognitive access, or informational privilege.*
 
 ---
 
-## 2. The Five-Way Theoretical Taxonomy
+## 2. The Six-Way Theoretical Taxonomy
 
-Horizon 2 replaces the coarse binary distinction ("external prompt memory vs. native recurrence") with a five-way property taxonomy:
+Horizon 2 Core replaces the coarse binary distinction ("external prompt memory vs. native recurrence") with a six-way property taxonomy:
 
 ```
 ┌───────────────────────────────────────────────────────────────────────────────────────────────────┐
-│ THE HORIZON 2 THEORETICAL TAXONOMY                                                                │
+│ THE HORIZON 2 CORE THEORETICAL TAXONOMY                                                           │
 ├──────────────────────┬───────────────────────────────┬──────────────────────┬─────────────────────┤
 │ Dimension            │ Core Question                 │ Empirical Status     │ Empirical Grounding │
 ├──────────────────────┼───────────────────────────────┼──────────────────────┼─────────────────────┤
@@ -36,7 +36,10 @@ Horizon 2 replaces the coarse binary distinction ("external prompt memory vs. na
 │ 4. Value Specificity │ Does state carry specific     │ YES                  │ S12c Specificity    │
 │                      │ token value vs template info? │ (Delta P = +38.49)   │ (CI [25.82, 50.85]) │
 ├──────────────────────┼───────────────────────────────┼──────────────────────┼─────────────────────┤
-│ 5. Access / Ownership│ Can the model monitor its own │ UNTESTED / UNKNOWN   │ Topic of S14        │
+│ 5. Dynamical Fate &  │ Is historical causal steering │ NO (Coordinate loss  │ S13 Confirmatory &  │
+│    Coordinate Stability│ stable as experience goes on?│ on u0; reorients)    │ S13.3 Sensitivity   │
+├──────────────────────┼───────────────────────────────┼──────────────────────┼─────────────────────┤
+│ 6. Access / Ownership│ Can the model monitor its own │ UNTESTED / UNKNOWN   │ Topic of S14+       │
 │                      │ state with unique privilege?  │ (Secret Injections)  │ (Base vs IT Models) │
 └──────────────────────┴───────────────────────────────┴──────────────────────┴─────────────────────┘
 ```
@@ -46,66 +49,49 @@ Horizon 2 replaces the coarse binary distinction ("external prompt memory vs. na
 - **Recurrent $\ne$ Autonomous:** Gated linear recurrence is input-driven; absence of token input means absence of transition clock.
 - **Causal $\ne$ Conscious / Metacognitive:** A physical state can steer logits without the system having introspective access to that state.
 - **Representation $\ne$ Reportability:** Latent output dispositions can carry historical structure even when factual cloze recovery fails.
+- **Specific $\ne$ Coordinate-Stable:** Value-specific historical structure can remain causally active while rapidly losing alignment with its original output-space coordinate system ($u_0$).
+- **Same Mathematical Model $\ne$ Identical Realized Trajectory:** Under long recurrent trajectories in finite precision (BF16), execution batch shape can materially alter realized output trajectories while preserving aggregate state-space reorientation.
 
 ---
 
-## 3. The Three-Way Memory Dissociation at $2W=4096$ Tokens
+## 3. The Longitudinal Dissociation Ladder (S10–S13)
 
-At twice the local attention window ($2W=4096$), S11b, S12b, and S12c establish a profound three-way dissociation:
+```
+N=0 (Standardized 2W Origin):
+  Physical State Differs (r_0 != 0) ──► Specific Causal Steering on u_0 (V(0) = +39.58) ──► Cloze Fact Recovery Fails (Cloze ~ 0)
 
-$$\text{Physical State Divergence Remains } \implies \text{ Value-Specific Causal Steering Remains } \centernot\implies \text{ Explicit Fact Retrieval}$$
+Continued Processing (N = 16 -> 2048):
+  State Rotation Occurs (C_R -> 0.12) ──► Historical u_0 Steering Lost (V^(0)(2048) ~ 0) ──► Contemporaneous Steering Active (V^(N)(2048) = +13.95)
+```
 
-1. **Physical Persistence (S11b):**
-   Branch-specific RG-LRU state separation remains clearly above the sham floor across all 4 filler regimes at $2W=4096$ tokens, with retention ranging roughly $0.045$ to $0.338$ ($R_{\text{constant}} \approx 0.338$, $R_{\text{interfering}} \approx 0.080$, $R_{\text{natural}} \approx 0.051$, $R_{\text{random}} \approx 0.045$; all 95% CIs strictly exclude zero).
-2. **Value-Specific Causal Output Steering (S12c):**
-   Transplanting matching RG-LRU state produces a strongly resolved value-specific advantage over same-template wrong-value states ($\Delta P_{\text{value\_spec}} = +38.49$, 95% CI $[+25.82, +50.85]$; $\Delta \alpha = +0.1744$ $[+0.1001, +0.2536]$).
-3. **Behavioral Usability Failure (S11b/S12b):**
-   Zero-shot factual cloze margins at $2W$ span zero in all regimes (e.g. natural: $+0.009$ $[-0.071, +0.089]$), and task-specific signed graft effects are unresolved.
-
-**Scientific Interpretation:**  
-The model's latent state remains distinct according to what happened in history, and that specific difference causally shifts the output distribution—without necessarily making the fact explicitly reportable in output text.
-
----
-
-## 4. The Descriptive Contrast Ladder (S12c)
-
-Rather than asserting orthogonal latent sub-components, the S12c results form a clear **descriptive contrast ladder**:
-
-$$\begin{aligned}
-P_{\text{noise}} &= +48.23 \quad \text{[Matched-norm Frobenius noise control]} \\
-P_{\text{wrong\_val}} &= +83.13 \quad \text{[Same-template wrong-value history: } \Delta P = +34.89 \text{ over noise]} \\
-P_{\text{match}} &= +121.62 \quad \text{[Matching historical value: } \Delta P = +38.49 \text{ over wrong-value]} \\
-P_{\text{whole}} &= +218.76 \quad \text{[Whole-state positive reference]}
-\end{aligned}$$
-
-- **Structured Nonmatching Histories Steer More Than Noise:** Any structured historical state ($+75$ to $+83$) provides a broad recurrent baseline exceeding Gaussian noise ($+48.23$).
-- **Matching History Provides a Selective Advantage:** Holding sentence template identical, matching history adds $+38.49$ $[+25.82, +50.85]$.
-- **Template Increment Unresolved:** The contrast between same-template wrong-value and cross-template historical states ($\Delta P = +7.38$ [$-8.26, +24.73$]) spans zero. We do not resolve an additional template increment over the cross-template control used, rather than establishing equivalence.
-- **Whole-State Reference is Not a Ceiling:** In individual cells, chimeric state transplantation ($P_{\text{RGLRU}} = +288.10$) overshoots the whole-state reference ($P_{\text{whole}} = +255.38$).
+1. **Physical Persistence & State Reorientation (S11b / S13):**
+   Branch-specific RG-LRU separation remains resolved at $2W=4096$ tokens ($R \approx 0.045\text{--}0.338$). Under subsequent task-irrelevant drive ($N=2048$), the state difference vector $r(t)$ does not vanish, but rotates toward near-orthogonality ($C_R(2048) = +0.1238$ [$+0.0953, +0.1545$]), while state quotient $Q_R(2048)$ exhibits massive drive-dependent divergence (`constant`: $Q_R \approx 15.31$ vs `random`: $Q_R \approx 0.94$).
+2. **Loss of Historical Coordinate Alignment (S13):**
+   Holding the baseline measurement axis $u_0$ frozen, steering capacity drops from $V(0) = +39.58$ [$+2.97, +77.03$] to an unresolved $V^{(0)}(2048) = +4.70$ [$-5.52, +15.85$].
+3. **Persistence of Contemporaneous Steerability (S13):**
+   When measured along the contemporaneous logit axis $u_N$, steerability remains resolved positive at $N=2048$ ($V^{(N)}(2048) = +13.95$ [$+3.20, +24.72$]).
+4. **Causal Carry Clamping (S13):**
+   Repeatedly clamping RG-LRU carry to $S_0$ vs allowing free evolution yields no resolved pooled advantage on $u_0$ at $N=2048$ ($\Delta V_{\text{carry}}^{(0)}(2048) = +4.41$ [$-8.54, +17.71$]), as both arms dissipate on the historical coordinate frame. Regime-specific estimates suggest that the causal effect of recurrent-carry evolution may depend on the statistics of subsequent input.
+5. **Methodological Invariance (S13.3):**
+   In a sparse 4-pair numerical sensitivity panel, aggregate state-space reorientation ($C_R(N)$) is qualitatively batch-robust across $B=1$ vs $B=5$ ($C_R(2048) \approx 0.195 \leftrightarrow 0.144$), while individual trajectory-level causal expressions are execution-sensitive.
 
 ---
 
-## 5. Methodological & Cognitive Connections
-
-- **Causal Abstraction (Geiger et al., 2021; 2024):**  
-  Our multi-store swap harness implements interchange interventions on neural representations to causally verify value-level historical bindings.
-- **Activity-Silent Working Memory (Wolff et al., 2017; Rose et al., 2016; Stokes, 2015):**  
-  Item-specific representations that cease to be visible in ongoing zero-shot generation remain latent in recurrent state dynamics and are revealed through causal intervention probes.
-
----
-
-## 6. Horizon 2 Roadmap from Core Freeze to Completion
+## 4. Horizon 2 Core Status: FROZEN (S10–S13)
 
 ```
 +---------------------------------------------------------------------------------------------------+
-| HORIZON 2 SPRINT PLAN (S10–S16)                                                                   |
+| HORIZON 2 CORE SPRINT PROGRESSION (S10–S13: FROZEN)                                               |
 +---------------------------------------------------------------------------------------------------+
-| S10: Fail-Closed Model Bring-Up & Replay Invariants       | COMPLETE (Replay Invariant Verified)  |
+| S10: Fail-Closed Model Bring-Up & Replay Invariants       | FROZEN (Replay Invariant Verified)    |
 | S11b: Latent Impulse Retention & Temporal Anatomy         | FROZEN (Physical Persistence at 2W)   |
 | S12b: Multi-Store Surgical Swaps & Causal Attribution     | FROZEN (Causal Steering P = +74.10)   |
 | S12c: Specificity Microscope (Within-Template vs Value)   | FROZEN (Value Spec = +38.49 [25, 50]) |
-| S13: Null-Observation / Controlled Recurrent Dynamics     | S13.0 Audit -> S13.1 Controlled Sweep |
-| S14: Latent Metacognition, Reality Monitoring & Ownership | Secret Injections, Base vs IT Models  |
+| S13: Controlled Dynamics, Coordinate Loss & Geometry      | FROZEN (C_R -> 0.12, V^(N) > 0, V^(0)~0)|
++---------------------------------------------------------------------------------------------------+
+| HORIZON 2 METALOGICAL FRONTIER (S14+)                                                             |
++---------------------------------------------------------------------------------------------------+
+| S14: Latent Metacognition, Reality Monitoring & Ownership | Secret Injections into Evolving States|
 | S15: Recurrent Adapter Prototype & Low-Rank Continuity    | Cross-Session Parameterized Memory    |
 | S16: Monitor/Content Dissociation & Level 2 Synthesis     | Final H2 Go/No-Go Decision for H3     |
 +---------------------------------------------------------------------------------------------------+
