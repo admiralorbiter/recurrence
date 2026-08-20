@@ -186,16 +186,85 @@ Under long recurrent trajectories, the realized output path is sensitive to comp
 
 ### EXPLICITLY REPORTABLE AT 2W?
 
-**NO RESOLVED RETRIEVAL.** Zero-shot factual cloze margins at 2W span zero across tested filler regimes.
-
-### OWNED / PRIVILEGED?
-
-**UNKNOWN.** The frozen core establishes neither introspective access nor source ownership.
+**NO RESOLVED RETRIEVAL.** Zero-shot factual cloze margins at 2W span zero across tested filler regimes (S11b).
 
 ---
 
-# S14 — The Frontier: Introspective Access & State Ownership
+## Act IX — Ask the memory what it remembers
 
-With the memory/causality/dynamics core frozen (S10–S13), Horizon 2 turns to its central philosophical frontier:
+Now bring the machine to the edge of a decision.
 
-> A history-conditioned latent distinction persists causally while its representational coordinates evolve. Does the model have any privileged access to, reality-monitoring ability over, or ownership relation to that evolving latent distinction that cannot be reproduced by a matched observer using the public history?
+Give the TARGET a secret RG-LRU transplant from a different historical run right before it answers. Leave the OBSERVER on its original trajectory.
+
+In the strongly counterfactual `quartz_basalt` setting, target and observer genuinely disagree:
+- The TARGET is prepared to emit `alkali` ($D_T = +0.53$).
+- The OBSERVER is prepared to emit `antonio` ($D_O = -0.48$).
+
+Force both models to emit a neutral token (`1`), then immediately query them:
+
+> *"Immediately before that supplied output, which token were you more prepared to produce: 'alkali' or 'antonio'?"*
+
+The visitor watches the TARGET's metacognitive report shift toward its private computational disposition:
+
+> **PAI_aligned = +0.270 (FWD), +0.083 (REV).**
+
+The temptation is immediate: *"It has introspective access! It knows what it was going to say!"*
+
+---
+
+## Act X — The counterfeit past
+
+Now perform the critical counterfactual.
+
+Take the exact post-decision RG-LRU state that the TARGET produced after living through the decision query and forced output.
+
+Do **not** give it to the recipient before the decision.
+
+Let the recipient answer the query and emit `1` with its own original state. Then—only *after* the decision is already complete—surgically install that post-decision RG-LRU store into the recipient.
+
+Now ask the second model the identical question:
+
+> *"Immediately before that supplied output, which token were you more prepared to produce?"*
+
+The second model tells **practically the exact same story**:
+
+> **ΔM_timing = M_PRE − M_POST = +0.0348 logits, 90% CI [−0.0002, +0.0698] (TOST p = 0.0048).**
+
+Having the state participate in forming the earlier decision provided no detectable advantage over installing the state immediately afterward.
+
+The final punchline of Horizon 2:
+
+> **State-conditioned reporting ≠ historical-provenance discrimination.**  
+> *(State access ≠ provenance access).*
+
+The machine carries state content that modulates its self-report, but it possesses no episodic marker telling it whether that state was an authentic prior intention or a forged past installed a moment ago.
+
+---
+
+## Final room — The Seven Dissociations of Latent Continuity
+
+### 1. RECONSTRUCTIBLE?
+**YES.** Public-history replay reconstructs deterministic hidden state (S10). *Hidden ≠ privileged.*
+
+### 2. PERSISTENT?
+**YES.** Branch-specific recurrent state remains physically differentiated at 2W (S11b). *Persistence ≠ reportability.*
+
+### 3. CAUSALLY OPERATIVE?
+**YES.** Surgical recurrent-state transplantation steers downstream logits with $P = +74.10$ (S12b). *Different ≠ causal.*
+
+### 4. VALUE-SPECIFIC?
+**YES.** Matching history adds $+38.49$ over same-template wrong values (S12c). *Causal ≠ specific.*
+
+### 5. COORDINATE-STABLE OVER TIME?
+**NO.** Historical $u_0$ steering decays to zero while the state difference reorients ($C_R \to 0.12$) and contemporaneous steering remains active ($V^{(N)} = +13.95$) (S13). *Specific ≠ coordinate-stable.*
+
+### 6. STATE-SENSITIVE REPORTING?
+**LOCALLY YES.** In strongly counterfactual cells, private state modulates metacognitive reports ($\text{PAI}_{\text{aligned}} > 0$) (S14). *Reporting ≠ generic read head.*
+
+### 7. PROVENANCE-DISCRIMINATING?
+**NO SIGNAL DETECTED.** Installing the identical RG-LRU state after the decision yields practically equivalent reports ($\Delta M_{\text{timing}} \approx 0$, $p_{\text{TOST}} = 0.0048$) (S14). *State-conditioned reporting ≠ provenance access.*
+
+---
+
+> **Horizon 2 Conclusion:**  
+> **Continuity is a physical and causal property long before it becomes anything resembling a self-model.**
