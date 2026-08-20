@@ -1,0 +1,131 @@
+{
+  "experiment_id": "Q05_interruption_cue_restoration_replay_assay",
+  "gate": "GATE_B",
+  "run_id": "run_20260820_222005_289630dd",
+  "created_at": "2026-08-20T22:20:05.050025+00:00",
+  "git_sha": "3e7c8fc47bee6687bdf33a785713a0f9c6ffef77",
+  "evidence_mode": "TRAINED_MODEL",
+  "status": "SCOUT_GATE_PASS",
+  "model_revision": "v0.1.0",
+  "environment_revision": "v0.1.0",
+  "seed": 42,
+  "lineage": {
+    "lineage_id": "garden_v0_q05",
+    "parent_lineage_id": null,
+    "fork_step": 6,
+    "event_hash": null
+  },
+  "execution": {
+    "device": "cpu",
+    "precision": "fp32",
+    "batch_size": 1,
+    "torch_version": null,
+    "python_version": "3.12.0",
+    "platform": "Windows-11-10.0.26220-SP0"
+  },
+  "condition": {
+    "name": "interruption_5_branch_panel",
+    "manipulation_type": "interruption_and_memory_reconstruction",
+    "intervention_target": null,
+    "parameters": {}
+  },
+  "provenance": {
+    "forward_calls": 5440,
+    "training_steps": 6400,
+    "raw_record_count": 800,
+    "activation_cache_hash": null,
+    "raw_results_hash": "68a3941bd1e15fdcc8ed54a601034f0ab613e7531d3d96f5ad641e144e94cd98",
+    "source_run_ids": []
+  },
+  "metrics": {
+    "uninterrupted": {
+      "mean": 1.0,
+      "std": 0.0
+    },
+    "latent_reset": {
+      "mean": 0.5,
+      "std": 0.0
+    },
+    "cue_restored": {
+      "mean": 1.0,
+      "std": 0.0
+    },
+    "replay_restored": {
+      "mean": 1.0,
+      "std": 0.0
+    },
+    "conflicting_cue_override": {
+      "mean": 0.0,
+      "std": 0.0
+    },
+    "per_seed_data": [
+      {
+        "seed": 42,
+        "uninterrupted": 1.0,
+        "latent_reset": 0.5,
+        "cue_restored": 1.0,
+        "replay_restored": 1.0,
+        "conflicting_cue_override": 0.0
+      },
+      {
+        "seed": 43,
+        "uninterrupted": 1.0,
+        "latent_reset": 0.5,
+        "cue_restored": 1.0,
+        "replay_restored": 1.0,
+        "conflicting_cue_override": 0.0
+      },
+      {
+        "seed": 44,
+        "uninterrupted": 1.0,
+        "latent_reset": 0.5,
+        "cue_restored": 1.0,
+        "replay_restored": 1.0,
+        "conflicting_cue_override": 0.0
+      },
+      {
+        "seed": 45,
+        "uninterrupted": 1.0,
+        "latent_reset": 0.5,
+        "cue_restored": 1.0,
+        "replay_restored": 1.0,
+        "conflicting_cue_override": 0.0
+      },
+      {
+        "seed": 46,
+        "uninterrupted": 1.0,
+        "latent_reset": 0.5,
+        "cue_restored": 1.0,
+        "replay_restored": 1.0,
+        "conflicting_cue_override": 0.0
+      },
+      {
+        "seed": 47,
+        "uninterrupted": 1.0,
+        "latent_reset": 0.5,
+        "cue_restored": 1.0,
+        "replay_restored": 1.0,
+        "conflicting_cue_override": 0.0
+      },
+      {
+        "seed": 48,
+        "uninterrupted": 1.0,
+        "latent_reset": 0.5,
+        "cue_restored": 1.0,
+        "replay_restored": 1.0,
+        "conflicting_cue_override": 0.0
+      },
+      {
+        "seed": 49,
+        "uninterrupted": 1.0,
+        "latent_reset": 0.5,
+        "cue_restored": 1.0,
+        "replay_restored": 1.0,
+        "conflicting_cue_override": 0.0
+      }
+    ]
+  },
+  "artifacts": {
+    "summary_json": "results\\e18_garden_q05_interruption\\run_q05_interruption_20260820_221904\\q05_interruption_summary.json"
+  }
+}

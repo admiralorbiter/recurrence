@@ -3,6 +3,7 @@
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
+import hashlib
 import json
 from pathlib import Path
 import platform
@@ -96,6 +97,13 @@ class ExperimentManifest:
                 raise ValueError("TRAINED_MODEL requires non-zero training_steps in provenance.")
             if self.evidence_mode == EvidenceMode.LIVE_MODEL and self.provenance.forward_calls == 0:
                 raise ValueError("LIVE_MODEL requires non-zero forward_calls in provenance.")
+
+    def compute_and_set_results_hash(self, results_data: Any) -> str:
+        """Computes SHA256 of results data and sets it in provenance."""
+        data_str = json.dumps(results_data, sort_keys=True)
+        h = hashlib.sha256(data_str.encode("utf-8")).hexdigest()
+        self.provenance.raw_results_hash = h
+        return h
 
     def to_dict(self) -> Dict[str, Any]:
         self.validate()

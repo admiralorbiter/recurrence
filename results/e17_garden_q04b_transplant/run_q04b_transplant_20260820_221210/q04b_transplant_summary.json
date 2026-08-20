@@ -1,0 +1,100 @@
+{
+  "own_h": {
+    "mean": 1.0,
+    "std": 0.0
+  },
+  "donor_same_z": {
+    "mean": 1.0,
+    "std": 0.0
+  },
+  "donor_opposite_z_vs_recipient_world": {
+    "mean": 0.0,
+    "std": 0.0
+  },
+  "donor_opposite_z_vs_donor_world": {
+    "mean": 0.5365625,
+    "std": 0.010820806058237993
+  },
+  "zero_h_reset": {
+    "mean": 0.5,
+    "std": 0.0
+  },
+  "random_norm_matched": {
+    "mean": 0.484375,
+    "std": 0.022560682059725057
+  },
+  "per_seed_data": [
+    {
+      "seed": 42,
+      "own_h": 1.0,
+      "donor_same_z": 1.0,
+      "donor_opposite_z_vs_recipient": 0.0,
+      "donor_opposite_z_vs_donor": 0.5525,
+      "zero_h_reset": 0.5,
+      "random_norm_matched": 0.5
+    },
+    {
+      "seed": 43,
+      "own_h": 1.0,
+      "donor_same_z": 1.0,
+      "donor_opposite_z_vs_recipient": 0.0,
+      "donor_opposite_z_vs_donor": 0.53,
+      "zero_h_reset": 0.5,
+      "random_norm_matched": 0.475
+    },
+    {
+      "seed": 44,
+      "own_h": 1.0,
+      "donor_same_z": 1.0,
+      "donor_opposite_z_vs_recipient": 0.0,
+      "donor_opposite_z_vs_donor": 0.5475,
+      "zero_h_reset": 0.5,
+      "random_norm_matched": 0.46
+    },
+    {
+      "seed": 45,
+      "own_h": 1.0,
+      "donor_same_z": 1.0,
+      "donor_opposite_z_vs_recipient": 0.0,
+      "donor_opposite_z_vs_donor": 0.5425,
+      "zero_h_reset": 0.5,
+      "random_norm_matched": 0.52
+    },
+    {
+      "seed": 46,
+      "own_h": 1.0,
+      "donor_same_z": 1.0,
+      "donor_opposite_z_vs_recipient": 0.0,
+      "donor_opposite_z_vs_donor": 0.5225,
+      "zero_h_reset": 0.5,
+      "random_norm_matched": 0.47
+    },
+    {
+      "seed": 47,
+      "own_h": 1.0,
+      "donor_same_z": 1.0,
+      "donor_opposite_z_vs_recipient": 0.0,
+      "donor_opposite_z_vs_donor": 0.5275,
+      "zero_h_reset": 0.5,
+      "random_norm_matched": 0.5
+    },
+    {
+      "seed": 48,
+      "own_h": 1.0,
+      "donor_same_z": 1.0,
+      "donor_opposite_z_vs_recipient": 0.0,
+      "donor_opposite_z_vs_donor": 0.525,
+      "zero_h_reset": 0.5,
+      "random_norm_matched": 0.45
+    },
+    {
+      "seed": 49,
+      "own_h": 1.0,
+      "donor_same_z": 1.0,
+      "donor_opposite_z_vs_recipient": 0.0,
+      "donor_opposite_z_vs_donor": 0.545,
+      "zero_h_reset": 0.5,
+      "random_norm_matched": 0.5
+    }
+  ]
+}

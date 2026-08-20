@@ -1,0 +1,88 @@
+{
+  "uninterrupted": {
+    "mean": 1.0,
+    "std": 0.0
+  },
+  "latent_reset": {
+    "mean": 0.5,
+    "std": 0.0
+  },
+  "cue_restored": {
+    "mean": 1.0,
+    "std": 0.0
+  },
+  "replay_restored": {
+    "mean": 1.0,
+    "std": 0.0
+  },
+  "conflicting_cue_override": {
+    "mean": 0.0,
+    "std": 0.0
+  },
+  "per_seed_data": [
+    {
+      "seed": 42,
+      "uninterrupted": 1.0,
+      "latent_reset": 0.5,
+      "cue_restored": 1.0,
+      "replay_restored": 1.0,
+      "conflicting_cue_override": 0.0
+    },
+    {
+      "seed": 43,
+      "uninterrupted": 1.0,
+      "latent_reset": 0.5,
+      "cue_restored": 1.0,
+      "replay_restored": 1.0,
+      "conflicting_cue_override": 0.0
+    },
+    {
+      "seed": 44,
+      "uninterrupted": 1.0,
+      "latent_reset": 0.5,
+      "cue_restored": 1.0,
+      "replay_restored": 1.0,
+      "conflicting_cue_override": 0.0
+    },
+    {
+      "seed": 45,
+      "uninterrupted": 1.0,
+      "latent_reset": 0.5,
+      "cue_restored": 1.0,
+      "replay_restored": 1.0,
+      "conflicting_cue_override": 0.0
+    },
+    {
+      "seed": 46,
+      "uninterrupted": 1.0,
+      "latent_reset": 0.5,
+      "cue_restored": 1.0,
+      "replay_restored": 1.0,
+      "conflicting_cue_override": 0.0
+    },
+    {
+      "seed": 47,
+      "uninterrupted": 1.0,
+      "latent_reset": 0.5,
+      "cue_restored": 1.0,
+      "replay_restored": 1.0,
+      "conflicting_cue_override": 0.0
+    },
+    {
+      "seed": 48,
+      "uninterrupted": 1.0,
+      "latent_reset": 0.5,
+      "cue_restored": 1.0,
+      "replay_restored": 1.0,
+      "conflicting_cue_override": 0.0
+    },
+    {
+      "seed": 49,
+      "uninterrupted": 1.0,
+      "latent_reset": 0.5,
+      "cue_restored": 1.0,
+      "replay_restored": 1.0,
+      "conflicting_cue_override": 0.0
+    }
+  ]
+}
