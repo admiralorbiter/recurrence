@@ -34,8 +34,8 @@
     "forward_calls": 0,
     "training_steps": 0,
     "raw_record_count": 800,
-    "raw_trial_table_path": null,
-    "raw_trial_table_sha256": null,
+    "raw_trial_table_path": "results\\e20_garden_q08_representation\\run_q08_representation_20260820_225836\\raw_trials.jsonl",
+    "raw_trial_table_sha256": "eea879ac9a815c146c4d1b09efcf55bfb208eb2e7d39811c2926d55d5d2f6f2f",
     "activation_cache_hash": null,
     "raw_results_hash": "4cc80a1f15770199a2af7e7931ddee9d32f2953a3c1e4e78a0e7fba3257ac9c6",
     "source_run_ids": [
