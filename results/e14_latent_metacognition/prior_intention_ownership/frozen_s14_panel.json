@@ -1,0 +1,9 @@
+{
+  "model_id": "google/recurrentgemma-2b-it",
+  "pinned_revision": "2766eb5d4264c6c0357803990791f9ab9cd50f8e",
+  "margin_threshold": 0.3,
+  "full_vocab_rank_cutoff": 500,
+  "common_english_lexicon_size": 10570,
+  "total_frozen_cells": 0,
+  "frozen_panel": []
+}

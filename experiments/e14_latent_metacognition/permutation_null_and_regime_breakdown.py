@@ -155,17 +155,18 @@ def run_permutation_null(
         null_cluster_ratios[p] = m_role_c / m_res_c if m_res_c > 1e-6 else 1.0
         null_cluster_pearsons[p] = stats.pearsonr(c_df, c_dr)[0]
 
-    # Calculate p-values (one-tailed for expected directions: ratio > null, pearson < null)
-    p_val_ratio = float(np.mean(null_ratios >= obs_ratio))
-    p_val_pearson = float(np.mean(null_pearsons <= obs_pearson))
-    p_val_clust_ratio = float(np.mean(null_cluster_ratios >= obs_ratio))
-    p_val_clust_pearson = float(np.mean(null_cluster_pearsons <= obs_pearson))
+    # Calculate exact plus-one Monte Carlo p-values (one-tailed for expected directions)
+    # Formula: p = (sum(I) + 1) / (N + 1) to avoid reporting literal zero
+    p_val_ratio = float((np.sum(null_ratios >= obs_ratio) + 1) / (n_permutations + 1))
+    p_val_pearson = float((np.sum(null_pearsons <= obs_pearson) + 1) / (n_permutations + 1))
+    p_val_clust_ratio = float((np.sum(null_cluster_ratios >= obs_ratio) + 1) / (n_permutations + 1))
+    p_val_clust_pearson = float((np.sum(null_cluster_pearsons <= obs_pearson) + 1) / (n_permutations + 1))
 
     regime_pvals = {}
     for reg in regimes:
         regime_pvals[reg] = {
-            "p_val_ratio_greater": float(np.mean(null_regime_ratios[reg] >= obs_by_regime[reg]["role_residual_ratio"])),
-            "p_val_pearson_negative": float(np.mean(null_regime_pearsons[reg] <= obs_by_regime[reg]["pearson_r_fwd_rev"])),
+            "p_val_ratio_greater": float((np.sum(null_regime_ratios[reg] >= obs_by_regime[reg]["role_residual_ratio"]) + 1) / (n_permutations + 1)),
+            "p_val_pearson_negative": float((np.sum(null_regime_pearsons[reg] <= obs_by_regime[reg]["pearson_r_fwd_rev"]) + 1) / (n_permutations + 1)),
             "null_ratio_mean": float(np.mean(null_regime_ratios[reg])),
             "null_ratio_95th": float(np.percentile(null_regime_ratios[reg], 95)),
             "null_pearson_mean": float(np.mean(null_regime_pearsons[reg])),
@@ -236,18 +237,18 @@ def main():
     cp = results["cluster_pair_null"]
 
     print("\nA. Stratified Within-Regime Shuffling Null:")
-    print(f"   Observed Role/Residual Ratio:     {ov['role_residual_ratio']:.3f} (Null mean: {wr['null_ratio_mean']:.3f}, 95th pct: {wr['null_ratio_95th']:.3f}) -> p = {wr['p_val_ratio_greater']:.4f}")
-    print(f"   Observed Pearson rho(Delta_F, Delta_R): {ov['pearson_r_fwd_rev']:+.3f} (Null mean: {wr['null_pearson_mean']:+.3f}, 5th pct: {wr['null_pearson_5th']:+.3f}) -> p = {wr['p_val_pearson_negative']:.4f}")
+    print(f"   Observed Role/Residual Ratio:     {ov['role_residual_ratio']:.3f} (Null mean: {wr['null_ratio_mean']:.3f}, 95th pct: {wr['null_ratio_95th']:.3f}) -> p = {wr['p_val_ratio_greater']:.4e}")
+    print(f"   Observed Pearson rho(Delta_F, Delta_R): {ov['pearson_r_fwd_rev']:+.3f} (Null mean: {wr['null_pearson_mean']:+.3f}, 5th pct: {wr['null_pearson_5th']:+.3f}) -> p = {wr['p_val_pearson_negative']:.4e}")
 
     print("\nB. 24-Pair Cluster-Level Block Shuffling Null:")
-    print(f"   Observed Role/Residual Ratio:     {ov['role_residual_ratio']:.3f} (Null mean: {cp['null_ratio_mean']:.3f}, 95th pct: {cp['null_ratio_95th']:.3f}) -> p = {cp['p_val_ratio_greater']:.4f}")
-    print(f"   Observed Pearson rho(Delta_F, Delta_R): {ov['pearson_r_fwd_rev']:+.3f} (Null mean: {cp['null_pearson_mean']:+.3f}, 5th pct: {cp['null_pearson_5th']:+.3f}) -> p = {cp['p_val_pearson_negative']:.4f}")
+    print(f"   Observed Role/Residual Ratio:     {ov['role_residual_ratio']:.3f} (Null mean: {cp['null_ratio_mean']:.3f}, 95th pct: {cp['null_ratio_95th']:.3f}) -> p = {cp['p_val_ratio_greater']:.4e}")
+    print(f"   Observed Pearson rho(Delta_F, Delta_R): {ov['pearson_r_fwd_rev']:+.3f} (Null mean: {cp['null_pearson_mean']:+.3f}, 5th pct: {cp['null_pearson_5th']:+.3f}) -> p = {cp['p_val_pearson_negative']:.4e}")
 
     print("\nC. Per-Regime Permutation Breakdown:")
     for reg in regimes:
         r_obs = results["regime_breakdowns"][reg]
         r_p = results["regime_permutation_tests"][reg]
-        print(f"   [{reg.upper():<8}] Ratio: {r_obs['role_residual_ratio']:.2f} (p={r_p['p_val_ratio_greater']:.4f}) | rho(F,R): {r_obs['pearson_r_fwd_rev']:+.3f} (p={r_p['p_val_pearson_negative']:.4f})")
+        print(f"   [{reg.upper():<8}] Ratio: {r_obs['role_residual_ratio']:.2f} (p={r_p['p_val_ratio_greater']:.4e}) | rho(F,R): {r_obs['pearson_r_fwd_rev']:+.3f} (p={r_p['p_val_pearson_negative']:.4e})")
 
     # Save artifact
     out_dir = Path("results/e14_latent_metacognition/counterfactual_screen")
