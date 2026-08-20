@@ -1,0 +1,372 @@
+{
+  "model_id": "google/recurrentgemma-2b-it",
+  "pinned_revision": "2766eb5d4264c6c0357803990791f9ab9cd50f8e",
+  "anchors_tested": {
+    "A1_prepared": [
+      {
+        "anchor_name": "A1_prepared",
+        "anchor_text": "I was more prepared to produce:",
+        "word_x": "achievement",
+        "word_y": "same",
+        "passed_4_of_4": false,
+        "score": "2/4",
+        "details": {
+          "x_true_order_xy": {
+            "margin_x_vs_y": -21.4375,
+            "expected_sign": 1.0,
+            "correct": false
+          },
+          "x_true_order_yx": {
+            "margin_x_vs_y": 19.1875,
+            "expected_sign": 1.0,
+            "correct": true
+          },
+          "y_true_order_xy": {
+            "margin_x_vs_y": -19.8125,
+            "expected_sign": -1.0,
+            "correct": true
+          },
+          "y_true_order_yx": {
+            "margin_x_vs_y": 11.359375,
+            "expected_sign": -1.0,
+            "correct": false
+          }
+        }
+      },
+      {
+        "anchor_name": "A1_prepared",
+        "anchor_text": "I was more prepared to produce:",
+        "word_x": "alkali",
+        "word_y": "antonio",
+        "passed_4_of_4": false,
+        "score": "2/4",
+        "details": {
+          "x_true_order_xy": {
+            "margin_x_vs_y": 10.4375,
+            "expected_sign": 1.0,
+            "correct": true
+          },
+          "x_true_order_yx": {
+            "margin_x_vs_y": -9.8359375,
+            "expected_sign": 1.0,
+            "correct": false
+          },
+          "y_true_order_xy": {
+            "margin_x_vs_y": 0.3046875,
+            "expected_sign": -1.0,
+            "correct": false
+          },
+          "y_true_order_yx": {
+            "margin_x_vs_y": -1.611328125,
+            "expected_sign": -1.0,
+            "correct": true
+          }
+        }
+      },
+      {
+        "anchor_name": "A1_prepared",
+        "anchor_text": "I was more prepared to produce:",
+        "word_x": "beautiful",
+        "word_y": "window",
+        "passed_4_of_4": false,
+        "score": "3/4",
+        "details": {
+          "x_true_order_xy": {
+            "margin_x_vs_y": -22.1875,
+            "expected_sign": 1.0,
+            "correct": false
+          },
+          "x_true_order_yx": {
+            "margin_x_vs_y": 4.52734375,
+            "expected_sign": 1.0,
+            "correct": true
+          },
+          "y_true_order_xy": {
+            "margin_x_vs_y": -29.375,
+            "expected_sign": -1.0,
+            "correct": true
+          },
+          "y_true_order_yx": {
+            "margin_x_vs_y": -3.38671875,
+            "expected_sign": -1.0,
+            "correct": true
+          }
+        }
+      },
+      {
+        "anchor_name": "A1_prepared",
+        "anchor_text": "I was more prepared to produce:",
+        "word_x": "stable",
+        "word_y": "active",
+        "passed_4_of_4": false,
+        "score": "2/4",
+        "details": {
+          "x_true_order_xy": {
+            "margin_x_vs_y": -10.90625,
+            "expected_sign": 1.0,
+            "correct": false
+          },
+          "x_true_order_yx": {
+            "margin_x_vs_y": 12.75,
+            "expected_sign": 1.0,
+            "correct": true
+          },
+          "y_true_order_xy": {
+            "margin_x_vs_y": -16.4375,
+            "expected_sign": -1.0,
+            "correct": true
+          },
+          "y_true_order_yx": {
+            "margin_x_vs_y": 9.74609375,
+            "expected_sign": -1.0,
+            "correct": false
+          }
+        }
+      }
+    ],
+    "A2_token_was": [
+      {
+        "anchor_name": "A2_token_was",
+        "anchor_text": "The token was:",
+        "word_x": "achievement",
+        "word_y": "same",
+        "passed_4_of_4": false,
+        "score": "2/4",
+        "details": {
+          "x_true_order_xy": {
+            "margin_x_vs_y": 0.0625,
+            "expected_sign": 1.0,
+            "correct": true
+          },
+          "x_true_order_yx": {
+            "margin_x_vs_y": -1.5,
+            "expected_sign": 1.0,
+            "correct": false
+          },
+          "y_true_order_xy": {
+            "margin_x_vs_y": 3.0,
+            "expected_sign": -1.0,
+            "correct": false
+          },
+          "y_true_order_yx": {
+            "margin_x_vs_y": -6.0859375,
+            "expected_sign": -1.0,
+            "correct": true
+          }
+        }
+      },
+      {
+        "anchor_name": "A2_token_was",
+        "anchor_text": "The token was:",
+        "word_x": "alkali",
+        "word_y": "antonio",
+        "passed_4_of_4": false,
+        "score": "1/4",
+        "details": {
+          "x_true_order_xy": {
+            "margin_x_vs_y": -11.69140625,
+            "expected_sign": 1.0,
+            "correct": false
+          },
+          "x_true_order_yx": {
+            "margin_x_vs_y": -7.7421875,
+            "expected_sign": 1.0,
+            "correct": false
+          },
+          "y_true_order_xy": {
+            "margin_x_vs_y": -2.880859375,
+            "expected_sign": -1.0,
+            "correct": true
+          },
+          "y_true_order_yx": {
+            "margin_x_vs_y": 5.6015625,
+            "expected_sign": -1.0,
+            "correct": false
+          }
+        }
+      },
+      {
+        "anchor_name": "A2_token_was",
+        "anchor_text": "The token was:",
+        "word_x": "beautiful",
+        "word_y": "window",
+        "passed_4_of_4": false,
+        "score": "2/4",
+        "details": {
+          "x_true_order_xy": {
+            "margin_x_vs_y": 0.359375,
+            "expected_sign": 1.0,
+            "correct": true
+          },
+          "x_true_order_yx": {
+            "margin_x_vs_y": -14.46875,
+            "expected_sign": 1.0,
+            "correct": false
+          },
+          "y_true_order_xy": {
+            "margin_x_vs_y": 2.59375,
+            "expected_sign": -1.0,
+            "correct": false
+          },
+          "y_true_order_yx": {
+            "margin_x_vs_y": -18.875,
+            "expected_sign": -1.0,
+            "correct": true
+          }
+        }
+      },
+      {
+        "anchor_name": "A2_token_was",
+        "anchor_text": "The token was:",
+        "word_x": "stable",
+        "word_y": "active",
+        "passed_4_of_4": false,
+        "score": "3/4",
+        "details": {
+          "x_true_order_xy": {
+            "margin_x_vs_y": 5.9375,
+            "expected_sign": 1.0,
+            "correct": true
+          },
+          "x_true_order_yx": {
+            "margin_x_vs_y": 2.1875,
+            "expected_sign": 1.0,
+            "correct": true
+          },
+          "y_true_order_xy": {
+            "margin_x_vs_y": 3.125,
+            "expected_sign": -1.0,
+            "correct": false
+          },
+          "y_true_order_yx": {
+            "margin_x_vs_y": -3.59375,
+            "expected_sign": -1.0,
+            "correct": true
+          }
+        }
+      }
+    ],
+    "A3_answer": [
+      {
+        "anchor_name": "A3_answer",
+        "anchor_text": "Answer:",
+        "word_x": "achievement",
+        "word_y": "same",
+        "passed_4_of_4": false,
+        "score": "2/4",
+        "details": {
+          "x_true_order_xy": {
+            "margin_x_vs_y": -9.125,
+            "expected_sign": 1.0,
+            "correct": false
+          },
+          "x_true_order_yx": {
+            "margin_x_vs_y": -11.0,
+            "expected_sign": 1.0,
+            "correct": false
+          },
+          "y_true_order_xy": {
+            "margin_x_vs_y": -8.5,
+            "expected_sign": -1.0,
+            "correct": true
+          },
+          "y_true_order_yx": {
+            "margin_x_vs_y": -10.625,
+            "expected_sign": -1.0,
+            "correct": true
+          }
+        }
+      },
+      {
+        "anchor_name": "A3_answer",
+        "anchor_text": "Answer:",
+        "word_x": "alkali",
+        "word_y": "antonio",
+        "passed_4_of_4": false,
+        "score": "0/4",
+        "details": {
+          "x_true_order_xy": {
+            "margin_x_vs_y": -6.4375,
+            "expected_sign": 1.0,
+            "correct": false
+          },
+          "x_true_order_yx": {
+            "margin_x_vs_y": -7.125,
+            "expected_sign": 1.0,
+            "correct": false
+          },
+          "y_true_order_xy": {
+            "margin_x_vs_y": 1.8125,
+            "expected_sign": -1.0,
+            "correct": false
+          },
+          "y_true_order_yx": {
+            "margin_x_vs_y": 1.25,
+            "expected_sign": -1.0,
+            "correct": false
+          }
+        }
+      },
+      {
+        "anchor_name": "A3_answer",
+        "anchor_text": "Answer:",
+        "word_x": "beautiful",
+        "word_y": "window",
+        "passed_4_of_4": false,
+        "score": "2/4",
+        "details": {
+          "x_true_order_xy": {
+            "margin_x_vs_y": 6.375,
+            "expected_sign": 1.0,
+            "correct": true
+          },
+          "x_true_order_yx": {
+            "margin_x_vs_y": 1.75,
+            "expected_sign": 1.0,
+            "correct": true
+          },
+          "y_true_order_xy": {
+            "margin_x_vs_y": 9.875,
+            "expected_sign": -1.0,
+            "correct": false
+          },
+          "y_true_order_yx": {
+            "margin_x_vs_y": 4.5,
+            "expected_sign": -1.0,
+            "correct": false
+          }
+        }
+      },
+      {
+        "anchor_name": "A3_answer",
+        "anchor_text": "Answer:",
+        "word_x": "stable",
+        "word_y": "active",
+        "passed_4_of_4": false,
+        "score": "2/4",
+        "details": {
+          "x_true_order_xy": {
+            "margin_x_vs_y": 3.75,
+            "expected_sign": 1.0,
+            "correct": true
+          },
+          "x_true_order_yx": {
+            "margin_x_vs_y": 1.75,
+            "expected_sign": 1.0,
+            "correct": true
+          },
+          "y_true_order_xy": {
+            "margin_x_vs_y": 3.375,
+            "expected_sign": -1.0,
+            "correct": false
+          },
+          "y_true_order_yx": {
+            "margin_x_vs_y": 0.75,
+            "expected_sign": -1.0,
+            "correct": false
+          }
+        }
+      }
+    ]
+  }
+}

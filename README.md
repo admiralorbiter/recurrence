@@ -14,10 +14,11 @@ Our goal is not to simulate consciousness but to construct something that must b
 - **Horizon 0 (Foundations):** **COMPLETE** (S00–S03 reproducible baseline battery).
 - **Horizon 1 (Scaffolded Persistence):** **FROZEN** (S04–S09 narrative primacy, memory dominance, no independent state leverage).
 - **Horizon 2 Core (Latent Recurrence):** **FROZEN** (S10–S13 reconstructibility, physical persistence at 2W, causal steering $P=+74.10$, value specificity $\Delta P=+38.49$, coordinate loss on $u_0$, state reorientation $C_R \to 0.12$, contemporaneous steerability $V^{(N)}>0$).
-- **Active Frontier:** **Sprint S14 (Latent Metacognition, Reality Monitoring & State Ownership)**.
+- **Active Frontier:** **Sprint S14 (Latent Metacognition, Reality Monitoring & State Ownership)** — Completed & Calibrated ($T_{\text{aligned}} \equiv 0$, $r = 0.9998$).
 
 ### Canonical Synthesis & Governance Documents
-- [Walkthrough & Synthesis](walkthrough.md) — Comprehensive S10–S13 empirical synthesis and six guardrails.
+- [Walkthrough & Synthesis](walkthrough.md) — Comprehensive S10–S14 empirical synthesis and six guardrails.
+- [S14 Metacognition & Intention Report](docs/S14_Latent_Metacognition_and_Intention_Report.md) — Complete S14 C/D/R/A framework, BOP calibration, and 16-trial panel report.
 - [H2 Core Freeze Manifest](docs/H2_Core_Freeze_Manifest.md) — Frozen evidence contract, artifact hashes, and freeze rules.
 - [H2 Core Retrospective Memo](docs/H2_Core_Retrospective_Memo.md) — Detailed scientific synthesis of Horizon 2 Core.
 - [H2 Recurrent Architecture Roadmap](docs/H2_Recurrent_Architecture_Roadmap.md) — Architectural progression from S10 to S16.
