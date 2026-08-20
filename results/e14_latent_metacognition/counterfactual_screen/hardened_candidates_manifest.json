@@ -1,0 +1,705 @@
+{
+  "model_id": "google/recurrentgemma-2b-it",
+  "pinned_revision": "2766eb5d4264c6c0357803990791f9ab9cd50f8e",
+  "margin_threshold": 0.3,
+  "plausibility_top_k": 250,
+  "curated_lexicon_size": 57313,
+  "candidates": [
+    {
+      "pair_id": "archived_artifact_p04_quartz_basalt",
+      "regime": "constant",
+      "word_x": "schim",
+      "word_y": "twill",
+      "tok_x_id": 176468,
+      "tok_y_id": 150167,
+      "discovery": {
+        "d_t": 2.32421875,
+        "d_o": -3.4921875,
+        "rank_t_x": 70,
+        "rank_o_y": 36
+      },
+      "reverse": {
+        "d_t": -3.3671875,
+        "d_o": 1.515625
+      },
+      "fresh_replication": {
+        "d_t": 2.32421875,
+        "d_o": -3.4921875,
+        "replicated": true
+      },
+      "exact_prompt": {
+        "d_t": 2.32421875,
+        "d_o": -3.4921875,
+        "confirmed": true
+      },
+      "all_gates_passed": true
+    },
+    {
+      "pair_id": "archived_artifact_p04_quartz_basalt",
+      "regime": "constant",
+      "word_x": "cambi",
+      "word_y": "twill",
+      "tok_x_id": 21967,
+      "tok_y_id": 150167,
+      "discovery": {
+        "d_t": 1.71484375,
+        "d_o": -4.04296875,
+        "rank_t_x": 104,
+        "rank_o_y": 36
+      },
+      "reverse": {
+        "d_t": -2.703125,
+        "d_o": 1.96875
+      },
+      "fresh_replication": {
+        "d_t": 1.71484375,
+        "d_o": -4.04296875,
+        "replicated": true
+      },
+      "exact_prompt": {
+        "d_t": 1.71484375,
+        "d_o": -4.04296875,
+        "confirmed": true
+      },
+      "all_gates_passed": true
+    },
+    {
+      "pair_id": "archived_artifact_p04_quartz_basalt",
+      "regime": "constant",
+      "word_x": "possa",
+      "word_y": "twill",
+      "tok_x_id": 56855,
+      "tok_y_id": 150167,
+      "discovery": {
+        "d_t": 1.48046875,
+        "d_o": -4.26953125,
+        "rank_t_x": 127,
+        "rank_o_y": 36
+      },
+      "reverse": {
+        "d_t": -3.4609375,
+        "d_o": 1.265625
+      },
+      "fresh_replication": {
+        "d_t": 1.48046875,
+        "d_o": -4.26953125,
+        "replicated": true
+      },
+      "exact_prompt": {
+        "d_t": 1.48046875,
+        "d_o": -4.26953125,
+        "confirmed": true
+      },
+      "all_gates_passed": true
+    },
+    {
+      "pair_id": "sealed_container_p05_silver_nickel",
+      "regime": "constant",
+      "word_x": "lumine",
+      "word_y": "kath",
+      "tok_x_id": 82363,
+      "tok_y_id": 99882,
+      "discovery": {
+        "d_t": 1.6875,
+        "d_o": -1.65625,
+        "rank_t_x": 107,
+        "rank_o_y": 108
+      },
+      "reverse": {
+        "d_t": -1.46875,
+        "d_o": 2.03125
+      },
+      "fresh_replication": {
+        "d_t": 1.6875,
+        "d_o": -1.65625,
+        "replicated": true
+      },
+      "exact_prompt": {
+        "d_t": 1.6875,
+        "d_o": -1.65625,
+        "confirmed": true
+      },
+      "all_gates_passed": true
+    },
+    {
+      "pair_id": "sealed_container_p05_silver_nickel",
+      "regime": "constant",
+      "word_x": "lumine",
+      "word_y": "anyways",
+      "tok_x_id": 82363,
+      "tok_y_id": 57242,
+      "discovery": {
+        "d_t": 2.875,
+        "d_o": -0.4375,
+        "rank_t_x": 107,
+        "rank_o_y": 212
+      },
+      "reverse": {
+        "d_t": -0.28125,
+        "d_o": 2.90625
+      },
+      "fresh_replication": {
+        "d_t": 2.875,
+        "d_o": -0.4375,
+        "replicated": true
+      },
+      "exact_prompt": {
+        "d_t": 2.875,
+        "d_o": -0.4375,
+        "confirmed": true
+      },
+      "all_gates_passed": true
+    },
+    {
+      "pair_id": "sealed_container_p05_silver_nickel",
+      "regime": "constant",
+      "word_x": "lumine",
+      "word_y": "beautiful",
+      "tok_x_id": 82363,
+      "tok_y_id": 4964,
+      "discovery": {
+        "d_t": 0.625,
+        "d_o": -2.59375,
+        "rank_t_x": 107,
+        "rank_o_y": 65
+      },
+      "reverse": {
+        "d_t": -2.34375,
+        "d_o": 0.8125
+      },
+      "fresh_replication": {
+        "d_t": 0.625,
+        "d_o": -2.59375,
+        "replicated": true
+      },
+      "exact_prompt": {
+        "d_t": 0.625,
+        "d_o": -2.59375,
+        "confirmed": true
+      },
+      "all_gates_passed": true
+    },
+    {
+      "pair_id": "sealed_container_p06_bronze_nickel",
+      "regime": "constant",
+      "word_x": "lumine",
+      "word_y": "kath",
+      "tok_x_id": 82363,
+      "tok_y_id": 99882,
+      "discovery": {
+        "d_t": 1.9375,
+        "d_o": -0.71875,
+        "rank_t_x": 97,
+        "rank_o_y": 128
+      },
+      "reverse": {
+        "d_t": -0.75,
+        "d_o": 2.03125
+      },
+      "fresh_replication": {
+        "d_t": 1.9375,
+        "d_o": -0.71875,
+        "replicated": true
+      },
+      "exact_prompt": {
+        "d_t": 1.9375,
+        "d_o": -0.71875,
+        "confirmed": true
+      },
+      "all_gates_passed": true
+    },
+    {
+      "pair_id": "sealed_container_p06_bronze_nickel",
+      "regime": "constant",
+      "word_x": "virksom",
+      "word_y": "lmfao",
+      "tok_x_id": 126060,
+      "tok_y_id": 193836,
+      "discovery": {
+        "d_t": 0.3125,
+        "d_o": -2.1875,
+        "rank_t_x": 93,
+        "rank_o_y": 55
+      },
+      "reverse": {
+        "d_t": -1.96875,
+        "d_o": 0.3125
+      },
+      "fresh_replication": {
+        "d_t": 0.3125,
+        "d_o": -2.1875,
+        "replicated": true
+      },
+      "exact_prompt": {
+        "d_t": 0.3125,
+        "d_o": -2.1875,
+        "confirmed": true
+      },
+      "all_gates_passed": true
+    },
+    {
+      "pair_id": "sealed_container_p06_bronze_nickel",
+      "regime": "constant",
+      "word_x": "virksom",
+      "word_y": "kath",
+      "tok_x_id": 126060,
+      "tok_y_id": 99882,
+      "discovery": {
+        "d_t": 2.0,
+        "d_o": -0.46875,
+        "rank_t_x": 93,
+        "rank_o_y": 128
+      },
+      "reverse": {
+        "d_t": -0.5,
+        "d_o": 2.09375
+      },
+      "fresh_replication": {
+        "d_t": 2.0,
+        "d_o": -0.46875,
+        "replicated": true
+      },
+      "exact_prompt": {
+        "d_t": 2.0,
+        "d_o": -0.46875,
+        "confirmed": true
+      },
+      "all_gates_passed": true
+    },
+    {
+      "pair_id": "archived_artifact_p06_basalt_granite",
+      "regime": "constant",
+      "word_x": "pied",
+      "word_y": "possa",
+      "tok_x_id": 16551,
+      "tok_y_id": 56855,
+      "discovery": {
+        "d_t": 3.3662109375,
+        "d_o": -2.046875,
+        "rank_t_x": 97,
+        "rank_o_y": 104
+      },
+      "reverse": {
+        "d_t": -1.8125,
+        "d_o": 3.83984375
+      },
+      "fresh_replication": {
+        "d_t": 3.3662109375,
+        "d_o": -2.046875,
+        "replicated": true
+      },
+      "exact_prompt": {
+        "d_t": 3.3662109375,
+        "d_o": -2.046875,
+        "confirmed": true
+      },
+      "all_gates_passed": true
+    },
+    {
+      "pair_id": "archived_artifact_p06_basalt_granite",
+      "regime": "constant",
+      "word_x": "disinf",
+      "word_y": "possa",
+      "tok_x_id": 53515,
+      "tok_y_id": 56855,
+      "discovery": {
+        "d_t": 2.3662109375,
+        "d_o": -3.01171875,
+        "rank_t_x": 185,
+        "rank_o_y": 104
+      },
+      "reverse": {
+        "d_t": -2.267578125,
+        "d_o": 3.08984375
+      },
+      "fresh_replication": {
+        "d_t": 2.3662109375,
+        "d_o": -3.01171875,
+        "replicated": true
+      },
+      "exact_prompt": {
+        "d_t": 2.3662109375,
+        "d_o": -3.01171875,
+        "confirmed": true
+      },
+      "all_gates_passed": true
+    },
+    {
+      "pair_id": "archived_artifact_p06_basalt_granite",
+      "regime": "constant",
+      "word_x": "twill",
+      "word_y": "possa",
+      "tok_x_id": 150167,
+      "tok_y_id": 56855,
+      "discovery": {
+        "d_t": 4.0380859375,
+        "d_o": -1.265625,
+        "rank_t_x": 56,
+        "rank_o_y": 104
+      },
+      "reverse": {
+        "d_t": -1.3828125,
+        "d_o": 4.46484375
+      },
+      "fresh_replication": {
+        "d_t": 4.0380859375,
+        "d_o": -1.265625,
+        "replicated": true
+      },
+      "exact_prompt": {
+        "d_t": 4.0380859375,
+        "d_o": -1.265625,
+        "confirmed": true
+      },
+      "all_gates_passed": true
+    },
+    {
+      "pair_id": "archived_artifact_p02_marble_basalt",
+      "regime": "constant",
+      "word_x": "mera",
+      "word_y": "false",
+      "tok_x_id": 106926,
+      "tok_y_id": 1566,
+      "discovery": {
+        "d_t": 1.951171875,
+        "d_o": -2.44921875,
+        "rank_t_x": 139,
+        "rank_o_y": 121
+      },
+      "reverse": {
+        "d_t": -2.833251953125,
+        "d_o": 1.07421875
+      },
+      "fresh_replication": {
+        "d_t": 1.951171875,
+        "d_o": -2.44921875,
+        "replicated": true
+      },
+      "exact_prompt": {
+        "d_t": 1.951171875,
+        "d_o": -2.44921875,
+        "confirmed": true
+      },
+      "all_gates_passed": true
+    },
+    {
+      "pair_id": "archived_artifact_p02_marble_basalt",
+      "regime": "constant",
+      "word_x": "mera",
+      "word_y": "rethink",
+      "tok_x_id": 106926,
+      "tok_y_id": 127927,
+      "discovery": {
+        "d_t": 1.5390625,
+        "d_o": -2.66796875,
+        "rank_t_x": 139,
+        "rank_o_y": 100
+      },
+      "reverse": {
+        "d_t": -2.661376953125,
+        "d_o": 1.140625
+      },
+      "fresh_replication": {
+        "d_t": 1.5390625,
+        "d_o": -2.66796875,
+        "replicated": true
+      },
+      "exact_prompt": {
+        "d_t": 1.5390625,
+        "d_o": -2.66796875,
+        "confirmed": true
+      },
+      "all_gates_passed": true
+    },
+    {
+      "pair_id": "archived_artifact_p02_marble_basalt",
+      "regime": "constant",
+      "word_x": "trist",
+      "word_y": "false",
+      "tok_x_id": 143004,
+      "tok_y_id": 1566,
+      "discovery": {
+        "d_t": 1.763671875,
+        "d_o": -2.396484375,
+        "rank_t_x": 171,
+        "rank_o_y": 121
+      },
+      "reverse": {
+        "d_t": -2.7548828125,
+        "d_o": 0.94140625
+      },
+      "fresh_replication": {
+        "d_t": 1.763671875,
+        "d_o": -2.396484375,
+        "replicated": true
+      },
+      "exact_prompt": {
+        "d_t": 1.763671875,
+        "d_o": -2.396484375,
+        "confirmed": true
+      },
+      "all_gates_passed": true
+    },
+    {
+      "pair_id": "marked_object_p02_amber_garnet",
+      "regime": "constant",
+      "word_x": "ude",
+      "word_y": "financiero",
+      "tok_x_id": 200950,
+      "tok_y_id": 127972,
+      "discovery": {
+        "d_t": 1.66796875,
+        "d_o": -0.578125,
+        "rank_t_x": 175,
+        "rank_o_y": 202
+      },
+      "reverse": {
+        "d_t": -0.6171875,
+        "d_o": 1.60546875
+      },
+      "fresh_replication": {
+        "d_t": 1.66796875,
+        "d_o": -0.578125,
+        "replicated": true
+      },
+      "exact_prompt": {
+        "d_t": 1.66796875,
+        "d_o": -0.578125,
+        "confirmed": true
+      },
+      "all_gates_passed": true
+    },
+    {
+      "pair_id": "marked_object_p02_amber_garnet",
+      "regime": "constant",
+      "word_x": "trims",
+      "word_y": "financiero",
+      "tok_x_id": 172263,
+      "tok_y_id": 127972,
+      "discovery": {
+        "d_t": 1.58984375,
+        "d_o": -0.515625,
+        "rank_t_x": 182,
+        "rank_o_y": 202
+      },
+      "reverse": {
+        "d_t": -0.015625,
+        "d_o": 1.77734375
+      },
+      "fresh_replication": {
+        "d_t": 1.58984375,
+        "d_o": -0.515625,
+        "replicated": true
+      },
+      "exact_prompt": {
+        "d_t": 1.58984375,
+        "d_o": -0.515625,
+        "confirmed": true
+      },
+      "all_gates_passed": true
+    },
+    {
+      "pair_id": "marked_object_p02_amber_garnet",
+      "regime": "constant",
+      "word_x": "sunroof",
+      "word_y": "financiero",
+      "tok_x_id": 228095,
+      "tok_y_id": 127972,
+      "discovery": {
+        "d_t": 1.16796875,
+        "d_o": -0.890625,
+        "rank_t_x": 236,
+        "rank_o_y": 202
+      },
+      "reverse": {
+        "d_t": -0.859375,
+        "d_o": 1.10546875
+      },
+      "fresh_replication": {
+        "d_t": 1.16796875,
+        "d_o": -0.890625,
+        "replicated": true
+      },
+      "exact_prompt": {
+        "d_t": 1.16796875,
+        "d_o": -0.890625,
+        "confirmed": true
+      },
+      "all_gates_passed": true
+    },
+    {
+      "pair_id": "monitored_signal_p01_alpha_delta",
+      "regime": "constant",
+      "word_x": "quadrinhos",
+      "word_y": "jake",
+      "tok_x_id": 228991,
+      "tok_y_id": 217408,
+      "discovery": {
+        "d_t": 1.25,
+        "d_o": -0.5625,
+        "rank_t_x": 140,
+        "rank_o_y": 180
+      },
+      "reverse": {
+        "d_t": -0.1875,
+        "d_o": 1.375
+      },
+      "fresh_replication": {
+        "d_t": 1.25,
+        "d_o": -0.5625,
+        "replicated": true
+      },
+      "exact_prompt": {
+        "d_t": 1.25,
+        "d_o": -0.5625,
+        "confirmed": true
+      },
+      "all_gates_passed": true
+    },
+    {
+      "pair_id": "monitored_signal_p01_alpha_delta",
+      "regime": "constant",
+      "word_x": "quadrinhos",
+      "word_y": "chairmen",
+      "tok_x_id": 228991,
+      "tok_y_id": 222493,
+      "discovery": {
+        "d_t": 0.6875,
+        "d_o": -1.0625,
+        "rank_t_x": 140,
+        "rank_o_y": 127
+      },
+      "reverse": {
+        "d_t": -0.75,
+        "d_o": 0.6875
+      },
+      "fresh_replication": {
+        "d_t": 0.6875,
+        "d_o": -1.0625,
+        "replicated": true
+      },
+      "exact_prompt": {
+        "d_t": 0.6875,
+        "d_o": -1.0625,
+        "confirmed": true
+      },
+      "all_gates_passed": true
+    },
+    {
+      "pair_id": "monitored_signal_p01_alpha_delta",
+      "regime": "constant",
+      "word_x": "quadrinhos",
+      "word_y": "kapsul",
+      "tok_x_id": 228991,
+      "tok_y_id": 209021,
+      "discovery": {
+        "d_t": 1.0,
+        "d_o": -0.625,
+        "rank_t_x": 140,
+        "rank_o_y": 175
+      },
+      "reverse": {
+        "d_t": -0.375,
+        "d_o": 1.1875
+      },
+      "fresh_replication": {
+        "d_t": 1.0,
+        "d_o": -0.625,
+        "replicated": true
+      },
+      "exact_prompt": {
+        "d_t": 1.0,
+        "d_o": -0.625,
+        "confirmed": true
+      },
+      "all_gates_passed": true
+    },
+    {
+      "pair_id": "marked_object_p02_amber_garnet",
+      "regime": "random",
+      "word_x": "infanti",
+      "word_y": "ald",
+      "tok_x_id": 64457,
+      "tok_y_id": 28744,
+      "discovery": {
+        "d_t": 0.40625,
+        "d_o": -1.03125,
+        "rank_t_x": 199,
+        "rank_o_y": 176
+      },
+      "reverse": {
+        "d_t": -0.59375,
+        "d_o": -0.03125
+      },
+      "fresh_replication": {
+        "d_t": -2.296875,
+        "d_o": -1.75,
+        "replicated": false
+      },
+      "exact_prompt": {
+        "d_t": 0.40625,
+        "d_o": -1.03125,
+        "confirmed": true
+      },
+      "all_gates_passed": false
+    },
+    {
+      "pair_id": "marked_object_p02_amber_garnet",
+      "regime": "random",
+      "word_x": "probability",
+      "word_y": "ald",
+      "tok_x_id": 14603,
+      "tok_y_id": 28744,
+      "discovery": {
+        "d_t": 1.09375,
+        "d_o": -0.3125,
+        "rank_t_x": 124,
+        "rank_o_y": 176
+      },
+      "reverse": {
+        "d_t": 0.125,
+        "d_o": 0.65625
+      },
+      "fresh_replication": {
+        "d_t": -1.3125,
+        "d_o": -1.03125,
+        "replicated": false
+      },
+      "exact_prompt": {
+        "d_t": 1.09375,
+        "d_o": -0.3125,
+        "confirmed": true
+      },
+      "all_gates_passed": false
+    },
+    {
+      "pair_id": "marked_object_p02_amber_garnet",
+      "regime": "random",
+      "word_x": "probability",
+      "word_y": "grant",
+      "tok_x_id": 14603,
+      "tok_y_id": 12492,
+      "discovery": {
+        "d_t": 0.75,
+        "d_o": -0.65625,
+        "rank_t_x": 124,
+        "rank_o_y": 135
+      },
+      "reverse": {
+        "d_t": -0.09375,
+        "d_o": 0.1875
+      },
+      "fresh_replication": {
+        "d_t": -1.8125,
+        "d_o": -1.625,
+        "replicated": false
+      },
+      "exact_prompt": {
+        "d_t": 0.75,
+        "d_o": -0.65625,
+        "confirmed": true
+      },
+      "all_gates_passed": false
+    }
+  ]
+}

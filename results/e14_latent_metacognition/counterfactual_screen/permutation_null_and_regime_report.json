@@ -1,0 +1,100 @@
+{
+  "n_permutations": 10000,
+  "observed_overall": {
+    "role_residual_ratio": 1.8155222982627663,
+    "pearson_r_fwd_rev": -0.6798256500872812,
+    "spearman_r_fwd_rev": -0.376487995300856
+  },
+  "within_regime_null": {
+    "p_val_ratio_greater": 0.0,
+    "p_val_pearson_negative": 0.0,
+    "null_ratio_mean": 0.9928217927928861,
+    "null_ratio_95th": 1.2236492036434194,
+    "null_pearson_mean": 0.0032779268888807386,
+    "null_pearson_5th": -0.25317500967920575
+  },
+  "cluster_pair_null": {
+    "p_val_ratio_greater": 0.0,
+    "p_val_pearson_negative": 0.0,
+    "null_ratio_mean": 0.9948171904599614,
+    "null_ratio_95th": 1.227836124809932,
+    "null_pearson_mean": 0.002268422898439306,
+    "null_pearson_5th": -0.25330460129725824
+  },
+  "regime_breakdowns": {
+    "constant": {
+      "name": "constant",
+      "n_cells": 24,
+      "mean_r_role": 0.032246907552083336,
+      "mean_abs_r_role": 0.3149210611979167,
+      "mean_r_residual": 0.00079345703125,
+      "mean_abs_r_residual": 0.059794108072916664,
+      "role_residual_ratio": 5.266757400476353,
+      "n_donor_oriented": 12,
+      "n_anti_donor_oriented": 11,
+      "n_near_zero": 1,
+      "pearson_r_fwd_rev": -0.941811822475197,
+      "pearson_p": 6.807913909236816e-12,
+      "spearman_r_fwd_rev": -0.9327237321004853,
+      "spearman_p": 3.21901717603026e-11
+    },
+    "random": {
+      "name": "random",
+      "n_cells": 24,
+      "mean_r_role": 0.004638671875,
+      "mean_abs_r_role": 0.10921223958333333,
+      "mean_r_residual": 0.041178385416666664,
+      "mean_abs_r_residual": 0.09977213541666667,
+      "role_residual_ratio": 1.094616639477977,
+      "n_donor_oriented": 17,
+      "n_anti_donor_oriented": 7,
+      "n_near_zero": 0,
+      "pearson_r_fwd_rev": -0.20351490439921677,
+      "pearson_p": 0.34017257060392125,
+      "spearman_r_fwd_rev": -0.13842125046264087,
+      "spearman_p": 0.5189019921352209
+    },
+    "natural": {
+      "name": "natural",
+      "n_cells": 24,
+      "mean_r_role": 0.0019938151041666665,
+      "mean_abs_r_role": 0.0670166015625,
+      "mean_r_residual": 0.0021565755208333335,
+      "mean_abs_r_residual": 0.1109619140625,
+      "role_residual_ratio": 0.6039603960396039,
+      "n_donor_oriented": 10,
+      "n_anti_donor_oriented": 9,
+      "n_near_zero": 5,
+      "pearson_r_fwd_rev": 0.3472254482135775,
+      "pearson_p": 0.09642672450313651,
+      "spearman_r_fwd_rev": 0.3744843742621382,
+      "spearman_p": 0.0714023755312226
+    }
+  },
+  "regime_permutation_tests": {
+    "constant": {
+      "p_val_ratio_greater": 0.0,
+      "p_val_pearson_negative": 0.0,
+      "null_ratio_mean": 1.0196882284787763,
+      "null_ratio_95th": 1.4037659982409476,
+      "null_pearson_mean": 0.0009579722105169283,
+      "null_pearson_5th": -0.33720378667975726
+    },
+    "random": {
+      "p_val_ratio_greater": 0.2323,
+      "p_val_pearson_negative": 0.161,
+      "null_ratio_mean": 0.9728594011243907,
+      "null_ratio_95th": 1.3083673627910073,
+      "null_pearson_mean": 0.0034687901212612855,
+      "null_pearson_5th": -0.3569174689044118
+    },
+    "natural": {
+      "p_val_ratio_greater": 0.9781,
+      "p_val_pearson_negative": 0.9481,
+      "null_ratio_mean": 1.0121946089867404,
+      "null_ratio_95th": 1.445931473787692,
+      "null_pearson_mean": -0.00022950728994160094,
+      "null_pearson_5th": -0.3407270231882574
+    }
+  }
+}
