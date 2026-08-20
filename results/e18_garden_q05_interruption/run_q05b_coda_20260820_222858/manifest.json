@@ -1,0 +1,171 @@
+{
+  "experiment_id": "Q05b_latent_geometry_and_intact_conflict_coda",
+  "gate": "GATE_B",
+  "run_id": "run_20260820_223004_100a2ee3",
+  "created_at": "2026-08-20T22:30:04.831927+00:00",
+  "git_sha": "540edf5792b9a124d8220cdd578a9c5c82a7ede0",
+  "evidence_mode": "TRAINED_MODEL",
+  "status": "SCOUT_GATE_PASS",
+  "model_revision": "v0.1.0",
+  "environment_revision": "v0.1.0",
+  "seed": 42,
+  "lineage": {
+    "lineage_id": "garden_v0_q05b",
+    "parent_lineage_id": null,
+    "fork_step": 6,
+    "event_hash": null
+  },
+  "execution": {
+    "device": "cpu",
+    "precision": "fp32",
+    "batch_size": 1,
+    "torch_version": null,
+    "python_version": "3.12.0",
+    "platform": "Windows-11-10.0.26220-SP0"
+  },
+  "condition": {
+    "name": "latent_geometry_x_intact_conflict",
+    "manipulation_type": "geometric_parity_and_evidence_conflict",
+    "intervention_target": null,
+    "parameters": {}
+  },
+  "provenance": {
+    "forward_calls": 5440,
+    "training_steps": 6400,
+    "raw_record_count": 800,
+    "activation_cache_hash": null,
+    "raw_results_hash": "b1db052b5e93f0ca3bb5aa6c199637be6ff0c02d6923e6771abda2d2e9bb0853",
+    "source_run_ids": []
+  },
+  "metrics": {
+    "geometry": {
+      "cos_sim_native_vs_replay": {
+        "mean": 0.9999999977648258,
+        "std": 3.839037724649052e-08
+      },
+      "euclidean_dist_native_vs_replay": {
+        "mean": 0.0,
+        "std": 0.0
+      },
+      "cos_sim_native_vs_cue_restored": {
+        "mean": 0.23536581548396499,
+        "std": 0.14930701424692341
+      },
+      "euclidean_dist_native_vs_cue_restored": {
+        "mean": 6.305094206333161,
+        "std": 0.47253722851577634
+      }
+    },
+    "intact_conflict": {
+      "intact_native_accuracy": {
+        "mean": 1.0,
+        "std": 0.0
+      },
+      "intact_plus_opp_cue_1x": {
+        "mean": 0.9565625,
+        "std": 0.11492482257436816
+      },
+      "intact_plus_opp_cue_2x": {
+        "mean": 0.9125,
+        "std": 0.16909686573085853
+      },
+      "intact_plus_opp_cue_4x": {
+        "mean": 0.780625,
+        "std": 0.32735862883846517
+      }
+    },
+    "per_seed_data": [
+      {
+        "seed": 42,
+        "cos_replay": 1.000000035762787,
+        "dist_replay": 0.0,
+        "cos_cue": 0.486788147687912,
+        "dist_cue": 5.592467832565307,
+        "intact_native_acc": 1.0,
+        "intact_plus_opp_1x_acc": 1.0,
+        "intact_plus_opp_2x_acc": 1.0,
+        "intact_plus_opp_4x_acc": 1.0
+      },
+      {
+        "seed": 43,
+        "cos_replay": 1.0,
+        "dist_replay": 0.0,
+        "cos_cue": 0.2094292812049389,
+        "dist_cue": 7.014621925354004,
+        "intact_native_acc": 1.0,
+        "intact_plus_opp_1x_acc": 0.6525,
+        "intact_plus_opp_2x_acc": 0.5,
+        "intact_plus_opp_4x_acc": 0.0525
+      },
+      {
+        "seed": 44,
+        "cos_replay": 0.9999999940395355,
+        "dist_replay": 0.0,
+        "cos_cue": 0.21734912544488907,
+        "dist_cue": 6.333649015426635,
+        "intact_native_acc": 1.0,
+        "intact_plus_opp_1x_acc": 1.0,
+        "intact_plus_opp_2x_acc": 1.0,
+        "intact_plus_opp_4x_acc": 0.5
+      },
+      {
+        "seed": 45,
+        "cos_replay": 0.9999999403953552,
+        "dist_replay": 0.0,
+        "cos_cue": 0.21789278835058212,
+        "dist_cue": 6.308587980270386,
+        "intact_native_acc": 1.0,
+        "intact_plus_opp_1x_acc": 1.0,
+        "intact_plus_opp_2x_acc": 0.8,
+        "intact_plus_opp_4x_acc": 0.6925
+      },
+      {
+        "seed": 46,
+        "cos_replay": 1.0,
+        "dist_replay": 0.0,
+        "cos_cue": 0.030588136054575443,
+        "dist_cue": 6.768546533584595,
+        "intact_native_acc": 1.0,
+        "intact_plus_opp_1x_acc": 1.0,
+        "intact_plus_opp_2x_acc": 1.0,
+        "intact_plus_opp_4x_acc": 1.0
+      },
+      {
+        "seed": 47,
+        "cos_replay": 0.9999999761581421,
+        "dist_replay": 0.0,
+        "cos_cue": 0.24242077767848969,
+        "dist_cue": 5.986210203170776,
+        "intact_native_acc": 1.0,
+        "intact_plus_opp_1x_acc": 1.0,
+        "intact_plus_opp_2x_acc": 1.0,
+        "intact_plus_opp_4x_acc": 1.0
+      },
+      {
+        "seed": 48,
+        "cos_replay": 0.9999999642372132,
+        "dist_replay": 0.0,
+        "cos_cue": 0.4287170678377151,
+        "dist_cue": 5.747852039337158,
+        "intact_native_acc": 1.0,
+        "intact_plus_opp_1x_acc": 1.0,
+        "intact_plus_opp_2x_acc": 1.0,
+        "intact_plus_opp_4x_acc": 1.0
+      },
+      {
+        "seed": 49,
+        "cos_replay": 1.0000000715255737,
+        "dist_replay": 0.0,
+        "cos_cue": 0.04974119961261749,
+        "dist_cue": 6.688818120956421,
+        "intact_native_acc": 1.0,
+        "intact_plus_opp_1x_acc": 1.0,
+        "intact_plus_opp_2x_acc": 1.0,
+        "intact_plus_opp_4x_acc": 1.0
+      }
+    ]
+  },
+  "artifacts": {
+    "summary_json": "results\\e18_garden_q05_interruption\\run_q05b_coda_20260820_222858\\q05b_coda_summary.json"
+  }
+}
