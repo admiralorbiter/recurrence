@@ -1,0 +1,110 @@
+{
+  "model_id": "google/recurrentgemma-2b-it",
+  "pinned_revision": "2766eb5d4264c6c0357803990791f9ab9cd50f8e",
+  "results": [
+    {
+      "cell": {
+        "pair_id": "sealed_container_p05_silver_nickel",
+        "orientation": "DONOR",
+        "word_x": "achievement",
+        "word_y": "same"
+      },
+      "forward": {
+        "direction": "fwd",
+        "word_x": "achievement",
+        "word_y": "same",
+        "decision_disposition": {
+          "d_pre": 0.322265625,
+          "d_obs": -0.6236572265625,
+          "c_private_fact": 0.9459228515625
+        },
+        "source_monitoring_reports": {
+          "m_pre": -4.6484375,
+          "m_post": -4.4296875,
+          "m_obs": -4.515625,
+          "pai_intention": -0.1328125,
+          "delta_pre_post": -0.21875
+        },
+        "visible_r_control": {
+          "m_when_x_true": -4.75,
+          "m_when_y_true": -1.875,
+          "r_competent": false
+        }
+      },
+      "reverse": {
+        "direction": "rev",
+        "word_x": "achievement",
+        "word_y": "same",
+        "decision_disposition": {
+          "d_pre": -0.3515625,
+          "d_obs": 0.2412109375,
+          "c_private_fact": -0.5927734375
+        },
+        "source_monitoring_reports": {
+          "m_pre": -5.0625,
+          "m_post": -4.437255859375,
+          "m_obs": -4.9140625,
+          "pai_intention": -0.1484375,
+          "delta_pre_post": -0.625244140625
+        },
+        "visible_r_control": {
+          "m_when_x_true": -4.75,
+          "m_when_y_true": -1.875,
+          "r_competent": false
+        }
+      }
+    },
+    {
+      "cell": {
+        "pair_id": "archived_artifact_p04_quartz_basalt",
+        "orientation": "ANTI",
+        "word_x": "alkali",
+        "word_y": "antonio"
+      },
+      "forward": {
+        "direction": "fwd",
+        "word_x": "alkali",
+        "word_y": "antonio",
+        "decision_disposition": {
+          "d_pre": 0.53125,
+          "d_obs": -0.484375,
+          "c_private_fact": 1.015625
+        },
+        "source_monitoring_reports": {
+          "m_pre": 1.6015625,
+          "m_post": 0.7734375,
+          "m_obs": 1.234375,
+          "pai_intention": 0.3671875,
+          "delta_pre_post": 0.828125
+        },
+        "visible_r_control": {
+          "m_when_x_true": -8.6875,
+          "m_when_y_true": -8.25,
+          "r_competent": false
+        }
+      },
+      "reverse": {
+        "direction": "rev",
+        "word_x": "alkali",
+        "word_y": "antonio",
+        "decision_disposition": {
+          "d_pre": -0.546875,
+          "d_obs": 0.46875,
+          "c_private_fact": -1.015625
+        },
+        "source_monitoring_reports": {
+          "m_pre": 0.359375,
+          "m_post": -0.2890625,
+          "m_obs": 0.84375,
+          "pai_intention": -0.484375,
+          "delta_pre_post": 0.6484375
+        },
+        "visible_r_control": {
+          "m_when_x_true": -8.6875,
+          "m_when_y_true": -8.25,
+          "r_competent": false
+        }
+      }
+    }
+  ]
+}
