@@ -8,6 +8,8 @@
   "model_substrate": {
     "model_id": "google/recurrentgemma-2b",
     "pinned_revision": "3620f4ca9c5d16ee56c00180474a3201ec7f734a",
+    "it_model_id": "google/recurrentgemma-2b-it",
+    "it_pinned_revision": "2766eb5d4264c6c0357803990791f9ab9cd50f8e",
     "architecture": "RecurrentGemmaForCausalLM",
     "layer_count": 26,
     "block_types": ["recurrent", "recurrent", "attention", "recurrent"],
