@@ -1,0 +1,143 @@
+{
+  "experiment_id": "Q08_controllability_representation_diagnostic",
+  "gate": "GATE_C",
+  "run_id": "run_20260820_230122_dd87a76b",
+  "created_at": "2026-08-20T23:01:22.268045+00:00",
+  "git_sha": "8c163e8a4a1077881071a9850a25c96e1efdad30",
+  "worktree_dirty": false,
+  "evidence_mode": "TRAINED_MODEL",
+  "status": "SCOUT_GATE_PASS",
+  "model_revision": "v0.1.0",
+  "environment_revision": "v0.1.0",
+  "seed": 42,
+  "lineage": {
+    "lineage_id": "garden_v1_q08",
+    "parent_lineage_id": null,
+    "fork_step": 0,
+    "event_hash": null
+  },
+  "execution": {
+    "device": "cpu",
+    "precision": "fp32",
+    "batch_size": 1,
+    "torch_version": null,
+    "python_version": "3.12.0",
+    "platform": "Windows-11-10.0.26220-SP0"
+  },
+  "condition": {
+    "name": "loso_5_probe_ladder",
+    "manipulation_type": "linear_probe_decoding",
+    "intervention_target": null,
+    "parameters": {}
+  },
+  "provenance": {
+    "forward_calls": 5600,
+    "training_steps": 20000,
+    "raw_record_count": 800,
+    "raw_trial_table_path": "results\\e20_garden_q08_representation\\run_q08_representation_20260820_225836\\raw_trials.jsonl",
+    "raw_trial_table_sha256": "eea879ac9a815c146c4d1b09efcf55bfb208eb2e7d39811c2926d55d5d2f6f2f",
+    "activation_cache_hash": null,
+    "raw_results_hash": "22329c10589e69c34591059b79ed40ac51d52e435a9d528bb83eac8b9f6e8cfc",
+    "source_run_ids": []
+  },
+  "metrics": {
+    "diagnostic_verdict": "WORLD_B_NO_WORLD_LEVEL_VARIABLE_INDUCED",
+    "diagnostic_explanation": "The recurrent state h_{T_exp} remains at or near chance floor (AUC < 0.75), proving that learning local forward action-outcome predictions does NOT induce a macro-controllability variable.",
+    "probe_ladder_metrics": {
+      "probe_1_goal_only": {
+        "mean_accuracy": 0.5,
+        "std_accuracy": 0.0,
+        "mean_balanced_accuracy": 0.5,
+        "std_balanced_accuracy": 0.0,
+        "mean_roc_auc": 0.5,
+        "std_roc_auc": 0.0,
+        "per_fold_auc": [
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "probe_2_action_history_only": {
+        "mean_accuracy": 0.52,
+        "std_accuracy": 0.051478150704935,
+        "mean_balanced_accuracy": 0.52,
+        "std_balanced_accuracy": 0.051478150704935,
+        "mean_roc_auc": 0.5446,
+        "std_roc_auc": 0.1181328489455833,
+        "per_fold_auc": [
+          0.7466,
+          0.52,
+          0.6524,
+          0.5,
+          0.3254,
+          0.5,
+          0.6124,
+          0.5
+        ]
+      },
+      "probe_3_effect_history_only": {
+        "mean_accuracy": 0.46249999999999997,
+        "std_accuracy": 0.16931848688197046,
+        "mean_balanced_accuracy": 0.4625,
+        "std_balanced_accuracy": 0.16931848688197043,
+        "mean_roc_auc": 0.5104249999999999,
+        "std_roc_auc": 0.16901019015136334,
+        "per_fold_auc": [
+          0.7,
+          0.3076,
+          0.859,
+          0.38,
+          0.4334,
+          0.4993999999999999,
+          0.4474,
+          0.45659999999999995
+        ]
+      },
+      "probe_4_joint_action_effect_observer": {
+        "mean_accuracy": 0.8825000000000001,
+        "std_accuracy": 0.022776083947860768,
+        "mean_balanced_accuracy": 0.8825000000000001,
+        "std_balanced_accuracy": 0.022776083947860768,
+        "mean_roc_auc": 0.9412750000000001,
+        "std_roc_auc": 0.019558102540890826,
+        "per_fold_auc": [
+          0.9704,
+          0.9211999999999999,
+          0.9574,
+          0.9236000000000001,
+          0.9289999999999999,
+          0.9585999999999999,
+          0.9162,
+          0.9538
+        ]
+      },
+      "probe_5_latent_state_h": {
+        "mean_accuracy": 0.3425,
+        "std_accuracy": 0.12152674602736634,
+        "mean_balanced_accuracy": 0.3425,
+        "std_balanced_accuracy": 0.12152674602736634,
+        "mean_roc_auc": 0.362575,
+        "std_roc_auc": 0.24521874800879315,
+        "per_fold_auc": [
+          0.32,
+          0.09520000000000002,
+          0.1874,
+          0.9062,
+          0.37579999999999997,
+          0.1214,
+          0.38079999999999997,
+          0.5137999999999999
+        ]
+      }
+    }
+  },
+  "artifacts": {
+    "summary_json": "results\\e20_garden_q08_representation\\run_q08_representation_20260820_225836\\q08_representation_summary.json",
+    "raw_trials_jsonl": "results\\e20_garden_q08_representation\\run_q08_representation_20260820_225836\\raw_trials.jsonl"
+  }
+}
