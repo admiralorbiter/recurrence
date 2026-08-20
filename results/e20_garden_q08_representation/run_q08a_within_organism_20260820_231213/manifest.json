@@ -1,0 +1,482 @@
+{
+  "experiment_id": "Q08a_within_organism_controllability_diagnostic",
+  "gate": "GATE_C",
+  "run_id": "run_20260820_232202_dbcd1510",
+  "created_at": "2026-08-20T23:22:02.228391+00:00",
+  "git_sha": "2c65b4727d8a71fb3f158452cc6dff8846d0688c",
+  "worktree_dirty": false,
+  "evidence_mode": "OFFLINE_ANALYSIS",
+  "status": "SCOUT_GATE_PASS",
+  "model_revision": "v0.1.0",
+  "environment_revision": "v0.1.0",
+  "seed": 42,
+  "lineage": {
+    "lineage_id": "garden_v1_q08a",
+    "parent_lineage_id": null,
+    "fork_step": 0,
+    "event_hash": null
+  },
+  "execution": {
+    "device": "cpu",
+    "precision": "fp32",
+    "batch_size": 1,
+    "torch_version": null,
+    "python_version": "3.12.0",
+    "platform": "Windows-11-10.0.26220-SP0"
+  },
+  "condition": {
+    "name": "within_organism_5_fold_cv_ladder",
+    "manipulation_type": "within_network_linear_probing",
+    "intervention_target": null,
+    "parameters": {}
+  },
+  "provenance": {
+    "forward_calls": 0,
+    "training_steps": 0,
+    "raw_record_count": 800,
+    "raw_trial_table_path": null,
+    "raw_trial_table_sha256": null,
+    "activation_cache_hash": null,
+    "raw_results_hash": "4cc80a1f15770199a2af7e7931ddee9d32f2953a3c1e4e78a0e7fba3257ac9c6",
+    "source_run_ids": [
+      "run_q08_representation_20260820_225836"
+    ]
+  },
+  "metrics": {
+    "diagnostic_verdict": "OUTCOME_A_IDIOSYNCRATIC_REPRESENTATION_EXISTS",
+    "verdict_analysis": "Controllability is linearly represented within individual organisms (Mean AUC = 0.9160, 8/8 seeds p < 0.05), but exists in idiosyncratic, non-aligned neural bases. This confirms that Q07 was a regulatory utilization failure (Representation != Action Selection).",
+    "aggregate_probe_summary": {
+      "probe_1_goal_only": {
+        "mean_auc": 0.41474999999999995,
+        "std_auc": 0.008481597726843659,
+        "mean_accuracy": 0.41474999999999995,
+        "significant_seeds_p05": 0,
+        "per_seed_aucs": {
+          "42": 0.412,
+          "43": 0.414,
+          "44": 0.42999999999999994,
+          "45": 0.402,
+          "46": 0.4100000000000001,
+          "47": 0.41400000000000003,
+          "48": 0.4099999999999999,
+          "49": 0.42599999999999993
+        },
+        "per_seed_p_vals": {
+          "42": 0.891,
+          "43": 0.906,
+          "44": 0.819,
+          "45": 0.91,
+          "46": 0.901,
+          "47": 0.91,
+          "48": 0.887,
+          "49": 0.819
+        }
+      },
+      "probe_2_action_matched": {
+        "mean_auc": 0.6088625000000001,
+        "std_auc": 0.11165158907848115,
+        "mean_accuracy": 0.6006250000000001,
+        "significant_seeds_p05": 4,
+        "per_seed_aucs": {
+          "42": 0.8134000000000001,
+          "43": 0.57,
+          "44": 0.7013000000000001,
+          "45": 0.5,
+          "46": 0.7136,
+          "47": 0.5,
+          "48": 0.5726,
+          "49": 0.5
+        },
+        "per_seed_p_vals": {
+          "42": 0.0,
+          "43": 0.007,
+          "44": 0.0,
+          "45": 1.0,
+          "46": 0.0,
+          "47": 1.0,
+          "48": 0.085,
+          "49": 1.0
+        }
+      },
+      "probe_3_effect_matched": {
+        "mean_auc": 0.8999,
+        "std_auc": 0.03111442591467821,
+        "mean_accuracy": 0.819625,
+        "significant_seeds_p05": 8,
+        "per_seed_aucs": {
+          "42": 0.8549,
+          "43": 0.9,
+          "44": 0.9228000000000001,
+          "45": 0.8899000000000001,
+          "46": 0.8945000000000001,
+          "47": 0.9462999999999999,
+          "48": 0.8575,
+          "49": 0.9333
+        },
+        "per_seed_p_vals": {
+          "42": 0.0,
+          "43": 0.0,
+          "44": 0.0,
+          "45": 0.0,
+          "46": 0.0,
+          "47": 0.0,
+          "48": 0.0,
+          "49": 0.0
+        }
+      },
+      "probe_4_joint_observer_matched": {
+        "mean_auc": 0.9205749999999999,
+        "std_auc": 0.019290460725446594,
+        "mean_accuracy": 0.8453749999999999,
+        "significant_seeds_p05": 8,
+        "per_seed_aucs": {
+          "42": 0.9438999999999999,
+          "43": 0.9014,
+          "44": 0.9291999999999999,
+          "45": 0.8891000000000001,
+          "46": 0.9055000000000001,
+          "47": 0.9455,
+          "48": 0.9175,
+          "49": 0.9324999999999999
+        },
+        "per_seed_p_vals": {
+          "42": 0.0,
+          "43": 0.0,
+          "44": 0.0,
+          "45": 0.0,
+          "46": 0.0,
+          "47": 0.0,
+          "48": 0.0,
+          "49": 0.0
+        }
+      },
+      "probe_5_within_organism_h": {
+        "mean_auc": 0.91595,
+        "std_auc": 0.01817622072929352,
+        "mean_accuracy": 0.846875,
+        "significant_seeds_p05": 8,
+        "per_seed_aucs": {
+          "42": 0.9407,
+          "43": 0.8966000000000001,
+          "44": 0.9222,
+          "45": 0.8909000000000001,
+          "46": 0.9081,
+          "47": 0.9239000000000002,
+          "48": 0.9028999999999999,
+          "49": 0.9423
+        },
+        "per_seed_p_vals": {
+          "42": 0.0,
+          "43": 0.0,
+          "44": 0.0,
+          "45": 0.0,
+          "46": 0.0,
+          "47": 0.0,
+          "48": 0.0,
+          "49": 0.0
+        }
+      }
+    },
+    "per_seed_results": {
+      "42": {
+        "probe_1_goal_only": {
+          "mean_auc": 0.412,
+          "std_auc": 0.0620966987850401,
+          "mean_accuracy": 0.412,
+          "mean_balanced_accuracy": 0.412,
+          "p_permutation": 0.891
+        },
+        "probe_2_action_matched": {
+          "mean_auc": 0.8134000000000001,
+          "std_auc": 0.08519647880047627,
+          "mean_accuracy": 0.752,
+          "mean_balanced_accuracy": 0.752,
+          "p_permutation": 0.0
+        },
+        "probe_3_effect_matched": {
+          "mean_auc": 0.8549,
+          "std_auc": 0.07428653983057766,
+          "mean_accuracy": 0.76,
+          "mean_balanced_accuracy": 0.76,
+          "p_permutation": 0.0
+        },
+        "probe_4_joint_observer_matched": {
+          "mean_auc": 0.9438999999999999,
+          "std_auc": 0.04469105055824936,
+          "mean_accuracy": 0.885,
+          "mean_balanced_accuracy": 0.885,
+          "p_permutation": 0.0
+        },
+        "probe_5_within_organism_h": {
+          "mean_auc": 0.9407,
+          "std_auc": 0.0463034555945882,
+          "mean_accuracy": 0.9079999999999999,
+          "mean_balanced_accuracy": 0.9079999999999999,
+          "p_permutation": 0.0
+        }
+      },
+      "43": {
+        "probe_1_goal_only": {
+          "mean_auc": 0.414,
+          "std_auc": 0.07418894796396563,
+          "mean_accuracy": 0.414,
+          "mean_balanced_accuracy": 0.414,
+          "p_permutation": 0.906
+        },
+        "probe_2_action_matched": {
+          "mean_auc": 0.57,
+          "std_auc": 0.049999999999999996,
+          "mean_accuracy": 0.57,
+          "mean_balanced_accuracy": 0.57,
+          "p_permutation": 0.007
+        },
+        "probe_3_effect_matched": {
+          "mean_auc": 0.9,
+          "std_auc": 0.07647875521999557,
+          "mean_accuracy": 0.8230000000000001,
+          "mean_balanced_accuracy": 0.8230000000000001,
+          "p_permutation": 0.0
+        },
+        "probe_4_joint_observer_matched": {
+          "mean_auc": 0.9014,
+          "std_auc": 0.07701324561398512,
+          "mean_accuracy": 0.8220000000000001,
+          "mean_balanced_accuracy": 0.8220000000000001,
+          "p_permutation": 0.0
+        },
+        "probe_5_within_organism_h": {
+          "mean_auc": 0.8966000000000001,
+          "std_auc": 0.08336330127820034,
+          "mean_accuracy": 0.8120000000000002,
+          "mean_balanced_accuracy": 0.8120000000000002,
+          "p_permutation": 0.0
+        }
+      },
+      "44": {
+        "probe_1_goal_only": {
+          "mean_auc": 0.42999999999999994,
+          "std_auc": 0.05477225575051661,
+          "mean_accuracy": 0.42999999999999994,
+          "mean_balanced_accuracy": 0.42999999999999994,
+          "p_permutation": 0.819
+        },
+        "probe_2_action_matched": {
+          "mean_auc": 0.7013000000000001,
+          "std_auc": 0.07637283548487643,
+          "mean_accuracy": 0.7,
+          "mean_balanced_accuracy": 0.7,
+          "p_permutation": 0.0
+        },
+        "probe_3_effect_matched": {
+          "mean_auc": 0.9228000000000001,
+          "std_auc": 0.05872103541321458,
+          "mean_accuracy": 0.8320000000000001,
+          "mean_balanced_accuracy": 0.8320000000000002,
+          "p_permutation": 0.0
+        },
+        "probe_4_joint_observer_matched": {
+          "mean_auc": 0.9291999999999999,
+          "std_auc": 0.05076770627081747,
+          "mean_accuracy": 0.8469999999999999,
+          "mean_balanced_accuracy": 0.8469999999999999,
+          "p_permutation": 0.0
+        },
+        "probe_5_within_organism_h": {
+          "mean_auc": 0.9222,
+          "std_auc": 0.056081726079000103,
+          "mean_accuracy": 0.85,
+          "mean_balanced_accuracy": 0.85,
+          "p_permutation": 0.0
+        }
+      },
+      "45": {
+        "probe_1_goal_only": {
+          "mean_auc": 0.402,
+          "std_auc": 0.0720832851637604,
+          "mean_accuracy": 0.402,
+          "mean_balanced_accuracy": 0.402,
+          "p_permutation": 0.91
+        },
+        "probe_2_action_matched": {
+          "mean_auc": 0.5,
+          "std_auc": 0.0,
+          "mean_accuracy": 0.5,
+          "mean_balanced_accuracy": 0.5,
+          "p_permutation": 1.0
+        },
+        "probe_3_effect_matched": {
+          "mean_auc": 0.8899000000000001,
+          "std_auc": 0.07317438076266858,
+          "mean_accuracy": 0.814,
+          "mean_balanced_accuracy": 0.814,
+          "p_permutation": 0.0
+        },
+        "probe_4_joint_observer_matched": {
+          "mean_auc": 0.8891000000000001,
+          "std_auc": 0.073455360594037,
+          "mean_accuracy": 0.8089999999999999,
+          "mean_balanced_accuracy": 0.8089999999999999,
+          "p_permutation": 0.0
+        },
+        "probe_5_within_organism_h": {
+          "mean_auc": 0.8909000000000001,
+          "std_auc": 0.0694095814711485,
+          "mean_accuracy": 0.828,
+          "mean_balanced_accuracy": 0.828,
+          "p_permutation": 0.0
+        }
+      },
+      "46": {
+        "probe_1_goal_only": {
+          "mean_auc": 0.4100000000000001,
+          "std_auc": 0.06855654600401045,
+          "mean_accuracy": 0.4100000000000001,
+          "mean_balanced_accuracy": 0.41,
+          "p_permutation": 0.901
+        },
+        "probe_2_action_matched": {
+          "mean_auc": 0.7136,
+          "std_auc": 0.09184791777716031,
+          "mean_accuracy": 0.72,
+          "mean_balanced_accuracy": 0.72,
+          "p_permutation": 0.0
+        },
+        "probe_3_effect_matched": {
+          "mean_auc": 0.8945000000000001,
+          "std_auc": 0.0714300356992771,
+          "mean_accuracy": 0.818,
+          "mean_balanced_accuracy": 0.818,
+          "p_permutation": 0.0
+        },
+        "probe_4_joint_observer_matched": {
+          "mean_auc": 0.9055000000000001,
+          "std_auc": 0.06828067076413354,
+          "mean_accuracy": 0.8439999999999999,
+          "mean_balanced_accuracy": 0.8439999999999999,
+          "p_permutation": 0.0
+        },
+        "probe_5_within_organism_h": {
+          "mean_auc": 0.9081,
+          "std_auc": 0.05774850647419378,
+          "mean_accuracy": 0.8300000000000002,
+          "mean_balanced_accuracy": 0.8300000000000002,
+          "p_permutation": 0.0
+        }
+      },
+      "47": {
+        "probe_1_goal_only": {
+          "mean_auc": 0.41400000000000003,
+          "std_auc": 0.06406246951218787,
+          "mean_accuracy": 0.41400000000000003,
+          "mean_balanced_accuracy": 0.41400000000000003,
+          "p_permutation": 0.91
+        },
+        "probe_2_action_matched": {
+          "mean_auc": 0.5,
+          "std_auc": 0.0,
+          "mean_accuracy": 0.5,
+          "mean_balanced_accuracy": 0.5,
+          "p_permutation": 1.0
+        },
+        "probe_3_effect_matched": {
+          "mean_auc": 0.9462999999999999,
+          "std_auc": 0.043940983147854135,
+          "mean_accuracy": 0.8800000000000001,
+          "mean_balanced_accuracy": 0.8800000000000001,
+          "p_permutation": 0.0
+        },
+        "probe_4_joint_observer_matched": {
+          "mean_auc": 0.9455,
+          "std_auc": 0.04350000000000001,
+          "mean_accuracy": 0.885,
+          "mean_balanced_accuracy": 0.8850000000000001,
+          "p_permutation": 0.0
+        },
+        "probe_5_within_organism_h": {
+          "mean_auc": 0.9239000000000002,
+          "std_auc": 0.05309698673182876,
+          "mean_accuracy": 0.865,
+          "mean_balanced_accuracy": 0.8650000000000001,
+          "p_permutation": 0.0
+        }
+      },
+      "48": {
+        "probe_1_goal_only": {
+          "mean_auc": 0.4099999999999999,
+          "std_auc": 0.07615773105863909,
+          "mean_accuracy": 0.4099999999999999,
+          "mean_balanced_accuracy": 0.4099999999999999,
+          "p_permutation": 0.887
+        },
+        "probe_2_action_matched": {
+          "mean_auc": 0.5726,
+          "std_auc": 0.07361548750093284,
+          "mean_accuracy": 0.5630000000000001,
+          "mean_balanced_accuracy": 0.5630000000000001,
+          "p_permutation": 0.085
+        },
+        "probe_3_effect_matched": {
+          "mean_auc": 0.8575,
+          "std_auc": 0.08834166627362199,
+          "mean_accuracy": 0.7859999999999999,
+          "mean_balanced_accuracy": 0.7859999999999999,
+          "p_permutation": 0.0
+        },
+        "probe_4_joint_observer_matched": {
+          "mean_auc": 0.9175,
+          "std_auc": 0.05591287865957181,
+          "mean_accuracy": 0.8269999999999998,
+          "mean_balanced_accuracy": 0.8270000000000001,
+          "p_permutation": 0.0
+        },
+        "probe_5_within_organism_h": {
+          "mean_auc": 0.9028999999999999,
+          "std_auc": 0.054681715408352004,
+          "mean_accuracy": 0.8320000000000001,
+          "mean_balanced_accuracy": 0.8320000000000002,
+          "p_permutation": 0.0
+        }
+      },
+      "49": {
+        "probe_1_goal_only": {
+          "mean_auc": 0.42599999999999993,
+          "std_auc": 0.06873136110975833,
+          "mean_accuracy": 0.426,
+          "mean_balanced_accuracy": 0.42599999999999993,
+          "p_permutation": 0.819
+        },
+        "probe_2_action_matched": {
+          "mean_auc": 0.5,
+          "std_auc": 0.0,
+          "mean_accuracy": 0.5,
+          "mean_balanced_accuracy": 0.5,
+          "p_permutation": 1.0
+        },
+        "probe_3_effect_matched": {
+          "mean_auc": 0.9333,
+          "std_auc": 0.05014588716933823,
+          "mean_accuracy": 0.8439999999999999,
+          "mean_balanced_accuracy": 0.8439999999999999,
+          "p_permutation": 0.0
+        },
+        "probe_4_joint_observer_matched": {
+          "mean_auc": 0.9324999999999999,
+          "std_auc": 0.05119814449762803,
+          "mean_accuracy": 0.8439999999999999,
+          "mean_balanced_accuracy": 0.8439999999999999,
+          "p_permutation": 0.0
+        },
+        "probe_5_within_organism_h": {
+          "mean_auc": 0.9423,
+          "std_auc": 0.046348786391878685,
+          "mean_accuracy": 0.8499999999999999,
+          "mean_balanced_accuracy": 0.8500000000000001,
+          "p_permutation": 0.0
+        }
+      }
+    }
+  },
+  "artifacts": {
+    "summary_json": "results\\e20_garden_q08_representation\\run_q08a_within_organism_20260820_231213\\q08a_within_organism_summary.json"
+  }
+}
