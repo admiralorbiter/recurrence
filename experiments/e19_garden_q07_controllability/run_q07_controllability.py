@@ -79,15 +79,15 @@ def evaluate_organism_controllability(
 
             if gt.current_phase == "exploration":
                 action = int(torch.argmax(motor_logits).item())
-                next_obs, rew, done, gt_step = env.step(action)
+                next_obs, rew, done, gt = env.step(action)
                 step_actions.append(action)
-                if gt_step.last_effect is not None:
-                    step_effects.append(gt_step.last_effect)
+                if gt.last_effect is not None:
+                    step_effects.append(gt.last_effect)
                 obs = next_obs
 
             elif gt.current_phase == "exploitation":
                 exploit_choice = int(torch.argmax(exploit_logits).item())
-                next_obs, reward, done, gt_step = env.step(exploit_choice)
+                next_obs, reward, done, gt = env.step(exploit_choice)
 
                 trial_rec = {
                     "trial_id": f"seed_{seed}_ep_{ep_idx}",
