@@ -2,7 +2,7 @@
 
 **Horizon 2 (Level 2: Latent Recurrence & Self-Access)**  
 **Target Substrate:** `google/recurrentgemma-2b-it` (revision: `2766eb5d4264c6c0357803990791f9ab9cd50f8e`)  
-**Status:** **S14.0C Definitive Stratified Assay COMPLETED, CALIBRATED & FROZEN (16 Evaluations across 3 C-Tiers, Evolved + State-Matched POST Controls, Cluster-Aware TOST Equivalence Confirmed)**
+**Status:** **S14.0C Confirmatory Panel Assay COMPLETED, CALIBRATED & FROZEN (16 Evaluations across 3 C-Tiers, Evolved + State-Matched POST Controls, Cluster-Level TOST Equivalence Confirmed)**
 
 ---
 
@@ -11,13 +11,14 @@
 Sprint S14 tests whether a recurrent language model (`RecurrentGemma-2B-IT`) exhibits privileged metacognitive access to, or reality-monitoring over, its own prior computational intentions.
 
 > **Central Scientific Insight:**  
-> **State access $\neq$ provenance access.**  
+> **State-conditioned reporting $\neq$ historical-provenance discrimination.**  
+> *(Shorthand: State access $\neq$ provenance access).*  
 > At report time, possessing the relevant RG-LRU store content is sufficient to reproduce the measured intention-report modulation; actual participation of that RG-LRU trajectory in forming the prior decision is not additionally required. S14.0C finds no evidence for causal-history provenance discrimination beyond information encoded in the current recurrent state.
 
 Using the **C/D/R/A (Computation / Distribution / Reporting / Access)** decomposition framework:
 
 1. **R-Level Interface Validated (8/8 Distinct Interfaces Passed 100% Visible Accuracy):**
-   Uncalibrated direct-token reporting suffered from first-option positional bias. Balanced Order Permutation (BOP) across $(x, y)$ and $(y, x)$ question presentations canceled presentation bias, achieving a **100.0% pass rate** on visible ground-truth controls across all 8 tested candidate pairs ($m \in [+4.66, +24.56]$ logits).
+   Uncalibrated direct-token reporting suffered from strong first-option positional bias ($m \approx +10$ to $+20$ logits). Balanced Order Permutation (BOP) across $(x, y)$ and $(y, x)$ question presentations canceled this presentation bias, achieving a **100.0% pass rate** on visible ground-truth controls across all 8 tested candidate pairs ($m \in [+4.66, +24.56]$ logits).
 2. **C-Level Stratification Separates True Disagreement from Causal Perturbation:**
    - **Tier 1 (Strict-C Binary Choice Disagreement, $D_T \cdot D_O < 0$, $|D| \ge 0.30$):** Exactly **2/16 trials** (`quartz_basalt` FWD and REV). Target and observer held opposing private preferences ($\Delta = \pm 1.02$ logits).
    - **Tier 2 (Boundary / Weak / Indeterminate Disagreement):** **3/16 trials** (`marble_quartz` FWD, `basalt_granite` REV with $D_T = 0.00$, `amber_garnet` REV with $D_T = -0.031$).
@@ -25,12 +26,13 @@ Using the **C/D/R/A (Computation / Distribution / Reporting / Access)** decompos
 3. **State-Conditioned Report Modulation in the Strict-C Cell (`quartz_basalt`):**
    - **Forward ($A \leftarrow B$, truth is `alkali`):** $D_T = +0.531, D_O = -0.484 \implies \text{PAI}_{\text{aligned}} = \mathbf{+0.270}$. Semantic report $S_{\text{PRE}} = -1.77$ (favors `antonio`, wrong choice, but shifted toward truth relative to observer).
    - **Reverse ($B \leftarrow A$, truth is `antonio`):** $D_T = -0.547, D_O = +0.469 \implies \text{PAI}_{\text{aligned}} = \mathbf{+0.083}$. Semantic report $S_{\text{PRE}} = \mathbf{+1.74}$ (correct choice, crossed the decision boundary).
-   - In both causal directions, PRE reporting shifted in the direction associated with the target's private computational state relative to the matched observer baseline. Across Tier 3 perturbation controls, report shifts show essentially no correlation with continuous decision shifts ($r \approx 0.064$).
-4. **Definitive Temporal Equivalence & Provenance Invariance ($\Delta M_{\text{timing}} \approx 0$, TOST $p < 0.005$):**
+   - In both causal directions, PRE reporting shifted in the direction associated with the target's private computational state relative to the matched observer baseline. However, across the 11 Tier 3 perturbation controls, report shifts show essentially no correlation with continuous decision shifts ($r \approx 0.064$), demonstrating that this is a localized state-conditioned effect rather than a generic global read head.
+4. **Definitive Temporal Invariance & Provenance Invariance ($\Delta M_{\text{timing}} \approx 0$, TOST $p < 0.005$):**
+   - **Estimand Disambiguation:** We distinguish the undirected timing difference $\Delta M_{\text{timing}} = M_{\text{PRE}} - M_{\text{POST}}$ from the directional preference contrast $T_{\text{aligned}} = g \cdot (M_{\text{PRE}} - M_{\text{POST}})$.
    - **8-Cell Cluster-Level Analysis (Nested FWD/REV):**
-     * **Contemporaneously Evolved POST:** Mean $\Delta M_{\text{timing}} = \mathbf{+0.0033}$ logits [$90\%\text{ CI}: -0.0222, +0.0288$; $95\%\text{ CI}: -0.0285, +0.0351$; $p_{\text{TOST}} = \mathbf{8.99 \times 10^{-5}}$]. **Statistically equivalent to zero at $\delta_{\text{equiv}} = \pm 0.10$.**
-     * **Exact State-Matched POST ($R_{\text{POST}} = R_{\text{PRE}}$):** Mean $\Delta M_{\text{timing}} = \mathbf{+0.0348}$ logits [$90\%\text{ CI}: -0.0002, +0.0698$; $95\%\text{ CI}: -0.0089, +0.0785$; $p_{\text{TOST}} = \mathbf{0.0048}$]. **Statistically equivalent to zero at $\delta_{\text{equiv}} = \pm 0.10$.**
-   - In `quartz_basalt`, exact state-matched POST report margins match PRE to within hundredths of a logit ($T_{\text{aligned}}^{\text{matched}} = +0.020$ FWD, $-0.053$ REV).
+     * **Contemporaneously Evolved POST:** Mean $\Delta M_{\text{timing}} = \mathbf{+0.0033}$ logits [$90\%\text{ CI}: -0.0222, +0.0288$; $95\%\text{ CI}: -0.0285, +0.0351$; $p_{\text{TOST}} = \mathbf{8.99 \times 10^{-5}}$].
+     * **Exact State-Matched POST ($R_{\text{POST}} = R_{\text{PRE}}$):** Mean $\Delta M_{\text{timing}} = \mathbf{+0.0348}$ logits [$90\%\text{ CI}: -0.0002, +0.0698$; $95\%\text{ CI}: -0.0089, +0.0785$; $p_{\text{TOST}} = \mathbf{0.0048}$].
+   - **Equivalence Bound Governance:** The $\pm 0.10$ SESOI was declared during retrospective hardening after initial panel inspection. Because the cluster $90\%$ CIs exclude zero and yield minimum equivalence boundaries of $\delta_{\min} \approx 0.029$ (evolved) and $\delta_{\min} \approx 0.070$ (matched), practical equivalence does not depend precariously on the $0.10$ boundary. Individual cells exhibit modest heterogeneity (matched differences ranging from $-0.109$ to $+0.156$).
 
 ---
 
@@ -84,8 +86,16 @@ Both 90% and 95% confidence intervals fit strictly inside $[-0.10, +0.10]$, demo
 
 1. **Causal Latent Influence:** Established. RG-LRU store interventions steer downstream output ($P = +74.10$, S12).
 2. **Private Computational Disagreement:** Established narrowly in `quartz_basalt` ($\Delta = \pm 1.02$ logits).
-3. **State-Conditioned Report Modulation:** Established. The private-state manipulation shifts later metacognitive reports in the direction of the target's private disposition relative to an observer ($\text{PAI}_{\text{aligned}} > 0$).
-4. **Provenance Discrimination:** **Null established.** No detected sensitivity to whether the relevant RG-LRU actually participated in prior decision formation versus being installed immediately afterward ($\Delta M_{\text{timing}} \approx 0$, $p_{\text{TOST}} < 0.005$).
+3. **State-Conditioned Report Modulation:** Observed bidirectionally in the strict-C `quartz_basalt` cell ($\text{PAI}_{\text{aligned}} > 0$). Not established as a generic global read head across arbitrary perturbations ($r \approx 0.064$ in Tier 3).
+4. **Provenance Discrimination:** **No additional timing/provenance effect detected.** PRE and POST report behavior is practically equivalent on average at $\pm 0.10$ logits ($p_{\text{TOST}} < 0.005$).
 
-**Summary Formula:**  
-$$\text{Latent State Content} \implies \text{Metacognitive Report Modulation} \quad \text{BUT} \quad \text{State Access} \neq \text{Provenance Access}$$
+---
+
+## 5. Methodological & Theoretical Synthesis
+
+1. **Source Monitoring vs. Content Memory (Johnson et al. 1993):**
+   Remembering or possessing state information and remembering where that state originated are computationally separable. RecurrentGemma can carry state content that modulates verbal reporting, but fails to distinguish whether that state was active during prior decision formation or installed post hoc.
+2. **Partial Introspection ("Feeling the Strength but Not the Source"):**
+   Consistent with Hahami et al. (2024), models exhibit sensitivity to internal state magnitude/content without robustly discriminating internal provenance or temporal origin.
+3. **Prior Intention Assays Require POST-Style Controls:**
+   In prior-intention paradigms (e.g. Anthropic's activation perturbation assays), intention-endorsement shifts by themselves do not establish retrospective episodic access. Installing the relevant state vector *after* the action but before the probe reproduces identical endorsement on RecurrentGemma. Future intention ownership assays must include matched post-hoc installation controls.

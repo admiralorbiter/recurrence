@@ -415,7 +415,7 @@ def main():
             res = run_definitive_trial(adapter, pair, wx, wy, d, audited_pool)
             trials.append({"cell": cell, "result": res})
 
-            tier_short = "Strict-C" if res["c_tier"] == "TIER_1_STRICT_C_DISAGREEMENT" else ("Weak-C" if res["c_tier"] == "TIER_2_WEAK_DISAGREEMENT" else "Same-Ch")
+            tier_short = "Strict-C" if res["c_tier"] == "TIER_1_STRICT_C_DISAGREEMENT" else ("Boundary" if res["c_tier"] == "TIER_2_BOUNDARY_WEAK_DISAGREEMENT" else "Same-Ch")
             aln = res["aligned_metrics"]
             bp = res["bop_pre"]
             bo = res["bop_obs"]
