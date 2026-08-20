@@ -1,0 +1,1223 @@
+{
+  "model_id": "google/recurrentgemma-2b-it",
+  "pinned_revision": "2766eb5d4264c6c0357803990791f9ab9cd50f8e",
+  "margin_threshold": 0.3,
+  "audited_vocab_size": 99982,
+  "cells_screened": 12,
+  "cells_with_reversals": 12,
+  "total_reversals": 384219,
+  "cell_results": [
+    {
+      "pair_id": "archived_artifact_p04_quartz_basalt",
+      "regime": "constant",
+      "r_role": -0.90625,
+      "top_target_word": "headshot",
+      "top_observer_word": "illaume",
+      "audited_argmax_flip": true,
+      "n_pairwise_reversals": 80267,
+      "top_reversals": [
+        {
+          "word_x": "business",
+          "word_y": "bille",
+          "tok_x": 2567,
+          "tok_y": 124951,
+          "target_gap": 1.125,
+          "observer_gap": -6.96875,
+          "total_disagreement": 8.09375
+        },
+        {
+          "word_x": "shows",
+          "word_y": "bille",
+          "tok_x": 4918,
+          "tok_y": 124951,
+          "target_gap": 4.6875,
+          "observer_gap": -3.09375,
+          "total_disagreement": 7.78125
+        },
+        {
+          "word_x": "weltweit",
+          "word_y": "bille",
+          "tok_x": 99346,
+          "tok_y": 124951,
+          "target_gap": 2.15625,
+          "observer_gap": -5.59375,
+          "total_disagreement": 7.75
+        },
+        {
+          "word_x": "mittlerweile",
+          "word_y": "bille",
+          "tok_x": 136949,
+          "tok_y": 124951,
+          "target_gap": 2.5625,
+          "observer_gap": -5.15625,
+          "total_disagreement": 7.71875
+        },
+        {
+          "word_x": "dat",
+          "word_y": "bille",
+          "tok_x": 5185,
+          "tok_y": 124951,
+          "target_gap": 4.03125,
+          "observer_gap": -3.59375,
+          "total_disagreement": 7.625
+        },
+        {
+          "word_x": "med",
+          "word_y": "bille",
+          "tok_x": 1563,
+          "tok_y": 124951,
+          "target_gap": 4.5625,
+          "observer_gap": -3.0,
+          "total_disagreement": 7.5625
+        },
+        {
+          "word_x": "shows",
+          "word_y": "terscotch",
+          "tok_x": 4918,
+          "tok_y": 225126,
+          "target_gap": 3.1875,
+          "observer_gap": -4.359375,
+          "total_disagreement": 7.546875
+        },
+        {
+          "word_x": "can",
+          "word_y": "bille",
+          "tok_x": 2189,
+          "tok_y": 124951,
+          "target_gap": 2.875,
+          "observer_gap": -4.65625,
+          "total_disagreement": 7.53125
+        },
+        {
+          "word_x": "weltweit",
+          "word_y": "terscotch",
+          "tok_x": 99346,
+          "tok_y": 225126,
+          "target_gap": 0.65625,
+          "observer_gap": -6.859375,
+          "total_disagreement": 7.515625
+        },
+        {
+          "word_x": "sauf",
+          "word_y": "bille",
+          "tok_x": 93134,
+          "tok_y": 124951,
+          "target_gap": 5.890625,
+          "observer_gap": -1.625,
+          "total_disagreement": 7.515625
+        }
+      ]
+    },
+    {
+      "pair_id": "sealed_container_p05_silver_nickel",
+      "regime": "constant",
+      "r_role": 0.8349609375,
+      "top_target_word": "subprocess",
+      "top_observer_word": "subprocess",
+      "audited_argmax_flip": false,
+      "n_pairwise_reversals": 33552,
+      "top_reversals": [
+        {
+          "word_x": "mereka",
+          "word_y": "adipis",
+          "tok_x": 202320,
+          "tok_y": 202363,
+          "target_gap": 2.0234375,
+          "observer_gap": -3.2734375,
+          "total_disagreement": 5.296875
+        },
+        {
+          "word_x": "credo",
+          "word_y": "adipis",
+          "tok_x": 100165,
+          "tok_y": 202363,
+          "target_gap": 0.40625,
+          "observer_gap": -4.8046875,
+          "total_disagreement": 5.2109375
+        },
+        {
+          "word_x": "ximation",
+          "word_y": "adipis",
+          "tok_x": 101139,
+          "tok_y": 202363,
+          "target_gap": 0.90625,
+          "observer_gap": -4.2421875,
+          "total_disagreement": 5.1484375
+        },
+        {
+          "word_x": "holm",
+          "word_y": "faring",
+          "tok_x": 25697,
+          "tok_y": 202146,
+          "target_gap": 4.30078125,
+          "observer_gap": -0.7578125,
+          "total_disagreement": 5.05859375
+        },
+        {
+          "word_x": "ristian",
+          "word_y": "adipis",
+          "tok_x": 6103,
+          "tok_y": 202363,
+          "target_gap": 4.453125,
+          "observer_gap": -0.5703125,
+          "total_disagreement": 5.0234375
+        },
+        {
+          "word_x": "hadn",
+          "word_y": "adipis",
+          "tok_x": 24574,
+          "tok_y": 202363,
+          "target_gap": 1.9140625,
+          "observer_gap": -3.0859375,
+          "total_disagreement": 5.0
+        },
+        {
+          "word_x": "omans",
+          "word_y": "adipis",
+          "tok_x": 199024,
+          "tok_y": 202363,
+          "target_gap": 1.921875,
+          "observer_gap": -3.0546875,
+          "total_disagreement": 4.9765625
+        },
+        {
+          "word_x": "meli",
+          "word_y": "faring",
+          "tok_x": 44061,
+          "tok_y": 202146,
+          "target_gap": 4.17578125,
+          "observer_gap": -0.796875,
+          "total_disagreement": 4.97265625
+        },
+        {
+          "word_x": "kami",
+          "word_y": "blestone",
+          "tok_x": 19280,
+          "tok_y": 211874,
+          "target_gap": 2.28125,
+          "observer_gap": -2.6875,
+          "total_disagreement": 4.96875
+        },
+        {
+          "word_x": "ristian",
+          "word_y": "faring",
+          "tok_x": 6103,
+          "tok_y": 202146,
+          "target_gap": 1.39453125,
+          "observer_gap": -3.5546875,
+          "total_disagreement": 4.94921875
+        }
+      ]
+    },
+    {
+      "pair_id": "sealed_container_p06_bronze_nickel",
+      "regime": "constant",
+      "r_role": 0.671875,
+      "top_target_word": "subprocess",
+      "top_observer_word": "subprocess",
+      "audited_argmax_flip": false,
+      "n_pairwise_reversals": 25825,
+      "top_reversals": [
+        {
+          "word_x": "kami",
+          "word_y": "blestone",
+          "tok_x": 19280,
+          "tok_y": 211874,
+          "target_gap": 2.4375,
+          "observer_gap": -1.53125,
+          "total_disagreement": 3.96875
+        },
+        {
+          "word_x": "analogs",
+          "word_y": "atractivo",
+          "tok_x": 213434,
+          "tok_y": 130163,
+          "target_gap": 3.00390625,
+          "observer_gap": -0.924072265625,
+          "total_disagreement": 3.927978515625
+        },
+        {
+          "word_x": "oleum",
+          "word_y": "atractivo",
+          "tok_x": 95596,
+          "tok_y": 130163,
+          "target_gap": 3.19140625,
+          "observer_gap": -0.7001953125,
+          "total_disagreement": 3.8916015625
+        },
+        {
+          "word_x": "ctober",
+          "word_y": "atractivo",
+          "tok_x": 4335,
+          "tok_y": 130163,
+          "target_gap": 3.00390625,
+          "observer_gap": -0.8873291015625,
+          "total_disagreement": 3.8912353515625
+        },
+        {
+          "word_x": "aitlin",
+          "word_y": "adipis",
+          "tok_x": 96202,
+          "tok_y": 202363,
+          "target_gap": 2.796875,
+          "observer_gap": -1.09375,
+          "total_disagreement": 3.890625
+        },
+        {
+          "word_x": "analogs",
+          "word_y": "faring",
+          "tok_x": 213434,
+          "tok_y": 202146,
+          "target_gap": 2.8515625,
+          "observer_gap": -1.033447265625,
+          "total_disagreement": 3.885009765625
+        },
+        {
+          "word_x": "oleum",
+          "word_y": "faring",
+          "tok_x": 95596,
+          "tok_y": 202146,
+          "target_gap": 3.0390625,
+          "observer_gap": -0.8095703125,
+          "total_disagreement": 3.8486328125
+        },
+        {
+          "word_x": "ctober",
+          "word_y": "faring",
+          "tok_x": 4335,
+          "tok_y": 202146,
+          "target_gap": 2.8515625,
+          "observer_gap": -0.9967041015625,
+          "total_disagreement": 3.8482666015625
+        },
+        {
+          "word_x": "holm",
+          "word_y": "rupiah",
+          "tok_x": 25697,
+          "tok_y": 173250,
+          "target_gap": 2.546875,
+          "observer_gap": -1.25,
+          "total_disagreement": 3.796875
+        },
+        {
+          "word_x": "analogs",
+          "word_y": "rupiah",
+          "tok_x": 213434,
+          "tok_y": 173250,
+          "target_gap": 1.046875,
+          "observer_gap": -2.740478515625,
+          "total_disagreement": 3.787353515625
+        }
+      ]
+    },
+    {
+      "pair_id": "archived_artifact_p06_basalt_granite",
+      "regime": "constant",
+      "r_role": 0.671875,
+      "top_target_word": "illaume",
+      "top_observer_word": "mois",
+      "audited_argmax_flip": true,
+      "n_pairwise_reversals": 71205,
+      "top_reversals": [
+        {
+          "word_x": "trier",
+          "word_y": "business",
+          "tok_x": 188326,
+          "tok_y": 2567,
+          "target_gap": 5.4375,
+          "observer_gap": -2.03125,
+          "total_disagreement": 7.46875
+        },
+        {
+          "word_x": "burner",
+          "word_y": "business",
+          "tok_x": 61909,
+          "tok_y": 2567,
+          "target_gap": 3.8125,
+          "observer_gap": -3.40625,
+          "total_disagreement": 7.21875
+        },
+        {
+          "word_x": "trier",
+          "word_y": "shows",
+          "tok_x": 188326,
+          "tok_y": 4918,
+          "target_gap": 1.65625,
+          "observer_gap": -5.375,
+          "total_disagreement": 7.03125
+        },
+        {
+          "word_x": "beige",
+          "word_y": "business",
+          "tok_x": 103101,
+          "tok_y": 2567,
+          "target_gap": 6.0625,
+          "observer_gap": -0.96875,
+          "total_disagreement": 7.03125
+        },
+        {
+          "word_x": "waits",
+          "word_y": "business",
+          "tok_x": 226622,
+          "tok_y": 2567,
+          "target_gap": 6.4375,
+          "observer_gap": -0.59375,
+          "total_disagreement": 7.03125
+        },
+        {
+          "word_x": "lager",
+          "word_y": "business",
+          "tok_x": 48688,
+          "tok_y": 2567,
+          "target_gap": 3.5625,
+          "observer_gap": -3.40625,
+          "total_disagreement": 6.96875
+        },
+        {
+          "word_x": "geist",
+          "word_y": "business",
+          "tok_x": 102997,
+          "tok_y": 2567,
+          "target_gap": 4.8125,
+          "observer_gap": -2.15625,
+          "total_disagreement": 6.96875
+        },
+        {
+          "word_x": "trier",
+          "word_y": "money",
+          "tok_x": 188326,
+          "tok_y": 3370,
+          "target_gap": 4.0,
+          "observer_gap": -2.9375,
+          "total_disagreement": 6.9375
+        },
+        {
+          "word_x": "trier",
+          "word_y": "mag",
+          "tok_x": 188326,
+          "tok_y": 5745,
+          "target_gap": 3.6875,
+          "observer_gap": -3.25,
+          "total_disagreement": 6.9375
+        },
+        {
+          "word_x": "trier",
+          "word_y": "business",
+          "tok_x": 188326,
+          "tok_y": 15679,
+          "target_gap": 2.9375,
+          "observer_gap": -3.96875,
+          "total_disagreement": 6.90625
+        }
+      ]
+    },
+    {
+      "pair_id": "archived_artifact_p02_marble_basalt",
+      "regime": "constant",
+      "r_role": 0.625,
+      "top_target_word": "exceptionnel",
+      "top_observer_word": "mois",
+      "audited_argmax_flip": true,
+      "n_pairwise_reversals": 52356,
+      "top_reversals": [
+        {
+          "word_x": "lmfao",
+          "word_y": "iter",
+          "tok_x": 193836,
+          "tok_y": 2417,
+          "target_gap": 3.53125,
+          "observer_gap": -1.59375,
+          "total_disagreement": 5.125
+        },
+        {
+          "word_x": "kila",
+          "word_y": "set",
+          "tok_x": 119129,
+          "tok_y": 881,
+          "target_gap": 0.4375,
+          "observer_gap": -4.625,
+          "total_disagreement": 5.0625
+        },
+        {
+          "word_x": "lmfao",
+          "word_y": "cor",
+          "tok_x": 193836,
+          "tok_y": 2610,
+          "target_gap": 1.84375,
+          "observer_gap": -3.171875,
+          "total_disagreement": 5.015625
+        },
+        {
+          "word_x": "feelings",
+          "word_y": "this",
+          "tok_x": 217116,
+          "tok_y": 883,
+          "target_gap": 2.83203125,
+          "observer_gap": -2.154296875,
+          "total_disagreement": 4.986328125
+        },
+        {
+          "word_x": "iterrane",
+          "word_y": "iter",
+          "tok_x": 157116,
+          "tok_y": 2417,
+          "target_gap": 2.0,
+          "observer_gap": -2.96875,
+          "total_disagreement": 4.96875
+        },
+        {
+          "word_x": "manj",
+          "word_y": "iter",
+          "tok_x": 231831,
+          "tok_y": 2417,
+          "target_gap": 3.90625,
+          "observer_gap": -1.0625,
+          "total_disagreement": 4.96875
+        },
+        {
+          "word_x": "genommen",
+          "word_y": "this",
+          "tok_x": 40269,
+          "tok_y": 883,
+          "target_gap": 1.171875,
+          "observer_gap": -3.794921875,
+          "total_disagreement": 4.966796875
+        },
+        {
+          "word_x": "lmfao",
+          "word_y": "one",
+          "tok_x": 193836,
+          "tok_y": 785,
+          "target_gap": 3.96875,
+          "observer_gap": -0.96875,
+          "total_disagreement": 4.9375
+        },
+        {
+          "word_x": "feelings",
+          "word_y": "counter",
+          "tok_x": 217116,
+          "tok_y": 3199,
+          "target_gap": 4.50390625,
+          "observer_gap": -0.421875,
+          "total_disagreement": 4.92578125
+        },
+        {
+          "word_x": "lmfao",
+          "word_y": "meta",
+          "tok_x": 193836,
+          "tok_y": 6472,
+          "target_gap": 0.84375,
+          "observer_gap": -4.078125,
+          "total_disagreement": 4.921875
+        }
+      ]
+    },
+    {
+      "pair_id": "marked_object_p02_amber_garnet",
+      "regime": "constant",
+      "r_role": -0.5625,
+      "top_target_word": "lly",
+      "top_observer_word": "lly",
+      "audited_argmax_flip": false,
+      "n_pairwise_reversals": 17876,
+      "top_reversals": [
+        {
+          "word_x": "pips",
+          "word_y": "arty",
+          "tok_x": 219801,
+          "tok_y": 73131,
+          "target_gap": 0.3125,
+          "observer_gap": -2.3125,
+          "total_disagreement": 2.625
+        },
+        {
+          "word_x": "planung",
+          "word_y": "fetchone",
+          "tok_x": 159285,
+          "tok_y": 160299,
+          "target_gap": 0.59375,
+          "observer_gap": -1.96875,
+          "total_disagreement": 2.5625
+        },
+        {
+          "word_x": "supset",
+          "word_y": "arty",
+          "tok_x": 195396,
+          "tok_y": 73131,
+          "target_gap": 1.25,
+          "observer_gap": -1.25,
+          "total_disagreement": 2.5
+        },
+        {
+          "word_x": "ouder",
+          "word_y": "arty",
+          "tok_x": 196671,
+          "tok_y": 73131,
+          "target_gap": 0.4375,
+          "observer_gap": -2.0625,
+          "total_disagreement": 2.5
+        },
+        {
+          "word_x": "intoler",
+          "word_y": "fetchone",
+          "tok_x": 51666,
+          "tok_y": 160299,
+          "target_gap": 0.9375,
+          "observer_gap": -1.5625,
+          "total_disagreement": 2.5
+        },
+        {
+          "word_x": "iteln",
+          "word_y": "fetchone",
+          "tok_x": 101232,
+          "tok_y": 160299,
+          "target_gap": 2.09375,
+          "observer_gap": -0.40625,
+          "total_disagreement": 2.5
+        },
+        {
+          "word_x": "scut",
+          "word_y": "fetchone",
+          "tok_x": 193950,
+          "tok_y": 160299,
+          "target_gap": 0.90625,
+          "observer_gap": -1.59375,
+          "total_disagreement": 2.5
+        },
+        {
+          "word_x": "rechts",
+          "word_y": "fetchone",
+          "tok_x": 94416,
+          "tok_y": 160299,
+          "target_gap": 0.84375,
+          "observer_gap": -1.625,
+          "total_disagreement": 2.46875
+        },
+        {
+          "word_x": "paces",
+          "word_y": "fetchone",
+          "tok_x": 132941,
+          "tok_y": 160299,
+          "target_gap": 0.96875,
+          "observer_gap": -1.5,
+          "total_disagreement": 2.46875
+        },
+        {
+          "word_x": "onchange",
+          "word_y": "fetchone",
+          "tok_x": 192714,
+          "tok_y": 160299,
+          "target_gap": 0.96875,
+          "observer_gap": -1.5,
+          "total_disagreement": 2.46875
+        }
+      ]
+    },
+    {
+      "pair_id": "monitored_signal_p01_alpha_delta",
+      "regime": "constant",
+      "r_role": -0.515625,
+      "top_target_word": "asmuch",
+      "top_observer_word": "asmuch",
+      "audited_argmax_flip": false,
+      "n_pairwise_reversals": 14763,
+      "top_reversals": [
+        {
+          "word_x": "carc",
+          "word_y": "olat",
+          "tok_x": 170594,
+          "tok_y": 42439,
+          "target_gap": 1.6484375,
+          "observer_gap": -1.3828125,
+          "total_disagreement": 3.03125
+        },
+        {
+          "word_x": "carc",
+          "word_y": "iena",
+          "tok_x": 170594,
+          "tok_y": 46696,
+          "target_gap": 1.9140625,
+          "observer_gap": -1.05078125,
+          "total_disagreement": 2.96484375
+        },
+        {
+          "word_x": "carc",
+          "word_y": "dave",
+          "tok_x": 170594,
+          "tok_y": 157210,
+          "target_gap": 1.8359375,
+          "observer_gap": -1.0234375,
+          "total_disagreement": 2.859375
+        },
+        {
+          "word_x": "carc",
+          "word_y": "molly",
+          "tok_x": 170594,
+          "tok_y": 202407,
+          "target_gap": 0.453125,
+          "observer_gap": -2.333984375,
+          "total_disagreement": 2.787109375
+        },
+        {
+          "word_x": "carc",
+          "word_y": "ondon",
+          "tok_x": 170594,
+          "tok_y": 4272,
+          "target_gap": 1.4921875,
+          "observer_gap": -1.2265625,
+          "total_disagreement": 2.71875
+        },
+        {
+          "word_x": "bca",
+          "word_y": "baldi",
+          "tok_x": 233662,
+          "tok_y": 113381,
+          "target_gap": 1.0625,
+          "observer_gap": -1.65625,
+          "total_disagreement": 2.71875
+        },
+        {
+          "word_x": "kalt",
+          "word_y": "aitlin",
+          "tok_x": 120334,
+          "tok_y": 96202,
+          "target_gap": 0.46875,
+          "observer_gap": -2.25,
+          "total_disagreement": 2.71875
+        },
+        {
+          "word_x": "carc",
+          "word_y": "dumbass",
+          "tok_x": 170594,
+          "tok_y": 160122,
+          "target_gap": 1.5859375,
+          "observer_gap": -1.10546875,
+          "total_disagreement": 2.69140625
+        },
+        {
+          "word_x": "normales",
+          "word_y": "aitlin",
+          "tok_x": 103156,
+          "tok_y": 96202,
+          "target_gap": 1.9375,
+          "observer_gap": -0.75,
+          "total_disagreement": 2.6875
+        },
+        {
+          "word_x": "vereignty",
+          "word_y": "olat",
+          "tok_x": 185385,
+          "tok_y": 42439,
+          "target_gap": 0.984375,
+          "observer_gap": -1.6796875,
+          "total_disagreement": 2.6640625
+        }
+      ]
+    },
+    {
+      "pair_id": "marked_object_p02_amber_garnet",
+      "regime": "random",
+      "r_role": -0.4921875,
+      "top_target_word": "pha",
+      "top_observer_word": "alter",
+      "audited_argmax_flip": true,
+      "n_pairwise_reversals": 12313,
+      "top_reversals": [
+        {
+          "word_x": "lateinit",
+          "word_y": "stable",
+          "tok_x": 91440,
+          "tok_y": 13440,
+          "target_gap": 0.46875,
+          "observer_gap": -2.0,
+          "total_disagreement": 2.46875
+        },
+        {
+          "word_x": "lateinit",
+          "word_y": "mici",
+          "tok_x": 91440,
+          "tok_y": 95631,
+          "target_gap": 0.84375,
+          "observer_gap": -1.53125,
+          "total_disagreement": 2.375
+        },
+        {
+          "word_x": "lateinit",
+          "word_y": "reasons",
+          "tok_x": 91440,
+          "tok_y": 8121,
+          "target_gap": 0.9375,
+          "observer_gap": -1.34375,
+          "total_disagreement": 2.28125
+        },
+        {
+          "word_x": "lateinit",
+          "word_y": "vante",
+          "tok_x": 91440,
+          "tok_y": 39369,
+          "target_gap": 1.0,
+          "observer_gap": -1.21875,
+          "total_disagreement": 2.21875
+        },
+        {
+          "word_x": "lateinit",
+          "word_y": "inline",
+          "tok_x": 91440,
+          "tok_y": 32282,
+          "target_gap": 1.09375,
+          "observer_gap": -1.09375,
+          "total_disagreement": 2.1875
+        },
+        {
+          "word_x": "lateinit",
+          "word_y": "supported",
+          "tok_x": 91440,
+          "tok_y": 40861,
+          "target_gap": 1.0625,
+          "observer_gap": -1.125,
+          "total_disagreement": 2.1875
+        },
+        {
+          "word_x": "lateinit",
+          "word_y": "sister",
+          "tok_x": 91440,
+          "tok_y": 49027,
+          "target_gap": 1.375,
+          "observer_gap": -0.8125,
+          "total_disagreement": 2.1875
+        },
+        {
+          "word_x": "lateinit",
+          "word_y": "functor",
+          "tok_x": 91440,
+          "tok_y": 139038,
+          "target_gap": 0.96875,
+          "observer_gap": -1.21875,
+          "total_disagreement": 2.1875
+        },
+        {
+          "word_x": "lateinit",
+          "word_y": "totalitarian",
+          "tok_x": 91440,
+          "tok_y": 196738,
+          "target_gap": 0.40625,
+          "observer_gap": -1.78125,
+          "total_disagreement": 2.1875
+        },
+        {
+          "word_x": "lateinit",
+          "word_y": "habilitation",
+          "tok_x": 91440,
+          "tok_y": 26481,
+          "target_gap": 1.375,
+          "observer_gap": -0.78125,
+          "total_disagreement": 2.15625
+        }
+      ]
+    },
+    {
+      "pair_id": "monitored_signal_p05_delta_theta",
+      "regime": "constant",
+      "r_role": -0.3984375,
+      "top_target_word": "asmuch",
+      "top_observer_word": "asmuch",
+      "audited_argmax_flip": false,
+      "n_pairwise_reversals": 16692,
+      "top_reversals": [
+        {
+          "word_x": "olat",
+          "word_y": "celona",
+          "tok_x": 42439,
+          "tok_y": 14697,
+          "target_gap": 1.64453125,
+          "observer_gap": -1.203125,
+          "total_disagreement": 2.84765625
+        },
+        {
+          "word_x": "whereof",
+          "word_y": "faring",
+          "tok_x": 115362,
+          "tok_y": 202146,
+          "target_gap": 1.9375,
+          "observer_gap": -0.84375,
+          "total_disagreement": 2.78125
+        },
+        {
+          "word_x": "olat",
+          "word_y": "guz",
+          "tok_x": 42439,
+          "tok_y": 169492,
+          "target_gap": 2.16015625,
+          "observer_gap": -0.59375,
+          "total_disagreement": 2.75390625
+        },
+        {
+          "word_x": "olat",
+          "word_y": "carc",
+          "tok_x": 42439,
+          "tok_y": 170594,
+          "target_gap": 1.26953125,
+          "observer_gap": -1.484375,
+          "total_disagreement": 2.75390625
+        },
+        {
+          "word_x": "olat",
+          "word_y": "carlo",
+          "tok_x": 42439,
+          "tok_y": 157894,
+          "target_gap": 1.39453125,
+          "observer_gap": -1.265625,
+          "total_disagreement": 2.66015625
+        },
+        {
+          "word_x": "olat",
+          "word_y": "prome",
+          "tok_x": 42439,
+          "tok_y": 84952,
+          "target_gap": 2.22265625,
+          "observer_gap": -0.421875,
+          "total_disagreement": 2.64453125
+        },
+        {
+          "word_x": "olat",
+          "word_y": "enerbah",
+          "tok_x": 42439,
+          "tok_y": 171031,
+          "target_gap": 2.22265625,
+          "observer_gap": -0.421875,
+          "total_disagreement": 2.64453125
+        },
+        {
+          "word_x": "olat",
+          "word_y": "respective",
+          "tok_x": 42439,
+          "tok_y": 19808,
+          "target_gap": 0.76953125,
+          "observer_gap": -1.8671875,
+          "total_disagreement": 2.63671875
+        },
+        {
+          "word_x": "achs",
+          "word_y": "ycz",
+          "tok_x": 159123,
+          "tok_y": 26971,
+          "target_gap": 1.375,
+          "observer_gap": -1.25,
+          "total_disagreement": 2.625
+        },
+        {
+          "word_x": "achs",
+          "word_y": "assium",
+          "tok_x": 159123,
+          "tok_y": 29527,
+          "target_gap": 0.625,
+          "observer_gap": -2.0,
+          "total_disagreement": 2.625
+        }
+      ]
+    },
+    {
+      "pair_id": "marked_object_p05_cobalt_zircon",
+      "regime": "constant",
+      "r_role": -0.375,
+      "top_target_word": "catast",
+      "top_observer_word": "catast",
+      "audited_argmax_flip": false,
+      "n_pairwise_reversals": 4747,
+      "top_reversals": [
+        {
+          "word_x": "sqm",
+          "word_y": "ffiche",
+          "tok_x": 137809,
+          "tok_y": 43753,
+          "target_gap": 0.375,
+          "observer_gap": -0.75,
+          "total_disagreement": 1.125
+        },
+        {
+          "word_x": "ula",
+          "word_y": "zah",
+          "tok_x": 2998,
+          "tok_y": 86704,
+          "target_gap": 0.8125,
+          "observer_gap": -0.3125,
+          "total_disagreement": 1.125
+        },
+        {
+          "word_x": "sqm",
+          "word_y": "roslav",
+          "tok_x": 137809,
+          "tok_y": 155119,
+          "target_gap": 0.5,
+          "observer_gap": -0.59375,
+          "total_disagreement": 1.09375
+        },
+        {
+          "word_x": "sqm",
+          "word_y": "koch",
+          "tok_x": 137809,
+          "tok_y": 105562,
+          "target_gap": 0.5,
+          "observer_gap": -0.5625,
+          "total_disagreement": 1.0625
+        },
+        {
+          "word_x": "endfor",
+          "word_y": "initas",
+          "tok_x": 164181,
+          "tok_y": 202536,
+          "target_gap": 0.75,
+          "observer_gap": -0.3125,
+          "total_disagreement": 1.0625
+        },
+        {
+          "word_x": "ennies",
+          "word_y": "complished",
+          "tok_x": 162291,
+          "tok_y": 141913,
+          "target_gap": 0.625,
+          "observer_gap": -0.4375,
+          "total_disagreement": 1.0625
+        },
+        {
+          "word_x": "ennies",
+          "word_y": "unregister",
+          "tok_x": 162291,
+          "tok_y": 209558,
+          "target_gap": 0.5,
+          "observer_gap": -0.5625,
+          "total_disagreement": 1.0625
+        },
+        {
+          "word_x": "poveznice",
+          "word_y": "complished",
+          "tok_x": 190564,
+          "tok_y": 141913,
+          "target_gap": 0.4375,
+          "observer_gap": -0.625,
+          "total_disagreement": 1.0625
+        },
+        {
+          "word_x": "poveznice",
+          "word_y": "unregister",
+          "tok_x": 190564,
+          "tok_y": 209558,
+          "target_gap": 0.3125,
+          "observer_gap": -0.75,
+          "total_disagreement": 1.0625
+        },
+        {
+          "word_x": "unsigned",
+          "word_y": "zah",
+          "tok_x": 8679,
+          "tok_y": 86704,
+          "target_gap": 0.4375,
+          "observer_gap": -0.625,
+          "total_disagreement": 1.0625
+        }
+      ]
+    },
+    {
+      "pair_id": "sealed_container_p02_copper_bronze",
+      "regime": "constant",
+      "r_role": 0.34375,
+      "top_target_word": "subprocess",
+      "top_observer_word": "subprocess",
+      "audited_argmax_flip": false,
+      "n_pairwise_reversals": 36578,
+      "top_reversals": [
+        {
+          "word_x": "faring",
+          "word_y": "ctober",
+          "tok_x": 202146,
+          "tok_y": 4335,
+          "target_gap": 0.9638671875,
+          "observer_gap": -4.390625,
+          "total_disagreement": 5.3544921875
+        },
+        {
+          "word_x": "faring",
+          "word_y": "oleum",
+          "tok_x": 202146,
+          "tok_y": 95596,
+          "target_gap": 0.62890625,
+          "observer_gap": -4.6875,
+          "total_disagreement": 5.31640625
+        },
+        {
+          "word_x": "blestone",
+          "word_y": "kami",
+          "tok_x": 211874,
+          "tok_y": 19280,
+          "target_gap": 1.59375,
+          "observer_gap": -3.6875,
+          "total_disagreement": 5.28125
+        },
+        {
+          "word_x": "faring",
+          "word_y": "aitlin",
+          "tok_x": 202146,
+          "tok_y": 96202,
+          "target_gap": 3.8984375,
+          "observer_gap": -1.373046875,
+          "total_disagreement": 5.271484375
+        },
+        {
+          "word_x": "blestone",
+          "word_y": "itio",
+          "tok_x": 211874,
+          "tok_y": 60047,
+          "target_gap": 3.53125,
+          "observer_gap": -1.71875,
+          "total_disagreement": 5.25
+        },
+        {
+          "word_x": "faring",
+          "word_y": "eload",
+          "tok_x": 202146,
+          "tok_y": 56528,
+          "target_gap": 0.33984375,
+          "observer_gap": -4.890625,
+          "total_disagreement": 5.23046875
+        },
+        {
+          "word_x": "faring",
+          "word_y": "papi",
+          "tok_x": 202146,
+          "tok_y": 161471,
+          "target_gap": 2.7578125,
+          "observer_gap": -2.37890625,
+          "total_disagreement": 5.13671875
+        },
+        {
+          "word_x": "faring",
+          "word_y": "mereka",
+          "tok_x": 202146,
+          "tok_y": 202320,
+          "target_gap": 4.7578125,
+          "observer_gap": -0.3671875,
+          "total_disagreement": 5.125
+        },
+        {
+          "word_x": "mkdirs",
+          "word_y": "kami",
+          "tok_x": 121649,
+          "tok_y": 19280,
+          "target_gap": 0.9375,
+          "observer_gap": -4.1875,
+          "total_disagreement": 5.125
+        },
+        {
+          "word_x": "blestone",
+          "word_y": "ixon",
+          "tok_x": 211874,
+          "tok_y": 28584,
+          "target_gap": 1.96875,
+          "observer_gap": -3.125,
+          "total_disagreement": 5.09375
+        }
+      ]
+    },
+    {
+      "pair_id": "archived_artifact_p01_marble_quartz",
+      "regime": "constant",
+      "r_role": 0.296875,
+      "top_target_word": "normal",
+      "top_observer_word": "normal",
+      "audited_argmax_flip": false,
+      "n_pairwise_reversals": 18045,
+      "top_reversals": [
+        {
+          "word_x": "immagine",
+          "word_y": "faring",
+          "tok_x": 54158,
+          "tok_y": 202146,
+          "target_gap": 0.78125,
+          "observer_gap": -2.46875,
+          "total_disagreement": 3.25
+        },
+        {
+          "word_x": "immagine",
+          "word_y": "taskbar",
+          "tok_x": 54158,
+          "tok_y": 227586,
+          "target_gap": 0.6875,
+          "observer_gap": -2.5,
+          "total_disagreement": 3.1875
+        },
+        {
+          "word_x": "immagine",
+          "word_y": "guous",
+          "tok_x": 54158,
+          "tok_y": 75732,
+          "target_gap": 1.9375,
+          "observer_gap": -1.1875,
+          "total_disagreement": 3.125
+        },
+        {
+          "word_x": "immagine",
+          "word_y": "inerie",
+          "tok_x": 54158,
+          "tok_y": 231150,
+          "target_gap": 2.625,
+          "observer_gap": -0.5,
+          "total_disagreement": 3.125
+        },
+        {
+          "word_x": "immagine",
+          "word_y": "lecker",
+          "tok_x": 54158,
+          "tok_y": 103414,
+          "target_gap": 0.625,
+          "observer_gap": -2.40625,
+          "total_disagreement": 3.03125
+        },
+        {
+          "word_x": "vsak",
+          "word_y": "faring",
+          "tok_x": 210039,
+          "tok_y": 202146,
+          "target_gap": 2.28125,
+          "observer_gap": -0.75,
+          "total_disagreement": 3.03125
+        },
+        {
+          "word_x": "immagine",
+          "word_y": "scriptsize",
+          "tok_x": 54158,
+          "tok_y": 93339,
+          "target_gap": 0.625,
+          "observer_gap": -2.375,
+          "total_disagreement": 3.0
+        },
+        {
+          "word_x": "vsak",
+          "word_y": "taskbar",
+          "tok_x": 210039,
+          "tok_y": 227586,
+          "target_gap": 2.1875,
+          "observer_gap": -0.78125,
+          "total_disagreement": 2.96875
+        },
+        {
+          "word_x": "ctober",
+          "word_y": "faring",
+          "tok_x": 4335,
+          "tok_y": 202146,
+          "target_gap": 0.75,
+          "observer_gap": -2.21875,
+          "total_disagreement": 2.96875
+        },
+        {
+          "word_x": "itur",
+          "word_y": "irritation",
+          "tok_x": 54826,
+          "tok_y": 128767,
+          "target_gap": 2.58203125,
+          "observer_gap": -0.359375,
+          "total_disagreement": 2.94140625
+        }
+      ]
+    }
+  ]
+}
