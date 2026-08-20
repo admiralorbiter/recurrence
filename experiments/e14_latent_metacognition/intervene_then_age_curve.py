@@ -1,14 +1,16 @@
-"""Sprint S14: Intervene-Then-Age Potency Retention Curve.
+"""Sprint S14: Intervene-Then-Age Potency Retention Curve (Hardened & Provenance Pinned).
 
 Measures how much causal and physical signal survives at a common endpoint T=256
 when an RG-LRU transplant is applied at t_intervention in {0, 64, 128, 192, 256}
 and then evolved under a single frozen neutral token stream.
 
-Endpoints measured at T=256:
+Metrics:
 1. Target vs Observer Full-Vocab KL divergence
 2. Max absolute logit difference
 3. Donor-directed cloze shift [(z_B - z_A)_target - (z_B - z_A)_observer]
-4. Target-Observer RG-LRU Euclidean distance and cosine similarity (C_R)
+4. Target-Observer RG-LRU Euclidean distance ||h_T - h_O||
+5. Absolute-state cosine similarity cos(h_T, h_O)
+6. Delta-footprint reorientation C_Delta(T) = cos(delta_post_graft, delta_T)
 """
 
 import time
@@ -29,28 +31,49 @@ PINNED_IT_REVISION = "2766eb5d4264c6c0357803990791f9ab9cd50f8e"
 
 
 @torch.inference_mode()
-def compute_rglru_distance(s_target, s_observer):
+def compute_rglru_distances(s_target, s_observer, delta_initial=None):
     dists = []
-    cosines = []
+    abs_cosines = []
+    current_deltas = {}
+
     for l in s_target.rglru.keys():
         if l in s_observer.rglru:
             ht = s_target.rglru[l].float().flatten()
             ho = s_observer.rglru[l].float().flatten()
-            dists.append(torch.norm(ht - ho).item())
+            delta = ht - ho
+            current_deltas[l] = delta
+
+            dists.append(torch.norm(delta).item())
             nt = torch.norm(ht).item()
             no = torch.norm(ho).item()
             if nt > 1e-8 and no > 1e-8:
-                cosines.append(torch.dot(ht, ho).item() / (nt * no))
+                abs_cosines.append(torch.dot(ht, ho).item() / (nt * no))
+
+    c_delta = None
+    if delta_initial is not None:
+        delta_cosines = []
+        for l in current_deltas.keys():
+            if l in delta_initial:
+                d0 = delta_initial[l]
+                dt = current_deltas[l]
+                n0 = torch.norm(d0).item()
+                nt = torch.norm(dt).item()
+                if n0 > 1e-8 and nt > 1e-8:
+                    delta_cosines.append(torch.dot(d0, dt).item() / (n0 * nt))
+        c_delta = float(sum(delta_cosines) / len(delta_cosines)) if delta_cosines else 1.0
+
     return {
         "euclidean_dist": float(sum(dists) / len(dists)) if dists else 0.0,
-        "cosine_sim": float(sum(cosines) / len(cosines)) if cosines else 1.0,
+        "absolute_cosine_sim": float(sum(abs_cosines) / len(abs_cosines)) if abs_cosines else 1.0,
+        "c_delta_reorientation": c_delta,
+        "deltas": current_deltas,
     }
 
 
 @torch.inference_mode()
 def measure_cloze_and_divergence(adapter, snapshot_target, snapshot_observer, query_tokens, tok_a_id, tok_b_id):
-    out_target, _ = adapter.encode_sequence(query_tokens, initial_snapshot=snapshot_target.clone(), return_logits=True, logits_to_keep=1)
-    out_obs, _ = adapter.encode_sequence(query_tokens, initial_snapshot=snapshot_observer.clone(), return_logits=True, logits_to_keep=1)
+    out_target, _ = adapter.encode_sequence(query_tokens, initial_snapshot=snapshot_target.clone(), step_by_step=False, return_logits=True, logits_to_keep=1)
+    out_obs, _ = adapter.encode_sequence(query_tokens, initial_snapshot=snapshot_observer.clone(), step_by_step=False, return_logits=True, logits_to_keep=1)
 
     lt = out_target[0].float()
     lo = out_obs[0].float()
@@ -74,10 +97,10 @@ def measure_cloze_and_divergence(adapter, snapshot_target, snapshot_observer, qu
 def main():
     device = "cuda" if torch.cuda.is_available() else "cpu"
     model_id = "google/recurrentgemma-2b-it"
-    print(f"\n" + "=" * 95)
+    print(f"\n" + "=" * 105)
     print(f"INTERVENE-THEN-AGE POTENCY RETENTION CURVE (Endpoint T=256 tokens)")
     print(f"Model: {model_id} (revision: {PINNED_IT_REVISION[:10]}...)")
-    print("=" * 95)
+    print("=" * 105)
 
     t0 = time.perf_counter()
     tokenizer = AutoTokenizer.from_pretrained(model_id, revision=PINNED_IT_REVISION)
@@ -119,7 +142,6 @@ def main():
 
     print(f"\n[3] Running Intervene-Then-Age Sweep across t in {intervention_times}...")
     for t_step in intervention_times:
-        # Evolve recipient and donor up to step t
         tokens_pre = stream_256[:t_step]
         tokens_post = stream_256[t_step:]
 
@@ -132,6 +154,7 @@ def main():
 
         # Surgical RG-LRU transplant at step t
         s_graft_t = swap_stores(s_rec_t, s_don_t, channels="rglru")
+        geom_initial = compute_rglru_distances(s_graft_t, s_rec_t)
 
         # Evolve grafted state with remaining (256 - t) tokens to reach common T=256 endpoint
         if len(tokens_post) > 0:
@@ -140,35 +163,43 @@ def main():
             s_target_256 = s_graft_t
 
         # Measure at common T=256 endpoint against the Observer
-        geom = compute_rglru_distance(s_target_256, s_observer_256)
+        geom = compute_rglru_distances(s_target_256, s_observer_256, delta_initial=geom_initial["deltas"])
         div = measure_cloze_and_divergence(adapter, s_target_256, s_observer_256, query_toks, tok_a_id, tok_b_id)
 
         rec = {
             "t_intervention": t_step,
             "aging_tokens": 256 - t_step,
             "rglru_euclidean_dist": geom["euclidean_dist"],
-            "rglru_cosine_sim": geom["cosine_sim"],
+            "rglru_absolute_cosine_sim": geom["absolute_cosine_sim"],
+            "c_delta_reorientation": geom["c_delta_reorientation"],
             "full_vocab_kl_nats": div["kl_nats"],
             "max_logit_delta": div["max_logit_delta"],
             "donor_cloze_shift": div["donor_cloze_shift"],
         }
         results.append(rec)
 
-    print("\n" + "=" * 95)
+    print("\n" + "=" * 115)
     print("INTERVENE-THEN-AGE POTENCY RETENTION SUMMARY (Measured at Endpoint T=256)")
-    print("=" * 95)
-    print(f"{'t_intervene':<12} | {'Aging Steps':<12} | {'RG-LRU Dist':<12} | {'Cosine Sim':<12} | {'KL (nats)':<12} | {'Max Logit Delta':<16} | {'Cloze Shift':<12}")
-    print("-" * 95)
+    print("=" * 115)
+    print(f"{'t_intervene':<12} | {'Aging Tokens':<12} | {'RG-LRU Dist':<12} | {'Abs Cosine':<12} | {'C_Delta (Reorient)':<20} | {'KL (nats)':<12} | {'Max Logit Delta':<16} | {'Cloze Shift':<12}")
+    print("-" * 115)
     for r in results:
-        print(f"t = {r['t_intervention']:<8} | {r['aging_tokens']:<12} | {r['rglru_euclidean_dist']:<12.4f} | {r['rglru_cosine_sim']:<12.4f} | {r['full_vocab_kl_nats']:<12.6f} | {r['max_logit_delta']:<16.4f} | {r['donor_cloze_shift']:<+12.4f}")
-    print("=" * 95)
+        c_del_str = f"{r['c_delta_reorientation']:<20.4f}" if r['c_delta_reorientation'] is not None else f"{'1.0000 (t=T)':<20}"
+        print(f"t = {r['t_intervention']:<8} | {r['aging_tokens']:<12} | {r['rglru_euclidean_dist']:<12.4f} | {r['rglru_absolute_cosine_sim']:<12.4f} | {c_del_str} | {r['full_vocab_kl_nats']:<12.6f} | {r['max_logit_delta']:<16.4f} | {r['donor_cloze_shift']:<+12.4f}")
+    print("=" * 115)
 
     # Save results
     out_dir = Path("results") / "e14_latent_metacognition" / "aging_potency_curve"
     out_dir.mkdir(parents=True, exist_ok=True)
     out_file = out_dir / "intervene_then_age_report.json"
     with open(out_file, "w", encoding="utf-8") as f:
-        json.dump({"pair_id": pair.pair_id, "endpoint_T": 256, "curve": results}, f, indent=2)
+        json.dump({
+            "model_id": model_id,
+            "pinned_revision": PINNED_IT_REVISION,
+            "pair_id": pair.pair_id,
+            "endpoint_T": 256,
+            "curve": results,
+        }, f, indent=2)
     print(f"\nReport saved to {out_file}\n")
 
 

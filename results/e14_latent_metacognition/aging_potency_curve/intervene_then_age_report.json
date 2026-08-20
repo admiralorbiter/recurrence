@@ -1,4 +1,6 @@
 {
+  "model_id": "google/recurrentgemma-2b-it",
+  "pinned_revision": "2766eb5d4264c6c0357803990791f9ab9cd50f8e",
   "pair_id": "marked_object_p01_amber_cobalt",
   "endpoint_T": 256,
   "curve": [
@@ -6,46 +8,51 @@
       "t_intervention": 0,
       "aging_tokens": 256,
       "rglru_euclidean_dist": 0.2497867714199755,
-      "rglru_cosine_sim": 0.999979083462291,
-      "full_vocab_kl_nats": 0.0037111379206180573,
-      "max_logit_delta": 1.484375,
-      "donor_cloze_shift": -0.3046875
+      "rglru_absolute_cosine_sim": 0.999979083462291,
+      "c_delta_reorientation": 0.4213887861081123,
+      "full_vocab_kl_nats": 0.004211194813251495,
+      "max_logit_delta": 0.53125,
+      "donor_cloze_shift": 0.01953125
     },
     {
       "t_intervention": 64,
       "aging_tokens": 192,
       "rglru_euclidean_dist": 0.38437648200326496,
-      "rglru_cosine_sim": 0.9999458387500708,
-      "full_vocab_kl_nats": 0.005432944744825363,
-      "max_logit_delta": 1.2119140625,
-      "donor_cloze_shift": -0.279296875
+      "rglru_absolute_cosine_sim": 0.9999458387500708,
+      "c_delta_reorientation": 0.27651024508462535,
+      "full_vocab_kl_nats": 0.001704484224319458,
+      "max_logit_delta": 0.9375,
+      "donor_cloze_shift": 0.046875
     },
     {
       "t_intervention": 128,
       "aging_tokens": 128,
       "rglru_euclidean_dist": 0.3969118843475978,
-      "rglru_cosine_sim": 0.9999379133021485,
-      "full_vocab_kl_nats": 0.0028217844665050507,
-      "max_logit_delta": 1.375,
-      "donor_cloze_shift": -0.130859375
+      "rglru_absolute_cosine_sim": 0.9999379133021485,
+      "c_delta_reorientation": 0.2395881760856022,
+      "full_vocab_kl_nats": 0.005460307002067566,
+      "max_logit_delta": 0.8125,
+      "donor_cloze_shift": -0.01171875
     },
     {
       "t_intervention": 192,
       "aging_tokens": 64,
       "rglru_euclidean_dist": 0.47043735451168484,
-      "rglru_cosine_sim": 0.9999201182662725,
-      "full_vocab_kl_nats": 0.002848764881491661,
-      "max_logit_delta": 1.4375,
-      "donor_cloze_shift": -0.1640625
+      "rglru_absolute_cosine_sim": 0.9999201182662725,
+      "c_delta_reorientation": 0.2661214472668477,
+      "full_vocab_kl_nats": 0.005048159509897232,
+      "max_logit_delta": 0.8125,
+      "donor_cloze_shift": -0.01171875
     },
     {
       "t_intervention": 256,
       "aging_tokens": 0,
       "rglru_euclidean_dist": 0.2589178933865494,
-      "rglru_cosine_sim": 0.9999789674768491,
-      "full_vocab_kl_nats": 0.0051126424223184586,
-      "max_logit_delta": 1.2783203125,
-      "donor_cloze_shift": -0.34375
+      "rglru_absolute_cosine_sim": 0.9999789674768491,
+      "c_delta_reorientation": 1.0000000281683437,
+      "full_vocab_kl_nats": 0.0012113573029637337,
+      "max_logit_delta": 0.65625,
+      "donor_cloze_shift": 0.04296875
     }
   ]
 }
