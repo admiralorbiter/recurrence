@@ -1,13 +1,28 @@
 """Model architectures for Continuity Garden v0 (Oracle, Feedforward MLPs, GRU Organism)."""
 
 import copy
+from dataclasses import dataclass
+import random
 from typing import Any, Dict, List, Optional, Tuple
+import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
 from .observation import AgentObservation
 from .state import GroundTruthState
+
+
+@dataclass
+class OrganismSnapshot:
+    """Full living snapshot of an organism including parameters, hidden state, and RNG states."""
+    model_state_dict: Dict[str, Any]
+    recurrent_state: Optional[torch.Tensor]
+    step_idx: int
+    lineage_hash: Optional[str]
+    torch_rng_state: Any
+    numpy_rng_state: Any
+    python_rng_state: Any
 
 
 class OracleBeliefAgent:
@@ -37,7 +52,6 @@ class CurrentInputMLP(nn.Module):
         self.fc2 = nn.Linear(hidden_dim, num_actions)
 
     def forward(self, symbol_tensor: torch.Tensor) -> torch.Tensor:
-        # symbol_tensor: (B,) or (B, T)
         x = self.embed(symbol_tensor)
         x = F.relu(self.fc1(x))
         logits = self.fc2(x)
@@ -74,15 +88,12 @@ class GRUOrganism(nn.Module):
         self.action_head = nn.Linear(hidden_dim, num_actions)
 
     def forward(self, symbol_seq: torch.Tensor, h_0: Optional[torch.Tensor] = None) -> Tuple[torch.Tensor, torch.Tensor]:
-        # symbol_seq: (B, T)
-        emb = self.embed(symbol_seq) # (B, T, E)
-        out, h_n = self.gru(emb, h_0) # out: (B, T, H), h_n: (1, B, H)
-        logits = self.action_head(out) # (B, T, A)
+        emb = self.embed(symbol_seq)
+        out, h_n = self.gru(emb, h_0)
+        logits = self.action_head(out)
         return logits, h_n
 
     def step(self, symbol: torch.Tensor, h: Optional[torch.Tensor] = None) -> Tuple[torch.Tensor, torch.Tensor]:
-        # Single-step transition for interactive rollouts
-        # symbol: (B, 1) or (B,)
         if symbol.dim() == 1:
             symbol = symbol.unsqueeze(1)
         emb = self.embed(symbol)
@@ -90,10 +101,27 @@ class GRUOrganism(nn.Module):
         logits = self.action_head(out.squeeze(1))
         return logits, h_next
 
-    def snapshot(self) -> Dict[str, Any]:
-        """Deepcopy state dict for exact deterministic checkpointing."""
-        return copy.deepcopy(self.state_dict())
+    def snapshot(
+        self,
+        h: Optional[torch.Tensor] = None,
+        step_idx: int = 0,
+        lineage_hash: Optional[str] = None
+    ) -> OrganismSnapshot:
+        """Captures living computational state: weights, hidden state, step index, and RNG states."""
+        return OrganismSnapshot(
+            model_state_dict=copy.deepcopy(self.state_dict()),
+            recurrent_state=h.clone().detach() if h is not None else None,
+            step_idx=step_idx,
+            lineage_hash=lineage_hash,
+            torch_rng_state=torch.get_rng_state(),
+            numpy_rng_state=np.random.get_state(),
+            python_rng_state=random.getstate(),
+        )
 
-    def restore(self, snapshot_dict: Dict[str, Any]) -> None:
-        """Restore exact model weights."""
-        self.load_state_dict(snapshot_dict)
+    def restore(self, snap: OrganismSnapshot) -> Optional[torch.Tensor]:
+        """Restores model weights, RNG states, and returns the living recurrent state h."""
+        self.load_state_dict(snap.model_state_dict)
+        torch.set_rng_state(snap.torch_rng_state)
+        np.random.set_state(snap.numpy_rng_state)
+        random.setstate(snap.python_rng_state)
+        return snap.recurrent_state.clone().detach() if snap.recurrent_state is not None else None

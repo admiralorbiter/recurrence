@@ -1,0 +1,13 @@
+{
+  "pipeline_state": "SCAFFOLD_READY",
+  "evidence_mode": "UNEXECUTED_SCAFFOLD",
+  "protocol_spec": "docs/Gate_A_Execution_Spec.md",
+  "base_model": "google/recurrentgemma-2b",
+  "it_model": "google/recurrentgemma-2b-it",
+  "gates": [
+    "Q03.1: Check if computational disagreement transports (D_T * D_O < 0) on base weights",
+    "Q03.2: Check if reporting interface passes visible BOP controls (>= 90% accuracy)",
+    "Q03.3: Compare PAI_aligned(base) vs PAI_aligned(IT) only if Q03.1 and Q03.2 pass"
+  ],
+  "empirical_status": "OPEN (Awaiting live GPU inference pass on base checkpoint)"
+}

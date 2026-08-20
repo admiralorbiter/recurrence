@@ -1,0 +1,51 @@
+{
+  "experiment_id": "Q01_Q02_monitor_discovery_and_causal_coda",
+  "gate": "GATE_A",
+  "run_id": "run_20260820_215048_4f15c233",
+  "created_at": "2026-08-20T21:50:48.830124+00:00",
+  "git_sha": "b731b182ffc478b8766b6d30d12db6434864e2fa",
+  "evidence_mode": "UNEXECUTED_SCAFFOLD",
+  "status": "UNEXECUTED_PIPELINE_SCAFFOLD",
+  "model_revision": "v0.1.0",
+  "environment_revision": "v0.1.0",
+  "seed": 42,
+  "lineage": null,
+  "execution": {
+    "device": "cpu",
+    "precision": "fp32",
+    "batch_size": 1,
+    "torch_version": null,
+    "python_version": "3.12.0",
+    "platform": "Windows-11-10.0.26220-SP0"
+  },
+  "condition": {
+    "name": "gate_a_coda_scaffold",
+    "manipulation_type": "nested_probe_x_orthogonal_intervention",
+    "intervention_target": null,
+    "parameters": {}
+  },
+  "provenance": {
+    "forward_calls": 0,
+    "training_steps": 0,
+    "raw_record_count": 128,
+    "activation_cache_hash": null,
+    "raw_results_hash": null,
+    "source_run_ids": []
+  },
+  "metrics": {
+    "pipeline_state": "SCAFFOLD_READY",
+    "evidence_mode": "UNEXECUTED_SCAFFOLD",
+    "num_screening_items": 128,
+    "protocol_spec": "docs/Gate_A_Execution_Spec.md",
+    "target_model": "google/recurrentgemma-2b-it",
+    "pre_registered_thresholds": {
+      "first_order_preservation": "|Delta D| <= 0.15",
+      "monitor_steering": "|Delta M| >= 0.40",
+      "discovery_partial_r": "r(M, Report | C) > 0.30"
+    },
+    "empirical_status": "OPEN (Awaiting live GPU activation extraction pass)"
+  },
+  "artifacts": {
+    "summary_json": "results\\e16_gate_a_monitor_coda\\run_q01_q02_coda_20260820_215048\\q01_q02_coda_summary.json"
+  }
+}

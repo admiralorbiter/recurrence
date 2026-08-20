@@ -1,9 +1,10 @@
 """The Hidden Switchboard POMDP Environment (Continuity Garden v0)."""
 
+import copy
 from typing import List, Optional, Tuple
 import numpy as np
 
-from .state import GroundTruthState
+from .state import EnvironmentSnapshot, GroundTruthState
 from .observation import AgentObservation, SensorTransform
 
 
@@ -109,3 +110,50 @@ class HiddenSwitchboardEnv:
 
         obs = self.sensor_transform.transform(self._ground_truth, last_action=self._last_action)
         return obs, reward, is_terminal, self._ground_truth
+
+    def snapshot(self) -> EnvironmentSnapshot:
+        """Serializes exact runtime environment state for branch cloning."""
+        assert self._ground_truth is not None, "Cannot snapshot uninitialized environment."
+        return EnvironmentSnapshot(
+            step_idx=self._step_idx,
+            hidden_mode=self._ground_truth.hidden_mode,
+            current_phase=self._ground_truth.current_phase,
+            query_bit=self._ground_truth.query_bit,
+            target_action=self._ground_truth.target_action,
+            true_source=self._ground_truth.true_source,
+            resource_integrity=self._ground_truth.resource_integrity,
+            is_terminal=self._ground_truth.is_terminal,
+            min_delay=self.min_delay,
+            max_delay=self.max_delay,
+            num_queries=self.num_queries,
+            delay_len=self._delay_len,
+            query_idx=self._query_idx,
+            query_sequence=copy.deepcopy(self._query_sequence),
+            last_action=self._last_action,
+            pending_target_action=self._pending_target_action,
+            rng_state=self.rng.get_state(),
+        )
+
+    def restore(self, snap: EnvironmentSnapshot) -> None:
+        """Restores exact environment state from snapshot."""
+        self.min_delay = snap.min_delay
+        self.max_delay = snap.max_delay
+        self.num_queries = snap.num_queries
+        self._step_idx = snap.step_idx
+        self._delay_len = snap.delay_len
+        self._query_idx = snap.query_idx
+        self._query_sequence = copy.deepcopy(snap.query_sequence)
+        self._last_action = snap.last_action
+        self._pending_target_action = snap.pending_target_action
+        self.rng.set_state(snap.rng_state)
+
+        self._ground_truth = GroundTruthState(
+            step_idx=snap.step_idx,
+            hidden_mode=snap.hidden_mode,
+            current_phase=snap.current_phase,
+            query_bit=snap.query_bit,
+            target_action=snap.target_action,
+            true_source=snap.true_source,
+            resource_integrity=snap.resource_integrity,
+            is_terminal=snap.is_terminal,
+        )

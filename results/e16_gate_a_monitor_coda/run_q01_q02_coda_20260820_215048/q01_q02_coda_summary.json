@@ -1,0 +1,13 @@
+{
+  "pipeline_state": "SCAFFOLD_READY",
+  "evidence_mode": "UNEXECUTED_SCAFFOLD",
+  "num_screening_items": 128,
+  "protocol_spec": "docs/Gate_A_Execution_Spec.md",
+  "target_model": "google/recurrentgemma-2b-it",
+  "pre_registered_thresholds": {
+    "first_order_preservation": "|Delta D| <= 0.15",
+    "monitor_steering": "|Delta M| >= 0.40",
+    "discovery_partial_r": "r(M, Report | C) > 0.30"
+  },
+  "empirical_status": "OPEN (Awaiting live GPU activation extraction pass)"
+}
