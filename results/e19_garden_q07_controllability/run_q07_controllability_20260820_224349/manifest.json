@@ -1,0 +1,176 @@
+{
+  "experiment_id": "Q07_learned_functional_controllability",
+  "gate": "GATE_C",
+  "run_id": "run_20260820_224524_da94fc2e",
+  "created_at": "2026-08-20T22:45:24.134529+00:00",
+  "git_sha": "a262453f9f1852fd8556d1d6c68318f0aceaec55",
+  "worktree_dirty": true,
+  "evidence_mode": "TRAINED_MODEL",
+  "status": "SCOUT_GATE_PASS",
+  "model_revision": "v0.1.0",
+  "environment_revision": "v0.1.0",
+  "seed": 42,
+  "lineage": {
+    "lineage_id": "garden_v1_q07",
+    "parent_lineage_id": null,
+    "fork_step": 0,
+    "event_hash": null
+  },
+  "execution": {
+    "device": "cpu",
+    "precision": "fp32",
+    "batch_size": 1,
+    "torch_version": null,
+    "python_version": "3.12.0",
+    "platform": "Windows-11-10.0.26220-SP0"
+  },
+  "condition": {
+    "name": "yoked_controllability_panel",
+    "manipulation_type": "sensorimotor_contingency_learning",
+    "intervention_target": null,
+    "parameters": {}
+  },
+  "provenance": {
+    "forward_calls": 5600,
+    "training_steps": 12000,
+    "raw_record_count": 800,
+    "raw_trial_table_path": "results\\e19_garden_q07_controllability\\run_q07_controllability_20260820_224349\\raw_trials.jsonl",
+    "raw_trial_table_sha256": "d172539cf914ba259cdabbd48296707e70907458dd9a2f903fa4af217d45369c",
+    "activation_cache_hash": null,
+    "raw_results_hash": "0bb1b5ab94fe1c6461c23d11f31b222db7775fd3df3a427a54873471d4f73b79",
+    "source_run_ids": []
+  },
+  "metrics": {
+    "ctrl_mean_return": {
+      "mean": 0.7,
+      "std": 0.06324555320336757
+    },
+    "yoked_mean_return": {
+      "mean": -0.06000000000000004,
+      "std": 0.13114877048604
+    },
+    "p_exploit_ctrl": {
+      "mean": 1.0,
+      "std": 0.0
+    },
+    "p_abstain_yoked": {
+      "mean": 0.0,
+      "std": 0.0
+    },
+    "contingency_sensitivity": {
+      "mean": 0.0,
+      "std": 0.0
+    },
+    "ctrl_exploit_success_rate": {
+      "mean": 0.9,
+      "std": 0.03162277660168378
+    },
+    "three_tier_observers": {
+      "observer_1_goal_only_accuracy": 1.0,
+      "observer_2_effect_history_only_accuracy": 0.48,
+      "observer_3_joint_action_effect_accuracy": 0.855
+    },
+    "per_seed_data": [
+      {
+        "seed": 42,
+        "ctrl_mean_return": 0.66,
+        "yoked_mean_return": 0.09999999999999996,
+        "p_exploit_ctrl": 1.0,
+        "p_abstain_ctrl": 0.0,
+        "p_exploit_yoked": 1.0,
+        "p_abstain_yoked": 0.0,
+        "contingency_sensitivity": 0.0,
+        "ctrl_exploit_success_rate": 0.88,
+        "yoked_exploit_success_rate": 0.6
+      },
+      {
+        "seed": 43,
+        "ctrl_mean_return": 0.66,
+        "yoked_mean_return": 0.09999999999999996,
+        "p_exploit_ctrl": 1.0,
+        "p_abstain_ctrl": 0.0,
+        "p_exploit_yoked": 1.0,
+        "p_abstain_yoked": 0.0,
+        "contingency_sensitivity": 0.0,
+        "ctrl_exploit_success_rate": 0.88,
+        "yoked_exploit_success_rate": 0.6
+      },
+      {
+        "seed": 44,
+        "ctrl_mean_return": 0.78,
+        "yoked_mean_return": -0.3,
+        "p_exploit_ctrl": 1.0,
+        "p_abstain_ctrl": 0.0,
+        "p_exploit_yoked": 1.0,
+        "p_abstain_yoked": 0.0,
+        "contingency_sensitivity": 0.0,
+        "ctrl_exploit_success_rate": 0.94,
+        "yoked_exploit_success_rate": 0.4
+      },
+      {
+        "seed": 45,
+        "ctrl_mean_return": 0.82,
+        "yoked_mean_return": -0.020000000000000035,
+        "p_exploit_ctrl": 1.0,
+        "p_abstain_ctrl": 0.0,
+        "p_exploit_yoked": 1.0,
+        "p_abstain_yoked": 0.0,
+        "contingency_sensitivity": 0.0,
+        "ctrl_exploit_success_rate": 0.96,
+        "yoked_exploit_success_rate": 0.54
+      },
+      {
+        "seed": 46,
+        "ctrl_mean_return": 0.7,
+        "yoked_mean_return": 0.01999999999999996,
+        "p_exploit_ctrl": 1.0,
+        "p_abstain_ctrl": 0.0,
+        "p_exploit_yoked": 1.0,
+        "p_abstain_yoked": 0.0,
+        "contingency_sensitivity": 0.0,
+        "ctrl_exploit_success_rate": 0.9,
+        "yoked_exploit_success_rate": 0.56
+      },
+      {
+        "seed": 47,
+        "ctrl_mean_return": 0.62,
+        "yoked_mean_return": -0.060000000000000074,
+        "p_exploit_ctrl": 1.0,
+        "p_abstain_ctrl": 0.0,
+        "p_exploit_yoked": 1.0,
+        "p_abstain_yoked": 0.0,
+        "contingency_sensitivity": 0.0,
+        "ctrl_exploit_success_rate": 0.86,
+        "yoked_exploit_success_rate": 0.52
+      },
+      {
+        "seed": 48,
+        "ctrl_mean_return": 0.7,
+        "yoked_mean_return": -0.18000000000000005,
+        "p_exploit_ctrl": 1.0,
+        "p_abstain_ctrl": 0.0,
+        "p_exploit_yoked": 1.0,
+        "p_abstain_yoked": 0.0,
+        "contingency_sensitivity": 0.0,
+        "ctrl_exploit_success_rate": 0.9,
+        "yoked_exploit_success_rate": 0.46
+      },
+      {
+        "seed": 49,
+        "ctrl_mean_return": 0.66,
+        "yoked_mean_return": -0.14000000000000004,
+        "p_exploit_ctrl": 1.0,
+        "p_abstain_ctrl": 0.0,
+        "p_exploit_yoked": 1.0,
+        "p_abstain_yoked": 0.0,
+        "contingency_sensitivity": 0.0,
+        "ctrl_exploit_success_rate": 0.88,
+        "yoked_exploit_success_rate": 0.48
+      }
+    ]
+  },
+  "artifacts": {
+    "summary_json": "results\\e19_garden_q07_controllability\\run_q07_controllability_20260820_224349\\q07_controllability_summary.json",
+    "raw_trials_jsonl": "results\\e19_garden_q07_controllability\\run_q07_controllability_20260820_224349\\raw_trials.jsonl"
+  }
+}

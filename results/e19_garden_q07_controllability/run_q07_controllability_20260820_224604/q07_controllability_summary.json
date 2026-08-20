@@ -1,0 +1,129 @@
+{
+  "ctrl_mean_return": {
+    "mean": 0.73,
+    "std": 0.051961524227066305
+  },
+  "yoked_mean_return": {
+    "mean": -0.006500000000000054,
+    "std": 0.18274504097238867
+  },
+  "p_exploit_ctrl": {
+    "mean": 1.0,
+    "std": 0.0
+  },
+  "p_abstain_yoked": {
+    "mean": 0.035,
+    "std": 0.09260129588726068
+  },
+  "contingency_sensitivity": {
+    "mean": 0.035,
+    "std": 0.09260129588726068
+  },
+  "ctrl_exploit_success_rate": {
+    "mean": 0.915,
+    "std": 0.025980762113533142
+  },
+  "three_tier_observers": {
+    "observer_1_goal_only_accuracy": 0.5,
+    "observer_2_effect_history_only_accuracy": 0.375,
+    "observer_3_joint_action_effect_accuracy": 0.88
+  },
+  "per_seed_data": [
+    {
+      "seed": 42,
+      "ctrl_mean_return": 0.7,
+      "yoked_mean_return": -0.06000000000000005,
+      "p_exploit_ctrl": 1.0,
+      "p_abstain_ctrl": 0.0,
+      "p_exploit_yoked": 1.0,
+      "p_abstain_yoked": 0.0,
+      "contingency_sensitivity": 0.0,
+      "ctrl_exploit_success_rate": 0.9,
+      "yoked_exploit_success_rate": 0.52
+    },
+    {
+      "seed": 43,
+      "ctrl_mean_return": 0.66,
+      "yoked_mean_return": 0.22,
+      "p_exploit_ctrl": 1.0,
+      "p_abstain_ctrl": 0.0,
+      "p_exploit_yoked": 1.0,
+      "p_abstain_yoked": 0.0,
+      "contingency_sensitivity": 0.0,
+      "ctrl_exploit_success_rate": 0.88,
+      "yoked_exploit_success_rate": 0.66
+    },
+    {
+      "seed": 44,
+      "ctrl_mean_return": 0.66,
+      "yoked_mean_return": -0.42000000000000015,
+      "p_exploit_ctrl": 1.0,
+      "p_abstain_ctrl": 0.0,
+      "p_exploit_yoked": 1.0,
+      "p_abstain_yoked": 0.0,
+      "contingency_sensitivity": 0.0,
+      "ctrl_exploit_success_rate": 0.88,
+      "yoked_exploit_success_rate": 0.34
+    },
+    {
+      "seed": 45,
+      "ctrl_mean_return": 0.74,
+      "yoked_mean_return": 0.05999999999999996,
+      "p_exploit_ctrl": 1.0,
+      "p_abstain_ctrl": 0.0,
+      "p_exploit_yoked": 1.0,
+      "p_abstain_yoked": 0.0,
+      "contingency_sensitivity": 0.0,
+      "ctrl_exploit_success_rate": 0.92,
+      "yoked_exploit_success_rate": 0.58
+    },
+    {
+      "seed": 46,
+      "ctrl_mean_return": 0.74,
+      "yoked_mean_return": 0.13999999999999996,
+      "p_exploit_ctrl": 1.0,
+      "p_abstain_ctrl": 0.0,
+      "p_exploit_yoked": 1.0,
+      "p_abstain_yoked": 0.0,
+      "contingency_sensitivity": 0.0,
+      "ctrl_exploit_success_rate": 0.92,
+      "yoked_exploit_success_rate": 0.62
+    },
+    {
+      "seed": 47,
+      "ctrl_mean_return": 0.78,
+      "yoked_mean_return": -0.10000000000000007,
+      "p_exploit_ctrl": 1.0,
+      "p_abstain_ctrl": 0.0,
+      "p_exploit_yoked": 1.0,
+      "p_abstain_yoked": 0.0,
+      "contingency_sensitivity": 0.0,
+      "ctrl_exploit_success_rate": 0.94,
+      "yoked_exploit_success_rate": 0.5
+    },
+    {
+      "seed": 48,
+      "ctrl_mean_return": 0.74,
+      "yoked_mean_return": 0.04799999999999997,
+      "p_exploit_ctrl": 1.0,
+      "p_abstain_ctrl": 0.0,
+      "p_exploit_yoked": 0.72,
+      "p_abstain_yoked": 0.28,
+      "contingency_sensitivity": 0.28,
+      "ctrl_exploit_success_rate": 0.92,
+      "yoked_exploit_success_rate": 0.5833333333333334
+    },
+    {
+      "seed": 49,
+      "ctrl_mean_return": 0.82,
+      "yoked_mean_return": 0.05999999999999997,
+      "p_exploit_ctrl": 1.0,
+      "p_abstain_ctrl": 0.0,
+      "p_exploit_yoked": 1.0,
+      "p_abstain_yoked": 0.0,
+      "contingency_sensitivity": 0.0,
+      "ctrl_exploit_success_rate": 0.96,
+      "yoked_exploit_success_rate": 0.58
+    }
+  ]
+}
