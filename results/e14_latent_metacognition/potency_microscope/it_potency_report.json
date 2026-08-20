@@ -1,0 +1,24 @@
+{
+  "model_id": "google/recurrentgemma-2b-it",
+  "pair_id": "marked_object_p01_amber_cobalt",
+  "geom_4k": {
+    "mean_euclidean_dist": 0.27486594383501345,
+    "mean_cosine_sim": 0.999977233865986
+  },
+  "n0": {
+    "whole_kl": 0.003627600148320198,
+    "whole_max_logit_diff": 1.1640625,
+    "whole_steer": 0.2734375,
+    "rglru_kl": 0.023211225867271423,
+    "rglru_max_logit_diff": 1.375,
+    "rglru_steer": 0.20703125
+  },
+  "n256": {
+    "whole_kl": 0.002241404727101326,
+    "whole_max_logit_diff": 0.75,
+    "whole_steer": -0.046875,
+    "rglru_kl": 0.0012113573029637337,
+    "rglru_max_logit_diff": 0.65625,
+    "rglru_steer": 0.04296875
+  }
+}

@@ -1,8 +1,9 @@
-"""Sprint S14: Forced-Choice Logit Scoring & Mapping Equivariance Probes.
+"""Sprint S14: Forced-Choice Logit Scoring & Mapping Equivariance Probes (Repaired).
 
 Provides generic utilities for K-way forced-choice evaluation:
+- Chat-template aware prompt formatting for instruction-tuned models
 - Randomized letter label remapping (e.g. Interval 1 -> C, Interval 2 -> A, etc.)
-- Exact next-token logit and probability extraction
+- Exact next-token logit and probability extraction over candidate letter tokens
 - Semantic distribution unpermuting
 - Multi-remapping probe helper & Mapping-Equivariance calculation (Jensen-Shannon divergence)
 - Fixed-token label bias detection
@@ -30,7 +31,7 @@ class ForcedChoiceMapping:
     options: List[SemanticOption]
     key_to_label: Dict[str, str]       # e.g. {"interval_1": "C", ...}
     label_to_key: Dict[str, str]       # e.g. {"C": "interval_1", ...}
-    label_token_ids: Dict[str, int]    # e.g. {"A": 235284, ...}
+    label_token_ids: Dict[str, int]    # e.g. {"A": 235280, ...}
     letters: List[str]                 # e.g. ["A", "B", "C", "D", "E"]
 
 
@@ -80,6 +81,8 @@ def format_forced_choice_prompt(
     mapping: ForcedChoiceMapping,
     preamble: str,
     question: str,
+    tokenizer: Optional[Any] = None,
+    use_chat_template: bool = True,
 ) -> str:
     """Format the evaluation prompt listing options in alphabetical label order (A, B, C, ...)."""
     lines = [preamble.strip(), "", question.strip(), ""]
@@ -88,8 +91,13 @@ def format_forced_choice_prompt(
         opt = next(o for o in mapping.options if o.key == key)
         lines.append(f"{letter}) {opt.description}")
     lines.append("")
-    lines.append("Answer:")
-    return "\n".join(lines)
+    lines.append("Answer with only the single option letter:")
+    raw_text = "\n".join(lines)
+
+    if use_chat_template and tokenizer is not None and getattr(tokenizer, "chat_template", None) is not None:
+        messages = [{"role": "user", "content": raw_text}]
+        return tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+    return raw_text
 
 
 @torch.inference_mode()
@@ -104,6 +112,7 @@ def score_forced_choice_prompt(
     Returns:
         Dict containing:
         - raw_label_probs: Dict[letter, float]
+        - raw_label_logits: Dict[letter, float]
         - semantic_probs: Dict[key, float]
         - predicted_letter: str
         - predicted_key: str
@@ -117,15 +126,15 @@ def score_forced_choice_prompt(
         return_logits=True,
         logits_to_keep=1,
     )
-    # Final next-token logit vector
-    last_logits = out_logits[0]  # Shape [vocab_size]
+    last_logits = out_logits[0].float()  # Shape [vocab_size]
 
-    # Gather logits for the candidate labels
+    # Gather logits for candidate letter tokens
     candidate_tokens = [mapping.label_token_ids[l] for l in mapping.letters]
     candidate_logits = torch.stack([last_logits[t] for t in candidate_tokens])
     candidate_probs = F.softmax(candidate_logits, dim=-1).tolist()
 
     raw_label_probs = {l: float(p) for l, p in zip(mapping.letters, candidate_probs)}
+    raw_label_logits = {l: float(v.item()) for l, v in zip(mapping.letters, candidate_logits)}
     semantic_probs = {mapping.label_to_key[l]: float(p) for l, p in zip(mapping.letters, candidate_probs)}
 
     best_letter = max(raw_label_probs.keys(), key=lambda l: raw_label_probs[l])
@@ -136,6 +145,7 @@ def score_forced_choice_prompt(
 
     return {
         "raw_label_probs": raw_label_probs,
+        "raw_label_logits": raw_label_logits,
         "semantic_probs": semantic_probs,
         "predicted_letter": best_letter,
         "predicted_key": best_key,
@@ -173,18 +183,15 @@ def evaluate_mapping_equivariance(
     seed_1: int = 100,
     seed_2: int = 200,
     true_key: Optional[str] = None,
+    use_chat_template: bool = True,
 ) -> Dict[str, Any]:
-    """Probe the same final snapshot under two independently randomized label permutations.
-
-    Evaluates whether probability mass follows the semantic option (equivariance)
-    or sticks to a fixed letter label (label bias).
-    """
+    """Probe the same final snapshot under two independently randomized label permutations."""
     map_1 = create_forced_choice_mapping(options, adapter.tokenizer, seed=seed_1)
-    prompt_1 = format_forced_choice_prompt(map_1, preamble, question)
+    prompt_1 = format_forced_choice_prompt(map_1, preamble, question, tokenizer=adapter.tokenizer, use_chat_template=use_chat_template)
     res_1 = score_forced_choice_prompt(adapter, snapshot, map_1, prompt_1)
 
     map_2 = create_forced_choice_mapping(options, adapter.tokenizer, seed=seed_2)
-    prompt_2 = format_forced_choice_prompt(map_2, preamble, question)
+    prompt_2 = format_forced_choice_prompt(map_2, preamble, question, tokenizer=adapter.tokenizer, use_chat_template=use_chat_template)
     res_2 = score_forced_choice_prompt(adapter, snapshot, map_2, prompt_2)
 
     js_div = compute_js_divergence(res_1["semantic_probs"], res_2["semantic_probs"])
@@ -209,11 +216,15 @@ def evaluate_mapping_equivariance(
         "m1_predicted_key": res_1["predicted_key"],
         "m1_predicted_letter": res_1["predicted_letter"],
         "m1_semantic_probs": res_1["semantic_probs"],
+        "m1_raw_probs": res_1["raw_label_probs"],
+        "m1_raw_logits": res_1["raw_label_logits"],
         "m1_acc": acc_1,
         "m1_log_margin": log_margin_1,
         "m2_predicted_key": res_2["predicted_key"],
         "m2_predicted_letter": res_2["predicted_letter"],
         "m2_semantic_probs": res_2["semantic_probs"],
+        "m2_raw_probs": res_2["raw_label_probs"],
+        "m2_raw_logits": res_2["raw_label_logits"],
         "m2_acc": acc_2,
         "m2_log_margin": log_margin_2,
         "js_divergence": js_div,
