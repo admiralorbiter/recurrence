@@ -14,8 +14,9 @@ Our goal is not to simulate consciousness but to construct something that must b
 - **Horizon 0 (Foundations):** **COMPLETE** (S00–S03 reproducible baseline battery).
 - **Horizon 1 (Scaffolded Persistence):** **FROZEN** (S04–S09 narrative primacy, memory dominance, no independent state leverage).
 - **Horizon 2 (Latent Recurrence):** **FROZEN (S10–S14)** — Seven-way taxonomy established: Reconstructibility, physical persistence at 2W, causal steering $P=+74.10$, value specificity $\Delta P=+38.49$, coordinate loss on $u_0$, state reorientation $C_R \to 0.12$, and state-conditioned reporting without historical provenance access ($\Delta M_{\text{timing}} \approx 0$, $p_{\text{TOST}} = 0.0048$).
+- **Gate B (Continuity Garden v0):** **FROZEN (Q04–Q05b)** — Causal ladder complete: recurrent state is necessary (Q04), value-specific (Q04b), reconstructible from public history (Q05), satisfies exact replay invariance ($d=0.0000$), exhibits temporal-state behavioral equivalence ($\cos=0.235$), and displays seed-dependent dynamical heterogeneity under out-of-distribution perturbation (Q05b).
 - **Long-Range Moonshot:** [Moonshot Research Map](docs/Moonshot_Research_Map.md) — *Toward a Causal Developmental Science of Artificial Self-Models* (Gates A through I).
-- **Active Frontier:** **Gate A (Final Frozen-Model Bridge)** $\to$ **Gate B (The Continuity Garden / Minimal Developmental Substrate)**.
+- **Active Frontier:** **Gate C (Learned Controllability & Agency — Q07/Q08)**.
 
 ### Canonical Synthesis & Governance Documents
 - [Moonshot Research Map](docs/Moonshot_Research_Map.md) — The 10-year research compass, 5 futures, and Gates A–I.

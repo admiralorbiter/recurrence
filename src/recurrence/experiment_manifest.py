@@ -1,4 +1,4 @@
-"""Standardized Experiment Manifest dataclasses, provenance tracking, and validation for Recurrence."""
+"""Standardized Experiment Manifest dataclasses, provenance tracking, and validation for Recurrence (Provenance v1.2)."""
 
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
@@ -8,18 +8,22 @@ import json
 from pathlib import Path
 import platform
 import subprocess
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Tuple
 import uuid
 
 
-def get_git_sha(repo_root: Optional[Path] = None) -> str:
+def get_git_state(repo_root: Optional[Path] = None) -> Tuple[str, bool]:
     try:
-        cmd = ["git", "rev-parse", "HEAD"]
+        cmd_sha = ["git", "rev-parse", "HEAD"]
+        cmd_status = ["git", "status", "--porcelain"]
         cwd = str(repo_root) if repo_root else None
-        res = subprocess.run(cmd, cwd=cwd, capture_output=True, text=True, check=True)
-        return res.stdout.strip()
+        res_sha = subprocess.run(cmd_sha, cwd=cwd, capture_output=True, text=True, check=True)
+        res_status = subprocess.run(cmd_status, cwd=cwd, capture_output=True, text=True, check=True)
+        sha = res_sha.stdout.strip()
+        is_dirty = len(res_status.stdout.strip()) > 0
+        return sha, is_dirty
     except Exception:
-        return "UNKNOWN_DIRTY"
+        return "UNKNOWN_COMMIT", True
 
 
 class EvidenceMode(str, Enum):
@@ -58,9 +62,11 @@ class ExperimentCondition:
 
 @dataclass
 class ProvenanceMetadata:
-    forward_calls: int = 0
-    training_steps: int = 0
-    raw_record_count: int = 0
+    forward_calls: int = 0          # Number of neural model forward passes
+    training_steps: int = 0         # Number of optimizer update steps
+    raw_record_count: int = 0       # Number of evaluated episode/trial records
+    raw_trial_table_path: Optional[str] = None
+    raw_trial_table_sha256: Optional[str] = None
     activation_cache_hash: Optional[str] = None
     raw_results_hash: Optional[str] = None
     source_run_ids: List[str] = field(default_factory=list)
@@ -72,7 +78,8 @@ class ExperimentManifest:
     gate: str
     run_id: str = field(default_factory=lambda: f"run_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{uuid.uuid4().hex[:8]}")
     created_at: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
-    git_sha: str = field(default_factory=get_git_sha)
+    git_sha: str = field(default_factory=lambda: get_git_state()[0])
+    worktree_dirty: bool = field(default_factory=lambda: get_git_state()[1])
     evidence_mode: EvidenceMode = EvidenceMode.LIVE_MODEL
     status: str = "SCOUT"
     model_revision: str = "v0.1.0"
@@ -86,8 +93,24 @@ class ExperimentManifest:
     artifacts: Dict[str, str] = field(default_factory=dict)
 
     def validate(self) -> None:
-        """Enforces scientific provenance and status invariants."""
-        # 1. Confirmatory status cannot be applied to simulated or unexecuted runs
+        """Enforces scientific provenance and status invariants across all evidence modes."""
+        # 1. UNEXECUTED_SCAFFOLD compatibility
+        if self.evidence_mode == EvidenceMode.UNEXECUTED_SCAFFOLD:
+            if not (self.status.startswith("UNEXECUTED_") or self.status == "PIPELINE_READY"):
+                raise ValueError(
+                    f"Scientific Provenance Violation: UNEXECUTED_SCAFFOLD cannot have status '{self.status}'. "
+                    f"Allowed: 'UNEXECUTED_PIPELINE_SCAFFOLD', 'PIPELINE_READY'."
+                )
+
+        # 2. SIMULATION compatibility
+        if self.evidence_mode == EvidenceMode.SIMULATION:
+            if not (self.status.startswith("SIMULATION_") or self.status in ["METHOD_CHECK", "DRY_RUN"]):
+                raise ValueError(
+                    f"Scientific Provenance Violation: SIMULATION cannot have status '{self.status}'. "
+                    f"Allowed: 'SIMULATION_COMPLETE', 'METHOD_CHECK', 'DRY_RUN'."
+                )
+
+        # 3. Confirmatory / Promotion requirements for live/trained runs
         if self.status.startswith("CONFIRMATORY_"):
             if self.evidence_mode in [EvidenceMode.SIMULATION, EvidenceMode.UNEXECUTED_SCAFFOLD]:
                 raise ValueError(
@@ -104,6 +127,23 @@ class ExperimentManifest:
         h = hashlib.sha256(data_str.encode("utf-8")).hexdigest()
         self.provenance.raw_results_hash = h
         return h
+
+    def save_trial_records_jsonl(self, path: Path, records: List[Dict[str, Any]]) -> str:
+        """Saves individual trial records to JSONL, computes hash, and updates provenance."""
+        path = Path(path)
+        path.parent.mkdir(parents=True, exist_ok=True)
+        hasher = hashlib.sha256()
+        with open(path, "w", encoding="utf-8") as f:
+            for rec in records:
+                line = json.dumps(rec, sort_keys=True) + "\n"
+                f.write(line)
+                hasher.update(line.encode("utf-8"))
+        
+        file_hash = hasher.hexdigest()
+        self.provenance.raw_trial_table_path = str(path)
+        self.provenance.raw_trial_table_sha256 = file_hash
+        self.provenance.raw_record_count = len(records)
+        return file_hash
 
     def to_dict(self) -> Dict[str, Any]:
         self.validate()

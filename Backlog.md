@@ -29,22 +29,28 @@ Retire or demote a direction when:
 
 ---
 
-## P0 — Moonshot Gate A: Final Frozen-Model Bridge (Active Frontier)
-
-| Item | Scope | Exit Condition / Gate |
-|---|---|---|
-| **Q01 & Q02: Monitor / Content Coda** | Two-phase scout on `recurrentgemma-2b-it`: Phase A Discovery $\to$ Phase B Causal $2 \times 2$ ($C_\pm \times M_\pm$). Protocol: `docs/S16_Monitor_Content_Dissociation_Protocol.md`. | Pass if double dissociation found ($|\Delta D| \le 0.15$, $|\Delta \text{Report}| \ge 0.40$); if symmetrical coupling, terminate and proceed to Gate B. |
-| **Q03: Base vs. IT Metacognition Scout** | Strict-C `quartz_basalt` micro-assay on matched `google/recurrentgemma-2b` (base) vs `google/recurrentgemma-2b-it`. | Determines whether report modulation is intrinsic to pretraining or installed by alignment. |
+| **Gate B (Q04)** | Garden v0 Baseline | GRU 100% vs Current-MLP 51% vs History-MLP (K=4) 50% vs Sham 100% vs Reset 51-53% across 8 seeds. Zero construct leakage verified. | **FROZEN** |
+| **Gate B (Q04b)** | Value Specificity | 800 paired transplants: same-$z$ 100%, opposite-$z$ 0% on recipient world (100% on counterfactual $1-z$ criterion). $h_t$ is causally value-specific. | **FROZEN** |
+| **Gate B (Q05/Q05b)** | Reconstructibility & Geometry | Replay achieves exact deterministic parity ($\cos=1.0000, d=0.0000$). Cue restoration achieves behavioral recovery via distinct state ($\cos=0.235$). Intact state displays seed-dependent dynamical heterogeneity ($95.7\% \to 78.1\%$). | **FROZEN** |
 
 ---
 
-## P1 — Moonshot Gate B: Minimal Developmental Substrate (The Continuity Garden)
+## P0 — Moonshot Gate C: Learned Controllability & Agency (Active Frontier)
+
+| Item | Scope | Exit Condition / Gate |
+|---|---|---|
+| **Q07: Behavioral Controllability** | Yoked controllability arena ($W_{\text{ctrl}}$ vs $W_{\text{yoked}}$). Dual loss: forward prediction + experienced return actor-critic. Payoff: $+0.70$ (ctrl) vs $-0.10$ (yoked) vs $0.00$ (abstain). | $\mathbb{E}[R \mid W_{\text{ctrl}}] \ge 0.50$, $P(\text{Abstain} \mid W_{\text{yoked}}) \ge 0.70$, 3-tier observers pass. |
+| **Q08: Controllability Vector Decoding** | Probe internal state $h_t$ for linearly separable controllability direction after controlling for marginals. | Decoding accuracy $\ge 0.85$ beating input-only observer. |
+| **Q09a: Surgical Controllability Confusion** | Bidirectional causal patching of candidate $\pm c_{\text{ctrl}}$ subspace between matched $W_{\text{ctrl}}$ and $W_{\text{yoked}}$ trials. | Induces selective exploitation in $W_{\text{yoked}}$ and abstention in $W_{\text{ctrl}}$. |
+
+---
+
+## P1 — Moonshot Gate A: Final Frozen-Model Bridge (Scaffold Ready / Live GPU Queued)
 
 | Item | Focus | Key Question / Theoretical Stakes |
 |---|---|---|
-| **Q04: Temporally Extended POMDP** | Small recurrent organism baseline in minimal symbolic POMDP without language. | Does persistent latent state confer a selective advantage over feed-forward and reset baselines? |
-| **Q05: Latent Continuity vs. Restored Memory** | Interruption assay: memory restored vs. latent preserved vs. replay. | Does latent developmental state carry function beyond explicit prompt memory restoration? |
-| **Q06: Ground-Truth Construct Separation** | 3-layer architecture: Ground Truth $\to$ Sensor $\to$ Learned State. | Zero target-variable leakage into observations (`uncertainty`, `self_state`, `source`). |
+| **Q01 & Q02: Monitor / Content Coda** | Two-phase live scout on `recurrentgemma-2b-it`. Phase A discovery on 128 items $\to$ Phase B causal $2 \times 2$ ($m_\perp$). | Out-of-sample incremental $p < 0.01$, $|\Delta D| \le 0.15$, $|\Delta M| \ge 0.40$. |
+| **Q03: Base vs. IT Metacognition Scout** | Live evaluation of `google/recurrentgemma-2b` (base) on strict-C transport and visible BOP reporting. | Determines whether report modulation is intrinsic to pretraining or alignment-installed. |
 
 ---
 
