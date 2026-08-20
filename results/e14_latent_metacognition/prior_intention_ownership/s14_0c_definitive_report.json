@@ -1,0 +1,995 @@
+{
+  "model_id": "google/recurrentgemma-2b-it",
+  "pinned_revision": "2766eb5d4264c6c0357803990791f9ab9cd50f8e",
+  "strict_c_margin": 0.3,
+  "equivalence_bound": 0.1,
+  "stratification": {
+    "n_tier_1_strict_c": 2,
+    "n_tier_2_weak_c": 1,
+    "n_tier_3_same_choice": 13
+  },
+  "tost_equivalence": {
+    "evolved_post": {
+      "bound": 0.1,
+      "n": 16,
+      "mean_diff": 0.0032958984375,
+      "std_diff": 0.05651575113130739,
+      "se_diff": 0.014128937782826848,
+      "ci_95_lower": -0.021472129495795463,
+      "ci_95_upper": 0.028063926370795463,
+      "is_equivalent_at_bound": true
+    },
+    "state_matched_post": {
+      "bound": 0.1,
+      "n": 16,
+      "mean_diff": 0.0347900390625,
+      "std_diff": 0.07575916086330362,
+      "se_diff": 0.018939790215825904,
+      "ci_95_lower": 0.001588586814157196,
+      "ci_95_upper": 0.06799149131084281,
+      "is_equivalent_at_bound": true
+    }
+  },
+  "trials": [
+    {
+      "cell": {
+        "pair_id": "archived_artifact_p04_quartz_basalt",
+        "orientation": "ANTI",
+        "word_x": "alkali",
+        "word_y": "antonio"
+      },
+      "result": {
+        "direction": "fwd",
+        "word_x": "alkali",
+        "word_y": "antonio",
+        "c_tier": "TIER_1_STRICT_C_DISAGREEMENT",
+        "is_strict_c": true,
+        "d_t": 0.53125,
+        "d_o": -0.484375,
+        "delta_fact": 1.015625,
+        "g": 1.0,
+        "true_preferred": "alkali",
+        "bop_pre": {
+          "m_calibrated": -1.76953125,
+          "m_xy": -1.75,
+          "m_yx": -1.7890625,
+          "order_bias": 0.01953125
+        },
+        "bop_obs": {
+          "m_calibrated": -2.0390625,
+          "m_xy": -2.109375,
+          "m_yx": -1.96875,
+          "order_bias": -0.0703125
+        },
+        "bop_post_evolved": {
+          "m_calibrated": -1.765625,
+          "m_xy": -1.6875,
+          "m_yx": -1.84375,
+          "order_bias": 0.078125
+        },
+        "bop_post_matched": {
+          "m_calibrated": -1.7890625,
+          "m_xy": -1.75,
+          "m_yx": -1.828125,
+          "order_bias": 0.0390625
+        },
+        "aligned_metrics": {
+          "s_pre": -1.76953125,
+          "pai_aligned": 0.26953125,
+          "t_aligned_evolved": -0.00390625,
+          "t_aligned_matched": 0.01953125,
+          "raw_report_shift": 0.26953125
+        },
+        "visible_control": {
+          "m_calibrated_when_x_true": 4.657196044921875,
+          "m_xy_when_x_true": 9.453125,
+          "m_yx_when_x_true": -0.13873291015625,
+          "m_calibrated_when_y_true": -13.890625,
+          "m_xy_when_y_true": -11.328125,
+          "m_yx_when_y_true": -16.453125,
+          "visible_reporting_competent": true
+        }
+      }
+    },
+    {
+      "cell": {
+        "pair_id": "archived_artifact_p04_quartz_basalt",
+        "orientation": "ANTI",
+        "word_x": "alkali",
+        "word_y": "antonio"
+      },
+      "result": {
+        "direction": "rev",
+        "word_x": "alkali",
+        "word_y": "antonio",
+        "c_tier": "TIER_1_STRICT_C_DISAGREEMENT",
+        "is_strict_c": true,
+        "d_t": -0.546875,
+        "d_o": 0.46875,
+        "delta_fact": -1.015625,
+        "g": -1.0,
+        "true_preferred": "antonio",
+        "bop_pre": {
+          "m_calibrated": -1.7421875,
+          "m_xy": -1.703125,
+          "m_yx": -1.78125,
+          "order_bias": 0.0390625
+        },
+        "bop_obs": {
+          "m_calibrated": -1.6591796875,
+          "m_xy": -1.6171875,
+          "m_yx": -1.701171875,
+          "order_bias": 0.0419921875
+        },
+        "bop_post_evolved": {
+          "m_calibrated": -1.720703125,
+          "m_xy": -1.6328125,
+          "m_yx": -1.80859375,
+          "order_bias": 0.087890625
+        },
+        "bop_post_matched": {
+          "m_calibrated": -1.794921875,
+          "m_xy": -1.71875,
+          "m_yx": -1.87109375,
+          "order_bias": 0.076171875
+        },
+        "aligned_metrics": {
+          "s_pre": 1.7421875,
+          "pai_aligned": 0.0830078125,
+          "t_aligned_evolved": 0.021484375,
+          "t_aligned_matched": -0.052734375,
+          "raw_report_shift": -0.0830078125
+        },
+        "visible_control": {
+          "m_calibrated_when_x_true": 4.657196044921875,
+          "m_xy_when_x_true": 9.453125,
+          "m_yx_when_x_true": -0.13873291015625,
+          "m_calibrated_when_y_true": -13.890625,
+          "m_xy_when_y_true": -11.328125,
+          "m_yx_when_y_true": -16.453125,
+          "visible_reporting_competent": true
+        }
+      }
+    },
+    {
+      "cell": {
+        "pair_id": "sealed_container_p05_silver_nickel",
+        "orientation": "DONOR",
+        "word_x": "achievement",
+        "word_y": "effort"
+      },
+      "result": {
+        "direction": "fwd",
+        "word_x": "achievement",
+        "word_y": "effort",
+        "c_tier": "TIER_3_SAME_CHOICE_PERTURBATION",
+        "is_strict_c": false,
+        "d_t": 13.654296875,
+        "d_o": 12.6849365234375,
+        "delta_fact": 0.9693603515625,
+        "g": 1.0,
+        "true_preferred": "achievement",
+        "bop_pre": {
+          "m_calibrated": 1.65625,
+          "m_xy": 1.6875,
+          "m_yx": 1.625,
+          "order_bias": 0.03125
+        },
+        "bop_obs": {
+          "m_calibrated": 2.0,
+          "m_xy": 1.875,
+          "m_yx": 2.125,
+          "order_bias": -0.125
+        },
+        "bop_post_evolved": {
+          "m_calibrated": 1.71875,
+          "m_xy": 1.6875,
+          "m_yx": 1.75,
+          "order_bias": -0.03125
+        },
+        "bop_post_matched": {
+          "m_calibrated": 1.5625,
+          "m_xy": 1.625,
+          "m_yx": 1.5,
+          "order_bias": 0.0625
+        },
+        "aligned_metrics": {
+          "s_pre": 1.65625,
+          "pai_aligned": -0.34375,
+          "t_aligned_evolved": -0.0625,
+          "t_aligned_matched": 0.09375,
+          "raw_report_shift": -0.34375
+        },
+        "visible_control": {
+          "m_calibrated_when_x_true": 8.625,
+          "m_xy_when_x_true": 21.875,
+          "m_yx_when_x_true": -4.625,
+          "m_calibrated_when_y_true": -10.03125,
+          "m_xy_when_y_true": 4.5625,
+          "m_yx_when_y_true": -24.625,
+          "visible_reporting_competent": true
+        }
+      }
+    },
+    {
+      "cell": {
+        "pair_id": "sealed_container_p05_silver_nickel",
+        "orientation": "DONOR",
+        "word_x": "achievement",
+        "word_y": "effort"
+      },
+      "result": {
+        "direction": "rev",
+        "word_x": "achievement",
+        "word_y": "effort",
+        "c_tier": "TIER_3_SAME_CHOICE_PERTURBATION",
+        "is_strict_c": false,
+        "d_t": 12.796875,
+        "d_o": 13.423828125,
+        "delta_fact": -0.626953125,
+        "g": 1.0,
+        "true_preferred": "achievement",
+        "bop_pre": {
+          "m_calibrated": 2.03125,
+          "m_xy": 2.0,
+          "m_yx": 2.0625,
+          "order_bias": -0.03125
+        },
+        "bop_obs": {
+          "m_calibrated": 1.8125,
+          "m_xy": 1.8125,
+          "m_yx": 1.8125,
+          "order_bias": 0.0
+        },
+        "bop_post_evolved": {
+          "m_calibrated": 2.03125,
+          "m_xy": 1.9375,
+          "m_yx": 2.125,
+          "order_bias": -0.09375
+        },
+        "bop_post_matched": {
+          "m_calibrated": 1.9375,
+          "m_xy": 1.875,
+          "m_yx": 2.0,
+          "order_bias": -0.0625
+        },
+        "aligned_metrics": {
+          "s_pre": 2.03125,
+          "pai_aligned": 0.21875,
+          "t_aligned_evolved": 0.0,
+          "t_aligned_matched": 0.09375,
+          "raw_report_shift": 0.21875
+        },
+        "visible_control": {
+          "m_calibrated_when_x_true": 8.625,
+          "m_xy_when_x_true": 21.875,
+          "m_yx_when_x_true": -4.625,
+          "m_calibrated_when_y_true": -10.03125,
+          "m_xy_when_y_true": 4.5625,
+          "m_yx_when_y_true": -24.625,
+          "visible_reporting_competent": true
+        }
+      }
+    },
+    {
+      "cell": {
+        "pair_id": "archived_artifact_p06_basalt_granite",
+        "orientation": "DONOR",
+        "word_x": "crystal",
+        "word_y": "granite"
+      },
+      "result": {
+        "direction": "fwd",
+        "word_x": "crystal",
+        "word_y": "granite",
+        "c_tier": "TIER_3_SAME_CHOICE_PERTURBATION",
+        "is_strict_c": false,
+        "d_t": -0.328125,
+        "d_o": -0.578125,
+        "delta_fact": 0.25,
+        "g": -1.0,
+        "true_preferred": "granite",
+        "bop_pre": {
+          "m_calibrated": 2.34375,
+          "m_xy": 2.28125,
+          "m_yx": 2.40625,
+          "order_bias": -0.0625
+        },
+        "bop_obs": {
+          "m_calibrated": 2.421875,
+          "m_xy": 2.46875,
+          "m_yx": 2.375,
+          "order_bias": 0.046875
+        },
+        "bop_post_evolved": {
+          "m_calibrated": 2.421875,
+          "m_xy": 2.46875,
+          "m_yx": 2.375,
+          "order_bias": 0.046875
+        },
+        "bop_post_matched": {
+          "m_calibrated": 2.421875,
+          "m_xy": 2.46875,
+          "m_yx": 2.375,
+          "order_bias": 0.046875
+        },
+        "aligned_metrics": {
+          "s_pre": -2.34375,
+          "pai_aligned": 0.078125,
+          "t_aligned_evolved": 0.078125,
+          "t_aligned_matched": 0.078125,
+          "raw_report_shift": -0.078125
+        },
+        "visible_control": {
+          "m_calibrated_when_x_true": 4.39453125,
+          "m_xy_when_x_true": 15.984375,
+          "m_yx_when_x_true": -7.1953125,
+          "m_calibrated_when_y_true": -13.6796875,
+          "m_xy_when_y_true": -9.828125,
+          "m_yx_when_y_true": -17.53125,
+          "visible_reporting_competent": true
+        }
+      }
+    },
+    {
+      "cell": {
+        "pair_id": "archived_artifact_p06_basalt_granite",
+        "orientation": "DONOR",
+        "word_x": "crystal",
+        "word_y": "granite"
+      },
+      "result": {
+        "direction": "rev",
+        "word_x": "crystal",
+        "word_y": "granite",
+        "c_tier": "TIER_3_SAME_CHOICE_PERTURBATION",
+        "is_strict_c": false,
+        "d_t": 0.0,
+        "d_o": 0.46875,
+        "delta_fact": -0.46875,
+        "g": 0.0,
+        "true_preferred": "TIE (NONE)",
+        "bop_pre": {
+          "m_calibrated": 2.953125,
+          "m_xy": 2.9375,
+          "m_yx": 2.96875,
+          "order_bias": -0.015625
+        },
+        "bop_obs": {
+          "m_calibrated": 3.0,
+          "m_xy": 3.09375,
+          "m_yx": 2.90625,
+          "order_bias": 0.09375
+        },
+        "bop_post_evolved": {
+          "m_calibrated": 2.96875,
+          "m_xy": 3.0625,
+          "m_yx": 2.875,
+          "order_bias": 0.09375
+        },
+        "bop_post_matched": {
+          "m_calibrated": 2.828125,
+          "m_xy": 2.84375,
+          "m_yx": 2.8125,
+          "order_bias": 0.015625
+        },
+        "aligned_metrics": {
+          "s_pre": 0.0,
+          "pai_aligned": 0.0,
+          "t_aligned_evolved": 0.0,
+          "t_aligned_matched": 0.0,
+          "raw_report_shift": -0.046875
+        },
+        "visible_control": {
+          "m_calibrated_when_x_true": 4.39453125,
+          "m_xy_when_x_true": 15.984375,
+          "m_yx_when_x_true": -7.1953125,
+          "m_calibrated_when_y_true": -13.6796875,
+          "m_xy_when_y_true": -9.828125,
+          "m_yx_when_y_true": -17.53125,
+          "visible_reporting_competent": true
+        }
+      }
+    },
+    {
+      "cell": {
+        "pair_id": "marked_object_p02_amber_garnet",
+        "orientation": "ANTI",
+        "word_x": "amber",
+        "word_y": "cobalt"
+      },
+      "result": {
+        "direction": "fwd",
+        "word_x": "amber",
+        "word_y": "cobalt",
+        "c_tier": "TIER_3_SAME_CHOICE_PERTURBATION",
+        "is_strict_c": false,
+        "d_t": -0.125,
+        "d_o": -0.0625,
+        "delta_fact": -0.0625,
+        "g": -1.0,
+        "true_preferred": "cobalt",
+        "bop_pre": {
+          "m_calibrated": 3.328125,
+          "m_xy": 3.4375,
+          "m_yx": 3.21875,
+          "order_bias": 0.109375
+        },
+        "bop_obs": {
+          "m_calibrated": 3.265625,
+          "m_xy": 3.375,
+          "m_yx": 3.15625,
+          "order_bias": 0.109375
+        },
+        "bop_post_evolved": {
+          "m_calibrated": 3.34375,
+          "m_xy": 3.4375,
+          "m_yx": 3.25,
+          "order_bias": 0.09375
+        },
+        "bop_post_matched": {
+          "m_calibrated": 3.3125,
+          "m_xy": 3.4375,
+          "m_yx": 3.1875,
+          "order_bias": 0.125
+        },
+        "aligned_metrics": {
+          "s_pre": -3.328125,
+          "pai_aligned": -0.0625,
+          "t_aligned_evolved": 0.015625,
+          "t_aligned_matched": -0.015625,
+          "raw_report_shift": 0.0625
+        },
+        "visible_control": {
+          "m_calibrated_when_x_true": 24.5625,
+          "m_xy_when_x_true": 29.125,
+          "m_yx_when_x_true": 20.0,
+          "m_calibrated_when_y_true": -2.3828125,
+          "m_xy_when_y_true": 10.953125,
+          "m_yx_when_y_true": -15.71875,
+          "visible_reporting_competent": true
+        }
+      }
+    },
+    {
+      "cell": {
+        "pair_id": "marked_object_p02_amber_garnet",
+        "orientation": "ANTI",
+        "word_x": "amber",
+        "word_y": "cobalt"
+      },
+      "result": {
+        "direction": "rev",
+        "word_x": "amber",
+        "word_y": "cobalt",
+        "c_tier": "TIER_3_SAME_CHOICE_PERTURBATION",
+        "is_strict_c": false,
+        "d_t": -0.03125,
+        "d_o": -0.1875,
+        "delta_fact": 0.15625,
+        "g": 0.0,
+        "true_preferred": "TIE (NONE)",
+        "bop_pre": {
+          "m_calibrated": 3.0,
+          "m_xy": 3.125,
+          "m_yx": 2.875,
+          "order_bias": 0.125
+        },
+        "bop_obs": {
+          "m_calibrated": 2.921875,
+          "m_xy": 2.9375,
+          "m_yx": 2.90625,
+          "order_bias": 0.015625
+        },
+        "bop_post_evolved": {
+          "m_calibrated": 2.9375,
+          "m_xy": 3.0625,
+          "m_yx": 2.8125,
+          "order_bias": 0.125
+        },
+        "bop_post_matched": {
+          "m_calibrated": 2.9375,
+          "m_xy": 3.0625,
+          "m_yx": 2.8125,
+          "order_bias": 0.125
+        },
+        "aligned_metrics": {
+          "s_pre": 0.0,
+          "pai_aligned": 0.0,
+          "t_aligned_evolved": 0.0,
+          "t_aligned_matched": 0.0,
+          "raw_report_shift": 0.078125
+        },
+        "visible_control": {
+          "m_calibrated_when_x_true": 24.5625,
+          "m_xy_when_x_true": 29.125,
+          "m_yx_when_x_true": 20.0,
+          "m_calibrated_when_y_true": -2.3828125,
+          "m_xy_when_y_true": 10.953125,
+          "m_yx_when_y_true": -15.71875,
+          "visible_reporting_competent": true
+        }
+      }
+    },
+    {
+      "cell": {
+        "pair_id": "sealed_container_p02_copper_bronze",
+        "orientation": "DONOR",
+        "word_x": "copper",
+        "word_y": "silver"
+      },
+      "result": {
+        "direction": "fwd",
+        "word_x": "copper",
+        "word_y": "silver",
+        "c_tier": "TIER_3_SAME_CHOICE_PERTURBATION",
+        "is_strict_c": false,
+        "d_t": -0.5,
+        "d_o": -0.84375,
+        "delta_fact": 0.34375,
+        "g": -1.0,
+        "true_preferred": "silver",
+        "bop_pre": {
+          "m_calibrated": 2.78125,
+          "m_xy": 2.59375,
+          "m_yx": 2.96875,
+          "order_bias": -0.1875
+        },
+        "bop_obs": {
+          "m_calibrated": 2.953125,
+          "m_xy": 2.84375,
+          "m_yx": 3.0625,
+          "order_bias": -0.109375
+        },
+        "bop_post_evolved": {
+          "m_calibrated": 2.75,
+          "m_xy": 2.625,
+          "m_yx": 2.875,
+          "order_bias": -0.125
+        },
+        "bop_post_matched": {
+          "m_calibrated": 2.71875,
+          "m_xy": 2.5,
+          "m_yx": 2.9375,
+          "order_bias": -0.21875
+        },
+        "aligned_metrics": {
+          "s_pre": -2.78125,
+          "pai_aligned": 0.171875,
+          "t_aligned_evolved": -0.03125,
+          "t_aligned_matched": -0.0625,
+          "raw_report_shift": -0.171875
+        },
+        "visible_control": {
+          "m_calibrated_when_x_true": 14.65625,
+          "m_xy_when_x_true": 24.4375,
+          "m_yx_when_x_true": 4.875,
+          "m_calibrated_when_y_true": -3.7734375,
+          "m_xy_when_y_true": 9.75,
+          "m_yx_when_y_true": -17.296875,
+          "visible_reporting_competent": true
+        }
+      }
+    },
+    {
+      "cell": {
+        "pair_id": "sealed_container_p02_copper_bronze",
+        "orientation": "DONOR",
+        "word_x": "copper",
+        "word_y": "silver"
+      },
+      "result": {
+        "direction": "rev",
+        "word_x": "copper",
+        "word_y": "silver",
+        "c_tier": "TIER_3_SAME_CHOICE_PERTURBATION",
+        "is_strict_c": false,
+        "d_t": -0.921875,
+        "d_o": -0.421875,
+        "delta_fact": -0.5,
+        "g": -1.0,
+        "true_preferred": "silver",
+        "bop_pre": {
+          "m_calibrated": 3.015625,
+          "m_xy": 2.90625,
+          "m_yx": 3.125,
+          "order_bias": -0.109375
+        },
+        "bop_obs": {
+          "m_calibrated": 2.6875,
+          "m_xy": 2.5,
+          "m_yx": 2.875,
+          "order_bias": -0.1875
+        },
+        "bop_post_evolved": {
+          "m_calibrated": 2.953125,
+          "m_xy": 2.84375,
+          "m_yx": 3.0625,
+          "order_bias": -0.109375
+        },
+        "bop_post_matched": {
+          "m_calibrated": 2.90625,
+          "m_xy": 2.75,
+          "m_yx": 3.0625,
+          "order_bias": -0.15625
+        },
+        "aligned_metrics": {
+          "s_pre": -3.015625,
+          "pai_aligned": -0.328125,
+          "t_aligned_evolved": -0.0625,
+          "t_aligned_matched": -0.109375,
+          "raw_report_shift": 0.328125
+        },
+        "visible_control": {
+          "m_calibrated_when_x_true": 14.65625,
+          "m_xy_when_x_true": 24.4375,
+          "m_yx_when_x_true": 4.875,
+          "m_calibrated_when_y_true": -3.7734375,
+          "m_xy_when_y_true": 9.75,
+          "m_yx_when_y_true": -17.296875,
+          "visible_reporting_competent": true
+        }
+      }
+    },
+    {
+      "cell": {
+        "pair_id": "monitored_signal_p01_alpha_delta",
+        "orientation": "ANTI",
+        "word_x": "alpha",
+        "word_y": "delta"
+      },
+      "result": {
+        "direction": "fwd",
+        "word_x": "alpha",
+        "word_y": "delta",
+        "c_tier": "TIER_3_SAME_CHOICE_PERTURBATION",
+        "is_strict_c": false,
+        "d_t": -4.09375,
+        "d_o": -4.65625,
+        "delta_fact": 0.5625,
+        "g": -1.0,
+        "true_preferred": "delta",
+        "bop_pre": {
+          "m_calibrated": -0.09375,
+          "m_xy": 0.0625,
+          "m_yx": -0.25,
+          "order_bias": 0.15625
+        },
+        "bop_obs": {
+          "m_calibrated": -0.0625,
+          "m_xy": 0.0625,
+          "m_yx": -0.1875,
+          "order_bias": 0.125
+        },
+        "bop_post_evolved": {
+          "m_calibrated": -0.03125,
+          "m_xy": 0.1875,
+          "m_yx": -0.25,
+          "order_bias": 0.21875
+        },
+        "bop_post_matched": {
+          "m_calibrated": 0.0625,
+          "m_xy": 0.1875,
+          "m_yx": -0.0625,
+          "order_bias": 0.125
+        },
+        "aligned_metrics": {
+          "s_pre": 0.09375,
+          "pai_aligned": 0.03125,
+          "t_aligned_evolved": 0.0625,
+          "t_aligned_matched": 0.15625,
+          "raw_report_shift": -0.03125
+        },
+        "visible_control": {
+          "m_calibrated_when_x_true": 4.46875,
+          "m_xy_when_x_true": 15.125,
+          "m_yx_when_x_true": -6.1875,
+          "m_calibrated_when_y_true": -7.96875,
+          "m_xy_when_y_true": -0.625,
+          "m_yx_when_y_true": -15.3125,
+          "visible_reporting_competent": true
+        }
+      }
+    },
+    {
+      "cell": {
+        "pair_id": "monitored_signal_p01_alpha_delta",
+        "orientation": "ANTI",
+        "word_x": "alpha",
+        "word_y": "delta"
+      },
+      "result": {
+        "direction": "rev",
+        "word_x": "alpha",
+        "word_y": "delta",
+        "c_tier": "TIER_3_SAME_CHOICE_PERTURBATION",
+        "is_strict_c": false,
+        "d_t": -4.5625,
+        "d_o": -3.96875,
+        "delta_fact": -0.59375,
+        "g": -1.0,
+        "true_preferred": "delta",
+        "bop_pre": {
+          "m_calibrated": 0.46875,
+          "m_xy": 0.625,
+          "m_yx": 0.3125,
+          "order_bias": 0.15625
+        },
+        "bop_obs": {
+          "m_calibrated": 0.28125,
+          "m_xy": 0.5,
+          "m_yx": 0.0625,
+          "order_bias": 0.21875
+        },
+        "bop_post_evolved": {
+          "m_calibrated": 0.46875,
+          "m_xy": 0.625,
+          "m_yx": 0.3125,
+          "order_bias": 0.15625
+        },
+        "bop_post_matched": {
+          "m_calibrated": 0.46875,
+          "m_xy": 0.625,
+          "m_yx": 0.3125,
+          "order_bias": 0.15625
+        },
+        "aligned_metrics": {
+          "s_pre": -0.46875,
+          "pai_aligned": -0.1875,
+          "t_aligned_evolved": -0.0,
+          "t_aligned_matched": -0.0,
+          "raw_report_shift": 0.1875
+        },
+        "visible_control": {
+          "m_calibrated_when_x_true": 4.46875,
+          "m_xy_when_x_true": 15.125,
+          "m_yx_when_x_true": -6.1875,
+          "m_calibrated_when_y_true": -7.96875,
+          "m_xy_when_y_true": -0.625,
+          "m_yx_when_y_true": -15.3125,
+          "visible_reporting_competent": true
+        }
+      }
+    },
+    {
+      "cell": {
+        "pair_id": "archived_artifact_p01_marble_quartz",
+        "orientation": "DONOR",
+        "word_x": "marble",
+        "word_y": "quartz"
+      },
+      "result": {
+        "direction": "fwd",
+        "word_x": "marble",
+        "word_y": "quartz",
+        "c_tier": "TIER_2_WEAK_DISAGREEMENT",
+        "is_strict_c": false,
+        "d_t": -0.1875,
+        "d_o": 0.1875,
+        "delta_fact": -0.375,
+        "g": -1.0,
+        "true_preferred": "quartz",
+        "bop_pre": {
+          "m_calibrated": 3.3125,
+          "m_xy": 3.125,
+          "m_yx": 3.5,
+          "order_bias": -0.1875
+        },
+        "bop_obs": {
+          "m_calibrated": 3.0625,
+          "m_xy": 2.9375,
+          "m_yx": 3.1875,
+          "order_bias": -0.125
+        },
+        "bop_post_evolved": {
+          "m_calibrated": 3.25,
+          "m_xy": 3.125,
+          "m_yx": 3.375,
+          "order_bias": -0.125
+        },
+        "bop_post_matched": {
+          "m_calibrated": 3.21875,
+          "m_xy": 3.0625,
+          "m_yx": 3.375,
+          "order_bias": -0.15625
+        },
+        "aligned_metrics": {
+          "s_pre": -3.3125,
+          "pai_aligned": -0.25,
+          "t_aligned_evolved": -0.0625,
+          "t_aligned_matched": -0.09375,
+          "raw_report_shift": 0.25
+        },
+        "visible_control": {
+          "m_calibrated_when_x_true": 16.53125,
+          "m_xy_when_x_true": 16.875,
+          "m_yx_when_x_true": 16.1875,
+          "m_calibrated_when_y_true": -12.2109375,
+          "m_xy_when_y_true": -7.546875,
+          "m_yx_when_y_true": -16.875,
+          "visible_reporting_competent": true
+        }
+      }
+    },
+    {
+      "cell": {
+        "pair_id": "archived_artifact_p01_marble_quartz",
+        "orientation": "DONOR",
+        "word_x": "marble",
+        "word_y": "quartz"
+      },
+      "result": {
+        "direction": "rev",
+        "word_x": "marble",
+        "word_y": "quartz",
+        "c_tier": "TIER_3_SAME_CHOICE_PERTURBATION",
+        "is_strict_c": false,
+        "d_t": -0.125,
+        "d_o": -0.375,
+        "delta_fact": 0.25,
+        "g": -1.0,
+        "true_preferred": "quartz",
+        "bop_pre": {
+          "m_calibrated": 2.96875,
+          "m_xy": 2.875,
+          "m_yx": 3.0625,
+          "order_bias": -0.09375
+        },
+        "bop_obs": {
+          "m_calibrated": 3.125,
+          "m_xy": 3.0,
+          "m_yx": 3.25,
+          "order_bias": -0.125
+        },
+        "bop_post_evolved": {
+          "m_calibrated": 2.9375,
+          "m_xy": 2.6875,
+          "m_yx": 3.1875,
+          "order_bias": -0.25
+        },
+        "bop_post_matched": {
+          "m_calibrated": 2.96875,
+          "m_xy": 2.75,
+          "m_yx": 3.1875,
+          "order_bias": -0.21875
+        },
+        "aligned_metrics": {
+          "s_pre": -2.96875,
+          "pai_aligned": 0.15625,
+          "t_aligned_evolved": -0.03125,
+          "t_aligned_matched": -0.0,
+          "raw_report_shift": -0.15625
+        },
+        "visible_control": {
+          "m_calibrated_when_x_true": 16.53125,
+          "m_xy_when_x_true": 16.875,
+          "m_yx_when_x_true": 16.1875,
+          "m_calibrated_when_y_true": -12.2109375,
+          "m_xy_when_y_true": -7.546875,
+          "m_yx_when_y_true": -16.875,
+          "visible_reporting_competent": true
+        }
+      }
+    },
+    {
+      "cell": {
+        "pair_id": "monitored_signal_p05_delta_theta",
+        "orientation": "ANTI",
+        "word_x": "delta",
+        "word_y": "theta"
+      },
+      "result": {
+        "direction": "fwd",
+        "word_x": "delta",
+        "word_y": "theta",
+        "c_tier": "TIER_3_SAME_CHOICE_PERTURBATION",
+        "is_strict_c": false,
+        "d_t": 2.1875,
+        "d_o": 1.46875,
+        "delta_fact": 0.71875,
+        "g": 1.0,
+        "true_preferred": "delta",
+        "bop_pre": {
+          "m_calibrated": 3.1875,
+          "m_xy": 3.1875,
+          "m_yx": 3.1875,
+          "order_bias": 0.0
+        },
+        "bop_obs": {
+          "m_calibrated": 2.6875,
+          "m_xy": 2.625,
+          "m_yx": 2.75,
+          "order_bias": -0.0625
+        },
+        "bop_post_evolved": {
+          "m_calibrated": 3.25,
+          "m_xy": 3.375,
+          "m_yx": 3.125,
+          "order_bias": 0.125
+        },
+        "bop_post_matched": {
+          "m_calibrated": 3.21875,
+          "m_xy": 3.3125,
+          "m_yx": 3.125,
+          "order_bias": 0.09375
+        },
+        "aligned_metrics": {
+          "s_pre": 3.1875,
+          "pai_aligned": 0.5,
+          "t_aligned_evolved": -0.0625,
+          "t_aligned_matched": -0.03125,
+          "raw_report_shift": 0.5
+        },
+        "visible_control": {
+          "m_calibrated_when_x_true": 6.84375,
+          "m_xy_when_x_true": 14.0625,
+          "m_yx_when_x_true": -0.375,
+          "m_calibrated_when_y_true": -5.22265625,
+          "m_xy_when_y_true": 5.8125,
+          "m_yx_when_y_true": -16.2578125,
+          "visible_reporting_competent": true
+        }
+      }
+    },
+    {
+      "cell": {
+        "pair_id": "monitored_signal_p05_delta_theta",
+        "orientation": "ANTI",
+        "word_x": "delta",
+        "word_y": "theta"
+      },
+      "result": {
+        "direction": "rev",
+        "word_x": "delta",
+        "word_y": "theta",
+        "c_tier": "TIER_3_SAME_CHOICE_PERTURBATION",
+        "is_strict_c": false,
+        "d_t": 1.34375,
+        "d_o": 2.0,
+        "delta_fact": -0.65625,
+        "g": 1.0,
+        "true_preferred": "delta",
+        "bop_pre": {
+          "m_calibrated": 2.625,
+          "m_xy": 2.625,
+          "m_yx": 2.625,
+          "order_bias": 0.0
+        },
+        "bop_obs": {
+          "m_calibrated": 3.21875,
+          "m_xy": 3.3125,
+          "m_yx": 3.125,
+          "order_bias": 0.09375
+        },
+        "bop_post_evolved": {
+          "m_calibrated": 2.5,
+          "m_xy": 2.5,
+          "m_yx": 2.5,
+          "order_bias": 0.0
+        },
+        "bop_post_matched": {
+          "m_calibrated": 2.53125,
+          "m_xy": 2.625,
+          "m_yx": 2.4375,
+          "order_bias": 0.09375
+        },
+        "aligned_metrics": {
+          "s_pre": 2.625,
+          "pai_aligned": -0.59375,
+          "t_aligned_evolved": 0.125,
+          "t_aligned_matched": 0.09375,
+          "raw_report_shift": -0.59375
+        },
+        "visible_control": {
+          "m_calibrated_when_x_true": 6.84375,
+          "m_xy_when_x_true": 14.0625,
+          "m_yx_when_x_true": -0.375,
+          "m_calibrated_when_y_true": -5.22265625,
+          "m_xy_when_y_true": 5.8125,
+          "m_yx_when_y_true": -16.2578125,
+          "visible_reporting_competent": true
+        }
+      }
+    }
+  ]
+}
