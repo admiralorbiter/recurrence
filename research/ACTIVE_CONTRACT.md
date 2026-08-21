@@ -1,24 +1,26 @@
 ---
-state: ESCALATED
-active_contract_id: CONTRACT-E-Q17A
-contract_path: research/contracts/CONTRACT-E-Q17A.md
-execution_base_sha: add4234f2f00f798e7d4470db2f95d084c4bd936
+state: READY
+active_contract_id: CONTRACT-E-Q17A-R1
+contract_path: research/contracts/CONTRACT-E-Q17A-R1.md
+execution_base_sha: d50f6c36a097ad6305c2ee07f4d1a1119473cfc6
 last_checkpoint: research/checkpoints/MIGRATION_CHECKPOINT.md
 last_promotion: null
 ---
 
 # Active Research Contract Pointer
 
-**Current Operational State**: `ESCALATED`
+**Current Operational State**: `READY`
 
-## Escalation Reason: Epistemic Review Required (Human Decision Gate)
+This document provides the machine-discoverable operational entry point for autonomous research agents and Mother Base.
 
-Autonomous experimental execution of `CONTRACT-E-Q17A` is **HALTED**.
+## Active Contract Details
+- **Active Contract ID**: `CONTRACT-E-Q17A-R1`
+- **Contract Path**: [`research/contracts/CONTRACT-E-Q17A-R1.md`](contracts/CONTRACT-E-Q17A-R1.md)
+- **Execution Base Commit (`execution_base_sha`)**: `d50f6c36a097ad6305c2ee07f4d1a1119473cfc6`
+- **Last Checkpoint**: [`research/checkpoints/MIGRATION_CHECKPOINT.md`](checkpoints/MIGRATION_CHECKPOINT.md)
+- **Governance**: Design Review `APPROVED`, Authorized by `human`.
 
-A deep epistemic review of `CONTRACT-E-Q17A` identified foundational specification defects prior to execution:
-1. **Control Definition Contradiction**: The contract incorrectly referenced $(A \to D)$ as an independent control rather than preserving $D$ as the causally independent comparator ($E_{AD} \approx 0$).
-2. **Underspecified Endogenous Composition Boundary**: Insufficient architectural constraints to prevent disguised hardcoded matrix multiplication/path enumeration shortcuts.
-3. **Incomplete Falsification & Statistical Criteria**: Unspecified statistical test for path-breaks and inappropriate blanket transposition nulls across asymmetric scenarios.
-4. **Scope & Claim Boundary Overreach**: Broadened scope without explicit exclusion of causal-history recurrent memory migration.
-
-A revised proposal has been drafted for human review at [`research/contracts/CONTRACT-E-Q17A-R1.md`](contracts/CONTRACT-E-Q17A-R1.md) (`status: DRAFT`).
+## Protocol for Agents
+1. When starting work, parse the YAML frontmatter above.
+2. If `state: READY` or `state: RUNNING`, inspect the target contract at `contract_path` and optimize implementation strictly against its frozen constraints.
+3. Prohibited from modifying hypotheses, estimands, metrics, or claim ceilings after freezing.
