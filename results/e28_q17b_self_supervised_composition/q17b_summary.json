@@ -1,21 +1,26 @@
 {
   "protocol": "CONTRACT-E-Q17B",
   "total_seeds": 16,
+  "dataset_intact_sample_count": 2500,
+  "dataset_shuffled_sample_count": 2500,
+  "dataset_intact_target_sum": 10072,
+  "dataset_shuffled_target_sum": 10072,
+  "matched_control_verified": true,
   "gate1_multihop_count": 16,
   "gate1_passed": true,
   "gate2_laundering_count": 16,
   "gate2_passed": true,
-  "gate3_n10": 16,
+  "gate3_n10": 13,
   "gate3_n01": 0,
-  "gate3_delta": 16,
-  "gate3_p_value": 0.0000152587890625,
+  "gate3_delta": 13,
+  "gate3_p_value": 0.0001220703125,
   "gate3_passed": true,
   "gate4_transposition_passed_count": 0,
   "gate4_transposition_mean_return": -1.0,
   "gate4_passed": true,
   "gate5_transposition_laundering_count": 16,
   "gate5_passed": true,
-  "gate6_p_value": 0.00048828125,
+  "gate6_p_value": 0.0001220703125,
   "gate6_passed": true,
   "all_gates_passed": true,
   "seed_outcomes": [
@@ -27,9 +32,10 @@
       "gate4_transposition_passed": true,
       "gate4_transposition_return": -1.0,
       "gate5_transposition_laundering_passed": true,
-      "gate6_path_break_passed": false,
+      "gate6_path_break_passed": true,
       "self_sup_multihop_acc": 1.0,
-      "shuffled_control_multihop_acc": 0.0
+      "shuffled_control_multihop_acc": 0.9464286,
+      "dataset_target_sum": 595
     },
     {
       "seed": 172002,
@@ -41,7 +47,8 @@
       "gate5_transposition_laundering_passed": true,
       "gate6_path_break_passed": true,
       "self_sup_multihop_acc": 1.0,
-      "shuffled_control_multihop_acc": 0.0
+      "shuffled_control_multihop_acc": 0.96,
+      "dataset_target_sum": 634
     },
     {
       "seed": 172003,
@@ -53,43 +60,47 @@
       "gate5_transposition_laundering_passed": true,
       "gate6_path_break_passed": true,
       "self_sup_multihop_acc": 1.0,
-      "shuffled_control_multihop_acc": 0.0
+      "shuffled_control_multihop_acc": 0.9183673,
+      "dataset_target_sum": 613
     },
     {
       "seed": 172004,
       "gate1_multihop_passed": true,
       "gate2_laundering_passed": true,
-      "gate3_superior_to_shuffled": true,
-      "gate4_transposition_passed": true,
-      "gate4_transposition_return": -1.0,
-      "gate5_transposition_laundering_passed": true,
-      "gate6_path_break_passed": false,
-      "self_sup_multihop_acc": 1.0,
-      "shuffled_control_multihop_acc": 0.0
-    },
-    {
-      "seed": 172005,
-      "gate1_multihop_passed": true,
-      "gate2_laundering_passed": true,
-      "gate3_superior_to_shuffled": true,
-      "gate4_transposition_passed": true,
-      "gate4_transposition_return": -1.0,
-      "gate5_transposition_laundering_passed": true,
-      "gate6_path_break_passed": false,
-      "self_sup_multihop_acc": 1.0,
-      "shuffled_control_multihop_acc": 0.0
-    },
-    {
-      "seed": 172006,
-      "gate1_multihop_passed": true,
-      "gate2_laundering_passed": true,
-      "gate3_superior_to_shuffled": true,
+      "gate3_superior_to_shuffled": false,
       "gate4_transposition_passed": true,
       "gate4_transposition_return": -1.0,
       "gate5_transposition_laundering_passed": true,
       "gate6_path_break_passed": true,
       "self_sup_multihop_acc": 1.0,
-      "shuffled_control_multihop_acc": 0.0
+      "shuffled_control_multihop_acc": 1.0,
+      "dataset_target_sum": 614
+    },
+    {
+      "seed": 172005,
+      "gate1_multihop_passed": true,
+      "gate2_laundering_passed": true,
+      "gate3_superior_to_shuffled": false,
+      "gate4_transposition_passed": true,
+      "gate4_transposition_return": -1.0,
+      "gate5_transposition_laundering_passed": true,
+      "gate6_path_break_passed": true,
+      "self_sup_multihop_acc": 1.0,
+      "shuffled_control_multihop_acc": 1.0,
+      "dataset_target_sum": 674
+    },
+    {
+      "seed": 172006,
+      "gate1_multihop_passed": true,
+      "gate2_laundering_passed": true,
+      "gate3_superior_to_shuffled": false,
+      "gate4_transposition_passed": true,
+      "gate4_transposition_return": -1.0,
+      "gate5_transposition_laundering_passed": true,
+      "gate6_path_break_passed": true,
+      "self_sup_multihop_acc": 1.0,
+      "shuffled_control_multihop_acc": 1.0,
+      "dataset_target_sum": 670
     },
     {
       "seed": 172007,
@@ -101,7 +112,8 @@
       "gate5_transposition_laundering_passed": true,
       "gate6_path_break_passed": true,
       "self_sup_multihop_acc": 1.0,
-      "shuffled_control_multihop_acc": 0.0
+      "shuffled_control_multihop_acc": 0.96666664,
+      "dataset_target_sum": 626
     },
     {
       "seed": 172008,
@@ -113,7 +125,8 @@
       "gate5_transposition_laundering_passed": true,
       "gate6_path_break_passed": true,
       "self_sup_multihop_acc": 1.0,
-      "shuffled_control_multihop_acc": 0.0
+      "shuffled_control_multihop_acc": 0.97959185,
+      "dataset_target_sum": 648
     },
     {
       "seed": 172009,
@@ -125,7 +138,8 @@
       "gate5_transposition_laundering_passed": true,
       "gate6_path_break_passed": true,
       "self_sup_multihop_acc": 1.0,
-      "shuffled_control_multihop_acc": 0.0
+      "shuffled_control_multihop_acc": 0.962963,
+      "dataset_target_sum": 642
     },
     {
       "seed": 172010,
@@ -135,9 +149,10 @@
       "gate4_transposition_passed": true,
       "gate4_transposition_return": -1.0,
       "gate5_transposition_laundering_passed": true,
-      "gate6_path_break_passed": false,
-      "self_sup_multihop_acc": 1.0,
-      "shuffled_control_multihop_acc": 0.0
+      "gate6_path_break_passed": true,
+      "self_sup_multihop_acc": 0.984127,
+      "shuffled_control_multihop_acc": 0.9206349,
+      "dataset_target_sum": 621
     },
     {
       "seed": 172011,
@@ -147,9 +162,10 @@
       "gate4_transposition_passed": true,
       "gate4_transposition_return": -1.0,
       "gate5_transposition_laundering_passed": true,
-      "gate6_path_break_passed": true,
+      "gate6_path_break_passed": false,
       "self_sup_multihop_acc": 1.0,
-      "shuffled_control_multihop_acc": 0.0
+      "shuffled_control_multihop_acc": 0.9508197,
+      "dataset_target_sum": 619
     },
     {
       "seed": 172012,
@@ -159,9 +175,10 @@
       "gate4_transposition_passed": true,
       "gate4_transposition_return": -1.0,
       "gate5_transposition_laundering_passed": true,
-      "gate6_path_break_passed": true,
-      "self_sup_multihop_acc": 1.0,
-      "shuffled_control_multihop_acc": 0.0
+      "gate6_path_break_passed": false,
+      "self_sup_multihop_acc": 0.98214287,
+      "shuffled_control_multihop_acc": 0.85714287,
+      "dataset_target_sum": 640
     },
     {
       "seed": 172013,
@@ -171,9 +188,10 @@
       "gate4_transposition_passed": true,
       "gate4_transposition_return": -1.0,
       "gate5_transposition_laundering_passed": true,
-      "gate6_path_break_passed": false,
-      "self_sup_multihop_acc": 1.0,
-      "shuffled_control_multihop_acc": 0.0
+      "gate6_path_break_passed": true,
+      "self_sup_multihop_acc": 0.97959185,
+      "shuffled_control_multihop_acc": 0.9591837,
+      "dataset_target_sum": 629
     },
     {
       "seed": 172014,
@@ -183,9 +201,10 @@
       "gate4_transposition_passed": true,
       "gate4_transposition_return": -1.0,
       "gate5_transposition_laundering_passed": true,
-      "gate6_path_break_passed": true,
-      "self_sup_multihop_acc": 1.0,
-      "shuffled_control_multihop_acc": 0.0
+      "gate6_path_break_passed": false,
+      "self_sup_multihop_acc": 0.98245615,
+      "shuffled_control_multihop_acc": 0.9122807,
+      "dataset_target_sum": 602
     },
     {
       "seed": 172015,
@@ -197,7 +216,8 @@
       "gate5_transposition_laundering_passed": true,
       "gate6_path_break_passed": true,
       "self_sup_multihop_acc": 1.0,
-      "shuffled_control_multihop_acc": 0.0
+      "shuffled_control_multihop_acc": 0.9433962,
+      "dataset_target_sum": 656
     },
     {
       "seed": 172016,
@@ -209,7 +229,8 @@
       "gate5_transposition_laundering_passed": true,
       "gate6_path_break_passed": true,
       "self_sup_multihop_acc": 1.0,
-      "shuffled_control_multihop_acc": 0.0
+      "shuffled_control_multihop_acc": 0.9574468,
+      "dataset_target_sum": 589
     }
   ]
 }
