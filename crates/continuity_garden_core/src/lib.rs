@@ -16,5 +16,5 @@ pub use oracle::{ObservationBeliefOracle, PrivilegedGroundTruthOracle, evaluate_
 pub use organism::DualLocusOrganism;
 pub use plastic_trainer::{evaluate_q10c_checkpoint, train_plastic_organism, RecurrenceMode, Q10cCheckpointMetrics};
 pub use provenance_kernel::{ProvenanceEventTape, ProvenanceGardenEnv, ProvenanceGroundTruth, ProvenanceObservation, SourceType};
-pub use provenance_oracle::ProvenanceOracle;
+pub use provenance_oracle::IdealLearnedSourceOracle;
 pub use trainer::{evaluate_checkpoint_rust, evaluate_motor_competence_rust, CheckpointMetrics, CHECKPOINT_EPISODES};

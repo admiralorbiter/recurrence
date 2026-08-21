@@ -1,13 +1,13 @@
-//! Gate E Bayesian Provenance Oracle: Privileged DAG vs Observational-Belief vs Source-Blind Baselines.
+//! Gate E Ideal Learned-Source Oracle: Evaluates optimal Bayesian decision rules for ideal observers with learned source statistics.
 
 use crate::provenance_kernel::{ProvenanceEventTape, ProvenanceGardenEnv, SourceType};
 
 #[derive(Debug, Clone)]
-pub struct ProvenanceOracle;
+pub struct IdealLearnedSourceOracle;
 
-impl ProvenanceOracle {
-    /// Observational Belief Oracle: Computes exact posterior P(z=1 | O_1..t) using only observable channels and learned source statistics.
-    pub fn compute_observational_bayesian_posterior(tape: &ProvenanceEventTape) -> f32 {
+impl IdealLearnedSourceOracle {
+    /// Ideal Learned-Source Oracle: Computes exact posterior P(z=1 | O_1..t) given learned source reliability and dependency structure.
+    pub fn compute_ideal_bayesian_posterior(tape: &ProvenanceEventTape) -> f32 {
         let mut total_log_odds = 0.0f32;
         let mut processed_dependency_groups = Vec::new();
 
@@ -64,7 +64,7 @@ impl ProvenanceOracle {
             // 2. Observational Belief Oracle (Uses Bayesian posterior derived from observations)
             let (mut _o, _) = env.reset(Some(tape.clone()));
             let mut ep_ret_obs = 0.0;
-            let p_bayes = Self::compute_observational_bayesian_posterior(&tape);
+            let p_bayes = Self::compute_ideal_bayesian_posterior(&tape);
             let opt_action = if p_bayes >= 0.50 { 1 } else { 0 };
             done = false;
             while !done {

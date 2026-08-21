@@ -1,0 +1,178 @@
+[
+  {
+    "seed": 101,
+    "r2_dependency_structure": 0.9879793,
+    "r2_bayesian_confidence": -0.15289927,
+    "independent_commit_rate": 0.46478873,
+    "copied_verify_rate": 1.0,
+    "dependency_discounting_index": 0.46478873,
+    "mean_return": 0.8250011,
+    "causal_dependency_drop": 0.0,
+    "is_promoted": false
+  },
+  {
+    "seed": 102,
+    "r2_dependency_structure": 0.9944544,
+    "r2_bayesian_confidence": -0.4221455,
+    "independent_commit_rate": 0.37878788,
+    "copied_verify_rate": 1.0,
+    "dependency_discounting_index": 0.37878788,
+    "mean_return": 0.91500163,
+    "causal_dependency_drop": 0.37878788,
+    "is_promoted": true
+  },
+  {
+    "seed": 103,
+    "r2_dependency_structure": 0.9898822,
+    "r2_bayesian_confidence": -0.19498086,
+    "independent_commit_rate": 0.52307695,
+    "copied_verify_rate": 1.0,
+    "dependency_discounting_index": 0.52307695,
+    "mean_return": -0.1130003,
+    "causal_dependency_drop": 0.0,
+    "is_promoted": false
+  },
+  {
+    "seed": 104,
+    "r2_dependency_structure": 0.98943,
+    "r2_bayesian_confidence": -0.48544693,
+    "independent_commit_rate": 0.0,
+    "copied_verify_rate": 1.0,
+    "dependency_discounting_index": 0.0,
+    "mean_return": 0.8000016,
+    "causal_dependency_drop": 0.0,
+    "is_promoted": false
+  },
+  {
+    "seed": 105,
+    "r2_dependency_structure": 0.9948693,
+    "r2_bayesian_confidence": -0.7330066,
+    "independent_commit_rate": 0.0,
+    "copied_verify_rate": 1.0,
+    "dependency_discounting_index": 0.0,
+    "mean_return": 0.8000016,
+    "causal_dependency_drop": 0.0,
+    "is_promoted": false
+  },
+  {
+    "seed": 106,
+    "r2_dependency_structure": 0.99062383,
+    "r2_bayesian_confidence": -0.24713576,
+    "independent_commit_rate": 0.0,
+    "copied_verify_rate": 1.0,
+    "dependency_discounting_index": 0.0,
+    "mean_return": 0.8000016,
+    "causal_dependency_drop": 0.0,
+    "is_promoted": false
+  },
+  {
+    "seed": 107,
+    "r2_dependency_structure": 0.9908579,
+    "r2_bayesian_confidence": -0.5154178,
+    "independent_commit_rate": 0.0,
+    "copied_verify_rate": 1.0,
+    "dependency_discounting_index": 0.0,
+    "mean_return": 0.8000016,
+    "causal_dependency_drop": 0.0,
+    "is_promoted": false
+  },
+  {
+    "seed": 108,
+    "r2_dependency_structure": 0.99179274,
+    "r2_bayesian_confidence": -0.12553453,
+    "independent_commit_rate": 0.0,
+    "copied_verify_rate": 1.0,
+    "dependency_discounting_index": 0.0,
+    "mean_return": 0.8000016,
+    "causal_dependency_drop": 0.0,
+    "is_promoted": false
+  },
+  {
+    "seed": 109,
+    "r2_dependency_structure": 0.9914833,
+    "r2_bayesian_confidence": -0.35298216,
+    "independent_commit_rate": 0.0,
+    "copied_verify_rate": 1.0,
+    "dependency_discounting_index": 0.0,
+    "mean_return": 0.8000016,
+    "causal_dependency_drop": 0.0,
+    "is_promoted": false
+  },
+  {
+    "seed": 110,
+    "r2_dependency_structure": 0.99266684,
+    "r2_bayesian_confidence": -0.20989537,
+    "independent_commit_rate": 0.0,
+    "copied_verify_rate": 1.0,
+    "dependency_discounting_index": 0.0,
+    "mean_return": 0.8000016,
+    "causal_dependency_drop": 0.0,
+    "is_promoted": false
+  },
+  {
+    "seed": 111,
+    "r2_dependency_structure": 0.9915524,
+    "r2_bayesian_confidence": -0.25600314,
+    "independent_commit_rate": 1.0,
+    "copied_verify_rate": 1.0,
+    "dependency_discounting_index": 1.0,
+    "mean_return": 0.894001,
+    "causal_dependency_drop": 1.0,
+    "is_promoted": true
+  },
+  {
+    "seed": 112,
+    "r2_dependency_structure": 0.99099666,
+    "r2_bayesian_confidence": -0.100051045,
+    "independent_commit_rate": 0.0,
+    "copied_verify_rate": 1.0,
+    "dependency_discounting_index": 0.0,
+    "mean_return": 0.8000016,
+    "causal_dependency_drop": 0.0,
+    "is_promoted": false
+  },
+  {
+    "seed": 113,
+    "r2_dependency_structure": 0.9919495,
+    "r2_bayesian_confidence": -0.23074925,
+    "independent_commit_rate": 0.0,
+    "copied_verify_rate": 1.0,
+    "dependency_discounting_index": 0.0,
+    "mean_return": 0.8000016,
+    "causal_dependency_drop": 0.0,
+    "is_promoted": false
+  },
+  {
+    "seed": 114,
+    "r2_dependency_structure": 0.9932415,
+    "r2_bayesian_confidence": -0.36722386,
+    "independent_commit_rate": 0.0,
+    "copied_verify_rate": 1.0,
+    "dependency_discounting_index": 0.0,
+    "mean_return": 0.8000016,
+    "causal_dependency_drop": 0.0,
+    "is_promoted": false
+  },
+  {
+    "seed": 115,
+    "r2_dependency_structure": 0.9929986,
+    "r2_bayesian_confidence": -0.6504164,
+    "independent_commit_rate": 0.6,
+    "copied_verify_rate": 1.0,
+    "dependency_discounting_index": 0.6,
+    "mean_return": -0.007000033,
+    "causal_dependency_drop": 0.6,
+    "is_promoted": true
+  },
+  {
+    "seed": 116,
+    "r2_dependency_structure": 0.991376,
+    "r2_bayesian_confidence": -0.3345964,
+    "independent_commit_rate": 0.6617647,
+    "copied_verify_rate": 1.0,
+    "dependency_discounting_index": 0.6617647,
+    "mean_return": 0.103999704,
+    "causal_dependency_drop": 0.6617647,
+    "is_promoted": true
+  }
+]

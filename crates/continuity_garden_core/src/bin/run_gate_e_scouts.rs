@@ -303,7 +303,7 @@ fn train_and_eval_scout_e0b(
     let mut env = ProvenanceGardenEnv::new(seed, config_name);
 
     // Level 0: Observational Economy Calibration
-    let (ret_priv, ret_obs, ret_blind, econ_valid) = ProvenanceOracle::calibrate_scout_economy(config_name, 100, seed);
+    let (ret_priv, ret_obs, ret_blind, econ_valid) = IdealLearnedSourceOracle::calibrate_scout_economy(config_name, 100, seed);
 
     // Train utility-derived readout on observational Bayesian optimal action a*(h)
     let mut m_pol = vec![0.0; 2 * COMBINED_DIM];
@@ -312,7 +312,7 @@ fn train_and_eval_scout_e0b(
 
     for ep in 1..=num_train_episodes {
         let tape = env.generate_tape_for_scout(config_name, seed + ep as u64 * 13);
-        let p_bayes = ProvenanceOracle::compute_observational_bayesian_posterior(&tape);
+        let p_bayes = IdealLearnedSourceOracle::compute_ideal_bayesian_posterior(&tape);
         let opt_action = if p_bayes >= 0.50 { 1 } else { 0 };
 
         let (mut obs, _) = env.reset(Some(tape.clone()));
@@ -376,7 +376,7 @@ fn train_and_eval_scout_e0b(
 
     for ep in 0..100 {
         let tape = env.generate_tape_for_scout(config_name, seed + 50000 + ep as u64 * 13);
-        let p_bayes = ProvenanceOracle::compute_observational_bayesian_posterior(&tape);
+        let p_bayes = IdealLearnedSourceOracle::compute_ideal_bayesian_posterior(&tape);
         let (mut obs, _) = env.reset(Some(tape.clone()));
         let mut h: Option<Vec<f32>> = None;
         let mut done = false;
