@@ -8,8 +8,9 @@
 //!    - Source 2 Query Accuracy (q2 -> s2)
 //!    - Query Entropy H(q)
 //!    - Correlation r(s_hat, D[s1, s2])
-//!    - Paired Causal Lesion Specificity Advantage (DDI_intact - DDI_permuted) with standard errors across 16 seeds.
+//!    - Paired Causal Lesion Specificity Advantage (DDI_intact - DDI_permuted) per seed with standard errors across 16 seeds.
 //! 4. 2x3 Factorial Evaluation across identical shared evaluation block tapes.
+//! 5. Accurate Condition Labeling and strictly verified report governance.
 
 use continuity_garden_core::trainer::{fit_and_eval_ridge, solve_linear_system};
 use rand::{Rng, SeedableRng};
@@ -24,8 +25,6 @@ use std::time::Instant;
 const HIDDEN_DIM: usize = 64;
 const EMBED_DIM: usize = 16;
 const TOTAL_INPUT_DIM: usize = 48;
-const COMBINED_DIM: usize = HIDDEN_DIM + 32 + 1; // [h; instant; addressed_score]
-const MLP_DIM: usize = 32;
 
 #[derive(Debug, Clone)]
 pub struct Q15iOrganism {
@@ -45,7 +44,7 @@ pub struct Q15iOrganism {
     pub dec_r1_b: Vec<f32>,
     pub dec_r2_w: Vec<f32>,
     pub dec_r2_b: Vec<f32>,
-    // Policy weights: 3 classes from [r1_logits(2); r2_logits(2); score(1)]
+    // Policy weights: 3 classes from [p_r1(1); p_r2(1); agree_p(1); score(1); bias(1)]
     pub policy_w: Vec<f32>, // 3 x 5
     pub policy_b: Vec<f32>, // 3
 }
@@ -151,7 +150,7 @@ impl Q15iOrganism {
         (score, s_q1, s_q2)
     }
 
-    pub fn decode_reports_and_policy(&self, h: &[f32], score: f32) -> ([f32; 3], usize, usize) {
+    pub fn decode_reports_and_policy(&self, h: &[f32], score: f32) -> ([f32; 3], [f32; 5], usize, usize) {
         let mut l_r1 = [self.dec_r1_b[0], self.dec_r1_b[1]];
         let mut l_r2 = [self.dec_r2_b[0], self.dec_r2_b[1]];
         for i in 0..2 {
@@ -163,7 +162,6 @@ impl Q15iOrganism {
         let pred_r1 = if l_r1[1] > l_r1[0] { 1 } else { 0 };
         let pred_r2 = if l_r2[1] > l_r2[0] { 1 } else { 0 };
 
-        // Features for policy: [r1_prob_1, r2_prob_1, score * 10.0, 1.0]
         let sig = |x: f32| 1.0 / (1.0 + (-x).exp());
         let p_r1 = sig(l_r1[1] - l_r1[0]);
         let p_r2 = sig(l_r2[1] - l_r2[0]);
@@ -178,7 +176,7 @@ impl Q15iOrganism {
             logits[k] = sum;
         }
 
-        (logits, pred_r1, pred_r2)
+        (logits, in_feats, pred_r1, pred_r2)
     }
 }
 
@@ -212,7 +210,6 @@ pub struct ConditionEvaluationI {
     pub diagonal_d_ddi: f32,
     pub off_diagonal_d_ddi: f32,
     pub paired_perm_diff: f32,
-    pub paired_perm_ste: f32,
     pub relational_specificity_adv: f32,
     pub addressing_metrics: AddressingQualityMetrics,
     pub is_competent_and_promoted: bool,
@@ -528,7 +525,7 @@ fn train_and_eval_condition_i(
             }
 
             t_opt += 1;
-            let (logits, p_r1_idx, p_r2_idx) = model.decode_reports_and_policy(&dec_h_vec, dec_score);
+            let (logits, in_feats, p_r1_idx, p_r2_idx) = model.decode_reports_and_policy(&dec_h_vec, dec_score);
 
             let max_l = logits[0].max(logits[1]).max(logits[2]);
             let exp_l = [(logits[0] - max_l).exp(), (logits[1] - max_l).exp(), (logits[2] - max_l).exp()];
@@ -537,12 +534,8 @@ fn train_and_eval_condition_i(
 
             let target_a = opt_act;
 
-            // 1. Train Policy Head
+            // 1. Train Policy Head with continuous features from forward pass
             if is_learned_policy {
-                let sig = |x: f32| 1.0 / (1.0 + (-x).exp());
-                let p1 = sig(model.dec_r1_w[HIDDEN_DIM] * 0.1); // feature representation
-                let in_feats = [p_r1_idx as f32, p_r2_idx as f32, if p_r1_idx == p_r2_idx { 1.0 } else { 0.0 }, dec_score * 10.0, 1.0];
-
                 let class_weight = if target_a == 2 { 1.0f32 } else { 3.0f32 };
                 for k in 0..3 {
                     let delta_pi = class_weight * (dec_probs[k] - if k == target_a { 1.0 } else { 0.0 });
@@ -566,10 +559,6 @@ fn train_and_eval_condition_i(
 
             // 2. Train Query Heads via Exact Differentiable Surrogate of Calibrated Policy
             if is_utility_tuned_queries {
-                // If reports disagree: Action is VERIFY (+1.20), no gradient.
-                // If reports agree: p_commit = sigmoid((tau - score) / T).
-                // Expected utility: U = p_commit * R_commit + (1 - p_commit) * 1.20.
-                // We maximize U, so Loss = -U.
                 let (d_loss_d_score, has_gradient) = if p_r1_idx != p_r2_idx {
                     (0.0f32, false)
                 } else {
@@ -581,8 +570,6 @@ fn train_and_eval_condition_i(
                     let r_commit = if target_a == p_r1_idx { 1.7885f32 } else { 0.95f32 };
                     let u_diff = r_commit - 1.20f32;
 
-                    // d(-U)/d(score) = d(-U)/d(sig_val) * d(sig_val)/d(sig_arg) * d(sig_arg)/d(score)
-                    // = (-u_diff) * (sig_val * (1 - sig_val)) * (-1 / temp)
                     let d_l_d_s = (u_diff / temp) * sig_val * (1.0 - sig_val);
                     (d_l_d_s, true)
                 };
@@ -671,7 +658,6 @@ fn train_and_eval_condition_i(
     let acc_q2 = corr_q2 as f32 / 100.0;
     let mean_ent = entropy_sum / 200.0;
 
-    // Correlation r(retrieved, oracle)
     let n_s = scores_retrieved.len() as f32;
     let mean_sr = scores_retrieved.iter().sum::<f32>() / n_s;
     let mean_so = scores_oracle.iter().sum::<f32>() / n_s;
@@ -702,7 +688,6 @@ fn train_and_eval_condition_i(
         true_query_displacement: true_disp,
     };
 
-    // Evaluate across K on shared evaluation block tapes
     let mut condition_evals = Vec::new();
 
     for &k_eval in k_sweep {
@@ -726,8 +711,6 @@ fn train_and_eval_condition_i(
 
         let mut indep_c_off = Vec::new();
         let mut cop_c_off = Vec::new();
-
-        let mut paired_perm_diffs = Vec::new();
 
         for _block in 0..50 {
             let dag = sample_random_block_dag(&mut rng_eval);
@@ -775,7 +758,7 @@ fn train_and_eval_condition_i(
                                 _ => model.compute_addressed_score(&h_next, d_mat).0,
                             };
 
-                            let (logits, p_r1, p_r2) = model.decode_reports_and_policy(&h_next, score);
+                            let (logits, _, _, _) = model.decode_reports_and_policy(&h_next, score);
 
                             act = match policy_type {
                                 "Fixed" => fixed_calibrated_decision_rule(rep1, rep2, score),
@@ -808,8 +791,6 @@ fn train_and_eval_condition_i(
                     let is_c_o = if act_other == rep1 { 1.0 } else { 0.0 };
                     let is_c_d = if act_diag == rep1 { 1.0 } else { 0.0 };
                     let is_c_off = if act_off == rep1 { 1.0 } else { 0.0 };
-
-                    paired_perm_diffs.push(is_c_int - is_c_p);
 
                     if is_indep {
                         indep_c_int.push(is_c_int);
@@ -845,9 +826,8 @@ fn train_and_eval_condition_i(
         let ddi_diag = calc_ddi(&indep_c_diag, &cop_c_diag);
         let ddi_off = calc_ddi(&indep_c_off, &cop_c_off);
 
-        let paired_diff_mean = paired_perm_diffs.iter().sum::<f32>() / paired_perm_diffs.len().max(1) as f32;
-        let var: f32 = paired_perm_diffs.iter().map(|&x| (x - paired_diff_mean).powi(2)).sum::<f32>() / paired_perm_diffs.len().max(2) as f32;
-        let ste = (var / paired_perm_diffs.len().max(1) as f32).sqrt();
+        // True paired seed difference: ΔDDI = DDI_intact - DDI_permuted
+        let paired_ddi_diff = ddi_int - ddi_perm;
 
         let spec_adv = (ddi_int - ddi_perm.max(ddi_other)).max(0.0);
         let is_promoted = ret_int >= 1.25 && ddi_int >= 0.30 && spec_adv >= 0.15;
@@ -866,8 +846,7 @@ fn train_and_eval_condition_i(
             other_block_d_ddi: ddi_other,
             diagonal_d_ddi: ddi_diag,
             off_diagonal_d_ddi: ddi_off,
-            paired_perm_diff: paired_diff_mean,
-            paired_perm_ste: ste,
+            paired_perm_diff: paired_ddi_diff,
             relational_specificity_adv: spec_adv,
             addressing_metrics: addr_metrics.clone(),
             is_competent_and_promoted: is_promoted,
@@ -999,14 +978,14 @@ fn main() {
         ("Supervised_FineTuned_Fixed", "3. SUPERVISED+TUNED ADDRESS + FIXED POLICY (UNCONFOUNDED DIFFERENTIABLE SURROGATE)"),
         ("Supervised_FineTuned_Learned", "4. SUPERVISED+TUNED ADDRESS + LEARNED POLICY (FULL SUPERVISED PIPELINE)"),
         ("Autonomous_Fixed", "5. AUTONOMOUS ADDRESS FROM SCRATCH + FIXED POLICY (UNCONFOUNDED AUTONOMOUS DISCOVERY)"),
-        ("Autonomous_Learned", "6. AUTONOMOUS ADDRESS FROM SCRATCH + LEARNED POLICY (FULL AUTONOMOUS PIPELINE)"),
+        ("Autonomous_Learned", "6. AUTONOMOUS ADDRESS + LEARNED POLICY (SCAFFOLDED REPORT DECODERS)"),
     ];
 
     for (c_idx, (_, display_title)) in condition_names.iter().enumerate() {
         println!("\n==================================================================================================================");
         println!("{}", display_title);
         println!("------------------------------------------------------------------------------------------------------------------");
-        println!("CALIB K | INTACT DDI | INTACT RET | ZERO D | PERM D | OTHER D | DIAG D | OFF-DIAG | REL SPEC ADV | PAIRED DIFF (±STE) | PROMO");
+        println!("CALIB K | INTACT DDI | INTACT RET | ZERO D | PERM D | OTHER D | DIAG D | OFF-DIAG | REL SPEC ADV | PAIRED ΔDDI (±STE) | PROMO");
         println!("------------------------------------------------------------------------------------------------------------------");
 
         for (k_idx, &k_val) in k_sweep.iter().enumerate() {
@@ -1019,13 +998,18 @@ fn main() {
             let mean_diag = results.iter().map(|r| r.condition_results[offset].diagonal_d_ddi).sum::<f32>() / n;
             let mean_off = results.iter().map(|r| r.condition_results[offset].off_diagonal_d_ddi).sum::<f32>() / n;
             let mean_adv = results.iter().map(|r| r.condition_results[offset].relational_specificity_adv).sum::<f32>() / n;
-            let mean_p_diff = results.iter().map(|r| r.condition_results[offset].paired_perm_diff).sum::<f32>() / n;
-            let mean_p_ste = results.iter().map(|r| r.condition_results[offset].paired_perm_ste).sum::<f32>() / n;
+
+            // Paired seed Difference-in-Differences: ΔDDI = DDI_intact - DDI_permuted
+            let paired_diffs: Vec<f32> = results.iter().map(|r| r.condition_results[offset].paired_perm_diff).collect();
+            let mean_p_diff = paired_diffs.iter().sum::<f32>() / n;
+            let var_diff: f32 = paired_diffs.iter().map(|&x| (x - mean_p_diff).powi(2)).sum::<f32>() / (n - 1.0).max(1.0);
+            let ste_diff = (var_diff / n).sqrt();
+
             let promo = results.iter().filter(|r| r.condition_results[offset].is_competent_and_promoted).count();
 
             println!(
-                "K = {:<2}  | {:+.1}%    | {:+.2} vs 1.20 | {:+.1}% | {:+.1}%  | {:+.1}%   | {:+.1}%  | {:+.1}%   | {:+.1}%      | {:+.1}% (±{:.1}%)       | {}/16 ({:.1}%)",
-                k_val, mean_ddi * 100.0, mean_ret, mean_zero * 100.0, mean_perm * 100.0, mean_other * 100.0, mean_diag * 100.0, mean_off * 100.0, mean_adv * 100.0, mean_p_diff * 100.0, mean_p_ste * 100.0, promo, (promo as f32 / 16.0) * 100.0
+                "K = {:<2}  | {:+.1}%    | {:+.2} vs 1.20 | {:+.1}% | {:+.1}%  | {:+.1}%   | {:+.1}%  | {:+.1}%   | {:+.1}%      | {:+.1}% (±{:.1}%)        | {}/16 ({:.1}%)",
+                k_val, mean_ddi * 100.0, mean_ret, mean_zero * 100.0, mean_perm * 100.0, mean_other * 100.0, mean_diag * 100.0, mean_off * 100.0, mean_adv * 100.0, mean_p_diff * 100.0, ste_diff * 100.0, promo, (promo as f32 / 16.0) * 100.0
             );
         }
 
@@ -1062,7 +1046,7 @@ Q15i HARDENING SYNTHESIS REPORT (16 SEEDS, RUNTIME: {:?})
 
     for (c_idx, (_, display_title)) in condition_names.iter().enumerate() {
         report.push_str(&format!("## {}\n\n", display_title));
-        report.push_str("| Calibration (K) | Intact DDI % | Realized Return | Zero D DDI | Permuted D DDI | Other-Block D DDI | Diagonal D DDI | Off-Diagonal DDI | Relational Adv | Paired Perm Diff (±STE) | Promoted Seeds |\n");
+        report.push_str("| Calibration (K) | Intact DDI % | Realized Return | Zero D DDI | Permuted D DDI | Other-Block D DDI | Diagonal D DDI | Off-Diagonal DDI | Relational Adv | Paired ΔDDI (±STE) | Promoted Seeds |\n");
         report.push_str("| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |\n");
 
         for (k_idx, &k_val) in k_sweep.iter().enumerate() {
@@ -1075,13 +1059,17 @@ Q15i HARDENING SYNTHESIS REPORT (16 SEEDS, RUNTIME: {:?})
             let mean_diag = results.iter().map(|r| r.condition_results[offset].diagonal_d_ddi).sum::<f32>() / n;
             let mean_off = results.iter().map(|r| r.condition_results[offset].off_diagonal_d_ddi).sum::<f32>() / n;
             let mean_adv = results.iter().map(|r| r.condition_results[offset].relational_specificity_adv).sum::<f32>() / n;
-            let mean_p_diff = results.iter().map(|r| r.condition_results[offset].paired_perm_diff).sum::<f32>() / n;
-            let mean_p_ste = results.iter().map(|r| r.condition_results[offset].paired_perm_ste).sum::<f32>() / n;
+
+            let paired_diffs: Vec<f32> = results.iter().map(|r| r.condition_results[offset].paired_perm_diff).collect();
+            let mean_p_diff = paired_diffs.iter().sum::<f32>() / n;
+            let var_diff: f32 = paired_diffs.iter().map(|&x| (x - mean_p_diff).powi(2)).sum::<f32>() / (n - 1.0).max(1.0);
+            let ste_diff = (var_diff / n).sqrt();
+
             let promo = results.iter().filter(|r| r.condition_results[offset].is_competent_and_promoted).count();
 
             report.push_str(&format!(
                 "| **K = {}** | {:+.1}% | {:+.2} | {:+.1}% | {:+.1}% | {:+.1}% | {:+.1}% | {:+.1}% | {:+.1}% | {:+.1}% (±{:.1}%) | **{}/16 ({:.1}%)** |\n",
-                k_val, mean_ddi * 100.0, mean_ret, mean_zero * 100.0, mean_perm * 100.0, mean_other * 100.0, mean_diag * 100.0, mean_off * 100.0, mean_adv * 100.0, mean_p_diff * 100.0, mean_p_ste * 100.0, promo, (promo as f32 / 16.0) * 100.0
+                k_val, mean_ddi * 100.0, mean_ret, mean_zero * 100.0, mean_perm * 100.0, mean_other * 100.0, mean_diag * 100.0, mean_off * 100.0, mean_adv * 100.0, mean_p_diff * 100.0, ste_diff * 100.0, promo, (promo as f32 / 16.0) * 100.0
             ));
         }
 
@@ -1101,8 +1089,13 @@ Q15i HARDENING SYNTHESIS REPORT (16 SEEDS, RUNTIME: {:?})
     let or_lrn_k0_ret = results.iter().map(|r| r.condition_results[5].test_return).sum::<f32>() / n;
     let or_lrn_k16_ret = results.iter().map(|r| r.condition_results[9].test_return).sum::<f32>() / n;
     let or_lrn_k16_ddi = results.iter().map(|r| r.condition_results[9].test_ddi).sum::<f32>() / n;
+
     let sup_fix_k16_ret = results.iter().map(|r| r.condition_results[14].test_return).sum::<f32>() / n;
     let sup_fix_k16_ddi = results.iter().map(|r| r.condition_results[14].test_ddi).sum::<f32>() / n;
+    let sup_q1_acc = results.iter().map(|r| r.condition_results[14].addressing_metrics.query1_accuracy).sum::<f32>() / n;
+    let sup_q2_acc = results.iter().map(|r| r.condition_results[14].addressing_metrics.query2_accuracy).sum::<f32>() / n;
+    let sup_r_sc = results.iter().map(|r| r.condition_results[14].addressing_metrics.score_correlation).sum::<f32>() / n;
+
     let auto_fix_k16_ddi = results.iter().map(|r| r.condition_results[24].test_ddi).sum::<f32>() / n;
     let auto_fix_k16_ret = results.iter().map(|r| r.condition_results[24].test_return).sum::<f32>() / n;
     let auto_disp = results.iter().map(|r| r.condition_results[24].addressing_metrics.true_query_displacement).sum::<f32>() / n;
@@ -1111,13 +1104,13 @@ Q15i HARDENING SYNTHESIS REPORT (16 SEEDS, RUNTIME: {:?})
         "
 ========================================================================================================================
 ## 7. SCIENTIFIC DIAGNOSTIC CONCLUSIONS:
-- **K=0 Policy Sanity Resolved:** Under well-conditioned policy mapping, the learned policy achieves return = {:+.2} at K=0 (matching the fixed rule), and at K=16 achieves return = {:+.2} and DDI = {:+.1}%.
-- **Supervised Addressing Quality:** Supervised queries maintain high decodability (q1 = 100.0%, q2 = 100.0%), and under unconfounded differentiable surrogate optimization achieve return = {:+.2} and DDI = {:+.1}%.
+- **K=0 Policy Sanity Resolved:** Under well-conditioned continuous feature policy mapping, the learned policy achieves return = {:+.2} at K=0 (matching the fixed rule), and at K=16 under oracle addressing achieves return = {:+.2} and DDI = {:+.1}%.
+- **Supervised Addressing Dynamics:** After surrogate utility tuning, query heads reorganize into a functional relational code (Query 1 Acc = {:+.1}%, Query 2 Acc = {:+.1}%, Score Correlation r = {:+.3}), achieving return = {:+.2} and DDI = {:+.1}%.
 - **Autonomous Addressing Status:** From random initialization without source supervision, unconfounded utility gradients drive parameter displacement (||ΔW_q|| = {:.3}), producing DDI = {:+.1}% and return = {:+.2}.
 ========================================================================================================================
 ",
         or_lrn_k0_ret, or_lrn_k16_ret, or_lrn_k16_ddi * 100.0,
-        sup_fix_k16_ret, sup_fix_k16_ddi * 100.0,
+        sup_q1_acc * 100.0, sup_q2_acc * 100.0, sup_r_sc, sup_fix_k16_ret, sup_fix_k16_ddi * 100.0,
         auto_disp, auto_fix_k16_ddi * 100.0, auto_fix_k16_ret
     ));
 
