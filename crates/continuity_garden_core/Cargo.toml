@@ -139,3 +139,7 @@ path = "src/bin/run_q16a2_directional_controls.rs"
 [[bin]]
 name = "run_q16a3_supervision_ladder"
 path = "src/bin/run_q16a3_supervision_ladder.rs"
+
+[[bin]]
+name = "run_q16a31_role_bias_ablation"
+path = "src/bin/run_q16a31_role_bias_ablation.rs"
