@@ -1,0 +1,297 @@
+{
+  "diagnostic_verdict": "PARTIAL_RECOVERY_AND_SEED_HETEROGENEITY",
+  "verdict_analysis": "Counterfactual reward optimization partially recovers the policy with substantial seed heterogeneity.",
+  "aggregate_summary": {
+    "paradigm_1_supervised_oracle": {
+      "mean_p_exploit_ctrl": 0.9125,
+      "std_p_exploit_ctrl": 0.03596873642484539,
+      "mean_p_abstain_yoked": 0.8125,
+      "std_p_abstain_yoked": 0.03152380053229621,
+      "mean_contingency_sensitivity": 0.725,
+      "std_contingency_sensitivity": 0.052678268764263715,
+      "mean_return": 0.16,
+      "std_return": 0.06530122510336235,
+      "recruited_seeds_count": 8
+    },
+    "paradigm_2_full_info_reward": {
+      "mean_p_exploit_ctrl": 0.6775,
+      "std_p_exploit_ctrl": 0.1988561037534428,
+      "mean_p_abstain_yoked": 0.8300000000000001,
+      "std_p_abstain_yoked": 0.0640312423743285,
+      "mean_contingency_sensitivity": 0.5075000000000001,
+      "std_contingency_sensitivity": 0.22559643170936902,
+      "mean_return": 0.115375,
+      "std_return": 0.07404886477860413,
+      "recruited_seeds_count": 5
+    },
+    "paradigm_3_sampled_on_policy_pg": {
+      "mean_p_exploit_ctrl": 0.6200000000000001,
+      "std_p_exploit_ctrl": 0.2785677655436824,
+      "mean_p_abstain_yoked": 0.855,
+      "std_p_abstain_yoked": 0.11434596626029271,
+      "mean_contingency_sensitivity": 0.47500000000000003,
+      "std_contingency_sensitivity": 0.20874625745148104,
+      "mean_return": 0.114625,
+      "std_return": 0.06553040801795759,
+      "recruited_seeds_count": 3
+    }
+  },
+  "per_seed_results": {
+    "42": {
+      "paradigm_1_supervised_oracle": {
+        "p_exploit_ctrl": 0.94,
+        "p_abstain_yoked": 0.78,
+        "p_exploit_yoked": 0.22,
+        "contingency_sensitivity": 0.72,
+        "mean_return": 0.081,
+        "mean_always_try_return": -0.05000000000000002,
+        "mean_always_abstain_return": 0.0,
+        "is_recruited": true
+      },
+      "paradigm_2_full_info_reward": {
+        "p_exploit_ctrl": 0.36,
+        "p_abstain_yoked": 0.82,
+        "p_exploit_yoked": 0.18,
+        "contingency_sensitivity": 0.18,
+        "mean_return": 0.064,
+        "mean_always_try_return": -0.05000000000000002,
+        "mean_always_abstain_return": 0.0,
+        "is_recruited": false
+      },
+      "paradigm_3_sampled_on_policy_pg": {
+        "p_exploit_ctrl": 0.28,
+        "p_abstain_yoked": 0.98,
+        "p_exploit_yoked": 0.02,
+        "contingency_sensitivity": 0.26,
+        "mean_return": 0.055,
+        "mean_always_try_return": -0.05000000000000002,
+        "mean_always_abstain_return": 0.0,
+        "is_recruited": false
+      }
+    },
+    "43": {
+      "paradigm_1_supervised_oracle": {
+        "p_exploit_ctrl": 0.92,
+        "p_abstain_yoked": 0.84,
+        "p_exploit_yoked": 0.16,
+        "contingency_sensitivity": 0.76,
+        "mean_return": 0.278,
+        "mean_always_try_return": -0.12500000000000008,
+        "mean_always_abstain_return": 0.0,
+        "is_recruited": true
+      },
+      "paradigm_2_full_info_reward": {
+        "p_exploit_ctrl": 0.9,
+        "p_abstain_yoked": 0.82,
+        "p_exploit_yoked": 0.18,
+        "contingency_sensitivity": 0.72,
+        "mean_return": 0.228,
+        "mean_always_try_return": -0.12500000000000008,
+        "mean_always_abstain_return": 0.0,
+        "is_recruited": true
+      },
+      "paradigm_3_sampled_on_policy_pg": {
+        "p_exploit_ctrl": 0.88,
+        "p_abstain_yoked": 0.88,
+        "p_exploit_yoked": 0.12,
+        "contingency_sensitivity": 0.76,
+        "mean_return": 0.275,
+        "mean_always_try_return": -0.12500000000000008,
+        "mean_always_abstain_return": 0.0,
+        "is_recruited": true
+      }
+    },
+    "44": {
+      "paradigm_1_supervised_oracle": {
+        "p_exploit_ctrl": 0.94,
+        "p_abstain_yoked": 0.8,
+        "p_exploit_yoked": 0.2,
+        "contingency_sensitivity": 0.74,
+        "mean_return": 0.174,
+        "mean_always_try_return": 8.881784197001253e-18,
+        "mean_always_abstain_return": 0.0,
+        "is_recruited": true
+      },
+      "paradigm_2_full_info_reward": {
+        "p_exploit_ctrl": 0.46,
+        "p_abstain_yoked": 0.8,
+        "p_exploit_yoked": 0.2,
+        "contingency_sensitivity": 0.26,
+        "mean_return": 0.10599999999999998,
+        "mean_always_try_return": 8.881784197001253e-18,
+        "mean_always_abstain_return": 0.0,
+        "is_recruited": false
+      },
+      "paradigm_3_sampled_on_policy_pg": {
+        "p_exploit_ctrl": 0.5,
+        "p_abstain_yoked": 0.8,
+        "p_exploit_yoked": 0.2,
+        "contingency_sensitivity": 0.3,
+        "mean_return": 0.11999999999999998,
+        "mean_always_try_return": 8.881784197001253e-18,
+        "mean_always_abstain_return": 0.0,
+        "is_recruited": false
+      }
+    },
+    "45": {
+      "paradigm_1_supervised_oracle": {
+        "p_exploit_ctrl": 0.88,
+        "p_abstain_yoked": 0.86,
+        "p_exploit_yoked": 0.14,
+        "contingency_sensitivity": 0.74,
+        "mean_return": 0.08200000000000002,
+        "mean_always_try_return": -0.15000000000000008,
+        "mean_always_abstain_return": 0.0,
+        "is_recruited": true
+      },
+      "paradigm_2_full_info_reward": {
+        "p_exploit_ctrl": 0.86,
+        "p_abstain_yoked": 0.86,
+        "p_exploit_yoked": 0.14,
+        "contingency_sensitivity": 0.72,
+        "mean_return": 0.05000000000000001,
+        "mean_always_try_return": -0.15000000000000008,
+        "mean_always_abstain_return": 0.0,
+        "is_recruited": true
+      },
+      "paradigm_3_sampled_on_policy_pg": {
+        "p_exploit_ctrl": 0.86,
+        "p_abstain_yoked": 0.88,
+        "p_exploit_yoked": 0.12,
+        "contingency_sensitivity": 0.74,
+        "mean_return": 0.068,
+        "mean_always_try_return": -0.15000000000000008,
+        "mean_always_abstain_return": 0.0,
+        "is_recruited": true
+      }
+    },
+    "46": {
+      "paradigm_1_supervised_oracle": {
+        "p_exploit_ctrl": 0.84,
+        "p_abstain_yoked": 0.76,
+        "p_exploit_yoked": 0.24,
+        "contingency_sensitivity": 0.6,
+        "mean_return": 0.10299999999999997,
+        "mean_always_try_return": -0.20000000000000007,
+        "mean_always_abstain_return": 0.0,
+        "is_recruited": true
+      },
+      "paradigm_2_full_info_reward": {
+        "p_exploit_ctrl": 0.5,
+        "p_abstain_yoked": 0.72,
+        "p_exploit_yoked": 0.28,
+        "contingency_sensitivity": 0.21999999999999997,
+        "mean_return": -0.0020000000000000174,
+        "mean_always_try_return": -0.20000000000000007,
+        "mean_always_abstain_return": 0.0,
+        "is_recruited": false
+      },
+      "paradigm_3_sampled_on_policy_pg": {
+        "p_exploit_ctrl": 0.9,
+        "p_abstain_yoked": 0.64,
+        "p_exploit_yoked": 0.36,
+        "contingency_sensitivity": 0.54,
+        "mean_return": 0.09099999999999998,
+        "mean_always_try_return": -0.20000000000000007,
+        "mean_always_abstain_return": 0.0,
+        "is_recruited": false
+      }
+    },
+    "47": {
+      "paradigm_1_supervised_oracle": {
+        "p_exploit_ctrl": 0.92,
+        "p_abstain_yoked": 0.84,
+        "p_exploit_yoked": 0.16,
+        "contingency_sensitivity": 0.76,
+        "mean_return": 0.17800000000000005,
+        "mean_always_try_return": 0.024999999999999974,
+        "mean_always_abstain_return": 0.0,
+        "is_recruited": true
+      },
+      "paradigm_2_full_info_reward": {
+        "p_exploit_ctrl": 0.74,
+        "p_abstain_yoked": 0.92,
+        "p_exploit_yoked": 0.08,
+        "contingency_sensitivity": 0.66,
+        "mean_return": 0.21199999999999997,
+        "mean_always_try_return": 0.024999999999999974,
+        "mean_always_abstain_return": 0.0,
+        "is_recruited": true
+      },
+      "paradigm_3_sampled_on_policy_pg": {
+        "p_exploit_ctrl": 0.44,
+        "p_abstain_yoked": 0.92,
+        "p_exploit_yoked": 0.08,
+        "contingency_sensitivity": 0.36,
+        "mean_return": 0.107,
+        "mean_always_try_return": 0.024999999999999974,
+        "mean_always_abstain_return": 0.0,
+        "is_recruited": false
+      }
+    },
+    "48": {
+      "paradigm_1_supervised_oracle": {
+        "p_exploit_ctrl": 0.9,
+        "p_abstain_yoked": 0.8,
+        "p_exploit_yoked": 0.2,
+        "contingency_sensitivity": 0.7,
+        "mean_return": 0.15999999999999998,
+        "mean_always_try_return": 0.15,
+        "mean_always_abstain_return": 0.0,
+        "is_recruited": true
+      },
+      "paradigm_2_full_info_reward": {
+        "p_exploit_ctrl": 0.9,
+        "p_abstain_yoked": 0.78,
+        "p_exploit_yoked": 0.22,
+        "contingency_sensitivity": 0.68,
+        "mean_return": 0.11699999999999999,
+        "mean_always_try_return": 0.15,
+        "mean_always_abstain_return": 0.0,
+        "is_recruited": true
+      },
+      "paradigm_3_sampled_on_policy_pg": {
+        "p_exploit_ctrl": 0.9,
+        "p_abstain_yoked": 0.74,
+        "p_exploit_yoked": 0.26,
+        "contingency_sensitivity": 0.64,
+        "mean_return": 0.13099999999999998,
+        "mean_always_try_return": 0.15,
+        "mean_always_abstain_return": 0.0,
+        "is_recruited": true
+      }
+    },
+    "49": {
+      "paradigm_1_supervised_oracle": {
+        "p_exploit_ctrl": 0.96,
+        "p_abstain_yoked": 0.82,
+        "p_exploit_yoked": 0.18,
+        "contingency_sensitivity": 0.78,
+        "mean_return": 0.22400000000000003,
+        "mean_always_try_return": 0.175,
+        "mean_always_abstain_return": 0.0,
+        "is_recruited": true
+      },
+      "paradigm_2_full_info_reward": {
+        "p_exploit_ctrl": 0.7,
+        "p_abstain_yoked": 0.92,
+        "p_exploit_yoked": 0.08,
+        "contingency_sensitivity": 0.62,
+        "mean_return": 0.14800000000000002,
+        "mean_always_try_return": 0.175,
+        "mean_always_abstain_return": 0.0,
+        "is_recruited": true
+      },
+      "paradigm_3_sampled_on_policy_pg": {
+        "p_exploit_ctrl": 0.2,
+        "p_abstain_yoked": 1.0,
+        "p_exploit_yoked": 0.0,
+        "contingency_sensitivity": 0.2,
+        "mean_return": 0.07,
+        "mean_always_try_return": 0.175,
+        "mean_always_abstain_return": 0.0,
+        "is_recruited": false
+      }
+    }
+  }
+}
