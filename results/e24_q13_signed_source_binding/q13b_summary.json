@@ -1,0 +1,690 @@
+[
+  {
+    "seed": 101,
+    "frozen_linear": {
+      "quadrant_name": "Frozen GRU + Linear Head",
+      "r2_source_class": 0.9608833,
+      "r2_report_content": 0.9508718,
+      "r2_multiplicative_xor": 0.43147826,
+      "helpful_following_rate": 0.62222224,
+      "opposite_inversion_rate": 0.38181818,
+      "net_inversion_effect": 0.00404042,
+      "mean_return": 0.04
+    },
+    "frozen_mlp": {
+      "quadrant_name": "Frozen GRU + MLP Head",
+      "r2_source_class": 0.9608833,
+      "r2_report_content": 0.9508718,
+      "r2_multiplicative_xor": 0.43147826,
+      "helpful_following_rate": 0.37777779,
+      "opposite_inversion_rate": 0.6181818,
+      "net_inversion_effect": -0.0040403605,
+      "mean_return": -0.04
+    },
+    "plastic_linear": {
+      "quadrant_name": "Plastic GRU + Linear Head",
+      "r2_source_class": 0.9608833,
+      "r2_report_content": 0.9508718,
+      "r2_multiplicative_xor": 0.43147826,
+      "helpful_following_rate": 0.62222224,
+      "opposite_inversion_rate": 0.38181818,
+      "net_inversion_effect": 0.00404042,
+      "mean_return": 0.04
+    },
+    "plastic_mlp": {
+      "quadrant_name": "Plastic GRU + MLP Head",
+      "r2_source_class": 0.9608833,
+      "r2_report_content": 0.9508718,
+      "r2_multiplicative_xor": 0.43147826,
+      "helpful_following_rate": 0.37777779,
+      "opposite_inversion_rate": 0.6181818,
+      "net_inversion_effect": -0.0040403605,
+      "mean_return": -0.04
+    }
+  },
+  {
+    "seed": 102,
+    "frozen_linear": {
+      "quadrant_name": "Frozen GRU + Linear Head",
+      "r2_source_class": 0.9751154,
+      "r2_report_content": 0.9652577,
+      "r2_multiplicative_xor": 0.5772556,
+      "helpful_following_rate": 0.6101695,
+      "opposite_inversion_rate": 0.5609756,
+      "net_inversion_effect": 0.17114508,
+      "mean_return": 0.12
+    },
+    "frozen_mlp": {
+      "quadrant_name": "Frozen GRU + MLP Head",
+      "r2_source_class": 0.9751154,
+      "r2_report_content": 0.9652577,
+      "r2_multiplicative_xor": 0.5772556,
+      "helpful_following_rate": 0.3898305,
+      "opposite_inversion_rate": 0.4390244,
+      "net_inversion_effect": -0.17114514,
+      "mean_return": -0.12
+    },
+    "plastic_linear": {
+      "quadrant_name": "Plastic GRU + Linear Head",
+      "r2_source_class": 0.9751154,
+      "r2_report_content": 0.9652577,
+      "r2_multiplicative_xor": 0.5772556,
+      "helpful_following_rate": 0.6101695,
+      "opposite_inversion_rate": 0.5609756,
+      "net_inversion_effect": 0.17114508,
+      "mean_return": 0.12
+    },
+    "plastic_mlp": {
+      "quadrant_name": "Plastic GRU + MLP Head",
+      "r2_source_class": 0.9751154,
+      "r2_report_content": 0.9652577,
+      "r2_multiplicative_xor": 0.5772556,
+      "helpful_following_rate": 0.3898305,
+      "opposite_inversion_rate": 0.4390244,
+      "net_inversion_effect": -0.17114514,
+      "mean_return": -0.12
+    }
+  },
+  {
+    "seed": 103,
+    "frozen_linear": {
+      "quadrant_name": "Frozen GRU + Linear Head",
+      "r2_source_class": 0.9763495,
+      "r2_report_content": 0.9693518,
+      "r2_multiplicative_xor": 0.82185197,
+      "helpful_following_rate": 0.5192308,
+      "opposite_inversion_rate": 0.6041667,
+      "net_inversion_effect": 0.12339747,
+      "mean_return": 0.14
+    },
+    "frozen_mlp": {
+      "quadrant_name": "Frozen GRU + MLP Head",
+      "r2_source_class": 0.9763495,
+      "r2_report_content": 0.9693518,
+      "r2_multiplicative_xor": 0.82185197,
+      "helpful_following_rate": 0.5192308,
+      "opposite_inversion_rate": 0.6041667,
+      "net_inversion_effect": 0.12339747,
+      "mean_return": 0.14
+    },
+    "plastic_linear": {
+      "quadrant_name": "Plastic GRU + Linear Head",
+      "r2_source_class": 0.9763495,
+      "r2_report_content": 0.9693518,
+      "r2_multiplicative_xor": 0.82185197,
+      "helpful_following_rate": 0.5192308,
+      "opposite_inversion_rate": 0.6041667,
+      "net_inversion_effect": 0.12339747,
+      "mean_return": 0.14
+    },
+    "plastic_mlp": {
+      "quadrant_name": "Plastic GRU + MLP Head",
+      "r2_source_class": 0.9763495,
+      "r2_report_content": 0.9693518,
+      "r2_multiplicative_xor": 0.82185197,
+      "helpful_following_rate": 0.5192308,
+      "opposite_inversion_rate": 0.6041667,
+      "net_inversion_effect": 0.12339747,
+      "mean_return": 0.14
+    }
+  },
+  {
+    "seed": 104,
+    "frozen_linear": {
+      "quadrant_name": "Frozen GRU + Linear Head",
+      "r2_source_class": 0.9728405,
+      "r2_report_content": 0.961748,
+      "r2_multiplicative_xor": 0.285044,
+      "helpful_following_rate": 0.54347825,
+      "opposite_inversion_rate": 0.5740741,
+      "net_inversion_effect": 0.11755234,
+      "mean_return": 0.08
+    },
+    "frozen_mlp": {
+      "quadrant_name": "Frozen GRU + MLP Head",
+      "r2_source_class": 0.9728405,
+      "r2_report_content": 0.961748,
+      "r2_multiplicative_xor": 0.285044,
+      "helpful_following_rate": 0.45652175,
+      "opposite_inversion_rate": 0.5740741,
+      "net_inversion_effect": 0.030595839,
+      "mean_return": 0.12
+    },
+    "plastic_linear": {
+      "quadrant_name": "Plastic GRU + Linear Head",
+      "r2_source_class": 0.9728405,
+      "r2_report_content": 0.961748,
+      "r2_multiplicative_xor": 0.285044,
+      "helpful_following_rate": 0.54347825,
+      "opposite_inversion_rate": 0.5740741,
+      "net_inversion_effect": 0.11755234,
+      "mean_return": 0.08
+    },
+    "plastic_mlp": {
+      "quadrant_name": "Plastic GRU + MLP Head",
+      "r2_source_class": 0.9728405,
+      "r2_report_content": 0.961748,
+      "r2_multiplicative_xor": 0.285044,
+      "helpful_following_rate": 0.45652175,
+      "opposite_inversion_rate": 0.5740741,
+      "net_inversion_effect": 0.030595839,
+      "mean_return": 0.12
+    }
+  },
+  {
+    "seed": 105,
+    "frozen_linear": {
+      "quadrant_name": "Frozen GRU + Linear Head",
+      "r2_source_class": 0.9821483,
+      "r2_report_content": 0.9569515,
+      "r2_multiplicative_xor": 0.39708877,
+      "helpful_following_rate": 0.42857143,
+      "opposite_inversion_rate": 0.59090906,
+      "net_inversion_effect": 0.019480526,
+      "mean_return": 0.12
+    },
+    "frozen_mlp": {
+      "quadrant_name": "Frozen GRU + MLP Head",
+      "r2_source_class": 0.9821483,
+      "r2_report_content": 0.9569515,
+      "r2_multiplicative_xor": 0.39708877,
+      "helpful_following_rate": 0.42857143,
+      "opposite_inversion_rate": 0.59090906,
+      "net_inversion_effect": 0.019480526,
+      "mean_return": 0.12
+    },
+    "plastic_linear": {
+      "quadrant_name": "Plastic GRU + Linear Head",
+      "r2_source_class": 0.9821483,
+      "r2_report_content": 0.9569515,
+      "r2_multiplicative_xor": 0.39708877,
+      "helpful_following_rate": 0.42857143,
+      "opposite_inversion_rate": 0.59090906,
+      "net_inversion_effect": 0.019480526,
+      "mean_return": 0.12
+    },
+    "plastic_mlp": {
+      "quadrant_name": "Plastic GRU + MLP Head",
+      "r2_source_class": 0.9821483,
+      "r2_report_content": 0.9569515,
+      "r2_multiplicative_xor": 0.39708877,
+      "helpful_following_rate": 0.42857143,
+      "opposite_inversion_rate": 0.59090906,
+      "net_inversion_effect": 0.019480526,
+      "mean_return": 0.12
+    }
+  },
+  {
+    "seed": 106,
+    "frozen_linear": {
+      "quadrant_name": "Frozen GRU + Linear Head",
+      "r2_source_class": 0.98536974,
+      "r2_report_content": 0.97407067,
+      "r2_multiplicative_xor": 0.5384805,
+      "helpful_following_rate": 0.50877196,
+      "opposite_inversion_rate": 0.4883721,
+      "net_inversion_effect": -0.0028559566,
+      "mean_return": 0.0
+    },
+    "frozen_mlp": {
+      "quadrant_name": "Frozen GRU + MLP Head",
+      "r2_source_class": 0.98536974,
+      "r2_report_content": 0.97407067,
+      "r2_multiplicative_xor": 0.5384805,
+      "helpful_following_rate": 0.50877196,
+      "opposite_inversion_rate": 0.4883721,
+      "net_inversion_effect": -0.0028559566,
+      "mean_return": 0.0
+    },
+    "plastic_linear": {
+      "quadrant_name": "Plastic GRU + Linear Head",
+      "r2_source_class": 0.98536974,
+      "r2_report_content": 0.97407067,
+      "r2_multiplicative_xor": 0.5384805,
+      "helpful_following_rate": 0.50877196,
+      "opposite_inversion_rate": 0.4883721,
+      "net_inversion_effect": -0.0028559566,
+      "mean_return": 0.0
+    },
+    "plastic_mlp": {
+      "quadrant_name": "Plastic GRU + MLP Head",
+      "r2_source_class": 0.98536974,
+      "r2_report_content": 0.97407067,
+      "r2_multiplicative_xor": 0.5384805,
+      "helpful_following_rate": 0.50877196,
+      "opposite_inversion_rate": 0.4883721,
+      "net_inversion_effect": -0.0028559566,
+      "mean_return": 0.0
+    }
+  },
+  {
+    "seed": 107,
+    "frozen_linear": {
+      "quadrant_name": "Frozen GRU + Linear Head",
+      "r2_source_class": 0.9612408,
+      "r2_report_content": 0.9846583,
+      "r2_multiplicative_xor": 0.36022443,
+      "helpful_following_rate": 0.5576923,
+      "opposite_inversion_rate": 0.45833334,
+      "net_inversion_effect": 0.016025633,
+      "mean_return": 0.04
+    },
+    "frozen_mlp": {
+      "quadrant_name": "Frozen GRU + MLP Head",
+      "r2_source_class": 0.9612408,
+      "r2_report_content": 0.9846583,
+      "r2_multiplicative_xor": 0.36022443,
+      "helpful_following_rate": 0.5576923,
+      "opposite_inversion_rate": 0.45833334,
+      "net_inversion_effect": 0.016025633,
+      "mean_return": 0.04
+    },
+    "plastic_linear": {
+      "quadrant_name": "Plastic GRU + Linear Head",
+      "r2_source_class": 0.9612408,
+      "r2_report_content": 0.9846583,
+      "r2_multiplicative_xor": 0.36022443,
+      "helpful_following_rate": 0.5576923,
+      "opposite_inversion_rate": 0.45833334,
+      "net_inversion_effect": 0.016025633,
+      "mean_return": 0.04
+    },
+    "plastic_mlp": {
+      "quadrant_name": "Plastic GRU + MLP Head",
+      "r2_source_class": 0.9612408,
+      "r2_report_content": 0.9846583,
+      "r2_multiplicative_xor": 0.36022443,
+      "helpful_following_rate": 0.5576923,
+      "opposite_inversion_rate": 0.45833334,
+      "net_inversion_effect": 0.016025633,
+      "mean_return": 0.04
+    }
+  },
+  {
+    "seed": 108,
+    "frozen_linear": {
+      "quadrant_name": "Frozen GRU + Linear Head",
+      "r2_source_class": 0.95561683,
+      "r2_report_content": 0.9778994,
+      "r2_multiplicative_xor": 0.7041831,
+      "helpful_following_rate": 0.35897437,
+      "opposite_inversion_rate": 0.5081967,
+      "net_inversion_effect": -0.13282895,
+      "mean_return": -0.04
+    },
+    "frozen_mlp": {
+      "quadrant_name": "Frozen GRU + MLP Head",
+      "r2_source_class": 0.95561683,
+      "r2_report_content": 0.9778994,
+      "r2_multiplicative_xor": 0.7041831,
+      "helpful_following_rate": 0.64102566,
+      "opposite_inversion_rate": 0.4918033,
+      "net_inversion_effect": 0.13282895,
+      "mean_return": 0.04
+    },
+    "plastic_linear": {
+      "quadrant_name": "Plastic GRU + Linear Head",
+      "r2_source_class": 0.95561683,
+      "r2_report_content": 0.9778994,
+      "r2_multiplicative_xor": 0.7041831,
+      "helpful_following_rate": 0.35897437,
+      "opposite_inversion_rate": 0.5081967,
+      "net_inversion_effect": -0.13282895,
+      "mean_return": -0.04
+    },
+    "plastic_mlp": {
+      "quadrant_name": "Plastic GRU + MLP Head",
+      "r2_source_class": 0.95561683,
+      "r2_report_content": 0.9778994,
+      "r2_multiplicative_xor": 0.7041831,
+      "helpful_following_rate": 0.64102566,
+      "opposite_inversion_rate": 0.4918033,
+      "net_inversion_effect": 0.13282895,
+      "mean_return": 0.04
+    }
+  },
+  {
+    "seed": 109,
+    "frozen_linear": {
+      "quadrant_name": "Frozen GRU + Linear Head",
+      "r2_source_class": 0.97113967,
+      "r2_report_content": 0.965691,
+      "r2_multiplicative_xor": 0.28710783,
+      "helpful_following_rate": 0.47272727,
+      "opposite_inversion_rate": 0.42222223,
+      "net_inversion_effect": -0.105050474,
+      "mean_return": 0.02
+    },
+    "frozen_mlp": {
+      "quadrant_name": "Frozen GRU + MLP Head",
+      "r2_source_class": 0.97113967,
+      "r2_report_content": 0.965691,
+      "r2_multiplicative_xor": 0.28710783,
+      "helpful_following_rate": 0.5272727,
+      "opposite_inversion_rate": 0.5777778,
+      "net_inversion_effect": 0.105050504,
+      "mean_return": -0.02
+    },
+    "plastic_linear": {
+      "quadrant_name": "Plastic GRU + Linear Head",
+      "r2_source_class": 0.97113967,
+      "r2_report_content": 0.965691,
+      "r2_multiplicative_xor": 0.28710783,
+      "helpful_following_rate": 0.47272727,
+      "opposite_inversion_rate": 0.42222223,
+      "net_inversion_effect": -0.105050474,
+      "mean_return": 0.02
+    },
+    "plastic_mlp": {
+      "quadrant_name": "Plastic GRU + MLP Head",
+      "r2_source_class": 0.97113967,
+      "r2_report_content": 0.965691,
+      "r2_multiplicative_xor": 0.28710783,
+      "helpful_following_rate": 0.5272727,
+      "opposite_inversion_rate": 0.5777778,
+      "net_inversion_effect": 0.105050504,
+      "mean_return": -0.02
+    }
+  },
+  {
+    "seed": 110,
+    "frozen_linear": {
+      "quadrant_name": "Frozen GRU + Linear Head",
+      "r2_source_class": 0.97047526,
+      "r2_report_content": 0.96906865,
+      "r2_multiplicative_xor": 0.18477327,
+      "helpful_following_rate": 0.6363636,
+      "opposite_inversion_rate": 0.5535714,
+      "net_inversion_effect": 0.18993503,
+      "mean_return": 0.16
+    },
+    "frozen_mlp": {
+      "quadrant_name": "Frozen GRU + MLP Head",
+      "r2_source_class": 0.97047526,
+      "r2_report_content": 0.96906865,
+      "r2_multiplicative_xor": 0.18477327,
+      "helpful_following_rate": 0.36363637,
+      "opposite_inversion_rate": 0.44642857,
+      "net_inversion_effect": -0.18993506,
+      "mean_return": -0.16
+    },
+    "plastic_linear": {
+      "quadrant_name": "Plastic GRU + Linear Head",
+      "r2_source_class": 0.97047526,
+      "r2_report_content": 0.96906865,
+      "r2_multiplicative_xor": 0.18477327,
+      "helpful_following_rate": 0.6363636,
+      "opposite_inversion_rate": 0.5535714,
+      "net_inversion_effect": 0.18993503,
+      "mean_return": 0.16
+    },
+    "plastic_mlp": {
+      "quadrant_name": "Plastic GRU + MLP Head",
+      "r2_source_class": 0.97047526,
+      "r2_report_content": 0.96906865,
+      "r2_multiplicative_xor": 0.18477327,
+      "helpful_following_rate": 0.36363637,
+      "opposite_inversion_rate": 0.44642857,
+      "net_inversion_effect": -0.18993506,
+      "mean_return": -0.16
+    }
+  },
+  {
+    "seed": 111,
+    "frozen_linear": {
+      "quadrant_name": "Frozen GRU + Linear Head",
+      "r2_source_class": 0.97573197,
+      "r2_report_content": 0.9756575,
+      "r2_multiplicative_xor": 0.7544812,
+      "helpful_following_rate": 0.48,
+      "opposite_inversion_rate": 0.48,
+      "net_inversion_effect": -0.03999999,
+      "mean_return": -0.02
+    },
+    "frozen_mlp": {
+      "quadrant_name": "Frozen GRU + MLP Head",
+      "r2_source_class": 0.97573197,
+      "r2_report_content": 0.9756575,
+      "r2_multiplicative_xor": 0.7544812,
+      "helpful_following_rate": 0.48,
+      "opposite_inversion_rate": 0.48,
+      "net_inversion_effect": -0.03999999,
+      "mean_return": -0.02
+    },
+    "plastic_linear": {
+      "quadrant_name": "Plastic GRU + Linear Head",
+      "r2_source_class": 0.97573197,
+      "r2_report_content": 0.9756575,
+      "r2_multiplicative_xor": 0.7544812,
+      "helpful_following_rate": 0.48,
+      "opposite_inversion_rate": 0.48,
+      "net_inversion_effect": -0.03999999,
+      "mean_return": -0.02
+    },
+    "plastic_mlp": {
+      "quadrant_name": "Plastic GRU + MLP Head",
+      "r2_source_class": 0.97573197,
+      "r2_report_content": 0.9756575,
+      "r2_multiplicative_xor": 0.7544812,
+      "helpful_following_rate": 0.48,
+      "opposite_inversion_rate": 0.48,
+      "net_inversion_effect": -0.03999999,
+      "mean_return": -0.02
+    }
+  },
+  {
+    "seed": 112,
+    "frozen_linear": {
+      "quadrant_name": "Frozen GRU + Linear Head",
+      "r2_source_class": 0.97164726,
+      "r2_report_content": 0.9720697,
+      "r2_multiplicative_xor": 0.31021887,
+      "helpful_following_rate": 0.5,
+      "opposite_inversion_rate": 0.48214287,
+      "net_inversion_effect": -0.017857134,
+      "mean_return": -0.04
+    },
+    "frozen_mlp": {
+      "quadrant_name": "Frozen GRU + MLP Head",
+      "r2_source_class": 0.97164726,
+      "r2_report_content": 0.9720697,
+      "r2_multiplicative_xor": 0.31021887,
+      "helpful_following_rate": 0.5,
+      "opposite_inversion_rate": 0.48214287,
+      "net_inversion_effect": -0.017857134,
+      "mean_return": -0.04
+    },
+    "plastic_linear": {
+      "quadrant_name": "Plastic GRU + Linear Head",
+      "r2_source_class": 0.97164726,
+      "r2_report_content": 0.9720697,
+      "r2_multiplicative_xor": 0.31021887,
+      "helpful_following_rate": 0.5,
+      "opposite_inversion_rate": 0.48214287,
+      "net_inversion_effect": -0.017857134,
+      "mean_return": -0.04
+    },
+    "plastic_mlp": {
+      "quadrant_name": "Plastic GRU + MLP Head",
+      "r2_source_class": 0.97164726,
+      "r2_report_content": 0.9720697,
+      "r2_multiplicative_xor": 0.31021887,
+      "helpful_following_rate": 0.5,
+      "opposite_inversion_rate": 0.48214287,
+      "net_inversion_effect": -0.017857134,
+      "mean_return": -0.04
+    }
+  },
+  {
+    "seed": 113,
+    "frozen_linear": {
+      "quadrant_name": "Frozen GRU + Linear Head",
+      "r2_source_class": 0.9751511,
+      "r2_report_content": 0.9737168,
+      "r2_multiplicative_xor": 0.8483794,
+      "helpful_following_rate": 0.62068963,
+      "opposite_inversion_rate": 0.5714286,
+      "net_inversion_effect": 0.19211823,
+      "mean_return": 0.1
+    },
+    "frozen_mlp": {
+      "quadrant_name": "Frozen GRU + MLP Head",
+      "r2_source_class": 0.9751511,
+      "r2_report_content": 0.9737168,
+      "r2_multiplicative_xor": 0.8483794,
+      "helpful_following_rate": 0.62068963,
+      "opposite_inversion_rate": 0.5714286,
+      "net_inversion_effect": 0.19211823,
+      "mean_return": 0.1
+    },
+    "plastic_linear": {
+      "quadrant_name": "Plastic GRU + Linear Head",
+      "r2_source_class": 0.9751511,
+      "r2_report_content": 0.9737168,
+      "r2_multiplicative_xor": 0.8483794,
+      "helpful_following_rate": 0.62068963,
+      "opposite_inversion_rate": 0.5714286,
+      "net_inversion_effect": 0.19211823,
+      "mean_return": 0.1
+    },
+    "plastic_mlp": {
+      "quadrant_name": "Plastic GRU + MLP Head",
+      "r2_source_class": 0.9751511,
+      "r2_report_content": 0.9737168,
+      "r2_multiplicative_xor": 0.8483794,
+      "helpful_following_rate": 0.62068963,
+      "opposite_inversion_rate": 0.5714286,
+      "net_inversion_effect": 0.19211823,
+      "mean_return": 0.1
+    }
+  },
+  {
+    "seed": 114,
+    "frozen_linear": {
+      "quadrant_name": "Frozen GRU + Linear Head",
+      "r2_source_class": 0.95178646,
+      "r2_report_content": 0.97751117,
+      "r2_multiplicative_xor": 0.41273564,
+      "helpful_following_rate": 0.46341464,
+      "opposite_inversion_rate": 0.47457626,
+      "net_inversion_effect": -0.062009066,
+      "mean_return": 0.06
+    },
+    "frozen_mlp": {
+      "quadrant_name": "Frozen GRU + MLP Head",
+      "r2_source_class": 0.95178646,
+      "r2_report_content": 0.97751117,
+      "r2_multiplicative_xor": 0.41273564,
+      "helpful_following_rate": 0.46341464,
+      "opposite_inversion_rate": 0.47457626,
+      "net_inversion_effect": -0.062009066,
+      "mean_return": 0.06
+    },
+    "plastic_linear": {
+      "quadrant_name": "Plastic GRU + Linear Head",
+      "r2_source_class": 0.95178646,
+      "r2_report_content": 0.97751117,
+      "r2_multiplicative_xor": 0.41273564,
+      "helpful_following_rate": 0.46341464,
+      "opposite_inversion_rate": 0.47457626,
+      "net_inversion_effect": -0.062009066,
+      "mean_return": 0.06
+    },
+    "plastic_mlp": {
+      "quadrant_name": "Plastic GRU + MLP Head",
+      "r2_source_class": 0.95178646,
+      "r2_report_content": 0.97751117,
+      "r2_multiplicative_xor": 0.41273564,
+      "helpful_following_rate": 0.46341464,
+      "opposite_inversion_rate": 0.47457626,
+      "net_inversion_effect": -0.062009066,
+      "mean_return": 0.06
+    }
+  },
+  {
+    "seed": 115,
+    "frozen_linear": {
+      "quadrant_name": "Frozen GRU + Linear Head",
+      "r2_source_class": 0.96218324,
+      "r2_report_content": 0.9709019,
+      "r2_multiplicative_xor": 0.45381224,
+      "helpful_following_rate": 0.53333336,
+      "opposite_inversion_rate": 0.6,
+      "net_inversion_effect": 0.13333338,
+      "mean_return": 0.12
+    },
+    "frozen_mlp": {
+      "quadrant_name": "Frozen GRU + MLP Head",
+      "r2_source_class": 0.96218324,
+      "r2_report_content": 0.9709019,
+      "r2_multiplicative_xor": 0.45381224,
+      "helpful_following_rate": 0.53333336,
+      "opposite_inversion_rate": 0.6,
+      "net_inversion_effect": 0.13333338,
+      "mean_return": 0.12
+    },
+    "plastic_linear": {
+      "quadrant_name": "Plastic GRU + Linear Head",
+      "r2_source_class": 0.96218324,
+      "r2_report_content": 0.9709019,
+      "r2_multiplicative_xor": 0.45381224,
+      "helpful_following_rate": 0.53333336,
+      "opposite_inversion_rate": 0.6,
+      "net_inversion_effect": 0.13333338,
+      "mean_return": 0.12
+    },
+    "plastic_mlp": {
+      "quadrant_name": "Plastic GRU + MLP Head",
+      "r2_source_class": 0.96218324,
+      "r2_report_content": 0.9709019,
+      "r2_multiplicative_xor": 0.45381224,
+      "helpful_following_rate": 0.53333336,
+      "opposite_inversion_rate": 0.6,
+      "net_inversion_effect": 0.13333338,
+      "mean_return": 0.12
+    }
+  },
+  {
+    "seed": 116,
+    "frozen_linear": {
+      "quadrant_name": "Frozen GRU + Linear Head",
+      "r2_source_class": 0.951475,
+      "r2_report_content": 0.9756305,
+      "r2_multiplicative_xor": 0.5744552,
+      "helpful_following_rate": 0.51282054,
+      "opposite_inversion_rate": 0.47540984,
+      "net_inversion_effect": -0.011769623,
+      "mean_return": -0.16
+    },
+    "frozen_mlp": {
+      "quadrant_name": "Frozen GRU + MLP Head",
+      "r2_source_class": 0.951475,
+      "r2_report_content": 0.9756305,
+      "r2_multiplicative_xor": 0.5744552,
+      "helpful_following_rate": 0.51282054,
+      "opposite_inversion_rate": 0.47540984,
+      "net_inversion_effect": -0.011769623,
+      "mean_return": -0.16
+    },
+    "plastic_linear": {
+      "quadrant_name": "Plastic GRU + Linear Head",
+      "r2_source_class": 0.951475,
+      "r2_report_content": 0.9756305,
+      "r2_multiplicative_xor": 0.5744552,
+      "helpful_following_rate": 0.51282054,
+      "opposite_inversion_rate": 0.47540984,
+      "net_inversion_effect": -0.011769623,
+      "mean_return": -0.16
+    },
+    "plastic_mlp": {
+      "quadrant_name": "Plastic GRU + MLP Head",
+      "r2_source_class": 0.951475,
+      "r2_report_content": 0.9756305,
+      "r2_multiplicative_xor": 0.5744552,
+      "helpful_following_rate": 0.51282054,
+      "opposite_inversion_rate": 0.47540984,
+      "net_inversion_effect": -0.011769623,
+      "mean_return": -0.16
+    }
+  }
+]
