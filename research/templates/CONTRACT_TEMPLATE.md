@@ -1,17 +1,19 @@
-# Research Contract Template
-
-> **WARNING**: An experiment must NOT be represented as preregistered or frozen unless this contract file was committed in `FROZEN` status BEFORE experimental execution began. Retrospective editing of frozen criteria is strictly prohibited.
-
+---
+contract_id: CONTRACT-<GATE>-<QUESTION>
+status: DRAFT # DRAFT | FROZEN | PROMOTED | SUPERSEDED
+base_sha: <git-sha-where-contract-is-frozen>
+resource_class: cpu # cpu | gpu | hybrid
+long_running: false
+exclusive_gpu: false
+interruptible: true
+author: <author-or-agent-id>
+creation_date: "YYYY-MM-DD"
+target_completion_date: "YYYY-MM-DD"
 ---
 
-## 1. Header & Lineage
+# Research Contract: [Contract Title]
 
-- **Contract ID**: `CONTRACT-<GATE>-<QUESTION>` (e.g., `CONTRACT-E-Q17a`)
-- **Status**: `DRAFT` | `FROZEN` | `SUPERSEDED`
-- **Base Commit / SHA**: `<git-sha-where-contract-is-frozen>`
-- **Author / Agent**: `<author-or-agent-id>`
-- **Creation Date**: `YYYY-MM-DD`
-- **Target Completion Date**: `YYYY-MM-DD`
+> **WARNING**: An experiment must NOT be represented as preregistered or frozen unless this contract file was committed in `FROZEN` status BEFORE experimental execution began. Retrospective editing of frozen criteria is strictly prohibited.
 
 ---
 

@@ -1,26 +1,40 @@
-# Research Promotion & Diagnostic Audit Template
+---
+contract_id: CONTRACT-<GATE>-<QUESTION>
+promotion_id: PROMOTION-<GATE>-<QUESTION>
+status: PROMOTED # PROMOTED | REJECTED | REVISED_CONTRACT_REQUIRED | ESCALATED
+base_sha: <base-sha>
+candidate_sha: <candidate-sha>
+audit_date: "YYYY-MM-DD"
+author: <author-or-agent-id>
+---
 
-This document serves as the formal review and human re-entry point following an experimental implementation cycle.
+# Research Promotion & Diagnostic Audit: [Promotion Title]
+
+This document serves as the formal review, workflow efficiency assessment, and human re-entry point following an experimental implementation cycle.
 
 ---
 
-## 1. Lineage & Checkpoints
-
-- **Contract ID**: `CONTRACT-<GATE>-<QUESTION>`
-- **Contract / Base SHA**: `<base-git-sha>`
-- **Candidate / Execution SHA**: `<candidate-git-sha>`
-- **Audit Date**: `YYYY-MM-DD`
-- **Auditor / Agent**: `<author-or-agent-id>`
-
----
-
-## 2. Executive Summary
+## 1. Executive Summary & Verdict
 
 - **Question Tested**:
   * [Brief summary of the primary scientific question]
 - **Implementation Summary**:
   * [Concise overview of architectural, algorithmic, or experimental changes implemented]
 - **Overall Verdict**: `PROMOTED` | `REJECTED` | `REVISED_CONTRACT_REQUIRED` | `ESCALATED`
+
+---
+
+## 2. Workflow & Process Efficiency Metrics
+
+*Target Goal: Validated progress per unit of human attention ("fast exploration, slow promotion").*
+
+| Process Metric | Value | Target / Baseline | Assessment |
+| :--- | :--- | :--- | :--- |
+| **Autonomous Review / Fix Rounds** | [Count] | $\le 3$ rounds | [Clean autonomous resolution / Needed loop] |
+| **Human Interventions Required** | [Count] | 0 (except formal escalation) | [Zero-switch autonomous execution / Escalated] |
+| **Total Wall-Clock Time** | [e.g. 2m 15s] | $< 10$ minutes | [Fast execution] |
+| **Compute Footprint** | [e.g. 16 CPU threads, 0 GPU] | CPU standard | [Resource class compliant] |
+| **Attention Context Switches** | [e.g. 1 (final review)] | 1 | [Preserved human focus] |
 
 ---
 
