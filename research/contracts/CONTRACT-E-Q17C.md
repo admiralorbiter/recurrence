@@ -87,8 +87,8 @@ Holding the validated $A \to B \to C$ two-hop task and challenge episodes fixed,
 
 ### 3. Matched-History State Swap ($z_{H1} \leftrightarrow z_{H2}$)
 - Evaluates two matched twin organisms developed under divergent causal histories:
-  - **History $H_1$**: $A \to B \to C$ (directional reachability $A \leadsto C \implies z_{H1}$).
-  - **History $H_2$**: $C \to B \to A$ (directional reachability $C \leadsto A \implies z_{H2}$).
+  - **History $H_1$**: $A \to B \to C$ (directional reachability $A \leadsto C \implies z_{H1}$, orientation $s(H_1) = +1$).
+  - **History $H_2$**: $C \to B \to A$ (directional reachability $C \leadsto A \implies z_{H2}$, orientation $s(H_2) = -1$).
 - Both organisms receive **identical convergent current cues** at test time.
 - State surgery performs an exact latent swap: $z_{H1} \leftrightarrow z_{H2}$.
 - Asserts that swapping $z_t$ causally transfers the history-dependent directional choice:
@@ -96,8 +96,8 @@ Holding the validated $A \to B \to C$ two-hop task and challenge episodes fixed,
   - Organism 2 ($H_2$) with donor $z_{H1} \implies$ exhibits forward preference ($A \leadsto C$).
 
 ### 4. Same-History State Swap & Specificity Controls
-- **Same-History Swap**: Swapping hidden states between identical-history clones ($z_{H1,\text{clone } A} \leftrightarrow z_{H1,\text{clone } B}$) maintains behavioral stability.
-- **Competence Preservation**: State reset or swap must not globally impair unrelated contemporaneous first-order task performance (proving selective memory surgery rather than generalized network damage).
+- **Same-History Swap Control**: Swapping hidden states between identical-history clones ($z_{H1,\text{clone } A} \leftrightarrow z_{H1,\text{clone } B}$) maintains behavioral stability ($\ge 15/16$ seeds unchanged).
+- **Competence Preservation**: State reset or swap must not globally impair unrelated contemporaneous first-order task performance ($\ge 15/16$ seeds maintain $\ge 90\%$ baseline accuracy, proving selective memory surgery rather than generalized network damage).
 - **Matched Shuffled-History Control ($z_{\text{shuffled}}$)**: Exposure to temporally shuffled transitions with identical marginal statistics confirms sequential causal organization.
 
 ---
@@ -109,9 +109,11 @@ Holding the validated $A \to B \to C$ two-hop task and challenge episodes fixed,
 | **Gate 1: Endogenous Two-Hop Conflict** | Conflict resolution accuracy with persistent $z_t$ and zero external sidecars | $\ge 10/16$ seeds ($62.5\%$) |
 | **Gate 2: Endogenous Laundering Discrimination** | Laundering discrimination accuracy with persistent $z_t$ | $\ge 10/16$ seeds ($62.5\%$) |
 | **Gate 3: Continuous Latent Reset Lesion Effect** | Continuous margin drop $\Delta_{\text{reset}} = m_{\text{persistent}} - m_{\text{reset}}$ with reset approaching chance ($7\text{--}9/16$) | Exact 16-seed paired sign-flip $p < 0.01$ |
-| **Gate 4: Continuous Donor-State Swap Transfer** | Behavioral transfer ($\ge 12/16$ seeds) and continuous effect $\Delta_{\text{swap}} = m_{\text{recipient with donor } z} - m_{\text{recipient with own } z}$ | Exact 16-seed paired sign-flip $p < 0.01$ |
-| **Gate 5: Temporal Shuffle Control Superiority** | McNemar paired superiority over matched $z_{\text{shuffled}}$ control | $n_{10} - n_{01} \ge 3, p < 0.05$ |
-| **Gate 6: Structural Zero-Sidecar Invariant** | Verification that query interface received only $(z_t, q_{\text{current}}, \theta)$ with zero sidecar accesses | $\equiv 0$ sidecar accesses ($100\%$ verified) |
+| **Gate 4: Continuous Donor-State Swap Transfer** | Behavioral transfer ($\ge 12/16$ seeds) and donor-aligned continuous effect $\Delta_{\text{swap},i} = \frac{1}{2} [s(H_2)(m_{H1 \leftarrow H2} - m_{H1\text{-own}}) + s(H_1)(m_{H2 \leftarrow H1} - m_{H2\text{-own}})]$ | Exact 16-seed paired sign-flip $p < 0.01$ |
+| **Gate 5: Same-History Swap Stability** | Behavioral consistency under identical-history twin swap ($z_{H1,A} \leftrightarrow z_{H1,B}$) | $\ge 15/16$ seeds ($\le 1/16$ deviations) |
+| **Gate 6: First-Order Competence Preservation** | Unrelated contemporaneous 1-hop sensor task accuracy under state surgery | $\ge 15/16$ seeds maintain $\ge 90.0\%$ |
+| **Gate 7: Temporal Shuffle Superiority** | McNemar paired superiority over matched $z_{\text{shuffled}}$ control | $n_{10} - n_{01} \ge 3, p < 0.05$ |
+| **Gate 8: Structural Zero-Sidecar Invariant** | Verification that query interface received only $(z_t, q_{\text{current}}, \theta)$ with zero sidecar accesses | $\equiv 0$ sidecar accesses ($100\%$ verified) |
 
 ---
 
