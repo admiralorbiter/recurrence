@@ -1,15 +1,15 @@
 ---
-state: READY
+state: AUDITING
 active_contract_id: CONTRACT-E-Q17B
 contract_path: research/contracts/CONTRACT-E-Q17B.md
 execution_base_sha: 50c00d6c3c2a38d27aa387f8a71bca0010151059
 last_checkpoint: research/checkpoints/CHECKPOINT-E-Q17A-R1.md
-last_promotion: research/promotions/PROMOTION-CONTRACT-E-Q17A-R1.md
+last_promotion: research/promotions/PROMOTION-CONTRACT-E-Q17B.md
 ---
 
 # Active Research Contract Pointer
 
-**Current Operational State**: `READY`
+**Current Operational State**: `AUDITING`
 
 This document provides the machine-discoverable operational entry point for autonomous research agents and Mother Base.
 
@@ -18,5 +18,8 @@ This document provides the machine-discoverable operational entry point for auto
 - **Contract Path**: [`research/contracts/CONTRACT-E-Q17B.md`](contracts/CONTRACT-E-Q17B.md)
 - **Execution Base Commit (`execution_base_sha`)**: `50c00d6c3c2a38d27aa387f8a71bca0010151059`
 - **Last Checkpoint**: [`research/checkpoints/CHECKPOINT-E-Q17A-R1.md`](checkpoints/CHECKPOINT-E-Q17A-R1.md)
-- **Last Promotion**: [`research/promotions/PROMOTION-CONTRACT-E-Q17A-R1.md`](promotions/PROMOTION-CONTRACT-E-Q17A-R1.md)
-- **Governance**: Design Review `APPROVED`, Authorized by `human`.
+- **Candidate Promotion Record**: [`research/promotions/PROMOTION-CONTRACT-E-Q17B.md`](promotions/PROMOTION-CONTRACT-E-Q17B.md)
+- **Candidate Branch**: `mb/CONTRACT-E-Q17B` (SHA: `13bb5593b7ee2111ed45fbd0d296afd4c53af578`)
+- **Contract Acceptance Verifier**: `PASS` (`verify_contract_q17b` passed cleanly)
+- **Auditor Verdict**: `PASS` (All 6 Success Gates and Controls satisfied)
+- **Governance**: Design Review `APPROVED`, Authorized by `human`. Awaiting Scientific Promotion Review by `chatgpt-pro` and Human Promotion Merge.
