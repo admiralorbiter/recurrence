@@ -20,7 +20,7 @@
   "gate4_passed": true,
   "gate5_transposition_laundering_count": 16,
   "gate5_passed": true,
-  "gate6_p_value": 0.0001220703125,
+  "gate6_p_value": 0.0000152587890625,
   "gate6_passed": true,
   "all_gates_passed": true,
   "seed_outcomes": [
@@ -33,9 +33,11 @@
       "gate4_transposition_return": -1.0,
       "gate5_transposition_laundering_passed": true,
       "gate6_path_break_passed": true,
+      "gate6_delta_a": 0.59958065,
       "self_sup_multihop_acc": 1.0,
       "shuffled_control_multihop_acc": 0.9464286,
-      "dataset_target_sum": 595
+      "dataset_intact_target_sum": 595,
+      "dataset_shuffled_target_sum": 595
     },
     {
       "seed": 172002,
@@ -46,9 +48,11 @@
       "gate4_transposition_return": -1.0,
       "gate5_transposition_laundering_passed": true,
       "gate6_path_break_passed": true,
+      "gate6_delta_a": 0.61440545,
       "self_sup_multihop_acc": 1.0,
       "shuffled_control_multihop_acc": 0.96,
-      "dataset_target_sum": 634
+      "dataset_intact_target_sum": 634,
+      "dataset_shuffled_target_sum": 634
     },
     {
       "seed": 172003,
@@ -59,9 +63,11 @@
       "gate4_transposition_return": -1.0,
       "gate5_transposition_laundering_passed": true,
       "gate6_path_break_passed": true,
+      "gate6_delta_a": 0.5150666,
       "self_sup_multihop_acc": 1.0,
       "shuffled_control_multihop_acc": 0.9183673,
-      "dataset_target_sum": 613
+      "dataset_intact_target_sum": 613,
+      "dataset_shuffled_target_sum": 613
     },
     {
       "seed": 172004,
@@ -72,9 +78,11 @@
       "gate4_transposition_return": -1.0,
       "gate5_transposition_laundering_passed": true,
       "gate6_path_break_passed": true,
+      "gate6_delta_a": 0.56636924,
       "self_sup_multihop_acc": 1.0,
       "shuffled_control_multihop_acc": 1.0,
-      "dataset_target_sum": 614
+      "dataset_intact_target_sum": 614,
+      "dataset_shuffled_target_sum": 614
     },
     {
       "seed": 172005,
@@ -85,9 +93,11 @@
       "gate4_transposition_return": -1.0,
       "gate5_transposition_laundering_passed": true,
       "gate6_path_break_passed": true,
+      "gate6_delta_a": 0.63227373,
       "self_sup_multihop_acc": 1.0,
       "shuffled_control_multihop_acc": 1.0,
-      "dataset_target_sum": 674
+      "dataset_intact_target_sum": 674,
+      "dataset_shuffled_target_sum": 674
     },
     {
       "seed": 172006,
@@ -98,9 +108,11 @@
       "gate4_transposition_return": -1.0,
       "gate5_transposition_laundering_passed": true,
       "gate6_path_break_passed": true,
+      "gate6_delta_a": 0.5218449,
       "self_sup_multihop_acc": 1.0,
       "shuffled_control_multihop_acc": 1.0,
-      "dataset_target_sum": 670
+      "dataset_intact_target_sum": 670,
+      "dataset_shuffled_target_sum": 670
     },
     {
       "seed": 172007,
@@ -111,9 +123,11 @@
       "gate4_transposition_return": -1.0,
       "gate5_transposition_laundering_passed": true,
       "gate6_path_break_passed": true,
+      "gate6_delta_a": 0.5863685,
       "self_sup_multihop_acc": 1.0,
       "shuffled_control_multihop_acc": 0.96666664,
-      "dataset_target_sum": 626
+      "dataset_intact_target_sum": 626,
+      "dataset_shuffled_target_sum": 626
     },
     {
       "seed": 172008,
@@ -124,9 +138,11 @@
       "gate4_transposition_return": -1.0,
       "gate5_transposition_laundering_passed": true,
       "gate6_path_break_passed": true,
+      "gate6_delta_a": 0.514258,
       "self_sup_multihop_acc": 1.0,
       "shuffled_control_multihop_acc": 0.97959185,
-      "dataset_target_sum": 648
+      "dataset_intact_target_sum": 648,
+      "dataset_shuffled_target_sum": 648
     },
     {
       "seed": 172009,
@@ -137,9 +153,11 @@
       "gate4_transposition_return": -1.0,
       "gate5_transposition_laundering_passed": true,
       "gate6_path_break_passed": true,
+      "gate6_delta_a": 0.5010258,
       "self_sup_multihop_acc": 1.0,
       "shuffled_control_multihop_acc": 0.962963,
-      "dataset_target_sum": 642
+      "dataset_intact_target_sum": 642,
+      "dataset_shuffled_target_sum": 642
     },
     {
       "seed": 172010,
@@ -150,9 +168,11 @@
       "gate4_transposition_return": -1.0,
       "gate5_transposition_laundering_passed": true,
       "gate6_path_break_passed": true,
+      "gate6_delta_a": 0.42341244,
       "self_sup_multihop_acc": 0.984127,
       "shuffled_control_multihop_acc": 0.9206349,
-      "dataset_target_sum": 621
+      "dataset_intact_target_sum": 621,
+      "dataset_shuffled_target_sum": 621
     },
     {
       "seed": 172011,
@@ -163,9 +183,11 @@
       "gate4_transposition_return": -1.0,
       "gate5_transposition_laundering_passed": true,
       "gate6_path_break_passed": false,
+      "gate6_delta_a": 0.3912974,
       "self_sup_multihop_acc": 1.0,
       "shuffled_control_multihop_acc": 0.9508197,
-      "dataset_target_sum": 619
+      "dataset_intact_target_sum": 619,
+      "dataset_shuffled_target_sum": 619
     },
     {
       "seed": 172012,
@@ -176,9 +198,11 @@
       "gate4_transposition_return": -1.0,
       "gate5_transposition_laundering_passed": true,
       "gate6_path_break_passed": false,
+      "gate6_delta_a": 0.36090297,
       "self_sup_multihop_acc": 0.98214287,
       "shuffled_control_multihop_acc": 0.85714287,
-      "dataset_target_sum": 640
+      "dataset_intact_target_sum": 640,
+      "dataset_shuffled_target_sum": 640
     },
     {
       "seed": 172013,
@@ -189,9 +213,11 @@
       "gate4_transposition_return": -1.0,
       "gate5_transposition_laundering_passed": true,
       "gate6_path_break_passed": true,
+      "gate6_delta_a": 0.633183,
       "self_sup_multihop_acc": 0.97959185,
       "shuffled_control_multihop_acc": 0.9591837,
-      "dataset_target_sum": 629
+      "dataset_intact_target_sum": 629,
+      "dataset_shuffled_target_sum": 629
     },
     {
       "seed": 172014,
@@ -202,9 +228,11 @@
       "gate4_transposition_return": -1.0,
       "gate5_transposition_laundering_passed": true,
       "gate6_path_break_passed": false,
+      "gate6_delta_a": 0.38625944,
       "self_sup_multihop_acc": 0.98245615,
       "shuffled_control_multihop_acc": 0.9122807,
-      "dataset_target_sum": 602
+      "dataset_intact_target_sum": 602,
+      "dataset_shuffled_target_sum": 602
     },
     {
       "seed": 172015,
@@ -215,9 +243,11 @@
       "gate4_transposition_return": -1.0,
       "gate5_transposition_laundering_passed": true,
       "gate6_path_break_passed": true,
+      "gate6_delta_a": 0.5537237,
       "self_sup_multihop_acc": 1.0,
       "shuffled_control_multihop_acc": 0.9433962,
-      "dataset_target_sum": 656
+      "dataset_intact_target_sum": 656,
+      "dataset_shuffled_target_sum": 656
     },
     {
       "seed": 172016,
@@ -228,9 +258,11 @@
       "gate4_transposition_return": -1.0,
       "gate5_transposition_laundering_passed": true,
       "gate6_path_break_passed": true,
+      "gate6_delta_a": 0.5694588,
       "self_sup_multihop_acc": 1.0,
       "shuffled_control_multihop_acc": 0.9574468,
-      "dataset_target_sum": 589
+      "dataset_intact_target_sum": 589,
+      "dataset_shuffled_target_sum": 589
     }
   ]
 }

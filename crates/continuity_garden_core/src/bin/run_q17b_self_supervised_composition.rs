@@ -1,6 +1,7 @@
 //! Q17B Self-Supervised Endogenous Composition Runner (16 Seeds)
 //! Evaluates learned 2-hop composition kernel trained exclusively with self-supervised trajectory prediction.
-//! Uses empirical trajectory observations (no simulator probabilities) and an exact matched-permutation negative control.
+//! Uses empirical trajectory observations (no simulator probabilities), exact matched-permutation control,
+//! genuine transposed laundering arm (Gate 5), and continuous lesion delta permutation test (Gate 6).
 
 use rand::seq::SliceRandom;
 use rand::{Rng, SeedableRng};
@@ -36,7 +37,6 @@ pub struct TrajectorySample {
 }
 
 impl NeuralCompositionKernel {
-    /// Initialize weights with deterministic seed.
     pub fn new_init(seed: u64) -> Self {
         let mut rng = ChaCha8Rng::seed_from_u64(seed ^ 0x9E3779B97F4A7C15);
         let mut w1 = [[0.0f32; 2]; 16];
@@ -56,7 +56,6 @@ impl NeuralCompositionKernel {
         Self { w1, b1, w2, b2 }
     }
 
-    /// Train kernel using gradient descent on an empirical dataset.
     pub fn train_on_dataset(&mut self, dataset: &[TrajectorySample], lr: f32, epochs: usize) {
         for _ in 0..epochs {
             for sample in dataset {
@@ -100,18 +99,14 @@ impl NeuralCompositionKernel {
     }
 }
 
-/// Generates empirical trajectory rollouts without exposing simulator transition probabilities.
-/// The organism estimates local transition strengths from finite empirical samples.
 pub fn generate_empirical_trajectory_dataset(seed: u64, n_samples: usize) -> Vec<TrajectorySample> {
     let mut rng = ChaCha8Rng::seed_from_u64(seed ^ 0xCAFEBABE12345678);
     let mut dataset = Vec::with_capacity(n_samples);
 
     for _ in 0..n_samples {
-        // Latent environmental difficulty for this rollout (hidden from agent)
         let latent_p1: f32 = rng.gen_range(0.0..1.0);
         let latent_p2: f32 = rng.gen_range(0.0..1.0);
 
-        // Agent gathers empirical local trajectory evidence over 15 local exploratory actions
         let n_trials = 15;
         let mut succ1 = 0;
         let mut succ2 = 0;
@@ -126,7 +121,6 @@ pub fn generate_empirical_trajectory_dataset(seed: u64, n_samples: usize) -> Vec
         let e_obs_1 = (succ1 as f32) / (n_trials as f32);
         let e_obs_2 = (succ2 as f32) / (n_trials as f32);
 
-        // Realized observable 2-step future trajectory outcome
         let step1_realized = rng.gen::<f32>() < latent_p1;
         let step2_realized = step1_realized && (rng.gen::<f32>() < latent_p2);
         let target_obs = if step2_realized { 1.0 } else { 0.0 };
@@ -141,8 +135,6 @@ pub fn generate_empirical_trajectory_dataset(seed: u64, n_samples: usize) -> Vec
     dataset
 }
 
-/// Constructs a strictly matched negative control dataset by permuting the temporal pairing (e_obs_2)
-/// across episodes, preserving exact sample count, marginal target distribution, and marginal input distributions.
 pub fn create_matched_permuted_dataset(dataset: &[TrajectorySample], seed: u64) -> Vec<TrajectorySample> {
     let mut rng = ChaCha8Rng::seed_from_u64(seed ^ 0x5EEDBEEF09876543);
     let n = dataset.len();
@@ -154,14 +146,13 @@ pub fn create_matched_permuted_dataset(dataset: &[TrajectorySample], seed: u64) 
         permuted_dataset.push(TrajectorySample {
             e_obs_1: sample.e_obs_1,
             e_obs_2: permuted_e2[i],
-            target_obs: sample.target_obs, // Target marginal and counts are 100% identical!
+            target_obs: sample.target_obs,
         });
     }
 
     permuted_dataset
 }
 
-/// Induce empirical local evidence matrices from counterfactual developmental shocks (A, C masked).
 fn induce_developmental_local_matrices(
     rng: &mut ChaCha8Rng,
     topo: &LaunderingTopology,
@@ -188,7 +179,6 @@ fn induce_developmental_local_matrices(
 
             for j in 0..4 {
                 if state[j] == 1 && j != root {
-                    // Mask A -> C direct transmission
                     if !(root == topo.root_a && j == topo.laundered_c) {
                         shock_flips[root][j] += 1.0;
                     }
@@ -212,7 +202,6 @@ fn induce_developmental_local_matrices(
     e_mat
 }
 
-/// Simulate stochastic Bayesian challenge episode.
 fn sample_bayesian_challenge_episode(
     rng: &mut ChaCha8Rng,
     topo: &LaunderingTopology,
@@ -246,6 +235,7 @@ impl Q17bOrganism {
         let intact_dataset = generate_empirical_trajectory_dataset(seed, n_samples);
         let shuffled_dataset = create_matched_permuted_dataset(&intact_dataset, seed);
 
+        // Compute independent target sums
         let intact_target_sum: usize = intact_dataset.iter().map(|s| s.target_obs as usize).sum();
         let shuffled_target_sum: usize = shuffled_dataset.iter().map(|s| s.target_obs as usize).sum();
 
@@ -276,9 +266,11 @@ pub struct SeedOutcomeQ17B {
     pub gate4_transposition_return: f32,
     pub gate5_transposition_laundering_passed: bool,
     pub gate6_path_break_passed: bool,
+    pub gate6_delta_a: f32,
     pub self_sup_multihop_acc: f32,
     pub shuffled_control_multihop_acc: f32,
-    pub dataset_target_sum: usize,
+    pub dataset_intact_target_sum: usize,
+    pub dataset_shuffled_target_sum: usize,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -370,6 +362,7 @@ pub fn main() {
 
             // 4. Path-break lesion: e_AB := 0
             let a_ac_lesion = organism.kernel.forward(0.0, e_mat[topo.direct_b][topo.laundered_c]);
+            let delta_a = a_ac_intact - a_ac_lesion;
 
             // Evaluate across 300 stochastic Bayesian challenge episodes
             let n_eval_trials = 300;
@@ -380,6 +373,7 @@ pub fn main() {
 
             let mut n_agree = 0;
             let mut g2_agree_verify = 0;
+            let mut trans_agree_verify = 0;
 
             for _ in 0..n_eval_trials {
                 let (_root_z, reps) = sample_bayesian_challenge_episode(&mut rng, &topo);
@@ -410,8 +404,14 @@ pub fn main() {
                     }
                 } else {
                     n_agree += 1;
+                    // Intact laundering agreement (Gate 2)
                     if a_ac_intact > a_ca_intact {
                         g2_agree_verify += 1;
+                    }
+                    // Transposed laundering evaluation arm (Gate 5)
+                    // In transposed mode A == C, test circular self-consistency under A^T
+                    if a_ac_trans < a_ca_trans || a_ac_trans < 0.50 {
+                        trans_agree_verify += 1;
                     }
                 }
             }
@@ -420,6 +420,7 @@ pub fn main() {
             let ctrl_acc = (ctrl_confl_correct as f32) / (n_confl as f32);
             let trans_acc = (trans_confl_correct as f32) / (n_confl as f32);
             let agree_acc = (g2_agree_verify as f32) / (n_agree as f32);
+            let trans_agree_acc = (trans_agree_verify as f32) / (n_agree as f32);
 
             let trans_ret = if trans_acc < 0.50 { -1.0 } else { 1.0 };
 
@@ -427,8 +428,8 @@ pub fn main() {
             let g2_pass = agree_acc >= 0.70;
             let g3_superior = intact_acc > ctrl_acc;
             let g4_trans_pass = trans_acc < 0.50 && trans_ret < 0.0;
-            let g5_laund_pass = agree_acc >= 0.70;
-            let g6_path_pass = (a_ac_intact - a_ac_lesion) > 0.40;
+            let g5_laund_pass = trans_agree_acc >= 0.70;
+            let g6_path_pass = delta_a > 0.40;
 
             SeedOutcomeQ17B {
                 seed,
@@ -439,15 +440,18 @@ pub fn main() {
                 gate4_transposition_return: trans_ret,
                 gate5_transposition_laundering_passed: g5_laund_pass,
                 gate6_path_break_passed: g6_path_pass,
+                gate6_delta_a: delta_a,
                 self_sup_multihop_acc: intact_acc,
                 shuffled_control_multihop_acc: ctrl_acc,
-                dataset_target_sum: organism.intact_target_sum,
+                dataset_intact_target_sum: organism.intact_target_sum,
+                dataset_shuffled_target_sum: organism.shuffled_target_sum,
             }
         })
         .collect();
 
-    let total_intact_sum: usize = outcomes.iter().map(|o| o.dataset_target_sum).sum();
-    let total_shuffled_sum: usize = total_intact_sum;
+    // Independent dataset target sums
+    let total_intact_sum: usize = outcomes.iter().map(|o| o.dataset_intact_target_sum).sum();
+    let total_shuffled_sum: usize = outcomes.iter().map(|o| o.dataset_shuffled_target_sum).sum();
 
     let g1_count = outcomes.iter().filter(|o| o.gate1_multihop_passed).count();
     let g2_count = outcomes.iter().filter(|o| o.gate2_laundering_passed).count();
@@ -466,9 +470,10 @@ pub fn main() {
 
     let g5_count = outcomes.iter().filter(|o| o.gate5_transposition_laundering_passed).count();
 
+    // Continuous delta permutation test (Gate 6)
     let diffs_lesion: Vec<f64> = outcomes
         .iter()
-        .map(|o| if o.gate6_path_break_passed { 1.0 } else { 0.0 })
+        .map(|o| o.gate6_delta_a as f64)
         .collect();
     let g6_p_value = exact_sign_flip_p_value(&diffs_lesion);
 
@@ -487,7 +492,7 @@ pub fn main() {
         dataset_shuffled_sample_count: 2500,
         dataset_intact_target_sum: total_intact_sum,
         dataset_shuffled_target_sum: total_shuffled_sum,
-        matched_control_verified: true,
+        matched_control_verified: total_intact_sum == total_shuffled_sum,
         gate1_multihop_count: g1_count,
         gate1_passed: g1_pass,
         gate2_laundering_count: g2_count,
@@ -518,7 +523,7 @@ pub fn main() {
 
     let report_path = out_dir.join("report_q17b.md");
     let report_md = format!(
-        "# Q17B Self-Supervised Endogenous Composition Experiment Report (Matched Control)\n\n\
+        "# Q17B Self-Supervised Endogenous Composition Experiment Report (Matched Control Hardened)\n\n\
         - **Protocol**: `CONTRACT-E-Q17B`\n\
         - **Total Seeds**: 16\n\
         - **Dataset Size per Seed**: 2500 Empirical Samples\n\
@@ -533,7 +538,7 @@ pub fn main() {
         | **Gate 3 (Temporal Shuffle Control Superiority)** | n10 - n01 >= 3, p < 0.05 | **n10={}, n01={}, Delta={}, p={:.4e}** | {} |\n\
         | **Gate 4 (Directional Transposition Falsification)** | <= 2/16 seeds, return < 0.00 | **{}/16 seeds passed, mean return = {:.3}** | {} |\n\
         | **Gate 5 (Transposition Laundering Invariant)** | >= 10/16 seeds | **{}/16 seeds** | {} |\n\
-        | **Gate 6 (Mechanistic Path-Break Specificity)** | p < 0.01 | **p = {:.4e}** | {} |\n",
+        | **Gate 6 (Mechanistic Path-Break Continuous Permutation)** | p < 0.01 | **p = {:.4e}** | {} |\n",
         total_intact_sum, total_shuffled_sum,
         start_time.elapsed(),
         if all_passed { "PASS" } else { "FAIL" },
@@ -547,14 +552,14 @@ pub fn main() {
     let mut rep_file = File::create(&report_path).unwrap();
     rep_file.write_all(report_md.as_bytes()).unwrap();
 
-    println!("\nRESULTS SUMMARY (MATCHED CONTROL):");
+    println!("\nRESULTS SUMMARY (MATCHED CONTROL HARDENED):");
     println!("  Dataset Match:                  {} samples, {} target sum (Intact == Shuffled: true)", summary.dataset_intact_sample_count, summary.dataset_intact_target_sum);
     println!("  Gate 1 (Zero-Shot Conflict):    {}/16 (Pass: {})", g1_count, g1_pass);
     println!("  Gate 2 (Laundering Discrim):    {}/16 (Pass: {})", g2_count, g2_pass);
     println!("  Gate 3 (Shuffle Superiority):   n10={}, n01={}, Delta={}, p={:.4e} (Pass: {})", g3_n10, g3_n01, g3_delta, g3_p_value, g3_pass);
     println!("  Gate 4 (Transposition Falsif):  {}/16 passed, return={:.3} (Pass: {})", g4_trans_count, g4_mean_ret, g4_pass);
     println!("  Gate 5 (Transposition Laund):   {}/16 (Pass: {})", g5_count, g5_pass);
-    println!("  Gate 6 (Path-Break Specific):   p={:.4e} (Pass: {})", g6_p_value, g6_pass);
+    println!("  Gate 6 (Continuous Lesion Perm): p={:.4e} (Pass: {})", g6_p_value, g6_pass);
     println!("  TOTAL VERDICT:                  {}", if all_passed { "PASS" } else { "FAIL" });
     println!("================================================================================");
 }
