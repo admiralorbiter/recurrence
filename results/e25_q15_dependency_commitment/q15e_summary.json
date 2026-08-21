@@ -1,0 +1,1522 @@
+[
+  {
+    "seed": 101,
+    "sweep_results": [
+      {
+        "k_calibration_episodes": 0,
+        "test_ddi": -0.027884066,
+        "test_return": -1.815,
+        "test_independent_commit_rate": 0.42372882,
+        "test_copied_verify_rate": 0.0,
+        "structured_controls": {
+          "intact_ddi": -0.027884066,
+          "intact_return": -1.815,
+          "zero_memory_ddi": -0.027884066,
+          "permuted_memory_ddi": -0.027884066,
+          "other_block_memory_ddi": -0.027884066,
+          "diagonal_only_ddi": -0.027884066,
+          "off_diagonal_only_ddi": -0.027884066,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "k_calibration_episodes": 2,
+        "test_ddi": 0.08724207,
+        "test_return": -1.64,
+        "test_independent_commit_rate": 0.53846157,
+        "test_copied_verify_rate": 0.0,
+        "structured_controls": {
+          "intact_ddi": 0.08724207,
+          "intact_return": -1.64,
+          "zero_memory_ddi": 0.08724207,
+          "permuted_memory_ddi": 0.08724207,
+          "other_block_memory_ddi": 0.08724207,
+          "diagonal_only_ddi": 0.08724207,
+          "off_diagonal_only_ddi": 0.08724207,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "k_calibration_episodes": 4,
+        "test_ddi": -0.06329116,
+        "test_return": -1.36,
+        "test_independent_commit_rate": 0.46835443,
+        "test_copied_verify_rate": 0.0,
+        "structured_controls": {
+          "intact_ddi": -0.06329116,
+          "intact_return": -1.36,
+          "zero_memory_ddi": -0.06329116,
+          "permuted_memory_ddi": -0.06329116,
+          "other_block_memory_ddi": -0.06329116,
+          "diagonal_only_ddi": -0.06329116,
+          "off_diagonal_only_ddi": -0.06329116,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "k_calibration_episodes": 8,
+        "test_ddi": 0.05596471,
+        "test_return": -1.395,
+        "test_independent_commit_rate": 0.5714286,
+        "test_copied_verify_rate": 0.0,
+        "structured_controls": {
+          "intact_ddi": 0.05596471,
+          "intact_return": -1.395,
+          "zero_memory_ddi": 0.05596471,
+          "permuted_memory_ddi": 0.05596471,
+          "other_block_memory_ddi": 0.05596471,
+          "diagonal_only_ddi": 0.05596471,
+          "off_diagonal_only_ddi": 0.05596471,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "k_calibration_episodes": 16,
+        "test_ddi": 0.112517595,
+        "test_return": -1.43,
+        "test_independent_commit_rate": 0.5555556,
+        "test_copied_verify_rate": 0.0,
+        "structured_controls": {
+          "intact_ddi": 0.112517595,
+          "intact_return": -1.43,
+          "zero_memory_ddi": 0.112517595,
+          "permuted_memory_ddi": 0.112517595,
+          "other_block_memory_ddi": 0.112517595,
+          "diagonal_only_ddi": 0.112517595,
+          "off_diagonal_only_ddi": 0.112517595,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      }
+    ]
+  },
+  {
+    "seed": 102,
+    "sweep_results": [
+      {
+        "k_calibration_episodes": 0,
+        "test_ddi": 0.0,
+        "test_return": 1.1999979,
+        "test_independent_commit_rate": 0.0,
+        "test_copied_verify_rate": 1.0,
+        "structured_controls": {
+          "intact_ddi": 0.0,
+          "intact_return": 1.1999979,
+          "zero_memory_ddi": 0.0,
+          "permuted_memory_ddi": 0.0,
+          "other_block_memory_ddi": 0.0,
+          "diagonal_only_ddi": 0.0,
+          "off_diagonal_only_ddi": 0.0,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "k_calibration_episodes": 2,
+        "test_ddi": 0.0,
+        "test_return": 1.1999979,
+        "test_independent_commit_rate": 0.0,
+        "test_copied_verify_rate": 1.0,
+        "structured_controls": {
+          "intact_ddi": 0.0,
+          "intact_return": 1.1999979,
+          "zero_memory_ddi": 0.0,
+          "permuted_memory_ddi": 0.0,
+          "other_block_memory_ddi": 0.0,
+          "diagonal_only_ddi": 0.0,
+          "off_diagonal_only_ddi": 0.0,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "k_calibration_episodes": 4,
+        "test_ddi": 0.0,
+        "test_return": 1.1999979,
+        "test_independent_commit_rate": 0.0,
+        "test_copied_verify_rate": 1.0,
+        "structured_controls": {
+          "intact_ddi": 0.0,
+          "intact_return": 1.1999979,
+          "zero_memory_ddi": 0.0,
+          "permuted_memory_ddi": 0.0,
+          "other_block_memory_ddi": 0.0,
+          "diagonal_only_ddi": 0.0,
+          "off_diagonal_only_ddi": 0.0,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "k_calibration_episodes": 8,
+        "test_ddi": 0.0,
+        "test_return": 1.1999979,
+        "test_independent_commit_rate": 0.0,
+        "test_copied_verify_rate": 1.0,
+        "structured_controls": {
+          "intact_ddi": 0.0,
+          "intact_return": 1.1999979,
+          "zero_memory_ddi": 0.0,
+          "permuted_memory_ddi": 0.0,
+          "other_block_memory_ddi": 0.0,
+          "diagonal_only_ddi": 0.0,
+          "off_diagonal_only_ddi": 0.0,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "k_calibration_episodes": 16,
+        "test_ddi": 0.0,
+        "test_return": 1.1999979,
+        "test_independent_commit_rate": 0.0,
+        "test_copied_verify_rate": 1.0,
+        "structured_controls": {
+          "intact_ddi": 0.0,
+          "intact_return": 1.1999979,
+          "zero_memory_ddi": 0.0,
+          "permuted_memory_ddi": 0.0,
+          "other_block_memory_ddi": 0.0,
+          "diagonal_only_ddi": 0.0,
+          "off_diagonal_only_ddi": 0.0,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      }
+    ]
+  },
+  {
+    "seed": 103,
+    "sweep_results": [
+      {
+        "k_calibration_episodes": 0,
+        "test_ddi": -0.084421486,
+        "test_return": -1.745,
+        "test_independent_commit_rate": 0.43243244,
+        "test_copied_verify_rate": 0.0,
+        "structured_controls": {
+          "intact_ddi": -0.084421486,
+          "intact_return": -1.745,
+          "zero_memory_ddi": -0.084421486,
+          "permuted_memory_ddi": -0.084421486,
+          "other_block_memory_ddi": -0.084421486,
+          "diagonal_only_ddi": -0.084421486,
+          "off_diagonal_only_ddi": -0.084421486,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "k_calibration_episodes": 2,
+        "test_ddi": -0.055839717,
+        "test_return": -1.57,
+        "test_independent_commit_rate": 0.46376812,
+        "test_copied_verify_rate": 0.0,
+        "structured_controls": {
+          "intact_ddi": -0.055839717,
+          "intact_return": -1.57,
+          "zero_memory_ddi": -0.055839717,
+          "permuted_memory_ddi": -0.055839717,
+          "other_block_memory_ddi": -0.055839717,
+          "diagonal_only_ddi": -0.055839717,
+          "off_diagonal_only_ddi": -0.055839717,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "k_calibration_episodes": 4,
+        "test_ddi": 0.17220798,
+        "test_return": -1.325,
+        "test_independent_commit_rate": 0.6231884,
+        "test_copied_verify_rate": 0.0,
+        "structured_controls": {
+          "intact_ddi": 0.17220798,
+          "intact_return": -1.325,
+          "zero_memory_ddi": 0.17220798,
+          "permuted_memory_ddi": 0.17220798,
+          "other_block_memory_ddi": 0.17220798,
+          "diagonal_only_ddi": 0.17220798,
+          "off_diagonal_only_ddi": 0.17220798,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "k_calibration_episodes": 8,
+        "test_ddi": -0.02905637,
+        "test_return": -1.29,
+        "test_independent_commit_rate": 0.49367088,
+        "test_copied_verify_rate": 0.0,
+        "structured_controls": {
+          "intact_ddi": -0.02905637,
+          "intact_return": -1.29,
+          "zero_memory_ddi": -0.02905637,
+          "permuted_memory_ddi": -0.02905637,
+          "other_block_memory_ddi": -0.02905637,
+          "diagonal_only_ddi": -0.02905637,
+          "off_diagonal_only_ddi": -0.02905637,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "k_calibration_episodes": 16,
+        "test_ddi": 0.037999034,
+        "test_return": -1.92,
+        "test_independent_commit_rate": 0.5185185,
+        "test_copied_verify_rate": 0.0,
+        "structured_controls": {
+          "intact_ddi": 0.037999034,
+          "intact_return": -1.92,
+          "zero_memory_ddi": 0.037999034,
+          "permuted_memory_ddi": 0.037999034,
+          "other_block_memory_ddi": 0.037999034,
+          "diagonal_only_ddi": 0.037999034,
+          "off_diagonal_only_ddi": 0.037999034,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      }
+    ]
+  },
+  {
+    "seed": 104,
+    "sweep_results": [
+      {
+        "k_calibration_episodes": 0,
+        "test_ddi": 0.0,
+        "test_return": 1.1999979,
+        "test_independent_commit_rate": 0.0,
+        "test_copied_verify_rate": 1.0,
+        "structured_controls": {
+          "intact_ddi": 0.0,
+          "intact_return": 1.1999979,
+          "zero_memory_ddi": 0.0,
+          "permuted_memory_ddi": 0.0,
+          "other_block_memory_ddi": 0.0,
+          "diagonal_only_ddi": 0.0,
+          "off_diagonal_only_ddi": 0.0,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "k_calibration_episodes": 2,
+        "test_ddi": 0.0,
+        "test_return": 1.1999979,
+        "test_independent_commit_rate": 0.0,
+        "test_copied_verify_rate": 1.0,
+        "structured_controls": {
+          "intact_ddi": 0.0,
+          "intact_return": 1.1999979,
+          "zero_memory_ddi": 0.0,
+          "permuted_memory_ddi": 0.0,
+          "other_block_memory_ddi": 0.0,
+          "diagonal_only_ddi": 0.0,
+          "off_diagonal_only_ddi": 0.0,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "k_calibration_episodes": 4,
+        "test_ddi": 0.0,
+        "test_return": 1.1999979,
+        "test_independent_commit_rate": 0.0,
+        "test_copied_verify_rate": 1.0,
+        "structured_controls": {
+          "intact_ddi": 0.0,
+          "intact_return": 1.1999979,
+          "zero_memory_ddi": 0.0,
+          "permuted_memory_ddi": 0.0,
+          "other_block_memory_ddi": 0.0,
+          "diagonal_only_ddi": 0.0,
+          "off_diagonal_only_ddi": 0.0,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "k_calibration_episodes": 8,
+        "test_ddi": 0.0,
+        "test_return": 1.1999979,
+        "test_independent_commit_rate": 0.0,
+        "test_copied_verify_rate": 1.0,
+        "structured_controls": {
+          "intact_ddi": 0.0,
+          "intact_return": 1.1999979,
+          "zero_memory_ddi": 0.0,
+          "permuted_memory_ddi": 0.0,
+          "other_block_memory_ddi": 0.0,
+          "diagonal_only_ddi": 0.0,
+          "off_diagonal_only_ddi": 0.0,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "k_calibration_episodes": 16,
+        "test_ddi": 0.0,
+        "test_return": 1.1999979,
+        "test_independent_commit_rate": 0.0,
+        "test_copied_verify_rate": 1.0,
+        "structured_controls": {
+          "intact_ddi": 0.0,
+          "intact_return": 1.1999979,
+          "zero_memory_ddi": 0.0,
+          "permuted_memory_ddi": 0.0,
+          "other_block_memory_ddi": 0.0,
+          "diagonal_only_ddi": 0.0,
+          "off_diagonal_only_ddi": 0.0,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      }
+    ]
+  },
+  {
+    "seed": 105,
+    "sweep_results": [
+      {
+        "k_calibration_episodes": 0,
+        "test_ddi": -0.08874673,
+        "test_return": -1.255,
+        "test_independent_commit_rate": 0.49367088,
+        "test_copied_verify_rate": 0.0,
+        "structured_controls": {
+          "intact_ddi": -0.08874673,
+          "intact_return": -1.255,
+          "zero_memory_ddi": -0.08874673,
+          "permuted_memory_ddi": -0.08874673,
+          "other_block_memory_ddi": -0.08874673,
+          "diagonal_only_ddi": -0.08874673,
+          "off_diagonal_only_ddi": -0.08874673,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "k_calibration_episodes": 2,
+        "test_ddi": -0.048441708,
+        "test_return": -1.78,
+        "test_independent_commit_rate": 0.4027778,
+        "test_copied_verify_rate": 0.0,
+        "structured_controls": {
+          "intact_ddi": -0.048441708,
+          "intact_return": -1.78,
+          "zero_memory_ddi": -0.048441708,
+          "permuted_memory_ddi": -0.048441708,
+          "other_block_memory_ddi": -0.048441708,
+          "diagonal_only_ddi": -0.048441708,
+          "off_diagonal_only_ddi": -0.048441708,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "k_calibration_episodes": 4,
+        "test_ddi": -0.08427718,
+        "test_return": -1.64,
+        "test_independent_commit_rate": 0.4473684,
+        "test_copied_verify_rate": 0.0,
+        "structured_controls": {
+          "intact_ddi": -0.08427718,
+          "intact_return": -1.64,
+          "zero_memory_ddi": -0.08427718,
+          "permuted_memory_ddi": -0.08427718,
+          "other_block_memory_ddi": -0.08427718,
+          "diagonal_only_ddi": -0.08427718,
+          "off_diagonal_only_ddi": -0.08427718,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "k_calibration_episodes": 8,
+        "test_ddi": -0.06626505,
+        "test_return": -1.745,
+        "test_independent_commit_rate": 0.43373495,
+        "test_copied_verify_rate": 0.0,
+        "structured_controls": {
+          "intact_ddi": -0.06626505,
+          "intact_return": -1.745,
+          "zero_memory_ddi": -0.06626505,
+          "permuted_memory_ddi": -0.06626505,
+          "other_block_memory_ddi": -0.06626505,
+          "diagonal_only_ddi": -0.06626505,
+          "off_diagonal_only_ddi": -0.06626505,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "k_calibration_episodes": 16,
+        "test_ddi": 0.23177758,
+        "test_return": -1.64,
+        "test_independent_commit_rate": 0.6025641,
+        "test_copied_verify_rate": 0.0,
+        "structured_controls": {
+          "intact_ddi": 0.23177758,
+          "intact_return": -1.64,
+          "zero_memory_ddi": 0.23177758,
+          "permuted_memory_ddi": 0.23177758,
+          "other_block_memory_ddi": 0.23177758,
+          "diagonal_only_ddi": 0.23177758,
+          "off_diagonal_only_ddi": 0.23177758,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      }
+    ]
+  },
+  {
+    "seed": 106,
+    "sweep_results": [
+      {
+        "k_calibration_episodes": 0,
+        "test_ddi": 0.054371536,
+        "test_return": -1.045,
+        "test_independent_commit_rate": 0.55932206,
+        "test_copied_verify_rate": 0.0,
+        "structured_controls": {
+          "intact_ddi": 0.054371536,
+          "intact_return": -1.045,
+          "zero_memory_ddi": 0.054371536,
+          "permuted_memory_ddi": 0.054371536,
+          "other_block_memory_ddi": 0.054371536,
+          "diagonal_only_ddi": 0.054371536,
+          "off_diagonal_only_ddi": 0.054371536,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "k_calibration_episodes": 2,
+        "test_ddi": -0.03903821,
+        "test_return": -1.57,
+        "test_independent_commit_rate": 0.4857143,
+        "test_copied_verify_rate": 0.0,
+        "structured_controls": {
+          "intact_ddi": -0.03903821,
+          "intact_return": -1.57,
+          "zero_memory_ddi": -0.03903821,
+          "permuted_memory_ddi": -0.03903821,
+          "other_block_memory_ddi": -0.03903821,
+          "diagonal_only_ddi": -0.03903821,
+          "off_diagonal_only_ddi": -0.03903821,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "k_calibration_episodes": 4,
+        "test_ddi": -0.015915096,
+        "test_return": -1.605,
+        "test_independent_commit_rate": 0.51282054,
+        "test_copied_verify_rate": 0.0,
+        "structured_controls": {
+          "intact_ddi": -0.015915096,
+          "intact_return": -1.605,
+          "zero_memory_ddi": -0.015915096,
+          "permuted_memory_ddi": -0.015915096,
+          "other_block_memory_ddi": -0.015915096,
+          "diagonal_only_ddi": -0.015915096,
+          "off_diagonal_only_ddi": -0.015915096,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "k_calibration_episodes": 8,
+        "test_ddi": 0.110521704,
+        "test_return": -1.57,
+        "test_independent_commit_rate": 0.51282054,
+        "test_copied_verify_rate": 0.0,
+        "structured_controls": {
+          "intact_ddi": 0.110521704,
+          "intact_return": -1.57,
+          "zero_memory_ddi": 0.110521704,
+          "permuted_memory_ddi": 0.110521704,
+          "other_block_memory_ddi": 0.110521704,
+          "diagonal_only_ddi": 0.110521704,
+          "off_diagonal_only_ddi": 0.110521704,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "k_calibration_episodes": 16,
+        "test_ddi": 0.07352942,
+        "test_return": -1.465,
+        "test_independent_commit_rate": 0.5735294,
+        "test_copied_verify_rate": 0.0,
+        "structured_controls": {
+          "intact_ddi": 0.07352942,
+          "intact_return": -1.465,
+          "zero_memory_ddi": 0.07352942,
+          "permuted_memory_ddi": 0.07352942,
+          "other_block_memory_ddi": 0.07352942,
+          "diagonal_only_ddi": 0.07352942,
+          "off_diagonal_only_ddi": 0.07352942,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      }
+    ]
+  },
+  {
+    "seed": 107,
+    "sweep_results": [
+      {
+        "k_calibration_episodes": 0,
+        "test_ddi": 0.018895686,
+        "test_return": -1.465,
+        "test_independent_commit_rate": 0.5243902,
+        "test_copied_verify_rate": 0.0,
+        "structured_controls": {
+          "intact_ddi": 0.018895686,
+          "intact_return": -1.465,
+          "zero_memory_ddi": 0.018895686,
+          "permuted_memory_ddi": 0.018895686,
+          "other_block_memory_ddi": 0.018895686,
+          "diagonal_only_ddi": 0.018895686,
+          "off_diagonal_only_ddi": 0.018895686,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "k_calibration_episodes": 2,
+        "test_ddi": -0.110000014,
+        "test_return": -1.22,
+        "test_independent_commit_rate": 0.5,
+        "test_copied_verify_rate": 0.0,
+        "structured_controls": {
+          "intact_ddi": -0.110000014,
+          "intact_return": -1.22,
+          "zero_memory_ddi": -0.110000014,
+          "permuted_memory_ddi": -0.110000014,
+          "other_block_memory_ddi": -0.110000014,
+          "diagonal_only_ddi": -0.110000014,
+          "off_diagonal_only_ddi": -0.110000014,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "k_calibration_episodes": 4,
+        "test_ddi": 0.018209875,
+        "test_return": -1.5,
+        "test_independent_commit_rate": 0.54320985,
+        "test_copied_verify_rate": 0.0,
+        "structured_controls": {
+          "intact_ddi": 0.018209875,
+          "intact_return": -1.5,
+          "zero_memory_ddi": 0.018209875,
+          "permuted_memory_ddi": 0.018209875,
+          "other_block_memory_ddi": 0.018209875,
+          "diagonal_only_ddi": 0.018209875,
+          "off_diagonal_only_ddi": 0.018209875,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "k_calibration_episodes": 8,
+        "test_ddi": 0.14119923,
+        "test_return": -1.605,
+        "test_independent_commit_rate": 0.54545456,
+        "test_copied_verify_rate": 0.0,
+        "structured_controls": {
+          "intact_ddi": 0.14119923,
+          "intact_return": -1.605,
+          "zero_memory_ddi": 0.14119923,
+          "permuted_memory_ddi": 0.14119923,
+          "other_block_memory_ddi": 0.14119923,
+          "diagonal_only_ddi": 0.14119923,
+          "off_diagonal_only_ddi": 0.14119923,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "k_calibration_episodes": 16,
+        "test_ddi": 0.09585592,
+        "test_return": -1.57,
+        "test_independent_commit_rate": 0.5903614,
+        "test_copied_verify_rate": 0.0,
+        "structured_controls": {
+          "intact_ddi": 0.09585592,
+          "intact_return": -1.57,
+          "zero_memory_ddi": 0.09585592,
+          "permuted_memory_ddi": 0.09585592,
+          "other_block_memory_ddi": 0.09585592,
+          "diagonal_only_ddi": 0.09585592,
+          "off_diagonal_only_ddi": 0.09585592,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      }
+    ]
+  },
+  {
+    "seed": 108,
+    "sweep_results": [
+      {
+        "k_calibration_episodes": 0,
+        "test_ddi": -0.22189069,
+        "test_return": -1.64,
+        "test_independent_commit_rate": 0.34246576,
+        "test_copied_verify_rate": 0.0,
+        "structured_controls": {
+          "intact_ddi": -0.22189069,
+          "intact_return": -1.64,
+          "zero_memory_ddi": -0.22189069,
+          "permuted_memory_ddi": -0.22189069,
+          "other_block_memory_ddi": -0.22189069,
+          "diagonal_only_ddi": -0.22189069,
+          "off_diagonal_only_ddi": -0.22189069,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "k_calibration_episodes": 2,
+        "test_ddi": 0.111111134,
+        "test_return": -1.29,
+        "test_independent_commit_rate": 0.5555556,
+        "test_copied_verify_rate": 0.0,
+        "structured_controls": {
+          "intact_ddi": 0.111111134,
+          "intact_return": -1.29,
+          "zero_memory_ddi": 0.111111134,
+          "permuted_memory_ddi": 0.111111134,
+          "other_block_memory_ddi": 0.111111134,
+          "diagonal_only_ddi": 0.111111134,
+          "off_diagonal_only_ddi": 0.111111134,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "k_calibration_episodes": 4,
+        "test_ddi": 0.079710126,
+        "test_return": -1.395,
+        "test_independent_commit_rate": 0.5797101,
+        "test_copied_verify_rate": 0.0,
+        "structured_controls": {
+          "intact_ddi": 0.079710126,
+          "intact_return": -1.395,
+          "zero_memory_ddi": 0.079710126,
+          "permuted_memory_ddi": 0.079710126,
+          "other_block_memory_ddi": 0.079710126,
+          "diagonal_only_ddi": 0.079710126,
+          "off_diagonal_only_ddi": 0.079710126,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "k_calibration_episodes": 8,
+        "test_ddi": 0.106060594,
+        "test_return": -1.465,
+        "test_independent_commit_rate": 0.5833333,
+        "test_copied_verify_rate": 0.0,
+        "structured_controls": {
+          "intact_ddi": 0.106060594,
+          "intact_return": -1.465,
+          "zero_memory_ddi": 0.106060594,
+          "permuted_memory_ddi": 0.106060594,
+          "other_block_memory_ddi": 0.106060594,
+          "diagonal_only_ddi": 0.106060594,
+          "off_diagonal_only_ddi": 0.106060594,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "k_calibration_episodes": 16,
+        "test_ddi": 0.064632714,
+        "test_return": -1.115,
+        "test_independent_commit_rate": 0.59210527,
+        "test_copied_verify_rate": 0.0,
+        "structured_controls": {
+          "intact_ddi": 0.064632714,
+          "intact_return": -1.115,
+          "zero_memory_ddi": 0.064632714,
+          "permuted_memory_ddi": 0.064632714,
+          "other_block_memory_ddi": 0.064632714,
+          "diagonal_only_ddi": 0.064632714,
+          "off_diagonal_only_ddi": 0.064632714,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      }
+    ]
+  },
+  {
+    "seed": 109,
+    "sweep_results": [
+      {
+        "k_calibration_episodes": 0,
+        "test_ddi": -0.006275207,
+        "test_return": -1.64,
+        "test_independent_commit_rate": 0.47826087,
+        "test_copied_verify_rate": 0.0,
+        "structured_controls": {
+          "intact_ddi": -0.006275207,
+          "intact_return": -1.64,
+          "zero_memory_ddi": -0.006275207,
+          "permuted_memory_ddi": -0.006275207,
+          "other_block_memory_ddi": -0.006275207,
+          "diagonal_only_ddi": -0.006275207,
+          "off_diagonal_only_ddi": -0.006275207,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "k_calibration_episodes": 2,
+        "test_ddi": -0.023931652,
+        "test_return": -1.78,
+        "test_independent_commit_rate": 0.4871795,
+        "test_copied_verify_rate": 0.0,
+        "structured_controls": {
+          "intact_ddi": -0.023931652,
+          "intact_return": -1.78,
+          "zero_memory_ddi": -0.023931652,
+          "permuted_memory_ddi": -0.023931652,
+          "other_block_memory_ddi": -0.023931652,
+          "diagonal_only_ddi": -0.023931652,
+          "off_diagonal_only_ddi": -0.023931652,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "k_calibration_episodes": 4,
+        "test_ddi": 0.07133955,
+        "test_return": -1.01,
+        "test_independent_commit_rate": 0.56666666,
+        "test_copied_verify_rate": 0.0,
+        "structured_controls": {
+          "intact_ddi": 0.07133955,
+          "intact_return": -1.01,
+          "zero_memory_ddi": 0.07133955,
+          "permuted_memory_ddi": 0.07133955,
+          "other_block_memory_ddi": 0.07133955,
+          "diagonal_only_ddi": 0.07133955,
+          "off_diagonal_only_ddi": 0.07133955,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "k_calibration_episodes": 8,
+        "test_ddi": 0.19573697,
+        "test_return": -1.57,
+        "test_independent_commit_rate": 0.6081081,
+        "test_copied_verify_rate": 0.0,
+        "structured_controls": {
+          "intact_ddi": 0.19573697,
+          "intact_return": -1.57,
+          "zero_memory_ddi": 0.19573697,
+          "permuted_memory_ddi": 0.19573697,
+          "other_block_memory_ddi": 0.19573697,
+          "diagonal_only_ddi": 0.19573697,
+          "off_diagonal_only_ddi": 0.19573697,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "k_calibration_episodes": 16,
+        "test_ddi": -0.032420218,
+        "test_return": -1.5,
+        "test_independent_commit_rate": 0.48214287,
+        "test_copied_verify_rate": 0.0,
+        "structured_controls": {
+          "intact_ddi": -0.032420218,
+          "intact_return": -1.5,
+          "zero_memory_ddi": -0.032420218,
+          "permuted_memory_ddi": -0.032420218,
+          "other_block_memory_ddi": -0.032420218,
+          "diagonal_only_ddi": -0.032420218,
+          "off_diagonal_only_ddi": -0.032420218,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      }
+    ]
+  },
+  {
+    "seed": 110,
+    "sweep_results": [
+      {
+        "k_calibration_episodes": 0,
+        "test_ddi": 0.0,
+        "test_return": 1.1999979,
+        "test_independent_commit_rate": 0.0,
+        "test_copied_verify_rate": 1.0,
+        "structured_controls": {
+          "intact_ddi": 0.0,
+          "intact_return": 1.1999979,
+          "zero_memory_ddi": 0.0,
+          "permuted_memory_ddi": 0.0,
+          "other_block_memory_ddi": 0.0,
+          "diagonal_only_ddi": 0.0,
+          "off_diagonal_only_ddi": 0.0,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "k_calibration_episodes": 2,
+        "test_ddi": 0.0,
+        "test_return": 1.1999979,
+        "test_independent_commit_rate": 0.0,
+        "test_copied_verify_rate": 1.0,
+        "structured_controls": {
+          "intact_ddi": 0.0,
+          "intact_return": 1.1999979,
+          "zero_memory_ddi": 0.0,
+          "permuted_memory_ddi": 0.0,
+          "other_block_memory_ddi": 0.0,
+          "diagonal_only_ddi": 0.0,
+          "off_diagonal_only_ddi": 0.0,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "k_calibration_episodes": 4,
+        "test_ddi": 0.0,
+        "test_return": 1.1999979,
+        "test_independent_commit_rate": 0.0,
+        "test_copied_verify_rate": 1.0,
+        "structured_controls": {
+          "intact_ddi": 0.0,
+          "intact_return": 1.1999979,
+          "zero_memory_ddi": 0.0,
+          "permuted_memory_ddi": 0.0,
+          "other_block_memory_ddi": 0.0,
+          "diagonal_only_ddi": 0.0,
+          "off_diagonal_only_ddi": 0.0,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "k_calibration_episodes": 8,
+        "test_ddi": 0.0,
+        "test_return": 1.1999979,
+        "test_independent_commit_rate": 0.0,
+        "test_copied_verify_rate": 1.0,
+        "structured_controls": {
+          "intact_ddi": 0.0,
+          "intact_return": 1.1999979,
+          "zero_memory_ddi": 0.0,
+          "permuted_memory_ddi": 0.0,
+          "other_block_memory_ddi": 0.0,
+          "diagonal_only_ddi": 0.0,
+          "off_diagonal_only_ddi": 0.0,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "k_calibration_episodes": 16,
+        "test_ddi": 0.0,
+        "test_return": 1.1999979,
+        "test_independent_commit_rate": 0.0,
+        "test_copied_verify_rate": 1.0,
+        "structured_controls": {
+          "intact_ddi": 0.0,
+          "intact_return": 1.1999979,
+          "zero_memory_ddi": 0.0,
+          "permuted_memory_ddi": 0.0,
+          "other_block_memory_ddi": 0.0,
+          "diagonal_only_ddi": 0.0,
+          "off_diagonal_only_ddi": 0.0,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      }
+    ]
+  },
+  {
+    "seed": 111,
+    "sweep_results": [
+      {
+        "k_calibration_episodes": 0,
+        "test_ddi": 0.002046764,
+        "test_return": -1.395,
+        "test_independent_commit_rate": 0.5131579,
+        "test_copied_verify_rate": 0.0,
+        "structured_controls": {
+          "intact_ddi": 0.002046764,
+          "intact_return": -1.395,
+          "zero_memory_ddi": 0.002046764,
+          "permuted_memory_ddi": 0.002046764,
+          "other_block_memory_ddi": 0.002046764,
+          "diagonal_only_ddi": 0.002046764,
+          "off_diagonal_only_ddi": 0.002046764,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "k_calibration_episodes": 2,
+        "test_ddi": -0.008333325,
+        "test_return": -1.57,
+        "test_independent_commit_rate": 0.53333336,
+        "test_copied_verify_rate": 0.0,
+        "structured_controls": {
+          "intact_ddi": -0.008333325,
+          "intact_return": -1.57,
+          "zero_memory_ddi": -0.008333325,
+          "permuted_memory_ddi": -0.008333325,
+          "other_block_memory_ddi": -0.008333325,
+          "diagonal_only_ddi": -0.008333325,
+          "off_diagonal_only_ddi": -0.008333325,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "k_calibration_episodes": 4,
+        "test_ddi": -0.08240968,
+        "test_return": -1.15,
+        "test_independent_commit_rate": 0.52,
+        "test_copied_verify_rate": 0.0,
+        "structured_controls": {
+          "intact_ddi": -0.08240968,
+          "intact_return": -1.15,
+          "zero_memory_ddi": -0.08240968,
+          "permuted_memory_ddi": -0.08240968,
+          "other_block_memory_ddi": -0.08240968,
+          "diagonal_only_ddi": -0.08240968,
+          "off_diagonal_only_ddi": -0.08240968,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "k_calibration_episodes": 8,
+        "test_ddi": -0.0138888955,
+        "test_return": -1.325,
+        "test_independent_commit_rate": 0.4861111,
+        "test_copied_verify_rate": 0.0,
+        "structured_controls": {
+          "intact_ddi": -0.0138888955,
+          "intact_return": -1.325,
+          "zero_memory_ddi": -0.0138888955,
+          "permuted_memory_ddi": -0.0138888955,
+          "other_block_memory_ddi": -0.0138888955,
+          "diagonal_only_ddi": -0.0138888955,
+          "off_diagonal_only_ddi": -0.0138888955,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "k_calibration_episodes": 16,
+        "test_ddi": -0.092458546,
+        "test_return": -1.815,
+        "test_independent_commit_rate": 0.44871795,
+        "test_copied_verify_rate": 0.0,
+        "structured_controls": {
+          "intact_ddi": -0.092458546,
+          "intact_return": -1.815,
+          "zero_memory_ddi": -0.092458546,
+          "permuted_memory_ddi": -0.092458546,
+          "other_block_memory_ddi": -0.092458546,
+          "diagonal_only_ddi": -0.092458546,
+          "off_diagonal_only_ddi": -0.092458546,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      }
+    ]
+  },
+  {
+    "seed": 112,
+    "sweep_results": [
+      {
+        "k_calibration_episodes": 0,
+        "test_ddi": 0.0,
+        "test_return": 1.1999979,
+        "test_independent_commit_rate": 0.0,
+        "test_copied_verify_rate": 1.0,
+        "structured_controls": {
+          "intact_ddi": 0.0,
+          "intact_return": 1.1999979,
+          "zero_memory_ddi": 0.0,
+          "permuted_memory_ddi": 0.0,
+          "other_block_memory_ddi": 0.0,
+          "diagonal_only_ddi": 0.0,
+          "off_diagonal_only_ddi": 0.0,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "k_calibration_episodes": 2,
+        "test_ddi": 0.0,
+        "test_return": 1.1999979,
+        "test_independent_commit_rate": 0.0,
+        "test_copied_verify_rate": 1.0,
+        "structured_controls": {
+          "intact_ddi": 0.0,
+          "intact_return": 1.1999979,
+          "zero_memory_ddi": 0.0,
+          "permuted_memory_ddi": 0.0,
+          "other_block_memory_ddi": 0.0,
+          "diagonal_only_ddi": 0.0,
+          "off_diagonal_only_ddi": 0.0,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "k_calibration_episodes": 4,
+        "test_ddi": 0.0,
+        "test_return": 1.1999979,
+        "test_independent_commit_rate": 0.0,
+        "test_copied_verify_rate": 1.0,
+        "structured_controls": {
+          "intact_ddi": 0.0,
+          "intact_return": 1.1999979,
+          "zero_memory_ddi": 0.0,
+          "permuted_memory_ddi": 0.0,
+          "other_block_memory_ddi": 0.0,
+          "diagonal_only_ddi": 0.0,
+          "off_diagonal_only_ddi": 0.0,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "k_calibration_episodes": 8,
+        "test_ddi": 0.0,
+        "test_return": 1.1999979,
+        "test_independent_commit_rate": 0.0,
+        "test_copied_verify_rate": 1.0,
+        "structured_controls": {
+          "intact_ddi": 0.0,
+          "intact_return": 1.1999979,
+          "zero_memory_ddi": 0.0,
+          "permuted_memory_ddi": 0.0,
+          "other_block_memory_ddi": 0.0,
+          "diagonal_only_ddi": 0.0,
+          "off_diagonal_only_ddi": 0.0,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "k_calibration_episodes": 16,
+        "test_ddi": 0.0,
+        "test_return": 1.1999979,
+        "test_independent_commit_rate": 0.0,
+        "test_copied_verify_rate": 1.0,
+        "structured_controls": {
+          "intact_ddi": 0.0,
+          "intact_return": 1.1999979,
+          "zero_memory_ddi": 0.0,
+          "permuted_memory_ddi": 0.0,
+          "other_block_memory_ddi": 0.0,
+          "diagonal_only_ddi": 0.0,
+          "off_diagonal_only_ddi": 0.0,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      }
+    ]
+  },
+  {
+    "seed": 113,
+    "sweep_results": [
+      {
+        "k_calibration_episodes": 0,
+        "test_ddi": 0.033395767,
+        "test_return": -1.745,
+        "test_independent_commit_rate": 0.5277778,
+        "test_copied_verify_rate": 0.0,
+        "structured_controls": {
+          "intact_ddi": 0.033395767,
+          "intact_return": -1.745,
+          "zero_memory_ddi": 0.033395767,
+          "permuted_memory_ddi": 0.033395767,
+          "other_block_memory_ddi": 0.033395767,
+          "diagonal_only_ddi": 0.033395767,
+          "off_diagonal_only_ddi": 0.033395767,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "k_calibration_episodes": 2,
+        "test_ddi": -0.09895247,
+        "test_return": -1.5,
+        "test_independent_commit_rate": 0.46575344,
+        "test_copied_verify_rate": 0.0,
+        "structured_controls": {
+          "intact_ddi": -0.09895247,
+          "intact_return": -1.5,
+          "zero_memory_ddi": -0.09895247,
+          "permuted_memory_ddi": -0.09895247,
+          "other_block_memory_ddi": -0.09895247,
+          "diagonal_only_ddi": -0.09895247,
+          "off_diagonal_only_ddi": -0.09895247,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "k_calibration_episodes": 4,
+        "test_ddi": 0.03986454,
+        "test_return": -1.64,
+        "test_independent_commit_rate": 0.53424656,
+        "test_copied_verify_rate": 0.0,
+        "structured_controls": {
+          "intact_ddi": 0.03986454,
+          "intact_return": -1.64,
+          "zero_memory_ddi": 0.03986454,
+          "permuted_memory_ddi": 0.03986454,
+          "other_block_memory_ddi": 0.03986454,
+          "diagonal_only_ddi": 0.03986454,
+          "off_diagonal_only_ddi": 0.03986454,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "k_calibration_episodes": 8,
+        "test_ddi": 0.06676847,
+        "test_return": -1.57,
+        "test_independent_commit_rate": 0.58441556,
+        "test_copied_verify_rate": 0.0,
+        "structured_controls": {
+          "intact_ddi": 0.06676847,
+          "intact_return": -1.57,
+          "zero_memory_ddi": 0.06676847,
+          "permuted_memory_ddi": 0.06676847,
+          "other_block_memory_ddi": 0.06676847,
+          "diagonal_only_ddi": 0.06676847,
+          "off_diagonal_only_ddi": 0.06676847,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "k_calibration_episodes": 16,
+        "test_ddi": -0.06618205,
+        "test_return": -1.115,
+        "test_independent_commit_rate": 0.49295774,
+        "test_copied_verify_rate": 0.0,
+        "structured_controls": {
+          "intact_ddi": -0.06618205,
+          "intact_return": -1.115,
+          "zero_memory_ddi": -0.06618205,
+          "permuted_memory_ddi": -0.06618205,
+          "other_block_memory_ddi": -0.06618205,
+          "diagonal_only_ddi": -0.06618205,
+          "off_diagonal_only_ddi": -0.06618205,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      }
+    ]
+  },
+  {
+    "seed": 114,
+    "sweep_results": [
+      {
+        "k_calibration_episodes": 0,
+        "test_ddi": 0.0,
+        "test_return": 1.1999979,
+        "test_independent_commit_rate": 0.0,
+        "test_copied_verify_rate": 1.0,
+        "structured_controls": {
+          "intact_ddi": 0.0,
+          "intact_return": 1.1999979,
+          "zero_memory_ddi": 0.0,
+          "permuted_memory_ddi": 0.0,
+          "other_block_memory_ddi": 0.0,
+          "diagonal_only_ddi": 0.0,
+          "off_diagonal_only_ddi": 0.0,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "k_calibration_episodes": 2,
+        "test_ddi": 0.0,
+        "test_return": 1.1999979,
+        "test_independent_commit_rate": 0.0,
+        "test_copied_verify_rate": 1.0,
+        "structured_controls": {
+          "intact_ddi": 0.0,
+          "intact_return": 1.1999979,
+          "zero_memory_ddi": 0.0,
+          "permuted_memory_ddi": 0.0,
+          "other_block_memory_ddi": 0.0,
+          "diagonal_only_ddi": 0.0,
+          "off_diagonal_only_ddi": 0.0,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "k_calibration_episodes": 4,
+        "test_ddi": 0.0,
+        "test_return": 1.1999979,
+        "test_independent_commit_rate": 0.0,
+        "test_copied_verify_rate": 1.0,
+        "structured_controls": {
+          "intact_ddi": 0.0,
+          "intact_return": 1.1999979,
+          "zero_memory_ddi": 0.0,
+          "permuted_memory_ddi": 0.0,
+          "other_block_memory_ddi": 0.0,
+          "diagonal_only_ddi": 0.0,
+          "off_diagonal_only_ddi": 0.0,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "k_calibration_episodes": 8,
+        "test_ddi": 0.0,
+        "test_return": 1.1999979,
+        "test_independent_commit_rate": 0.0,
+        "test_copied_verify_rate": 1.0,
+        "structured_controls": {
+          "intact_ddi": 0.0,
+          "intact_return": 1.1999979,
+          "zero_memory_ddi": 0.0,
+          "permuted_memory_ddi": 0.0,
+          "other_block_memory_ddi": 0.0,
+          "diagonal_only_ddi": 0.0,
+          "off_diagonal_only_ddi": 0.0,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "k_calibration_episodes": 16,
+        "test_ddi": 0.0,
+        "test_return": 1.1999979,
+        "test_independent_commit_rate": 0.0,
+        "test_copied_verify_rate": 1.0,
+        "structured_controls": {
+          "intact_ddi": 0.0,
+          "intact_return": 1.1999979,
+          "zero_memory_ddi": 0.0,
+          "permuted_memory_ddi": 0.0,
+          "other_block_memory_ddi": 0.0,
+          "diagonal_only_ddi": 0.0,
+          "off_diagonal_only_ddi": 0.0,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      }
+    ]
+  },
+  {
+    "seed": 115,
+    "sweep_results": [
+      {
+        "k_calibration_episodes": 0,
+        "test_ddi": -0.025836676,
+        "test_return": -1.605,
+        "test_independent_commit_rate": 0.49315068,
+        "test_copied_verify_rate": 0.0,
+        "structured_controls": {
+          "intact_ddi": -0.025836676,
+          "intact_return": -1.605,
+          "zero_memory_ddi": -0.025836676,
+          "permuted_memory_ddi": -0.025836676,
+          "other_block_memory_ddi": -0.025836676,
+          "diagonal_only_ddi": -0.025836676,
+          "off_diagonal_only_ddi": -0.025836676,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "k_calibration_episodes": 2,
+        "test_ddi": -0.13449565,
+        "test_return": -1.465,
+        "test_independent_commit_rate": 0.41095892,
+        "test_copied_verify_rate": 0.0,
+        "structured_controls": {
+          "intact_ddi": -0.13449565,
+          "intact_return": -1.465,
+          "zero_memory_ddi": -0.13449565,
+          "permuted_memory_ddi": -0.13449565,
+          "other_block_memory_ddi": -0.13449565,
+          "diagonal_only_ddi": -0.13449565,
+          "off_diagonal_only_ddi": -0.13449565,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "k_calibration_episodes": 4,
+        "test_ddi": -0.066465706,
+        "test_return": -1.465,
+        "test_independent_commit_rate": 0.45679012,
+        "test_copied_verify_rate": 0.0,
+        "structured_controls": {
+          "intact_ddi": -0.066465706,
+          "intact_return": -1.465,
+          "zero_memory_ddi": -0.066465706,
+          "permuted_memory_ddi": -0.066465706,
+          "other_block_memory_ddi": -0.066465706,
+          "diagonal_only_ddi": -0.066465706,
+          "off_diagonal_only_ddi": -0.066465706,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "k_calibration_episodes": 8,
+        "test_ddi": -0.018025994,
+        "test_return": -1.36,
+        "test_independent_commit_rate": 0.5138889,
+        "test_copied_verify_rate": 0.0,
+        "structured_controls": {
+          "intact_ddi": -0.018025994,
+          "intact_return": -1.36,
+          "zero_memory_ddi": -0.018025994,
+          "permuted_memory_ddi": -0.018025994,
+          "other_block_memory_ddi": -0.018025994,
+          "diagonal_only_ddi": -0.018025994,
+          "off_diagonal_only_ddi": -0.018025994,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "k_calibration_episodes": 16,
+        "test_ddi": -0.110492885,
+        "test_return": -1.57,
+        "test_independent_commit_rate": 0.4189189,
+        "test_copied_verify_rate": 0.0,
+        "structured_controls": {
+          "intact_ddi": -0.110492885,
+          "intact_return": -1.57,
+          "zero_memory_ddi": -0.110492885,
+          "permuted_memory_ddi": -0.110492885,
+          "other_block_memory_ddi": -0.110492885,
+          "diagonal_only_ddi": -0.110492885,
+          "off_diagonal_only_ddi": -0.110492885,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      }
+    ]
+  },
+  {
+    "seed": 116,
+    "sweep_results": [
+      {
+        "k_calibration_episodes": 0,
+        "test_ddi": 0.0,
+        "test_return": 1.1999979,
+        "test_independent_commit_rate": 0.0,
+        "test_copied_verify_rate": 1.0,
+        "structured_controls": {
+          "intact_ddi": 0.0,
+          "intact_return": 1.1999979,
+          "zero_memory_ddi": 0.0,
+          "permuted_memory_ddi": 0.0,
+          "other_block_memory_ddi": 0.0,
+          "diagonal_only_ddi": 0.0,
+          "off_diagonal_only_ddi": 0.0,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "k_calibration_episodes": 2,
+        "test_ddi": 0.0,
+        "test_return": 1.1999979,
+        "test_independent_commit_rate": 0.0,
+        "test_copied_verify_rate": 1.0,
+        "structured_controls": {
+          "intact_ddi": 0.0,
+          "intact_return": 1.1999979,
+          "zero_memory_ddi": 0.0,
+          "permuted_memory_ddi": 0.0,
+          "other_block_memory_ddi": 0.0,
+          "diagonal_only_ddi": 0.0,
+          "off_diagonal_only_ddi": 0.0,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "k_calibration_episodes": 4,
+        "test_ddi": 0.0,
+        "test_return": 1.1999979,
+        "test_independent_commit_rate": 0.0,
+        "test_copied_verify_rate": 1.0,
+        "structured_controls": {
+          "intact_ddi": 0.0,
+          "intact_return": 1.1999979,
+          "zero_memory_ddi": 0.0,
+          "permuted_memory_ddi": 0.0,
+          "other_block_memory_ddi": 0.0,
+          "diagonal_only_ddi": 0.0,
+          "off_diagonal_only_ddi": 0.0,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "k_calibration_episodes": 8,
+        "test_ddi": 0.0,
+        "test_return": 1.1999979,
+        "test_independent_commit_rate": 0.0,
+        "test_copied_verify_rate": 1.0,
+        "structured_controls": {
+          "intact_ddi": 0.0,
+          "intact_return": 1.1999979,
+          "zero_memory_ddi": 0.0,
+          "permuted_memory_ddi": 0.0,
+          "other_block_memory_ddi": 0.0,
+          "diagonal_only_ddi": 0.0,
+          "off_diagonal_only_ddi": 0.0,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "k_calibration_episodes": 16,
+        "test_ddi": 0.0,
+        "test_return": 1.1999979,
+        "test_independent_commit_rate": 0.0,
+        "test_copied_verify_rate": 1.0,
+        "structured_controls": {
+          "intact_ddi": 0.0,
+          "intact_return": 1.1999979,
+          "zero_memory_ddi": 0.0,
+          "permuted_memory_ddi": 0.0,
+          "other_block_memory_ddi": 0.0,
+          "diagonal_only_ddi": 0.0,
+          "off_diagonal_only_ddi": 0.0,
+          "specific_relational_advantage": 0.0
+        },
+        "is_competent_and_promoted": false
+      }
+    ]
+  }
+]

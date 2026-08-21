@@ -1,0 +1,914 @@
+[
+  {
+    "seed": 101,
+    "delay_results": [
+      {
+        "delay_steps": 0,
+        "interaction_residual_norm": 0.0065164454,
+        "source_signal_norm": 0.27855015,
+        "content_signal_norm": 0.07059712,
+        "signal_relative_interaction_ratio": 0.037327778,
+        "r2_linear_source": 0.9998585,
+        "r2_linear_content": 0.99992037,
+        "r2_linear_h_to_xor": 0.9338672,
+        "linear_h_to_xor_acc": 1.0,
+        "r2_bilinear_composition_to_xor": 0.999209,
+        "bilinear_composition_acc": 1.0
+      },
+      {
+        "delay_steps": 1,
+        "interaction_residual_norm": 0.0041166344,
+        "source_signal_norm": 0.16897388,
+        "content_signal_norm": 0.04217887,
+        "signal_relative_interaction_ratio": 0.038992003,
+        "r2_linear_source": 0.9999089,
+        "r2_linear_content": 0.99989855,
+        "r2_linear_h_to_xor": 0.99749607,
+        "linear_h_to_xor_acc": 1.0,
+        "r2_bilinear_composition_to_xor": 0.9994381,
+        "bilinear_composition_acc": 1.0
+      },
+      {
+        "delay_steps": 3,
+        "interaction_residual_norm": 0.0015808374,
+        "source_signal_norm": 0.06943174,
+        "content_signal_norm": 0.017237982,
+        "signal_relative_interaction_ratio": 0.036479577,
+        "r2_linear_source": 0.99991214,
+        "r2_linear_content": 0.9998948,
+        "r2_linear_h_to_xor": 0.99143904,
+        "linear_h_to_xor_acc": 1.0,
+        "r2_bilinear_composition_to_xor": 0.9994296,
+        "bilinear_composition_acc": 1.0
+      },
+      {
+        "delay_steps": 5,
+        "interaction_residual_norm": 0.0006436699,
+        "source_signal_norm": 0.030225256,
+        "content_signal_norm": 0.007529194,
+        "signal_relative_interaction_ratio": 0.034097698,
+        "r2_linear_source": 0.9999077,
+        "r2_linear_content": 0.9999182,
+        "r2_linear_h_to_xor": 0.99249226,
+        "linear_h_to_xor_acc": 1.0,
+        "r2_bilinear_composition_to_xor": 0.99943066,
+        "bilinear_composition_acc": 1.0
+      }
+    ]
+  },
+  {
+    "seed": 102,
+    "delay_results": [
+      {
+        "delay_steps": 0,
+        "interaction_residual_norm": 0.0062942104,
+        "source_signal_norm": 0.20359889,
+        "content_signal_norm": 0.083296254,
+        "signal_relative_interaction_ratio": 0.043878123,
+        "r2_linear_source": 0.99989384,
+        "r2_linear_content": 0.9998819,
+        "r2_linear_h_to_xor": 0.9475361,
+        "linear_h_to_xor_acc": 1.0,
+        "r2_bilinear_composition_to_xor": 0.9993527,
+        "bilinear_composition_acc": 1.0
+      },
+      {
+        "delay_steps": 1,
+        "interaction_residual_norm": 0.0038300669,
+        "source_signal_norm": 0.12257855,
+        "content_signal_norm": 0.051455174,
+        "signal_relative_interaction_ratio": 0.04401523,
+        "r2_linear_source": 0.9998882,
+        "r2_linear_content": 0.9998396,
+        "r2_linear_h_to_xor": 0.9898948,
+        "linear_h_to_xor_acc": 1.0,
+        "r2_bilinear_composition_to_xor": 0.9990371,
+        "bilinear_composition_acc": 1.0
+      },
+      {
+        "delay_steps": 3,
+        "interaction_residual_norm": 0.0014826526,
+        "source_signal_norm": 0.048468515,
+        "content_signal_norm": 0.022017278,
+        "signal_relative_interaction_ratio": 0.042069543,
+        "r2_linear_source": 0.99991655,
+        "r2_linear_content": 0.9999049,
+        "r2_linear_h_to_xor": 0.9944978,
+        "linear_h_to_xor_acc": 1.0,
+        "r2_bilinear_composition_to_xor": 0.9994336,
+        "bilinear_composition_acc": 1.0
+      },
+      {
+        "delay_steps": 5,
+        "interaction_residual_norm": 0.0005704287,
+        "source_signal_norm": 0.020466892,
+        "content_signal_norm": 0.01004767,
+        "signal_relative_interaction_ratio": 0.037387308,
+        "r2_linear_source": 0.999861,
+        "r2_linear_content": 0.99986,
+        "r2_linear_h_to_xor": 0.8902675,
+        "linear_h_to_xor_acc": 1.0,
+        "r2_bilinear_composition_to_xor": 0.9993039,
+        "bilinear_composition_acc": 1.0
+      }
+    ]
+  },
+  {
+    "seed": 103,
+    "delay_results": [
+      {
+        "delay_steps": 0,
+        "interaction_residual_norm": 0.006901869,
+        "source_signal_norm": 0.27013353,
+        "content_signal_norm": 0.057162594,
+        "signal_relative_interaction_ratio": 0.042175077,
+        "r2_linear_source": 0.99987715,
+        "r2_linear_content": 0.99989414,
+        "r2_linear_h_to_xor": 0.9491467,
+        "linear_h_to_xor_acc": 1.0,
+        "r2_bilinear_composition_to_xor": 0.9993376,
+        "bilinear_composition_acc": 1.0
+      },
+      {
+        "delay_steps": 1,
+        "interaction_residual_norm": 0.0045167967,
+        "source_signal_norm": 0.16129583,
+        "content_signal_norm": 0.033125307,
+        "signal_relative_interaction_ratio": 0.04646405,
+        "r2_linear_source": 0.9998717,
+        "r2_linear_content": 0.99989426,
+        "r2_linear_h_to_xor": 0.9980613,
+        "linear_h_to_xor_acc": 1.0,
+        "r2_bilinear_composition_to_xor": 0.9993446,
+        "bilinear_composition_acc": 1.0
+      },
+      {
+        "delay_steps": 3,
+        "interaction_residual_norm": 0.002165535,
+        "source_signal_norm": 0.06770461,
+        "content_signal_norm": 0.013158579,
+        "signal_relative_interaction_ratio": 0.05356046,
+        "r2_linear_source": 0.999903,
+        "r2_linear_content": 0.9998588,
+        "r2_linear_h_to_xor": 0.99906766,
+        "linear_h_to_xor_acc": 1.0,
+        "r2_bilinear_composition_to_xor": 0.99940294,
+        "bilinear_composition_acc": 1.0
+      },
+      {
+        "delay_steps": 5,
+        "interaction_residual_norm": 0.0011281349,
+        "source_signal_norm": 0.030339902,
+        "content_signal_norm": 0.0057123345,
+        "signal_relative_interaction_ratio": 0.06258335,
+        "r2_linear_source": 0.9998743,
+        "r2_linear_content": 0.9999275,
+        "r2_linear_h_to_xor": 0.9952247,
+        "linear_h_to_xor_acc": 1.0,
+        "r2_bilinear_composition_to_xor": 0.9992736,
+        "bilinear_composition_acc": 1.0
+      }
+    ]
+  },
+  {
+    "seed": 104,
+    "delay_results": [
+      {
+        "delay_steps": 0,
+        "interaction_residual_norm": 0.008240002,
+        "source_signal_norm": 0.31110004,
+        "content_signal_norm": 0.063207686,
+        "signal_relative_interaction_ratio": 0.044027958,
+        "r2_linear_source": 0.9998894,
+        "r2_linear_content": 0.99990016,
+        "r2_linear_h_to_xor": 0.93777525,
+        "linear_h_to_xor_acc": 1.0,
+        "r2_bilinear_composition_to_xor": 0.99937844,
+        "bilinear_composition_acc": 1.0
+      },
+      {
+        "delay_steps": 1,
+        "interaction_residual_norm": 0.0049125077,
+        "source_signal_norm": 0.18317683,
+        "content_signal_norm": 0.037571173,
+        "signal_relative_interaction_ratio": 0.04450783,
+        "r2_linear_source": 0.99991924,
+        "r2_linear_content": 0.99990207,
+        "r2_linear_h_to_xor": 0.9869625,
+        "linear_h_to_xor_acc": 1.0,
+        "r2_bilinear_composition_to_xor": 0.9994152,
+        "bilinear_composition_acc": 1.0
+      },
+      {
+        "delay_steps": 3,
+        "interaction_residual_norm": 0.0017243323,
+        "source_signal_norm": 0.07560876,
+        "content_signal_norm": 0.0149701545,
+        "signal_relative_interaction_ratio": 0.038073592,
+        "r2_linear_source": 0.9999024,
+        "r2_linear_content": 0.9999191,
+        "r2_linear_h_to_xor": 0.9742998,
+        "linear_h_to_xor_acc": 1.0,
+        "r2_bilinear_composition_to_xor": 0.99941784,
+        "bilinear_composition_acc": 1.0
+      },
+      {
+        "delay_steps": 5,
+        "interaction_residual_norm": 0.00066934444,
+        "source_signal_norm": 0.035651013,
+        "content_signal_norm": 0.0063898875,
+        "signal_relative_interaction_ratio": 0.031842537,
+        "r2_linear_source": 0.9998974,
+        "r2_linear_content": 0.999887,
+        "r2_linear_h_to_xor": 0.96863526,
+        "linear_h_to_xor_acc": 1.0,
+        "r2_bilinear_composition_to_xor": 0.999462,
+        "bilinear_composition_acc": 1.0
+      }
+    ]
+  },
+  {
+    "seed": 105,
+    "delay_results": [
+      {
+        "delay_steps": 0,
+        "interaction_residual_norm": 0.01028977,
+        "source_signal_norm": 0.42984274,
+        "content_signal_norm": 0.0872142,
+        "signal_relative_interaction_ratio": 0.039801303,
+        "r2_linear_source": 0.99989736,
+        "r2_linear_content": 0.9999015,
+        "r2_linear_h_to_xor": 0.9691005,
+        "linear_h_to_xor_acc": 1.0,
+        "r2_bilinear_composition_to_xor": 0.9993707,
+        "bilinear_composition_acc": 1.0
+      },
+      {
+        "delay_steps": 1,
+        "interaction_residual_norm": 0.0064329472,
+        "source_signal_norm": 0.25948173,
+        "content_signal_norm": 0.050576728,
+        "signal_relative_interaction_ratio": 0.041495062,
+        "r2_linear_source": 0.9998933,
+        "r2_linear_content": 0.999911,
+        "r2_linear_h_to_xor": 0.9619336,
+        "linear_h_to_xor_acc": 1.0,
+        "r2_bilinear_composition_to_xor": 0.99934477,
+        "bilinear_composition_acc": 1.0
+      },
+      {
+        "delay_steps": 3,
+        "interaction_residual_norm": 0.0027946013,
+        "source_signal_norm": 0.103115946,
+        "content_signal_norm": 0.021196505,
+        "signal_relative_interaction_ratio": 0.044960923,
+        "r2_linear_source": 0.999905,
+        "r2_linear_content": 0.9999103,
+        "r2_linear_h_to_xor": 0.97729504,
+        "linear_h_to_xor_acc": 1.0,
+        "r2_bilinear_composition_to_xor": 0.9994554,
+        "bilinear_composition_acc": 1.0
+      },
+      {
+        "delay_steps": 5,
+        "interaction_residual_norm": 0.0013591459,
+        "source_signal_norm": 0.044641778,
+        "content_signal_norm": 0.010060781,
+        "signal_relative_interaction_ratio": 0.049692225,
+        "r2_linear_source": 0.9999166,
+        "r2_linear_content": 0.9999038,
+        "r2_linear_h_to_xor": 0.99736655,
+        "linear_h_to_xor_acc": 1.0,
+        "r2_bilinear_composition_to_xor": 0.9994339,
+        "bilinear_composition_acc": 1.0
+      }
+    ]
+  },
+  {
+    "seed": 106,
+    "delay_results": [
+      {
+        "delay_steps": 0,
+        "interaction_residual_norm": 0.0075850766,
+        "source_signal_norm": 0.3122384,
+        "content_signal_norm": 0.07811793,
+        "signal_relative_interaction_ratio": 0.03886232,
+        "r2_linear_source": 0.99991995,
+        "r2_linear_content": 0.9998849,
+        "r2_linear_h_to_xor": 0.9034438,
+        "linear_h_to_xor_acc": 1.0,
+        "r2_bilinear_composition_to_xor": 0.99939173,
+        "bilinear_composition_acc": 1.0
+      },
+      {
+        "delay_steps": 1,
+        "interaction_residual_norm": 0.00457883,
+        "source_signal_norm": 0.19446531,
+        "content_signal_norm": 0.046172876,
+        "signal_relative_interaction_ratio": 0.038055725,
+        "r2_linear_source": 0.99984366,
+        "r2_linear_content": 0.9999006,
+        "r2_linear_h_to_xor": 0.9042793,
+        "linear_h_to_xor_acc": 1.0,
+        "r2_bilinear_composition_to_xor": 0.9991827,
+        "bilinear_composition_acc": 1.0
+      },
+      {
+        "delay_steps": 3,
+        "interaction_residual_norm": 0.0018491482,
+        "source_signal_norm": 0.08697452,
+        "content_signal_norm": 0.018531347,
+        "signal_relative_interaction_ratio": 0.035052996,
+        "r2_linear_source": 0.99987566,
+        "r2_linear_content": 0.99990547,
+        "r2_linear_h_to_xor": 0.9946533,
+        "linear_h_to_xor_acc": 1.0,
+        "r2_bilinear_composition_to_xor": 0.99930125,
+        "bilinear_composition_acc": 1.0
+      },
+      {
+        "delay_steps": 5,
+        "interaction_residual_norm": 0.0008483385,
+        "source_signal_norm": 0.04041125,
+        "content_signal_norm": 0.008042947,
+        "signal_relative_interaction_ratio": 0.0350161,
+        "r2_linear_source": 0.9998664,
+        "r2_linear_content": 0.9999032,
+        "r2_linear_h_to_xor": 0.9741062,
+        "linear_h_to_xor_acc": 1.0,
+        "r2_bilinear_composition_to_xor": 0.99930054,
+        "bilinear_composition_acc": 1.0
+      }
+    ]
+  },
+  {
+    "seed": 107,
+    "delay_results": [
+      {
+        "delay_steps": 0,
+        "interaction_residual_norm": 0.009624546,
+        "source_signal_norm": 0.35346606,
+        "content_signal_norm": 0.08811046,
+        "signal_relative_interaction_ratio": 0.043591745,
+        "r2_linear_source": 0.9999043,
+        "r2_linear_content": 0.9998865,
+        "r2_linear_h_to_xor": 0.9400816,
+        "linear_h_to_xor_acc": 1.0,
+        "r2_bilinear_composition_to_xor": 0.9994721,
+        "bilinear_composition_acc": 1.0
+      },
+      {
+        "delay_steps": 1,
+        "interaction_residual_norm": 0.005743453,
+        "source_signal_norm": 0.20790727,
+        "content_signal_norm": 0.055503424,
+        "signal_relative_interaction_ratio": 0.04360835,
+        "r2_linear_source": 0.99989307,
+        "r2_linear_content": 0.9998173,
+        "r2_linear_h_to_xor": 0.88960546,
+        "linear_h_to_xor_acc": 1.0,
+        "r2_bilinear_composition_to_xor": 0.9993106,
+        "bilinear_composition_acc": 1.0
+      },
+      {
+        "delay_steps": 3,
+        "interaction_residual_norm": 0.002227462,
+        "source_signal_norm": 0.08039171,
+        "content_signal_norm": 0.023384126,
+        "signal_relative_interaction_ratio": 0.042928334,
+        "r2_linear_source": 0.9999098,
+        "r2_linear_content": 0.9999069,
+        "r2_linear_h_to_xor": 0.98714095,
+        "linear_h_to_xor_acc": 1.0,
+        "r2_bilinear_composition_to_xor": 0.9994374,
+        "bilinear_composition_acc": 1.0
+      },
+      {
+        "delay_steps": 5,
+        "interaction_residual_norm": 0.00096896774,
+        "source_signal_norm": 0.034605823,
+        "content_signal_norm": 0.009905578,
+        "signal_relative_interaction_ratio": 0.04353796,
+        "r2_linear_source": 0.99988735,
+        "r2_linear_content": 0.99992704,
+        "r2_linear_h_to_xor": 0.9964442,
+        "linear_h_to_xor_acc": 1.0,
+        "r2_bilinear_composition_to_xor": 0.9994016,
+        "bilinear_composition_acc": 1.0
+      }
+    ]
+  },
+  {
+    "seed": 108,
+    "delay_results": [
+      {
+        "delay_steps": 0,
+        "interaction_residual_norm": 0.0072037834,
+        "source_signal_norm": 0.2443232,
+        "content_signal_norm": 0.06958352,
+        "signal_relative_interaction_ratio": 0.045897603,
+        "r2_linear_source": 0.99988955,
+        "r2_linear_content": 0.99988633,
+        "r2_linear_h_to_xor": 0.9374373,
+        "linear_h_to_xor_acc": 1.0,
+        "r2_bilinear_composition_to_xor": 0.9993215,
+        "bilinear_composition_acc": 1.0
+      },
+      {
+        "delay_steps": 1,
+        "interaction_residual_norm": 0.004324458,
+        "source_signal_norm": 0.14094238,
+        "content_signal_norm": 0.03857224,
+        "signal_relative_interaction_ratio": 0.048179455,
+        "r2_linear_source": 0.99989,
+        "r2_linear_content": 0.9998525,
+        "r2_linear_h_to_xor": 0.9800574,
+        "linear_h_to_xor_acc": 1.0,
+        "r2_bilinear_composition_to_xor": 0.9992662,
+        "bilinear_composition_acc": 1.0
+      },
+      {
+        "delay_steps": 3,
+        "interaction_residual_norm": 0.0017279654,
+        "source_signal_norm": 0.05246188,
+        "content_signal_norm": 0.01481751,
+        "signal_relative_interaction_ratio": 0.05136686,
+        "r2_linear_source": 0.9999115,
+        "r2_linear_content": 0.9999051,
+        "r2_linear_h_to_xor": 0.9976814,
+        "linear_h_to_xor_acc": 1.0,
+        "r2_bilinear_composition_to_xor": 0.99945086,
+        "bilinear_composition_acc": 1.0
+      },
+      {
+        "delay_steps": 5,
+        "interaction_residual_norm": 0.0007554274,
+        "source_signal_norm": 0.021007359,
+        "content_signal_norm": 0.006385979,
+        "signal_relative_interaction_ratio": 0.055154096,
+        "r2_linear_source": 0.9998961,
+        "r2_linear_content": 0.999915,
+        "r2_linear_h_to_xor": 0.98688287,
+        "linear_h_to_xor_acc": 1.0,
+        "r2_bilinear_composition_to_xor": 0.9994284,
+        "bilinear_composition_acc": 1.0
+      }
+    ]
+  },
+  {
+    "seed": 109,
+    "delay_results": [
+      {
+        "delay_steps": 0,
+        "interaction_residual_norm": 0.009168591,
+        "source_signal_norm": 0.3049399,
+        "content_signal_norm": 0.08337586,
+        "signal_relative_interaction_ratio": 0.047222354,
+        "r2_linear_source": 0.99989384,
+        "r2_linear_content": 0.9998955,
+        "r2_linear_h_to_xor": 0.97773707,
+        "linear_h_to_xor_acc": 1.0,
+        "r2_bilinear_composition_to_xor": 0.99940276,
+        "bilinear_composition_acc": 1.0
+      },
+      {
+        "delay_steps": 1,
+        "interaction_residual_norm": 0.0060117855,
+        "source_signal_norm": 0.18428037,
+        "content_signal_norm": 0.04920187,
+        "signal_relative_interaction_ratio": 0.051496726,
+        "r2_linear_source": 0.999909,
+        "r2_linear_content": 0.9998861,
+        "r2_linear_h_to_xor": 0.9868389,
+        "linear_h_to_xor_acc": 1.0,
+        "r2_bilinear_composition_to_xor": 0.9993567,
+        "bilinear_composition_acc": 1.0
+      },
+      {
+        "delay_steps": 3,
+        "interaction_residual_norm": 0.002451855,
+        "source_signal_norm": 0.08228983,
+        "content_signal_norm": 0.019902255,
+        "signal_relative_interaction_ratio": 0.047985222,
+        "r2_linear_source": 0.9998875,
+        "r2_linear_content": 0.99990225,
+        "r2_linear_h_to_xor": 0.95530546,
+        "linear_h_to_xor_acc": 1.0,
+        "r2_bilinear_composition_to_xor": 0.99941456,
+        "bilinear_composition_acc": 1.0
+      },
+      {
+        "delay_steps": 5,
+        "interaction_residual_norm": 0.0010390511,
+        "source_signal_norm": 0.04074315,
+        "content_signal_norm": 0.008851124,
+        "signal_relative_interaction_ratio": 0.041902058,
+        "r2_linear_source": 0.9999058,
+        "r2_linear_content": 0.9998978,
+        "r2_linear_h_to_xor": 0.974414,
+        "linear_h_to_xor_acc": 1.0,
+        "r2_bilinear_composition_to_xor": 0.9993757,
+        "bilinear_composition_acc": 1.0
+      }
+    ]
+  },
+  {
+    "seed": 110,
+    "delay_results": [
+      {
+        "delay_steps": 0,
+        "interaction_residual_norm": 0.006014957,
+        "source_signal_norm": 0.21708715,
+        "content_signal_norm": 0.06705377,
+        "signal_relative_interaction_ratio": 0.042337846,
+        "r2_linear_source": 0.99989766,
+        "r2_linear_content": 0.9998743,
+        "r2_linear_h_to_xor": 0.9285115,
+        "linear_h_to_xor_acc": 1.0,
+        "r2_bilinear_composition_to_xor": 0.99931026,
+        "bilinear_composition_acc": 1.0
+      },
+      {
+        "delay_steps": 1,
+        "interaction_residual_norm": 0.0038177005,
+        "source_signal_norm": 0.13503638,
+        "content_signal_norm": 0.039337084,
+        "signal_relative_interaction_ratio": 0.043787632,
+        "r2_linear_source": 0.99988335,
+        "r2_linear_content": 0.9998726,
+        "r2_linear_h_to_xor": 0.9960323,
+        "linear_h_to_xor_acc": 1.0,
+        "r2_bilinear_composition_to_xor": 0.99936986,
+        "bilinear_composition_acc": 1.0
+      },
+      {
+        "delay_steps": 3,
+        "interaction_residual_norm": 0.0016732921,
+        "source_signal_norm": 0.059455745,
+        "content_signal_norm": 0.016300553,
+        "signal_relative_interaction_ratio": 0.04417566,
+        "r2_linear_source": 0.99990356,
+        "r2_linear_content": 0.99989605,
+        "r2_linear_h_to_xor": 0.9591582,
+        "linear_h_to_xor_acc": 1.0,
+        "r2_bilinear_composition_to_xor": 0.9993573,
+        "bilinear_composition_acc": 1.0
+      },
+      {
+        "delay_steps": 5,
+        "interaction_residual_norm": 0.0007825618,
+        "source_signal_norm": 0.028875262,
+        "content_signal_norm": 0.007671859,
+        "signal_relative_interaction_ratio": 0.042824812,
+        "r2_linear_source": 0.9998682,
+        "r2_linear_content": 0.9998993,
+        "r2_linear_h_to_xor": 0.9869091,
+        "linear_h_to_xor_acc": 1.0,
+        "r2_bilinear_composition_to_xor": 0.99935365,
+        "bilinear_composition_acc": 1.0
+      }
+    ]
+  },
+  {
+    "seed": 111,
+    "delay_results": [
+      {
+        "delay_steps": 0,
+        "interaction_residual_norm": 0.011444362,
+        "source_signal_norm": 0.38805673,
+        "content_signal_norm": 0.08293246,
+        "signal_relative_interaction_ratio": 0.048597135,
+        "r2_linear_source": 0.99988145,
+        "r2_linear_content": 0.99989986,
+        "r2_linear_h_to_xor": 0.9791025,
+        "linear_h_to_xor_acc": 1.0,
+        "r2_bilinear_composition_to_xor": 0.99937177,
+        "bilinear_composition_acc": 1.0
+      },
+      {
+        "delay_steps": 1,
+        "interaction_residual_norm": 0.0070187193,
+        "source_signal_norm": 0.23420188,
+        "content_signal_norm": 0.049803745,
+        "signal_relative_interaction_ratio": 0.049426623,
+        "r2_linear_source": 0.99990475,
+        "r2_linear_content": 0.9999128,
+        "r2_linear_h_to_xor": 0.9945079,
+        "linear_h_to_xor_acc": 1.0,
+        "r2_bilinear_composition_to_xor": 0.99944085,
+        "bilinear_composition_acc": 1.0
+      },
+      {
+        "delay_steps": 3,
+        "interaction_residual_norm": 0.0028214948,
+        "source_signal_norm": 0.100495994,
+        "content_signal_norm": 0.020555845,
+        "signal_relative_interaction_ratio": 0.046616305,
+        "r2_linear_source": 0.99989367,
+        "r2_linear_content": 0.99987286,
+        "r2_linear_h_to_xor": 0.9980285,
+        "linear_h_to_xor_acc": 1.0,
+        "r2_bilinear_composition_to_xor": 0.99931735,
+        "bilinear_composition_acc": 1.0
+      },
+      {
+        "delay_steps": 5,
+        "interaction_residual_norm": 0.0011991851,
+        "source_signal_norm": 0.046178654,
+        "content_signal_norm": 0.00859196,
+        "signal_relative_interaction_ratio": 0.04378936,
+        "r2_linear_source": 0.9999017,
+        "r2_linear_content": 0.99987596,
+        "r2_linear_h_to_xor": 0.99653184,
+        "linear_h_to_xor_acc": 1.0,
+        "r2_bilinear_composition_to_xor": 0.9993693,
+        "bilinear_composition_acc": 1.0
+      }
+    ]
+  },
+  {
+    "seed": 112,
+    "delay_results": [
+      {
+        "delay_steps": 0,
+        "interaction_residual_norm": 0.00824248,
+        "source_signal_norm": 0.290467,
+        "content_signal_norm": 0.056247193,
+        "signal_relative_interaction_ratio": 0.047546253,
+        "r2_linear_source": 0.99989784,
+        "r2_linear_content": 0.9998863,
+        "r2_linear_h_to_xor": 0.9997029,
+        "linear_h_to_xor_acc": 1.0,
+        "r2_bilinear_composition_to_xor": 0.9994088,
+        "bilinear_composition_acc": 1.0
+      },
+      {
+        "delay_steps": 1,
+        "interaction_residual_norm": 0.00484319,
+        "source_signal_norm": 0.15528338,
+        "content_signal_norm": 0.034751885,
+        "signal_relative_interaction_ratio": 0.05097149,
+        "r2_linear_source": 0.99988145,
+        "r2_linear_content": 0.9998794,
+        "r2_linear_h_to_xor": 0.9895097,
+        "linear_h_to_xor_acc": 1.0,
+        "r2_bilinear_composition_to_xor": 0.9992998,
+        "bilinear_composition_acc": 1.0
+      },
+      {
+        "delay_steps": 3,
+        "interaction_residual_norm": 0.0018790262,
+        "source_signal_norm": 0.05793251,
+        "content_signal_norm": 0.014828714,
+        "signal_relative_interaction_ratio": 0.05164911,
+        "r2_linear_source": 0.99992967,
+        "r2_linear_content": 0.9998992,
+        "r2_linear_h_to_xor": 0.9681511,
+        "linear_h_to_xor_acc": 1.0,
+        "r2_bilinear_composition_to_xor": 0.99937594,
+        "bilinear_composition_acc": 1.0
+      },
+      {
+        "delay_steps": 5,
+        "interaction_residual_norm": 0.00082659227,
+        "source_signal_norm": 0.024520956,
+        "content_signal_norm": 0.006478996,
+        "signal_relative_interaction_ratio": 0.05332862,
+        "r2_linear_source": 0.99986744,
+        "r2_linear_content": 0.9999069,
+        "r2_linear_h_to_xor": 0.98656493,
+        "linear_h_to_xor_acc": 1.0,
+        "r2_bilinear_composition_to_xor": 0.9992929,
+        "bilinear_composition_acc": 1.0
+      }
+    ]
+  },
+  {
+    "seed": 113,
+    "delay_results": [
+      {
+        "delay_steps": 0,
+        "interaction_residual_norm": 0.0076066945,
+        "source_signal_norm": 0.2766251,
+        "content_signal_norm": 0.08096452,
+        "signal_relative_interaction_ratio": 0.04254427,
+        "r2_linear_source": 0.9998595,
+        "r2_linear_content": 0.999922,
+        "r2_linear_h_to_xor": 0.93828046,
+        "linear_h_to_xor_acc": 1.0,
+        "r2_bilinear_composition_to_xor": 0.99931204,
+        "bilinear_composition_acc": 1.0
+      },
+      {
+        "delay_steps": 1,
+        "interaction_residual_norm": 0.0048395214,
+        "source_signal_norm": 0.1651878,
+        "content_signal_norm": 0.04977361,
+        "signal_relative_interaction_ratio": 0.045026883,
+        "r2_linear_source": 0.9998814,
+        "r2_linear_content": 0.9999016,
+        "r2_linear_h_to_xor": 0.98667175,
+        "linear_h_to_xor_acc": 1.0,
+        "r2_bilinear_composition_to_xor": 0.9993356,
+        "bilinear_composition_acc": 1.0
+      },
+      {
+        "delay_steps": 3,
+        "interaction_residual_norm": 0.0020793134,
+        "source_signal_norm": 0.070916444,
+        "content_signal_norm": 0.020571297,
+        "signal_relative_interaction_ratio": 0.045455564,
+        "r2_linear_source": 0.99990344,
+        "r2_linear_content": 0.99989337,
+        "r2_linear_h_to_xor": 0.9961402,
+        "linear_h_to_xor_acc": 1.0,
+        "r2_bilinear_composition_to_xor": 0.9994304,
+        "bilinear_composition_acc": 1.0
+      },
+      {
+        "delay_steps": 5,
+        "interaction_residual_norm": 0.0009838877,
+        "source_signal_norm": 0.03247907,
+        "content_signal_norm": 0.008755972,
+        "signal_relative_interaction_ratio": 0.04772095,
+        "r2_linear_source": 0.9999194,
+        "r2_linear_content": 0.99990463,
+        "r2_linear_h_to_xor": 0.98180073,
+        "linear_h_to_xor_acc": 1.0,
+        "r2_bilinear_composition_to_xor": 0.9994625,
+        "bilinear_composition_acc": 1.0
+      }
+    ]
+  },
+  {
+    "seed": 114,
+    "delay_results": [
+      {
+        "delay_steps": 0,
+        "interaction_residual_norm": 0.009228679,
+        "source_signal_norm": 0.25352085,
+        "content_signal_norm": 0.088135876,
+        "signal_relative_interaction_ratio": 0.054023113,
+        "r2_linear_source": 0.9998827,
+        "r2_linear_content": 0.9999139,
+        "r2_linear_h_to_xor": 0.99103934,
+        "linear_h_to_xor_acc": 1.0,
+        "r2_bilinear_composition_to_xor": 0.9993281,
+        "bilinear_composition_acc": 1.0
+      },
+      {
+        "delay_steps": 1,
+        "interaction_residual_norm": 0.005564489,
+        "source_signal_norm": 0.14257273,
+        "content_signal_norm": 0.055093955,
+        "signal_relative_interaction_ratio": 0.056301735,
+        "r2_linear_source": 0.9999057,
+        "r2_linear_content": 0.99984735,
+        "r2_linear_h_to_xor": 0.96968824,
+        "linear_h_to_xor_acc": 1.0,
+        "r2_bilinear_composition_to_xor": 0.99922794,
+        "bilinear_composition_acc": 1.0
+      },
+      {
+        "delay_steps": 3,
+        "interaction_residual_norm": 0.002375458,
+        "source_signal_norm": 0.049748305,
+        "content_signal_norm": 0.02278467,
+        "signal_relative_interaction_ratio": 0.06550008,
+        "r2_linear_source": 0.99987125,
+        "r2_linear_content": 0.99989474,
+        "r2_linear_h_to_xor": 0.98745185,
+        "linear_h_to_xor_acc": 1.0,
+        "r2_bilinear_composition_to_xor": 0.9992841,
+        "bilinear_composition_acc": 1.0
+      },
+      {
+        "delay_steps": 5,
+        "interaction_residual_norm": 0.0010841241,
+        "source_signal_norm": 0.01873375,
+        "content_signal_norm": 0.009822325,
+        "signal_relative_interaction_ratio": 0.075929485,
+        "r2_linear_source": 0.99991304,
+        "r2_linear_content": 0.99990183,
+        "r2_linear_h_to_xor": 0.9942578,
+        "linear_h_to_xor_acc": 1.0,
+        "r2_bilinear_composition_to_xor": 0.9994258,
+        "bilinear_composition_acc": 1.0
+      }
+    ]
+  },
+  {
+    "seed": 115,
+    "delay_results": [
+      {
+        "delay_steps": 0,
+        "interaction_residual_norm": 0.01003053,
+        "source_signal_norm": 0.29703832,
+        "content_signal_norm": 0.07221031,
+        "signal_relative_interaction_ratio": 0.05432941,
+        "r2_linear_source": 0.99991643,
+        "r2_linear_content": 0.99987817,
+        "r2_linear_h_to_xor": 0.96539277,
+        "linear_h_to_xor_acc": 1.0,
+        "r2_bilinear_composition_to_xor": 0.9993732,
+        "bilinear_composition_acc": 1.0
+      },
+      {
+        "delay_steps": 1,
+        "interaction_residual_norm": 0.0067490977,
+        "source_signal_norm": 0.1682614,
+        "content_signal_norm": 0.04327287,
+        "signal_relative_interaction_ratio": 0.063810915,
+        "r2_linear_source": 0.99988204,
+        "r2_linear_content": 0.9998713,
+        "r2_linear_h_to_xor": 0.9661162,
+        "linear_h_to_xor_acc": 1.0,
+        "r2_bilinear_composition_to_xor": 0.99921304,
+        "bilinear_composition_acc": 1.0
+      },
+      {
+        "delay_steps": 3,
+        "interaction_residual_norm": 0.0033330892,
+        "source_signal_norm": 0.06727283,
+        "content_signal_norm": 0.017143006,
+        "signal_relative_interaction_ratio": 0.078968346,
+        "r2_linear_source": 0.99991274,
+        "r2_linear_content": 0.99990827,
+        "r2_linear_h_to_xor": 0.9875284,
+        "linear_h_to_xor_acc": 1.0,
+        "r2_bilinear_composition_to_xor": 0.99934924,
+        "bilinear_composition_acc": 1.0
+      },
+      {
+        "delay_steps": 5,
+        "interaction_residual_norm": 0.0017588083,
+        "source_signal_norm": 0.030173613,
+        "content_signal_norm": 0.0073719663,
+        "signal_relative_interaction_ratio": 0.09368923,
+        "r2_linear_source": 0.99989724,
+        "r2_linear_content": 0.99992037,
+        "r2_linear_h_to_xor": 0.9996453,
+        "linear_h_to_xor_acc": 1.0,
+        "r2_bilinear_composition_to_xor": 0.999427,
+        "bilinear_composition_acc": 1.0
+      }
+    ]
+  },
+  {
+    "seed": 116,
+    "delay_results": [
+      {
+        "delay_steps": 0,
+        "interaction_residual_norm": 0.009288364,
+        "source_signal_norm": 0.2992802,
+        "content_signal_norm": 0.07416033,
+        "signal_relative_interaction_ratio": 0.04974481,
+        "r2_linear_source": 0.9999292,
+        "r2_linear_content": 0.99989843,
+        "r2_linear_h_to_xor": 0.9341921,
+        "linear_h_to_xor_acc": 1.0,
+        "r2_bilinear_composition_to_xor": 0.9993116,
+        "bilinear_composition_acc": 1.0
+      },
+      {
+        "delay_steps": 1,
+        "interaction_residual_norm": 0.005551108,
+        "source_signal_norm": 0.16311821,
+        "content_signal_norm": 0.042261105,
+        "signal_relative_interaction_ratio": 0.05405713,
+        "r2_linear_source": 0.9999091,
+        "r2_linear_content": 0.99989605,
+        "r2_linear_h_to_xor": 0.99405444,
+        "linear_h_to_xor_acc": 1.0,
+        "r2_bilinear_composition_to_xor": 0.9994384,
+        "bilinear_composition_acc": 1.0
+      },
+      {
+        "delay_steps": 3,
+        "interaction_residual_norm": 0.0021373976,
+        "source_signal_norm": 0.060222544,
+        "content_signal_norm": 0.01649612,
+        "signal_relative_interaction_ratio": 0.055720408,
+        "r2_linear_source": 0.99991274,
+        "r2_linear_content": 0.99991024,
+        "r2_linear_h_to_xor": 0.9943618,
+        "linear_h_to_xor_acc": 1.0,
+        "r2_bilinear_composition_to_xor": 0.9994525,
+        "bilinear_composition_acc": 1.0
+      },
+      {
+        "delay_steps": 5,
+        "interaction_residual_norm": 0.0008584931,
+        "source_signal_norm": 0.026555276,
+        "content_signal_norm": 0.0068962057,
+        "signal_relative_interaction_ratio": 0.051327657,
+        "r2_linear_source": 0.9998899,
+        "r2_linear_content": 0.9998942,
+        "r2_linear_h_to_xor": 0.9989397,
+        "linear_h_to_xor_acc": 1.0,
+        "r2_bilinear_composition_to_xor": 0.9994079,
+        "bilinear_composition_acc": 1.0
+      }
+    ]
+  }
+]

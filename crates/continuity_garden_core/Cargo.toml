@@ -85,6 +85,10 @@ name = "run_q13d_geometry_audit"
 path = "src/bin/run_q13d_geometry_audit.rs"
 
 [[bin]]
+name = "run_q13e_geometry_bilinear"
+path = "src/bin/run_q13e_geometry_bilinear.rs"
+
+[[bin]]
 name = "run_q15a_experiment"
 path = "src/bin/run_q15a_experiment.rs"
 
@@ -99,3 +103,7 @@ path = "src/bin/run_q15c_experiment.rs"
 [[bin]]
 name = "run_q15d_experiment"
 path = "src/bin/run_q15d_experiment.rs"
+
+[[bin]]
+name = "run_q15e_relational_addressing"
+path = "src/bin/run_q15e_relational_addressing.rs"
