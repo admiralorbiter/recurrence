@@ -1,0 +1,1954 @@
+[
+  {
+    "seed": 101,
+    "induced_ancestry": {
+      "a_matrix": [
+        [
+          0.0,
+          -0.6890008,
+          0.61437124,
+          0.0
+        ],
+        [
+          0.6890008,
+          0.0,
+          0.5232378,
+          0.0
+        ],
+        [
+          -0.61437124,
+          -0.5232378,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "transmission_a_to_b": 0.6890008,
+      "transmission_a_to_c": 0.5232378,
+      "transmission_a_to_d": 0.0,
+      "transmission_b_to_c": 0.61437124,
+      "ancestry_accuracy_vs_ground_truth": 1.0
+    },
+    "condition_results": [
+      {
+        "condition_id": "Direct_Copy_A_B",
+        "scenario_name": "1. DIRECT COPY DISAGREEMENT (A != B, A -> B)",
+        "realized_return": 1.37,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": 0.0,
+        "transposed_return": -2.55,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 3.92,
+        "is_competent": true
+      },
+      {
+        "condition_id": "Laundered_Proxy_A_C",
+        "scenario_name": "2. MULTI-HOP LAUNDERING DISAGREEMENT (A != C, A -> B -> C)",
+        "realized_return": 1.37,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": 0.0,
+        "transposed_return": -2.795,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 4.165,
+        "is_competent": true
+      },
+      {
+        "condition_id": "Laundered_Agreement_A_C",
+        "scenario_name": "3. LAUNDERED REDUNDANT AGREEMENT (A == C, A -> B -> C)",
+        "realized_return": 1.37,
+        "parent_choice_accuracy": -0.0,
+        "child_choice_inversion_rate": -0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": -0.0,
+        "transposed_return": 1.37,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0,
+        "is_competent": false
+      },
+      {
+        "condition_id": "Corroborated_Agreement_A_D",
+        "scenario_name": "4. INDEPENDENT CORROBORATION AGREEMENT (A == D, A _|_ D)",
+        "realized_return": 1.37,
+        "parent_choice_accuracy": -0.0,
+        "child_choice_inversion_rate": -0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": -0.0,
+        "transposed_return": 1.37,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0,
+        "is_competent": false
+      },
+      {
+        "condition_id": "Direct_Hop_B_C",
+        "scenario_name": "5. INTERMEDIATE HOP DISAGREEMENT (B != C, B -> C)",
+        "realized_return": 0.67,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": 0.0,
+        "transposed_return": -2.34,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 3.01,
+        "is_competent": false
+      },
+      {
+        "condition_id": "Independent_A_D",
+        "scenario_name": "6. INDEPENDENT CONFLICT DISAGREEMENT (A != D, A _|_ D)",
+        "realized_return": 1.28,
+        "parent_choice_accuracy": -0.0,
+        "child_choice_inversion_rate": -0.0,
+        "indep_verify_accuracy": 1.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": -0.0,
+        "transposed_return": 1.28,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0,
+        "is_competent": false
+      }
+    ]
+  },
+  {
+    "seed": 102,
+    "induced_ancestry": {
+      "a_matrix": [
+        [
+          0.0,
+          -0.68552953,
+          0.0,
+          0.6196841
+        ],
+        [
+          0.68552953,
+          0.0,
+          0.0,
+          0.49555376
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          -0.6196841,
+          -0.49555376,
+          0.0,
+          0.0
+        ]
+      ],
+      "transmission_a_to_b": 0.68552953,
+      "transmission_a_to_c": 0.49555376,
+      "transmission_a_to_d": 0.0,
+      "transmission_b_to_c": 0.6196841,
+      "ancestry_accuracy_vs_ground_truth": 1.0
+    },
+    "condition_results": [
+      {
+        "condition_id": "Direct_Copy_A_B",
+        "scenario_name": "1. DIRECT COPY DISAGREEMENT (A != B, A -> B)",
+        "realized_return": 1.58,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": 0.0,
+        "transposed_return": -2.2,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 3.7800002,
+        "is_competent": true
+      },
+      {
+        "condition_id": "Laundered_Proxy_A_C",
+        "scenario_name": "2. MULTI-HOP LAUNDERING DISAGREEMENT (A != C, A -> B -> C)",
+        "realized_return": 1.58,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": 0.0,
+        "transposed_return": -2.375,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 3.955,
+        "is_competent": true
+      },
+      {
+        "condition_id": "Laundered_Agreement_A_C",
+        "scenario_name": "3. LAUNDERED REDUNDANT AGREEMENT (A == C, A -> B -> C)",
+        "realized_return": 1.58,
+        "parent_choice_accuracy": -0.0,
+        "child_choice_inversion_rate": -0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": -0.0,
+        "transposed_return": 1.58,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0,
+        "is_competent": false
+      },
+      {
+        "condition_id": "Corroborated_Agreement_A_D",
+        "scenario_name": "4. INDEPENDENT CORROBORATION AGREEMENT (A == D, A _|_ D)",
+        "realized_return": 1.58,
+        "parent_choice_accuracy": -0.0,
+        "child_choice_inversion_rate": -0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": -0.0,
+        "transposed_return": 1.58,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0,
+        "is_competent": false
+      },
+      {
+        "condition_id": "Direct_Hop_B_C",
+        "scenario_name": "5. INTERMEDIATE HOP DISAGREEMENT (B != C, B -> C)",
+        "realized_return": 1.02,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": 0.0,
+        "transposed_return": -2.095,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 3.115,
+        "is_competent": false
+      },
+      {
+        "condition_id": "Independent_A_D",
+        "scenario_name": "6. INDEPENDENT CONFLICT DISAGREEMENT (A != D, A _|_ D)",
+        "realized_return": 1.375,
+        "parent_choice_accuracy": -0.0,
+        "child_choice_inversion_rate": -0.0,
+        "indep_verify_accuracy": 1.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": -0.0,
+        "transposed_return": 1.375,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0,
+        "is_competent": true
+      }
+    ]
+  },
+  {
+    "seed": 103,
+    "induced_ancestry": {
+      "a_matrix": [
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          -0.51103973,
+          -0.6217949
+        ],
+        [
+          0.0,
+          0.51103973,
+          0.0,
+          0.68366116
+        ],
+        [
+          0.0,
+          0.6217949,
+          -0.68366116,
+          0.0
+        ]
+      ],
+      "transmission_a_to_b": 0.68366116,
+      "transmission_a_to_c": 0.51103973,
+      "transmission_a_to_d": 0.0,
+      "transmission_b_to_c": 0.6217949,
+      "ancestry_accuracy_vs_ground_truth": 1.0
+    },
+    "condition_results": [
+      {
+        "condition_id": "Direct_Copy_A_B",
+        "scenario_name": "1. DIRECT COPY DISAGREEMENT (A != B, A -> B)",
+        "realized_return": 1.58,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": 0.0,
+        "transposed_return": -2.445,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 4.025,
+        "is_competent": true
+      },
+      {
+        "condition_id": "Laundered_Proxy_A_C",
+        "scenario_name": "2. MULTI-HOP LAUNDERING DISAGREEMENT (A != C, A -> B -> C)",
+        "realized_return": 1.58,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": 0.0,
+        "transposed_return": -2.55,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 4.13,
+        "is_competent": true
+      },
+      {
+        "condition_id": "Laundered_Agreement_A_C",
+        "scenario_name": "3. LAUNDERED REDUNDANT AGREEMENT (A == C, A -> B -> C)",
+        "realized_return": 1.58,
+        "parent_choice_accuracy": -0.0,
+        "child_choice_inversion_rate": -0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": -0.0,
+        "transposed_return": 1.58,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0,
+        "is_competent": false
+      },
+      {
+        "condition_id": "Corroborated_Agreement_A_D",
+        "scenario_name": "4. INDEPENDENT CORROBORATION AGREEMENT (A == D, A _|_ D)",
+        "realized_return": 1.58,
+        "parent_choice_accuracy": -0.0,
+        "child_choice_inversion_rate": -0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": -0.0,
+        "transposed_return": 1.58,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0,
+        "is_competent": false
+      },
+      {
+        "condition_id": "Direct_Hop_B_C",
+        "scenario_name": "5. INTERMEDIATE HOP DISAGREEMENT (B != C, B -> C)",
+        "realized_return": 0.985,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": 0.0,
+        "transposed_return": -2.41,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 3.395,
+        "is_competent": false
+      },
+      {
+        "condition_id": "Independent_A_D",
+        "scenario_name": "6. INDEPENDENT CONFLICT DISAGREEMENT (A != D, A _|_ D)",
+        "realized_return": 1.35,
+        "parent_choice_accuracy": -0.0,
+        "child_choice_inversion_rate": -0.0,
+        "indep_verify_accuracy": 1.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": -0.0,
+        "transposed_return": 1.35,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0,
+        "is_competent": true
+      }
+    ]
+  },
+  {
+    "seed": 104,
+    "induced_ancestry": {
+      "a_matrix": [
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.5158057,
+          0.6842714
+        ],
+        [
+          0.0,
+          -0.5158057,
+          0.0,
+          -0.6195609
+        ],
+        [
+          0.0,
+          -0.6842714,
+          0.6195609,
+          0.0
+        ]
+      ],
+      "transmission_a_to_b": 0.6842714,
+      "transmission_a_to_c": 0.5158057,
+      "transmission_a_to_d": 0.0,
+      "transmission_b_to_c": 0.6195609,
+      "ancestry_accuracy_vs_ground_truth": 1.0
+    },
+    "condition_results": [
+      {
+        "condition_id": "Direct_Copy_A_B",
+        "scenario_name": "1. DIRECT COPY DISAGREEMENT (A != B, A -> B)",
+        "realized_return": 1.335,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": 0.0,
+        "transposed_return": -2.2,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 3.535,
+        "is_competent": true
+      },
+      {
+        "condition_id": "Laundered_Proxy_A_C",
+        "scenario_name": "2. MULTI-HOP LAUNDERING DISAGREEMENT (A != C, A -> B -> C)",
+        "realized_return": 1.335,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": 0.0,
+        "transposed_return": -2.41,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 3.7450001,
+        "is_competent": true
+      },
+      {
+        "condition_id": "Laundered_Agreement_A_C",
+        "scenario_name": "3. LAUNDERED REDUNDANT AGREEMENT (A == C, A -> B -> C)",
+        "realized_return": 1.335,
+        "parent_choice_accuracy": -0.0,
+        "child_choice_inversion_rate": -0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": -0.0,
+        "transposed_return": 1.335,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0,
+        "is_competent": false
+      },
+      {
+        "condition_id": "Corroborated_Agreement_A_D",
+        "scenario_name": "4. INDEPENDENT CORROBORATION AGREEMENT (A == D, A _|_ D)",
+        "realized_return": 1.335,
+        "parent_choice_accuracy": -0.0,
+        "child_choice_inversion_rate": -0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": -0.0,
+        "transposed_return": 1.335,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0,
+        "is_competent": false
+      },
+      {
+        "condition_id": "Direct_Hop_B_C",
+        "scenario_name": "5. INTERMEDIATE HOP DISAGREEMENT (B != C, B -> C)",
+        "realized_return": 0.6,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": 0.0,
+        "transposed_return": -2.025,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 2.625,
+        "is_competent": false
+      },
+      {
+        "condition_id": "Independent_A_D",
+        "scenario_name": "6. INDEPENDENT CONFLICT DISAGREEMENT (A != D, A _|_ D)",
+        "realized_return": 1.365,
+        "parent_choice_accuracy": -0.0,
+        "child_choice_inversion_rate": -0.0,
+        "indep_verify_accuracy": 1.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": -0.0,
+        "transposed_return": 1.365,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0,
+        "is_competent": true
+      }
+    ]
+  },
+  {
+    "seed": 105,
+    "induced_ancestry": {
+      "a_matrix": [
+        [
+          0.0,
+          0.0,
+          0.6071143,
+          -0.70471966
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          -0.6071143,
+          0.0,
+          0.0,
+          -0.5159339
+        ],
+        [
+          0.70471966,
+          0.0,
+          0.5159339,
+          0.0
+        ]
+      ],
+      "transmission_a_to_b": 0.70471966,
+      "transmission_a_to_c": 0.5159339,
+      "transmission_a_to_d": 0.0,
+      "transmission_b_to_c": 0.6071143,
+      "ancestry_accuracy_vs_ground_truth": 1.0
+    },
+    "condition_results": [
+      {
+        "condition_id": "Direct_Copy_A_B",
+        "scenario_name": "1. DIRECT COPY DISAGREEMENT (A != B, A -> B)",
+        "realized_return": 1.3,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": 0.0,
+        "transposed_return": -2.165,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 3.465,
+        "is_competent": true
+      },
+      {
+        "condition_id": "Laundered_Proxy_A_C",
+        "scenario_name": "2. MULTI-HOP LAUNDERING DISAGREEMENT (A != C, A -> B -> C)",
+        "realized_return": 1.3,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": 0.0,
+        "transposed_return": -2.41,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 3.71,
+        "is_competent": true
+      },
+      {
+        "condition_id": "Laundered_Agreement_A_C",
+        "scenario_name": "3. LAUNDERED REDUNDANT AGREEMENT (A == C, A -> B -> C)",
+        "realized_return": 1.3,
+        "parent_choice_accuracy": -0.0,
+        "child_choice_inversion_rate": -0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": -0.0,
+        "transposed_return": 1.3,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0,
+        "is_competent": false
+      },
+      {
+        "condition_id": "Corroborated_Agreement_A_D",
+        "scenario_name": "4. INDEPENDENT CORROBORATION AGREEMENT (A == D, A _|_ D)",
+        "realized_return": 1.3,
+        "parent_choice_accuracy": -0.0,
+        "child_choice_inversion_rate": -0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": -0.0,
+        "transposed_return": 1.3,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0,
+        "is_competent": false
+      },
+      {
+        "condition_id": "Direct_Hop_B_C",
+        "scenario_name": "5. INTERMEDIATE HOP DISAGREEMENT (B != C, B -> C)",
+        "realized_return": 0.6,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": 0.0,
+        "transposed_return": -2.06,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 2.6599998,
+        "is_competent": false
+      },
+      {
+        "condition_id": "Independent_A_D",
+        "scenario_name": "6. INDEPENDENT CONFLICT DISAGREEMENT (A != D, A _|_ D)",
+        "realized_return": 1.35,
+        "parent_choice_accuracy": -0.0,
+        "child_choice_inversion_rate": -0.0,
+        "indep_verify_accuracy": 1.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": -0.0,
+        "transposed_return": 1.35,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0,
+        "is_competent": true
+      }
+    ]
+  },
+  {
+    "seed": 106,
+    "induced_ancestry": {
+      "a_matrix": [
+        [
+          0.0,
+          0.0,
+          -0.6164274,
+          -0.53504205
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.6164274,
+          0.0,
+          0.0,
+          -0.70524627
+        ],
+        [
+          0.53504205,
+          0.0,
+          0.70524627,
+          0.0
+        ]
+      ],
+      "transmission_a_to_b": 0.70524627,
+      "transmission_a_to_c": 0.53504205,
+      "transmission_a_to_d": 0.0,
+      "transmission_b_to_c": 0.6164274,
+      "ancestry_accuracy_vs_ground_truth": 1.0
+    },
+    "condition_results": [
+      {
+        "condition_id": "Direct_Copy_A_B",
+        "scenario_name": "1. DIRECT COPY DISAGREEMENT (A != B, A -> B)",
+        "realized_return": 1.44,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": 0.0,
+        "transposed_return": -2.41,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 3.8500001,
+        "is_competent": true
+      },
+      {
+        "condition_id": "Laundered_Proxy_A_C",
+        "scenario_name": "2. MULTI-HOP LAUNDERING DISAGREEMENT (A != C, A -> B -> C)",
+        "realized_return": 1.44,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": 0.0,
+        "transposed_return": -2.62,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 4.06,
+        "is_competent": true
+      },
+      {
+        "condition_id": "Laundered_Agreement_A_C",
+        "scenario_name": "3. LAUNDERED REDUNDANT AGREEMENT (A == C, A -> B -> C)",
+        "realized_return": 1.44,
+        "parent_choice_accuracy": -0.0,
+        "child_choice_inversion_rate": -0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": -0.0,
+        "transposed_return": 1.44,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0,
+        "is_competent": false
+      },
+      {
+        "condition_id": "Corroborated_Agreement_A_D",
+        "scenario_name": "4. INDEPENDENT CORROBORATION AGREEMENT (A == D, A _|_ D)",
+        "realized_return": 1.44,
+        "parent_choice_accuracy": -0.0,
+        "child_choice_inversion_rate": -0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": -0.0,
+        "transposed_return": 1.44,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0,
+        "is_competent": false
+      },
+      {
+        "condition_id": "Direct_Hop_B_C",
+        "scenario_name": "5. INTERMEDIATE HOP DISAGREEMENT (B != C, B -> C)",
+        "realized_return": 0.355,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": 0.0,
+        "transposed_return": -1.99,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 2.345,
+        "is_competent": false
+      },
+      {
+        "condition_id": "Independent_A_D",
+        "scenario_name": "6. INDEPENDENT CONFLICT DISAGREEMENT (A != D, A _|_ D)",
+        "realized_return": 1.325,
+        "parent_choice_accuracy": -0.0,
+        "child_choice_inversion_rate": -0.0,
+        "indep_verify_accuracy": 1.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": -0.0,
+        "transposed_return": 1.325,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0,
+        "is_competent": true
+      }
+    ]
+  },
+  {
+    "seed": 107,
+    "induced_ancestry": {
+      "a_matrix": [
+        [
+          0.0,
+          0.50420505,
+          0.6788146,
+          0.0
+        ],
+        [
+          -0.50420505,
+          0.0,
+          -0.6177175,
+          0.0
+        ],
+        [
+          -0.6788146,
+          0.6177175,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "transmission_a_to_b": 0.6788146,
+      "transmission_a_to_c": 0.50420505,
+      "transmission_a_to_d": 0.0,
+      "transmission_b_to_c": 0.6177175,
+      "ancestry_accuracy_vs_ground_truth": 1.0
+    },
+    "condition_results": [
+      {
+        "condition_id": "Direct_Copy_A_B",
+        "scenario_name": "1. DIRECT COPY DISAGREEMENT (A != B, A -> B)",
+        "realized_return": 1.58,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": 0.0,
+        "transposed_return": -2.41,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 3.9900002,
+        "is_competent": true
+      },
+      {
+        "condition_id": "Laundered_Proxy_A_C",
+        "scenario_name": "2. MULTI-HOP LAUNDERING DISAGREEMENT (A != C, A -> B -> C)",
+        "realized_return": 1.58,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": 0.0,
+        "transposed_return": -2.375,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 3.955,
+        "is_competent": true
+      },
+      {
+        "condition_id": "Laundered_Agreement_A_C",
+        "scenario_name": "3. LAUNDERED REDUNDANT AGREEMENT (A == C, A -> B -> C)",
+        "realized_return": 1.58,
+        "parent_choice_accuracy": -0.0,
+        "child_choice_inversion_rate": -0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": -0.0,
+        "transposed_return": 1.58,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0,
+        "is_competent": false
+      },
+      {
+        "condition_id": "Corroborated_Agreement_A_D",
+        "scenario_name": "4. INDEPENDENT CORROBORATION AGREEMENT (A == D, A _|_ D)",
+        "realized_return": 1.58,
+        "parent_choice_accuracy": -0.0,
+        "child_choice_inversion_rate": -0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": -0.0,
+        "transposed_return": 1.58,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0,
+        "is_competent": false
+      },
+      {
+        "condition_id": "Direct_Hop_B_C",
+        "scenario_name": "5. INTERMEDIATE HOP DISAGREEMENT (B != C, B -> C)",
+        "realized_return": 0.67,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": 0.0,
+        "transposed_return": -1.85,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 2.52,
+        "is_competent": false
+      },
+      {
+        "condition_id": "Independent_A_D",
+        "scenario_name": "6. INDEPENDENT CONFLICT DISAGREEMENT (A != D, A _|_ D)",
+        "realized_return": 1.31,
+        "parent_choice_accuracy": -0.0,
+        "child_choice_inversion_rate": -0.0,
+        "indep_verify_accuracy": 1.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": -0.0,
+        "transposed_return": 1.31,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0,
+        "is_competent": true
+      }
+    ]
+  },
+  {
+    "seed": 108,
+    "induced_ancestry": {
+      "a_matrix": [
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          -0.60631835,
+          -0.510467
+        ],
+        [
+          0.0,
+          0.60631835,
+          0.0,
+          -0.68800324
+        ],
+        [
+          0.0,
+          0.510467,
+          0.68800324,
+          0.0
+        ]
+      ],
+      "transmission_a_to_b": 0.68800324,
+      "transmission_a_to_c": 0.510467,
+      "transmission_a_to_d": 0.0,
+      "transmission_b_to_c": 0.60631835,
+      "ancestry_accuracy_vs_ground_truth": 1.0
+    },
+    "condition_results": [
+      {
+        "condition_id": "Direct_Copy_A_B",
+        "scenario_name": "1. DIRECT COPY DISAGREEMENT (A != B, A -> B)",
+        "realized_return": 1.23,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": 0.0,
+        "transposed_return": -2.06,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 3.29,
+        "is_competent": false
+      },
+      {
+        "condition_id": "Laundered_Proxy_A_C",
+        "scenario_name": "2. MULTI-HOP LAUNDERING DISAGREEMENT (A != C, A -> B -> C)",
+        "realized_return": 1.23,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": 0.0,
+        "transposed_return": -2.235,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 3.465,
+        "is_competent": false
+      },
+      {
+        "condition_id": "Laundered_Agreement_A_C",
+        "scenario_name": "3. LAUNDERED REDUNDANT AGREEMENT (A == C, A -> B -> C)",
+        "realized_return": 1.23,
+        "parent_choice_accuracy": -0.0,
+        "child_choice_inversion_rate": -0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": -0.0,
+        "transposed_return": 1.23,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0,
+        "is_competent": false
+      },
+      {
+        "condition_id": "Corroborated_Agreement_A_D",
+        "scenario_name": "4. INDEPENDENT CORROBORATION AGREEMENT (A == D, A _|_ D)",
+        "realized_return": 1.23,
+        "parent_choice_accuracy": -0.0,
+        "child_choice_inversion_rate": -0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": -0.0,
+        "transposed_return": 1.23,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0,
+        "is_competent": false
+      },
+      {
+        "condition_id": "Direct_Hop_B_C",
+        "scenario_name": "5. INTERMEDIATE HOP DISAGREEMENT (B != C, B -> C)",
+        "realized_return": 0.425,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": 0.0,
+        "transposed_return": -1.815,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 2.24,
+        "is_competent": false
+      },
+      {
+        "condition_id": "Independent_A_D",
+        "scenario_name": "6. INDEPENDENT CONFLICT DISAGREEMENT (A != D, A _|_ D)",
+        "realized_return": 1.405,
+        "parent_choice_accuracy": -0.0,
+        "child_choice_inversion_rate": -0.0,
+        "indep_verify_accuracy": 1.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": -0.0,
+        "transposed_return": 1.405,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0,
+        "is_competent": true
+      }
+    ]
+  },
+  {
+    "seed": 109,
+    "induced_ancestry": {
+      "a_matrix": [
+        [
+          0.0,
+          0.0,
+          -0.7022718,
+          0.60779536
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.7022718,
+          0.0,
+          0.0,
+          0.5233161
+        ],
+        [
+          -0.60779536,
+          0.0,
+          -0.5233161,
+          0.0
+        ]
+      ],
+      "transmission_a_to_b": 0.7022718,
+      "transmission_a_to_c": 0.5233161,
+      "transmission_a_to_d": 0.0,
+      "transmission_b_to_c": 0.60779536,
+      "ancestry_accuracy_vs_ground_truth": 1.0
+    },
+    "condition_results": [
+      {
+        "condition_id": "Direct_Copy_A_B",
+        "scenario_name": "1. DIRECT COPY DISAGREEMENT (A != B, A -> B)",
+        "realized_return": 1.545,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": 0.0,
+        "transposed_return": -2.305,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 3.85,
+        "is_competent": true
+      },
+      {
+        "condition_id": "Laundered_Proxy_A_C",
+        "scenario_name": "2. MULTI-HOP LAUNDERING DISAGREEMENT (A != C, A -> B -> C)",
+        "realized_return": 1.545,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": 0.0,
+        "transposed_return": -2.655,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 4.2,
+        "is_competent": true
+      },
+      {
+        "condition_id": "Laundered_Agreement_A_C",
+        "scenario_name": "3. LAUNDERED REDUNDANT AGREEMENT (A == C, A -> B -> C)",
+        "realized_return": 1.545,
+        "parent_choice_accuracy": -0.0,
+        "child_choice_inversion_rate": -0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": -0.0,
+        "transposed_return": 1.545,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0,
+        "is_competent": false
+      },
+      {
+        "condition_id": "Corroborated_Agreement_A_D",
+        "scenario_name": "4. INDEPENDENT CORROBORATION AGREEMENT (A == D, A _|_ D)",
+        "realized_return": 1.545,
+        "parent_choice_accuracy": -0.0,
+        "child_choice_inversion_rate": -0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": -0.0,
+        "transposed_return": 1.545,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0,
+        "is_competent": false
+      },
+      {
+        "condition_id": "Direct_Hop_B_C",
+        "scenario_name": "5. INTERMEDIATE HOP DISAGREEMENT (B != C, B -> C)",
+        "realized_return": 0.705,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": 0.0,
+        "transposed_return": -2.27,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 2.975,
+        "is_competent": false
+      },
+      {
+        "condition_id": "Independent_A_D",
+        "scenario_name": "6. INDEPENDENT CONFLICT DISAGREEMENT (A != D, A _|_ D)",
+        "realized_return": 1.38,
+        "parent_choice_accuracy": -0.0,
+        "child_choice_inversion_rate": -0.0,
+        "indep_verify_accuracy": 1.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": -0.0,
+        "transposed_return": 1.38,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0,
+        "is_competent": true
+      }
+    ]
+  },
+  {
+    "seed": 110,
+    "induced_ancestry": {
+      "a_matrix": [
+        [
+          0.0,
+          0.0,
+          -0.6048,
+          -0.5051262
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.6048,
+          0.0,
+          0.0,
+          -0.6983439
+        ],
+        [
+          0.5051262,
+          0.0,
+          0.6983439,
+          0.0
+        ]
+      ],
+      "transmission_a_to_b": 0.6983439,
+      "transmission_a_to_c": 0.5051262,
+      "transmission_a_to_d": 0.0,
+      "transmission_b_to_c": 0.6048,
+      "ancestry_accuracy_vs_ground_truth": 1.0
+    },
+    "condition_results": [
+      {
+        "condition_id": "Direct_Copy_A_B",
+        "scenario_name": "1. DIRECT COPY DISAGREEMENT (A != B, A -> B)",
+        "realized_return": 1.475,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": 0.0,
+        "transposed_return": -2.445,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 3.92,
+        "is_competent": true
+      },
+      {
+        "condition_id": "Laundered_Proxy_A_C",
+        "scenario_name": "2. MULTI-HOP LAUNDERING DISAGREEMENT (A != C, A -> B -> C)",
+        "realized_return": 1.475,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": 0.0,
+        "transposed_return": -2.55,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 4.025,
+        "is_competent": true
+      },
+      {
+        "condition_id": "Laundered_Agreement_A_C",
+        "scenario_name": "3. LAUNDERED REDUNDANT AGREEMENT (A == C, A -> B -> C)",
+        "realized_return": 1.475,
+        "parent_choice_accuracy": -0.0,
+        "child_choice_inversion_rate": -0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": -0.0,
+        "transposed_return": 1.475,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0,
+        "is_competent": false
+      },
+      {
+        "condition_id": "Corroborated_Agreement_A_D",
+        "scenario_name": "4. INDEPENDENT CORROBORATION AGREEMENT (A == D, A _|_ D)",
+        "realized_return": 1.475,
+        "parent_choice_accuracy": -0.0,
+        "child_choice_inversion_rate": -0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": -0.0,
+        "transposed_return": 1.475,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0,
+        "is_competent": false
+      },
+      {
+        "condition_id": "Direct_Hop_B_C",
+        "scenario_name": "5. INTERMEDIATE HOP DISAGREEMENT (B != C, B -> C)",
+        "realized_return": 0.775,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": 0.0,
+        "transposed_return": -2.235,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 3.0099998,
+        "is_competent": false
+      },
+      {
+        "condition_id": "Independent_A_D",
+        "scenario_name": "6. INDEPENDENT CONFLICT DISAGREEMENT (A != D, A _|_ D)",
+        "realized_return": 1.345,
+        "parent_choice_accuracy": -0.0,
+        "child_choice_inversion_rate": -0.0,
+        "indep_verify_accuracy": 1.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": -0.0,
+        "transposed_return": 1.345,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0,
+        "is_competent": true
+      }
+    ]
+  },
+  {
+    "seed": 111,
+    "induced_ancestry": {
+      "a_matrix": [
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          -0.69345117,
+          0.60243905
+        ],
+        [
+          0.0,
+          0.69345117,
+          0.0,
+          0.5251105
+        ],
+        [
+          0.0,
+          -0.60243905,
+          -0.5251105,
+          0.0
+        ]
+      ],
+      "transmission_a_to_b": 0.69345117,
+      "transmission_a_to_c": 0.5251105,
+      "transmission_a_to_d": 0.0,
+      "transmission_b_to_c": 0.60243905,
+      "ancestry_accuracy_vs_ground_truth": 1.0
+    },
+    "condition_results": [
+      {
+        "condition_id": "Direct_Copy_A_B",
+        "scenario_name": "1. DIRECT COPY DISAGREEMENT (A != B, A -> B)",
+        "realized_return": 1.58,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": 0.0,
+        "transposed_return": -2.69,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 4.27,
+        "is_competent": true
+      },
+      {
+        "condition_id": "Laundered_Proxy_A_C",
+        "scenario_name": "2. MULTI-HOP LAUNDERING DISAGREEMENT (A != C, A -> B -> C)",
+        "realized_return": 1.58,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": 0.0,
+        "transposed_return": -2.865,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 4.445,
+        "is_competent": true
+      },
+      {
+        "condition_id": "Laundered_Agreement_A_C",
+        "scenario_name": "3. LAUNDERED REDUNDANT AGREEMENT (A == C, A -> B -> C)",
+        "realized_return": 1.58,
+        "parent_choice_accuracy": -0.0,
+        "child_choice_inversion_rate": -0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": -0.0,
+        "transposed_return": 1.58,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0,
+        "is_competent": false
+      },
+      {
+        "condition_id": "Corroborated_Agreement_A_D",
+        "scenario_name": "4. INDEPENDENT CORROBORATION AGREEMENT (A == D, A _|_ D)",
+        "realized_return": 1.58,
+        "parent_choice_accuracy": -0.0,
+        "child_choice_inversion_rate": -0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": -0.0,
+        "transposed_return": 1.58,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0,
+        "is_competent": false
+      },
+      {
+        "condition_id": "Direct_Hop_B_C",
+        "scenario_name": "5. INTERMEDIATE HOP DISAGREEMENT (B != C, B -> C)",
+        "realized_return": 0.985,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": 0.0,
+        "transposed_return": -2.515,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 3.5,
+        "is_competent": false
+      },
+      {
+        "condition_id": "Independent_A_D",
+        "scenario_name": "6. INDEPENDENT CONFLICT DISAGREEMENT (A != D, A _|_ D)",
+        "realized_return": 1.31,
+        "parent_choice_accuracy": -0.0,
+        "child_choice_inversion_rate": -0.0,
+        "indep_verify_accuracy": 1.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": -0.0,
+        "transposed_return": 1.31,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0,
+        "is_competent": true
+      }
+    ]
+  },
+  {
+    "seed": 112,
+    "induced_ancestry": {
+      "a_matrix": [
+        [
+          0.0,
+          -0.52629447,
+          -0.6200961,
+          0.0
+        ],
+        [
+          0.52629447,
+          0.0,
+          0.7014563,
+          0.0
+        ],
+        [
+          0.6200961,
+          -0.7014563,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "transmission_a_to_b": 0.7014563,
+      "transmission_a_to_c": 0.52629447,
+      "transmission_a_to_d": 0.0,
+      "transmission_b_to_c": 0.6200961,
+      "ancestry_accuracy_vs_ground_truth": 1.0
+    },
+    "condition_results": [
+      {
+        "condition_id": "Direct_Copy_A_B",
+        "scenario_name": "1. DIRECT COPY DISAGREEMENT (A != B, A -> B)",
+        "realized_return": 1.615,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": 0.0,
+        "transposed_return": -2.795,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 4.41,
+        "is_competent": true
+      },
+      {
+        "condition_id": "Laundered_Proxy_A_C",
+        "scenario_name": "2. MULTI-HOP LAUNDERING DISAGREEMENT (A != C, A -> B -> C)",
+        "realized_return": 1.615,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": 0.0,
+        "transposed_return": -2.935,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 4.55,
+        "is_competent": true
+      },
+      {
+        "condition_id": "Laundered_Agreement_A_C",
+        "scenario_name": "3. LAUNDERED REDUNDANT AGREEMENT (A == C, A -> B -> C)",
+        "realized_return": 1.615,
+        "parent_choice_accuracy": -0.0,
+        "child_choice_inversion_rate": -0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": -0.0,
+        "transposed_return": 1.615,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0,
+        "is_competent": false
+      },
+      {
+        "condition_id": "Corroborated_Agreement_A_D",
+        "scenario_name": "4. INDEPENDENT CORROBORATION AGREEMENT (A == D, A _|_ D)",
+        "realized_return": 1.615,
+        "parent_choice_accuracy": -0.0,
+        "child_choice_inversion_rate": -0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": -0.0,
+        "transposed_return": 1.615,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0,
+        "is_competent": false
+      },
+      {
+        "condition_id": "Direct_Hop_B_C",
+        "scenario_name": "5. INTERMEDIATE HOP DISAGREEMENT (B != C, B -> C)",
+        "realized_return": 0.775,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": 0.0,
+        "transposed_return": -2.27,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 3.045,
+        "is_competent": false
+      },
+      {
+        "condition_id": "Independent_A_D",
+        "scenario_name": "6. INDEPENDENT CONFLICT DISAGREEMENT (A != D, A _|_ D)",
+        "realized_return": 1.275,
+        "parent_choice_accuracy": -0.0,
+        "child_choice_inversion_rate": -0.0,
+        "indep_verify_accuracy": 1.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": -0.0,
+        "transposed_return": 1.275,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0,
+        "is_competent": false
+      }
+    ]
+  },
+  {
+    "seed": 113,
+    "induced_ancestry": {
+      "a_matrix": [
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          -0.51805776,
+          -0.6209807
+        ],
+        [
+          0.0,
+          0.51805776,
+          0.0,
+          0.68499196
+        ],
+        [
+          0.0,
+          0.6209807,
+          -0.68499196,
+          0.0
+        ]
+      ],
+      "transmission_a_to_b": 0.68499196,
+      "transmission_a_to_c": 0.51805776,
+      "transmission_a_to_d": 0.0,
+      "transmission_b_to_c": 0.6209807,
+      "ancestry_accuracy_vs_ground_truth": 1.0
+    },
+    "condition_results": [
+      {
+        "condition_id": "Direct_Copy_A_B",
+        "scenario_name": "1. DIRECT COPY DISAGREEMENT (A != B, A -> B)",
+        "realized_return": 1.65,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": 0.0,
+        "transposed_return": -2.515,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 4.165,
+        "is_competent": true
+      },
+      {
+        "condition_id": "Laundered_Proxy_A_C",
+        "scenario_name": "2. MULTI-HOP LAUNDERING DISAGREEMENT (A != C, A -> B -> C)",
+        "realized_return": 1.65,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": 0.0,
+        "transposed_return": -2.9,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 4.55,
+        "is_competent": true
+      },
+      {
+        "condition_id": "Laundered_Agreement_A_C",
+        "scenario_name": "3. LAUNDERED REDUNDANT AGREEMENT (A == C, A -> B -> C)",
+        "realized_return": 1.65,
+        "parent_choice_accuracy": -0.0,
+        "child_choice_inversion_rate": -0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": -0.0,
+        "transposed_return": 1.65,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0,
+        "is_competent": false
+      },
+      {
+        "condition_id": "Corroborated_Agreement_A_D",
+        "scenario_name": "4. INDEPENDENT CORROBORATION AGREEMENT (A == D, A _|_ D)",
+        "realized_return": 1.65,
+        "parent_choice_accuracy": -0.0,
+        "child_choice_inversion_rate": -0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": -0.0,
+        "transposed_return": 1.65,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0,
+        "is_competent": false
+      },
+      {
+        "condition_id": "Direct_Hop_B_C",
+        "scenario_name": "5. INTERMEDIATE HOP DISAGREEMENT (B != C, B -> C)",
+        "realized_return": 0.845,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": 0.0,
+        "transposed_return": -2.305,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 3.15,
+        "is_competent": false
+      },
+      {
+        "condition_id": "Independent_A_D",
+        "scenario_name": "6. INDEPENDENT CONFLICT DISAGREEMENT (A != D, A _|_ D)",
+        "realized_return": 1.3,
+        "parent_choice_accuracy": -0.0,
+        "child_choice_inversion_rate": -0.0,
+        "indep_verify_accuracy": 1.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": -0.0,
+        "transposed_return": 1.3,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0,
+        "is_competent": true
+      }
+    ]
+  },
+  {
+    "seed": 114,
+    "induced_ancestry": {
+      "a_matrix": [
+        [
+          0.0,
+          0.0,
+          -0.5912149,
+          -0.5104754
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.5912149,
+          0.0,
+          0.0,
+          -0.69137794
+        ],
+        [
+          0.5104754,
+          0.0,
+          0.69137794,
+          0.0
+        ]
+      ],
+      "transmission_a_to_b": 0.69137794,
+      "transmission_a_to_c": 0.5104754,
+      "transmission_a_to_d": 0.0,
+      "transmission_b_to_c": 0.5912149,
+      "ancestry_accuracy_vs_ground_truth": 1.0
+    },
+    "condition_results": [
+      {
+        "condition_id": "Direct_Copy_A_B",
+        "scenario_name": "1. DIRECT COPY DISAGREEMENT (A != B, A -> B)",
+        "realized_return": 1.195,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": 0.0,
+        "transposed_return": -2.48,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 3.6750002,
+        "is_competent": false
+      },
+      {
+        "condition_id": "Laundered_Proxy_A_C",
+        "scenario_name": "2. MULTI-HOP LAUNDERING DISAGREEMENT (A != C, A -> B -> C)",
+        "realized_return": 1.195,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": 0.0,
+        "transposed_return": -2.55,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 3.745,
+        "is_competent": false
+      },
+      {
+        "condition_id": "Laundered_Agreement_A_C",
+        "scenario_name": "3. LAUNDERED REDUNDANT AGREEMENT (A == C, A -> B -> C)",
+        "realized_return": 1.195,
+        "parent_choice_accuracy": -0.0,
+        "child_choice_inversion_rate": -0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": -0.0,
+        "transposed_return": 1.195,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0,
+        "is_competent": false
+      },
+      {
+        "condition_id": "Corroborated_Agreement_A_D",
+        "scenario_name": "4. INDEPENDENT CORROBORATION AGREEMENT (A == D, A _|_ D)",
+        "realized_return": 1.195,
+        "parent_choice_accuracy": -0.0,
+        "child_choice_inversion_rate": -0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": -0.0,
+        "transposed_return": 1.195,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0,
+        "is_competent": false
+      },
+      {
+        "condition_id": "Direct_Hop_B_C",
+        "scenario_name": "5. INTERMEDIATE HOP DISAGREEMENT (B != C, B -> C)",
+        "realized_return": 0.46,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": 0.0,
+        "transposed_return": -2.095,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 2.555,
+        "is_competent": false
+      },
+      {
+        "condition_id": "Independent_A_D",
+        "scenario_name": "6. INDEPENDENT CONFLICT DISAGREEMENT (A != D, A _|_ D)",
+        "realized_return": 1.28,
+        "parent_choice_accuracy": -0.0,
+        "child_choice_inversion_rate": -0.0,
+        "indep_verify_accuracy": 1.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": -0.0,
+        "transposed_return": 1.28,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0,
+        "is_competent": false
+      }
+    ]
+  },
+  {
+    "seed": 115,
+    "induced_ancestry": {
+      "a_matrix": [
+        [
+          0.0,
+          0.51165503,
+          0.6907537,
+          0.0
+        ],
+        [
+          -0.51165503,
+          0.0,
+          -0.60105306,
+          0.0
+        ],
+        [
+          -0.6907537,
+          0.60105306,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "transmission_a_to_b": 0.6907537,
+      "transmission_a_to_c": 0.51165503,
+      "transmission_a_to_d": 0.0,
+      "transmission_b_to_c": 0.60105306,
+      "ancestry_accuracy_vs_ground_truth": 1.0
+    },
+    "condition_results": [
+      {
+        "condition_id": "Direct_Copy_A_B",
+        "scenario_name": "1. DIRECT COPY DISAGREEMENT (A != B, A -> B)",
+        "realized_return": 1.37,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": 0.0,
+        "transposed_return": -2.515,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 3.8850002,
+        "is_competent": true
+      },
+      {
+        "condition_id": "Laundered_Proxy_A_C",
+        "scenario_name": "2. MULTI-HOP LAUNDERING DISAGREEMENT (A != C, A -> B -> C)",
+        "realized_return": 1.37,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": 0.0,
+        "transposed_return": -2.515,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 3.8850002,
+        "is_competent": true
+      },
+      {
+        "condition_id": "Laundered_Agreement_A_C",
+        "scenario_name": "3. LAUNDERED REDUNDANT AGREEMENT (A == C, A -> B -> C)",
+        "realized_return": 1.37,
+        "parent_choice_accuracy": -0.0,
+        "child_choice_inversion_rate": -0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": -0.0,
+        "transposed_return": 1.37,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0,
+        "is_competent": false
+      },
+      {
+        "condition_id": "Corroborated_Agreement_A_D",
+        "scenario_name": "4. INDEPENDENT CORROBORATION AGREEMENT (A == D, A _|_ D)",
+        "realized_return": 1.37,
+        "parent_choice_accuracy": -0.0,
+        "child_choice_inversion_rate": -0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": -0.0,
+        "transposed_return": 1.37,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0,
+        "is_competent": false
+      },
+      {
+        "condition_id": "Direct_Hop_B_C",
+        "scenario_name": "5. INTERMEDIATE HOP DISAGREEMENT (B != C, B -> C)",
+        "realized_return": 0.285,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": 0.0,
+        "transposed_return": -1.99,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 2.275,
+        "is_competent": false
+      },
+      {
+        "condition_id": "Independent_A_D",
+        "scenario_name": "6. INDEPENDENT CONFLICT DISAGREEMENT (A != D, A _|_ D)",
+        "realized_return": 1.325,
+        "parent_choice_accuracy": -0.0,
+        "child_choice_inversion_rate": -0.0,
+        "indep_verify_accuracy": 1.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": -0.0,
+        "transposed_return": 1.325,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0,
+        "is_competent": true
+      }
+    ]
+  },
+  {
+    "seed": 116,
+    "induced_ancestry": {
+      "a_matrix": [
+        [
+          0.0,
+          0.0,
+          -0.6003159,
+          -0.510115
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.6003159,
+          0.0,
+          0.0,
+          -0.6913923
+        ],
+        [
+          0.510115,
+          0.0,
+          0.6913923,
+          0.0
+        ]
+      ],
+      "transmission_a_to_b": 0.6913923,
+      "transmission_a_to_c": 0.510115,
+      "transmission_a_to_d": 0.0,
+      "transmission_b_to_c": 0.6003159,
+      "ancestry_accuracy_vs_ground_truth": 1.0
+    },
+    "condition_results": [
+      {
+        "condition_id": "Direct_Copy_A_B",
+        "scenario_name": "1. DIRECT COPY DISAGREEMENT (A != B, A -> B)",
+        "realized_return": 1.3,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": 0.0,
+        "transposed_return": -2.48,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 3.78,
+        "is_competent": true
+      },
+      {
+        "condition_id": "Laundered_Proxy_A_C",
+        "scenario_name": "2. MULTI-HOP LAUNDERING DISAGREEMENT (A != C, A -> B -> C)",
+        "realized_return": 1.3,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": 0.0,
+        "transposed_return": -2.585,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 3.885,
+        "is_competent": true
+      },
+      {
+        "condition_id": "Laundered_Agreement_A_C",
+        "scenario_name": "3. LAUNDERED REDUNDANT AGREEMENT (A == C, A -> B -> C)",
+        "realized_return": 1.3,
+        "parent_choice_accuracy": -0.0,
+        "child_choice_inversion_rate": -0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": -0.0,
+        "transposed_return": 1.3,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0,
+        "is_competent": false
+      },
+      {
+        "condition_id": "Corroborated_Agreement_A_D",
+        "scenario_name": "4. INDEPENDENT CORROBORATION AGREEMENT (A == D, A _|_ D)",
+        "realized_return": 1.3,
+        "parent_choice_accuracy": -0.0,
+        "child_choice_inversion_rate": -0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": -0.0,
+        "transposed_return": 1.3,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0,
+        "is_competent": false
+      },
+      {
+        "condition_id": "Direct_Hop_B_C",
+        "scenario_name": "5. INTERMEDIATE HOP DISAGREEMENT (B != C, B -> C)",
+        "realized_return": 0.565,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": -0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": 0.0,
+        "transposed_return": -2.13,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 2.6950002,
+        "is_competent": false
+      },
+      {
+        "condition_id": "Independent_A_D",
+        "scenario_name": "6. INDEPENDENT CONFLICT DISAGREEMENT (A != D, A _|_ D)",
+        "realized_return": 1.245,
+        "parent_choice_accuracy": -0.0,
+        "child_choice_inversion_rate": -0.0,
+        "indep_verify_accuracy": 1.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_parent_acc": -0.0,
+        "transposed_return": 1.245,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0,
+        "is_competent": false
+      }
+    ]
+  }
+]
