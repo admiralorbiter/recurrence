@@ -81,6 +81,10 @@ name = "run_q13c_experiment"
 path = "src/bin/run_q13c_experiment.rs"
 
 [[bin]]
+name = "run_q13d_geometry_audit"
+path = "src/bin/run_q13d_geometry_audit.rs"
+
+[[bin]]
 name = "run_q15a_experiment"
 path = "src/bin/run_q15a_experiment.rs"
 
@@ -91,3 +95,7 @@ path = "src/bin/run_q15b_experiment.rs"
 [[bin]]
 name = "run_q15c_experiment"
 path = "src/bin/run_q15c_experiment.rs"
+
+[[bin]]
+name = "run_q15d_experiment"
+path = "src/bin/run_q15d_experiment.rs"
