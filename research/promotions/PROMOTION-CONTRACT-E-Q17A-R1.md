@@ -2,7 +2,7 @@
 promotion_id: PROMOTION-CONTRACT-E-Q17A-R1
 contract_id: CONTRACT-E-Q17A-R1
 status: CANDIDATE
-candidate_sha: PLACEHOLDER
+candidate_sha: efc2d9941bb546a28fc01ff634211e79070a5bae
 generated_at: "2026-08-21 21:51:00Z"
 repair_rounds: 2
 reviewed_by: codex
