@@ -111,3 +111,7 @@ path = "src/bin/run_q15e_relational_addressing.rs"
 [[bin]]
 name = "run_q15f_addressing_ladder"
 path = "src/bin/run_q15f_addressing_ladder.rs"
+
+[[bin]]
+name = "run_q15g_temporal_addressability"
+path = "src/bin/run_q15g_temporal_addressability.rs"
