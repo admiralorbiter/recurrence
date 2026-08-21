@@ -155,3 +155,7 @@ path = "src/bin/run_q16b_laundering_induction.rs"
 [[bin]]
 name = "run_q16b1_transitive_laundering"
 path = "src/bin/run_q16b1_transitive_laundering.rs"
+
+[[bin]]
+name = "run_q16b2_zeroshot_laundering"
+path = "src/bin/run_q16b2_zeroshot_laundering.rs"
