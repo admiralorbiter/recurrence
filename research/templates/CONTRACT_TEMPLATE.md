@@ -1,9 +1,9 @@
 ---
 contract_id: CONTRACT-<GATE>-<QUESTION>
-status: DRAFT # DRAFT | FROZEN | PROMOTED | SUPERSEDED
+status: DRAFT # DRAFT | FROZEN | SUPERSEDED
 base_sha: <git-sha-where-contract-is-frozen>
 resource_class: cpu # cpu | gpu | hybrid
-long_running: false
+long_running: false # contract/operator declaration for scheduling
 exclusive_gpu: false
 interruptible: true
 author: <author-or-agent-id>

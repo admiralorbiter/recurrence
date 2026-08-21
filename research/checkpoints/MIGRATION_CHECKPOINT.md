@@ -10,7 +10,7 @@
 - **Checkpoint Date**: `2026-08-21`
 - **Pre-Migration Research Base**: `52c2fc48396811a581886074591378515e2eab9e`
   * *Final research experiment execution and 3-lesion battery under the prior ChatGPT review loop.*
-- **Migration & Stabilization Commit**: `5d699569b329ad4cff13137976e1074e5ad08520`
+- **Migration & Stabilization Commit**: `5d699564585d1bf328bca6645d87f70ae4fa86c4`
   * *Established repository control layer (`AGENTS.md`, contract templates, migration checkpoint), fixed mechanical Rust compilation in `run_gate_e_scouts.rs`, harmonized finite-difference checks in `report_q16a32.md` / `run_q16a32_delayed_role_binding.rs`, and tightened Q16b.1 claim wording from "Epistemic Laundering Solved" to the defensible "Epistemic Laundering Discrimination" in `report_q16b1.md`.*
 - **Current Research Stage / Gate**: Gate E — Directional Provenance, Epistemic Laundering, and Causal History
 - **Current Active Question**: Q16b.2 (Completed & Stabilized)

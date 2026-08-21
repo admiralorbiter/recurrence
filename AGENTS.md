@@ -83,19 +83,19 @@ research/
 
 ### Protocol for Agents:
 1. **Discovering Active Work**: Inspect [`research/ACTIVE_CONTRACT.md`](research/ACTIVE_CONTRACT.md).
-   - If `status: IDLE`, no contract is currently active. Agents MUST NOT begin experimental runs or modify hypotheses autonomously.
-   - If `status: FROZEN`, the agent reads the target contract at `contract_path` and optimizes implementation solely against the frozen specifications.
+   - If `state: IDLE`, no contract is currently active. Agents MUST NOT begin experimental runs or modify hypotheses autonomously.
+   - If `state: READY` or `state: RUNNING`, the agent reads the target contract at `contract_path` and optimizes implementation solely against the frozen specifications.
 2. **Contract Structure & Resource Frontmatter**: Contracts MUST include standard YAML frontmatter defining compute constraints:
    ```yaml
    ---
    contract_id: CONTRACT-<GATE>-<QUESTION>
-   status: FROZEN # DRAFT | FROZEN | PROMOTED | SUPERSEDED
+   status: FROZEN # DRAFT | FROZEN | SUPERSEDED
    base_sha: <sha>
    resource_class: cpu # cpu | gpu | hybrid
-   long_running: false # true if job runs > 15 minutes
+   long_running: false # contract/operator declaration for scheduling
    exclusive_gpu: false # true if dedicated GPU access required
    interruptible: true # true if job can be safely paused/resumed
    ---
    ```
-3. **Contract Freezing**: A contract must be committed in `research/contracts/CONTRACT-<ID>.md` with `status: FROZEN` at a specific base Git SHA before experimental execution starts.
-4. **Promotion, Process Metrics & Human Review**: Upon completing experimental verification, agents generate a candidate promotion document in `research/promotions/PROMOTION-<ID>.md` that records both scientific results and workflow metrics (autonomous review rounds, human interventions, wall-clock time) for human epistemic review and baseline advancement.
+3. **Contract Freezing**: A contract must be committed in `research/contracts/CONTRACT-<ID>.md` with `status: FROZEN` at a specific base Git SHA before experimental execution starts. A frozen contract remains immutable historical evidence.
+4. **Promotion, Process Metrics & Human Review**: Upon completing experimental verification, agents generate a candidate promotion document in `research/promotions/PROMOTION-<ID>.md` (default `status: CANDIDATE`) recording quantitative outcomes and workflow efficiency metrics (autonomous review rounds, human interventions, wall-clock time) for human epistemic review and baseline advancement.

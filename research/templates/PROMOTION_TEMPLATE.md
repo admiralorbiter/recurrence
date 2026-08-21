@@ -1,7 +1,7 @@
 ---
 contract_id: CONTRACT-<GATE>-<QUESTION>
 promotion_id: PROMOTION-<GATE>-<QUESTION>
-status: PROMOTED # PROMOTED | REJECTED | REVISED_CONTRACT_REQUIRED | ESCALATED
+status: CANDIDATE # CANDIDATE | PROMOTED | REJECTED | REVISED_CONTRACT_REQUIRED | ESCALATED
 base_sha: <base-sha>
 candidate_sha: <candidate-sha>
 audit_date: "YYYY-MM-DD"
@@ -10,7 +10,7 @@ author: <author-or-agent-id>
 
 # Research Promotion & Diagnostic Audit: [Promotion Title]
 
-This document serves as the formal review, workflow efficiency assessment, and human re-entry point following an experimental implementation cycle.
+> **NOTE**: A promotion audit is initially generated with status `CANDIDATE`. Promotion into repository baselines is NOT considered final until human epistemic review occurs.
 
 ---
 
@@ -20,21 +20,21 @@ This document serves as the formal review, workflow efficiency assessment, and h
   * [Brief summary of the primary scientific question]
 - **Implementation Summary**:
   * [Concise overview of architectural, algorithmic, or experimental changes implemented]
-- **Overall Verdict**: `PROMOTED` | `REJECTED` | `REVISED_CONTRACT_REQUIRED` | `ESCALATED`
+- **Overall Verdict**: `CANDIDATE` | `PROMOTED` | `REJECTED` | `REVISED_CONTRACT_REQUIRED` | `ESCALATED`
 
 ---
 
 ## 2. Workflow & Process Efficiency Metrics
 
-*Target Goal: Validated progress per unit of human attention ("fast exploration, slow promotion").*
+*Evaluating progress per unit of human attention ("fast exploration, slow promotion").*
 
-| Process Metric | Value | Target / Baseline | Assessment |
+| Process Metric | Observed Value | Declared Contract Budget | Assessment |
 | :--- | :--- | :--- | :--- |
-| **Autonomous Review / Fix Rounds** | [Count] | $\le 3$ rounds | [Clean autonomous resolution / Needed loop] |
-| **Human Interventions Required** | [Count] | 0 (except formal escalation) | [Zero-switch autonomous execution / Escalated] |
-| **Total Wall-Clock Time** | [e.g. 2m 15s] | $< 10$ minutes | [Fast execution] |
-| **Compute Footprint** | [e.g. 16 CPU threads, 0 GPU] | CPU standard | [Resource class compliant] |
-| **Attention Context Switches** | [e.g. 1 (final review)] | 1 | [Preserved human focus] |
+| **Autonomous Review / Fix Rounds** | [Count] | [Declared budget or N/A] | [Autonomous loop iterations] |
+| **Human Interventions Required** | [Count] | 0 (except formal escalation) | [Context switch count] |
+| **Total Wall-Clock Time** | [e.g. 2m 15s] | [Declared time budget or N/A] | [Execution throughput] |
+| **Compute Footprint** | [e.g. 16 CPU threads, 0 GPU] | [Declared resource_class] | [Resource class compliance] |
+| **Attention Context Switches** | [e.g. 1 (final review)] | 1 | [Preserved human attention] |
 
 ---
 
