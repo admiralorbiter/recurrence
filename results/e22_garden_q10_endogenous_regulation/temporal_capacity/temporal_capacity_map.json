@@ -1,0 +1,137 @@
+[
+  {
+    "delay_steps": 1,
+    "hidden_dim": 16,
+    "n_seeds": 20,
+    "mean_r2_log_odds": 0.93492854,
+    "std_r2_log_odds": 0.037955057,
+    "mean_r2_posterior_q": 0.82088536,
+    "mean_r2_current_obs": -0.045273162
+  },
+  {
+    "delay_steps": 1,
+    "hidden_dim": 32,
+    "n_seeds": 20,
+    "mean_r2_log_odds": 0.96815956,
+    "std_r2_log_odds": 0.019519592,
+    "mean_r2_posterior_q": 0.8481661,
+    "mean_r2_current_obs": -0.045273162
+  },
+  {
+    "delay_steps": 1,
+    "hidden_dim": 64,
+    "n_seeds": 20,
+    "mean_r2_log_odds": 0.9796631,
+    "std_r2_log_odds": 0.013146825,
+    "mean_r2_posterior_q": 0.8550806,
+    "mean_r2_current_obs": -0.045273162
+  },
+  {
+    "delay_steps": 2,
+    "hidden_dim": 16,
+    "n_seeds": 20,
+    "mean_r2_log_odds": 0.9042765,
+    "std_r2_log_odds": 0.06819945,
+    "mean_r2_posterior_q": 0.7794073,
+    "mean_r2_current_obs": -0.038604878
+  },
+  {
+    "delay_steps": 2,
+    "hidden_dim": 32,
+    "n_seeds": 20,
+    "mean_r2_log_odds": 0.95272195,
+    "std_r2_log_odds": 0.032526597,
+    "mean_r2_posterior_q": 0.8160076,
+    "mean_r2_current_obs": -0.038604878
+  },
+  {
+    "delay_steps": 2,
+    "hidden_dim": 64,
+    "n_seeds": 20,
+    "mean_r2_log_odds": 0.9689582,
+    "std_r2_log_odds": 0.019283293,
+    "mean_r2_posterior_q": 0.8296814,
+    "mean_r2_current_obs": -0.038604878
+  },
+  {
+    "delay_steps": 4,
+    "hidden_dim": 16,
+    "n_seeds": 20,
+    "mean_r2_log_odds": 0.7804595,
+    "std_r2_log_odds": 0.16297378,
+    "mean_r2_posterior_q": 0.6572519,
+    "mean_r2_current_obs": -0.042292994
+  },
+  {
+    "delay_steps": 4,
+    "hidden_dim": 32,
+    "n_seeds": 20,
+    "mean_r2_log_odds": 0.89422864,
+    "std_r2_log_odds": 0.07515564,
+    "mean_r2_posterior_q": 0.75899535,
+    "mean_r2_current_obs": -0.042292994
+  },
+  {
+    "delay_steps": 4,
+    "hidden_dim": 64,
+    "n_seeds": 20,
+    "mean_r2_log_odds": 0.93401355,
+    "std_r2_log_odds": 0.03658631,
+    "mean_r2_posterior_q": 0.79558855,
+    "mean_r2_current_obs": -0.042292994
+  },
+  {
+    "delay_steps": 8,
+    "hidden_dim": 16,
+    "n_seeds": 20,
+    "mean_r2_log_odds": 0.30268285,
+    "std_r2_log_odds": 0.10286037,
+    "mean_r2_posterior_q": 0.33822432,
+    "mean_r2_current_obs": 0.11392389
+  },
+  {
+    "delay_steps": 8,
+    "hidden_dim": 32,
+    "n_seeds": 20,
+    "mean_r2_log_odds": 0.3253675,
+    "std_r2_log_odds": 0.11222754,
+    "mean_r2_posterior_q": 0.36167672,
+    "mean_r2_current_obs": 0.11392389
+  },
+  {
+    "delay_steps": 8,
+    "hidden_dim": 64,
+    "n_seeds": 20,
+    "mean_r2_log_odds": 0.34589544,
+    "std_r2_log_odds": 0.123274796,
+    "mean_r2_posterior_q": 0.37624124,
+    "mean_r2_current_obs": 0.11392389
+  },
+  {
+    "delay_steps": 16,
+    "hidden_dim": 16,
+    "n_seeds": 20,
+    "mean_r2_log_odds": 0.22132118,
+    "std_r2_log_odds": 0.15881704,
+    "mean_r2_posterior_q": 0.15184225,
+    "mean_r2_current_obs": -0.03178947
+  },
+  {
+    "delay_steps": 16,
+    "hidden_dim": 32,
+    "n_seeds": 20,
+    "mean_r2_log_odds": 0.2812043,
+    "std_r2_log_odds": 0.18531172,
+    "mean_r2_posterior_q": 0.23702745,
+    "mean_r2_current_obs": -0.03178947
+  },
+  {
+    "delay_steps": 16,
+    "hidden_dim": 64,
+    "n_seeds": 20,
+    "mean_r2_log_odds": 0.3308613,
+    "std_r2_log_odds": 0.22420733,
+    "mean_r2_posterior_q": 0.29569605,
+    "mean_r2_current_obs": -0.03178947
+  }
+]

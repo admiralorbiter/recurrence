@@ -27,3 +27,11 @@ path = "src/bin/reservoir_census.rs"
 [[bin]]
 name = "run_q10c_experiment"
 path = "src/bin/run_q10c_experiment.rs"
+
+[[bin]]
+name = "run_q10d_experiment"
+path = "src/bin/run_q10d_experiment.rs"
+
+[[bin]]
+name = "temporal_capacity_map"
+path = "src/bin/temporal_capacity_map.rs"
