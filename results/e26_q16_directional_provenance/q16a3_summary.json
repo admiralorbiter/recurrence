@@ -1,0 +1,2402 @@
+[
+  {
+    "seed": 101,
+    "theoretical_bayes_return": 1.3985,
+    "theoretical_parent_acc": 1.0,
+    "empirical_perturbation": {
+      "copier_transmission_rate": 0.6717,
+      "independent_transmission_rate": 0.4167,
+      "causal_transmission_advantage": 0.255
+    },
+    "condition_results": [
+      {
+        "rung_name": "Rung 0: Direct Endpoint Supervision (q1->s1, q2->s2)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung0_Endpoint_Supervised",
+        "realized_return": 1.395,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 1.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": -1.09,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 2.4850001,
+        "addressing_metrics": {
+          "query1_accuracy": 1.0,
+          "query2_accuracy": 1.0,
+          "mean_query_entropy": 0.97622895,
+          "arrow_sign_accuracy": 1.0,
+          "score_correlation_with_oracle": 0.9899933,
+          "true_query_displacement": 0.0
+        },
+        "is_competent_and_promoted": true
+      },
+      {
+        "rung_name": "Rung 1: Direct Score Supervision ((s_hat - R_clean)^2)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung1_Score_Supervised",
+        "realized_return": 0.765,
+        "parent_choice_accuracy": 0.43209878,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 0.59090906,
+        "arrow_sign_accuracy": 0.505,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": 0.24,
+        "paired_trans_acc_drop": 0.43209878,
+        "paired_trans_ret_drop": 0.525,
+        "addressing_metrics": {
+          "query1_accuracy": 0.5,
+          "query2_accuracy": 1.0,
+          "mean_query_entropy": 0.8103141,
+          "arrow_sign_accuracy": 0.5,
+          "score_correlation_with_oracle": 0.7270577,
+          "true_query_displacement": 150.41043
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "rung_name": "Rung 2: Arrow-Sign Supervision (sign(s_hat) -> +1/-1/0)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung2_Sign_Supervised",
+        "realized_return": 0.765,
+        "parent_choice_accuracy": 0.43209878,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 0.59090906,
+        "arrow_sign_accuracy": 0.505,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": 0.24,
+        "paired_trans_acc_drop": 0.43209878,
+        "paired_trans_ret_drop": 0.525,
+        "addressing_metrics": {
+          "query1_accuracy": 0.5,
+          "query2_accuracy": 1.0,
+          "mean_query_entropy": 0.8103141,
+          "arrow_sign_accuracy": 0.5,
+          "score_correlation_with_oracle": 0.7270577,
+          "true_query_displacement": 150.41043
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "rung_name": "Rung 3: Temporal Pointer Inductive Bias (Shared W_e + phase)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung3_Temporal_Pointer_Bias",
+        "realized_return": 1.395,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 1.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": -1.09,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 2.4850001,
+        "addressing_metrics": {
+          "query1_accuracy": 1.0,
+          "query2_accuracy": 0.63,
+          "mean_query_entropy": 0.89451027,
+          "arrow_sign_accuracy": 1.0,
+          "score_correlation_with_oracle": 0.99378616,
+          "true_query_displacement": 0.0
+        },
+        "is_competent_and_promoted": true
+      },
+      {
+        "rung_name": "Rung 4: Unconstrained Utility Surrogate (Q16a.2 Baseline)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung4_Unconstrained_Utility_Surrogate",
+        "realized_return": 0.45,
+        "parent_choice_accuracy": 0.16049382,
+        "child_choice_inversion_rate": 0.18518518,
+        "indep_verify_accuracy": 0.59090906,
+        "arrow_sign_accuracy": 0.285,
+        "transposed_r_parent_acc": 0.18518518,
+        "transposed_r_return": 0.73,
+        "paired_trans_acc_drop": -0.024691358,
+        "paired_trans_ret_drop": -0.28000003,
+        "addressing_metrics": {
+          "query1_accuracy": 0.37,
+          "query2_accuracy": 0.4,
+          "mean_query_entropy": 0.3400887,
+          "arrow_sign_accuracy": 0.34,
+          "score_correlation_with_oracle": 0.02345248,
+          "true_query_displacement": 18.170832
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "rung_name": "Rung 5: Realized-Reward REINFORCE (Strict RL)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung5_Realized_Reward_REINFORCE",
+        "realized_return": 0.695,
+        "parent_choice_accuracy": 0.13580246,
+        "child_choice_inversion_rate": 0.22222222,
+        "indep_verify_accuracy": 0.77272725,
+        "arrow_sign_accuracy": 0.33,
+        "transposed_r_parent_acc": 0.22222222,
+        "transposed_r_return": 0.66,
+        "paired_trans_acc_drop": -0.08641976,
+        "paired_trans_ret_drop": 0.034999967,
+        "addressing_metrics": {
+          "query1_accuracy": 0.35,
+          "query2_accuracy": 0.4,
+          "mean_query_entropy": 0.06594427,
+          "arrow_sign_accuracy": 0.34,
+          "score_correlation_with_oracle": 0.110198975,
+          "true_query_displacement": 20.99588
+        },
+        "is_competent_and_promoted": false
+      }
+    ]
+  },
+  {
+    "seed": 102,
+    "theoretical_bayes_return": 1.3725,
+    "theoretical_parent_acc": 1.0,
+    "empirical_perturbation": {
+      "copier_transmission_rate": 0.6717,
+      "independent_transmission_rate": 0.4167,
+      "causal_transmission_advantage": 0.255
+    },
+    "condition_results": [
+      {
+        "rung_name": "Rung 0: Direct Endpoint Supervision (q1->s1, q2->s2)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung0_Endpoint_Supervised",
+        "realized_return": 1.44,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 1.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": -0.94,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 2.38,
+        "addressing_metrics": {
+          "query1_accuracy": 1.0,
+          "query2_accuracy": 1.0,
+          "mean_query_entropy": 0.97801155,
+          "arrow_sign_accuracy": 1.0,
+          "score_correlation_with_oracle": 0.9861702,
+          "true_query_displacement": 0.0
+        },
+        "is_competent_and_promoted": true
+      },
+      {
+        "rung_name": "Rung 1: Direct Score Supervision ((s_hat - R_clean)^2)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung1_Score_Supervised",
+        "realized_return": 0.955,
+        "parent_choice_accuracy": 0.425,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 0.45714286,
+        "arrow_sign_accuracy": 0.46,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": 0.22,
+        "paired_trans_acc_drop": 0.425,
+        "paired_trans_ret_drop": 0.735,
+        "addressing_metrics": {
+          "query1_accuracy": 0.37,
+          "query2_accuracy": 1.0,
+          "mean_query_entropy": 0.8668687,
+          "arrow_sign_accuracy": 0.49,
+          "score_correlation_with_oracle": 0.56352717,
+          "true_query_displacement": 129.81027
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "rung_name": "Rung 2: Arrow-Sign Supervision (sign(s_hat) -> +1/-1/0)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung2_Sign_Supervised",
+        "realized_return": 0.955,
+        "parent_choice_accuracy": 0.425,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 0.45714286,
+        "arrow_sign_accuracy": 0.46,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": 0.22,
+        "paired_trans_acc_drop": 0.425,
+        "paired_trans_ret_drop": 0.735,
+        "addressing_metrics": {
+          "query1_accuracy": 0.37,
+          "query2_accuracy": 1.0,
+          "mean_query_entropy": 0.8668687,
+          "arrow_sign_accuracy": 0.49,
+          "score_correlation_with_oracle": 0.56352717,
+          "true_query_displacement": 129.81027
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "rung_name": "Rung 3: Temporal Pointer Inductive Bias (Shared W_e + phase)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung3_Temporal_Pointer_Bias",
+        "realized_return": 1.44,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 1.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": -0.94,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 2.38,
+        "addressing_metrics": {
+          "query1_accuracy": 1.0,
+          "query2_accuracy": 0.63,
+          "mean_query_entropy": 0.9077608,
+          "arrow_sign_accuracy": 1.0,
+          "score_correlation_with_oracle": 0.9913171,
+          "true_query_displacement": 0.0
+        },
+        "is_competent_and_promoted": true
+      },
+      {
+        "rung_name": "Rung 4: Unconstrained Utility Surrogate (Q16a.2 Baseline)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung4_Unconstrained_Utility_Surrogate",
+        "realized_return": 0.79,
+        "parent_choice_accuracy": 0.1375,
+        "child_choice_inversion_rate": 0.15,
+        "indep_verify_accuracy": 0.6857143,
+        "arrow_sign_accuracy": 0.27,
+        "transposed_r_parent_acc": 0.15,
+        "transposed_r_return": 0.86,
+        "paired_trans_acc_drop": -0.012500003,
+        "paired_trans_ret_drop": -0.06999999,
+        "addressing_metrics": {
+          "query1_accuracy": 0.3,
+          "query2_accuracy": 0.41,
+          "mean_query_entropy": 0.18095638,
+          "arrow_sign_accuracy": 0.38,
+          "score_correlation_with_oracle": 0.030486,
+          "true_query_displacement": 14.520563
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "rung_name": "Rung 5: Realized-Reward REINFORCE (Strict RL)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung5_Realized_Reward_REINFORCE",
+        "realized_return": 0.865,
+        "parent_choice_accuracy": 0.1625,
+        "child_choice_inversion_rate": 0.1125,
+        "indep_verify_accuracy": 0.62857145,
+        "arrow_sign_accuracy": 0.33,
+        "transposed_r_parent_acc": 0.1125,
+        "transposed_r_return": 0.76,
+        "paired_trans_acc_drop": 0.049999997,
+        "paired_trans_ret_drop": 0.10500002,
+        "addressing_metrics": {
+          "query1_accuracy": 0.37,
+          "query2_accuracy": 0.41,
+          "mean_query_entropy": 0.010512281,
+          "arrow_sign_accuracy": 0.42,
+          "score_correlation_with_oracle": 0.12568904,
+          "true_query_displacement": 22.904417
+        },
+        "is_competent_and_promoted": false
+      }
+    ]
+  },
+  {
+    "seed": 103,
+    "theoretical_bayes_return": 1.4545,
+    "theoretical_parent_acc": 1.0,
+    "empirical_perturbation": {
+      "copier_transmission_rate": 0.6717,
+      "independent_transmission_rate": 0.4167,
+      "causal_transmission_advantage": 0.255
+    },
+    "condition_results": [
+      {
+        "rung_name": "Rung 0: Direct Endpoint Supervision (q1->s1, q2->s2)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung0_Endpoint_Supervised",
+        "realized_return": 1.445,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 1.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": -0.83,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 2.275,
+        "addressing_metrics": {
+          "query1_accuracy": 1.0,
+          "query2_accuracy": 1.0,
+          "mean_query_entropy": 0.97675574,
+          "arrow_sign_accuracy": 1.0,
+          "score_correlation_with_oracle": 0.98779714,
+          "true_query_displacement": 0.0
+        },
+        "is_competent_and_promoted": true
+      },
+      {
+        "rung_name": "Rung 1: Direct Score Supervision ((s_hat - R_clean)^2)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung1_Score_Supervised",
+        "realized_return": 0.515,
+        "parent_choice_accuracy": 0.39240506,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 0.2682927,
+        "arrow_sign_accuracy": 0.365,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": 0.55,
+        "paired_trans_acc_drop": 0.39240506,
+        "paired_trans_ret_drop": -0.035000026,
+        "addressing_metrics": {
+          "query1_accuracy": 0.13,
+          "query2_accuracy": 1.0,
+          "mean_query_entropy": 0.7754955,
+          "arrow_sign_accuracy": 0.27,
+          "score_correlation_with_oracle": 0.61277646,
+          "true_query_displacement": 148.22624
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "rung_name": "Rung 2: Arrow-Sign Supervision (sign(s_hat) -> +1/-1/0)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung2_Sign_Supervised",
+        "realized_return": 0.515,
+        "parent_choice_accuracy": 0.39240506,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 0.2682927,
+        "arrow_sign_accuracy": 0.365,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": 0.55,
+        "paired_trans_acc_drop": 0.39240506,
+        "paired_trans_ret_drop": -0.035000026,
+        "addressing_metrics": {
+          "query1_accuracy": 0.13,
+          "query2_accuracy": 1.0,
+          "mean_query_entropy": 0.7754955,
+          "arrow_sign_accuracy": 0.27,
+          "score_correlation_with_oracle": 0.61277646,
+          "true_query_displacement": 148.22624
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "rung_name": "Rung 3: Temporal Pointer Inductive Bias (Shared W_e + phase)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung3_Temporal_Pointer_Bias",
+        "realized_return": 1.445,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 1.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": -0.83,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 2.275,
+        "addressing_metrics": {
+          "query1_accuracy": 1.0,
+          "query2_accuracy": 0.5,
+          "mean_query_entropy": 0.8969797,
+          "arrow_sign_accuracy": 1.0,
+          "score_correlation_with_oracle": 0.9940387,
+          "true_query_displacement": 0.0
+        },
+        "is_competent_and_promoted": true
+      },
+      {
+        "rung_name": "Rung 4: Unconstrained Utility Surrogate (Q16a.2 Baseline)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung4_Unconstrained_Utility_Surrogate",
+        "realized_return": 0.91,
+        "parent_choice_accuracy": 0.07594936,
+        "child_choice_inversion_rate": 0.1392405,
+        "indep_verify_accuracy": 0.73170733,
+        "arrow_sign_accuracy": 0.305,
+        "transposed_r_parent_acc": 0.1392405,
+        "transposed_r_return": 0.98,
+        "paired_trans_acc_drop": -0.06329114,
+        "paired_trans_ret_drop": -0.06999999,
+        "addressing_metrics": {
+          "query1_accuracy": 0.35,
+          "query2_accuracy": 0.31,
+          "mean_query_entropy": 0.47694027,
+          "arrow_sign_accuracy": 0.33,
+          "score_correlation_with_oracle": -0.026466943,
+          "true_query_displacement": 10.071643
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "rung_name": "Rung 5: Realized-Reward REINFORCE (Strict RL)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung5_Realized_Reward_REINFORCE",
+        "realized_return": 0.57,
+        "parent_choice_accuracy": 0.12658228,
+        "child_choice_inversion_rate": 0.21518987,
+        "indep_verify_accuracy": 0.58536583,
+        "arrow_sign_accuracy": 0.32,
+        "transposed_r_parent_acc": 0.21518987,
+        "transposed_r_return": 0.92,
+        "paired_trans_acc_drop": -0.088607594,
+        "paired_trans_ret_drop": -0.35000002,
+        "addressing_metrics": {
+          "query1_accuracy": 0.28,
+          "query2_accuracy": 0.31,
+          "mean_query_entropy": 0.89211005,
+          "arrow_sign_accuracy": 0.31,
+          "score_correlation_with_oracle": -0.018301664,
+          "true_query_displacement": 8.190533
+        },
+        "is_competent_and_promoted": false
+      }
+    ]
+  },
+  {
+    "seed": 104,
+    "theoretical_bayes_return": 1.4035,
+    "theoretical_parent_acc": 1.0,
+    "empirical_perturbation": {
+      "copier_transmission_rate": 0.6717,
+      "independent_transmission_rate": 0.4167,
+      "causal_transmission_advantage": 0.255
+    },
+    "condition_results": [
+      {
+        "rung_name": "Rung 0: Direct Endpoint Supervision (q1->s1, q2->s2)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung0_Endpoint_Supervised",
+        "realized_return": 1.585,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 1.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": -1.145,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 2.73,
+        "addressing_metrics": {
+          "query1_accuracy": 1.0,
+          "query2_accuracy": 1.0,
+          "mean_query_entropy": 0.97601503,
+          "arrow_sign_accuracy": 1.0,
+          "score_correlation_with_oracle": 0.9900979,
+          "true_query_displacement": 0.0
+        },
+        "is_competent_and_promoted": true
+      },
+      {
+        "rung_name": "Rung 1: Direct Score Supervision ((s_hat - R_clean)^2)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung1_Score_Supervised",
+        "realized_return": 1.15,
+        "parent_choice_accuracy": 0.79761904,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 0.5882353,
+        "arrow_sign_accuracy": 0.73,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": -0.635,
+        "paired_trans_acc_drop": 0.79761904,
+        "paired_trans_ret_drop": 1.785,
+        "addressing_metrics": {
+          "query1_accuracy": 0.55,
+          "query2_accuracy": 1.0,
+          "mean_query_entropy": 0.8440938,
+          "arrow_sign_accuracy": 0.84,
+          "score_correlation_with_oracle": 0.8562421,
+          "true_query_displacement": 171.83064
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "rung_name": "Rung 2: Arrow-Sign Supervision (sign(s_hat) -> +1/-1/0)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung2_Sign_Supervised",
+        "realized_return": 1.15,
+        "parent_choice_accuracy": 0.79761904,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 0.5882353,
+        "arrow_sign_accuracy": 0.73,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": -0.635,
+        "paired_trans_acc_drop": 0.79761904,
+        "paired_trans_ret_drop": 1.785,
+        "addressing_metrics": {
+          "query1_accuracy": 0.55,
+          "query2_accuracy": 1.0,
+          "mean_query_entropy": 0.8440938,
+          "arrow_sign_accuracy": 0.84,
+          "score_correlation_with_oracle": 0.8562421,
+          "true_query_displacement": 171.83064
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "rung_name": "Rung 3: Temporal Pointer Inductive Bias (Shared W_e + phase)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung3_Temporal_Pointer_Bias",
+        "realized_return": 1.585,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 1.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": -1.145,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 2.73,
+        "addressing_metrics": {
+          "query1_accuracy": 1.0,
+          "query2_accuracy": 0.69,
+          "mean_query_entropy": 0.912384,
+          "arrow_sign_accuracy": 1.0,
+          "score_correlation_with_oracle": 0.9929419,
+          "true_query_displacement": 0.0
+        },
+        "is_competent_and_promoted": true
+      },
+      {
+        "rung_name": "Rung 4: Unconstrained Utility Surrogate (Q16a.2 Baseline)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung4_Unconstrained_Utility_Surrogate",
+        "realized_return": 1.27,
+        "parent_choice_accuracy": 0.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 1.0,
+        "arrow_sign_accuracy": 0.305,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": 1.27,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0,
+        "addressing_metrics": {
+          "query1_accuracy": 0.31,
+          "query2_accuracy": 0.43,
+          "mean_query_entropy": 0.24708694,
+          "arrow_sign_accuracy": 0.28,
+          "score_correlation_with_oracle": 0.45146012,
+          "true_query_displacement": 18.55225
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "rung_name": "Rung 5: Realized-Reward REINFORCE (Strict RL)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung5_Realized_Reward_REINFORCE",
+        "realized_return": 0.235,
+        "parent_choice_accuracy": 0.27380952,
+        "child_choice_inversion_rate": 0.27380952,
+        "indep_verify_accuracy": 0.4117647,
+        "arrow_sign_accuracy": 0.31,
+        "transposed_r_parent_acc": 0.27380952,
+        "transposed_r_return": 0.655,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": -0.41999996,
+        "addressing_metrics": {
+          "query1_accuracy": 0.5,
+          "query2_accuracy": 0.26,
+          "mean_query_entropy": 1.027703,
+          "arrow_sign_accuracy": 0.26,
+          "score_correlation_with_oracle": 0.015145992,
+          "true_query_displacement": 11.6441965
+        },
+        "is_competent_and_promoted": false
+      }
+    ]
+  },
+  {
+    "seed": 105,
+    "theoretical_bayes_return": 1.43,
+    "theoretical_parent_acc": 1.0,
+    "empirical_perturbation": {
+      "copier_transmission_rate": 0.6717,
+      "independent_transmission_rate": 0.4167,
+      "causal_transmission_advantage": 0.255
+    },
+    "condition_results": [
+      {
+        "rung_name": "Rung 0: Direct Endpoint Supervision (q1->s1, q2->s2)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung0_Endpoint_Supervised",
+        "realized_return": 1.44,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 1.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": -0.905,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 2.345,
+        "addressing_metrics": {
+          "query1_accuracy": 1.0,
+          "query2_accuracy": 1.0,
+          "mean_query_entropy": 0.97758937,
+          "arrow_sign_accuracy": 1.0,
+          "score_correlation_with_oracle": 0.9854041,
+          "true_query_displacement": 0.0
+        },
+        "is_competent_and_promoted": true
+      },
+      {
+        "rung_name": "Rung 1: Direct Score Supervision ((s_hat - R_clean)^2)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung1_Score_Supervised",
+        "realized_return": 1.025,
+        "parent_choice_accuracy": 0.34246576,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 0.6666667,
+        "arrow_sign_accuracy": 0.54,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": 0.36,
+        "paired_trans_acc_drop": 0.34246576,
+        "paired_trans_ret_drop": 0.66499996,
+        "addressing_metrics": {
+          "query1_accuracy": 0.53,
+          "query2_accuracy": 1.0,
+          "mean_query_entropy": 0.778268,
+          "arrow_sign_accuracy": 0.6,
+          "score_correlation_with_oracle": 0.7346517,
+          "true_query_displacement": 111.03437
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "rung_name": "Rung 2: Arrow-Sign Supervision (sign(s_hat) -> +1/-1/0)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung2_Sign_Supervised",
+        "realized_return": 1.025,
+        "parent_choice_accuracy": 0.34246576,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 0.6666667,
+        "arrow_sign_accuracy": 0.54,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": 0.36,
+        "paired_trans_acc_drop": 0.34246576,
+        "paired_trans_ret_drop": 0.66499996,
+        "addressing_metrics": {
+          "query1_accuracy": 0.53,
+          "query2_accuracy": 1.0,
+          "mean_query_entropy": 0.778268,
+          "arrow_sign_accuracy": 0.6,
+          "score_correlation_with_oracle": 0.7346517,
+          "true_query_displacement": 111.03437
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "rung_name": "Rung 3: Temporal Pointer Inductive Bias (Shared W_e + phase)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung3_Temporal_Pointer_Bias",
+        "realized_return": 1.44,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 1.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": -0.905,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 2.345,
+        "addressing_metrics": {
+          "query1_accuracy": 1.0,
+          "query2_accuracy": 0.48,
+          "mean_query_entropy": 0.31154832,
+          "arrow_sign_accuracy": 1.0,
+          "score_correlation_with_oracle": 0.9021761,
+          "true_query_displacement": 0.0
+        },
+        "is_competent_and_promoted": true
+      },
+      {
+        "rung_name": "Rung 4: Unconstrained Utility Surrogate (Q16a.2 Baseline)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung4_Unconstrained_Utility_Surrogate",
+        "realized_return": 0.545,
+        "parent_choice_accuracy": 0.19178082,
+        "child_choice_inversion_rate": 0.2739726,
+        "indep_verify_accuracy": 0.6666667,
+        "arrow_sign_accuracy": 0.33,
+        "transposed_r_parent_acc": 0.2739726,
+        "transposed_r_return": 0.615,
+        "paired_trans_acc_drop": -0.08219178,
+        "paired_trans_ret_drop": -0.06999999,
+        "addressing_metrics": {
+          "query1_accuracy": 0.34,
+          "query2_accuracy": 0.38,
+          "mean_query_entropy": 0.44170544,
+          "arrow_sign_accuracy": 0.39,
+          "score_correlation_with_oracle": 0.04440034,
+          "true_query_displacement": 11.579879
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "rung_name": "Rung 5: Realized-Reward REINFORCE (Strict RL)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung5_Realized_Reward_REINFORCE",
+        "realized_return": 0.96,
+        "parent_choice_accuracy": 0.09589041,
+        "child_choice_inversion_rate": 0.10958904,
+        "indep_verify_accuracy": 0.7380952,
+        "arrow_sign_accuracy": 0.37,
+        "transposed_r_parent_acc": 0.10958904,
+        "transposed_r_return": 0.75,
+        "paired_trans_acc_drop": -0.01369863,
+        "paired_trans_ret_drop": 0.20999998,
+        "addressing_metrics": {
+          "query1_accuracy": 0.37,
+          "query2_accuracy": 0.32,
+          "mean_query_entropy": 0.5388452,
+          "arrow_sign_accuracy": 0.35,
+          "score_correlation_with_oracle": 0.030720709,
+          "true_query_displacement": 8.669935
+        },
+        "is_competent_and_promoted": false
+      }
+    ]
+  },
+  {
+    "seed": 106,
+    "theoretical_bayes_return": 1.4365,
+    "theoretical_parent_acc": 1.0,
+    "empirical_perturbation": {
+      "copier_transmission_rate": 0.6717,
+      "independent_transmission_rate": 0.4167,
+      "causal_transmission_advantage": 0.255
+    },
+    "condition_results": [
+      {
+        "rung_name": "Rung 0: Direct Endpoint Supervision (q1->s1, q2->s2)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung0_Endpoint_Supervised",
+        "realized_return": 1.545,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 1.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": -0.975,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 2.52,
+        "addressing_metrics": {
+          "query1_accuracy": 1.0,
+          "query2_accuracy": 1.0,
+          "mean_query_entropy": 0.97666794,
+          "arrow_sign_accuracy": 1.0,
+          "score_correlation_with_oracle": 0.98603284,
+          "true_query_displacement": 0.0
+        },
+        "is_competent_and_promoted": true
+      },
+      {
+        "rung_name": "Rung 1: Direct Score Supervision ((s_hat - R_clean)^2)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung1_Score_Supervised",
+        "realized_return": 0.755,
+        "parent_choice_accuracy": 0.4,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 0.3877551,
+        "arrow_sign_accuracy": 0.385,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": 0.265,
+        "paired_trans_acc_drop": 0.4,
+        "paired_trans_ret_drop": 0.49,
+        "addressing_metrics": {
+          "query1_accuracy": 0.35,
+          "query2_accuracy": 0.89,
+          "mean_query_entropy": 0.7910855,
+          "arrow_sign_accuracy": 0.32,
+          "score_correlation_with_oracle": 0.46055394,
+          "true_query_displacement": 98.62491
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "rung_name": "Rung 2: Arrow-Sign Supervision (sign(s_hat) -> +1/-1/0)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung2_Sign_Supervised",
+        "realized_return": 0.755,
+        "parent_choice_accuracy": 0.4,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 0.3877551,
+        "arrow_sign_accuracy": 0.385,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": 0.265,
+        "paired_trans_acc_drop": 0.4,
+        "paired_trans_ret_drop": 0.49,
+        "addressing_metrics": {
+          "query1_accuracy": 0.35,
+          "query2_accuracy": 0.89,
+          "mean_query_entropy": 0.7910855,
+          "arrow_sign_accuracy": 0.32,
+          "score_correlation_with_oracle": 0.46055394,
+          "true_query_displacement": 98.62491
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "rung_name": "Rung 3: Temporal Pointer Inductive Bias (Shared W_e + phase)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung3_Temporal_Pointer_Bias",
+        "realized_return": 1.545,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 1.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": -0.975,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 2.52,
+        "addressing_metrics": {
+          "query1_accuracy": 1.0,
+          "query2_accuracy": 0.54,
+          "mean_query_entropy": 0.57561415,
+          "arrow_sign_accuracy": 1.0,
+          "score_correlation_with_oracle": 0.93052506,
+          "true_query_displacement": 0.0
+        },
+        "is_competent_and_promoted": true
+      },
+      {
+        "rung_name": "Rung 4: Unconstrained Utility Surrogate (Q16a.2 Baseline)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung4_Unconstrained_Utility_Surrogate",
+        "realized_return": 0.845,
+        "parent_choice_accuracy": 0.1375,
+        "child_choice_inversion_rate": 0.1625,
+        "indep_verify_accuracy": 0.71428573,
+        "arrow_sign_accuracy": 0.33,
+        "transposed_r_parent_acc": 0.1625,
+        "transposed_r_return": 0.775,
+        "paired_trans_acc_drop": -0.024999991,
+        "paired_trans_ret_drop": 0.07000005,
+        "addressing_metrics": {
+          "query1_accuracy": 0.21,
+          "query2_accuracy": 0.31,
+          "mean_query_entropy": 0.38702747,
+          "arrow_sign_accuracy": 0.33,
+          "score_correlation_with_oracle": 0.008872112,
+          "true_query_displacement": 11.955421
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "rung_name": "Rung 5: Realized-Reward REINFORCE (Strict RL)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung5_Realized_Reward_REINFORCE",
+        "realized_return": 0.87,
+        "parent_choice_accuracy": 0.1875,
+        "child_choice_inversion_rate": 0.175,
+        "indep_verify_accuracy": 0.71428573,
+        "arrow_sign_accuracy": 0.385,
+        "transposed_r_parent_acc": 0.175,
+        "transposed_r_return": 0.625,
+        "paired_trans_acc_drop": 0.012500003,
+        "paired_trans_ret_drop": 0.245,
+        "addressing_metrics": {
+          "query1_accuracy": 0.21,
+          "query2_accuracy": 0.3,
+          "mean_query_entropy": 0.39577365,
+          "arrow_sign_accuracy": 0.39,
+          "score_correlation_with_oracle": -0.10966702,
+          "true_query_displacement": 9.832958
+        },
+        "is_competent_and_promoted": false
+      }
+    ]
+  },
+  {
+    "seed": 107,
+    "theoretical_bayes_return": 1.3885,
+    "theoretical_parent_acc": 1.0,
+    "empirical_perturbation": {
+      "copier_transmission_rate": 0.6717,
+      "independent_transmission_rate": 0.4167,
+      "causal_transmission_advantage": 0.255
+    },
+    "condition_results": [
+      {
+        "rung_name": "Rung 0: Direct Endpoint Supervision (q1->s1, q2->s2)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung0_Endpoint_Supervised",
+        "realized_return": 1.245,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 1.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": -0.96,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 2.205,
+        "addressing_metrics": {
+          "query1_accuracy": 1.0,
+          "query2_accuracy": 1.0,
+          "mean_query_entropy": 0.9769489,
+          "arrow_sign_accuracy": 1.0,
+          "score_correlation_with_oracle": 0.9876116,
+          "true_query_displacement": 0.0
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "rung_name": "Rung 1: Direct Score Supervision ((s_hat - R_clean)^2)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung1_Score_Supervised",
+        "realized_return": 0.48,
+        "parent_choice_accuracy": 0.7733333,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 0.3043478,
+        "arrow_sign_accuracy": 0.6,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": -0.57,
+        "paired_trans_acc_drop": 0.7733333,
+        "paired_trans_ret_drop": 1.05,
+        "addressing_metrics": {
+          "query1_accuracy": 0.34,
+          "query2_accuracy": 1.0,
+          "mean_query_entropy": 0.72798896,
+          "arrow_sign_accuracy": 0.56,
+          "score_correlation_with_oracle": 0.61646134,
+          "true_query_displacement": 147.35211
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "rung_name": "Rung 2: Arrow-Sign Supervision (sign(s_hat) -> +1/-1/0)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung2_Sign_Supervised",
+        "realized_return": 0.48,
+        "parent_choice_accuracy": 0.7733333,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 0.3043478,
+        "arrow_sign_accuracy": 0.6,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": -0.57,
+        "paired_trans_acc_drop": 0.7733333,
+        "paired_trans_ret_drop": 1.05,
+        "addressing_metrics": {
+          "query1_accuracy": 0.34,
+          "query2_accuracy": 1.0,
+          "mean_query_entropy": 0.72798896,
+          "arrow_sign_accuracy": 0.56,
+          "score_correlation_with_oracle": 0.61646134,
+          "true_query_displacement": 147.35211
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "rung_name": "Rung 3: Temporal Pointer Inductive Bias (Shared W_e + phase)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung3_Temporal_Pointer_Bias",
+        "realized_return": 1.245,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 1.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": -0.96,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 2.205,
+        "addressing_metrics": {
+          "query1_accuracy": 1.0,
+          "query2_accuracy": 0.66,
+          "mean_query_entropy": 0.8898702,
+          "arrow_sign_accuracy": 1.0,
+          "score_correlation_with_oracle": 0.98807704,
+          "true_query_displacement": 0.0
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "rung_name": "Rung 4: Unconstrained Utility Surrogate (Q16a.2 Baseline)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung4_Unconstrained_Utility_Surrogate",
+        "realized_return": 0.31,
+        "parent_choice_accuracy": 0.22666667,
+        "child_choice_inversion_rate": 0.29333332,
+        "indep_verify_accuracy": 0.6304348,
+        "arrow_sign_accuracy": 0.355,
+        "transposed_r_parent_acc": 0.29333332,
+        "transposed_r_return": 0.45,
+        "paired_trans_acc_drop": -0.06666665,
+        "paired_trans_ret_drop": -0.13999999,
+        "addressing_metrics": {
+          "query1_accuracy": 0.28,
+          "query2_accuracy": 0.3,
+          "mean_query_entropy": 0.53170323,
+          "arrow_sign_accuracy": 0.33,
+          "score_correlation_with_oracle": -0.1172961,
+          "true_query_displacement": 17.39005
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "rung_name": "Rung 5: Realized-Reward REINFORCE (Strict RL)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung5_Realized_Reward_REINFORCE",
+        "realized_return": 0.03,
+        "parent_choice_accuracy": 0.32,
+        "child_choice_inversion_rate": 0.33333334,
+        "indep_verify_accuracy": 0.39130434,
+        "arrow_sign_accuracy": 0.355,
+        "transposed_r_parent_acc": 0.33333334,
+        "transposed_r_return": 0.205,
+        "paired_trans_acc_drop": -0.01333335,
+        "paired_trans_ret_drop": -0.175,
+        "addressing_metrics": {
+          "query1_accuracy": 0.39,
+          "query2_accuracy": 0.37,
+          "mean_query_entropy": 0.768591,
+          "arrow_sign_accuracy": 0.37,
+          "score_correlation_with_oracle": 0.14424974,
+          "true_query_displacement": 12.496663
+        },
+        "is_competent_and_promoted": false
+      }
+    ]
+  },
+  {
+    "seed": 108,
+    "theoretical_bayes_return": 1.372,
+    "theoretical_parent_acc": 1.0,
+    "empirical_perturbation": {
+      "copier_transmission_rate": 0.6717,
+      "independent_transmission_rate": 0.4167,
+      "causal_transmission_advantage": 0.255
+    },
+    "condition_results": [
+      {
+        "rung_name": "Rung 0: Direct Endpoint Supervision (q1->s1, q2->s2)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung0_Endpoint_Supervised",
+        "realized_return": 1.38,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 1.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": -0.93,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 2.31,
+        "addressing_metrics": {
+          "query1_accuracy": 1.0,
+          "query2_accuracy": 1.0,
+          "mean_query_entropy": 0.97845113,
+          "arrow_sign_accuracy": 1.0,
+          "score_correlation_with_oracle": 0.98697954,
+          "true_query_displacement": 0.0
+        },
+        "is_competent_and_promoted": true
+      },
+      {
+        "rung_name": "Rung 1: Direct Score Supervision ((s_hat - R_clean)^2)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung1_Score_Supervised",
+        "realized_return": 0.7,
+        "parent_choice_accuracy": 0.35526314,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 0.59016395,
+        "arrow_sign_accuracy": 0.41,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": 0.35,
+        "paired_trans_acc_drop": 0.35526314,
+        "paired_trans_ret_drop": 0.35,
+        "addressing_metrics": {
+          "query1_accuracy": 0.44,
+          "query2_accuracy": 0.76,
+          "mean_query_entropy": 0.81465423,
+          "arrow_sign_accuracy": 0.62,
+          "score_correlation_with_oracle": 0.600613,
+          "true_query_displacement": 131.57323
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "rung_name": "Rung 2: Arrow-Sign Supervision (sign(s_hat) -> +1/-1/0)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung2_Sign_Supervised",
+        "realized_return": 0.7,
+        "parent_choice_accuracy": 0.35526314,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 0.59016395,
+        "arrow_sign_accuracy": 0.41,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": 0.35,
+        "paired_trans_acc_drop": 0.35526314,
+        "paired_trans_ret_drop": 0.35,
+        "addressing_metrics": {
+          "query1_accuracy": 0.44,
+          "query2_accuracy": 0.76,
+          "mean_query_entropy": 0.81465423,
+          "arrow_sign_accuracy": 0.62,
+          "score_correlation_with_oracle": 0.600613,
+          "true_query_displacement": 131.57323
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "rung_name": "Rung 3: Temporal Pointer Inductive Bias (Shared W_e + phase)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung3_Temporal_Pointer_Bias",
+        "realized_return": 1.38,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 1.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": -0.93,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 2.31,
+        "addressing_metrics": {
+          "query1_accuracy": 1.0,
+          "query2_accuracy": 0.49,
+          "mean_query_entropy": 0.9237271,
+          "arrow_sign_accuracy": 1.0,
+          "score_correlation_with_oracle": 0.9964261,
+          "true_query_displacement": 0.0
+        },
+        "is_competent_and_promoted": true
+      },
+      {
+        "rung_name": "Rung 4: Unconstrained Utility Surrogate (Q16a.2 Baseline)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung4_Unconstrained_Utility_Surrogate",
+        "realized_return": 1.175,
+        "parent_choice_accuracy": 0.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 1.0,
+        "arrow_sign_accuracy": 0.435,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": 1.175,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0,
+        "addressing_metrics": {
+          "query1_accuracy": 0.33,
+          "query2_accuracy": 0.44,
+          "mean_query_entropy": 0.18526287,
+          "arrow_sign_accuracy": 0.37,
+          "score_correlation_with_oracle": -0.03331281,
+          "true_query_displacement": 11.548622
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "rung_name": "Rung 5: Realized-Reward REINFORCE (Strict RL)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung5_Realized_Reward_REINFORCE",
+        "realized_return": 0.695,
+        "parent_choice_accuracy": 0.2236842,
+        "child_choice_inversion_rate": 0.17105263,
+        "indep_verify_accuracy": 0.6557377,
+        "arrow_sign_accuracy": 0.39,
+        "transposed_r_parent_acc": 0.17105263,
+        "transposed_r_return": 0.38,
+        "paired_trans_acc_drop": 0.052631572,
+        "paired_trans_ret_drop": 0.315,
+        "addressing_metrics": {
+          "query1_accuracy": 0.32,
+          "query2_accuracy": 0.44,
+          "mean_query_entropy": 0.055818275,
+          "arrow_sign_accuracy": 0.37,
+          "score_correlation_with_oracle": -0.018963035,
+          "true_query_displacement": 15.919064
+        },
+        "is_competent_and_promoted": false
+      }
+    ]
+  },
+  {
+    "seed": 109,
+    "theoretical_bayes_return": 1.453,
+    "theoretical_parent_acc": 1.0,
+    "empirical_perturbation": {
+      "copier_transmission_rate": 0.6717,
+      "independent_transmission_rate": 0.4167,
+      "causal_transmission_advantage": 0.255
+    },
+    "condition_results": [
+      {
+        "rung_name": "Rung 0: Direct Endpoint Supervision (q1->s1, q2->s2)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung0_Endpoint_Supervised",
+        "realized_return": 1.47,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 1.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": -0.595,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 2.065,
+        "addressing_metrics": {
+          "query1_accuracy": 1.0,
+          "query2_accuracy": 1.0,
+          "mean_query_entropy": 0.9773175,
+          "arrow_sign_accuracy": 1.0,
+          "score_correlation_with_oracle": 0.98706925,
+          "true_query_displacement": 0.0
+        },
+        "is_competent_and_promoted": true
+      },
+      {
+        "rung_name": "Rung 1: Direct Score Supervision ((s_hat - R_clean)^2)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung1_Score_Supervised",
+        "realized_return": 1.19,
+        "parent_choice_accuracy": 0.84931505,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 0.6944444,
+        "arrow_sign_accuracy": 0.765,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": -0.315,
+        "paired_trans_acc_drop": 0.84931505,
+        "paired_trans_ret_drop": 1.5050001,
+        "addressing_metrics": {
+          "query1_accuracy": 0.4,
+          "query2_accuracy": 1.0,
+          "mean_query_entropy": 0.8531077,
+          "arrow_sign_accuracy": 0.77,
+          "score_correlation_with_oracle": 0.7132319,
+          "true_query_displacement": 133.26901
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "rung_name": "Rung 2: Arrow-Sign Supervision (sign(s_hat) -> +1/-1/0)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung2_Sign_Supervised",
+        "realized_return": 1.19,
+        "parent_choice_accuracy": 0.84931505,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 0.6944444,
+        "arrow_sign_accuracy": 0.765,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": -0.315,
+        "paired_trans_acc_drop": 0.84931505,
+        "paired_trans_ret_drop": 1.5050001,
+        "addressing_metrics": {
+          "query1_accuracy": 0.4,
+          "query2_accuracy": 1.0,
+          "mean_query_entropy": 0.8531077,
+          "arrow_sign_accuracy": 0.77,
+          "score_correlation_with_oracle": 0.7132319,
+          "true_query_displacement": 133.26901
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "rung_name": "Rung 3: Temporal Pointer Inductive Bias (Shared W_e + phase)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung3_Temporal_Pointer_Bias",
+        "realized_return": 1.47,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 1.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": -0.595,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 2.065,
+        "addressing_metrics": {
+          "query1_accuracy": 1.0,
+          "query2_accuracy": 0.53,
+          "mean_query_entropy": 0.8925961,
+          "arrow_sign_accuracy": 1.0,
+          "score_correlation_with_oracle": 0.98953086,
+          "true_query_displacement": 0.0
+        },
+        "is_competent_and_promoted": true
+      },
+      {
+        "rung_name": "Rung 4: Unconstrained Utility Surrogate (Q16a.2 Baseline)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung4_Unconstrained_Utility_Surrogate",
+        "realized_return": 0.935,
+        "parent_choice_accuracy": 0.1369863,
+        "child_choice_inversion_rate": 0.08219178,
+        "indep_verify_accuracy": 0.6388889,
+        "arrow_sign_accuracy": 0.345,
+        "transposed_r_parent_acc": 0.08219178,
+        "transposed_r_return": 1.04,
+        "paired_trans_acc_drop": 0.05479452,
+        "paired_trans_ret_drop": -0.10499996,
+        "addressing_metrics": {
+          "query1_accuracy": 0.28,
+          "query2_accuracy": 0.35,
+          "mean_query_entropy": 0.3533949,
+          "arrow_sign_accuracy": 0.34,
+          "score_correlation_with_oracle": -0.0064461417,
+          "true_query_displacement": 15.489336
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "rung_name": "Rung 5: Realized-Reward REINFORCE (Strict RL)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung5_Realized_Reward_REINFORCE",
+        "realized_return": 0.535,
+        "parent_choice_accuracy": 0.28767124,
+        "child_choice_inversion_rate": 0.21917808,
+        "indep_verify_accuracy": 0.33333334,
+        "arrow_sign_accuracy": 0.32,
+        "transposed_r_parent_acc": 0.21917808,
+        "transposed_r_return": 0.64,
+        "paired_trans_acc_drop": 0.06849316,
+        "paired_trans_ret_drop": -0.10499996,
+        "addressing_metrics": {
+          "query1_accuracy": 0.28,
+          "query2_accuracy": 0.33,
+          "mean_query_entropy": 0.9949329,
+          "arrow_sign_accuracy": 0.33,
+          "score_correlation_with_oracle": 0.020016434,
+          "true_query_displacement": 9.51276
+        },
+        "is_competent_and_promoted": false
+      }
+    ]
+  },
+  {
+    "seed": 110,
+    "theoretical_bayes_return": 1.4425,
+    "theoretical_parent_acc": 1.0,
+    "empirical_perturbation": {
+      "copier_transmission_rate": 0.6717,
+      "independent_transmission_rate": 0.4167,
+      "causal_transmission_advantage": 0.255
+    },
+    "condition_results": [
+      {
+        "rung_name": "Rung 0: Direct Endpoint Supervision (q1->s1, q2->s2)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung0_Endpoint_Supervised",
+        "realized_return": 1.485,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 1.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": -0.755,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 2.24,
+        "addressing_metrics": {
+          "query1_accuracy": 1.0,
+          "query2_accuracy": 1.0,
+          "mean_query_entropy": 0.97670764,
+          "arrow_sign_accuracy": 1.0,
+          "score_correlation_with_oracle": 0.9885749,
+          "true_query_displacement": 0.0
+        },
+        "is_competent_and_promoted": true
+      },
+      {
+        "rung_name": "Rung 1: Direct Score Supervision ((s_hat - R_clean)^2)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung1_Score_Supervised",
+        "realized_return": 0.595,
+        "parent_choice_accuracy": 0.4861111,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 0.325,
+        "arrow_sign_accuracy": 0.435,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": 0.385,
+        "paired_trans_acc_drop": 0.4861111,
+        "paired_trans_ret_drop": 0.21000004,
+        "addressing_metrics": {
+          "query1_accuracy": 0.37,
+          "query2_accuracy": 0.69,
+          "mean_query_entropy": 0.7018828,
+          "arrow_sign_accuracy": 0.42,
+          "score_correlation_with_oracle": 0.53758377,
+          "true_query_displacement": 119.96035
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "rung_name": "Rung 2: Arrow-Sign Supervision (sign(s_hat) -> +1/-1/0)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung2_Sign_Supervised",
+        "realized_return": 0.595,
+        "parent_choice_accuracy": 0.4861111,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 0.325,
+        "arrow_sign_accuracy": 0.435,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": 0.385,
+        "paired_trans_acc_drop": 0.4861111,
+        "paired_trans_ret_drop": 0.21000004,
+        "addressing_metrics": {
+          "query1_accuracy": 0.37,
+          "query2_accuracy": 0.69,
+          "mean_query_entropy": 0.7018828,
+          "arrow_sign_accuracy": 0.42,
+          "score_correlation_with_oracle": 0.53758377,
+          "true_query_displacement": 119.96035
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "rung_name": "Rung 3: Temporal Pointer Inductive Bias (Shared W_e + phase)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung3_Temporal_Pointer_Bias",
+        "realized_return": 1.485,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 1.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": -0.755,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 2.24,
+        "addressing_metrics": {
+          "query1_accuracy": 1.0,
+          "query2_accuracy": 0.72,
+          "mean_query_entropy": 0.8625755,
+          "arrow_sign_accuracy": 1.0,
+          "score_correlation_with_oracle": 0.9871655,
+          "true_query_displacement": 0.0
+        },
+        "is_competent_and_promoted": true
+      },
+      {
+        "rung_name": "Rung 4: Unconstrained Utility Surrogate (Q16a.2 Baseline)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung4_Unconstrained_Utility_Surrogate",
+        "realized_return": 0.725,
+        "parent_choice_accuracy": 0.20833333,
+        "child_choice_inversion_rate": 0.2638889,
+        "indep_verify_accuracy": 0.7,
+        "arrow_sign_accuracy": 0.36,
+        "transposed_r_parent_acc": 0.2638889,
+        "transposed_r_return": 0.655,
+        "paired_trans_acc_drop": -0.055555567,
+        "paired_trans_ret_drop": 0.07000005,
+        "addressing_metrics": {
+          "query1_accuracy": 0.32,
+          "query2_accuracy": 0.38,
+          "mean_query_entropy": 0.4593067,
+          "arrow_sign_accuracy": 0.37,
+          "score_correlation_with_oracle": 0.18894573,
+          "true_query_displacement": 12.190523
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "rung_name": "Rung 5: Realized-Reward REINFORCE (Strict RL)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung5_Realized_Reward_REINFORCE",
+        "realized_return": 0.545,
+        "parent_choice_accuracy": 0.29166666,
+        "child_choice_inversion_rate": 0.2361111,
+        "indep_verify_accuracy": 0.3,
+        "arrow_sign_accuracy": 0.315,
+        "transposed_r_parent_acc": 0.2361111,
+        "transposed_r_return": 0.335,
+        "paired_trans_acc_drop": 0.055555552,
+        "paired_trans_ret_drop": 0.21000001,
+        "addressing_metrics": {
+          "query1_accuracy": 0.4,
+          "query2_accuracy": 0.31,
+          "mean_query_entropy": 0.8327876,
+          "arrow_sign_accuracy": 0.35,
+          "score_correlation_with_oracle": 0.111156754,
+          "true_query_displacement": 6.452459
+        },
+        "is_competent_and_promoted": false
+      }
+    ]
+  },
+  {
+    "seed": 111,
+    "theoretical_bayes_return": 1.3525,
+    "theoretical_parent_acc": 1.0,
+    "empirical_perturbation": {
+      "copier_transmission_rate": 0.6717,
+      "independent_transmission_rate": 0.4167,
+      "causal_transmission_advantage": 0.255
+    },
+    "condition_results": [
+      {
+        "rung_name": "Rung 0: Direct Endpoint Supervision (q1->s1, q2->s2)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung0_Endpoint_Supervised",
+        "realized_return": 1.36,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 1.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": -0.95,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 2.31,
+        "addressing_metrics": {
+          "query1_accuracy": 1.0,
+          "query2_accuracy": 1.0,
+          "mean_query_entropy": 0.97755975,
+          "arrow_sign_accuracy": 1.0,
+          "score_correlation_with_oracle": 0.9871563,
+          "true_query_displacement": 0.0
+        },
+        "is_competent_and_promoted": true
+      },
+      {
+        "rung_name": "Rung 1: Direct Score Supervision ((s_hat - R_clean)^2)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung1_Score_Supervised",
+        "realized_return": 1.0,
+        "parent_choice_accuracy": 0.7297297,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 0.7027027,
+        "arrow_sign_accuracy": 0.78,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": -0.365,
+        "paired_trans_acc_drop": 0.7297297,
+        "paired_trans_ret_drop": 1.365,
+        "addressing_metrics": {
+          "query1_accuracy": 0.52,
+          "query2_accuracy": 1.0,
+          "mean_query_entropy": 0.8085581,
+          "arrow_sign_accuracy": 0.73,
+          "score_correlation_with_oracle": 0.8747388,
+          "true_query_displacement": 144.0051
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "rung_name": "Rung 2: Arrow-Sign Supervision (sign(s_hat) -> +1/-1/0)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung2_Sign_Supervised",
+        "realized_return": 1.0,
+        "parent_choice_accuracy": 0.7297297,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 0.7027027,
+        "arrow_sign_accuracy": 0.78,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": -0.365,
+        "paired_trans_acc_drop": 0.7297297,
+        "paired_trans_ret_drop": 1.365,
+        "addressing_metrics": {
+          "query1_accuracy": 0.52,
+          "query2_accuracy": 1.0,
+          "mean_query_entropy": 0.8085581,
+          "arrow_sign_accuracy": 0.73,
+          "score_correlation_with_oracle": 0.8747388,
+          "true_query_displacement": 144.0051
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "rung_name": "Rung 3: Temporal Pointer Inductive Bias (Shared W_e + phase)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung3_Temporal_Pointer_Bias",
+        "realized_return": 1.36,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 1.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": -0.95,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 2.31,
+        "addressing_metrics": {
+          "query1_accuracy": 1.0,
+          "query2_accuracy": 0.56,
+          "mean_query_entropy": 0.8811461,
+          "arrow_sign_accuracy": 1.0,
+          "score_correlation_with_oracle": 0.99730724,
+          "true_query_displacement": 0.0
+        },
+        "is_competent_and_promoted": true
+      },
+      {
+        "rung_name": "Rung 4: Unconstrained Utility Surrogate (Q16a.2 Baseline)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung4_Unconstrained_Utility_Surrogate",
+        "realized_return": 0.65,
+        "parent_choice_accuracy": 0.10810811,
+        "child_choice_inversion_rate": 0.16216215,
+        "indep_verify_accuracy": 0.7297297,
+        "arrow_sign_accuracy": 0.305,
+        "transposed_r_parent_acc": 0.16216215,
+        "transposed_r_return": 0.86,
+        "paired_trans_acc_drop": -0.054054044,
+        "paired_trans_ret_drop": -0.21000004,
+        "addressing_metrics": {
+          "query1_accuracy": 0.41,
+          "query2_accuracy": 0.37,
+          "mean_query_entropy": 0.26338437,
+          "arrow_sign_accuracy": 0.38,
+          "score_correlation_with_oracle": 0.12926681,
+          "true_query_displacement": 15.230572
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "rung_name": "Rung 5: Realized-Reward REINFORCE (Strict RL)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung5_Realized_Reward_REINFORCE",
+        "realized_return": 0.32,
+        "parent_choice_accuracy": 0.22972973,
+        "child_choice_inversion_rate": 0.3243243,
+        "indep_verify_accuracy": 0.43243244,
+        "arrow_sign_accuracy": 0.3,
+        "transposed_r_parent_acc": 0.3243243,
+        "transposed_r_return": 0.39,
+        "paired_trans_acc_drop": -0.09459458,
+        "paired_trans_ret_drop": -0.06999999,
+        "addressing_metrics": {
+          "query1_accuracy": 0.41,
+          "query2_accuracy": 0.37,
+          "mean_query_entropy": 0.6123436,
+          "arrow_sign_accuracy": 0.36,
+          "score_correlation_with_oracle": 0.14260823,
+          "true_query_displacement": 8.911845
+        },
+        "is_competent_and_promoted": false
+      }
+    ]
+  },
+  {
+    "seed": 112,
+    "theoretical_bayes_return": 1.439,
+    "theoretical_parent_acc": 1.0,
+    "empirical_perturbation": {
+      "copier_transmission_rate": 0.6717,
+      "independent_transmission_rate": 0.4167,
+      "causal_transmission_advantage": 0.255
+    },
+    "condition_results": [
+      {
+        "rung_name": "Rung 0: Direct Endpoint Supervision (q1->s1, q2->s2)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung0_Endpoint_Supervised",
+        "realized_return": 1.555,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 1.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": -1.21,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 2.7649999,
+        "addressing_metrics": {
+          "query1_accuracy": 1.0,
+          "query2_accuracy": 1.0,
+          "mean_query_entropy": 0.9770787,
+          "arrow_sign_accuracy": 1.0,
+          "score_correlation_with_oracle": 0.98811764,
+          "true_query_displacement": 0.0
+        },
+        "is_competent_and_promoted": true
+      },
+      {
+        "rung_name": "Rung 1: Direct Score Supervision ((s_hat - R_clean)^2)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung1_Score_Supervised",
+        "realized_return": 1.005,
+        "parent_choice_accuracy": 0.42696628,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 0.55,
+        "arrow_sign_accuracy": 0.49,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": 0.165,
+        "paired_trans_acc_drop": 0.42696628,
+        "paired_trans_ret_drop": 0.84,
+        "addressing_metrics": {
+          "query1_accuracy": 0.3,
+          "query2_accuracy": 0.9,
+          "mean_query_entropy": 0.8410149,
+          "arrow_sign_accuracy": 0.51,
+          "score_correlation_with_oracle": 0.71029717,
+          "true_query_displacement": 120.389366
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "rung_name": "Rung 2: Arrow-Sign Supervision (sign(s_hat) -> +1/-1/0)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung2_Sign_Supervised",
+        "realized_return": 1.005,
+        "parent_choice_accuracy": 0.42696628,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 0.55,
+        "arrow_sign_accuracy": 0.49,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": 0.165,
+        "paired_trans_acc_drop": 0.42696628,
+        "paired_trans_ret_drop": 0.84,
+        "addressing_metrics": {
+          "query1_accuracy": 0.3,
+          "query2_accuracy": 0.9,
+          "mean_query_entropy": 0.8410149,
+          "arrow_sign_accuracy": 0.51,
+          "score_correlation_with_oracle": 0.71029717,
+          "true_query_displacement": 120.389366
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "rung_name": "Rung 3: Temporal Pointer Inductive Bias (Shared W_e + phase)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung3_Temporal_Pointer_Bias",
+        "realized_return": 1.555,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 1.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": -1.21,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 2.7649999,
+        "addressing_metrics": {
+          "query1_accuracy": 1.0,
+          "query2_accuracy": 1.0,
+          "mean_query_entropy": 0.25759372,
+          "arrow_sign_accuracy": 1.0,
+          "score_correlation_with_oracle": 0.9980038,
+          "true_query_displacement": 0.0
+        },
+        "is_competent_and_promoted": true
+      },
+      {
+        "rung_name": "Rung 4: Unconstrained Utility Surrogate (Q16a.2 Baseline)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung4_Unconstrained_Utility_Surrogate",
+        "realized_return": 1.285,
+        "parent_choice_accuracy": 0.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 1.0,
+        "arrow_sign_accuracy": 0.31,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": 1.285,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0,
+        "addressing_metrics": {
+          "query1_accuracy": 0.35,
+          "query2_accuracy": 0.35,
+          "mean_query_entropy": 0.051889986,
+          "arrow_sign_accuracy": 0.34,
+          "score_correlation_with_oracle": 0.25721547,
+          "true_query_displacement": 13.815176
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "rung_name": "Rung 5: Realized-Reward REINFORCE (Strict RL)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung5_Realized_Reward_REINFORCE",
+        "realized_return": 0.745,
+        "parent_choice_accuracy": 0.21348314,
+        "child_choice_inversion_rate": 0.13483146,
+        "indep_verify_accuracy": 0.625,
+        "arrow_sign_accuracy": 0.345,
+        "transposed_r_parent_acc": 0.13483146,
+        "transposed_r_return": 0.675,
+        "paired_trans_acc_drop": 0.07865168,
+        "paired_trans_ret_drop": 0.06999999,
+        "addressing_metrics": {
+          "query1_accuracy": 0.4,
+          "query2_accuracy": 0.35,
+          "mean_query_entropy": 0.02089528,
+          "arrow_sign_accuracy": 0.37,
+          "score_correlation_with_oracle": 0.09831552,
+          "true_query_displacement": 15.500156
+        },
+        "is_competent_and_promoted": false
+      }
+    ]
+  },
+  {
+    "seed": 113,
+    "theoretical_bayes_return": 1.461,
+    "theoretical_parent_acc": 1.0,
+    "empirical_perturbation": {
+      "copier_transmission_rate": 0.6717,
+      "independent_transmission_rate": 0.4167,
+      "causal_transmission_advantage": 0.255
+    },
+    "condition_results": [
+      {
+        "rung_name": "Rung 0: Direct Endpoint Supervision (q1->s1, q2->s2)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung0_Endpoint_Supervised",
+        "realized_return": 1.275,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 1.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": -0.93,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 2.205,
+        "addressing_metrics": {
+          "query1_accuracy": 1.0,
+          "query2_accuracy": 1.0,
+          "mean_query_entropy": 0.9761791,
+          "arrow_sign_accuracy": 1.0,
+          "score_correlation_with_oracle": 0.9882608,
+          "true_query_displacement": 0.0
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "rung_name": "Rung 1: Direct Score Supervision ((s_hat - R_clean)^2)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung1_Score_Supervised",
+        "realized_return": 0.58,
+        "parent_choice_accuracy": 0.44444445,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 0.4680851,
+        "arrow_sign_accuracy": 0.475,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": 0.265,
+        "paired_trans_acc_drop": 0.44444445,
+        "paired_trans_ret_drop": 0.315,
+        "addressing_metrics": {
+          "query1_accuracy": 0.35,
+          "query2_accuracy": 1.0,
+          "mean_query_entropy": 0.8921257,
+          "arrow_sign_accuracy": 0.48,
+          "score_correlation_with_oracle": 0.6874296,
+          "true_query_displacement": 122.69484
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "rung_name": "Rung 2: Arrow-Sign Supervision (sign(s_hat) -> +1/-1/0)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung2_Sign_Supervised",
+        "realized_return": 0.58,
+        "parent_choice_accuracy": 0.44444445,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 0.4680851,
+        "arrow_sign_accuracy": 0.475,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": 0.265,
+        "paired_trans_acc_drop": 0.44444445,
+        "paired_trans_ret_drop": 0.315,
+        "addressing_metrics": {
+          "query1_accuracy": 0.35,
+          "query2_accuracy": 1.0,
+          "mean_query_entropy": 0.8921257,
+          "arrow_sign_accuracy": 0.48,
+          "score_correlation_with_oracle": 0.6874296,
+          "true_query_displacement": 122.69484
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "rung_name": "Rung 3: Temporal Pointer Inductive Bias (Shared W_e + phase)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung3_Temporal_Pointer_Bias",
+        "realized_return": 1.275,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 1.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": -0.93,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 2.205,
+        "addressing_metrics": {
+          "query1_accuracy": 1.0,
+          "query2_accuracy": 0.55,
+          "mean_query_entropy": 0.91983396,
+          "arrow_sign_accuracy": 1.0,
+          "score_correlation_with_oracle": 0.99901295,
+          "true_query_displacement": 0.0
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "rung_name": "Rung 4: Unconstrained Utility Surrogate (Q16a.2 Baseline)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung4_Unconstrained_Utility_Surrogate",
+        "realized_return": 0.34,
+        "parent_choice_accuracy": 0.18518518,
+        "child_choice_inversion_rate": 0.20987654,
+        "indep_verify_accuracy": 0.5106383,
+        "arrow_sign_accuracy": 0.33,
+        "transposed_r_parent_acc": 0.20987654,
+        "transposed_r_return": 0.655,
+        "paired_trans_acc_drop": -0.024691358,
+        "paired_trans_ret_drop": -0.31499997,
+        "addressing_metrics": {
+          "query1_accuracy": 0.32,
+          "query2_accuracy": 0.32,
+          "mean_query_entropy": 0.08430156,
+          "arrow_sign_accuracy": 0.31,
+          "score_correlation_with_oracle": -0.040175185,
+          "true_query_displacement": 16.102774
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "rung_name": "Rung 5: Realized-Reward REINFORCE (Strict RL)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung5_Realized_Reward_REINFORCE",
+        "realized_return": 0.335,
+        "parent_choice_accuracy": 0.4074074,
+        "child_choice_inversion_rate": 0.18518518,
+        "indep_verify_accuracy": 0.5744681,
+        "arrow_sign_accuracy": 0.48,
+        "transposed_r_parent_acc": 0.18518518,
+        "transposed_r_return": 0.335,
+        "paired_trans_acc_drop": 0.22222222,
+        "paired_trans_ret_drop": 0.0,
+        "addressing_metrics": {
+          "query1_accuracy": 0.32,
+          "query2_accuracy": 0.32,
+          "mean_query_entropy": 0.8885486,
+          "arrow_sign_accuracy": 0.39,
+          "score_correlation_with_oracle": 0.09919929,
+          "true_query_displacement": 11.333925
+        },
+        "is_competent_and_promoted": false
+      }
+    ]
+  },
+  {
+    "seed": 114,
+    "theoretical_bayes_return": 1.381,
+    "theoretical_parent_acc": 1.0,
+    "empirical_perturbation": {
+      "copier_transmission_rate": 0.6717,
+      "independent_transmission_rate": 0.4167,
+      "causal_transmission_advantage": 0.255
+    },
+    "condition_results": [
+      {
+        "rung_name": "Rung 0: Direct Endpoint Supervision (q1->s1, q2->s2)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung0_Endpoint_Supervised",
+        "realized_return": 1.22,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 1.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": -0.495,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 1.715,
+        "addressing_metrics": {
+          "query1_accuracy": 1.0,
+          "query2_accuracy": 1.0,
+          "mean_query_entropy": 0.97747314,
+          "arrow_sign_accuracy": 1.0,
+          "score_correlation_with_oracle": 0.98724395,
+          "true_query_displacement": 0.0
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "rung_name": "Rung 1: Direct Score Supervision ((s_hat - R_clean)^2)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung1_Score_Supervised",
+        "realized_return": 0.98,
+        "parent_choice_accuracy": 0.44927537,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 0.7027027,
+        "arrow_sign_accuracy": 0.585,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": 0.42,
+        "paired_trans_acc_drop": 0.44927537,
+        "paired_trans_ret_drop": 0.56000006,
+        "addressing_metrics": {
+          "query1_accuracy": 0.16,
+          "query2_accuracy": 1.0,
+          "mean_query_entropy": 0.90964025,
+          "arrow_sign_accuracy": 0.56,
+          "score_correlation_with_oracle": 0.717536,
+          "true_query_displacement": 159.1867
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "rung_name": "Rung 2: Arrow-Sign Supervision (sign(s_hat) -> +1/-1/0)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung2_Sign_Supervised",
+        "realized_return": 0.98,
+        "parent_choice_accuracy": 0.44927537,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 0.7027027,
+        "arrow_sign_accuracy": 0.585,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": 0.42,
+        "paired_trans_acc_drop": 0.44927537,
+        "paired_trans_ret_drop": 0.56000006,
+        "addressing_metrics": {
+          "query1_accuracy": 0.16,
+          "query2_accuracy": 1.0,
+          "mean_query_entropy": 0.90964025,
+          "arrow_sign_accuracy": 0.56,
+          "score_correlation_with_oracle": 0.717536,
+          "true_query_displacement": 159.1867
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "rung_name": "Rung 3: Temporal Pointer Inductive Bias (Shared W_e + phase)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung3_Temporal_Pointer_Bias",
+        "realized_return": 1.22,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 1.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": -0.495,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 1.715,
+        "addressing_metrics": {
+          "query1_accuracy": 1.0,
+          "query2_accuracy": 0.67,
+          "mean_query_entropy": 0.9185765,
+          "arrow_sign_accuracy": 1.0,
+          "score_correlation_with_oracle": 0.99876857,
+          "true_query_displacement": 0.0
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "rung_name": "Rung 4: Unconstrained Utility Surrogate (Q16a.2 Baseline)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung4_Unconstrained_Utility_Surrogate",
+        "realized_return": 0.875,
+        "parent_choice_accuracy": 0.13043478,
+        "child_choice_inversion_rate": 0.13043478,
+        "indep_verify_accuracy": 0.7297297,
+        "arrow_sign_accuracy": 0.335,
+        "transposed_r_parent_acc": 0.13043478,
+        "transposed_r_return": 0.875,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0,
+        "addressing_metrics": {
+          "query1_accuracy": 0.33,
+          "query2_accuracy": 0.3,
+          "mean_query_entropy": 0.39534768,
+          "arrow_sign_accuracy": 0.31,
+          "score_correlation_with_oracle": -0.11333336,
+          "true_query_displacement": 15.553521
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "rung_name": "Rung 5: Realized-Reward REINFORCE (Strict RL)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung5_Realized_Reward_REINFORCE",
+        "realized_return": 0.135,
+        "parent_choice_accuracy": 0.3478261,
+        "child_choice_inversion_rate": 0.36231884,
+        "indep_verify_accuracy": 0.27027026,
+        "arrow_sign_accuracy": 0.335,
+        "transposed_r_parent_acc": 0.36231884,
+        "transposed_r_return": 0.415,
+        "paired_trans_acc_drop": -0.01449275,
+        "paired_trans_ret_drop": -0.27999997,
+        "addressing_metrics": {
+          "query1_accuracy": 0.29,
+          "query2_accuracy": 0.36,
+          "mean_query_entropy": 1.0111737,
+          "arrow_sign_accuracy": 0.36,
+          "score_correlation_with_oracle": 0.1040744,
+          "true_query_displacement": 7.0957484
+        },
+        "is_competent_and_promoted": false
+      }
+    ]
+  },
+  {
+    "seed": 115,
+    "theoretical_bayes_return": 1.437,
+    "theoretical_parent_acc": 1.0,
+    "empirical_perturbation": {
+      "copier_transmission_rate": 0.6717,
+      "independent_transmission_rate": 0.4167,
+      "causal_transmission_advantage": 0.255
+    },
+    "condition_results": [
+      {
+        "rung_name": "Rung 0: Direct Endpoint Supervision (q1->s1, q2->s2)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung0_Endpoint_Supervised",
+        "realized_return": 1.56,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 1.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": -0.855,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 2.415,
+        "addressing_metrics": {
+          "query1_accuracy": 1.0,
+          "query2_accuracy": 1.0,
+          "mean_query_entropy": 0.9773979,
+          "arrow_sign_accuracy": 1.0,
+          "score_correlation_with_oracle": 0.9872551,
+          "true_query_displacement": 0.0
+        },
+        "is_competent_and_promoted": true
+      },
+      {
+        "rung_name": "Rung 1: Direct Score Supervision ((s_hat - R_clean)^2)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung1_Score_Supervised",
+        "realized_return": 0.25,
+        "parent_choice_accuracy": 0.35064936,
+        "child_choice_inversion_rate": 0.20779221,
+        "indep_verify_accuracy": 0.47826087,
+        "arrow_sign_accuracy": 0.375,
+        "transposed_r_parent_acc": 0.20779221,
+        "transposed_r_return": 0.705,
+        "paired_trans_acc_drop": 0.14285715,
+        "paired_trans_ret_drop": -0.45499998,
+        "addressing_metrics": {
+          "query1_accuracy": 0.35,
+          "query2_accuracy": 0.81,
+          "mean_query_entropy": 0.7919986,
+          "arrow_sign_accuracy": 0.39,
+          "score_correlation_with_oracle": 0.32009992,
+          "true_query_displacement": 124.5551
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "rung_name": "Rung 2: Arrow-Sign Supervision (sign(s_hat) -> +1/-1/0)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung2_Sign_Supervised",
+        "realized_return": 0.25,
+        "parent_choice_accuracy": 0.35064936,
+        "child_choice_inversion_rate": 0.20779221,
+        "indep_verify_accuracy": 0.47826087,
+        "arrow_sign_accuracy": 0.375,
+        "transposed_r_parent_acc": 0.20779221,
+        "transposed_r_return": 0.705,
+        "paired_trans_acc_drop": 0.14285715,
+        "paired_trans_ret_drop": -0.45499998,
+        "addressing_metrics": {
+          "query1_accuracy": 0.35,
+          "query2_accuracy": 0.81,
+          "mean_query_entropy": 0.7919986,
+          "arrow_sign_accuracy": 0.39,
+          "score_correlation_with_oracle": 0.32009992,
+          "true_query_displacement": 124.5551
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "rung_name": "Rung 3: Temporal Pointer Inductive Bias (Shared W_e + phase)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung3_Temporal_Pointer_Bias",
+        "realized_return": 1.56,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 1.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": -0.855,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 2.415,
+        "addressing_metrics": {
+          "query1_accuracy": 1.0,
+          "query2_accuracy": 0.73,
+          "mean_query_entropy": 0.2957344,
+          "arrow_sign_accuracy": 1.0,
+          "score_correlation_with_oracle": 0.9366253,
+          "true_query_displacement": 0.0
+        },
+        "is_competent_and_promoted": true
+      },
+      {
+        "rung_name": "Rung 4: Unconstrained Utility Surrogate (Q16a.2 Baseline)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung4_Unconstrained_Utility_Surrogate",
+        "realized_return": 0.765,
+        "parent_choice_accuracy": 0.23376623,
+        "child_choice_inversion_rate": 0.20779221,
+        "indep_verify_accuracy": 0.6304348,
+        "arrow_sign_accuracy": 0.35,
+        "transposed_r_parent_acc": 0.20779221,
+        "transposed_r_return": 0.59,
+        "paired_trans_acc_drop": 0.02597402,
+        "paired_trans_ret_drop": 0.17500001,
+        "addressing_metrics": {
+          "query1_accuracy": 0.35,
+          "query2_accuracy": 0.31,
+          "mean_query_entropy": 0.05534293,
+          "arrow_sign_accuracy": 0.28,
+          "score_correlation_with_oracle": -0.19064465,
+          "true_query_displacement": 15.831386
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "rung_name": "Rung 5: Realized-Reward REINFORCE (Strict RL)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung5_Realized_Reward_REINFORCE",
+        "realized_return": 0.59,
+        "parent_choice_accuracy": 0.20779221,
+        "child_choice_inversion_rate": 0.23376623,
+        "indep_verify_accuracy": 0.6304348,
+        "arrow_sign_accuracy": 0.33,
+        "transposed_r_parent_acc": 0.23376623,
+        "transposed_r_return": 0.765,
+        "paired_trans_acc_drop": -0.02597402,
+        "paired_trans_ret_drop": -0.17500001,
+        "addressing_metrics": {
+          "query1_accuracy": 0.38,
+          "query2_accuracy": 0.3,
+          "mean_query_entropy": 0.0068898415,
+          "arrow_sign_accuracy": 0.37,
+          "score_correlation_with_oracle": 0.19149655,
+          "true_query_displacement": 21.581783
+        },
+        "is_competent_and_promoted": false
+      }
+    ]
+  },
+  {
+    "seed": 116,
+    "theoretical_bayes_return": 1.427,
+    "theoretical_parent_acc": 1.0,
+    "empirical_perturbation": {
+      "copier_transmission_rate": 0.6717,
+      "independent_transmission_rate": 0.4167,
+      "causal_transmission_advantage": 0.255
+    },
+    "condition_results": [
+      {
+        "rung_name": "Rung 0: Direct Endpoint Supervision (q1->s1, q2->s2)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung0_Endpoint_Supervised",
+        "realized_return": 1.355,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 1.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": -1.235,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 2.5900002,
+        "addressing_metrics": {
+          "query1_accuracy": 1.0,
+          "query2_accuracy": 1.0,
+          "mean_query_entropy": 0.9774134,
+          "arrow_sign_accuracy": 1.0,
+          "score_correlation_with_oracle": 0.9869331,
+          "true_query_displacement": 0.0
+        },
+        "is_competent_and_promoted": true
+      },
+      {
+        "rung_name": "Rung 1: Direct Score Supervision ((s_hat - R_clean)^2)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung1_Score_Supervised",
+        "realized_return": 0.585,
+        "parent_choice_accuracy": 0.4888889,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 0.34210527,
+        "arrow_sign_accuracy": 0.455,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": 0.06,
+        "paired_trans_acc_drop": 0.4888889,
+        "paired_trans_ret_drop": 0.525,
+        "addressing_metrics": {
+          "query1_accuracy": 0.36,
+          "query2_accuracy": 0.83,
+          "mean_query_entropy": 0.9902197,
+          "arrow_sign_accuracy": 0.5,
+          "score_correlation_with_oracle": 0.707527,
+          "true_query_displacement": 93.8172
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "rung_name": "Rung 2: Arrow-Sign Supervision (sign(s_hat) -> +1/-1/0)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung2_Sign_Supervised",
+        "realized_return": 0.585,
+        "parent_choice_accuracy": 0.4888889,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 0.34210527,
+        "arrow_sign_accuracy": 0.455,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": 0.06,
+        "paired_trans_acc_drop": 0.4888889,
+        "paired_trans_ret_drop": 0.525,
+        "addressing_metrics": {
+          "query1_accuracy": 0.36,
+          "query2_accuracy": 0.83,
+          "mean_query_entropy": 0.9902197,
+          "arrow_sign_accuracy": 0.5,
+          "score_correlation_with_oracle": 0.707527,
+          "true_query_displacement": 93.8172
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "rung_name": "Rung 3: Temporal Pointer Inductive Bias (Shared W_e + phase)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung3_Temporal_Pointer_Bias",
+        "realized_return": 1.355,
+        "parent_choice_accuracy": 1.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 1.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": -1.235,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 2.5900002,
+        "addressing_metrics": {
+          "query1_accuracy": 1.0,
+          "query2_accuracy": 0.85,
+          "mean_query_entropy": 0.9198189,
+          "arrow_sign_accuracy": 1.0,
+          "score_correlation_with_oracle": 0.99710035,
+          "true_query_displacement": 0.0
+        },
+        "is_competent_and_promoted": true
+      },
+      {
+        "rung_name": "Rung 4: Unconstrained Utility Surrogate (Q16a.2 Baseline)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung4_Unconstrained_Utility_Surrogate",
+        "realized_return": 1.185,
+        "parent_choice_accuracy": 0.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 1.0,
+        "arrow_sign_accuracy": 0.275,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": 1.185,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0,
+        "addressing_metrics": {
+          "query1_accuracy": 0.37,
+          "query2_accuracy": 0.29,
+          "mean_query_entropy": 0.06712707,
+          "arrow_sign_accuracy": 0.35,
+          "score_correlation_with_oracle": 0.0836254,
+          "true_query_displacement": 13.170331
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "rung_name": "Rung 5: Realized-Reward REINFORCE (Strict RL)",
+        "substrate_type": "Clean_R",
+        "learning_level": "Rung5_Realized_Reward_REINFORCE",
+        "realized_return": 0.61,
+        "parent_choice_accuracy": 0.17777778,
+        "child_choice_inversion_rate": 0.18888889,
+        "indep_verify_accuracy": 0.65789473,
+        "arrow_sign_accuracy": 0.32,
+        "transposed_r_parent_acc": 0.18888889,
+        "transposed_r_return": 0.61,
+        "paired_trans_acc_drop": -0.01111111,
+        "paired_trans_ret_drop": 0.0,
+        "addressing_metrics": {
+          "query1_accuracy": 0.28,
+          "query2_accuracy": 0.35,
+          "mean_query_entropy": 0.004445943,
+          "arrow_sign_accuracy": 0.34,
+          "score_correlation_with_oracle": -0.114433885,
+          "true_query_displacement": 20.326677
+        },
+        "is_competent_and_promoted": false
+      }
+    ]
+  }
+]
