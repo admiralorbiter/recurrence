@@ -119,3 +119,7 @@ path = "src/bin/run_q15g_temporal_addressability.rs"
 [[bin]]
 name = "run_q15h_factorization"
 path = "src/bin/run_q15h_factorization.rs"
+
+[[bin]]
+name = "run_q15i_hardening"
+path = "src/bin/run_q15i_hardening.rs"
