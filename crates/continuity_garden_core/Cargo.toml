@@ -39,3 +39,15 @@ path = "src/bin/temporal_capacity_map.rs"
 [[bin]]
 name = "run_q11_q12_gate_d_closure"
 path = "src/bin/run_q11_q12_gate_d_closure.rs"
+
+[[bin]]
+name = "dump_trajectory"
+path = "src/bin/dump_trajectory.rs"
+
+[[bin]]
+name = "run_q11b_experiment"
+path = "src/bin/run_q11b_experiment.rs"
+
+[[bin]]
+name = "run_q12b_experiment"
+path = "src/bin/run_q12b_experiment.rs"

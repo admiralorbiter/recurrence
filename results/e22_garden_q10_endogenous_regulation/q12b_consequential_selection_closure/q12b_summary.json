@@ -1,0 +1,314 @@
+[
+  {
+    "seed": 42,
+    "supervised_consequential": {
+      "r2_log_odds": 0.9788846,
+      "intact_specificity": 0.3843831,
+      "reset_specificity": 0.07850075,
+      "causal_specificity_drop": 0.30588236,
+      "mean_return": 36.073,
+      "motor_competence_spared": true,
+      "is_causally_behaviorally_necessary": false
+    },
+    "supervised_decorative": {
+      "r2_log_odds": 0.9792806,
+      "intact_specificity": 0.34898487,
+      "reset_specificity": 0.060801625,
+      "causal_specificity_drop": 0.28818324,
+      "mean_return": 40.720013,
+      "motor_competence_spared": true,
+      "is_causally_behaviorally_necessary": false
+    },
+    "selected_consequential": {
+      "r2_log_odds": 0.9941316,
+      "intact_specificity": 0.0,
+      "reset_specificity": 0.0,
+      "causal_specificity_drop": 0.0,
+      "mean_return": -3.600004,
+      "motor_competence_spared": false,
+      "is_causally_behaviorally_necessary": false
+    },
+    "selected_decorative": {
+      "r2_log_odds": 0.9760252,
+      "intact_specificity": 0.0,
+      "reset_specificity": 0.0,
+      "causal_specificity_drop": 0.0,
+      "mean_return": 41.87,
+      "motor_competence_spared": true,
+      "is_causally_behaviorally_necessary": false
+    }
+  },
+  {
+    "seed": 43,
+    "supervised_consequential": {
+      "r2_log_odds": 0.9846392,
+      "intact_specificity": 0.7421243,
+      "reset_specificity": -0.04576415,
+      "causal_specificity_drop": 0.78788847,
+      "mean_return": 37.4265,
+      "motor_competence_spared": true,
+      "is_causally_behaviorally_necessary": true
+    },
+    "supervised_decorative": {
+      "r2_log_odds": 0.9869178,
+      "intact_specificity": 0.750745,
+      "reset_specificity": -0.07045549,
+      "causal_specificity_drop": 0.8212005,
+      "mean_return": 40.351006,
+      "motor_competence_spared": true,
+      "is_causally_behaviorally_necessary": true
+    },
+    "selected_consequential": {
+      "r2_log_odds": 0.9930011,
+      "intact_specificity": 0.0,
+      "reset_specificity": 0.0,
+      "causal_specificity_drop": 0.0,
+      "mean_return": -3.600004,
+      "motor_competence_spared": false,
+      "is_causally_behaviorally_necessary": false
+    },
+    "selected_decorative": {
+      "r2_log_odds": 0.9769895,
+      "intact_specificity": 0.0,
+      "reset_specificity": 0.0,
+      "causal_specificity_drop": 0.0,
+      "mean_return": 41.8,
+      "motor_competence_spared": true,
+      "is_causally_behaviorally_necessary": false
+    }
+  },
+  {
+    "seed": 44,
+    "supervised_consequential": {
+      "r2_log_odds": 0.9902733,
+      "intact_specificity": 0.82414216,
+      "reset_specificity": 0.0,
+      "causal_specificity_drop": 0.82414216,
+      "mean_return": 38.327503,
+      "motor_competence_spared": true,
+      "is_causally_behaviorally_necessary": true
+    },
+    "supervised_decorative": {
+      "r2_log_odds": 0.9914801,
+      "intact_specificity": 0.82414216,
+      "reset_specificity": 0.0,
+      "causal_specificity_drop": 0.82414216,
+      "mean_return": 40.727505,
+      "motor_competence_spared": true,
+      "is_causally_behaviorally_necessary": true
+    },
+    "selected_consequential": {
+      "r2_log_odds": 0.99532706,
+      "intact_specificity": 0.0,
+      "reset_specificity": 0.0,
+      "causal_specificity_drop": 0.0,
+      "mean_return": -3.600004,
+      "motor_competence_spared": false,
+      "is_causally_behaviorally_necessary": false
+    },
+    "selected_decorative": {
+      "r2_log_odds": 0.98704123,
+      "intact_specificity": 0.0,
+      "reset_specificity": 0.0,
+      "causal_specificity_drop": 0.0,
+      "mean_return": 42.05,
+      "motor_competence_spared": true,
+      "is_causally_behaviorally_necessary": false
+    }
+  },
+  {
+    "seed": 45,
+    "supervised_consequential": {
+      "r2_log_odds": 0.98324937,
+      "intact_specificity": 0.7274116,
+      "reset_specificity": -0.050632913,
+      "causal_specificity_drop": 0.7780445,
+      "mean_return": 37.647003,
+      "motor_competence_spared": true,
+      "is_causally_behaviorally_necessary": true
+    },
+    "supervised_decorative": {
+      "r2_log_odds": 0.9821467,
+      "intact_specificity": 0.7274116,
+      "reset_specificity": -0.050632913,
+      "causal_specificity_drop": 0.7780445,
+      "mean_return": 40.94901,
+      "motor_competence_spared": true,
+      "is_causally_behaviorally_necessary": true
+    },
+    "selected_consequential": {
+      "r2_log_odds": 0.9937255,
+      "intact_specificity": 0.0,
+      "reset_specificity": 0.0,
+      "causal_specificity_drop": 0.0,
+      "mean_return": -3.600004,
+      "motor_competence_spared": false,
+      "is_causally_behaviorally_necessary": false
+    },
+    "selected_decorative": {
+      "r2_log_odds": 0.9778055,
+      "intact_specificity": 0.0,
+      "reset_specificity": 0.0,
+      "causal_specificity_drop": 0.0,
+      "mean_return": 42.26,
+      "motor_competence_spared": true,
+      "is_causally_behaviorally_necessary": false
+    }
+  },
+  {
+    "seed": 46,
+    "supervised_consequential": {
+      "r2_log_odds": 0.9674517,
+      "intact_specificity": 0.39772725,
+      "reset_specificity": 0.0,
+      "causal_specificity_drop": 0.39772725,
+      "mean_return": 37.468002,
+      "motor_competence_spared": true,
+      "is_causally_behaviorally_necessary": true
+    },
+    "supervised_decorative": {
+      "r2_log_odds": 0.9728717,
+      "intact_specificity": 0.39772725,
+      "reset_specificity": 0.0,
+      "causal_specificity_drop": 0.39772725,
+      "mean_return": 39.736988,
+      "motor_competence_spared": true,
+      "is_causally_behaviorally_necessary": true
+    },
+    "selected_consequential": {
+      "r2_log_odds": 0.9815234,
+      "intact_specificity": 0.0,
+      "reset_specificity": 0.0,
+      "causal_specificity_drop": 0.0,
+      "mean_return": -3.600004,
+      "motor_competence_spared": false,
+      "is_causally_behaviorally_necessary": false
+    },
+    "selected_decorative": {
+      "r2_log_odds": 0.9342693,
+      "intact_specificity": 0.0,
+      "reset_specificity": 0.0,
+      "causal_specificity_drop": 0.0,
+      "mean_return": 41.6,
+      "motor_competence_spared": true,
+      "is_causally_behaviorally_necessary": false
+    }
+  },
+  {
+    "seed": 47,
+    "supervised_consequential": {
+      "r2_log_odds": 0.9878039,
+      "intact_specificity": 0.868602,
+      "reset_specificity": 0.0,
+      "causal_specificity_drop": 0.868602,
+      "mean_return": 37.8235,
+      "motor_competence_spared": true,
+      "is_causally_behaviorally_necessary": true
+    },
+    "supervised_decorative": {
+      "r2_log_odds": 0.989248,
+      "intact_specificity": 0.868602,
+      "reset_specificity": 0.0,
+      "causal_specificity_drop": 0.868602,
+      "mean_return": 40.63351,
+      "motor_competence_spared": true,
+      "is_causally_behaviorally_necessary": true
+    },
+    "selected_consequential": {
+      "r2_log_odds": 0.99523324,
+      "intact_specificity": 0.0,
+      "reset_specificity": 0.0,
+      "causal_specificity_drop": 0.0,
+      "mean_return": -3.600004,
+      "motor_competence_spared": false,
+      "is_causally_behaviorally_necessary": false
+    },
+    "selected_decorative": {
+      "r2_log_odds": 0.98194236,
+      "intact_specificity": 0.0,
+      "reset_specificity": 0.0,
+      "causal_specificity_drop": 0.0,
+      "mean_return": 41.91,
+      "motor_competence_spared": true,
+      "is_causally_behaviorally_necessary": false
+    }
+  },
+  {
+    "seed": 48,
+    "supervised_consequential": {
+      "r2_log_odds": 0.9401434,
+      "intact_specificity": 0.0754717,
+      "reset_specificity": 0.0,
+      "causal_specificity_drop": 0.0754717,
+      "mean_return": 31.296001,
+      "motor_competence_spared": true,
+      "is_causally_behaviorally_necessary": false
+    },
+    "supervised_decorative": {
+      "r2_log_odds": 0.94562995,
+      "intact_specificity": 0.0754717,
+      "reset_specificity": 0.0,
+      "causal_specificity_drop": 0.0754717,
+      "mean_return": 42.208004,
+      "motor_competence_spared": true,
+      "is_causally_behaviorally_necessary": false
+    },
+    "selected_consequential": {
+      "r2_log_odds": 0.97764826,
+      "intact_specificity": 0.0,
+      "reset_specificity": 0.0,
+      "causal_specificity_drop": 0.0,
+      "mean_return": -3.600004,
+      "motor_competence_spared": false,
+      "is_causally_behaviorally_necessary": false
+    },
+    "selected_decorative": {
+      "r2_log_odds": 0.94562995,
+      "intact_specificity": 0.0,
+      "reset_specificity": 0.0,
+      "causal_specificity_drop": 0.0,
+      "mean_return": 42.3,
+      "motor_competence_spared": true,
+      "is_causally_behaviorally_necessary": false
+    }
+  },
+  {
+    "seed": 49,
+    "supervised_consequential": {
+      "r2_log_odds": 0.9804872,
+      "intact_specificity": 0.7002427,
+      "reset_specificity": -0.020529926,
+      "causal_specificity_drop": 0.7207726,
+      "mean_return": 37.043,
+      "motor_competence_spared": true,
+      "is_causally_behaviorally_necessary": true
+    },
+    "supervised_decorative": {
+      "r2_log_odds": 0.9818726,
+      "intact_specificity": 0.6711165,
+      "reset_specificity": -0.030238628,
+      "causal_specificity_drop": 0.7013551,
+      "mean_return": 40.9625,
+      "motor_competence_spared": true,
+      "is_causally_behaviorally_necessary": true
+    },
+    "selected_consequential": {
+      "r2_log_odds": 0.9931374,
+      "intact_specificity": 0.0,
+      "reset_specificity": 0.0,
+      "causal_specificity_drop": 0.0,
+      "mean_return": -3.600004,
+      "motor_competence_spared": false,
+      "is_causally_behaviorally_necessary": false
+    },
+    "selected_decorative": {
+      "r2_log_odds": 0.9763329,
+      "intact_specificity": 0.0,
+      "reset_specificity": 0.0,
+      "causal_specificity_drop": 0.0,
+      "mean_return": 42.17,
+      "motor_competence_spared": true,
+      "is_causally_behaviorally_necessary": false
+    }
+  }
+]

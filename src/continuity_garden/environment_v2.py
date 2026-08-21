@@ -191,8 +191,8 @@ class DualLocusRegulatorEnv:
         while t < length - 6:
             if tape_rng.rand() < 0.70:
                 warn_t = t
-                dec_t = warn_t + 4
-                shk_t = warn_t + 5
+                dec_t = warn_t + 5
+                shk_t = warn_t + 6
                 is_sev = bool(tape_rng.rand() < 0.55)
                 mag = 0.70 if is_sev else 0.10
                 noises = [float(tape_rng.randn() * self.precursor_noise_std) for _ in range(3)]

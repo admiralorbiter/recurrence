@@ -1,5 +1,6 @@
 pub mod bptt_trainer;
 pub mod environment;
+pub mod environment_dual_locus;
 pub mod oracle;
 pub mod organism;
 pub mod plastic_trainer;

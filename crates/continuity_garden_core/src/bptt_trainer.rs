@@ -133,6 +133,23 @@ pub fn evaluate_q10d_model(
         }
         paired_heuristic_returns.push(ret_h);
 
+        // 3. Paired Decision-Window Always-Maintain Baseline Return
+        let (mut o_m, mut g_m) = env.reset(Some(tape.clone()));
+        let mut done_m = false;
+        let mut ret_m = 0.0;
+        while !done_m {
+            let a = if o_m.is_decision_window == 1 {
+                2 // Always maintain in designated decision window
+            } else {
+                if o_m.symbol >= 3 && o_m.symbol <= 4 { o_m.symbol - 3 } else { 0 }
+            };
+            let (no, r, d, ng) = env.step(a);
+            ret_m += r;
+            done_m = d;
+            o_m = no;
+            g_m = ng;
+        }
+
         // 3. Model Evaluation on identical tape
         let (mut obs, mut gt) = env.reset(Some(tape));
         let mut h: Option<Vec<f32>> = None;
