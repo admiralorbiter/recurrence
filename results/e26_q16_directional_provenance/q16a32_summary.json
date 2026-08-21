@@ -123,6 +123,65 @@
         "is_competent_and_promoted": true
       },
       {
+        "condition_id": "delta_0_final",
+        "display_name": "DELTA = 0 BLANKS: FINAL H (DECISION STATE) BASELINE",
+        "delta_delay": 0,
+        "is_shared": false,
+        "is_final_h": true,
+        "realized_return": 0.45,
+        "parent_choice_accuracy": 0.16049382,
+        "child_choice_inversion_rate": 0.18518518,
+        "indep_verify_accuracy": 0.59090906,
+        "arrow_sign_accuracy": 0.285,
+        "transposed_r_parent_acc": 0.18518518,
+        "transposed_r_return": 0.73,
+        "paired_trans_acc_drop": -0.024691358,
+        "paired_trans_ret_drop": -0.28000003,
+        "addressing_metrics": {
+          "query1_accuracy": 0.35333332,
+          "query2_accuracy": 0.36,
+          "q1_confusion_matrix": [
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              1.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "q2_confusion_matrix": [
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "mean_query_entropy": 0.34046546,
+          "arrow_sign_accuracy": 0.34666666,
+          "score_correlation_with_oracle": 0.028866153,
+          "true_weight_displacement": 18.170832
+        },
+        "is_competent_and_promoted": false
+      },
+      {
         "condition_id": "delta_1_indep",
         "display_name": "DELTA = 1 BLANKS: PHASE H + INDEPENDENT HEADS",
         "delta_delay": 1,
@@ -239,6 +298,65 @@
           "true_weight_displacement": 27.073484
         },
         "is_competent_and_promoted": true
+      },
+      {
+        "condition_id": "delta_1_final",
+        "display_name": "DELTA = 1 BLANKS: FINAL H (DECISION STATE) BASELINE",
+        "delta_delay": 1,
+        "is_shared": false,
+        "is_final_h": true,
+        "realized_return": 0.125,
+        "parent_choice_accuracy": 0.30864197,
+        "child_choice_inversion_rate": 0.33333334,
+        "indep_verify_accuracy": 0.22727273,
+        "arrow_sign_accuracy": 0.305,
+        "transposed_r_parent_acc": 0.33333334,
+        "transposed_r_return": 0.055,
+        "paired_trans_acc_drop": -0.024691373,
+        "paired_trans_ret_drop": 0.07,
+        "addressing_metrics": {
+          "query1_accuracy": 0.34,
+          "query2_accuracy": 0.36666667,
+          "q1_confusion_matrix": [
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ]
+          ],
+          "q2_confusion_matrix": [
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              1.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "mean_query_entropy": 0.45003363,
+          "arrow_sign_accuracy": 0.36666667,
+          "score_correlation_with_oracle": 0.04680247,
+          "true_weight_displacement": 15.942239
+        },
+        "is_competent_and_promoted": false
       },
       {
         "condition_id": "delta_2_indep",
@@ -359,6 +477,65 @@
         "is_competent_and_promoted": true
       },
       {
+        "condition_id": "delta_2_final",
+        "display_name": "DELTA = 2 BLANKS: FINAL H (DECISION STATE) BASELINE",
+        "delta_delay": 2,
+        "is_shared": false,
+        "is_final_h": true,
+        "realized_return": 1.165,
+        "parent_choice_accuracy": 0.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 1.0,
+        "arrow_sign_accuracy": 0.315,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": 1.165,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0,
+        "addressing_metrics": {
+          "query1_accuracy": 0.30666667,
+          "query2_accuracy": 0.36,
+          "q1_confusion_matrix": [
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "q2_confusion_matrix": [
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "mean_query_entropy": 0.1633473,
+          "arrow_sign_accuracy": 0.28,
+          "score_correlation_with_oracle": -0.018515576,
+          "true_weight_displacement": 15.85555
+        },
+        "is_competent_and_promoted": false
+      },
+      {
         "condition_id": "delta_4_indep",
         "display_name": "DELTA = 4 BLANKS: PHASE H + INDEPENDENT HEADS",
         "delta_delay": 4,
@@ -477,38 +654,38 @@
         "is_competent_and_promoted": true
       },
       {
-        "condition_id": "final_h_unconstrained",
-        "display_name": "BASELINE: FINAL H (DECISION STATE) + INDEPENDENT HEADS",
-        "delta_delay": 0,
+        "condition_id": "delta_4_final",
+        "display_name": "DELTA = 4 BLANKS: FINAL H (DECISION STATE) BASELINE",
+        "delta_delay": 4,
         "is_shared": false,
         "is_final_h": true,
-        "realized_return": 0.45,
-        "parent_choice_accuracy": 0.16049382,
-        "child_choice_inversion_rate": 0.18518518,
-        "indep_verify_accuracy": 0.59090906,
-        "arrow_sign_accuracy": 0.285,
-        "transposed_r_parent_acc": 0.18518518,
-        "transposed_r_return": 0.73,
-        "paired_trans_acc_drop": -0.024691358,
-        "paired_trans_ret_drop": -0.28000003,
+        "realized_return": 1.165,
+        "parent_choice_accuracy": 0.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 1.0,
+        "arrow_sign_accuracy": 0.315,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": 1.165,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0,
         "addressing_metrics": {
-          "query1_accuracy": 0.35333332,
+          "query1_accuracy": 0.30666667,
           "query2_accuracy": 0.36,
           "q1_confusion_matrix": [
             [
-              1.0,
               0.0,
-              0.0
+              0.0,
+              1.0
             ],
             [
-              1.0,
               0.0,
-              0.0
+              0.0,
+              1.0
             ],
             [
-              1.0,
               0.0,
-              0.0
+              0.0,
+              1.0
             ]
           ],
           "q2_confusion_matrix": [
@@ -528,10 +705,10 @@
               1.0
             ]
           ],
-          "mean_query_entropy": 0.34046546,
-          "arrow_sign_accuracy": 0.34666666,
-          "score_correlation_with_oracle": 0.028866153,
-          "true_weight_displacement": 18.170832
+          "mean_query_entropy": 0.13131094,
+          "arrow_sign_accuracy": 0.28,
+          "score_correlation_with_oracle": -0.041542515,
+          "true_weight_displacement": 17.028183
         },
         "is_competent_and_promoted": false
       }
@@ -661,6 +838,65 @@
         "is_competent_and_promoted": true
       },
       {
+        "condition_id": "delta_0_final",
+        "display_name": "DELTA = 0 BLANKS: FINAL H (DECISION STATE) BASELINE",
+        "delta_delay": 0,
+        "is_shared": false,
+        "is_final_h": true,
+        "realized_return": 0.79,
+        "parent_choice_accuracy": 0.1375,
+        "child_choice_inversion_rate": 0.15,
+        "indep_verify_accuracy": 0.6857143,
+        "arrow_sign_accuracy": 0.27,
+        "transposed_r_parent_acc": 0.15,
+        "transposed_r_return": 0.86,
+        "paired_trans_acc_drop": -0.012500003,
+        "paired_trans_ret_drop": -0.06999999,
+        "addressing_metrics": {
+          "query1_accuracy": 0.28,
+          "query2_accuracy": 0.36,
+          "q1_confusion_matrix": [
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ]
+          ],
+          "q2_confusion_matrix": [
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              1.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "mean_query_entropy": 0.18071118,
+          "arrow_sign_accuracy": 0.34666666,
+          "score_correlation_with_oracle": -0.011415236,
+          "true_weight_displacement": 14.520563
+        },
+        "is_competent_and_promoted": false
+      },
+      {
         "condition_id": "delta_1_indep",
         "display_name": "DELTA = 1 BLANKS: PHASE H + INDEPENDENT HEADS",
         "delta_delay": 1,
@@ -777,6 +1013,65 @@
           "true_weight_displacement": 19.57402
         },
         "is_competent_and_promoted": true
+      },
+      {
+        "condition_id": "delta_1_final",
+        "display_name": "DELTA = 1 BLANKS: FINAL H (DECISION STATE) BASELINE",
+        "delta_delay": 1,
+        "is_shared": false,
+        "is_final_h": true,
+        "realized_return": 0.405,
+        "parent_choice_accuracy": 0.3,
+        "child_choice_inversion_rate": 0.2625,
+        "indep_verify_accuracy": 0.31428573,
+        "arrow_sign_accuracy": 0.295,
+        "transposed_r_parent_acc": 0.2625,
+        "transposed_r_return": 0.37,
+        "paired_trans_acc_drop": 0.037500024,
+        "paired_trans_ret_drop": 0.034999996,
+        "addressing_metrics": {
+          "query1_accuracy": 0.28,
+          "query2_accuracy": 0.36,
+          "q1_confusion_matrix": [
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ]
+          ],
+          "q2_confusion_matrix": [
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              1.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "mean_query_entropy": 0.6868111,
+          "arrow_sign_accuracy": 0.36,
+          "score_correlation_with_oracle": 0.050443616,
+          "true_weight_displacement": 7.191323
+        },
+        "is_competent_and_promoted": false
       },
       {
         "condition_id": "delta_2_indep",
@@ -897,6 +1192,65 @@
         "is_competent_and_promoted": true
       },
       {
+        "condition_id": "delta_2_final",
+        "display_name": "DELTA = 2 BLANKS: FINAL H (DECISION STATE) BASELINE",
+        "delta_delay": 2,
+        "is_shared": false,
+        "is_final_h": true,
+        "realized_return": 0.71,
+        "parent_choice_accuracy": 0.225,
+        "child_choice_inversion_rate": 0.2125,
+        "indep_verify_accuracy": 0.6857143,
+        "arrow_sign_accuracy": 0.355,
+        "transposed_r_parent_acc": 0.2125,
+        "transposed_r_return": 0.64,
+        "paired_trans_acc_drop": 0.012499988,
+        "paired_trans_ret_drop": 0.06999999,
+        "addressing_metrics": {
+          "query1_accuracy": 0.28,
+          "query2_accuracy": 0.28666666,
+          "q1_confusion_matrix": [
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ]
+          ],
+          "q2_confusion_matrix": [
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "mean_query_entropy": 0.39473093,
+          "arrow_sign_accuracy": 0.31333333,
+          "score_correlation_with_oracle": -0.15380096,
+          "true_weight_displacement": 14.548364
+        },
+        "is_competent_and_promoted": false
+      },
+      {
         "condition_id": "delta_4_indep",
         "display_name": "DELTA = 4 BLANKS: PHASE H + INDEPENDENT HEADS",
         "delta_delay": 4,
@@ -1015,61 +1369,61 @@
         "is_competent_and_promoted": false
       },
       {
-        "condition_id": "final_h_unconstrained",
-        "display_name": "BASELINE: FINAL H (DECISION STATE) + INDEPENDENT HEADS",
-        "delta_delay": 0,
+        "condition_id": "delta_4_final",
+        "display_name": "DELTA = 4 BLANKS: FINAL H (DECISION STATE) BASELINE",
+        "delta_delay": 4,
         "is_shared": false,
         "is_final_h": true,
-        "realized_return": 0.79,
-        "parent_choice_accuracy": 0.1375,
-        "child_choice_inversion_rate": 0.15,
-        "indep_verify_accuracy": 0.6857143,
-        "arrow_sign_accuracy": 0.27,
-        "transposed_r_parent_acc": 0.15,
-        "transposed_r_return": 0.86,
-        "paired_trans_acc_drop": -0.012500003,
-        "paired_trans_ret_drop": -0.06999999,
+        "realized_return": 0.76,
+        "parent_choice_accuracy": 0.1125,
+        "child_choice_inversion_rate": 0.1625,
+        "indep_verify_accuracy": 0.62857145,
+        "arrow_sign_accuracy": 0.345,
+        "transposed_r_parent_acc": 0.1625,
+        "transposed_r_return": 0.865,
+        "paired_trans_acc_drop": -0.049999997,
+        "paired_trans_ret_drop": -0.10500002,
         "addressing_metrics": {
-          "query1_accuracy": 0.28,
-          "query2_accuracy": 0.36,
+          "query1_accuracy": 0.32666665,
+          "query2_accuracy": 0.28666666,
           "q1_confusion_matrix": [
             [
-              0.0,
               1.0,
+              0.0,
               0.0
             ],
             [
-              0.0,
               1.0,
+              0.0,
               0.0
             ],
             [
-              0.0,
               1.0,
+              0.0,
               0.0
             ]
           ],
           "q2_confusion_matrix": [
             [
-              1.0,
               0.0,
-              0.0
+              0.0,
+              1.0
             ],
             [
-              1.0,
               0.0,
-              0.0
+              0.0,
+              1.0
             ],
             [
-              1.0,
               0.0,
-              0.0
+              0.0,
+              1.0
             ]
           ],
-          "mean_query_entropy": 0.18071118,
-          "arrow_sign_accuracy": 0.34666666,
-          "score_correlation_with_oracle": -0.011415236,
-          "true_weight_displacement": 14.520563
+          "mean_query_entropy": 0.3091884,
+          "arrow_sign_accuracy": 0.35333332,
+          "score_correlation_with_oracle": -0.082438365,
+          "true_weight_displacement": 13.033435
         },
         "is_competent_and_promoted": false
       }
@@ -1199,6 +1553,65 @@
         "is_competent_and_promoted": true
       },
       {
+        "condition_id": "delta_0_final",
+        "display_name": "DELTA = 0 BLANKS: FINAL H (DECISION STATE) BASELINE",
+        "delta_delay": 0,
+        "is_shared": false,
+        "is_final_h": true,
+        "realized_return": 0.91,
+        "parent_choice_accuracy": 0.07594936,
+        "child_choice_inversion_rate": 0.1392405,
+        "indep_verify_accuracy": 0.73170733,
+        "arrow_sign_accuracy": 0.305,
+        "transposed_r_parent_acc": 0.1392405,
+        "transposed_r_return": 0.98,
+        "paired_trans_acc_drop": -0.06329114,
+        "paired_trans_ret_drop": -0.06999999,
+        "addressing_metrics": {
+          "query1_accuracy": 0.33333334,
+          "query2_accuracy": 0.34666666,
+          "q1_confusion_matrix": [
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "q2_confusion_matrix": [
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "mean_query_entropy": 0.47688797,
+          "arrow_sign_accuracy": 0.32666665,
+          "score_correlation_with_oracle": -0.023297478,
+          "true_weight_displacement": 10.071643
+        },
+        "is_competent_and_promoted": false
+      },
+      {
         "condition_id": "delta_1_indep",
         "display_name": "DELTA = 1 BLANKS: PHASE H + INDEPENDENT HEADS",
         "delta_delay": 1,
@@ -1315,6 +1728,65 @@
           "true_weight_displacement": 26.684607
         },
         "is_competent_and_promoted": true
+      },
+      {
+        "condition_id": "delta_1_final",
+        "display_name": "DELTA = 1 BLANKS: FINAL H (DECISION STATE) BASELINE",
+        "delta_delay": 1,
+        "is_shared": false,
+        "is_final_h": true,
+        "realized_return": 1.295,
+        "parent_choice_accuracy": 0.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 1.0,
+        "arrow_sign_accuracy": 0.32,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": 1.295,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0,
+        "addressing_metrics": {
+          "query1_accuracy": 0.35333332,
+          "query2_accuracy": 0.33333334,
+          "q1_confusion_matrix": [
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              1.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "q2_confusion_matrix": [
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              1.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "mean_query_entropy": 0.08361339,
+          "arrow_sign_accuracy": 0.34,
+          "score_correlation_with_oracle": -0.025305621,
+          "true_weight_displacement": 12.8608
+        },
+        "is_competent_and_promoted": false
       },
       {
         "condition_id": "delta_2_indep",
@@ -1435,6 +1907,65 @@
         "is_competent_and_promoted": true
       },
       {
+        "condition_id": "delta_2_final",
+        "display_name": "DELTA = 2 BLANKS: FINAL H (DECISION STATE) BASELINE",
+        "delta_delay": 2,
+        "is_shared": false,
+        "is_final_h": true,
+        "realized_return": 1.295,
+        "parent_choice_accuracy": 0.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 1.0,
+        "arrow_sign_accuracy": 0.32,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": 1.295,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0,
+        "addressing_metrics": {
+          "query1_accuracy": 0.33333334,
+          "query2_accuracy": 0.34666666,
+          "q1_confusion_matrix": [
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "q2_confusion_matrix": [
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "mean_query_entropy": 0.15283434,
+          "arrow_sign_accuracy": 0.34,
+          "score_correlation_with_oracle": -0.11062901,
+          "true_weight_displacement": 10.097688
+        },
+        "is_competent_and_promoted": false
+      },
+      {
         "condition_id": "delta_4_indep",
         "display_name": "DELTA = 4 BLANKS: PHASE H + INDEPENDENT HEADS",
         "delta_delay": 4,
@@ -1553,38 +2084,38 @@
         "is_competent_and_promoted": true
       },
       {
-        "condition_id": "final_h_unconstrained",
-        "display_name": "BASELINE: FINAL H (DECISION STATE) + INDEPENDENT HEADS",
-        "delta_delay": 0,
+        "condition_id": "delta_4_final",
+        "display_name": "DELTA = 4 BLANKS: FINAL H (DECISION STATE) BASELINE",
+        "delta_delay": 4,
         "is_shared": false,
         "is_final_h": true,
-        "realized_return": 0.91,
-        "parent_choice_accuracy": 0.07594936,
-        "child_choice_inversion_rate": 0.1392405,
-        "indep_verify_accuracy": 0.73170733,
-        "arrow_sign_accuracy": 0.305,
-        "transposed_r_parent_acc": 0.1392405,
-        "transposed_r_return": 0.98,
-        "paired_trans_acc_drop": -0.06329114,
-        "paired_trans_ret_drop": -0.06999999,
+        "realized_return": 0.57,
+        "parent_choice_accuracy": 0.12658228,
+        "child_choice_inversion_rate": 0.21518987,
+        "indep_verify_accuracy": 0.58536583,
+        "arrow_sign_accuracy": 0.32,
+        "transposed_r_parent_acc": 0.21518987,
+        "transposed_r_return": 0.92,
+        "paired_trans_acc_drop": -0.088607594,
+        "paired_trans_ret_drop": -0.35000002,
         "addressing_metrics": {
-          "query1_accuracy": 0.33333334,
+          "query1_accuracy": 0.31333333,
           "query2_accuracy": 0.34666666,
           "q1_confusion_matrix": [
             [
               0.0,
-              0.0,
-              1.0
+              1.0,
+              0.0
             ],
             [
               0.0,
-              0.0,
-              1.0
+              1.0,
+              0.0
             ],
             [
               0.0,
-              0.0,
-              1.0
+              1.0,
+              0.0
             ]
           ],
           "q2_confusion_matrix": [
@@ -1604,10 +2135,10 @@
               1.0
             ]
           ],
-          "mean_query_entropy": 0.47688797,
-          "arrow_sign_accuracy": 0.32666665,
-          "score_correlation_with_oracle": -0.023297478,
-          "true_weight_displacement": 10.071643
+          "mean_query_entropy": 0.40098312,
+          "arrow_sign_accuracy": 0.34,
+          "score_correlation_with_oracle": 0.07101261,
+          "true_weight_displacement": 11.319044
         },
         "is_competent_and_promoted": false
       }
@@ -1737,6 +2268,65 @@
         "is_competent_and_promoted": true
       },
       {
+        "condition_id": "delta_0_final",
+        "display_name": "DELTA = 0 BLANKS: FINAL H (DECISION STATE) BASELINE",
+        "delta_delay": 0,
+        "is_shared": false,
+        "is_final_h": true,
+        "realized_return": 1.27,
+        "parent_choice_accuracy": 0.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 1.0,
+        "arrow_sign_accuracy": 0.305,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": 1.27,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0,
+        "addressing_metrics": {
+          "query1_accuracy": 0.32666665,
+          "query2_accuracy": 0.39333335,
+          "q1_confusion_matrix": [
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ]
+          ],
+          "q2_confusion_matrix": [
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ]
+          ],
+          "mean_query_entropy": 0.24733374,
+          "arrow_sign_accuracy": 0.26,
+          "score_correlation_with_oracle": 0.38835618,
+          "true_weight_displacement": 18.55225
+        },
+        "is_competent_and_promoted": false
+      },
+      {
         "condition_id": "delta_1_indep",
         "display_name": "DELTA = 1 BLANKS: PHASE H + INDEPENDENT HEADS",
         "delta_delay": 1,
@@ -1853,6 +2443,65 @@
           "true_weight_displacement": 17.993294
         },
         "is_competent_and_promoted": true
+      },
+      {
+        "condition_id": "delta_1_final",
+        "display_name": "DELTA = 1 BLANKS: FINAL H (DECISION STATE) BASELINE",
+        "delta_delay": 1,
+        "is_shared": false,
+        "is_final_h": true,
+        "realized_return": 0.87,
+        "parent_choice_accuracy": 0.20238096,
+        "child_choice_inversion_rate": 0.17857143,
+        "indep_verify_accuracy": 0.5882353,
+        "arrow_sign_accuracy": 0.32,
+        "transposed_r_parent_acc": 0.17857143,
+        "transposed_r_return": 0.52,
+        "paired_trans_acc_drop": 0.023809522,
+        "paired_trans_ret_drop": 0.35000002,
+        "addressing_metrics": {
+          "query1_accuracy": 0.31333333,
+          "query2_accuracy": 0.30666667,
+          "q1_confusion_matrix": [
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              1.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "q2_confusion_matrix": [
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              1.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "mean_query_entropy": 0.74812937,
+          "arrow_sign_accuracy": 0.25333333,
+          "score_correlation_with_oracle": -0.023465967,
+          "true_weight_displacement": 16.6981
+        },
+        "is_competent_and_promoted": false
       },
       {
         "condition_id": "delta_2_indep",
@@ -1973,6 +2622,65 @@
         "is_competent_and_promoted": true
       },
       {
+        "condition_id": "delta_2_final",
+        "display_name": "DELTA = 2 BLANKS: FINAL H (DECISION STATE) BASELINE",
+        "delta_delay": 2,
+        "is_shared": false,
+        "is_final_h": true,
+        "realized_return": 0.115,
+        "parent_choice_accuracy": 0.4047619,
+        "child_choice_inversion_rate": 0.42857143,
+        "indep_verify_accuracy": 0.1764706,
+        "arrow_sign_accuracy": 0.32,
+        "transposed_r_parent_acc": 0.42857143,
+        "transposed_r_return": -0.025,
+        "paired_trans_acc_drop": -0.023809522,
+        "paired_trans_ret_drop": 0.14,
+        "addressing_metrics": {
+          "query1_accuracy": 0.31333333,
+          "query2_accuracy": 0.3,
+          "q1_confusion_matrix": [
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              1.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "q2_confusion_matrix": [
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "mean_query_entropy": 0.6857786,
+          "arrow_sign_accuracy": 0.3,
+          "score_correlation_with_oracle": -0.11317343,
+          "true_weight_displacement": 9.736107
+        },
+        "is_competent_and_promoted": false
+      },
+      {
         "condition_id": "delta_4_indep",
         "display_name": "DELTA = 4 BLANKS: PHASE H + INDEPENDENT HEADS",
         "delta_delay": 4,
@@ -2091,9 +2799,9 @@
         "is_competent_and_promoted": true
       },
       {
-        "condition_id": "final_h_unconstrained",
-        "display_name": "BASELINE: FINAL H (DECISION STATE) + INDEPENDENT HEADS",
-        "delta_delay": 0,
+        "condition_id": "delta_4_final",
+        "display_name": "DELTA = 4 BLANKS: FINAL H (DECISION STATE) BASELINE",
+        "delta_delay": 4,
         "is_shared": false,
         "is_final_h": true,
         "realized_return": 1.27,
@@ -2106,46 +2814,46 @@
         "paired_trans_acc_drop": 0.0,
         "paired_trans_ret_drop": 0.0,
         "addressing_metrics": {
-          "query1_accuracy": 0.32666665,
-          "query2_accuracy": 0.39333335,
+          "query1_accuracy": 0.31333333,
+          "query2_accuracy": 0.30666667,
           "q1_confusion_matrix": [
             [
-              0.0,
               1.0,
+              0.0,
               0.0
             ],
             [
-              0.0,
               1.0,
+              0.0,
               0.0
             ],
             [
-              0.0,
               1.0,
+              0.0,
               0.0
             ]
           ],
           "q2_confusion_matrix": [
             [
-              0.0,
               1.0,
+              0.0,
               0.0
             ],
             [
-              0.0,
               1.0,
+              0.0,
               0.0
             ],
             [
-              0.0,
               1.0,
+              0.0,
               0.0
             ]
           ],
-          "mean_query_entropy": 0.24733374,
+          "mean_query_entropy": 0.24865143,
           "arrow_sign_accuracy": 0.26,
-          "score_correlation_with_oracle": 0.38835618,
-          "true_weight_displacement": 18.55225
+          "score_correlation_with_oracle": -0.07289754,
+          "true_weight_displacement": 16.56131
         },
         "is_competent_and_promoted": false
       }
@@ -2275,6 +2983,65 @@
         "is_competent_and_promoted": true
       },
       {
+        "condition_id": "delta_0_final",
+        "display_name": "DELTA = 0 BLANKS: FINAL H (DECISION STATE) BASELINE",
+        "delta_delay": 0,
+        "is_shared": false,
+        "is_final_h": true,
+        "realized_return": 0.545,
+        "parent_choice_accuracy": 0.19178082,
+        "child_choice_inversion_rate": 0.2739726,
+        "indep_verify_accuracy": 0.6666667,
+        "arrow_sign_accuracy": 0.33,
+        "transposed_r_parent_acc": 0.2739726,
+        "transposed_r_return": 0.615,
+        "paired_trans_acc_drop": -0.08219178,
+        "paired_trans_ret_drop": -0.06999999,
+        "addressing_metrics": {
+          "query1_accuracy": 0.33333334,
+          "query2_accuracy": 0.40666667,
+          "q1_confusion_matrix": [
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "q2_confusion_matrix": [
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ]
+          ],
+          "mean_query_entropy": 0.44189006,
+          "arrow_sign_accuracy": 0.4,
+          "score_correlation_with_oracle": 0.10345921,
+          "true_weight_displacement": 11.579879
+        },
+        "is_competent_and_promoted": false
+      },
+      {
         "condition_id": "delta_1_indep",
         "display_name": "DELTA = 1 BLANKS: PHASE H + INDEPENDENT HEADS",
         "delta_delay": 1,
@@ -2389,6 +3156,65 @@
           "arrow_sign_accuracy": 0.31333333,
           "score_correlation_with_oracle": 0.10435572,
           "true_weight_displacement": 24.720335
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "condition_id": "delta_1_final",
+        "display_name": "DELTA = 1 BLANKS: FINAL H (DECISION STATE) BASELINE",
+        "delta_delay": 1,
+        "is_shared": false,
+        "is_final_h": true,
+        "realized_return": 0.395,
+        "parent_choice_accuracy": 0.369863,
+        "child_choice_inversion_rate": 0.30136988,
+        "indep_verify_accuracy": 0.4047619,
+        "arrow_sign_accuracy": 0.38,
+        "transposed_r_parent_acc": 0.30136988,
+        "transposed_r_return": 0.115,
+        "paired_trans_acc_drop": 0.06849313,
+        "paired_trans_ret_drop": 0.28,
+        "addressing_metrics": {
+          "query1_accuracy": 0.25333333,
+          "query2_accuracy": 0.32666665,
+          "q1_confusion_matrix": [
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ]
+          ],
+          "q2_confusion_matrix": [
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "mean_query_entropy": 0.52854735,
+          "arrow_sign_accuracy": 0.32666665,
+          "score_correlation_with_oracle": -0.030399786,
+          "true_weight_displacement": 10.937771
         },
         "is_competent_and_promoted": false
       },
@@ -2511,6 +3337,65 @@
         "is_competent_and_promoted": false
       },
       {
+        "condition_id": "delta_2_final",
+        "display_name": "DELTA = 2 BLANKS: FINAL H (DECISION STATE) BASELINE",
+        "delta_delay": 2,
+        "is_shared": false,
+        "is_final_h": true,
+        "realized_return": -0.205,
+        "parent_choice_accuracy": 0.5068493,
+        "child_choice_inversion_rate": 0.49315068,
+        "indep_verify_accuracy": 0.0,
+        "arrow_sign_accuracy": 0.36,
+        "transposed_r_parent_acc": 0.49315068,
+        "transposed_r_return": -0.31,
+        "paired_trans_acc_drop": 0.013698608,
+        "paired_trans_ret_drop": 0.105000004,
+        "addressing_metrics": {
+          "query1_accuracy": 0.41333333,
+          "query2_accuracy": 0.32666665,
+          "q1_confusion_matrix": [
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              1.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "q2_confusion_matrix": [
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "mean_query_entropy": 0.73107904,
+          "arrow_sign_accuracy": 0.33333334,
+          "score_correlation_with_oracle": 0.072901964,
+          "true_weight_displacement": 9.920218
+        },
+        "is_competent_and_promoted": false
+      },
+      {
         "condition_id": "delta_4_indep",
         "display_name": "DELTA = 4 BLANKS: PHASE H + INDEPENDENT HEADS",
         "delta_delay": 4,
@@ -2629,38 +3514,38 @@
         "is_competent_and_promoted": false
       },
       {
-        "condition_id": "final_h_unconstrained",
-        "display_name": "BASELINE: FINAL H (DECISION STATE) + INDEPENDENT HEADS",
-        "delta_delay": 0,
+        "condition_id": "delta_4_final",
+        "display_name": "DELTA = 4 BLANKS: FINAL H (DECISION STATE) BASELINE",
+        "delta_delay": 4,
         "is_shared": false,
         "is_final_h": true,
-        "realized_return": 0.545,
-        "parent_choice_accuracy": 0.19178082,
-        "child_choice_inversion_rate": 0.2739726,
-        "indep_verify_accuracy": 0.6666667,
-        "arrow_sign_accuracy": 0.33,
-        "transposed_r_parent_acc": 0.2739726,
-        "transposed_r_return": 0.615,
-        "paired_trans_acc_drop": -0.08219178,
-        "paired_trans_ret_drop": -0.06999999,
+        "realized_return": 1.18,
+        "parent_choice_accuracy": 0.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 1.0,
+        "arrow_sign_accuracy": 0.36,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": 1.18,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0,
         "addressing_metrics": {
-          "query1_accuracy": 0.33333334,
+          "query1_accuracy": 0.41333333,
           "query2_accuracy": 0.40666667,
           "q1_confusion_matrix": [
             [
+              1.0,
               0.0,
-              0.0,
-              1.0
+              0.0
             ],
             [
+              1.0,
               0.0,
-              0.0,
-              1.0
+              0.0
             ],
             [
+              1.0,
               0.0,
-              0.0,
-              1.0
+              0.0
             ]
           ],
           "q2_confusion_matrix": [
@@ -2680,10 +3565,10 @@
               0.0
             ]
           ],
-          "mean_query_entropy": 0.44189006,
-          "arrow_sign_accuracy": 0.4,
-          "score_correlation_with_oracle": 0.10345921,
-          "true_weight_displacement": 11.579879
+          "mean_query_entropy": 1.0976593,
+          "arrow_sign_accuracy": 0.38666666,
+          "score_correlation_with_oracle": 0.17259504,
+          "true_weight_displacement": 0.0
         },
         "is_competent_and_promoted": false
       }
@@ -2813,6 +3698,65 @@
         "is_competent_and_promoted": true
       },
       {
+        "condition_id": "delta_0_final",
+        "display_name": "DELTA = 0 BLANKS: FINAL H (DECISION STATE) BASELINE",
+        "delta_delay": 0,
+        "is_shared": false,
+        "is_final_h": true,
+        "realized_return": 0.845,
+        "parent_choice_accuracy": 0.1375,
+        "child_choice_inversion_rate": 0.1625,
+        "indep_verify_accuracy": 0.71428573,
+        "arrow_sign_accuracy": 0.33,
+        "transposed_r_parent_acc": 0.1625,
+        "transposed_r_return": 0.775,
+        "paired_trans_acc_drop": -0.024999991,
+        "paired_trans_ret_drop": 0.07000005,
+        "addressing_metrics": {
+          "query1_accuracy": 0.27333334,
+          "query2_accuracy": 0.34,
+          "q1_confusion_matrix": [
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "q2_confusion_matrix": [
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ]
+          ],
+          "mean_query_entropy": 0.3866075,
+          "arrow_sign_accuracy": 0.32666665,
+          "score_correlation_with_oracle": 0.10803951,
+          "true_weight_displacement": 11.955421
+        },
+        "is_competent_and_promoted": false
+      },
+      {
         "condition_id": "delta_1_indep",
         "display_name": "DELTA = 1 BLANKS: PHASE H + INDEPENDENT HEADS",
         "delta_delay": 1,
@@ -2929,6 +3873,65 @@
           "true_weight_displacement": 26.870218
         },
         "is_competent_and_promoted": true
+      },
+      {
+        "condition_id": "delta_1_final",
+        "display_name": "DELTA = 1 BLANKS: FINAL H (DECISION STATE) BASELINE",
+        "delta_delay": 1,
+        "is_shared": false,
+        "is_final_h": true,
+        "realized_return": 0.685,
+        "parent_choice_accuracy": 0.2375,
+        "child_choice_inversion_rate": 0.1,
+        "indep_verify_accuracy": 0.5714286,
+        "arrow_sign_accuracy": 0.34,
+        "transposed_r_parent_acc": 0.1,
+        "transposed_r_return": 0.685,
+        "paired_trans_acc_drop": 0.13749999,
+        "paired_trans_ret_drop": 0.0,
+        "addressing_metrics": {
+          "query1_accuracy": 0.33333334,
+          "query2_accuracy": 0.30666667,
+          "q1_confusion_matrix": [
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ]
+          ],
+          "q2_confusion_matrix": [
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              1.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "mean_query_entropy": 0.09248236,
+          "arrow_sign_accuracy": 0.28666666,
+          "score_correlation_with_oracle": -0.064839244,
+          "true_weight_displacement": 14.276419
+        },
+        "is_competent_and_promoted": false
       },
       {
         "condition_id": "delta_2_indep",
@@ -3049,6 +4052,65 @@
         "is_competent_and_promoted": true
       },
       {
+        "condition_id": "delta_2_final",
+        "display_name": "DELTA = 2 BLANKS: FINAL H (DECISION STATE) BASELINE",
+        "delta_delay": 2,
+        "is_shared": false,
+        "is_final_h": true,
+        "realized_return": 0.685,
+        "parent_choice_accuracy": 0.2375,
+        "child_choice_inversion_rate": 0.1,
+        "indep_verify_accuracy": 0.5714286,
+        "arrow_sign_accuracy": 0.34,
+        "transposed_r_parent_acc": 0.1,
+        "transposed_r_return": 0.685,
+        "paired_trans_acc_drop": 0.13749999,
+        "paired_trans_ret_drop": 0.0,
+        "addressing_metrics": {
+          "query1_accuracy": 0.33333334,
+          "query2_accuracy": 0.30666667,
+          "q1_confusion_matrix": [
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ]
+          ],
+          "q2_confusion_matrix": [
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              1.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "mean_query_entropy": 0.4103641,
+          "arrow_sign_accuracy": 0.28666666,
+          "score_correlation_with_oracle": -0.06438093,
+          "true_weight_displacement": 13.118849
+        },
+        "is_competent_and_promoted": false
+      },
+      {
         "condition_id": "delta_4_indep",
         "display_name": "DELTA = 4 BLANKS: PHASE H + INDEPENDENT HEADS",
         "delta_delay": 4,
@@ -3167,38 +4229,38 @@
         "is_competent_and_promoted": true
       },
       {
-        "condition_id": "final_h_unconstrained",
-        "display_name": "BASELINE: FINAL H (DECISION STATE) + INDEPENDENT HEADS",
-        "delta_delay": 0,
+        "condition_id": "delta_4_final",
+        "display_name": "DELTA = 4 BLANKS: FINAL H (DECISION STATE) BASELINE",
+        "delta_delay": 4,
         "is_shared": false,
         "is_final_h": true,
-        "realized_return": 0.845,
-        "parent_choice_accuracy": 0.1375,
-        "child_choice_inversion_rate": 0.1625,
-        "indep_verify_accuracy": 0.71428573,
-        "arrow_sign_accuracy": 0.33,
-        "transposed_r_parent_acc": 0.1625,
-        "transposed_r_return": 0.775,
-        "paired_trans_acc_drop": -0.024999991,
-        "paired_trans_ret_drop": 0.07000005,
+        "realized_return": 0.685,
+        "parent_choice_accuracy": 0.1,
+        "child_choice_inversion_rate": 0.2375,
+        "indep_verify_accuracy": 0.5714286,
+        "arrow_sign_accuracy": 0.32,
+        "transposed_r_parent_acc": 0.2375,
+        "transposed_r_return": 0.685,
+        "paired_trans_acc_drop": -0.13749999,
+        "paired_trans_ret_drop": 0.0,
         "addressing_metrics": {
-          "query1_accuracy": 0.27333334,
+          "query1_accuracy": 0.39333335,
           "query2_accuracy": 0.34,
           "q1_confusion_matrix": [
             [
+              1.0,
               0.0,
-              0.0,
-              1.0
+              0.0
             ],
             [
+              1.0,
               0.0,
-              0.0,
-              1.0
+              0.0
             ],
             [
+              1.0,
               0.0,
-              0.0,
-              1.0
+              0.0
             ]
           ],
           "q2_confusion_matrix": [
@@ -3218,10 +4280,10 @@
               0.0
             ]
           ],
-          "mean_query_entropy": 0.3866075,
-          "arrow_sign_accuracy": 0.32666665,
-          "score_correlation_with_oracle": 0.10803951,
-          "true_weight_displacement": 11.955421
+          "mean_query_entropy": 0.18013264,
+          "arrow_sign_accuracy": 0.32,
+          "score_correlation_with_oracle": 0.06514769,
+          "true_weight_displacement": 14.149859
         },
         "is_competent_and_promoted": false
       }
@@ -3351,6 +4413,65 @@
         "is_competent_and_promoted": false
       },
       {
+        "condition_id": "delta_0_final",
+        "display_name": "DELTA = 0 BLANKS: FINAL H (DECISION STATE) BASELINE",
+        "delta_delay": 0,
+        "is_shared": false,
+        "is_final_h": true,
+        "realized_return": 0.31,
+        "parent_choice_accuracy": 0.22666667,
+        "child_choice_inversion_rate": 0.29333332,
+        "indep_verify_accuracy": 0.6304348,
+        "arrow_sign_accuracy": 0.355,
+        "transposed_r_parent_acc": 0.29333332,
+        "transposed_r_return": 0.45,
+        "paired_trans_acc_drop": -0.06666665,
+        "paired_trans_ret_drop": -0.13999999,
+        "addressing_metrics": {
+          "query1_accuracy": 0.28666666,
+          "query2_accuracy": 0.32666665,
+          "q1_confusion_matrix": [
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ]
+          ],
+          "q2_confusion_matrix": [
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              1.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "mean_query_entropy": 0.5307799,
+          "arrow_sign_accuracy": 0.32,
+          "score_correlation_with_oracle": -0.04660789,
+          "true_weight_displacement": 17.39005
+        },
+        "is_competent_and_promoted": false
+      },
+      {
         "condition_id": "delta_1_indep",
         "display_name": "DELTA = 1 BLANKS: PHASE H + INDEPENDENT HEADS",
         "delta_delay": 1,
@@ -3465,6 +4586,65 @@
           "arrow_sign_accuracy": 0.7866667,
           "score_correlation_with_oracle": 0.32252136,
           "true_weight_displacement": 33.588596
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "condition_id": "delta_1_final",
+        "display_name": "DELTA = 1 BLANKS: FINAL H (DECISION STATE) BASELINE",
+        "delta_delay": 1,
+        "is_shared": false,
+        "is_final_h": true,
+        "realized_return": 0.66,
+        "parent_choice_accuracy": 0.026666667,
+        "child_choice_inversion_rate": 0.10666667,
+        "indep_verify_accuracy": 0.76086956,
+        "arrow_sign_accuracy": 0.295,
+        "transposed_r_parent_acc": 0.10666667,
+        "transposed_r_return": 0.975,
+        "paired_trans_acc_drop": -0.08,
+        "paired_trans_ret_drop": -0.315,
+        "addressing_metrics": {
+          "query1_accuracy": 0.33333334,
+          "query2_accuracy": 0.33333334,
+          "q1_confusion_matrix": [
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "q2_confusion_matrix": [
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ]
+          ],
+          "mean_query_entropy": 0.03872998,
+          "arrow_sign_accuracy": 0.3,
+          "score_correlation_with_oracle": -0.009358222,
+          "true_weight_displacement": 19.560139
         },
         "is_competent_and_promoted": false
       },
@@ -3587,6 +4767,65 @@
         "is_competent_and_promoted": false
       },
       {
+        "condition_id": "delta_2_final",
+        "display_name": "DELTA = 2 BLANKS: FINAL H (DECISION STATE) BASELINE",
+        "delta_delay": 2,
+        "is_shared": false,
+        "is_final_h": true,
+        "realized_return": 0.975,
+        "parent_choice_accuracy": 0.10666667,
+        "child_choice_inversion_rate": 0.026666667,
+        "indep_verify_accuracy": 0.76086956,
+        "arrow_sign_accuracy": 0.335,
+        "transposed_r_parent_acc": 0.026666667,
+        "transposed_r_return": 0.66,
+        "paired_trans_acc_drop": 0.08,
+        "paired_trans_ret_drop": 0.315,
+        "addressing_metrics": {
+          "query1_accuracy": 0.28666666,
+          "query2_accuracy": 0.34,
+          "q1_confusion_matrix": [
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ]
+          ],
+          "q2_confusion_matrix": [
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "mean_query_entropy": 0.18237169,
+          "arrow_sign_accuracy": 0.30666667,
+          "score_correlation_with_oracle": 0.008839519,
+          "true_weight_displacement": 17.040888
+        },
+        "is_competent_and_promoted": false
+      },
+      {
         "condition_id": "delta_4_indep",
         "display_name": "DELTA = 4 BLANKS: PHASE H + INDEPENDENT HEADS",
         "delta_delay": 4,
@@ -3705,23 +4944,23 @@
         "is_competent_and_promoted": false
       },
       {
-        "condition_id": "final_h_unconstrained",
-        "display_name": "BASELINE: FINAL H (DECISION STATE) + INDEPENDENT HEADS",
-        "delta_delay": 0,
+        "condition_id": "delta_4_final",
+        "display_name": "DELTA = 4 BLANKS: FINAL H (DECISION STATE) BASELINE",
+        "delta_delay": 4,
         "is_shared": false,
         "is_final_h": true,
-        "realized_return": 0.31,
-        "parent_choice_accuracy": 0.22666667,
-        "child_choice_inversion_rate": 0.29333332,
-        "indep_verify_accuracy": 0.6304348,
-        "arrow_sign_accuracy": 0.355,
-        "transposed_r_parent_acc": 0.29333332,
-        "transposed_r_return": 0.45,
-        "paired_trans_acc_drop": -0.06666665,
-        "paired_trans_ret_drop": -0.13999999,
+        "realized_return": 0.975,
+        "parent_choice_accuracy": 0.10666667,
+        "child_choice_inversion_rate": 0.026666667,
+        "indep_verify_accuracy": 0.76086956,
+        "arrow_sign_accuracy": 0.335,
+        "transposed_r_parent_acc": 0.026666667,
+        "transposed_r_return": 0.66,
+        "paired_trans_acc_drop": 0.08,
+        "paired_trans_ret_drop": 0.315,
         "addressing_metrics": {
           "query1_accuracy": 0.28666666,
-          "query2_accuracy": 0.32666665,
+          "query2_accuracy": 0.34,
           "q1_confusion_matrix": [
             [
               0.0,
@@ -3741,25 +4980,25 @@
           ],
           "q2_confusion_matrix": [
             [
-              1.0,
               0.0,
-              0.0
+              0.0,
+              1.0
             ],
             [
-              1.0,
               0.0,
-              0.0
+              0.0,
+              1.0
             ],
             [
-              1.0,
               0.0,
-              0.0
+              0.0,
+              1.0
             ]
           ],
-          "mean_query_entropy": 0.5307799,
-          "arrow_sign_accuracy": 0.32,
-          "score_correlation_with_oracle": -0.04660789,
-          "true_weight_displacement": 17.39005
+          "mean_query_entropy": 0.18614085,
+          "arrow_sign_accuracy": 0.30666667,
+          "score_correlation_with_oracle": 0.008987353,
+          "true_weight_displacement": 17.39508
         },
         "is_competent_and_promoted": false
       }
@@ -3889,6 +5128,65 @@
         "is_competent_and_promoted": true
       },
       {
+        "condition_id": "delta_0_final",
+        "display_name": "DELTA = 0 BLANKS: FINAL H (DECISION STATE) BASELINE",
+        "delta_delay": 0,
+        "is_shared": false,
+        "is_final_h": true,
+        "realized_return": 1.175,
+        "parent_choice_accuracy": 0.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 1.0,
+        "arrow_sign_accuracy": 0.435,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": 1.175,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0,
+        "addressing_metrics": {
+          "query1_accuracy": 0.32666665,
+          "query2_accuracy": 0.44,
+          "q1_confusion_matrix": [
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ]
+          ],
+          "q2_confusion_matrix": [
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ]
+          ],
+          "mean_query_entropy": 0.18531127,
+          "arrow_sign_accuracy": 0.34,
+          "score_correlation_with_oracle": -0.1163084,
+          "true_weight_displacement": 11.548622
+        },
+        "is_competent_and_promoted": false
+      },
+      {
         "condition_id": "delta_1_indep",
         "display_name": "DELTA = 1 BLANKS: PHASE H + INDEPENDENT HEADS",
         "delta_delay": 1,
@@ -4003,6 +5301,65 @@
           "arrow_sign_accuracy": 0.5733333,
           "score_correlation_with_oracle": -0.40567988,
           "true_weight_displacement": 39.30787
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "condition_id": "delta_1_final",
+        "display_name": "DELTA = 1 BLANKS: FINAL H (DECISION STATE) BASELINE",
+        "delta_delay": 1,
+        "is_shared": false,
+        "is_final_h": true,
+        "realized_return": 0.38,
+        "parent_choice_accuracy": 0.17105263,
+        "child_choice_inversion_rate": 0.2236842,
+        "indep_verify_accuracy": 0.6557377,
+        "arrow_sign_accuracy": 0.335,
+        "transposed_r_parent_acc": 0.2236842,
+        "transposed_r_return": 0.695,
+        "paired_trans_acc_drop": -0.052631572,
+        "paired_trans_ret_drop": -0.315,
+        "addressing_metrics": {
+          "query1_accuracy": 0.32666665,
+          "query2_accuracy": 0.22666667,
+          "q1_confusion_matrix": [
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ]
+          ],
+          "q2_confusion_matrix": [
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              1.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "mean_query_entropy": 0.1327719,
+          "arrow_sign_accuracy": 0.34666666,
+          "score_correlation_with_oracle": -0.058557827,
+          "true_weight_displacement": 16.027817
         },
         "is_competent_and_promoted": false
       },
@@ -4125,6 +5482,65 @@
         "is_competent_and_promoted": false
       },
       {
+        "condition_id": "delta_2_final",
+        "display_name": "DELTA = 2 BLANKS: FINAL H (DECISION STATE) BASELINE",
+        "delta_delay": 2,
+        "is_shared": false,
+        "is_final_h": true,
+        "realized_return": -0.125,
+        "parent_choice_accuracy": 0.46052632,
+        "child_choice_inversion_rate": 0.35526314,
+        "indep_verify_accuracy": 0.19672132,
+        "arrow_sign_accuracy": 0.335,
+        "transposed_r_parent_acc": 0.35526314,
+        "transposed_r_return": -0.3,
+        "paired_trans_acc_drop": 0.10526317,
+        "paired_trans_ret_drop": 0.17500001,
+        "addressing_metrics": {
+          "query1_accuracy": 0.35333332,
+          "query2_accuracy": 0.33333334,
+          "q1_confusion_matrix": [
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              1.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "q2_confusion_matrix": [
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "mean_query_entropy": 0.5878111,
+          "arrow_sign_accuracy": 0.30666667,
+          "score_correlation_with_oracle": 0.12495532,
+          "true_weight_displacement": 8.464799
+        },
+        "is_competent_and_promoted": false
+      },
+      {
         "condition_id": "delta_4_indep",
         "display_name": "DELTA = 4 BLANKS: PHASE H + INDEPENDENT HEADS",
         "delta_delay": 4,
@@ -4243,37 +5659,37 @@
         "is_competent_and_promoted": true
       },
       {
-        "condition_id": "final_h_unconstrained",
-        "display_name": "BASELINE: FINAL H (DECISION STATE) + INDEPENDENT HEADS",
-        "delta_delay": 0,
+        "condition_id": "delta_4_final",
+        "display_name": "DELTA = 4 BLANKS: FINAL H (DECISION STATE) BASELINE",
+        "delta_delay": 4,
         "is_shared": false,
         "is_final_h": true,
-        "realized_return": 1.175,
-        "parent_choice_accuracy": 0.0,
-        "child_choice_inversion_rate": 0.0,
-        "indep_verify_accuracy": 1.0,
-        "arrow_sign_accuracy": 0.435,
-        "transposed_r_parent_acc": 0.0,
-        "transposed_r_return": 1.175,
-        "paired_trans_acc_drop": 0.0,
-        "paired_trans_ret_drop": 0.0,
+        "realized_return": -0.125,
+        "parent_choice_accuracy": 0.46052632,
+        "child_choice_inversion_rate": 0.35526314,
+        "indep_verify_accuracy": 0.19672132,
+        "arrow_sign_accuracy": 0.335,
+        "transposed_r_parent_acc": 0.35526314,
+        "transposed_r_return": -0.3,
+        "paired_trans_acc_drop": 0.10526317,
+        "paired_trans_ret_drop": 0.17500001,
         "addressing_metrics": {
-          "query1_accuracy": 0.32666665,
+          "query1_accuracy": 0.35333332,
           "query2_accuracy": 0.44,
           "q1_confusion_matrix": [
             [
-              0.0,
               1.0,
+              0.0,
               0.0
             ],
             [
-              0.0,
               1.0,
+              0.0,
               0.0
             ],
             [
-              0.0,
               1.0,
+              0.0,
               0.0
             ]
           ],
@@ -4294,10 +5710,10 @@
               0.0
             ]
           ],
-          "mean_query_entropy": 0.18531127,
-          "arrow_sign_accuracy": 0.34,
-          "score_correlation_with_oracle": -0.1163084,
-          "true_weight_displacement": 11.548622
+          "mean_query_entropy": 0.60411024,
+          "arrow_sign_accuracy": 0.30666667,
+          "score_correlation_with_oracle": 0.122476876,
+          "true_weight_displacement": 8.010663
         },
         "is_competent_and_promoted": false
       }
@@ -4427,6 +5843,65 @@
         "is_competent_and_promoted": true
       },
       {
+        "condition_id": "delta_0_final",
+        "display_name": "DELTA = 0 BLANKS: FINAL H (DECISION STATE) BASELINE",
+        "delta_delay": 0,
+        "is_shared": false,
+        "is_final_h": true,
+        "realized_return": 0.935,
+        "parent_choice_accuracy": 0.1369863,
+        "child_choice_inversion_rate": 0.08219178,
+        "indep_verify_accuracy": 0.6388889,
+        "arrow_sign_accuracy": 0.345,
+        "transposed_r_parent_acc": 0.08219178,
+        "transposed_r_return": 1.04,
+        "paired_trans_acc_drop": 0.05479452,
+        "paired_trans_ret_drop": -0.10499996,
+        "addressing_metrics": {
+          "query1_accuracy": 0.26666668,
+          "query2_accuracy": 0.36666667,
+          "q1_confusion_matrix": [
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "q2_confusion_matrix": [
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ]
+          ],
+          "mean_query_entropy": 0.3523326,
+          "arrow_sign_accuracy": 0.31333333,
+          "score_correlation_with_oracle": -0.012948645,
+          "true_weight_displacement": 15.489336
+        },
+        "is_competent_and_promoted": false
+      },
+      {
         "condition_id": "delta_1_indep",
         "display_name": "DELTA = 1 BLANKS: PHASE H + INDEPENDENT HEADS",
         "delta_delay": 1,
@@ -4541,6 +6016,65 @@
           "arrow_sign_accuracy": 0.35333332,
           "score_correlation_with_oracle": -0.5588679,
           "true_weight_displacement": 24.681484
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "condition_id": "delta_1_final",
+        "display_name": "DELTA = 1 BLANKS: FINAL H (DECISION STATE) BASELINE",
+        "delta_delay": 1,
+        "is_shared": false,
+        "is_final_h": true,
+        "realized_return": 0.95,
+        "parent_choice_accuracy": 0.15068494,
+        "child_choice_inversion_rate": 0.1369863,
+        "indep_verify_accuracy": 0.6944444,
+        "arrow_sign_accuracy": 0.33,
+        "transposed_r_parent_acc": 0.1369863,
+        "transposed_r_return": 0.95,
+        "paired_trans_acc_drop": 0.0136986375,
+        "paired_trans_ret_drop": 0.0,
+        "addressing_metrics": {
+          "query1_accuracy": 0.26666668,
+          "query2_accuracy": 0.32666665,
+          "q1_confusion_matrix": [
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "q2_confusion_matrix": [
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              1.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "mean_query_entropy": 0.44733205,
+          "arrow_sign_accuracy": 0.34,
+          "score_correlation_with_oracle": -0.052898664,
+          "true_weight_displacement": 16.236837
         },
         "is_competent_and_promoted": false
       },
@@ -4663,6 +6197,65 @@
         "is_competent_and_promoted": false
       },
       {
+        "condition_id": "delta_2_final",
+        "display_name": "DELTA = 2 BLANKS: FINAL H (DECISION STATE) BASELINE",
+        "delta_delay": 2,
+        "is_shared": false,
+        "is_final_h": true,
+        "realized_return": 0.935,
+        "parent_choice_accuracy": 0.1369863,
+        "child_choice_inversion_rate": 0.08219178,
+        "indep_verify_accuracy": 0.6388889,
+        "arrow_sign_accuracy": 0.345,
+        "transposed_r_parent_acc": 0.08219178,
+        "transposed_r_return": 1.04,
+        "paired_trans_acc_drop": 0.05479452,
+        "paired_trans_ret_drop": -0.10499996,
+        "addressing_metrics": {
+          "query1_accuracy": 0.26666668,
+          "query2_accuracy": 0.36666667,
+          "q1_confusion_matrix": [
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "q2_confusion_matrix": [
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ]
+          ],
+          "mean_query_entropy": 0.120925754,
+          "arrow_sign_accuracy": 0.31333333,
+          "score_correlation_with_oracle": -0.015788352,
+          "true_weight_displacement": 17.783587
+        },
+        "is_competent_and_promoted": false
+      },
+      {
         "condition_id": "delta_4_indep",
         "display_name": "DELTA = 4 BLANKS: PHASE H + INDEPENDENT HEADS",
         "delta_delay": 4,
@@ -4781,61 +6374,61 @@
         "is_competent_and_promoted": false
       },
       {
-        "condition_id": "final_h_unconstrained",
-        "display_name": "BASELINE: FINAL H (DECISION STATE) + INDEPENDENT HEADS",
-        "delta_delay": 0,
+        "condition_id": "delta_4_final",
+        "display_name": "DELTA = 4 BLANKS: FINAL H (DECISION STATE) BASELINE",
+        "delta_delay": 4,
         "is_shared": false,
         "is_final_h": true,
-        "realized_return": 0.935,
-        "parent_choice_accuracy": 0.1369863,
-        "child_choice_inversion_rate": 0.08219178,
+        "realized_return": 1.04,
+        "parent_choice_accuracy": 0.08219178,
+        "child_choice_inversion_rate": 0.1369863,
         "indep_verify_accuracy": 0.6388889,
-        "arrow_sign_accuracy": 0.345,
-        "transposed_r_parent_acc": 0.08219178,
-        "transposed_r_return": 1.04,
-        "paired_trans_acc_drop": 0.05479452,
-        "paired_trans_ret_drop": -0.10499996,
+        "arrow_sign_accuracy": 0.355,
+        "transposed_r_parent_acc": 0.1369863,
+        "transposed_r_return": 0.935,
+        "paired_trans_acc_drop": -0.05479452,
+        "paired_trans_ret_drop": 0.10499996,
         "addressing_metrics": {
-          "query1_accuracy": 0.26666668,
-          "query2_accuracy": 0.36666667,
+          "query1_accuracy": 0.3,
+          "query2_accuracy": 0.30666667,
           "q1_confusion_matrix": [
             [
               0.0,
-              0.0,
-              1.0
+              1.0,
+              0.0
             ],
             [
               0.0,
-              0.0,
-              1.0
+              1.0,
+              0.0
             ],
             [
               0.0,
-              0.0,
-              1.0
+              1.0,
+              0.0
             ]
           ],
           "q2_confusion_matrix": [
             [
               0.0,
-              1.0,
-              0.0
+              0.0,
+              1.0
             ],
             [
               0.0,
-              1.0,
-              0.0
+              0.0,
+              1.0
             ],
             [
               0.0,
-              1.0,
-              0.0
+              0.0,
+              1.0
             ]
           ],
-          "mean_query_entropy": 0.3523326,
-          "arrow_sign_accuracy": 0.31333333,
-          "score_correlation_with_oracle": -0.012948645,
-          "true_weight_displacement": 15.489336
+          "mean_query_entropy": 0.091682084,
+          "arrow_sign_accuracy": 0.30666667,
+          "score_correlation_with_oracle": 0.015714396,
+          "true_weight_displacement": 17.055752
         },
         "is_competent_and_promoted": false
       }
@@ -4965,6 +6558,65 @@
         "is_competent_and_promoted": true
       },
       {
+        "condition_id": "delta_0_final",
+        "display_name": "DELTA = 0 BLANKS: FINAL H (DECISION STATE) BASELINE",
+        "delta_delay": 0,
+        "is_shared": false,
+        "is_final_h": true,
+        "realized_return": 0.725,
+        "parent_choice_accuracy": 0.20833333,
+        "child_choice_inversion_rate": 0.2638889,
+        "indep_verify_accuracy": 0.7,
+        "arrow_sign_accuracy": 0.36,
+        "transposed_r_parent_acc": 0.2638889,
+        "transposed_r_return": 0.655,
+        "paired_trans_acc_drop": -0.055555567,
+        "paired_trans_ret_drop": 0.07000005,
+        "addressing_metrics": {
+          "query1_accuracy": 0.36,
+          "query2_accuracy": 0.36666667,
+          "q1_confusion_matrix": [
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ]
+          ],
+          "q2_confusion_matrix": [
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "mean_query_entropy": 0.45925954,
+          "arrow_sign_accuracy": 0.36,
+          "score_correlation_with_oracle": 0.21166131,
+          "true_weight_displacement": 12.190523
+        },
+        "is_competent_and_promoted": false
+      },
+      {
         "condition_id": "delta_1_indep",
         "display_name": "DELTA = 1 BLANKS: PHASE H + INDEPENDENT HEADS",
         "delta_delay": 1,
@@ -5079,6 +6731,65 @@
           "arrow_sign_accuracy": 0.7,
           "score_correlation_with_oracle": 0.3564791,
           "true_weight_displacement": 17.285295
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "condition_id": "delta_1_final",
+        "display_name": "DELTA = 1 BLANKS: FINAL H (DECISION STATE) BASELINE",
+        "delta_delay": 1,
+        "is_shared": false,
+        "is_final_h": true,
+        "realized_return": -0.065,
+        "parent_choice_accuracy": 0.5555556,
+        "child_choice_inversion_rate": 0.44444445,
+        "indep_verify_accuracy": 0.0,
+        "arrow_sign_accuracy": 0.355,
+        "transposed_r_parent_acc": 0.44444445,
+        "transposed_r_return": -0.205,
+        "paired_trans_acc_drop": 0.111111134,
+        "paired_trans_ret_drop": 0.14,
+        "addressing_metrics": {
+          "query1_accuracy": 0.38,
+          "query2_accuracy": 0.30666667,
+          "q1_confusion_matrix": [
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              1.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "q2_confusion_matrix": [
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ]
+          ],
+          "mean_query_entropy": 0.72621405,
+          "arrow_sign_accuracy": 0.31333333,
+          "score_correlation_with_oracle": -0.05905019,
+          "true_weight_displacement": 10.4497385
         },
         "is_competent_and_promoted": false
       },
@@ -5201,6 +6912,65 @@
         "is_competent_and_promoted": false
       },
       {
+        "condition_id": "delta_2_final",
+        "display_name": "DELTA = 2 BLANKS: FINAL H (DECISION STATE) BASELINE",
+        "delta_delay": 2,
+        "is_shared": false,
+        "is_final_h": true,
+        "realized_return": 0.265,
+        "parent_choice_accuracy": 0.41666666,
+        "child_choice_inversion_rate": 0.3611111,
+        "indep_verify_accuracy": 0.4,
+        "arrow_sign_accuracy": 0.39,
+        "transposed_r_parent_acc": 0.3611111,
+        "transposed_r_return": 0.265,
+        "paired_trans_acc_drop": 0.055555552,
+        "paired_trans_ret_drop": 0.0,
+        "addressing_metrics": {
+          "query1_accuracy": 0.38,
+          "query2_accuracy": 0.30666667,
+          "q1_confusion_matrix": [
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              1.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "q2_confusion_matrix": [
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ]
+          ],
+          "mean_query_entropy": 0.48871592,
+          "arrow_sign_accuracy": 0.30666667,
+          "score_correlation_with_oracle": -0.025671018,
+          "true_weight_displacement": 8.282795
+        },
+        "is_competent_and_promoted": false
+      },
+      {
         "condition_id": "delta_4_indep",
         "display_name": "DELTA = 4 BLANKS: PHASE H + INDEPENDENT HEADS",
         "delta_delay": 4,
@@ -5319,61 +7089,61 @@
         "is_competent_and_promoted": false
       },
       {
-        "condition_id": "final_h_unconstrained",
-        "display_name": "BASELINE: FINAL H (DECISION STATE) + INDEPENDENT HEADS",
-        "delta_delay": 0,
+        "condition_id": "delta_4_final",
+        "display_name": "DELTA = 4 BLANKS: FINAL H (DECISION STATE) BASELINE",
+        "delta_delay": 4,
         "is_shared": false,
         "is_final_h": true,
-        "realized_return": 0.725,
-        "parent_choice_accuracy": 0.20833333,
-        "child_choice_inversion_rate": 0.2638889,
-        "indep_verify_accuracy": 0.7,
-        "arrow_sign_accuracy": 0.36,
-        "transposed_r_parent_acc": 0.2638889,
-        "transposed_r_return": 0.655,
-        "paired_trans_acc_drop": -0.055555567,
-        "paired_trans_ret_drop": 0.07000005,
+        "realized_return": 0.265,
+        "parent_choice_accuracy": 0.41666666,
+        "child_choice_inversion_rate": 0.3611111,
+        "indep_verify_accuracy": 0.4,
+        "arrow_sign_accuracy": 0.39,
+        "transposed_r_parent_acc": 0.3611111,
+        "transposed_r_return": 0.265,
+        "paired_trans_acc_drop": 0.055555552,
+        "paired_trans_ret_drop": 0.0,
         "addressing_metrics": {
-          "query1_accuracy": 0.36,
-          "query2_accuracy": 0.36666667,
+          "query1_accuracy": 0.38,
+          "query2_accuracy": 0.30666667,
           "q1_confusion_matrix": [
             [
-              0.0,
               1.0,
+              0.0,
               0.0
             ],
             [
-              0.0,
               1.0,
+              0.0,
               0.0
             ],
             [
-              0.0,
               1.0,
+              0.0,
               0.0
             ]
           ],
           "q2_confusion_matrix": [
             [
               0.0,
-              0.0,
-              1.0
+              1.0,
+              0.0
             ],
             [
               0.0,
-              0.0,
-              1.0
+              1.0,
+              0.0
             ],
             [
               0.0,
-              0.0,
-              1.0
+              1.0,
+              0.0
             ]
           ],
-          "mean_query_entropy": 0.45925954,
-          "arrow_sign_accuracy": 0.36,
-          "score_correlation_with_oracle": 0.21166131,
-          "true_weight_displacement": 12.190523
+          "mean_query_entropy": 0.6349301,
+          "arrow_sign_accuracy": 0.30666667,
+          "score_correlation_with_oracle": -0.042239342,
+          "true_weight_displacement": 6.8211446
         },
         "is_competent_and_promoted": false
       }
@@ -5503,6 +7273,65 @@
         "is_competent_and_promoted": true
       },
       {
+        "condition_id": "delta_0_final",
+        "display_name": "DELTA = 0 BLANKS: FINAL H (DECISION STATE) BASELINE",
+        "delta_delay": 0,
+        "is_shared": false,
+        "is_final_h": true,
+        "realized_return": 0.65,
+        "parent_choice_accuracy": 0.10810811,
+        "child_choice_inversion_rate": 0.16216215,
+        "indep_verify_accuracy": 0.7297297,
+        "arrow_sign_accuracy": 0.305,
+        "transposed_r_parent_acc": 0.16216215,
+        "transposed_r_return": 0.86,
+        "paired_trans_acc_drop": -0.054054044,
+        "paired_trans_ret_drop": -0.21000004,
+        "addressing_metrics": {
+          "query1_accuracy": 0.40666667,
+          "query2_accuracy": 0.38666666,
+          "q1_confusion_matrix": [
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              1.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "q2_confusion_matrix": [
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ]
+          ],
+          "mean_query_entropy": 0.26328617,
+          "arrow_sign_accuracy": 0.41333333,
+          "score_correlation_with_oracle": 0.19492629,
+          "true_weight_displacement": 15.230572
+        },
+        "is_competent_and_promoted": false
+      },
+      {
         "condition_id": "delta_1_indep",
         "display_name": "DELTA = 1 BLANKS: PHASE H + INDEPENDENT HEADS",
         "delta_delay": 1,
@@ -5617,6 +7446,65 @@
           "arrow_sign_accuracy": 0.82666665,
           "score_correlation_with_oracle": 0.5143755,
           "true_weight_displacement": 29.869484
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "condition_id": "delta_1_final",
+        "display_name": "DELTA = 1 BLANKS: FINAL H (DECISION STATE) BASELINE",
+        "delta_delay": 1,
+        "is_shared": false,
+        "is_final_h": true,
+        "realized_return": 0.66,
+        "parent_choice_accuracy": 0.43243244,
+        "child_choice_inversion_rate": 0.2837838,
+        "indep_verify_accuracy": 1.0,
+        "arrow_sign_accuracy": 0.535,
+        "transposed_r_parent_acc": 0.2837838,
+        "transposed_r_return": 0.275,
+        "paired_trans_acc_drop": 0.14864865,
+        "paired_trans_ret_drop": 0.38500002,
+        "addressing_metrics": {
+          "query1_accuracy": 0.28,
+          "query2_accuracy": 0.38666666,
+          "q1_confusion_matrix": [
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ]
+          ],
+          "q2_confusion_matrix": [
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ]
+          ],
+          "mean_query_entropy": 0.5789651,
+          "arrow_sign_accuracy": 0.54,
+          "score_correlation_with_oracle": -0.18815728,
+          "true_weight_displacement": 58.455776
         },
         "is_competent_and_promoted": false
       },
@@ -5739,6 +7627,65 @@
         "is_competent_and_promoted": false
       },
       {
+        "condition_id": "delta_2_final",
+        "display_name": "DELTA = 2 BLANKS: FINAL H (DECISION STATE) BASELINE",
+        "delta_delay": 2,
+        "is_shared": false,
+        "is_final_h": true,
+        "realized_return": 0.65,
+        "parent_choice_accuracy": 0.10810811,
+        "child_choice_inversion_rate": 0.16216215,
+        "indep_verify_accuracy": 0.7297297,
+        "arrow_sign_accuracy": 0.305,
+        "transposed_r_parent_acc": 0.16216215,
+        "transposed_r_return": 0.86,
+        "paired_trans_acc_drop": -0.054054044,
+        "paired_trans_ret_drop": -0.21000004,
+        "addressing_metrics": {
+          "query1_accuracy": 0.40666667,
+          "query2_accuracy": 0.38666666,
+          "q1_confusion_matrix": [
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              1.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "q2_confusion_matrix": [
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ]
+          ],
+          "mean_query_entropy": 0.21730621,
+          "arrow_sign_accuracy": 0.41333333,
+          "score_correlation_with_oracle": 0.1993888,
+          "true_weight_displacement": 18.270159
+        },
+        "is_competent_and_promoted": false
+      },
+      {
         "condition_id": "delta_4_indep",
         "display_name": "DELTA = 4 BLANKS: PHASE H + INDEPENDENT HEADS",
         "delta_delay": 4,
@@ -5857,9 +7804,9 @@
         "is_competent_and_promoted": false
       },
       {
-        "condition_id": "final_h_unconstrained",
-        "display_name": "BASELINE: FINAL H (DECISION STATE) + INDEPENDENT HEADS",
-        "delta_delay": 0,
+        "condition_id": "delta_4_final",
+        "display_name": "DELTA = 4 BLANKS: FINAL H (DECISION STATE) BASELINE",
+        "delta_delay": 4,
         "is_shared": false,
         "is_final_h": true,
         "realized_return": 0.65,
@@ -5908,10 +7855,10 @@
               0.0
             ]
           ],
-          "mean_query_entropy": 0.26328617,
+          "mean_query_entropy": 0.045866378,
           "arrow_sign_accuracy": 0.41333333,
-          "score_correlation_with_oracle": 0.19492629,
-          "true_weight_displacement": 15.230572
+          "score_correlation_with_oracle": 0.20053515,
+          "true_weight_displacement": 20.311779
         },
         "is_competent_and_promoted": false
       }
@@ -6041,6 +7988,65 @@
         "is_competent_and_promoted": true
       },
       {
+        "condition_id": "delta_0_final",
+        "display_name": "DELTA = 0 BLANKS: FINAL H (DECISION STATE) BASELINE",
+        "delta_delay": 0,
+        "is_shared": false,
+        "is_final_h": true,
+        "realized_return": 1.285,
+        "parent_choice_accuracy": 0.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 1.0,
+        "arrow_sign_accuracy": 0.31,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": 1.285,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0,
+        "addressing_metrics": {
+          "query1_accuracy": 0.34,
+          "query2_accuracy": 0.38,
+          "q1_confusion_matrix": [
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ]
+          ],
+          "q2_confusion_matrix": [
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ]
+          ],
+          "mean_query_entropy": 0.051871702,
+          "arrow_sign_accuracy": 0.29333332,
+          "score_correlation_with_oracle": 0.19778799,
+          "true_weight_displacement": 13.815176
+        },
+        "is_competent_and_promoted": false
+      },
+      {
         "condition_id": "delta_1_indep",
         "display_name": "DELTA = 1 BLANKS: PHASE H + INDEPENDENT HEADS",
         "delta_delay": 1,
@@ -6155,6 +8161,65 @@
           "arrow_sign_accuracy": 0.38,
           "score_correlation_with_oracle": -0.49274382,
           "true_weight_displacement": 23.565388
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "condition_id": "delta_1_final",
+        "display_name": "DELTA = 1 BLANKS: FINAL H (DECISION STATE) BASELINE",
+        "delta_delay": 1,
+        "is_shared": false,
+        "is_final_h": true,
+        "realized_return": 0.995,
+        "parent_choice_accuracy": 0.13483146,
+        "child_choice_inversion_rate": 0.07865169,
+        "indep_verify_accuracy": 0.825,
+        "arrow_sign_accuracy": 0.35,
+        "transposed_r_parent_acc": 0.07865169,
+        "transposed_r_return": 0.925,
+        "paired_trans_acc_drop": 0.05617977,
+        "paired_trans_ret_drop": 0.06999999,
+        "addressing_metrics": {
+          "query1_accuracy": 0.38,
+          "query2_accuracy": 0.32666665,
+          "q1_confusion_matrix": [
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "q2_confusion_matrix": [
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              1.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "mean_query_entropy": 0.12549344,
+          "arrow_sign_accuracy": 0.26,
+          "score_correlation_with_oracle": -0.06638588,
+          "true_weight_displacement": 12.726566
         },
         "is_competent_and_promoted": false
       },
@@ -6277,6 +8342,65 @@
         "is_competent_and_promoted": false
       },
       {
+        "condition_id": "delta_2_final",
+        "display_name": "DELTA = 2 BLANKS: FINAL H (DECISION STATE) BASELINE",
+        "delta_delay": 2,
+        "is_shared": false,
+        "is_final_h": true,
+        "realized_return": 1.285,
+        "parent_choice_accuracy": 0.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 1.0,
+        "arrow_sign_accuracy": 0.31,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": 1.285,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0,
+        "addressing_metrics": {
+          "query1_accuracy": 0.28,
+          "query2_accuracy": 0.32666665,
+          "q1_confusion_matrix": [
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              1.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "q2_confusion_matrix": [
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              1.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "mean_query_entropy": 0.12985234,
+          "arrow_sign_accuracy": 0.29333332,
+          "score_correlation_with_oracle": -0.0048841494,
+          "true_weight_displacement": 11.579513
+        },
+        "is_competent_and_promoted": false
+      },
+      {
         "condition_id": "delta_4_indep",
         "display_name": "DELTA = 4 BLANKS: PHASE H + INDEPENDENT HEADS",
         "delta_delay": 4,
@@ -6395,23 +8519,23 @@
         "is_competent_and_promoted": false
       },
       {
-        "condition_id": "final_h_unconstrained",
-        "display_name": "BASELINE: FINAL H (DECISION STATE) + INDEPENDENT HEADS",
-        "delta_delay": 0,
+        "condition_id": "delta_4_final",
+        "display_name": "DELTA = 4 BLANKS: FINAL H (DECISION STATE) BASELINE",
+        "delta_delay": 4,
         "is_shared": false,
         "is_final_h": true,
-        "realized_return": 1.285,
-        "parent_choice_accuracy": 0.0,
-        "child_choice_inversion_rate": 0.0,
-        "indep_verify_accuracy": 1.0,
-        "arrow_sign_accuracy": 0.31,
-        "transposed_r_parent_acc": 0.0,
-        "transposed_r_return": 1.285,
-        "paired_trans_acc_drop": 0.0,
-        "paired_trans_ret_drop": 0.0,
+        "realized_return": -0.16,
+        "parent_choice_accuracy": 0.3258427,
+        "child_choice_inversion_rate": 0.46067417,
+        "indep_verify_accuracy": 0.175,
+        "arrow_sign_accuracy": 0.3,
+        "transposed_r_parent_acc": 0.46067417,
+        "transposed_r_return": 0.155,
+        "paired_trans_acc_drop": -0.13483146,
+        "paired_trans_ret_drop": -0.315,
         "addressing_metrics": {
           "query1_accuracy": 0.34,
-          "query2_accuracy": 0.38,
+          "query2_accuracy": 0.29333332,
           "q1_confusion_matrix": [
             [
               0.0,
@@ -6432,24 +8556,24 @@
           "q2_confusion_matrix": [
             [
               0.0,
-              1.0,
-              0.0
+              0.0,
+              1.0
             ],
             [
               0.0,
-              1.0,
-              0.0
+              0.0,
+              1.0
             ],
             [
               0.0,
-              1.0,
-              0.0
+              0.0,
+              1.0
             ]
           ],
-          "mean_query_entropy": 0.051871702,
-          "arrow_sign_accuracy": 0.29333332,
-          "score_correlation_with_oracle": 0.19778799,
-          "true_weight_displacement": 13.815176
+          "mean_query_entropy": 0.57913375,
+          "arrow_sign_accuracy": 0.36,
+          "score_correlation_with_oracle": -0.04186405,
+          "true_weight_displacement": 7.1191235
         },
         "is_competent_and_promoted": false
       }
@@ -6579,6 +8703,65 @@
         "is_competent_and_promoted": false
       },
       {
+        "condition_id": "delta_0_final",
+        "display_name": "DELTA = 0 BLANKS: FINAL H (DECISION STATE) BASELINE",
+        "delta_delay": 0,
+        "is_shared": false,
+        "is_final_h": true,
+        "realized_return": 0.34,
+        "parent_choice_accuracy": 0.18518518,
+        "child_choice_inversion_rate": 0.20987654,
+        "indep_verify_accuracy": 0.5106383,
+        "arrow_sign_accuracy": 0.33,
+        "transposed_r_parent_acc": 0.20987654,
+        "transposed_r_return": 0.655,
+        "paired_trans_acc_drop": -0.024691358,
+        "paired_trans_ret_drop": -0.31499997,
+        "addressing_metrics": {
+          "query1_accuracy": 0.35333332,
+          "query2_accuracy": 0.34,
+          "q1_confusion_matrix": [
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              1.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "q2_confusion_matrix": [
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "mean_query_entropy": 0.08445292,
+          "arrow_sign_accuracy": 0.34666666,
+          "score_correlation_with_oracle": 0.06832196,
+          "true_weight_displacement": 16.102774
+        },
+        "is_competent_and_promoted": false
+      },
+      {
         "condition_id": "delta_1_indep",
         "display_name": "DELTA = 1 BLANKS: PHASE H + INDEPENDENT HEADS",
         "delta_delay": 1,
@@ -6693,6 +8876,65 @@
           "arrow_sign_accuracy": 1.0,
           "score_correlation_with_oracle": 0.9972257,
           "true_weight_displacement": 23.678911
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "condition_id": "delta_1_final",
+        "display_name": "DELTA = 1 BLANKS: FINAL H (DECISION STATE) BASELINE",
+        "delta_delay": 1,
+        "is_shared": false,
+        "is_final_h": true,
+        "realized_return": 1.185,
+        "parent_choice_accuracy": 0.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 1.0,
+        "arrow_sign_accuracy": 0.355,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": 1.185,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0,
+        "addressing_metrics": {
+          "query1_accuracy": 0.34,
+          "query2_accuracy": 0.33333334,
+          "q1_confusion_matrix": [
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ]
+          ],
+          "q2_confusion_matrix": [
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ]
+          ],
+          "mean_query_entropy": 0.17874296,
+          "arrow_sign_accuracy": 0.30666667,
+          "score_correlation_with_oracle": -0.16079897,
+          "true_weight_displacement": 15.610602
         },
         "is_competent_and_promoted": false
       },
@@ -6815,6 +9057,65 @@
         "is_competent_and_promoted": false
       },
       {
+        "condition_id": "delta_2_final",
+        "display_name": "DELTA = 2 BLANKS: FINAL H (DECISION STATE) BASELINE",
+        "delta_delay": 2,
+        "is_shared": false,
+        "is_final_h": true,
+        "realized_return": 0.34,
+        "parent_choice_accuracy": 0.18518518,
+        "child_choice_inversion_rate": 0.20987654,
+        "indep_verify_accuracy": 0.5106383,
+        "arrow_sign_accuracy": 0.33,
+        "transposed_r_parent_acc": 0.20987654,
+        "transposed_r_return": 0.655,
+        "paired_trans_acc_drop": -0.024691358,
+        "paired_trans_ret_drop": -0.31499997,
+        "addressing_metrics": {
+          "query1_accuracy": 0.35333332,
+          "query2_accuracy": 0.34,
+          "q1_confusion_matrix": [
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              1.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "q2_confusion_matrix": [
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "mean_query_entropy": 0.59350204,
+          "arrow_sign_accuracy": 0.34666666,
+          "score_correlation_with_oracle": 0.072354555,
+          "true_weight_displacement": 13.854471
+        },
+        "is_competent_and_promoted": false
+      },
+      {
         "condition_id": "delta_4_indep",
         "display_name": "DELTA = 4 BLANKS: PHASE H + INDEPENDENT HEADS",
         "delta_delay": 4,
@@ -6933,23 +9234,23 @@
         "is_competent_and_promoted": false
       },
       {
-        "condition_id": "final_h_unconstrained",
-        "display_name": "BASELINE: FINAL H (DECISION STATE) + INDEPENDENT HEADS",
-        "delta_delay": 0,
+        "condition_id": "delta_4_final",
+        "display_name": "DELTA = 4 BLANKS: FINAL H (DECISION STATE) BASELINE",
+        "delta_delay": 4,
         "is_shared": false,
         "is_final_h": true,
-        "realized_return": 0.34,
-        "parent_choice_accuracy": 0.18518518,
-        "child_choice_inversion_rate": 0.20987654,
+        "realized_return": 0.655,
+        "parent_choice_accuracy": 0.20987654,
+        "child_choice_inversion_rate": 0.18518518,
         "indep_verify_accuracy": 0.5106383,
-        "arrow_sign_accuracy": 0.33,
-        "transposed_r_parent_acc": 0.20987654,
-        "transposed_r_return": 0.655,
-        "paired_trans_acc_drop": -0.024691358,
-        "paired_trans_ret_drop": -0.31499997,
+        "arrow_sign_accuracy": 0.315,
+        "transposed_r_parent_acc": 0.18518518,
+        "transposed_r_return": 0.34,
+        "paired_trans_acc_drop": 0.024691358,
+        "paired_trans_ret_drop": 0.31499997,
         "addressing_metrics": {
           "query1_accuracy": 0.35333332,
-          "query2_accuracy": 0.34,
+          "query2_accuracy": 0.32666665,
           "q1_confusion_matrix": [
             [
               1.0,
@@ -6969,25 +9270,25 @@
           ],
           "q2_confusion_matrix": [
             [
+              1.0,
               0.0,
-              0.0,
-              1.0
+              0.0
             ],
             [
+              1.0,
               0.0,
-              0.0,
-              1.0
+              0.0
             ],
             [
+              1.0,
               0.0,
-              0.0,
-              1.0
+              0.0
             ]
           ],
-          "mean_query_entropy": 0.08445292,
-          "arrow_sign_accuracy": 0.34666666,
-          "score_correlation_with_oracle": 0.06832196,
-          "true_weight_displacement": 16.102774
+          "mean_query_entropy": 0.39272252,
+          "arrow_sign_accuracy": 0.31333333,
+          "score_correlation_with_oracle": -0.0670338,
+          "true_weight_displacement": 13.713707
         },
         "is_competent_and_promoted": false
       }
@@ -7117,6 +9418,65 @@
         "is_competent_and_promoted": false
       },
       {
+        "condition_id": "delta_0_final",
+        "display_name": "DELTA = 0 BLANKS: FINAL H (DECISION STATE) BASELINE",
+        "delta_delay": 0,
+        "is_shared": false,
+        "is_final_h": true,
+        "realized_return": 0.875,
+        "parent_choice_accuracy": 0.13043478,
+        "child_choice_inversion_rate": 0.13043478,
+        "indep_verify_accuracy": 0.7297297,
+        "arrow_sign_accuracy": 0.335,
+        "transposed_r_parent_acc": 0.13043478,
+        "transposed_r_return": 0.875,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0,
+        "addressing_metrics": {
+          "query1_accuracy": 0.34666666,
+          "query2_accuracy": 0.31333333,
+          "q1_confusion_matrix": [
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ]
+          ],
+          "q2_confusion_matrix": [
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "mean_query_entropy": 0.3951391,
+          "arrow_sign_accuracy": 0.34666666,
+          "score_correlation_with_oracle": -0.046424475,
+          "true_weight_displacement": 15.553521
+        },
+        "is_competent_and_promoted": false
+      },
+      {
         "condition_id": "delta_1_indep",
         "display_name": "DELTA = 1 BLANKS: PHASE H + INDEPENDENT HEADS",
         "delta_delay": 1,
@@ -7231,6 +9591,65 @@
           "arrow_sign_accuracy": 1.0,
           "score_correlation_with_oracle": 0.9905286,
           "true_weight_displacement": 23.81086
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "condition_id": "delta_1_final",
+        "display_name": "DELTA = 1 BLANKS: FINAL H (DECISION STATE) BASELINE",
+        "delta_delay": 1,
+        "is_shared": false,
+        "is_final_h": true,
+        "realized_return": 0.875,
+        "parent_choice_accuracy": 0.13043478,
+        "child_choice_inversion_rate": 0.13043478,
+        "indep_verify_accuracy": 0.7297297,
+        "arrow_sign_accuracy": 0.335,
+        "transposed_r_parent_acc": 0.13043478,
+        "transposed_r_return": 0.875,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0,
+        "addressing_metrics": {
+          "query1_accuracy": 0.34666666,
+          "query2_accuracy": 0.35333332,
+          "q1_confusion_matrix": [
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ]
+          ],
+          "q2_confusion_matrix": [
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ]
+          ],
+          "mean_query_entropy": 0.42972443,
+          "arrow_sign_accuracy": 0.34666666,
+          "score_correlation_with_oracle": -0.050551236,
+          "true_weight_displacement": 15.586463
         },
         "is_competent_and_promoted": false
       },
@@ -7353,6 +9772,65 @@
         "is_competent_and_promoted": false
       },
       {
+        "condition_id": "delta_2_final",
+        "display_name": "DELTA = 2 BLANKS: FINAL H (DECISION STATE) BASELINE",
+        "delta_delay": 2,
+        "is_shared": false,
+        "is_final_h": true,
+        "realized_return": 1.225,
+        "parent_choice_accuracy": 0.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 1.0,
+        "arrow_sign_accuracy": 0.325,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": 1.225,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0,
+        "addressing_metrics": {
+          "query1_accuracy": 0.34666666,
+          "query2_accuracy": 0.35333332,
+          "q1_confusion_matrix": [
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ]
+          ],
+          "q2_confusion_matrix": [
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ]
+          ],
+          "mean_query_entropy": 0.15334404,
+          "arrow_sign_accuracy": 0.35333332,
+          "score_correlation_with_oracle": -0.041267037,
+          "true_weight_displacement": 14.244286
+        },
+        "is_competent_and_promoted": false
+      },
+      {
         "condition_id": "delta_4_indep",
         "display_name": "DELTA = 4 BLANKS: PHASE H + INDEPENDENT HEADS",
         "delta_delay": 4,
@@ -7471,61 +9949,61 @@
         "is_competent_and_promoted": false
       },
       {
-        "condition_id": "final_h_unconstrained",
-        "display_name": "BASELINE: FINAL H (DECISION STATE) + INDEPENDENT HEADS",
-        "delta_delay": 0,
+        "condition_id": "delta_4_final",
+        "display_name": "DELTA = 4 BLANKS: FINAL H (DECISION STATE) BASELINE",
+        "delta_delay": 4,
         "is_shared": false,
         "is_final_h": true,
         "realized_return": 0.875,
         "parent_choice_accuracy": 0.13043478,
         "child_choice_inversion_rate": 0.13043478,
         "indep_verify_accuracy": 0.7297297,
-        "arrow_sign_accuracy": 0.335,
+        "arrow_sign_accuracy": 0.33,
         "transposed_r_parent_acc": 0.13043478,
         "transposed_r_return": 0.875,
         "paired_trans_acc_drop": 0.0,
         "paired_trans_ret_drop": 0.0,
         "addressing_metrics": {
-          "query1_accuracy": 0.34666666,
-          "query2_accuracy": 0.31333333,
+          "query1_accuracy": 0.39333335,
+          "query2_accuracy": 0.35333332,
           "q1_confusion_matrix": [
             [
               0.0,
-              1.0,
-              0.0
+              0.0,
+              1.0
             ],
             [
               0.0,
-              1.0,
-              0.0
+              0.0,
+              1.0
             ],
             [
               0.0,
-              1.0,
-              0.0
+              0.0,
+              1.0
             ]
           ],
           "q2_confusion_matrix": [
             [
               0.0,
-              0.0,
-              1.0
+              1.0,
+              0.0
             ],
             [
               0.0,
-              0.0,
-              1.0
+              1.0,
+              0.0
             ],
             [
               0.0,
-              0.0,
-              1.0
+              1.0,
+              0.0
             ]
           ],
-          "mean_query_entropy": 0.3951391,
-          "arrow_sign_accuracy": 0.34666666,
-          "score_correlation_with_oracle": -0.046424475,
-          "true_weight_displacement": 15.553521
+          "mean_query_entropy": 0.18681571,
+          "arrow_sign_accuracy": 0.38,
+          "score_correlation_with_oracle": 0.05599661,
+          "true_weight_displacement": 16.340973
         },
         "is_competent_and_promoted": false
       }
@@ -7655,6 +10133,65 @@
         "is_competent_and_promoted": true
       },
       {
+        "condition_id": "delta_0_final",
+        "display_name": "DELTA = 0 BLANKS: FINAL H (DECISION STATE) BASELINE",
+        "delta_delay": 0,
+        "is_shared": false,
+        "is_final_h": true,
+        "realized_return": 0.765,
+        "parent_choice_accuracy": 0.23376623,
+        "child_choice_inversion_rate": 0.20779221,
+        "indep_verify_accuracy": 0.6304348,
+        "arrow_sign_accuracy": 0.35,
+        "transposed_r_parent_acc": 0.20779221,
+        "transposed_r_return": 0.59,
+        "paired_trans_acc_drop": 0.02597402,
+        "paired_trans_ret_drop": 0.17500001,
+        "addressing_metrics": {
+          "query1_accuracy": 0.37333333,
+          "query2_accuracy": 0.33333334,
+          "q1_confusion_matrix": [
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              1.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "q2_confusion_matrix": [
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "mean_query_entropy": 0.055352394,
+          "arrow_sign_accuracy": 0.30666667,
+          "score_correlation_with_oracle": -0.08236075,
+          "true_weight_displacement": 15.831386
+        },
+        "is_competent_and_promoted": false
+      },
+      {
         "condition_id": "delta_1_indep",
         "display_name": "DELTA = 1 BLANKS: PHASE H + INDEPENDENT HEADS",
         "delta_delay": 1,
@@ -7771,6 +10308,65 @@
           "true_weight_displacement": 24.44008
         },
         "is_competent_and_promoted": true
+      },
+      {
+        "condition_id": "delta_1_final",
+        "display_name": "DELTA = 1 BLANKS: FINAL H (DECISION STATE) BASELINE",
+        "delta_delay": 1,
+        "is_shared": false,
+        "is_final_h": true,
+        "realized_return": 1.315,
+        "parent_choice_accuracy": 0.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 1.0,
+        "arrow_sign_accuracy": 0.345,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": 1.315,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0,
+        "addressing_metrics": {
+          "query1_accuracy": 0.36,
+          "query2_accuracy": 0.33333334,
+          "q1_confusion_matrix": [
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "q2_confusion_matrix": [
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "mean_query_entropy": 0.25309974,
+          "arrow_sign_accuracy": 0.34,
+          "score_correlation_with_oracle": 0.19358058,
+          "true_weight_displacement": 12.153497
+        },
+        "is_competent_and_promoted": false
       },
       {
         "condition_id": "delta_2_indep",
@@ -7891,6 +10487,65 @@
         "is_competent_and_promoted": true
       },
       {
+        "condition_id": "delta_2_final",
+        "display_name": "DELTA = 2 BLANKS: FINAL H (DECISION STATE) BASELINE",
+        "delta_delay": 2,
+        "is_shared": false,
+        "is_final_h": true,
+        "realized_return": 1.315,
+        "parent_choice_accuracy": 0.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 1.0,
+        "arrow_sign_accuracy": 0.345,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": 1.315,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0,
+        "addressing_metrics": {
+          "query1_accuracy": 0.36,
+          "query2_accuracy": 0.33333334,
+          "q1_confusion_matrix": [
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "q2_confusion_matrix": [
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "mean_query_entropy": 0.04992466,
+          "arrow_sign_accuracy": 0.34,
+          "score_correlation_with_oracle": 0.11971019,
+          "true_weight_displacement": 17.81914
+        },
+        "is_competent_and_promoted": false
+      },
+      {
         "condition_id": "delta_4_indep",
         "display_name": "DELTA = 4 BLANKS: PHASE H + INDEPENDENT HEADS",
         "delta_delay": 4,
@@ -8009,38 +10664,38 @@
         "is_competent_and_promoted": true
       },
       {
-        "condition_id": "final_h_unconstrained",
-        "display_name": "BASELINE: FINAL H (DECISION STATE) + INDEPENDENT HEADS",
-        "delta_delay": 0,
+        "condition_id": "delta_4_final",
+        "display_name": "DELTA = 4 BLANKS: FINAL H (DECISION STATE) BASELINE",
+        "delta_delay": 4,
         "is_shared": false,
         "is_final_h": true,
-        "realized_return": 0.765,
-        "parent_choice_accuracy": 0.23376623,
-        "child_choice_inversion_rate": 0.20779221,
-        "indep_verify_accuracy": 0.6304348,
-        "arrow_sign_accuracy": 0.35,
-        "transposed_r_parent_acc": 0.20779221,
-        "transposed_r_return": 0.59,
-        "paired_trans_acc_drop": 0.02597402,
-        "paired_trans_ret_drop": 0.17500001,
+        "realized_return": 1.315,
+        "parent_choice_accuracy": 0.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 1.0,
+        "arrow_sign_accuracy": 0.345,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": 1.315,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0,
         "addressing_metrics": {
-          "query1_accuracy": 0.37333333,
+          "query1_accuracy": 0.36,
           "query2_accuracy": 0.33333334,
           "q1_confusion_matrix": [
             [
-              1.0,
               0.0,
-              0.0
+              0.0,
+              1.0
             ],
             [
-              1.0,
               0.0,
-              0.0
+              0.0,
+              1.0
             ],
             [
-              1.0,
               0.0,
-              0.0
+              0.0,
+              1.0
             ]
           ],
           "q2_confusion_matrix": [
@@ -8060,10 +10715,10 @@
               1.0
             ]
           ],
-          "mean_query_entropy": 0.055352394,
-          "arrow_sign_accuracy": 0.30666667,
-          "score_correlation_with_oracle": -0.08236075,
-          "true_weight_displacement": 15.831386
+          "mean_query_entropy": 0.13482939,
+          "arrow_sign_accuracy": 0.34,
+          "score_correlation_with_oracle": 0.13412882,
+          "true_weight_displacement": 14.476507
         },
         "is_competent_and_promoted": false
       }
@@ -8193,6 +10848,65 @@
         "is_competent_and_promoted": true
       },
       {
+        "condition_id": "delta_0_final",
+        "display_name": "DELTA = 0 BLANKS: FINAL H (DECISION STATE) BASELINE",
+        "delta_delay": 0,
+        "is_shared": false,
+        "is_final_h": true,
+        "realized_return": 1.185,
+        "parent_choice_accuracy": 0.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 1.0,
+        "arrow_sign_accuracy": 0.275,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": 1.185,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0,
+        "addressing_metrics": {
+          "query1_accuracy": 0.37333333,
+          "query2_accuracy": 0.29333332,
+          "q1_confusion_matrix": [
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "q2_confusion_matrix": [
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "mean_query_entropy": 0.067079246,
+          "arrow_sign_accuracy": 0.37333333,
+          "score_correlation_with_oracle": 0.057812314,
+          "true_weight_displacement": 13.170331
+        },
+        "is_competent_and_promoted": false
+      },
+      {
         "condition_id": "delta_1_indep",
         "display_name": "DELTA = 1 BLANKS: PHASE H + INDEPENDENT HEADS",
         "delta_delay": 1,
@@ -8311,6 +11025,65 @@
         "is_competent_and_promoted": true
       },
       {
+        "condition_id": "delta_1_final",
+        "display_name": "DELTA = 1 BLANKS: FINAL H (DECISION STATE) BASELINE",
+        "delta_delay": 1,
+        "is_shared": false,
+        "is_final_h": true,
+        "realized_return": 0.965,
+        "parent_choice_accuracy": 0.07777778,
+        "child_choice_inversion_rate": 0.07777778,
+        "indep_verify_accuracy": 0.8684211,
+        "arrow_sign_accuracy": 0.29,
+        "transposed_r_parent_acc": 0.07777778,
+        "transposed_r_return": 0.93,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.034999967,
+        "addressing_metrics": {
+          "query1_accuracy": 0.35333332,
+          "query2_accuracy": 0.29333332,
+          "q1_confusion_matrix": [
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              1.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "q2_confusion_matrix": [
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "mean_query_entropy": 0.16607194,
+          "arrow_sign_accuracy": 0.35333332,
+          "score_correlation_with_oracle": -0.016764667,
+          "true_weight_displacement": 13.748616
+        },
+        "is_competent_and_promoted": false
+      },
+      {
         "condition_id": "delta_2_indep",
         "display_name": "DELTA = 2 BLANKS: PHASE H + INDEPENDENT HEADS",
         "delta_delay": 2,
@@ -8425,6 +11198,65 @@
           "arrow_sign_accuracy": 0.5,
           "score_correlation_with_oracle": -0.28832197,
           "true_weight_displacement": 35.312588
+        },
+        "is_competent_and_promoted": false
+      },
+      {
+        "condition_id": "delta_2_final",
+        "display_name": "DELTA = 2 BLANKS: FINAL H (DECISION STATE) BASELINE",
+        "delta_delay": 2,
+        "is_shared": false,
+        "is_final_h": true,
+        "realized_return": 1.185,
+        "parent_choice_accuracy": 0.0,
+        "child_choice_inversion_rate": 0.0,
+        "indep_verify_accuracy": 1.0,
+        "arrow_sign_accuracy": 0.275,
+        "transposed_r_parent_acc": 0.0,
+        "transposed_r_return": 1.185,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0,
+        "addressing_metrics": {
+          "query1_accuracy": 0.35333332,
+          "query2_accuracy": 0.34666666,
+          "q1_confusion_matrix": [
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              1.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "q2_confusion_matrix": [
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              1.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "mean_query_entropy": 0.17047912,
+          "arrow_sign_accuracy": 0.37333333,
+          "score_correlation_with_oracle": -0.012902806,
+          "true_weight_displacement": 10.95988
         },
         "is_competent_and_promoted": false
       },
@@ -8547,61 +11379,61 @@
         "is_competent_and_promoted": false
       },
       {
-        "condition_id": "final_h_unconstrained",
-        "display_name": "BASELINE: FINAL H (DECISION STATE) + INDEPENDENT HEADS",
-        "delta_delay": 0,
+        "condition_id": "delta_4_final",
+        "display_name": "DELTA = 4 BLANKS: FINAL H (DECISION STATE) BASELINE",
+        "delta_delay": 4,
         "is_shared": false,
         "is_final_h": true,
-        "realized_return": 1.185,
-        "parent_choice_accuracy": 0.0,
-        "child_choice_inversion_rate": 0.0,
-        "indep_verify_accuracy": 1.0,
-        "arrow_sign_accuracy": 0.275,
-        "transposed_r_parent_acc": 0.0,
-        "transposed_r_return": 1.185,
-        "paired_trans_acc_drop": 0.0,
-        "paired_trans_ret_drop": 0.0,
+        "realized_return": 0.39,
+        "parent_choice_accuracy": 0.26666668,
+        "child_choice_inversion_rate": 0.25555557,
+        "indep_verify_accuracy": 0.5263158,
+        "arrow_sign_accuracy": 0.35,
+        "transposed_r_parent_acc": 0.25555557,
+        "transposed_r_return": 0.355,
+        "paired_trans_acc_drop": 0.01111111,
+        "paired_trans_ret_drop": 0.034999996,
         "addressing_metrics": {
-          "query1_accuracy": 0.37333333,
-          "query2_accuracy": 0.29333332,
+          "query1_accuracy": 0.35333332,
+          "query2_accuracy": 0.36,
           "q1_confusion_matrix": [
             [
+              1.0,
               0.0,
-              0.0,
-              1.0
+              0.0
             ],
             [
+              1.0,
               0.0,
-              0.0,
-              1.0
+              0.0
             ],
             [
+              1.0,
               0.0,
-              0.0,
-              1.0
+              0.0
             ]
           ],
           "q2_confusion_matrix": [
             [
               0.0,
-              0.0,
-              1.0
+              1.0,
+              0.0
             ],
             [
               0.0,
-              0.0,
-              1.0
+              1.0,
+              0.0
             ],
             [
               0.0,
-              0.0,
-              1.0
+              1.0,
+              0.0
             ]
           ],
-          "mean_query_entropy": 0.067079246,
-          "arrow_sign_accuracy": 0.37333333,
-          "score_correlation_with_oracle": 0.057812314,
-          "true_weight_displacement": 13.170331
+          "mean_query_entropy": 0.56805605,
+          "arrow_sign_accuracy": 0.38666666,
+          "score_correlation_with_oracle": 0.06478914,
+          "true_weight_displacement": 7.3833313
         },
         "is_competent_and_promoted": false
       }
