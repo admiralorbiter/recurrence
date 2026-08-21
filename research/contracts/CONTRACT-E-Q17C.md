@@ -2,7 +2,7 @@
 contract_id: CONTRACT-E-Q17C
 status: DRAFT
 proposed_by: antigravity
-design_review: null
+design_review: APPROVED
 reviewed_by: chatgpt-pro
 authorized_by: null
 base_sha: 1cb1ccce3df3f2ebfef7d53399d1f5dc242b7f0d
@@ -13,7 +13,7 @@ exclusive_gpu: false
 interruptible: true
 ---
 
-# Research Contract Proposal: CONTRACT-E-Q17C
+# Research Contract Proposal: CONTRACT-E-Q17C (Hardened)
 
 ## Title
 Gate E Frontier: Endogenous Recurrent Causal History & Latent State Surgery for Zero-Shot Composition
@@ -37,62 +37,88 @@ Can the causal history required for previously validated two-hop composition be 
 
 ---
 
-## 2. Canonical State Decomposition & Scaffolding Invariant
+## 2. Recurrent Mechanism & Auxiliary Meta-Training
+
+### Architectural Formulation
+1. **Recurrent State Update**:
+   $$z(t+1) = g_\theta(z(t), x(t))$$
+   where $x(t)$ contains **ONLY** the current local transition observation $(s_t, a_t, s_{t+1})$. Past history $x(1:t-1)$ is strictly unavailable except insofar as represented dynamically within $z(t)$.
+2. **Composition Readout**:
+   $$m = r_\theta(z(t), q_{\text{current}})$$
+   where $q_{\text{current}}$ is the active test query and $m$ is the continuous directional composition margin:
+   $$m = \text{score}(A \to C) - \text{score}(C \to A)$$
+
+### Scaffolding Invariant: Weights vs. Activations
+- **Synaptic Weights ($\theta$)**: Pre-trained **exclusively on auxiliary synthetic worlds** using the Q17B self-supervised trajectory future-outcome objective.
+- **Sealed Test Isolation**: Test-world $A/B/C$ developmental histories **NEVER update $\theta$**.
+- **Epistemic Principle**: *"Weights learn how to remember; activations remember this particular life."*
+
+---
+
+## 3. Structural Zero-Sidecar Enforcement
 
 Under the canonical Recurrence state decomposition ($z_t, M_t, \theta_t, C_t, E_t$):
 - **$z_t$ (Latent Recurrent Activation State)**: Allowed to accumulate and carry development-specific trajectory history.
 - **$M_t$ (Explicit Memory Buffer)**: $\equiv \emptyset$ (strictly disabled / empty).
-- **$\theta_t$ (Synaptic Weights)**: Fixed during test-world evaluation. Pre-trained across auxiliary meta-training worlds so the network learns the recurrent memory algorithm ("weights learn how to remember; activations remember this life").
+- **$\theta_t$ (Synaptic Weights)**: Fixed during test-world evaluation.
 - **$C_t$ (Transient Computational State)**: Flushed between active decision steps.
 - **$E_{\text{sidecar}}$ (External Causal Table)**: **STRICTLY PROHIBITED**.
 
-### Nasty Fail-Fast Rule (Scaffolding Elimination Invariant)
-No accumulated pairwise causal table, adjacency matrix, provenance sidecar, episode summary, explicit memory buffer, replay buffer, or query-time reconstruction of developmental history may persist outside $z_t$. The runner and verifier must fail closed if any external history data structure is accessed during evaluation query steps.
+### Structural API Invariant
+The test-time query interface must strictly adhere to:
+```rust
+fn query(z: &RecurrentState, current_obs: &Observation, weights: &ModelWeights) -> ReadoutMargin;
+```
+No developmental history object, episode buffer, adjacency matrix, or transition ledger is in scope or accessible. Any query-time attempt to access external historical logs throws and immediately fails closed.
 
 ---
 
-## 3. Four Core Experimental Conditions & State Surgery Assays
+## 4. Matched-Twin Experimental Assays & State Surgery
 
-Holding the validated $A \to B \to C$ two-hop task and evaluation challenge episodes fixed, the organism is evaluated across four distinct activation conditions:
+Holding the validated $A \to B \to C$ two-hop task and challenge episodes fixed, cloned twin organisms (identical $\theta$, initial $z_0$, action menus, marginal experience distributions, and episode lengths) are evaluated across four decisive conditions:
 
-### 1. Persistent Recurrent State ($z_{\text{persistent}}$)
-- The organism undergoes sequential developmental trajectory experience in the test environment, accumulating history into $z_t$.
-- At query time, given visible local cues, the organism must execute two-hop conflict resolution and laundering discrimination directly from $z_t$.
+### 1. Persistent State ($z_{\text{persistent}}$)
+- Organism undergoes sequential developmental trajectory experience in the test environment, accumulating history into $z_t$.
+- Evaluates zero-shot multi-hop conflict resolution and laundering discrimination directly from $z_t$.
 
-### 2. Latent Reset Control ($z_t \to z_0$)
-- Following identical developmental exposure, the hidden state is mechanically reset to baseline $z_0$ prior to the test query.
-- Proves that composition performance depends causally on recurrent activation history rather than static weights $\theta$ or visible environment affordances. Performance must collapse to chance.
+### 2. Latent Reset ($z_t \to z_0$)
+- Hidden state is mechanically reset to $z_0$ prior to the test query.
+- Proves performance causally depends on recurrent activation history rather than static weights $\theta$ or visible affordances. Performance must drop near chance.
 
-### 3. Matched-History State Swap Assay ($z_{H1} \leftrightarrow z_{H2}$)
-- Two matched organisms develop under divergent causal histories:
-  - Organism 1 undergoes History $H_1$: $A \to B \to C$ (directional reachability $A \leadsto C$).
-  - Organism 2 undergoes History $H_2$: $C \to B \to A$ (directional reachability $C \leadsto A$).
-- At test time, both organisms receive **identical convergent current cues**.
-- State surgery performs an exact hidden state swap: $z_{H1} \leftrightarrow z_{H2}$.
-- Asserts that swapping $z_t$ causally transfers the history-dependent directional choice ($P(\text{Action}_1 \mid z_{H1}) \neq P(\text{Action}_1 \mid z_{H2})$ and moves with the transplanted state).
+### 3. Matched-History State Swap ($z_{H1} \leftrightarrow z_{H2}$)
+- Evaluates two matched twin organisms developed under divergent causal histories:
+  - **History $H_1$**: $A \to B \to C$ (directional reachability $A \leadsto C \implies z_{H1}$).
+  - **History $H_2$**: $C \to B \to A$ (directional reachability $C \leadsto A \implies z_{H2}$).
+- Both organisms receive **identical convergent current cues** at test time.
+- State surgery performs an exact latent swap: $z_{H1} \leftrightarrow z_{H2}$.
+- Asserts that swapping $z_t$ causally transfers the history-dependent directional choice:
+  - Organism 1 ($H_1$) with donor $z_{H2} \implies$ exhibits reverse preference ($C \leadsto A$).
+  - Organism 2 ($H_2$) with donor $z_{H1} \implies$ exhibits forward preference ($A \leadsto C$).
 
-### 4. Matched Shuffled-History Control ($z_{\text{shuffled}}$)
-- An organism is exposed to temporally shuffled transitions with identical marginal statistics.
-- Proves that internal recurrent organization in $z_t$ encodes true sequential causal ordering rather than non-specific activation energy or scalar familiarity.
+### 4. Same-History State Swap & Specificity Controls
+- **Same-History Swap**: Swapping hidden states between identical-history clones ($z_{H1,\text{clone } A} \leftrightarrow z_{H1,\text{clone } B}$) maintains behavioral stability.
+- **Competence Preservation**: State reset or swap must not globally impair unrelated contemporaneous first-order task performance (proving selective memory surgery rather than generalized network damage).
+- **Matched Shuffled-History Control ($z_{\text{shuffled}}$)**: Exposure to temporally shuffled transitions with identical marginal statistics confirms sequential causal organization.
 
 ---
 
-## 4. Frozen Acceptance Criteria & Statistical Gates
+## 5. Frozen Acceptance Criteria & Exact Statistical Gates
 
 | Gate / Estimand | Formal Definition & Evaluated Condition | Pre-registered Acceptance Threshold |
 | :--- | :--- | :--- |
 | **Gate 1: Endogenous Two-Hop Conflict** | Conflict resolution accuracy with persistent $z_t$ and zero external sidecars | $\ge 10/16$ seeds ($62.5\%$) |
 | **Gate 2: Endogenous Laundering Discrimination** | Laundering discrimination accuracy with persistent $z_t$ | $\ge 10/16$ seeds ($62.5\%$) |
-| **Gate 3: Latent Reset Lesion Effect** | Performance drop under $z_t \to z_0$: $a_{\text{persistent}} - a_{\text{reset}}$ | $\Delta a \ge 0.40$ in $\ge 12/16$ seeds ($p < 0.01$) |
-| **Gate 4: Causal State Swap Transfer** | Behavioral transfer under $z_{H1} \leftrightarrow z_{H2}$ in convergent-cue assay | $\ge 12/16$ seeds predict transfer ($p < 0.01$) |
+| **Gate 3: Continuous Latent Reset Lesion Effect** | Continuous margin drop $\Delta_{\text{reset}} = m_{\text{persistent}} - m_{\text{reset}}$ with reset approaching chance ($7\text{--}9/16$) | Exact 16-seed paired sign-flip $p < 0.01$ |
+| **Gate 4: Continuous Donor-State Swap Transfer** | Behavioral transfer ($\ge 12/16$ seeds) and continuous effect $\Delta_{\text{swap}} = m_{\text{recipient with donor } z} - m_{\text{recipient with own } z}$ | Exact 16-seed paired sign-flip $p < 0.01$ |
 | **Gate 5: Temporal Shuffle Control Superiority** | McNemar paired superiority over matched $z_{\text{shuffled}}$ control | $n_{10} - n_{01} \ge 3, p < 0.05$ |
-| **Gate 6: Zero-Sidecar Invariant** | Verification that no external matrix $E$ or replay buffer was allocated | $\equiv 0$ sidecar accesses ($100\%$ verified) |
+| **Gate 6: Structural Zero-Sidecar Invariant** | Verification that query interface received only $(z_t, q_{\text{current}}, \theta)$ with zero sidecar accesses | $\equiv 0$ sidecar accesses ($100\%$ verified) |
 
 ---
 
-## 5. Epistemic Boundaries & Strict Claim Ceiling
-- **Claim**: Development-specific causal history can be encoded in persistent recurrent activation state $z_t$ and exert causal control over previously validated composition-dependent behavior, without an external causal-history store.
+## 6. Pre-Sealing Protocol & Epistemic Scope Ceilings
+- **Pre-Sealing**: Architecture, hidden-state dimension ($d=128$), optimizer, stopping rules, auxiliary meta-training worlds, and state surgery protocols must be frozen before opening test-world histories.
+- **Claim Ceiling**: Development-specific causal history can be encoded in persistent recurrent activation state $z_t$ and exert causal control over previously validated composition-dependent behavior, without an external causal-history store.
 - **Exclusions**:
-  - Does NOT claim arbitrary $N$-hop graph reasoning ($N \ge 3$ is reserved for Q17D).
+  - Does NOT claim an abstract causal self-model or symbolic reasoning engine.
+  - Does NOT claim arbitrary $N$-hop graph reasoning ($N \ge 3$ reserved for Q17D).
   - Does NOT claim long-horizon autobiographical memory consolidation across competing multi-day task interference (reserved for Q17E).
-  - Does NOT claim autonomous discovery of composition architecture.
