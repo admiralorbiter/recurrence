@@ -279,6 +279,7 @@ fn verify_reinforce_gradient_finite_difference() {
         let rel_diff = diff / (analytic_grad.abs() + 1e-6);
         assert!(diff < 0.05 && rel_diff < 0.005, "REINFORCE finite difference verification failed for action {}: analytic={}, fd={}, diff={}, rel={}", a, analytic_grad, fd_grad, diff, rel_diff);
     }
+    println!("-> REINFORCE exact analytic gradient successfully verified against finite differences (diff < 0.05, rel_diff < 0.005).");
 }
 
 fn sample_random_directional_dag(rng: &mut ChaCha8Rng) -> DirectionalDAG {

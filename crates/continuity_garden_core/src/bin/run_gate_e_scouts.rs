@@ -2,7 +2,7 @@
 
 use continuity_garden_core::estimand_lineage::EstimandLineage;
 use continuity_garden_core::provenance_kernel::{ProvenanceEventTape, ProvenanceGardenEnv, ProvenanceObservation, SourceType};
-use continuity_garden_core::provenance_oracle::ProvenanceOracle;
+use continuity_garden_core::provenance_oracle::IdealLearnedSourceOracle;
 use continuity_garden_core::trainer::{fit_and_eval_ridge, solve_linear_system};
 use rand::{Rng, SeedableRng};
 use rand_chacha::ChaCha8Rng;
@@ -399,8 +399,8 @@ fn train_and_eval_scout_e0b(
     let n_disc = disc_targets.len() / 2;
     let (r2_avail, u_construct) = if n_disc >= 10 {
         let d = disc_h[0].len();
-        let mut mean_h = vec![0.0; d];
-        let mut std_h = vec![0.0; d];
+        let mut mean_h: Vec<f32> = vec![0.0f32; d];
+        let mut std_h: Vec<f32> = vec![0.0f32; d];
         for row in &disc_h[..n_disc] { for i in 0..d { mean_h[i] += row[i]; } }
         for i in 0..d { mean_h[i] /= n_disc as f32; }
         for row in &disc_h[..n_disc] { for i in 0..d { std_h[i] += (row[i] - mean_h[i]).powi(2); } }
@@ -412,8 +412,8 @@ fn train_and_eval_scout_e0b(
         }
 
         let r2 = fit_and_eval_ridge(&norm_h[..n_disc], &disc_targets[..n_disc], &norm_h[n_disc..], &disc_targets[n_disc..], 10.0);
-        let mut a_mat = vec![0.0; d * d];
-        let mut b_vec = vec![0.0; d];
+        let mut a_mat: Vec<f32> = vec![0.0f32; d * d];
+        let mut b_vec: Vec<f32> = vec![0.0f32; d];
         for s in 0..n_disc {
             let xs = &norm_h[s];
             let y = disc_targets[s];

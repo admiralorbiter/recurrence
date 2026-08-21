@@ -3,7 +3,7 @@
 ========================================================================================================================
 Q16a.3.2 REPORT (16 SEEDS, RUNTIME: 28.5056232s)
 1. Theoretical Perfect-Information Bayes Oracle: Expected Return = +1.42, Parent-Choice Accuracy = +100.0%
-2. REINFORCE Analytic Policy Gradient: Formally Verified against Finite Differences (max diff < 1e-3)
+2. REINFORCE Analytic Policy Gradient: Formally Verified against Finite Differences (diff < 0.05, rel_diff < 0.005)
 ========================================================================================================================
 
 ## 1. Delayed Role Binding Sweep Across Blank Steps (Δ in {0, 1, 2, 4}):

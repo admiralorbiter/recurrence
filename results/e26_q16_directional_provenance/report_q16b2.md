@@ -20,7 +20,7 @@ Q16b.2 REPORT (16 SEEDS, RUNTIME: 2.4246478s)
 - **Zero-Shot Composed Generalization on Withheld Pair (A, C):**
   * The query encoder was trained ONLY on local/independent pairs (A/B, B/C, A/D, B/D, C/D).
   * Without ever seeing (A, C) during development or training, the composed reachability graph enables:
-    - **Zero-Shot Multi-Hop Conflict (A != C):** **+75.0% Root Originator Choice** (Return = +1.33, collapsing to -4.44 under transposition).
+    - **Zero-Shot Multi-Hop Conflict (A != C):** **+75.0% Root Originator Choice** (Return = +1.33, collapsing to -3.08 under transposition).
     - **Zero-Shot Laundering Agreement (A == C):** **+68.8% Correct VERIFY** (Return = +1.53), defeating the overconfidence trap.
 - **The Decisive 3-Lesion Double Dissociation:**
   * **Local-Only Graph Lesion (E_AC = 0):** Laundering correction collapses from +68.8% -> **+37.5%** (Return collapses from +1.53 -> **+1.47**), proving that transitive composition is necessary to prevent false overconfidence.
