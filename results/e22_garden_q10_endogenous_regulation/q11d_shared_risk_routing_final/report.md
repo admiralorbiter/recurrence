@@ -20,6 +20,8 @@ SYNCHRONIZATION REPORT: GATE D / Q11d (SHARED RISK CODE VS LOCUS ROUTING)
    - Paired High-Risk Misrouting Increase:     +27.0%
 4. SCIENTIFIC DIAGNOSIS:
    - Definitively rejects orthogonal self/world subspaces (raw-space cosine = +0.784 > 0).
-   - Confirms that the recurrent reservoir implements an aligned generic predictive risk basis, while locus 
-     identity routes that risk signal toward distinct bodily vs world regulatory effectors.
+   - Shared-direction ablation impairs regulatory loops in aggregate (dA = +30.9%, dB = +35.9%) with substantial 
+     organism-level heterogeneity (3/8 seeds cleanly aligned, 5/8 seeds showing differential loop sensitivity).
+   - Reflecting the contrast direction substantially increases high-risk action misrouting (+27.0%), supporting 
+     a model where the self/world boundary is expressed through contextual action routing over shared predictive structure.
 ================================================================================

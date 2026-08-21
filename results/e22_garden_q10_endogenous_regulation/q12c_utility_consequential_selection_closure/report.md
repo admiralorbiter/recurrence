@@ -14,7 +14,7 @@ SYNCHRONIZATION REPORT: GATE D / Q12c (CONSEQUENTIAL UTILITY SELECTION)
    - Decorative Lineage B:     R^2 = +0.970 | Specificity = +0.0% | Mean Return = +41.99 | Causal Pass: 0/8 seeds
 4. SCIENTIFIC DIAGNOSIS:
    - Consequential Lineage: Utility-optimal policy labeling successfully promotes the architecturally available 
-     risk variable into selective regulation (+59.0% specificity), beating baseline heuristics.
+     risk variable into selective regulation (+40.0% mean specificity, up to +86.5% in peak seed 44).
    - Decorative Lineage: The identical readout learner, operating on an equally decodable representation (R^2 = +0.970), 
      completely ignores the decorative variable (0.0% specificity) because it yields zero causal return advantage.
    - CONCLUSION: Consequential utility determines which architecturally available representations are promoted into action.
