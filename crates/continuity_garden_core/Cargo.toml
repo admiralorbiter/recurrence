@@ -35,3 +35,7 @@ path = "src/bin/run_q10d_experiment.rs"
 [[bin]]
 name = "temporal_capacity_map"
 path = "src/bin/temporal_capacity_map.rs"
+
+[[bin]]
+name = "run_q11_q12_gate_d_closure"
+path = "src/bin/run_q11_q12_gate_d_closure.rs"

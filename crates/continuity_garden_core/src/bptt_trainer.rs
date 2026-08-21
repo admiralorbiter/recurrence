@@ -1,12 +1,12 @@
-//! Full Multi-Step Backpropagation Through Time (BPTT) GRU Trainer in Native Rust.
+//! Hardened Q10d Policy Readout Trainer & Causal Behavioral Necessity Assay in Native Rust.
 
 use crate::environment::{DualLocusRegulatorEnv, GroundTruthStateV2, ObservationV2};
+use crate::oracle::{ObservationBeliefOracle, ReactiveSensorDropPolicy, Policy};
 use crate::organism::{DualLocusOrganism, COMBINED_DIM, EMBED_DIM, HIDDEN_DIM, TOTAL_INPUT_DIM};
 use crate::trainer::fit_and_eval_ridge;
 use rand::{Rng, SeedableRng};
 use rand_chacha::ChaCha8Rng;
 use serde::{Deserialize, Serialize};
-use std::collections::HashMap;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct DetailedParameterNorms {
@@ -22,7 +22,11 @@ pub struct DetailedParameterNorms {
 pub struct Q10dEvaluationMetrics {
     pub mean_return: f32,
     pub std_return: f32,
-    pub motor_competence: f32,
+    pub paired_belief_oracle_return: f32,
+    pub paired_heuristic_return: f32,
+    pub return_advantage_over_heuristic: f32,
+    pub motor_competence_intact: f32,
+    pub motor_competence_non_decision_steps: f32,
     pub r2_h_log_odds: f32,
     pub r2_h_posterior_q: f32,
     pub r2_current_obs: f32,
@@ -77,8 +81,14 @@ pub fn evaluate_q10d_model(
     let mut env = DualLocusRegulatorEnv::new(seed + 50000, false);
 
     let mut returns = Vec::with_capacity(num_episodes);
+    let mut paired_belief_returns = Vec::with_capacity(num_episodes);
+    let mut paired_heuristic_returns = Vec::with_capacity(num_episodes);
+
     let mut maint_severe = Vec::new();
     let mut maint_safe = Vec::new();
+
+    let mut non_decision_hits = 0;
+    let mut non_decision_total = 0;
 
     let mut dec_h = Vec::new();
     let mut dec_curr = Vec::new();
@@ -88,8 +98,42 @@ pub fn evaluate_q10d_model(
     let mut dec_log_odds = Vec::new();
     let mut dec_q = Vec::new();
 
+    let mut belief_oracle = ObservationBeliefOracle { threshold: 0.60, precursor_noise_std: 0.35, precursor_history: Vec::new() };
+    let mut reactive_heuristic = ReactiveSensorDropPolicy { threshold: 0.60 };
+
     for ep in 0..num_episodes {
         let tape = env.generate_deterministic_tape(env.episode_len, seed + 70000 + ep as u64 * 10);
+
+        // 1. Paired Belief Oracle Return on identical tape
+        let (mut o_b, mut g_b) = env.reset(Some(tape.clone()));
+        belief_oracle.reset();
+        let mut done_b = false;
+        let mut ret_b = 0.0;
+        while !done_b {
+            let a = belief_oracle.act(&o_b, Some(&g_b));
+            let (no, r, d, ng) = env.step(a);
+            ret_b += r;
+            done_b = d;
+            o_b = no;
+            g_b = ng;
+        }
+        paired_belief_returns.push(ret_b);
+
+        // 2. Paired Reactive Heuristic Return on identical tape
+        let (mut o_h, mut g_h) = env.reset(Some(tape.clone()));
+        let mut done_h = false;
+        let mut ret_h = 0.0;
+        while !done_h {
+            let a = reactive_heuristic.act(&o_h, Some(&g_h));
+            let (no, r, d, ng) = env.step(a);
+            ret_h += r;
+            done_h = d;
+            o_h = no;
+            g_h = ng;
+        }
+        paired_heuristic_returns.push(ret_h);
+
+        // 3. Model Evaluation on identical tape
         let (mut obs, mut gt) = env.reset(Some(tape));
         let mut h: Option<Vec<f32>> = None;
         let mut done = false;
@@ -105,6 +149,7 @@ pub fn evaluate_q10d_model(
                 ep_precursor_samples.push(obs.warning_cue);
             }
 
+            // Lesion history ONLY at decision window if wipe_decision_h is true
             let effective_h = if wipe_decision_h && obs.is_decision_window == 1 {
                 None
             } else {
@@ -132,7 +177,6 @@ pub fn evaluate_q10d_model(
                 short.push(1.0);
                 dec_short.push(short);
 
-                // Event-relative public precursor observer [c1, c2, c3, 1.0]
                 let mut prec_vec = vec![0.0; 4];
                 for (k, &c) in ep_precursor_samples.iter().rev().take(3).enumerate() {
                     prec_vec[2 - k] = c;
@@ -159,6 +203,13 @@ pub fn evaluate_q10d_model(
                 } else {
                     maint_safe.push(if act == 2 { 1.0 } else { 0.0 });
                 }
+            } else {
+                // Non-decision window steps: evaluate if motor accuracy is preserved!
+                let expected_goal = if obs.symbol >= 3 && obs.symbol <= 4 { obs.symbol - 3 } else { 0 };
+                if act == expected_goal {
+                    non_decision_hits += 1;
+                }
+                non_decision_total += 1;
             }
 
             let (next_obs, rew, is_done, next_gt) = env.step(act);
@@ -173,6 +224,9 @@ pub fn evaluate_q10d_model(
 
     let mean_ret: f32 = returns.iter().sum::<f32>() / num_episodes as f32;
     let var: f32 = returns.iter().map(|&r| (r - mean_ret).powi(2)).sum::<f32>() / num_episodes as f32;
+
+    let mean_belief_ret: f32 = paired_belief_returns.iter().sum::<f32>() / num_episodes as f32;
+    let mean_heur_ret: f32 = paired_heuristic_returns.iter().sum::<f32>() / num_episodes as f32;
 
     let n_total = dec_log_odds.len();
     let n_split = n_total / 2;
@@ -205,11 +259,16 @@ pub fn evaluate_q10d_model(
     let p_sev: f32 = if !maint_severe.is_empty() { maint_severe.iter().sum::<f32>() / maint_severe.len() as f32 } else { 0.0 };
     let p_saf: f32 = if !maint_safe.is_empty() { maint_safe.iter().sum::<f32>() / maint_safe.len() as f32 } else { 0.0 };
     let motor_comp = crate::trainer::evaluate_motor_competence_rust(model, seed + 90000, 20);
+    let non_dec_comp = if non_decision_total > 0 { non_decision_hits as f32 / non_decision_total as f32 } else { 0.0 };
 
     Q10dEvaluationMetrics {
         mean_return: mean_ret,
         std_return: var.sqrt(),
-        motor_competence: motor_comp,
+        paired_belief_oracle_return: mean_belief_ret,
+        paired_heuristic_return: mean_heur_ret,
+        return_advantage_over_heuristic: mean_ret - mean_heur_ret,
+        motor_competence_intact: motor_comp,
+        motor_competence_non_decision_steps: non_dec_comp,
         r2_h_log_odds: r2_h_lo,
         r2_h_posterior_q: r2_h_q,
         r2_current_obs: r2_curr,
@@ -225,15 +284,16 @@ pub fn evaluate_q10d_model(
     }
 }
 
-/// Trains readout under 3 distinct policy regimes:
-///   1. "supervised_upper_bound": Supervised cross-entropy directly to Bayes-optimal action
-///   2. "counterfactual_rewards": Counterfactual reward evaluation of candidate actions cloned at decision point
-///   3. "actor_critic_rl": Standard on-policy RL with reward feedback
+/// Hardened Policy Readout Regimes:
+///   1. "supervised_risk_conditional": Supervised cross-entropy directly to risk-conditional optimal action
+///   2. "downstream_counterfactual_return": Clones at decision window, rolls out through shock impact to episode end
+///   3. "trained_actor_critic_rl": Full Monte-Carlo policy gradient with concurrently trained value critic
 pub fn train_policy_readout_regimes(
     frozen_base_model: &DualLocusOrganism,
     regime: &str,
     num_episodes: usize,
     lr: f32,
+    gamma: f32,
     seed: u64,
 ) -> DualLocusOrganism {
     let mut model = frozen_base_model.clone();
@@ -242,6 +302,8 @@ pub fn train_policy_readout_regimes(
 
     let mut m_pol = vec![0.0; 4 * COMBINED_DIM];
     let mut v_pol = vec![0.0; 4 * COMBINED_DIM];
+    let mut m_val = vec![0.0; COMBINED_DIM];
+    let mut v_val = vec![0.0; COMBINED_DIM];
     let mut t_opt = 0;
 
     for ep in 1..=num_episodes {
@@ -255,8 +317,8 @@ pub fn train_policy_readout_regimes(
         let mut ep_probs = Vec::new();
         let mut ep_rewards = Vec::new();
         let mut ep_values = Vec::new();
-        let mut ep_bayes_optimal = Vec::new();
-        let mut ep_counterfactual_rews = Vec::new();
+        let mut ep_supervised_target = Vec::new();
+        let mut ep_downstream_q = Vec::new();
 
         while !done {
             let (h_next, logits, val) = model.step(&obs, h.as_deref());
@@ -273,7 +335,7 @@ pub fn train_policy_readout_regimes(
             comb.extend_from_slice(&h_next);
             comb.extend_from_slice(&instant_feats);
 
-            // 1. Bayes optimal action: MAINTAIN_A (2) if severe risk at decision window, else motor goal
+            // 1. Supervised Risk-Conditional Target (Maintain if severe risk q >= 0.50 at decision window, else motor goal)
             let goal_act = if obs.symbol >= 3 && obs.symbol <= 4 { obs.symbol - 3 } else { 0 };
             let opt_act = if obs.is_decision_window == 1 && gt.bayesian_risk_q >= 0.50 {
                 2
@@ -281,15 +343,31 @@ pub fn train_policy_readout_regimes(
                 goal_act
             };
 
-            // 2. Counterfactual reward branch evaluation
-            let mut cf_rews = [0.0; 4];
-            if obs.is_decision_window == 1 {
+            // 2. Downstream Counterfactual Return Rollout:
+            // Roll each candidate action through shock impact to episode end
+            let mut downstream_q = [0.0; 4];
+            if regime == "downstream_counterfactual_return" && obs.is_decision_window == 1 {
                 let snap = env.snapshot();
                 for test_a in 0..4 {
-                    let mut cloned_env = env.clone();
-                    cloned_env.restore(&snap);
-                    let (_, r_cf, _, _) = cloned_env.step(test_a);
-                    cf_rews[test_a] = r_cf;
+                    let mut branch_env = env.clone();
+                    branch_env.restore(&snap);
+
+                    let (mut b_obs, mut b_r, mut b_done, _) = branch_env.step(test_a);
+                    let mut b_tot_ret = b_r;
+                    let mut b_gamma_accum = gamma;
+                    let mut b_h: Option<Vec<f32>> = Some(h_next.clone());
+
+                    while !b_done {
+                        let (b_h_next, b_logits, _) = model.step(&b_obs, b_h.as_deref());
+                        let b_act = if b_obs.symbol >= 3 && b_obs.symbol <= 4 { b_obs.symbol - 3 } else { 0 };
+                        let (nb_obs, nb_r, nb_done, _) = branch_env.step(b_act);
+                        b_tot_ret += b_gamma_accum * nb_r;
+                        b_gamma_accum *= gamma;
+                        b_done = nb_done;
+                        b_obs = nb_obs;
+                        b_h = Some(b_h_next);
+                    }
+                    downstream_q[test_a] = b_tot_ret;
                 }
             }
 
@@ -297,8 +375,8 @@ pub fn train_policy_readout_regimes(
             ep_actions.push(act);
             ep_probs.push(probs);
             ep_values.push(val);
-            ep_bayes_optimal.push(opt_act);
-            ep_counterfactual_rews.push(cf_rews);
+            ep_supervised_target.push(opt_act);
+            ep_downstream_q.push(downstream_q);
 
             let (next_obs, rew, is_done, next_gt) = env.step(act);
             ep_rewards.push(rew);
@@ -311,13 +389,21 @@ pub fn train_policy_readout_regimes(
         t_opt += 1;
         let t_steps = ep_rewards.len();
 
+        // Compute discounted returns-to-go for trained RL critic
+        let mut returns_to_go = vec![0.0; t_steps];
+        let mut running_g = 0.0;
+        for t in (0..t_steps).rev() {
+            running_g = ep_rewards[t] + gamma * running_g;
+            returns_to_go[t] = running_g;
+        }
+
         for t in 0..t_steps {
             let comb = &ep_combined[t];
             let probs = &ep_probs[t];
 
             match regime {
-                "supervised_upper_bound" => {
-                    let target_a = ep_bayes_optimal[t];
+                "supervised_risk_conditional" => {
+                    let target_a = ep_supervised_target[t];
                     for k in 0..4 {
                         let delta_pi = (if k == target_a { 1.0 } else { 0.0 }) - probs[k];
                         for j in 0..COMBINED_DIM {
@@ -331,32 +417,64 @@ pub fn train_policy_readout_regimes(
                         }
                     }
                 }
-                "counterfactual_rewards" => {
-                    let cf_rews = &ep_counterfactual_rews[t];
-                    let mean_cf = cf_rews.iter().sum::<f32>() / 4.0;
-                    for k in 0..4 {
-                        let adv = cf_rews[k] - mean_cf;
-                        let delta_pi = adv * (1.0 - probs[k]);
-                        for j in 0..COMBINED_DIM {
-                            let idx = k * COMBINED_DIM + j;
-                            let g = -delta_pi * comb[j];
-                            m_pol[idx] = 0.9 * m_pol[idx] + 0.1 * g;
-                            v_pol[idx] = 0.999 * v_pol[idx] + 0.001 * g * g;
-                            let m_hat = m_pol[idx] / (1.0 - 0.9f32.powi(t_opt as i32));
-                            let v_hat = v_pol[idx] / (1.0 - 0.999f32.powi(t_opt as i32));
-                            model.policy_w[idx] -= lr * m_hat / (v_hat.sqrt() + 1e-8);
+                "downstream_counterfactual_return" => {
+                    let q_vals = &ep_downstream_q[t];
+                    let is_dec = q_vals.iter().any(|&v| v != 0.0);
+                    if is_dec {
+                        // Expected value E_pi[Q]
+                        let exp_q: f32 = (0..4).map(|k| probs[k] * q_vals[k]).sum();
+                        // Gradient of expected reward: sum_k (Q_k - E[Q]) * nabla pi_k = sum_k probs[k]*(Q_k - E[Q]) * x
+                        for k in 0..4 {
+                            let adv = q_vals[k] - exp_q;
+                            let grad_logit = probs[k] * adv;
+                            for j in 0..COMBINED_DIM {
+                                let idx = k * COMBINED_DIM + j;
+                                let g = -grad_logit * comb[j];
+                                m_pol[idx] = 0.9 * m_pol[idx] + 0.1 * g;
+                                v_pol[idx] = 0.999 * v_pol[idx] + 0.001 * g * g;
+                                let m_hat = m_pol[idx] / (1.0 - 0.9f32.powi(t_opt as i32));
+                                let v_hat = v_pol[idx] / (1.0 - 0.999f32.powi(t_opt as i32));
+                                model.policy_w[idx] -= lr * m_hat / (v_hat.sqrt() + 1e-8);
+                            }
+                        }
+                    } else {
+                        // Standard motor reward gradient
+                        let a = ep_actions[t];
+                        let adv = returns_to_go[t] - ep_values[t];
+                        for k in 0..4 {
+                            let delta_pi = (if k == a { 1.0 } else { 0.0 }) - probs[k];
+                            for j in 0..COMBINED_DIM {
+                                let idx = k * COMBINED_DIM + j;
+                                let g = -adv * delta_pi * comb[j];
+                                m_pol[idx] = 0.9 * m_pol[idx] + 0.1 * g;
+                                v_pol[idx] = 0.999 * v_pol[idx] + 0.001 * g * g;
+                                let m_hat = m_pol[idx] / (1.0 - 0.9f32.powi(t_opt as i32));
+                                let v_hat = v_pol[idx] / (1.0 - 0.999f32.powi(t_opt as i32));
+                                model.policy_w[idx] -= lr * m_hat / (v_hat.sqrt() + 1e-8);
+                            }
                         }
                     }
                 }
-                _ => { // actor_critic_rl
-                    let nv = if t + 1 < t_steps { ep_values[t + 1] } else { 0.0 };
-                    let td_err = ep_rewards[t] + 0.95 * nv - ep_values[t];
+                _ => { // trained_actor_critic_rl
                     let a = ep_actions[t];
+                    let adv = returns_to_go[t] - ep_values[t];
+
+                    // 1. Value critic update
+                    for j in 0..COMBINED_DIM {
+                        let g = -adv * comb[j];
+                        m_val[j] = 0.9 * m_val[j] + 0.1 * g;
+                        v_val[j] = 0.999 * v_val[j] + 0.001 * g * g;
+                        let m_hat = m_val[j] / (1.0 - 0.9f32.powi(t_opt as i32));
+                        let v_hat = v_val[j] / (1.0 - 0.999f32.powi(t_opt as i32));
+                        model.value_w[j] -= lr * m_hat / (v_hat.sqrt() + 1e-8);
+                    }
+
+                    // 2. Policy actor update
                     for k in 0..4 {
                         let delta_pi = (if k == a { 1.0 } else { 0.0 }) - probs[k];
                         for j in 0..COMBINED_DIM {
                             let idx = k * COMBINED_DIM + j;
-                            let g = -td_err * delta_pi * comb[j];
+                            let g = -adv * delta_pi * comb[j];
                             m_pol[idx] = 0.9 * m_pol[idx] + 0.1 * g;
                             v_pol[idx] = 0.999 * v_pol[idx] + 0.001 * g * g;
                             let m_hat = m_pol[idx] / (1.0 - 0.9f32.powi(t_opt as i32));

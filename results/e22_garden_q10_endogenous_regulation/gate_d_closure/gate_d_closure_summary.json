@@ -1,0 +1,194 @@
+[
+  {
+    "seed": 42,
+    "q11_self_vs_world": {
+      "r2_internal_self_log_odds": 0.9844035,
+      "r2_external_world_log_odds": 0.99819905,
+      "cross_subspace_cosine_similarity": 0.08,
+      "maintain_a_on_severe_internal": 0.9734513,
+      "maintain_a_on_safe_internal": 0.45679012,
+      "maintain_b_on_severe_external": 0.0,
+      "maintain_b_on_safe_external": 0.0,
+      "specificity_internal_self": 0.51666117,
+      "specificity_external_world": 0.0,
+      "is_double_dissociated": true
+    },
+    "q12_consequential_vs_decorative": {
+      "consequential_r2_log_odds": 0.9788846,
+      "decorative_r2_log_odds": 0.9739925,
+      "consequential_specificity": 0.3843831,
+      "decorative_specificity": 0.0,
+      "delta_recruitment_consequence": 0.3843831,
+      "consequential_causal_necessity": false,
+      "decorative_causal_necessity": false
+    }
+  },
+  {
+    "seed": 43,
+    "q11_self_vs_world": {
+      "r2_internal_self_log_odds": 0.9852424,
+      "r2_external_world_log_odds": 0.99814147,
+      "cross_subspace_cosine_similarity": 0.08,
+      "maintain_a_on_severe_internal": 0.89285713,
+      "maintain_a_on_safe_internal": 0.083333336,
+      "maintain_b_on_severe_external": 0.0,
+      "maintain_b_on_safe_external": 0.0,
+      "specificity_internal_self": 0.8095238,
+      "specificity_external_world": 0.0,
+      "is_double_dissociated": true
+    },
+    "q12_consequential_vs_decorative": {
+      "consequential_r2_log_odds": 0.9846392,
+      "decorative_r2_log_odds": 0.9759876,
+      "consequential_specificity": 0.7421243,
+      "decorative_specificity": 0.0,
+      "delta_recruitment_consequence": 0.7421243,
+      "consequential_causal_necessity": true,
+      "decorative_causal_necessity": false
+    }
+  },
+  {
+    "seed": 44,
+    "q11_self_vs_world": {
+      "r2_internal_self_log_odds": 0.9926374,
+      "r2_external_world_log_odds": 0.9996787,
+      "cross_subspace_cosine_similarity": 0.08,
+      "maintain_a_on_severe_internal": 1.0,
+      "maintain_a_on_safe_internal": 0.43820226,
+      "maintain_b_on_severe_external": 0.0,
+      "maintain_b_on_safe_external": 0.0,
+      "specificity_internal_self": 0.56179774,
+      "specificity_external_world": 0.0,
+      "is_double_dissociated": true
+    },
+    "q12_consequential_vs_decorative": {
+      "consequential_r2_log_odds": 0.9902733,
+      "decorative_r2_log_odds": 0.98407286,
+      "consequential_specificity": 0.82414216,
+      "decorative_specificity": 0.0,
+      "delta_recruitment_consequence": 0.82414216,
+      "consequential_causal_necessity": true,
+      "decorative_causal_necessity": false
+    }
+  },
+  {
+    "seed": 45,
+    "q11_self_vs_world": {
+      "r2_internal_self_log_odds": 0.98422974,
+      "r2_external_world_log_odds": 0.9922609,
+      "cross_subspace_cosine_similarity": 0.08,
+      "maintain_a_on_severe_internal": 0.9919355,
+      "maintain_a_on_safe_internal": 0.3243243,
+      "maintain_b_on_severe_external": 0.0,
+      "maintain_b_on_safe_external": 0.0,
+      "specificity_internal_self": 0.6676112,
+      "specificity_external_world": 0.0,
+      "is_double_dissociated": true
+    },
+    "q12_consequential_vs_decorative": {
+      "consequential_r2_log_odds": 0.98324937,
+      "decorative_r2_log_odds": 0.97924334,
+      "consequential_specificity": 0.7274116,
+      "decorative_specificity": 0.0,
+      "delta_recruitment_consequence": 0.7274116,
+      "consequential_causal_necessity": true,
+      "decorative_causal_necessity": false
+    }
+  },
+  {
+    "seed": 46,
+    "q11_self_vs_world": {
+      "r2_internal_self_log_odds": 0.95478547,
+      "r2_external_world_log_odds": 0.9910668,
+      "cross_subspace_cosine_similarity": 0.08,
+      "maintain_a_on_severe_internal": 0.9,
+      "maintain_a_on_safe_internal": 0.056179777,
+      "maintain_b_on_severe_external": 0.0,
+      "maintain_b_on_safe_external": 0.0,
+      "specificity_internal_self": 0.8438202,
+      "specificity_external_world": 0.0,
+      "is_double_dissociated": true
+    },
+    "q12_consequential_vs_decorative": {
+      "consequential_r2_log_odds": 0.9674517,
+      "decorative_r2_log_odds": 0.9254719,
+      "consequential_specificity": 0.39772725,
+      "decorative_specificity": 0.0,
+      "delta_recruitment_consequence": 0.39772725,
+      "consequential_causal_necessity": true,
+      "decorative_causal_necessity": false
+    }
+  },
+  {
+    "seed": 47,
+    "q11_self_vs_world": {
+      "r2_internal_self_log_odds": 0.99122477,
+      "r2_external_world_log_odds": 0.99541616,
+      "cross_subspace_cosine_similarity": 0.08,
+      "maintain_a_on_severe_internal": 0.52380955,
+      "maintain_a_on_safe_internal": 0.021276595,
+      "maintain_b_on_severe_external": 0.0,
+      "maintain_b_on_safe_external": 0.0,
+      "specificity_internal_self": 0.50253296,
+      "specificity_external_world": 0.0,
+      "is_double_dissociated": true
+    },
+    "q12_consequential_vs_decorative": {
+      "consequential_r2_log_odds": 0.9878039,
+      "decorative_r2_log_odds": 0.97595966,
+      "consequential_specificity": 0.868602,
+      "decorative_specificity": 0.0,
+      "delta_recruitment_consequence": 0.868602,
+      "consequential_causal_necessity": true,
+      "decorative_causal_necessity": false
+    }
+  },
+  {
+    "seed": 48,
+    "q11_self_vs_world": {
+      "r2_internal_self_log_odds": 0.9330661,
+      "r2_external_world_log_odds": 0.9967784,
+      "cross_subspace_cosine_similarity": 0.08,
+      "maintain_a_on_severe_internal": 0.9237288,
+      "maintain_a_on_safe_internal": 0.085365854,
+      "maintain_b_on_severe_external": 0.0,
+      "maintain_b_on_safe_external": 0.0,
+      "specificity_internal_self": 0.838363,
+      "specificity_external_world": 0.0,
+      "is_double_dissociated": true
+    },
+    "q12_consequential_vs_decorative": {
+      "consequential_r2_log_odds": 0.9401434,
+      "decorative_r2_log_odds": 0.9401434,
+      "consequential_specificity": 0.0754717,
+      "decorative_specificity": 0.0,
+      "delta_recruitment_consequence": 0.0754717,
+      "consequential_causal_necessity": false,
+      "decorative_causal_necessity": false
+    }
+  },
+  {
+    "seed": 49,
+    "q11_self_vs_world": {
+      "r2_internal_self_log_odds": 0.9781375,
+      "r2_external_world_log_odds": 0.994879,
+      "cross_subspace_cosine_similarity": 0.08,
+      "maintain_a_on_severe_internal": 0.29411766,
+      "maintain_a_on_safe_internal": 0.010204081,
+      "maintain_b_on_severe_external": 0.0,
+      "maintain_b_on_safe_external": 0.0,
+      "specificity_internal_self": 0.28391358,
+      "specificity_external_world": 0.0,
+      "is_double_dissociated": false
+    },
+    "q12_consequential_vs_decorative": {
+      "consequential_r2_log_odds": 0.9804872,
+      "decorative_r2_log_odds": 0.97537535,
+      "consequential_specificity": 0.7002427,
+      "decorative_specificity": 0.0,
+      "delta_recruitment_consequence": 0.7002427,
+      "consequential_causal_necessity": true,
+      "decorative_causal_necessity": false
+    }
+  }
+]
