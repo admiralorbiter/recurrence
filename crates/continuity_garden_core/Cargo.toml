@@ -19,3 +19,11 @@ path = "src/bin/q10_runner.rs"
 [[bin]]
 name = "run_q10b_rust"
 path = "src/bin/run_q10b_rust.rs"
+
+[[bin]]
+name = "reservoir_census"
+path = "src/bin/reservoir_census.rs"
+
+[[bin]]
+name = "run_q10c_experiment"
+path = "src/bin/run_q10c_experiment.rs"

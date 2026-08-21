@@ -20,7 +20,7 @@ fn main() {
     let always = evaluate_policy_on_env(AlwaysMaintainPolicy, &mut env, num_episodes, seed);
     let reactive = evaluate_policy_on_env(ReactiveSensorDropPolicy { threshold: 0.60 }, &mut env, num_episodes, seed);
     let warn = evaluate_policy_on_env(WarningReflexPolicy { already_maintained: false }, &mut env, num_episodes, seed);
-    let short = evaluate_policy_on_env(ShortHistoryWindowPolicy, &mut env, num_episodes, seed);
+    let short = evaluate_policy_on_env(ShortHistoryWindowPolicy::new(2), &mut env, num_episodes, seed);
     let belief = evaluate_policy_on_env(
         ObservationBeliefOracle { threshold: 0.60, precursor_noise_std: 0.35, precursor_history: Vec::new() },
         &mut env,

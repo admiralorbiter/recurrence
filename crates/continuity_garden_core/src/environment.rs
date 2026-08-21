@@ -186,8 +186,8 @@ impl DualLocusRegulatorEnv {
         while t < length - 6 {
             if rng.gen::<f64>() < 0.70 {
                 let warn_t = t;
-                let dec_t = warn_t + 4;
-                let shk_t = warn_t + 5;
+                let dec_t = warn_t + 5; // 3 precursors (warn_t, warn_t+1, warn_t+2) + 2 blank steps (warn_t+3, warn_t+4)
+                let shk_t = warn_t + 6; // Shock impacts at t=6
                 let is_sev = rng.gen::<f64>() < 0.55;
                 let mag = if is_sev { 0.70 } else { 0.10 };
                 let noises: Vec<f32> = (0..3).map(|_| normal_prec.sample(&mut rng) as f32).collect();

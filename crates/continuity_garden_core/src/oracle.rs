@@ -56,10 +56,42 @@ impl Policy for WarningReflexPolicy {
     }
 }
 
-pub struct ShortHistoryWindowPolicy;
+pub struct ShortHistoryWindowPolicy {
+    pub buffer: Vec<ObservationV2>,
+    pub window_size: usize,
+}
+
+impl ShortHistoryWindowPolicy {
+    pub fn new(window_size: usize) -> Self {
+        Self {
+            buffer: Vec::with_capacity(window_size),
+            window_size,
+        }
+    }
+}
+
 impl Policy for ShortHistoryWindowPolicy {
+    fn reset(&mut self) {
+        self.buffer.clear();
+    }
     fn act(&mut self, obs: &ObservationV2, _gt: Option<&GroundTruthStateV2>) -> usize {
-        if obs.symbol >= 3 && obs.symbol <= 4 { obs.symbol - 3 } else { 0 }
+        let goal = if obs.symbol >= 3 && obs.symbol <= 4 { obs.symbol - 3 } else { 0 };
+        if self.buffer.len() >= self.window_size {
+            self.buffer.remove(0);
+        }
+        self.buffer.push(*obs);
+
+        if obs.is_decision_window == 1 {
+            // Check if any warning was visible within the K-step short window
+            let saw_warning = self.buffer.iter().any(|o| o.warning_cue > 0.0);
+            if saw_warning {
+                return 2; // MAINTAIN_A
+            }
+        }
+        if obs.sensor_a < 0.40 {
+            return 2;
+        }
+        goal
     }
 }
 
