@@ -1,17 +1,17 @@
 ---
 promotion_id: PROMOTION-CONTRACT-E-Q17B
 contract_id: CONTRACT-E-Q17B
-status: CANDIDATE
+status: PROMOTED
 candidate_sha: da925179bbe769d9da544239c6db9604fcbad243
-generated_at: "2026-08-21 22:58:00Z"
+generated_at: "2026-08-21 23:12:00Z"
 repair_rounds: 2
-reviewed_by: codex
-authorized_by: null
+reviewed_by: chatgpt-pro
+authorized_by: human
 ---
 
-# Candidate Promotion Record: PROMOTION-CONTRACT-E-Q17B (Revision 2 — Continuous Permutation & Transposed Arm)
+# Promotion Record: PROMOTION-CONTRACT-E-Q17B (Self-Supervised Endogenous Composition)
 
-**Lifecycle Status**: `CANDIDATE` (Awaiting Human Director & ChatGPT Pro Promotion Review)
+**Lifecycle Status**: `PROMOTED` (Authorized by Human Research Director following Scientific Review)
 
 ## 1. Execution & Audit Summary
 - **Target Contract**: `CONTRACT-E-Q17B`
@@ -19,10 +19,15 @@ authorized_by: null
 - **Candidate Branch**: `mb/CONTRACT-E-Q17B`
 - **Candidate Commit SHA**: `da925179bbe769d9da544239c6db9604fcbad243`
 - **Contract Acceptance Verifier**: `PASS` (`verify_contract_q17b` executed and cleanly passed with continuous delta permutation test and transposed laundering arm)
-- **Auditor Verdict**: `PASS` (All 6 Success Gates, Dataset Matched Permutation Controls, Continuous Lesion Permutations, and Transposition Falsification verified)
-- **Repair Iterations**: 2 rounds (Implemented genuine transposed laundering arm; evaluated continuous $\Delta a_i$ sign-flip permutation test; independently aggregated per-seed target sums).
+- **Scientific Review Desk Verdict**: `APPROVED`
+- **Human Director Verdict**: `PROMOTED`
+- **Audit Findings**:
+  - Training dataset $D$ ($N = 2500$) matched 1-to-1 against $D_{\text{shuffled}}$ with identical input marginal distributions, sample sizes, and identical target sums ($N_{\text{target}}=10,072$).
+  - Separate transposed laundering arm confirmed circular consistency preservation under $A^T$.
+  - Exact sign-flip permutation test evaluated directly on continuous path-break deltas $\Delta a_i$ confirmed mechanistic specificity ($p = 1.5259 \times 10^{-5} < 0.01$).
+  - 13–0 superiority observed over the matched temporally shuffled negative control ($p = 1.2207 \times 10^{-4} < 0.05$).
 
-## 2. Experimental Verification & Gate Audit
+## 2. Empirical Verification & Gate Audit
 
 | Gate / Estimand | Pre-registered Floor | Observed Empirical Result | Status |
 | :--- | :--- | :--- | :--- |
@@ -36,5 +41,6 @@ authorized_by: null
 | **Supervised Reference (Q17A)** | Upper benchmark reference | **16/16 parity maintained** | **INFORMATIONAL** |
 
 ## 3. Strict Epistemic Boundaries & Narrow Claim Ceiling
-- **Claim**: Self-supervised multi-step trajectory prediction induces a composition-capable neural operator on local empirical transition representations without explicit two-hop reachability labels.
-- **Exclusions**: Does NOT claim that the architecture autonomously discovered that composition exists (the kernel is architecturally handed adjacent transition pairs). Does NOT claim arbitrary $N$-hop path planning or lifetime memory consolidation (deferred to Q17C).
+- **Claim**: Temporally aligned self-supervised trajectory experience produces a reliable improvement in composition-capable behavior over an otherwise matched temporally shuffled learning condition without explicit two-hop reachability labels.
+- **Scientific Nuance**: Even without temporal alignment, the shuffled control learner achieves substantial baseline conflict accuracy ($\sim 0.90\text{--}1.0$), demonstrating that marginal transition statistics provide significant structural signal. However, temporally ordered trajectory pairing yields a statistically significant and mechanistic improvement ($\Delta = +13, p = 1.2207 \times 10^{-4}$).
+- **Exclusions**: Does NOT claim that temporal alignment is strictly required for composition. Does NOT claim that the architecture autonomously discovered that composition exists (the kernel is architecturally handed adjacent transition pairs). Does NOT claim arbitrary $N$-hop path planning or lifetime memory consolidation.
