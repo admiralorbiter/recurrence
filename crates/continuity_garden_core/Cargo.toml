@@ -151,3 +151,7 @@ path = "src/bin/run_q16a32_delayed_role_binding.rs"
 [[bin]]
 name = "run_q16b_laundering_induction"
 path = "src/bin/run_q16b_laundering_induction.rs"
+
+[[bin]]
+name = "run_q16b1_transitive_laundering"
+path = "src/bin/run_q16b1_transitive_laundering.rs"

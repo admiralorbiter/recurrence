@@ -1,0 +1,1250 @@
+[
+  {
+    "seed": 101,
+    "causal_audit": {
+      "local_adjacency_accuracy": 1.0,
+      "transitive_reachability_accuracy": 1.0,
+      "direct_transmission_a_to_b": 0.6890008,
+      "direct_transmission_b_to_c": 0.61437124,
+      "composed_ancestry_a_to_c": 0.42330226,
+      "direct_transmission_a_to_d": 0.0
+    },
+    "scenario_results": [
+      {
+        "scenario_id": "Direct_Copy_A_B_Conflict",
+        "scenario_name": "1. DIRECT COPY CONFLICT (A != B, VERIFY=1.00)",
+        "is_high_threshold_regime": false,
+        "realized_return": 1.335,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 0.0,
+        "transposed_return": -4.335,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 5.67
+      },
+      {
+        "scenario_id": "Laundered_Proxy_A_C_Conflict",
+        "scenario_name": "2. TRANSITIVE MULTI-HOP CONFLICT (A != C, COMPOSE A->B->C)",
+        "is_high_threshold_regime": false,
+        "realized_return": 1.475,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 0.0,
+        "transposed_return": -4.475,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 5.95
+      },
+      {
+        "scenario_id": "Laundered_Agreement_A_C",
+        "scenario_name": "3. LAUNDERED REDUNDANT AGREEMENT (A == C, THRESHOLD=1.60)",
+        "is_high_threshold_regime": true,
+        "realized_return": 1.6000032,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 1.0,
+        "transposed_return": 1.6000032,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0
+      },
+      {
+        "scenario_id": "Independent_Agreement_A_D",
+        "scenario_name": "4. INDEPENDENT CORROBORATION (A == D, THRESHOLD=1.60)",
+        "is_high_threshold_regime": true,
+        "realized_return": 1.6000032,
+        "target_action_accuracy": 0.0,
+        "secondary_action_rate": 1.0,
+        "arrow_sign_accuracy": 0.0,
+        "transposed_target_acc": 0.0,
+        "transposed_return": 1.6000032,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0
+      },
+      {
+        "scenario_id": "Independent_Conflict_A_D",
+        "scenario_name": "5. INDEPENDENT CONFLICT (A != D, VERIFY=1.00)",
+        "is_high_threshold_regime": false,
+        "realized_return": -1.465,
+        "target_action_accuracy": 0.0,
+        "secondary_action_rate": 1.0,
+        "arrow_sign_accuracy": 0.0,
+        "transposed_target_acc": 0.0,
+        "transposed_return": -1.535,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.06999993
+      }
+    ]
+  },
+  {
+    "seed": 102,
+    "causal_audit": {
+      "local_adjacency_accuracy": 1.0,
+      "transitive_reachability_accuracy": 1.0,
+      "direct_transmission_a_to_b": 0.68552953,
+      "direct_transmission_b_to_c": 0.6196841,
+      "composed_ancestry_a_to_c": 0.42481175,
+      "direct_transmission_a_to_d": 0.0
+    },
+    "scenario_results": [
+      {
+        "scenario_id": "Direct_Copy_A_B_Conflict",
+        "scenario_name": "1. DIRECT COPY CONFLICT (A != B, VERIFY=1.00)",
+        "is_high_threshold_regime": false,
+        "realized_return": 1.335,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 0.0,
+        "transposed_return": -4.335,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 5.67
+      },
+      {
+        "scenario_id": "Laundered_Proxy_A_C_Conflict",
+        "scenario_name": "2. TRANSITIVE MULTI-HOP CONFLICT (A != C, COMPOSE A->B->C)",
+        "is_high_threshold_regime": false,
+        "realized_return": 1.23,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 0.0,
+        "transposed_return": -4.23,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 5.46
+      },
+      {
+        "scenario_id": "Laundered_Agreement_A_C",
+        "scenario_name": "3. LAUNDERED REDUNDANT AGREEMENT (A == C, THRESHOLD=1.60)",
+        "is_high_threshold_regime": true,
+        "realized_return": 1.6000032,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 1.0,
+        "transposed_return": 1.6000032,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0
+      },
+      {
+        "scenario_id": "Independent_Agreement_A_D",
+        "scenario_name": "4. INDEPENDENT CORROBORATION (A == D, THRESHOLD=1.60)",
+        "is_high_threshold_regime": true,
+        "realized_return": 2.0,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 1.0,
+        "transposed_return": 2.0,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0
+      },
+      {
+        "scenario_id": "Independent_Conflict_A_D",
+        "scenario_name": "5. INDEPENDENT CONFLICT (A != D, VERIFY=1.00)",
+        "is_high_threshold_regime": false,
+        "realized_return": 1.0,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 1.0,
+        "transposed_return": 1.0,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0
+      }
+    ]
+  },
+  {
+    "seed": 103,
+    "causal_audit": {
+      "local_adjacency_accuracy": 1.0,
+      "transitive_reachability_accuracy": 1.0,
+      "direct_transmission_a_to_b": 0.68366116,
+      "direct_transmission_b_to_c": 0.6217949,
+      "composed_ancestry_a_to_c": 0.42509702,
+      "direct_transmission_a_to_d": 0.0
+    },
+    "scenario_results": [
+      {
+        "scenario_id": "Direct_Copy_A_B_Conflict",
+        "scenario_name": "1. DIRECT COPY CONFLICT (A != B, VERIFY=1.00)",
+        "is_high_threshold_regime": false,
+        "realized_return": 1.51,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 0.0,
+        "transposed_return": -4.51,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 6.0200005
+      },
+      {
+        "scenario_id": "Laundered_Proxy_A_C_Conflict",
+        "scenario_name": "2. TRANSITIVE MULTI-HOP CONFLICT (A != C, COMPOSE A->B->C)",
+        "is_high_threshold_regime": false,
+        "realized_return": 1.65,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 0.0,
+        "transposed_return": -4.65,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 6.3
+      },
+      {
+        "scenario_id": "Laundered_Agreement_A_C",
+        "scenario_name": "3. LAUNDERED REDUNDANT AGREEMENT (A == C, THRESHOLD=1.60)",
+        "is_high_threshold_regime": true,
+        "realized_return": 1.6000032,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 1.0,
+        "transposed_return": 1.6000032,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0
+      },
+      {
+        "scenario_id": "Independent_Agreement_A_D",
+        "scenario_name": "4. INDEPENDENT CORROBORATION (A == D, THRESHOLD=1.60)",
+        "is_high_threshold_regime": true,
+        "realized_return": 1.93,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 1.0,
+        "transposed_return": 1.93,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0
+      },
+      {
+        "scenario_id": "Independent_Conflict_A_D",
+        "scenario_name": "5. INDEPENDENT CONFLICT (A != D, VERIFY=1.00)",
+        "is_high_threshold_regime": false,
+        "realized_return": 1.0,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 1.0,
+        "transposed_return": 1.0,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0
+      }
+    ]
+  },
+  {
+    "seed": 104,
+    "causal_audit": {
+      "local_adjacency_accuracy": 1.0,
+      "transitive_reachability_accuracy": 1.0,
+      "direct_transmission_a_to_b": 0.6842714,
+      "direct_transmission_b_to_c": 0.6195609,
+      "composed_ancestry_a_to_c": 0.4239478,
+      "direct_transmission_a_to_d": 0.0
+    },
+    "scenario_results": [
+      {
+        "scenario_id": "Direct_Copy_A_B_Conflict",
+        "scenario_name": "1. DIRECT COPY CONFLICT (A != B, VERIFY=1.00)",
+        "is_high_threshold_regime": false,
+        "realized_return": 1.335,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 0.0,
+        "transposed_return": -4.335,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 5.67
+      },
+      {
+        "scenario_id": "Laundered_Proxy_A_C_Conflict",
+        "scenario_name": "2. TRANSITIVE MULTI-HOP CONFLICT (A != C, COMPOSE A->B->C)",
+        "is_high_threshold_regime": false,
+        "realized_return": 1.265,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 0.0,
+        "transposed_return": -4.265,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 5.5299997
+      },
+      {
+        "scenario_id": "Laundered_Agreement_A_C",
+        "scenario_name": "3. LAUNDERED REDUNDANT AGREEMENT (A == C, THRESHOLD=1.60)",
+        "is_high_threshold_regime": true,
+        "realized_return": 1.6000032,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 1.0,
+        "transposed_return": 1.6000032,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0
+      },
+      {
+        "scenario_id": "Independent_Agreement_A_D",
+        "scenario_name": "4. INDEPENDENT CORROBORATION (A == D, THRESHOLD=1.60)",
+        "is_high_threshold_regime": true,
+        "realized_return": 1.965,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 1.0,
+        "transposed_return": 1.965,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0
+      },
+      {
+        "scenario_id": "Independent_Conflict_A_D",
+        "scenario_name": "5. INDEPENDENT CONFLICT (A != D, VERIFY=1.00)",
+        "is_high_threshold_regime": false,
+        "realized_return": 1.0,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 1.0,
+        "transposed_return": 1.0,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0
+      }
+    ]
+  },
+  {
+    "seed": 105,
+    "causal_audit": {
+      "local_adjacency_accuracy": 1.0,
+      "transitive_reachability_accuracy": 1.0,
+      "direct_transmission_a_to_b": 0.70471966,
+      "direct_transmission_b_to_c": 0.6071143,
+      "composed_ancestry_a_to_c": 0.4278454,
+      "direct_transmission_a_to_d": 0.0
+    },
+    "scenario_results": [
+      {
+        "scenario_id": "Direct_Copy_A_B_Conflict",
+        "scenario_name": "1. DIRECT COPY CONFLICT (A != B, VERIFY=1.00)",
+        "is_high_threshold_regime": false,
+        "realized_return": 1.405,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 0.0,
+        "transposed_return": -4.405,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 5.8100004
+      },
+      {
+        "scenario_id": "Laundered_Proxy_A_C_Conflict",
+        "scenario_name": "2. TRANSITIVE MULTI-HOP CONFLICT (A != C, COMPOSE A->B->C)",
+        "is_high_threshold_regime": false,
+        "realized_return": 1.23,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 0.0,
+        "transposed_return": -4.23,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 5.46
+      },
+      {
+        "scenario_id": "Laundered_Agreement_A_C",
+        "scenario_name": "3. LAUNDERED REDUNDANT AGREEMENT (A == C, THRESHOLD=1.60)",
+        "is_high_threshold_regime": true,
+        "realized_return": 1.6000032,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 1.0,
+        "transposed_return": 1.6000032,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0
+      },
+      {
+        "scenario_id": "Independent_Agreement_A_D",
+        "scenario_name": "4. INDEPENDENT CORROBORATION (A == D, THRESHOLD=1.60)",
+        "is_high_threshold_regime": true,
+        "realized_return": 1.93,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 1.0,
+        "transposed_return": 1.93,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0
+      },
+      {
+        "scenario_id": "Independent_Conflict_A_D",
+        "scenario_name": "5. INDEPENDENT CONFLICT (A != D, VERIFY=1.00)",
+        "is_high_threshold_regime": false,
+        "realized_return": 1.0,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 1.0,
+        "transposed_return": 1.0,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0
+      }
+    ]
+  },
+  {
+    "seed": 106,
+    "causal_audit": {
+      "local_adjacency_accuracy": 1.0,
+      "transitive_reachability_accuracy": 1.0,
+      "direct_transmission_a_to_b": 0.70524627,
+      "direct_transmission_b_to_c": 0.6164274,
+      "composed_ancestry_a_to_c": 0.43473315,
+      "direct_transmission_a_to_d": 0.0
+    },
+    "scenario_results": [
+      {
+        "scenario_id": "Direct_Copy_A_B_Conflict",
+        "scenario_name": "1. DIRECT COPY CONFLICT (A != B, VERIFY=1.00)",
+        "is_high_threshold_regime": false,
+        "realized_return": 1.475,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 0.0,
+        "transposed_return": -4.475,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 5.95
+      },
+      {
+        "scenario_id": "Laundered_Proxy_A_C_Conflict",
+        "scenario_name": "2. TRANSITIVE MULTI-HOP CONFLICT (A != C, COMPOSE A->B->C)",
+        "is_high_threshold_regime": false,
+        "realized_return": 1.58,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 0.0,
+        "transposed_return": -4.58,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 6.16
+      },
+      {
+        "scenario_id": "Laundered_Agreement_A_C",
+        "scenario_name": "3. LAUNDERED REDUNDANT AGREEMENT (A == C, THRESHOLD=1.60)",
+        "is_high_threshold_regime": true,
+        "realized_return": 1.6000032,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 1.0,
+        "transposed_return": 1.6000032,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0
+      },
+      {
+        "scenario_id": "Independent_Agreement_A_D",
+        "scenario_name": "4. INDEPENDENT CORROBORATION (A == D, THRESHOLD=1.60)",
+        "is_high_threshold_regime": true,
+        "realized_return": 1.965,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 1.0,
+        "transposed_return": 1.965,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0
+      },
+      {
+        "scenario_id": "Independent_Conflict_A_D",
+        "scenario_name": "5. INDEPENDENT CONFLICT (A != D, VERIFY=1.00)",
+        "is_high_threshold_regime": false,
+        "realized_return": 1.0,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 1.0,
+        "transposed_return": 1.0,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0
+      }
+    ]
+  },
+  {
+    "seed": 107,
+    "causal_audit": {
+      "local_adjacency_accuracy": 1.0,
+      "transitive_reachability_accuracy": 1.0,
+      "direct_transmission_a_to_b": 0.6788146,
+      "direct_transmission_b_to_c": 0.6177175,
+      "composed_ancestry_a_to_c": 0.41931567,
+      "direct_transmission_a_to_d": 0.0
+    },
+    "scenario_results": [
+      {
+        "scenario_id": "Direct_Copy_A_B_Conflict",
+        "scenario_name": "1. DIRECT COPY CONFLICT (A != B, VERIFY=1.00)",
+        "is_high_threshold_regime": false,
+        "realized_return": 1.475,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 0.0,
+        "transposed_return": -4.475,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 5.95
+      },
+      {
+        "scenario_id": "Laundered_Proxy_A_C_Conflict",
+        "scenario_name": "2. TRANSITIVE MULTI-HOP CONFLICT (A != C, COMPOSE A->B->C)",
+        "is_high_threshold_regime": false,
+        "realized_return": 1.615,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 0.0,
+        "transposed_return": -4.615,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 6.2299995
+      },
+      {
+        "scenario_id": "Laundered_Agreement_A_C",
+        "scenario_name": "3. LAUNDERED REDUNDANT AGREEMENT (A == C, THRESHOLD=1.60)",
+        "is_high_threshold_regime": true,
+        "realized_return": 1.6000032,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 1.0,
+        "transposed_return": 1.6000032,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0
+      },
+      {
+        "scenario_id": "Independent_Agreement_A_D",
+        "scenario_name": "4. INDEPENDENT CORROBORATION (A == D, THRESHOLD=1.60)",
+        "is_high_threshold_regime": true,
+        "realized_return": 1.895,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 1.0,
+        "transposed_return": 1.895,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0
+      },
+      {
+        "scenario_id": "Independent_Conflict_A_D",
+        "scenario_name": "5. INDEPENDENT CONFLICT (A != D, VERIFY=1.00)",
+        "is_high_threshold_regime": false,
+        "realized_return": 1.0,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 1.0,
+        "transposed_return": 1.0,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0
+      }
+    ]
+  },
+  {
+    "seed": 108,
+    "causal_audit": {
+      "local_adjacency_accuracy": 1.0,
+      "transitive_reachability_accuracy": 1.0,
+      "direct_transmission_a_to_b": 0.68800324,
+      "direct_transmission_b_to_c": 0.60631835,
+      "composed_ancestry_a_to_c": 0.417149,
+      "direct_transmission_a_to_d": 0.0
+    },
+    "scenario_results": [
+      {
+        "scenario_id": "Direct_Copy_A_B_Conflict",
+        "scenario_name": "1. DIRECT COPY CONFLICT (A != B, VERIFY=1.00)",
+        "is_high_threshold_regime": false,
+        "realized_return": 1.44,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 0.0,
+        "transposed_return": -4.44,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 5.88
+      },
+      {
+        "scenario_id": "Laundered_Proxy_A_C_Conflict",
+        "scenario_name": "2. TRANSITIVE MULTI-HOP CONFLICT (A != C, COMPOSE A->B->C)",
+        "is_high_threshold_regime": false,
+        "realized_return": 1.37,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 0.0,
+        "transposed_return": -4.37,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 5.74
+      },
+      {
+        "scenario_id": "Laundered_Agreement_A_C",
+        "scenario_name": "3. LAUNDERED REDUNDANT AGREEMENT (A == C, THRESHOLD=1.60)",
+        "is_high_threshold_regime": true,
+        "realized_return": 1.6000032,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 1.0,
+        "transposed_return": 1.6000032,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0
+      },
+      {
+        "scenario_id": "Independent_Agreement_A_D",
+        "scenario_name": "4. INDEPENDENT CORROBORATION (A == D, THRESHOLD=1.60)",
+        "is_high_threshold_regime": true,
+        "realized_return": 1.86,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 1.0,
+        "transposed_return": 1.86,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0
+      },
+      {
+        "scenario_id": "Independent_Conflict_A_D",
+        "scenario_name": "5. INDEPENDENT CONFLICT (A != D, VERIFY=1.00)",
+        "is_high_threshold_regime": false,
+        "realized_return": 1.0,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 1.0,
+        "transposed_return": 1.0,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0
+      }
+    ]
+  },
+  {
+    "seed": 109,
+    "causal_audit": {
+      "local_adjacency_accuracy": 1.0,
+      "transitive_reachability_accuracy": 1.0,
+      "direct_transmission_a_to_b": 0.7022718,
+      "direct_transmission_b_to_c": 0.60779536,
+      "composed_ancestry_a_to_c": 0.42683756,
+      "direct_transmission_a_to_d": 0.0
+    },
+    "scenario_results": [
+      {
+        "scenario_id": "Direct_Copy_A_B_Conflict",
+        "scenario_name": "1. DIRECT COPY CONFLICT (A != B, VERIFY=1.00)",
+        "is_high_threshold_regime": false,
+        "realized_return": 1.405,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 0.0,
+        "transposed_return": -4.405,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 5.8100004
+      },
+      {
+        "scenario_id": "Laundered_Proxy_A_C_Conflict",
+        "scenario_name": "2. TRANSITIVE MULTI-HOP CONFLICT (A != C, COMPOSE A->B->C)",
+        "is_high_threshold_regime": false,
+        "realized_return": 1.475,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 0.0,
+        "transposed_return": -4.475,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 5.95
+      },
+      {
+        "scenario_id": "Laundered_Agreement_A_C",
+        "scenario_name": "3. LAUNDERED REDUNDANT AGREEMENT (A == C, THRESHOLD=1.60)",
+        "is_high_threshold_regime": true,
+        "realized_return": 1.6000032,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 1.0,
+        "transposed_return": 1.6000032,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0
+      },
+      {
+        "scenario_id": "Independent_Agreement_A_D",
+        "scenario_name": "4. INDEPENDENT CORROBORATION (A == D, THRESHOLD=1.60)",
+        "is_high_threshold_regime": true,
+        "realized_return": 2.0,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 1.0,
+        "transposed_return": 2.0,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0
+      },
+      {
+        "scenario_id": "Independent_Conflict_A_D",
+        "scenario_name": "5. INDEPENDENT CONFLICT (A != D, VERIFY=1.00)",
+        "is_high_threshold_regime": false,
+        "realized_return": 1.0,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 1.0,
+        "transposed_return": 1.0,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0
+      }
+    ]
+  },
+  {
+    "seed": 110,
+    "causal_audit": {
+      "local_adjacency_accuracy": 1.0,
+      "transitive_reachability_accuracy": 1.0,
+      "direct_transmission_a_to_b": 0.6983439,
+      "direct_transmission_b_to_c": 0.6048,
+      "composed_ancestry_a_to_c": 0.42235836,
+      "direct_transmission_a_to_d": 0.0
+    },
+    "scenario_results": [
+      {
+        "scenario_id": "Direct_Copy_A_B_Conflict",
+        "scenario_name": "1. DIRECT COPY CONFLICT (A != B, VERIFY=1.00)",
+        "is_high_threshold_regime": false,
+        "realized_return": 1.685,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 0.0,
+        "transposed_return": -4.685,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 6.37
+      },
+      {
+        "scenario_id": "Laundered_Proxy_A_C_Conflict",
+        "scenario_name": "2. TRANSITIVE MULTI-HOP CONFLICT (A != C, COMPOSE A->B->C)",
+        "is_high_threshold_regime": false,
+        "realized_return": 1.51,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 0.0,
+        "transposed_return": -4.51,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 6.0200005
+      },
+      {
+        "scenario_id": "Laundered_Agreement_A_C",
+        "scenario_name": "3. LAUNDERED REDUNDANT AGREEMENT (A == C, THRESHOLD=1.60)",
+        "is_high_threshold_regime": true,
+        "realized_return": 1.6000032,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 1.0,
+        "transposed_return": 1.6000032,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0
+      },
+      {
+        "scenario_id": "Independent_Agreement_A_D",
+        "scenario_name": "4. INDEPENDENT CORROBORATION (A == D, THRESHOLD=1.60)",
+        "is_high_threshold_regime": true,
+        "realized_return": 1.965,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 1.0,
+        "transposed_return": 1.965,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0
+      },
+      {
+        "scenario_id": "Independent_Conflict_A_D",
+        "scenario_name": "5. INDEPENDENT CONFLICT (A != D, VERIFY=1.00)",
+        "is_high_threshold_regime": false,
+        "realized_return": 1.0,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 1.0,
+        "transposed_return": 1.0,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0
+      }
+    ]
+  },
+  {
+    "seed": 111,
+    "causal_audit": {
+      "local_adjacency_accuracy": 1.0,
+      "transitive_reachability_accuracy": 1.0,
+      "direct_transmission_a_to_b": 0.69345117,
+      "direct_transmission_b_to_c": 0.60243905,
+      "composed_ancestry_a_to_c": 0.41776207,
+      "direct_transmission_a_to_d": 0.0
+    },
+    "scenario_results": [
+      {
+        "scenario_id": "Direct_Copy_A_B_Conflict",
+        "scenario_name": "1. DIRECT COPY CONFLICT (A != B, VERIFY=1.00)",
+        "is_high_threshold_regime": false,
+        "realized_return": 1.405,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 0.0,
+        "transposed_return": -4.405,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 5.8100004
+      },
+      {
+        "scenario_id": "Laundered_Proxy_A_C_Conflict",
+        "scenario_name": "2. TRANSITIVE MULTI-HOP CONFLICT (A != C, COMPOSE A->B->C)",
+        "is_high_threshold_regime": false,
+        "realized_return": 1.685,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 0.0,
+        "transposed_return": -4.685,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 6.37
+      },
+      {
+        "scenario_id": "Laundered_Agreement_A_C",
+        "scenario_name": "3. LAUNDERED REDUNDANT AGREEMENT (A == C, THRESHOLD=1.60)",
+        "is_high_threshold_regime": true,
+        "realized_return": 1.6000032,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 1.0,
+        "transposed_return": 1.6000032,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0
+      },
+      {
+        "scenario_id": "Independent_Agreement_A_D",
+        "scenario_name": "4. INDEPENDENT CORROBORATION (A == D, THRESHOLD=1.60)",
+        "is_high_threshold_regime": true,
+        "realized_return": 1.965,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 1.0,
+        "transposed_return": 1.965,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0
+      },
+      {
+        "scenario_id": "Independent_Conflict_A_D",
+        "scenario_name": "5. INDEPENDENT CONFLICT (A != D, VERIFY=1.00)",
+        "is_high_threshold_regime": false,
+        "realized_return": 1.0,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 1.0,
+        "transposed_return": 1.0,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0
+      }
+    ]
+  },
+  {
+    "seed": 112,
+    "causal_audit": {
+      "local_adjacency_accuracy": 1.0,
+      "transitive_reachability_accuracy": 1.0,
+      "direct_transmission_a_to_b": 0.7014563,
+      "direct_transmission_b_to_c": 0.6200961,
+      "composed_ancestry_a_to_c": 0.43497032,
+      "direct_transmission_a_to_d": 0.0
+    },
+    "scenario_results": [
+      {
+        "scenario_id": "Direct_Copy_A_B_Conflict",
+        "scenario_name": "1. DIRECT COPY CONFLICT (A != B, VERIFY=1.00)",
+        "is_high_threshold_regime": false,
+        "realized_return": 1.3,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 0.0,
+        "transposed_return": -4.3,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 5.6000004
+      },
+      {
+        "scenario_id": "Laundered_Proxy_A_C_Conflict",
+        "scenario_name": "2. TRANSITIVE MULTI-HOP CONFLICT (A != C, COMPOSE A->B->C)",
+        "is_high_threshold_regime": false,
+        "realized_return": 1.265,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 0.0,
+        "transposed_return": -4.265,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 5.5299997
+      },
+      {
+        "scenario_id": "Laundered_Agreement_A_C",
+        "scenario_name": "3. LAUNDERED REDUNDANT AGREEMENT (A == C, THRESHOLD=1.60)",
+        "is_high_threshold_regime": true,
+        "realized_return": 1.6000032,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 1.0,
+        "transposed_return": 1.6000032,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0
+      },
+      {
+        "scenario_id": "Independent_Agreement_A_D",
+        "scenario_name": "4. INDEPENDENT CORROBORATION (A == D, THRESHOLD=1.60)",
+        "is_high_threshold_regime": true,
+        "realized_return": 1.965,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 1.0,
+        "transposed_return": 1.965,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0
+      },
+      {
+        "scenario_id": "Independent_Conflict_A_D",
+        "scenario_name": "5. INDEPENDENT CONFLICT (A != D, VERIFY=1.00)",
+        "is_high_threshold_regime": false,
+        "realized_return": 1.0,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 1.0,
+        "transposed_return": 1.0,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0
+      }
+    ]
+  },
+  {
+    "seed": 113,
+    "causal_audit": {
+      "local_adjacency_accuracy": 1.0,
+      "transitive_reachability_accuracy": 1.0,
+      "direct_transmission_a_to_b": 0.68499196,
+      "direct_transmission_b_to_c": 0.6209807,
+      "composed_ancestry_a_to_c": 0.42536676,
+      "direct_transmission_a_to_d": 0.0
+    },
+    "scenario_results": [
+      {
+        "scenario_id": "Direct_Copy_A_B_Conflict",
+        "scenario_name": "1. DIRECT COPY CONFLICT (A != B, VERIFY=1.00)",
+        "is_high_threshold_regime": false,
+        "realized_return": 1.405,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 0.0,
+        "transposed_return": -4.405,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 5.8100004
+      },
+      {
+        "scenario_id": "Laundered_Proxy_A_C_Conflict",
+        "scenario_name": "2. TRANSITIVE MULTI-HOP CONFLICT (A != C, COMPOSE A->B->C)",
+        "is_high_threshold_regime": false,
+        "realized_return": 1.44,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 0.0,
+        "transposed_return": -4.44,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 5.88
+      },
+      {
+        "scenario_id": "Laundered_Agreement_A_C",
+        "scenario_name": "3. LAUNDERED REDUNDANT AGREEMENT (A == C, THRESHOLD=1.60)",
+        "is_high_threshold_regime": true,
+        "realized_return": 1.6000032,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 1.0,
+        "transposed_return": 1.6000032,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0
+      },
+      {
+        "scenario_id": "Independent_Agreement_A_D",
+        "scenario_name": "4. INDEPENDENT CORROBORATION (A == D, THRESHOLD=1.60)",
+        "is_high_threshold_regime": true,
+        "realized_return": 1.965,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 1.0,
+        "transposed_return": 1.965,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0
+      },
+      {
+        "scenario_id": "Independent_Conflict_A_D",
+        "scenario_name": "5. INDEPENDENT CONFLICT (A != D, VERIFY=1.00)",
+        "is_high_threshold_regime": false,
+        "realized_return": 1.0,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 1.0,
+        "transposed_return": 1.0,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0
+      }
+    ]
+  },
+  {
+    "seed": 114,
+    "causal_audit": {
+      "local_adjacency_accuracy": 1.0,
+      "transitive_reachability_accuracy": 1.0,
+      "direct_transmission_a_to_b": 0.69137794,
+      "direct_transmission_b_to_c": 0.5912149,
+      "composed_ancestry_a_to_c": 0.40875295,
+      "direct_transmission_a_to_d": 0.0
+    },
+    "scenario_results": [
+      {
+        "scenario_id": "Direct_Copy_A_B_Conflict",
+        "scenario_name": "1. DIRECT COPY CONFLICT (A != B, VERIFY=1.00)",
+        "is_high_threshold_regime": false,
+        "realized_return": 1.44,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 0.0,
+        "transposed_return": -4.44,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 5.88
+      },
+      {
+        "scenario_id": "Laundered_Proxy_A_C_Conflict",
+        "scenario_name": "2. TRANSITIVE MULTI-HOP CONFLICT (A != C, COMPOSE A->B->C)",
+        "is_high_threshold_regime": false,
+        "realized_return": 1.58,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 0.0,
+        "transposed_return": -4.58,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 6.16
+      },
+      {
+        "scenario_id": "Laundered_Agreement_A_C",
+        "scenario_name": "3. LAUNDERED REDUNDANT AGREEMENT (A == C, THRESHOLD=1.60)",
+        "is_high_threshold_regime": true,
+        "realized_return": 1.6000032,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 1.0,
+        "transposed_return": 1.6000032,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0
+      },
+      {
+        "scenario_id": "Independent_Agreement_A_D",
+        "scenario_name": "4. INDEPENDENT CORROBORATION (A == D, THRESHOLD=1.60)",
+        "is_high_threshold_regime": true,
+        "realized_return": 1.825,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 1.0,
+        "transposed_return": 1.825,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0
+      },
+      {
+        "scenario_id": "Independent_Conflict_A_D",
+        "scenario_name": "5. INDEPENDENT CONFLICT (A != D, VERIFY=1.00)",
+        "is_high_threshold_regime": false,
+        "realized_return": 1.0,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 1.0,
+        "transposed_return": 1.0,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0
+      }
+    ]
+  },
+  {
+    "seed": 115,
+    "causal_audit": {
+      "local_adjacency_accuracy": 1.0,
+      "transitive_reachability_accuracy": 1.0,
+      "direct_transmission_a_to_b": 0.6907537,
+      "direct_transmission_b_to_c": 0.60105306,
+      "composed_ancestry_a_to_c": 0.4151796,
+      "direct_transmission_a_to_d": 0.0
+    },
+    "scenario_results": [
+      {
+        "scenario_id": "Direct_Copy_A_B_Conflict",
+        "scenario_name": "1. DIRECT COPY CONFLICT (A != B, VERIFY=1.00)",
+        "is_high_threshold_regime": false,
+        "realized_return": 1.44,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 0.0,
+        "transposed_return": -4.44,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 5.88
+      },
+      {
+        "scenario_id": "Laundered_Proxy_A_C_Conflict",
+        "scenario_name": "2. TRANSITIVE MULTI-HOP CONFLICT (A != C, COMPOSE A->B->C)",
+        "is_high_threshold_regime": false,
+        "realized_return": 1.37,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 0.0,
+        "transposed_return": -4.37,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 5.74
+      },
+      {
+        "scenario_id": "Laundered_Agreement_A_C",
+        "scenario_name": "3. LAUNDERED REDUNDANT AGREEMENT (A == C, THRESHOLD=1.60)",
+        "is_high_threshold_regime": true,
+        "realized_return": 1.6000032,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 1.0,
+        "transposed_return": 1.6000032,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0
+      },
+      {
+        "scenario_id": "Independent_Agreement_A_D",
+        "scenario_name": "4. INDEPENDENT CORROBORATION (A == D, THRESHOLD=1.60)",
+        "is_high_threshold_regime": true,
+        "realized_return": 2.0,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 1.0,
+        "transposed_return": 2.0,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0
+      },
+      {
+        "scenario_id": "Independent_Conflict_A_D",
+        "scenario_name": "5. INDEPENDENT CONFLICT (A != D, VERIFY=1.00)",
+        "is_high_threshold_regime": false,
+        "realized_return": 1.0,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 1.0,
+        "transposed_return": 1.0,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0
+      }
+    ]
+  },
+  {
+    "seed": 116,
+    "causal_audit": {
+      "local_adjacency_accuracy": 1.0,
+      "transitive_reachability_accuracy": 1.0,
+      "direct_transmission_a_to_b": 0.6913923,
+      "direct_transmission_b_to_c": 0.6003159,
+      "composed_ancestry_a_to_c": 0.4150538,
+      "direct_transmission_a_to_d": 0.0
+    },
+    "scenario_results": [
+      {
+        "scenario_id": "Direct_Copy_A_B_Conflict",
+        "scenario_name": "1. DIRECT COPY CONFLICT (A != B, VERIFY=1.00)",
+        "is_high_threshold_regime": false,
+        "realized_return": 1.37,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 0.0,
+        "transposed_return": -4.37,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 5.74
+      },
+      {
+        "scenario_id": "Laundered_Proxy_A_C_Conflict",
+        "scenario_name": "2. TRANSITIVE MULTI-HOP CONFLICT (A != C, COMPOSE A->B->C)",
+        "is_high_threshold_regime": false,
+        "realized_return": 1.3,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 0.0,
+        "transposed_return": -4.3,
+        "paired_trans_acc_drop": 1.0,
+        "paired_trans_ret_drop": 5.6000004
+      },
+      {
+        "scenario_id": "Laundered_Agreement_A_C",
+        "scenario_name": "3. LAUNDERED REDUNDANT AGREEMENT (A == C, THRESHOLD=1.60)",
+        "is_high_threshold_regime": true,
+        "realized_return": 1.6000032,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 1.0,
+        "transposed_return": 1.6000032,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0
+      },
+      {
+        "scenario_id": "Independent_Agreement_A_D",
+        "scenario_name": "4. INDEPENDENT CORROBORATION (A == D, THRESHOLD=1.60)",
+        "is_high_threshold_regime": true,
+        "realized_return": 1.93,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 1.0,
+        "transposed_return": 1.93,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0
+      },
+      {
+        "scenario_id": "Independent_Conflict_A_D",
+        "scenario_name": "5. INDEPENDENT CONFLICT (A != D, VERIFY=1.00)",
+        "is_high_threshold_regime": false,
+        "realized_return": 1.0,
+        "target_action_accuracy": 1.0,
+        "secondary_action_rate": 0.0,
+        "arrow_sign_accuracy": 1.0,
+        "transposed_target_acc": 1.0,
+        "transposed_return": 1.0,
+        "paired_trans_acc_drop": 0.0,
+        "paired_trans_ret_drop": 0.0
+      }
+    ]
+  }
+]
