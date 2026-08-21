@@ -255,3 +255,16 @@ class ControllabilityArenaEnv:
             last_action_intended=snap.last_action_intended,
             is_terminal=snap.is_terminal,
         )
+
+    def clone(self) -> "ControllabilityArenaEnv":
+        cloned = ControllabilityArenaEnv(
+            cost_try=self.cost_try,
+            reward_success=self.reward_success,
+            penalty_failure=self.penalty_failure,
+            contingency_p=self.contingency_p,
+            min_exploration_steps=self.min_exp,
+            max_exploration_steps=self.max_exp,
+        )
+        if self._ground_truth is not None:
+            cloned.restore(self.snapshot())
+        return cloned
