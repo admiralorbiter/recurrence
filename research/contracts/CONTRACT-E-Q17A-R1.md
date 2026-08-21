@@ -1,6 +1,6 @@
 ---
 contract_id: CONTRACT-E-Q17A-R1
-status: DRAFT
+status: FROZEN
 base_sha: 6849c64ab5881f10f9c30b7b26ce0f653d0567f4
 resource_class: cpu
 long_running: false
@@ -9,22 +9,22 @@ interruptible: true
 proposed_by: antigravity
 design_review: APPROVED
 reviewed_by: chatgpt-pro
-authorized_by: null
+authorized_by: human
 creation_date: "2026-08-21"
 target_completion_date: "2026-08-22"
 ---
 
-# Research Contract (Draft Revision R1): CONTRACT-E-Q17A-R1 — Learned 2-Hop Transitive Composition
+# Research Contract: CONTRACT-E-Q17A-R1 — Learned 2-Hop Transitive Composition
 
-> **DRAFT PROPOSAL — DESIGN REVIEW APPROVED — PENDING STRATEGIC AUTHORIZATION**:
-> This draft revision has completed scientific design review (`chatgpt-pro`) and is approved for strategic human authorization. It establishes the formal training curriculum, evaluation sealing, discrete seed-count gates, McNemar and exact permutation statistical protocols, corrected composition ablation mechanics, and double-dissociation specificity requirements.
+> **FROZEN RESEARCH CONTRACT — AUTHORIZED FOR EXECUTION**:
+> This contract is frozen and authorized by the Human Research Director following scientific review by `chatgpt-pro`. It establishes the formal training curriculum, evaluation sealing, discrete seed-count gates, McNemar and exact permutation statistical protocols, corrected composition ablation mechanics, and double-dissociation specificity requirements.
 
 ---
 
 ## 1. Metadata & Lifecycle Status
 
 - **Contract ID**: `CONTRACT-E-Q17A-R1`
-- **Contract Status**: `DRAFT` (Pending Human Strategic Authorization to Freeze)
+- **Contract Status**: `FROZEN`
 - **Base Git Commit (`base_sha`)**: `6849c64ab5881f10f9c30b7b26ce0f653d0567f4`
 - **Supersedes**: `CONTRACT-E-Q17A` (Unexecuted, escalated due to specification defects)
 - **Target Experiment / Phase**: Gate E Frontier (Q17A — Learned 2-Hop Composition)
@@ -32,7 +32,7 @@ target_completion_date: "2026-08-22"
 - **Governance**:
   - **Proposed By**: `antigravity`
   - **Design Review**: `APPROVED` (Reviewed by `chatgpt-pro`)
-  - **Authorized By**: `null` (Pending Human Director Strategic Authorization)
+  - **Authorized By**: `human` (Human Director Strategic Authorization)
 
 ---
 
