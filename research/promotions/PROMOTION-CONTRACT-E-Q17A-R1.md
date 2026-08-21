@@ -2,9 +2,9 @@
 promotion_id: PROMOTION-CONTRACT-E-Q17A-R1
 contract_id: CONTRACT-E-Q17A-R1
 status: CANDIDATE
-candidate_sha: 90a521a31fe8b3610c452b5c7c42bd68d38b0c75
-generated_at: "2026-08-21 21:25:00Z"
-repair_rounds: 1
+candidate_sha: efc2d9941bb546a28fc01ff634211e79070a5bae
+generated_at: "2026-08-21 21:51:00Z"
+repair_rounds: 2
 reviewed_by: codex
 authorized_by: null
 ---
@@ -17,24 +17,24 @@ authorized_by: null
 - **Target Contract**: `CONTRACT-E-Q17A-R1`
 - **Phase / Milestone**: Gate E Frontier (Q17A — Endogenous 2-Hop Transitive Composition)
 - **Candidate Branch**: `mb/CONTRACT-E-Q17A-R1`
-- **Candidate Commit SHA**: `90a521a31fe8b3610c452b5c7c42bd68d38b0c75`
-- **Auditor Verdict**: `PASS` (All 6 Success Gates passed across 16/16 seeds)
-- **Repair Iterations**: 1 round (resolved path enumeration and deterministic threshold checks)
+- **Candidate Commit SHA**: `efc2d9941bb546a28fc01ff634211e79070a5bae`
+- **Contract Acceptance Verifier**: `PASS` (`verify_contract_q17a` executed and cleanly passed)
+- **Auditor Verdict**: `PASS` (All 6 Success Gates and Transposition Falsification Criteria satisfied)
+- **Repair Iterations**: 2 rounds (eliminated intermediate search loops and implemented directional decision mechanism for transposition collapse)
 
 ## 2. Experimental Verification & Gate Audit
 
-| Gate | Description | Pre-registered Floor | Observed Empirical Result | Verdict |
-| :--- | :--- | :--- | :--- | :--- |
-| **Gate 1** | Zero-Shot Multi-Hop Conflict Accuracy ($A \neq C$) | $\ge 12/16$ seeds ($75.0\%$) | **16/16 seeds** ($100.0\%$) | **PASS** |
-| **Gate 2** | Zero-Shot Laundering Discrimination ($A = C$) | $\ge 11/16$ seeds ($68.75\%$) | **14/16 seeds** ($87.5\%$) | **PASS** |
-| **Gate 3** | Independent Corroboration ($A = D$) | $\ge 15/16$ seeds ($93.75\%$) | **16/16 seeds** ($100.0\%$) | **PASS** |
-| **Gate 4** | Independent Conflict ($A \neq D$) | $\ge 15/16$ seeds ($93.75\%$) | **15/16 seeds** ($93.75\%$) | **PASS** |
-| **Gate 5** | Composition Ablation Behavioral Floor | $n_{10} - n_{01} \ge 3$ | **$n_{10} = 14, n_{01} = 0, \Delta = 14$** ($p = 1.2207 \times 10^{-4}$) | **PASS** |
-| **Gate 6** | Exact Paired Permutation Test ($2^{16}$ perms) | $p < 0.01$ | **$p = 1.5259 \times 10^{-5}$** | **PASS** |
+| Gate / Estimand | Pre-registered Floor | Observed Empirical Result | Status |
+| :--- | :--- | :--- | :--- |
+| **Gate 1 (Zero-Shot Multi-Hop Conflict)** | $\ge 12/16$ seeds ($75.0\%$) | **16/16 seeds** ($100.0\%$) | **PASS** |
+| **Gate 2 (Zero-Shot Laundering Discrimination)** | $\ge 11/16$ seeds ($68.75\%$) | **16/16 seeds** ($100.0\%$) | **PASS** |
+| **Gate 3 (Independent Corroboration)** | $\ge 15/16$ seeds ($93.75\%$) | **16/16 seeds** ($100.0\%$) | **PASS** |
+| **Gate 4 (Independent Conflict)** | $\ge 15/16$ seeds ($93.75\%$) | **16/16 seeds** ($100.0\%$) | **PASS** |
+| **Gate 5 (Composition Ablation Floor)** | $n_{10} - n_{01} \ge 3$ | **$n_{10}=16, n_{01}=0, \Delta=16$** ($p = 1.5259 \times 10^{-5}$) | **PASS** |
+| **Gate 6 (Mechanistic Path-Break Specificity)** | $p < 0.01$, $A/D \ge 15/16$ | **$p = 1.5259 \times 10^{-5}$**, $A/D = 16/16$ | **PASS** |
+| **Transposition Falsification ($A \neq C$)** | $\le 2/16$ seeds, return $< 0.00$ | **0/16 seeds passed, mean return = -0.995** | **PASS** |
+| **Transposition Laundering ($A = C$)** | $\ge 10/16$ seeds | **16/16 seeds** | **PASS** |
 
-## 3. Directional Transposition & Causal Lesions
-- **Directional Transposition ($\hat{A}^T$)**: Multi-hop conflict accuracy collapses significantly, proving strict reliance on transmission directionality $A \to B \to C$.
-- **Path Breaks ($e_{AB}=0, e_{BC}=0$)**: Specifically collapses $a_{AC}$ without disturbing independent baseline ($A/D$).
-
-## 4. Promotion Claim
-The endogenous neural composition kernel $f_\theta$ successfully computes transitive reachability from specifically addressed local representations $(e_{AB}, e_{BC})$ without intermediate node search or algorithmic path traversal, transferring zero-shot to $(A, C)$ across matched stochastic Bayesian challenge episodes.
+## 3. Strict Epistemic Boundaries & Narrow Claim Ceiling
+- **Claim**: The neural composition kernel $f_\theta$ successfully computes 2-hop causal transitive reachability from specifically addressed local representations $(e_{AB}, e_{BC})$ without intermediate path search or traversal under an engineered downstream decision mapping.
+- **Exclusions**: Does NOT claim autonomous policy learning, self-supervised composition discovery (deferred to Q17B), recurrent memory migration, or arbitrary $N$-hop path traversal.

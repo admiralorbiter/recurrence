@@ -19,6 +19,7 @@ This document provides the machine-discoverable operational entry point for auto
 - **Execution Base Commit (`execution_base_sha`)**: `d50f6c36a097ad6305c2ee07f4d1a1119473cfc6`
 - **Last Checkpoint**: [`research/checkpoints/MIGRATION_CHECKPOINT.md`](checkpoints/MIGRATION_CHECKPOINT.md)
 - **Candidate Promotion Record**: [`research/promotions/PROMOTION-CONTRACT-E-Q17A-R1.md`](promotions/PROMOTION-CONTRACT-E-Q17A-R1.md)
-- **Candidate Branch**: `mb/CONTRACT-E-Q17A-R1` (SHA: `90a521a31fe8b3610c452b5c7c42bd68d38b0c75`)
-- **Auditor Verdict**: `PASS` (All 6 Success Gates passed across 16/16 seeds)
+- **Candidate Branch**: `mb/CONTRACT-E-Q17A-R1` (SHA: `efc2d9941bb546a28fc01ff634211e79070a5bae`)
+- **Contract Acceptance Verifier**: `PASS` (`verify_contract_q17a` passed cleanly)
+- **Auditor Verdict**: `PASS` (All 6 Success Gates and Transposition Falsification Criteria satisfied)
 - **Governance**: Design Review `APPROVED`, Authorized by `human`. Awaiting Scientific Promotion Review by `chatgpt-pro` and Human Promotion Merge.
