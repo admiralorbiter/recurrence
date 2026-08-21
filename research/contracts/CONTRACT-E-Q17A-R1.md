@@ -7,7 +7,7 @@ long_running: false
 exclusive_gpu: false
 interruptible: true
 proposed_by: antigravity
-design_review: CHANGES_REQUESTED
+design_review: APPROVED
 reviewed_by: chatgpt-pro
 authorized_by: null
 creation_date: "2026-08-21"
@@ -16,23 +16,23 @@ target_completion_date: "2026-08-22"
 
 # Research Contract (Draft Revision R1): CONTRACT-E-Q17A-R1 — Learned 2-Hop Transitive Composition
 
-> **DRAFT PROPOSAL — HUMAN EPISTEMIC REVIEW REQUIRED BEFORE FREEZING**:
-> This draft revision establishes the formal training curriculum, discrete seed-count gates, McNemar and exact permutation statistical protocols, corrected composition ablation mechanics, and double-dissociation specificity requirements for Q17A.
+> **DRAFT PROPOSAL — DESIGN REVIEW APPROVED — PENDING STRATEGIC AUTHORIZATION**:
+> This draft revision has completed scientific design review (`chatgpt-pro`) and is approved for strategic human authorization. It establishes the formal training curriculum, evaluation sealing, discrete seed-count gates, McNemar and exact permutation statistical protocols, corrected composition ablation mechanics, and double-dissociation specificity requirements.
 
 ---
 
 ## 1. Metadata & Lifecycle Status
 
 - **Contract ID**: `CONTRACT-E-Q17A-R1`
-- **Contract Status**: `DRAFT` (Requires human strategic authorization to freeze)
+- **Contract Status**: `DRAFT` (Pending Human Strategic Authorization to Freeze)
 - **Base Git Commit (`base_sha`)**: `6849c64ab5881f10f9c30b7b26ce0f653d0567f4`
 - **Supersedes**: `CONTRACT-E-Q17A` (Unexecuted, escalated due to specification defects)
 - **Target Experiment / Phase**: Gate E Frontier (Q17A — Learned 2-Hop Composition)
 - **Protocol Version**: `v0.1`
 - **Governance**:
   - **Proposed By**: `antigravity`
-  - **Design Review**: `CHANGES_REQUESTED` (Reviewed by `chatgpt-pro`)
-  - **Authorized By**: `null` (Pending Human Director Authorization)
+  - **Design Review**: `APPROVED` (Reviewed by `chatgpt-pro`)
+  - **Authorized By**: `null` (Pending Human Director Strategic Authorization)
 
 ---
 
@@ -60,6 +60,11 @@ target_completion_date: "2026-08-22"
   - Development environments generate synthetic pairwise causal relations over disjoint entity vocabularies (e.g., $X \to Y \to Z$, $P \to Q \to R$).
   - $f_\theta$ is supervised on generic step chaining: inputs $(\mathbf{e}_{1}, \mathbf{e}_{2})$ mapped to multi-hop reachability target $\mathbf{a}_{13}$.
   - **Strict Entity Withholding**: Entities $A, B, C, D$ and the test chain $A \to B \to C$ are strictly excluded from all training worlds and query encoder training.
+
+- **Evaluation Sealing & Model Selection Leakage Protection**:
+  - Architecture decisions, optimizer configurations, hyperparameters, learning rate schedules, stopping rules, and model selection criteria may use **only auxiliary training/development worlds**.
+  - The final $(A, B, C, D)$ test environment remains sealed until all implementation choices are frozen.
+  - Final-test performance may never be used to tune, select, or iterate on the model implementation.
 
 - **Test Evaluation Environment (Zero-Shot Transfer)**:
   - Topology: Directed transmission chain $A \to B \to C$.
@@ -94,11 +99,11 @@ target_completion_date: "2026-08-22"
 - **Behavioral Evaluation**:
   - Report exact seed promotion counts ($k/16$).
   - Report paired difference ($\text{Acc}_{\text{intact}} - \text{Acc}_{\text{ablation}}$).
-  - Report complete $2 \times 2$ discordant-pair contingency tables.
+  - Report complete $2 \times 2$ discordant-pair contingency tables ($n_{10}, n_{01}$).
   - Compute exact binomial McNemar test $p$-values as supporting descriptive evidence (not used as a fragile binary gate at $N=16$).
 - **Continuous Mechanistic Evaluation**:
   - Evaluate the continuous composed reachability score $\hat{a}_{AC}$ between intact and path-break conditions.
-  - Compute an **exact paired-sample permutation test** ($2^{16} = 65,536$ exact permutations) testing whether path-breaks selectively collapse $\hat{a}_{AC}$ ($p_{\text{exact}} < 0.01$).
+  - Compute an **exact one-sided paired sign-flip/permutation test** ($2^{16} = 65,536$ exact permutations) on the mean difference $\Delta a = a_{\text{intact}} - a_{\text{pathbreak}}$, testing $\Delta a > 0$ ($p_{\text{exact}} < 0.01$).
 
 ---
 
@@ -109,9 +114,11 @@ target_completion_date: "2026-08-22"
   2. **Gate 2 (Zero-Shot Laundering Discrimination)**: Intact laundering `VERIFY` rate $\ge 11/16$ seeds ($68.75\%$).
   3. **Gate 3 (Independent Corroboration)**: Independent agreement ($A = D$) maintains $\ge 15/16$ seeds ($93.75\%$).
   4. **Gate 4 (Independent Conflict)**: Independent conflict ($A \neq D$) maintains $\ge 15/16$ seeds ($93.75\%$).
-  5. **Gate 5 (Composition Ablation Sensitivity)**: Composition Ablation ($\hat{a}_{AC} := 0$) causes a significant drop in laundering correction compared to intact ($\ge 3$ discordant pairs favoring intact).
+  5. **Gate 5 (Composition Ablation Behavioral Floor)**: Composition Ablation ($\hat{a}_{AC} := 0$) exhibits a discordant behavioral effect floor:
+     $$n_{10} - n_{01} \ge 3$$
+     where $n_{10}$ is intact-correct / ablation-incorrect, and $n_{01}$ is intact-incorrect / ablation-correct. Report exact binomial McNemar as supporting evidence.
   6. **Gate 6 (Mechanistic Path-Break Specificity)**:
-     - Severing $e_{AB} := 0$ or $e_{BC} := 0$ collapses $\hat{a}_{AC}$ on exact paired permutation test ($p_{\text{exact}} < 0.01$).
+     - Severing $e_{AB} := 0$ or $e_{BC} := 0$ collapses $\hat{a}_{AC}$ under exact one-sided paired permutation test ($\Delta a > 0, p_{\text{exact}} < 0.01$).
      - **Specificity Invariant**: Independent controls ($A/D$) must remain intact ($\ge 15/16$ seeds) during $e_{AB}$ or $e_{BC}$ path-breaks.
 
 - **Scenario-Specific Transposition Controls**:
@@ -150,12 +157,12 @@ target_completion_date: "2026-08-22"
 
 ---
 
-## 10. Human Review & Authorization Checklist
+## 10. Human Strategic Authorization Checklist
 
-- [x] Training signal and curriculum defined (auxiliary triples $\to$ zero-shot $A \to B \to C$).
-- [x] Statistical protocols split into discrete McNemar contingency tables for behavior and exact 16-seed permutation tests for continuous mechanism.
-- [x] Thresholds aligned to discrete Q16b.2 empirical floor ($12/16, 11/16, 15/16, 15/16$).
-- [x] Composition ablation accurately defined as bypassing $f_\theta$ ($\hat{a}_{AC} := 0$).
+- [x] Scientific Design Review: `APPROVED` by `chatgpt-pro`.
+- [x] Evaluation sealing and model-selection leakage protection enforced.
+- [x] Statistical protocols established: $n_{10} - n_{01} \ge 3$ discordant-pair floor + exact one-sided permutation test.
+- [x] Thresholds locked to discrete Q16b.2 empirical floor ($12/16, 11/16, 15/16, 15/16$).
 - [x] Double dissociation specificity enforced (path-breaks damage $A \to C$ while preserving $A/D$).
-- [x] Transposition rationale corrected to directional vs non-directional mechanics.
-- [ ] **Human Director Strategic Authorization**: Transition from `DRAFT` to `FROZEN` (`authorized_by: human`).
+- [ ] **Human Director Strategic Authorization**: Awaiting strategic go/no-go from Human Director to freeze (`status: FROZEN`, `authorized_by: human`).
+
