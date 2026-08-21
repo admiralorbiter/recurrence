@@ -63,3 +63,7 @@ path = "src/bin/run_q12c_experiment.rs"
 [[bin]]
 name = "run_q11d_experiment"
 path = "src/bin/run_q11d_experiment.rs"
+
+[[bin]]
+name = "run_gate_e_scouts"
+path = "src/bin/run_gate_e_scouts.rs"

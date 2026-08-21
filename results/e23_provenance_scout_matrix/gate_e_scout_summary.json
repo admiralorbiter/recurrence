@@ -1,0 +1,3538 @@
+[
+  [
+    {
+      "scout_id": "scout_1_basic_reliability",
+      "config_name": "basic_reliability",
+      "estimand_lineage": {
+        "scout_id": "scout_1_basic_reliability",
+        "construct_name": "Source Sensitivity Index (SSI)",
+        "ground_truth_origin": "env.tape.sources[s].reliability",
+        "behavioral_target": "P(follow_report | S0) - P(follow_report | S1)",
+        "conditioned_on": [
+          "decision_window_content = 2",
+          "neutral_cues_absent"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "source_contrast_patch",
+        "controls_applied": [
+          "current_content_matched",
+          "blank_delay_steps = 3"
+        ]
+      },
+      "level_0_oracle_return": 0.36,
+      "level_0_blind_return": 0.36,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": 0.039432526,
+      "level_3_behavioral_effect": 0.55,
+      "level_5_causal_specificity_drop": 0.0,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "ARCHIVED_CONTROL",
+      "structural_phenomenon": "BASELINE_PROVENANCE_REPUTATION"
+    },
+    {
+      "scout_id": "scout_1_basic_reliability",
+      "config_name": "basic_reliability",
+      "estimand_lineage": {
+        "scout_id": "scout_1_basic_reliability",
+        "construct_name": "Source Sensitivity Index (SSI)",
+        "ground_truth_origin": "env.tape.sources[s].reliability",
+        "behavioral_target": "P(follow_report | S0) - P(follow_report | S1)",
+        "conditioned_on": [
+          "decision_window_content = 2",
+          "neutral_cues_absent"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "source_contrast_patch",
+        "controls_applied": [
+          "current_content_matched",
+          "blank_delay_steps = 3"
+        ]
+      },
+      "level_0_oracle_return": 0.46,
+      "level_0_blind_return": 0.46,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": -0.03059721,
+      "level_3_behavioral_effect": 0.51666665,
+      "level_5_causal_specificity_drop": 0.5,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "ARCHIVED_CONTROL",
+      "structural_phenomenon": "BASELINE_PROVENANCE_REPUTATION"
+    },
+    {
+      "scout_id": "scout_1_basic_reliability",
+      "config_name": "basic_reliability",
+      "estimand_lineage": {
+        "scout_id": "scout_1_basic_reliability",
+        "construct_name": "Source Sensitivity Index (SSI)",
+        "ground_truth_origin": "env.tape.sources[s].reliability",
+        "behavioral_target": "P(follow_report | S0) - P(follow_report | S1)",
+        "conditioned_on": [
+          "decision_window_content = 2",
+          "neutral_cues_absent"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "source_contrast_patch",
+        "controls_applied": [
+          "current_content_matched",
+          "blank_delay_steps = 3"
+        ]
+      },
+      "level_0_oracle_return": 0.52,
+      "level_0_blind_return": 0.52,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": 0.11773205,
+      "level_3_behavioral_effect": 0.55,
+      "level_5_causal_specificity_drop": 0.0,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "ARCHIVED_CONTROL",
+      "structural_phenomenon": "BASELINE_PROVENANCE_REPUTATION"
+    },
+    {
+      "scout_id": "scout_1_basic_reliability",
+      "config_name": "basic_reliability",
+      "estimand_lineage": {
+        "scout_id": "scout_1_basic_reliability",
+        "construct_name": "Source Sensitivity Index (SSI)",
+        "ground_truth_origin": "env.tape.sources[s].reliability",
+        "behavioral_target": "P(follow_report | S0) - P(follow_report | S1)",
+        "conditioned_on": [
+          "decision_window_content = 2",
+          "neutral_cues_absent"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "source_contrast_patch",
+        "controls_applied": [
+          "current_content_matched",
+          "blank_delay_steps = 3"
+        ]
+      },
+      "level_0_oracle_return": 0.48,
+      "level_0_blind_return": 0.48,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": 0.49582005,
+      "level_3_behavioral_effect": 0.5333333,
+      "level_5_causal_specificity_drop": 0.5,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "ARCHIVED_CONTROL",
+      "structural_phenomenon": "BASELINE_PROVENANCE_REPUTATION"
+    },
+    {
+      "scout_id": "scout_1_basic_reliability",
+      "config_name": "basic_reliability",
+      "estimand_lineage": {
+        "scout_id": "scout_1_basic_reliability",
+        "construct_name": "Source Sensitivity Index (SSI)",
+        "ground_truth_origin": "env.tape.sources[s].reliability",
+        "behavioral_target": "P(follow_report | S0) - P(follow_report | S1)",
+        "conditioned_on": [
+          "decision_window_content = 2",
+          "neutral_cues_absent"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "source_contrast_patch",
+        "controls_applied": [
+          "current_content_matched",
+          "blank_delay_steps = 3"
+        ]
+      },
+      "level_0_oracle_return": 0.5,
+      "level_0_blind_return": 0.5,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": 0.19290149,
+      "level_3_behavioral_effect": 0.51666665,
+      "level_5_causal_specificity_drop": 0.0,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "ARCHIVED_CONTROL",
+      "structural_phenomenon": "BASELINE_PROVENANCE_REPUTATION"
+    },
+    {
+      "scout_id": "scout_1_basic_reliability",
+      "config_name": "basic_reliability",
+      "estimand_lineage": {
+        "scout_id": "scout_1_basic_reliability",
+        "construct_name": "Source Sensitivity Index (SSI)",
+        "ground_truth_origin": "env.tape.sources[s].reliability",
+        "behavioral_target": "P(follow_report | S0) - P(follow_report | S1)",
+        "conditioned_on": [
+          "decision_window_content = 2",
+          "neutral_cues_absent"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "source_contrast_patch",
+        "controls_applied": [
+          "current_content_matched",
+          "blank_delay_steps = 3"
+        ]
+      },
+      "level_0_oracle_return": 0.42,
+      "level_0_blind_return": 0.42,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": 0.62027323,
+      "level_3_behavioral_effect": 0.6166667,
+      "level_5_causal_specificity_drop": 0.4,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "ARCHIVED_CONTROL",
+      "structural_phenomenon": "BASELINE_PROVENANCE_REPUTATION"
+    },
+    {
+      "scout_id": "scout_1_basic_reliability",
+      "config_name": "basic_reliability",
+      "estimand_lineage": {
+        "scout_id": "scout_1_basic_reliability",
+        "construct_name": "Source Sensitivity Index (SSI)",
+        "ground_truth_origin": "env.tape.sources[s].reliability",
+        "behavioral_target": "P(follow_report | S0) - P(follow_report | S1)",
+        "conditioned_on": [
+          "decision_window_content = 2",
+          "neutral_cues_absent"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "source_contrast_patch",
+        "controls_applied": [
+          "current_content_matched",
+          "blank_delay_steps = 3"
+        ]
+      },
+      "level_0_oracle_return": 0.3,
+      "level_0_blind_return": 0.3,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": -0.20308113,
+      "level_3_behavioral_effect": 0.35,
+      "level_5_causal_specificity_drop": 0.5833333,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "ARCHIVED_CONTROL",
+      "structural_phenomenon": "BASELINE_PROVENANCE_REPUTATION"
+    },
+    {
+      "scout_id": "scout_1_basic_reliability",
+      "config_name": "basic_reliability",
+      "estimand_lineage": {
+        "scout_id": "scout_1_basic_reliability",
+        "construct_name": "Source Sensitivity Index (SSI)",
+        "ground_truth_origin": "env.tape.sources[s].reliability",
+        "behavioral_target": "P(follow_report | S0) - P(follow_report | S1)",
+        "conditioned_on": [
+          "decision_window_content = 2",
+          "neutral_cues_absent"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "source_contrast_patch",
+        "controls_applied": [
+          "current_content_matched",
+          "blank_delay_steps = 3"
+        ]
+      },
+      "level_0_oracle_return": 0.42,
+      "level_0_blind_return": 0.42,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": 0.03446144,
+      "level_3_behavioral_effect": 0.4166667,
+      "level_5_causal_specificity_drop": 0.0,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "ARCHIVED_CONTROL",
+      "structural_phenomenon": "BASELINE_PROVENANCE_REPUTATION"
+    },
+    {
+      "scout_id": "scout_1_basic_reliability",
+      "config_name": "basic_reliability",
+      "estimand_lineage": {
+        "scout_id": "scout_1_basic_reliability",
+        "construct_name": "Source Sensitivity Index (SSI)",
+        "ground_truth_origin": "env.tape.sources[s].reliability",
+        "behavioral_target": "P(follow_report | S0) - P(follow_report | S1)",
+        "conditioned_on": [
+          "decision_window_content = 2",
+          "neutral_cues_absent"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "source_contrast_patch",
+        "controls_applied": [
+          "current_content_matched",
+          "blank_delay_steps = 3"
+        ]
+      },
+      "level_0_oracle_return": 0.44,
+      "level_0_blind_return": 0.44,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": 0.009065449,
+      "level_3_behavioral_effect": 0.48333335,
+      "level_5_causal_specificity_drop": 0.31666666,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "ARCHIVED_CONTROL",
+      "structural_phenomenon": "BASELINE_PROVENANCE_REPUTATION"
+    },
+    {
+      "scout_id": "scout_1_basic_reliability",
+      "config_name": "basic_reliability",
+      "estimand_lineage": {
+        "scout_id": "scout_1_basic_reliability",
+        "construct_name": "Source Sensitivity Index (SSI)",
+        "ground_truth_origin": "env.tape.sources[s].reliability",
+        "behavioral_target": "P(follow_report | S0) - P(follow_report | S1)",
+        "conditioned_on": [
+          "decision_window_content = 2",
+          "neutral_cues_absent"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "source_contrast_patch",
+        "controls_applied": [
+          "current_content_matched",
+          "blank_delay_steps = 3"
+        ]
+      },
+      "level_0_oracle_return": 0.54,
+      "level_0_blind_return": 0.54,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": 0.52875316,
+      "level_3_behavioral_effect": 0.51666665,
+      "level_5_causal_specificity_drop": 0.0,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "ARCHIVED_CONTROL",
+      "structural_phenomenon": "BASELINE_PROVENANCE_REPUTATION"
+    },
+    {
+      "scout_id": "scout_1_basic_reliability",
+      "config_name": "basic_reliability",
+      "estimand_lineage": {
+        "scout_id": "scout_1_basic_reliability",
+        "construct_name": "Source Sensitivity Index (SSI)",
+        "ground_truth_origin": "env.tape.sources[s].reliability",
+        "behavioral_target": "P(follow_report | S0) - P(follow_report | S1)",
+        "conditioned_on": [
+          "decision_window_content = 2",
+          "neutral_cues_absent"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "source_contrast_patch",
+        "controls_applied": [
+          "current_content_matched",
+          "blank_delay_steps = 3"
+        ]
+      },
+      "level_0_oracle_return": 0.38,
+      "level_0_blind_return": 0.38,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": 0.2081042,
+      "level_3_behavioral_effect": 0.5333333,
+      "level_5_causal_specificity_drop": 0.0,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "ARCHIVED_CONTROL",
+      "structural_phenomenon": "BASELINE_PROVENANCE_REPUTATION"
+    },
+    {
+      "scout_id": "scout_1_basic_reliability",
+      "config_name": "basic_reliability",
+      "estimand_lineage": {
+        "scout_id": "scout_1_basic_reliability",
+        "construct_name": "Source Sensitivity Index (SSI)",
+        "ground_truth_origin": "env.tape.sources[s].reliability",
+        "behavioral_target": "P(follow_report | S0) - P(follow_report | S1)",
+        "conditioned_on": [
+          "decision_window_content = 2",
+          "neutral_cues_absent"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "source_contrast_patch",
+        "controls_applied": [
+          "current_content_matched",
+          "blank_delay_steps = 3"
+        ]
+      },
+      "level_0_oracle_return": 0.54,
+      "level_0_blind_return": 0.54,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": 0.27931923,
+      "level_3_behavioral_effect": 0.5,
+      "level_5_causal_specificity_drop": 0.0,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "ARCHIVED_CONTROL",
+      "structural_phenomenon": "BASELINE_PROVENANCE_REPUTATION"
+    },
+    {
+      "scout_id": "scout_1_basic_reliability",
+      "config_name": "basic_reliability",
+      "estimand_lineage": {
+        "scout_id": "scout_1_basic_reliability",
+        "construct_name": "Source Sensitivity Index (SSI)",
+        "ground_truth_origin": "env.tape.sources[s].reliability",
+        "behavioral_target": "P(follow_report | S0) - P(follow_report | S1)",
+        "conditioned_on": [
+          "decision_window_content = 2",
+          "neutral_cues_absent"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "source_contrast_patch",
+        "controls_applied": [
+          "current_content_matched",
+          "blank_delay_steps = 3"
+        ]
+      },
+      "level_0_oracle_return": 0.54,
+      "level_0_blind_return": 0.54,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": -0.6273378,
+      "level_3_behavioral_effect": 0.55,
+      "level_5_causal_specificity_drop": 0.5833333,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "ARCHIVED_CONTROL",
+      "structural_phenomenon": "BASELINE_PROVENANCE_REPUTATION"
+    },
+    {
+      "scout_id": "scout_1_basic_reliability",
+      "config_name": "basic_reliability",
+      "estimand_lineage": {
+        "scout_id": "scout_1_basic_reliability",
+        "construct_name": "Source Sensitivity Index (SSI)",
+        "ground_truth_origin": "env.tape.sources[s].reliability",
+        "behavioral_target": "P(follow_report | S0) - P(follow_report | S1)",
+        "conditioned_on": [
+          "decision_window_content = 2",
+          "neutral_cues_absent"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "source_contrast_patch",
+        "controls_applied": [
+          "current_content_matched",
+          "blank_delay_steps = 3"
+        ]
+      },
+      "level_0_oracle_return": 0.56,
+      "level_0_blind_return": 0.56,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": 0.4715488,
+      "level_3_behavioral_effect": 0.5333333,
+      "level_5_causal_specificity_drop": 0.0,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "ARCHIVED_CONTROL",
+      "structural_phenomenon": "BASELINE_PROVENANCE_REPUTATION"
+    },
+    {
+      "scout_id": "scout_1_basic_reliability",
+      "config_name": "basic_reliability",
+      "estimand_lineage": {
+        "scout_id": "scout_1_basic_reliability",
+        "construct_name": "Source Sensitivity Index (SSI)",
+        "ground_truth_origin": "env.tape.sources[s].reliability",
+        "behavioral_target": "P(follow_report | S0) - P(follow_report | S1)",
+        "conditioned_on": [
+          "decision_window_content = 2",
+          "neutral_cues_absent"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "source_contrast_patch",
+        "controls_applied": [
+          "current_content_matched",
+          "blank_delay_steps = 3"
+        ]
+      },
+      "level_0_oracle_return": 0.46,
+      "level_0_blind_return": 0.46,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": -0.019703984,
+      "level_3_behavioral_effect": 0.5333333,
+      "level_5_causal_specificity_drop": 0.46666667,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "ARCHIVED_CONTROL",
+      "structural_phenomenon": "BASELINE_PROVENANCE_REPUTATION"
+    },
+    {
+      "scout_id": "scout_1_basic_reliability",
+      "config_name": "basic_reliability",
+      "estimand_lineage": {
+        "scout_id": "scout_1_basic_reliability",
+        "construct_name": "Source Sensitivity Index (SSI)",
+        "ground_truth_origin": "env.tape.sources[s].reliability",
+        "behavioral_target": "P(follow_report | S0) - P(follow_report | S1)",
+        "conditioned_on": [
+          "decision_window_content = 2",
+          "neutral_cues_absent"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "source_contrast_patch",
+        "controls_applied": [
+          "current_content_matched",
+          "blank_delay_steps = 3"
+        ]
+      },
+      "level_0_oracle_return": 0.46,
+      "level_0_blind_return": 0.46,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": -0.28398347,
+      "level_3_behavioral_effect": 0.55,
+      "level_5_causal_specificity_drop": 0.0,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "ARCHIVED_CONTROL",
+      "structural_phenomenon": "BASELINE_PROVENANCE_REPUTATION"
+    }
+  ],
+  [
+    {
+      "scout_id": "scout_2_signed_source_types",
+      "config_name": "signed_source_types",
+      "estimand_lineage": {
+        "scout_id": "scout_2_signed_source_types",
+        "construct_name": "Negative Evidence Weighting / Inversion",
+        "ground_truth_origin": "env.tape.sources[opposite].reliability = 0.15",
+        "behavioral_target": "P(action = 1 - r | Opposite_Source)",
+        "conditioned_on": [
+          "source_type = Opposite"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "signed_source_ablation",
+        "controls_applied": [
+          "random_source_50_null_control"
+        ]
+      },
+      "level_0_oracle_return": 0.46,
+      "level_0_blind_return": 0.06,
+      "level_0_economic_validity": true,
+      "level_1_r2_availability": -0.513958,
+      "level_3_behavioral_effect": 0.48333335,
+      "level_5_causal_specificity_drop": 0.0,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "HIGH_PRIORITY_PROMOTION (Q13 Core)",
+      "structural_phenomenon": "EVIDENCE_INVERSION (Helpful vs Opposite vs Random Sources)"
+    },
+    {
+      "scout_id": "scout_2_signed_source_types",
+      "config_name": "signed_source_types",
+      "estimand_lineage": {
+        "scout_id": "scout_2_signed_source_types",
+        "construct_name": "Negative Evidence Weighting / Inversion",
+        "ground_truth_origin": "env.tape.sources[opposite].reliability = 0.15",
+        "behavioral_target": "P(action = 1 - r | Opposite_Source)",
+        "conditioned_on": [
+          "source_type = Opposite"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "signed_source_ablation",
+        "controls_applied": [
+          "random_source_50_null_control"
+        ]
+      },
+      "level_0_oracle_return": 0.58,
+      "level_0_blind_return": 0.12,
+      "level_0_economic_validity": true,
+      "level_1_r2_availability": -0.269359,
+      "level_3_behavioral_effect": 0.48333335,
+      "level_5_causal_specificity_drop": 0.0,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "HIGH_PRIORITY_PROMOTION (Q13 Core)",
+      "structural_phenomenon": "EVIDENCE_INVERSION (Helpful vs Opposite vs Random Sources)"
+    },
+    {
+      "scout_id": "scout_2_signed_source_types",
+      "config_name": "signed_source_types",
+      "estimand_lineage": {
+        "scout_id": "scout_2_signed_source_types",
+        "construct_name": "Negative Evidence Weighting / Inversion",
+        "ground_truth_origin": "env.tape.sources[opposite].reliability = 0.15",
+        "behavioral_target": "P(action = 1 - r | Opposite_Source)",
+        "conditioned_on": [
+          "source_type = Opposite"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "signed_source_ablation",
+        "controls_applied": [
+          "random_source_50_null_control"
+        ]
+      },
+      "level_0_oracle_return": 0.48,
+      "level_0_blind_return": 0.08,
+      "level_0_economic_validity": true,
+      "level_1_r2_availability": -0.52394724,
+      "level_3_behavioral_effect": 0.5833334,
+      "level_5_causal_specificity_drop": 0.0,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "HIGH_PRIORITY_PROMOTION (Q13 Core)",
+      "structural_phenomenon": "EVIDENCE_INVERSION (Helpful vs Opposite vs Random Sources)"
+    },
+    {
+      "scout_id": "scout_2_signed_source_types",
+      "config_name": "signed_source_types",
+      "estimand_lineage": {
+        "scout_id": "scout_2_signed_source_types",
+        "construct_name": "Negative Evidence Weighting / Inversion",
+        "ground_truth_origin": "env.tape.sources[opposite].reliability = 0.15",
+        "behavioral_target": "P(action = 1 - r | Opposite_Source)",
+        "conditioned_on": [
+          "source_type = Opposite"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "signed_source_ablation",
+        "controls_applied": [
+          "random_source_50_null_control"
+        ]
+      },
+      "level_0_oracle_return": 0.6,
+      "level_0_blind_return": 0.16,
+      "level_0_economic_validity": true,
+      "level_1_r2_availability": -0.703688,
+      "level_3_behavioral_effect": 0.48333335,
+      "level_5_causal_specificity_drop": 0.0,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "HIGH_PRIORITY_PROMOTION (Q13 Core)",
+      "structural_phenomenon": "EVIDENCE_INVERSION (Helpful vs Opposite vs Random Sources)"
+    },
+    {
+      "scout_id": "scout_2_signed_source_types",
+      "config_name": "signed_source_types",
+      "estimand_lineage": {
+        "scout_id": "scout_2_signed_source_types",
+        "construct_name": "Negative Evidence Weighting / Inversion",
+        "ground_truth_origin": "env.tape.sources[opposite].reliability = 0.15",
+        "behavioral_target": "P(action = 1 - r | Opposite_Source)",
+        "conditioned_on": [
+          "source_type = Opposite"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "signed_source_ablation",
+        "controls_applied": [
+          "random_source_50_null_control"
+        ]
+      },
+      "level_0_oracle_return": 0.46,
+      "level_0_blind_return": -0.04,
+      "level_0_economic_validity": true,
+      "level_1_r2_availability": -0.4434799,
+      "level_3_behavioral_effect": 0.56666666,
+      "level_5_causal_specificity_drop": 0.0,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "HIGH_PRIORITY_PROMOTION (Q13 Core)",
+      "structural_phenomenon": "EVIDENCE_INVERSION (Helpful vs Opposite vs Random Sources)"
+    },
+    {
+      "scout_id": "scout_2_signed_source_types",
+      "config_name": "signed_source_types",
+      "estimand_lineage": {
+        "scout_id": "scout_2_signed_source_types",
+        "construct_name": "Negative Evidence Weighting / Inversion",
+        "ground_truth_origin": "env.tape.sources[opposite].reliability = 0.15",
+        "behavioral_target": "P(action = 1 - r | Opposite_Source)",
+        "conditioned_on": [
+          "source_type = Opposite"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "signed_source_ablation",
+        "controls_applied": [
+          "random_source_50_null_control"
+        ]
+      },
+      "level_0_oracle_return": 0.46,
+      "level_0_blind_return": -0.14,
+      "level_0_economic_validity": true,
+      "level_1_r2_availability": 0.019543052,
+      "level_3_behavioral_effect": 0.48333335,
+      "level_5_causal_specificity_drop": 0.0,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "HIGH_PRIORITY_PROMOTION (Q13 Core)",
+      "structural_phenomenon": "EVIDENCE_INVERSION (Helpful vs Opposite vs Random Sources)"
+    },
+    {
+      "scout_id": "scout_2_signed_source_types",
+      "config_name": "signed_source_types",
+      "estimand_lineage": {
+        "scout_id": "scout_2_signed_source_types",
+        "construct_name": "Negative Evidence Weighting / Inversion",
+        "ground_truth_origin": "env.tape.sources[opposite].reliability = 0.15",
+        "behavioral_target": "P(action = 1 - r | Opposite_Source)",
+        "conditioned_on": [
+          "source_type = Opposite"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "signed_source_ablation",
+        "controls_applied": [
+          "random_source_50_null_control"
+        ]
+      },
+      "level_0_oracle_return": 0.54,
+      "level_0_blind_return": -0.12,
+      "level_0_economic_validity": true,
+      "level_1_r2_availability": -0.49493754,
+      "level_3_behavioral_effect": 0.6333333,
+      "level_5_causal_specificity_drop": 0.0,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "HIGH_PRIORITY_PROMOTION (Q13 Core)",
+      "structural_phenomenon": "EVIDENCE_INVERSION (Helpful vs Opposite vs Random Sources)"
+    },
+    {
+      "scout_id": "scout_2_signed_source_types",
+      "config_name": "signed_source_types",
+      "estimand_lineage": {
+        "scout_id": "scout_2_signed_source_types",
+        "construct_name": "Negative Evidence Weighting / Inversion",
+        "ground_truth_origin": "env.tape.sources[opposite].reliability = 0.15",
+        "behavioral_target": "P(action = 1 - r | Opposite_Source)",
+        "conditioned_on": [
+          "source_type = Opposite"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "signed_source_ablation",
+        "controls_applied": [
+          "random_source_50_null_control"
+        ]
+      },
+      "level_0_oracle_return": 0.46,
+      "level_0_blind_return": -0.02,
+      "level_0_economic_validity": true,
+      "level_1_r2_availability": -0.012016535,
+      "level_3_behavioral_effect": 0.5,
+      "level_5_causal_specificity_drop": 0.0,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "HIGH_PRIORITY_PROMOTION (Q13 Core)",
+      "structural_phenomenon": "EVIDENCE_INVERSION (Helpful vs Opposite vs Random Sources)"
+    },
+    {
+      "scout_id": "scout_2_signed_source_types",
+      "config_name": "signed_source_types",
+      "estimand_lineage": {
+        "scout_id": "scout_2_signed_source_types",
+        "construct_name": "Negative Evidence Weighting / Inversion",
+        "ground_truth_origin": "env.tape.sources[opposite].reliability = 0.15",
+        "behavioral_target": "P(action = 1 - r | Opposite_Source)",
+        "conditioned_on": [
+          "source_type = Opposite"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "signed_source_ablation",
+        "controls_applied": [
+          "random_source_50_null_control"
+        ]
+      },
+      "level_0_oracle_return": 0.28,
+      "level_0_blind_return": 0.18,
+      "level_0_economic_validity": true,
+      "level_1_r2_availability": -0.073407054,
+      "level_3_behavioral_effect": 0.35000002,
+      "level_5_causal_specificity_drop": 0.41666666,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "HIGH_PRIORITY_PROMOTION (Q13 Core)",
+      "structural_phenomenon": "EVIDENCE_INVERSION (Helpful vs Opposite vs Random Sources)"
+    },
+    {
+      "scout_id": "scout_2_signed_source_types",
+      "config_name": "signed_source_types",
+      "estimand_lineage": {
+        "scout_id": "scout_2_signed_source_types",
+        "construct_name": "Negative Evidence Weighting / Inversion",
+        "ground_truth_origin": "env.tape.sources[opposite].reliability = 0.15",
+        "behavioral_target": "P(action = 1 - r | Opposite_Source)",
+        "conditioned_on": [
+          "source_type = Opposite"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "signed_source_ablation",
+        "controls_applied": [
+          "random_source_50_null_control"
+        ]
+      },
+      "level_0_oracle_return": 0.46,
+      "level_0_blind_return": 0.14,
+      "level_0_economic_validity": true,
+      "level_1_r2_availability": -0.44113493,
+      "level_3_behavioral_effect": 0.51666665,
+      "level_5_causal_specificity_drop": 1.0,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "HIGH_PRIORITY_PROMOTION (Q13 Core)",
+      "structural_phenomenon": "EVIDENCE_INVERSION (Helpful vs Opposite vs Random Sources)"
+    },
+    {
+      "scout_id": "scout_2_signed_source_types",
+      "config_name": "signed_source_types",
+      "estimand_lineage": {
+        "scout_id": "scout_2_signed_source_types",
+        "construct_name": "Negative Evidence Weighting / Inversion",
+        "ground_truth_origin": "env.tape.sources[opposite].reliability = 0.15",
+        "behavioral_target": "P(action = 1 - r | Opposite_Source)",
+        "conditioned_on": [
+          "source_type = Opposite"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "signed_source_ablation",
+        "controls_applied": [
+          "random_source_50_null_control"
+        ]
+      },
+      "level_0_oracle_return": 0.38,
+      "level_0_blind_return": -0.08,
+      "level_0_economic_validity": true,
+      "level_1_r2_availability": -0.07197058,
+      "level_3_behavioral_effect": 0.51666665,
+      "level_5_causal_specificity_drop": 0.45,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "HIGH_PRIORITY_PROMOTION (Q13 Core)",
+      "structural_phenomenon": "EVIDENCE_INVERSION (Helpful vs Opposite vs Random Sources)"
+    },
+    {
+      "scout_id": "scout_2_signed_source_types",
+      "config_name": "signed_source_types",
+      "estimand_lineage": {
+        "scout_id": "scout_2_signed_source_types",
+        "construct_name": "Negative Evidence Weighting / Inversion",
+        "ground_truth_origin": "env.tape.sources[opposite].reliability = 0.15",
+        "behavioral_target": "P(action = 1 - r | Opposite_Source)",
+        "conditioned_on": [
+          "source_type = Opposite"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "signed_source_ablation",
+        "controls_applied": [
+          "random_source_50_null_control"
+        ]
+      },
+      "level_0_oracle_return": 0.44,
+      "level_0_blind_return": 0.1,
+      "level_0_economic_validity": true,
+      "level_1_r2_availability": -0.45383358,
+      "level_3_behavioral_effect": 0.51666665,
+      "level_5_causal_specificity_drop": 0.2,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "HIGH_PRIORITY_PROMOTION (Q13 Core)",
+      "structural_phenomenon": "EVIDENCE_INVERSION (Helpful vs Opposite vs Random Sources)"
+    },
+    {
+      "scout_id": "scout_2_signed_source_types",
+      "config_name": "signed_source_types",
+      "estimand_lineage": {
+        "scout_id": "scout_2_signed_source_types",
+        "construct_name": "Negative Evidence Weighting / Inversion",
+        "ground_truth_origin": "env.tape.sources[opposite].reliability = 0.15",
+        "behavioral_target": "P(action = 1 - r | Opposite_Source)",
+        "conditioned_on": [
+          "source_type = Opposite"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "signed_source_ablation",
+        "controls_applied": [
+          "random_source_50_null_control"
+        ]
+      },
+      "level_0_oracle_return": 0.5,
+      "level_0_blind_return": 0.12,
+      "level_0_economic_validity": true,
+      "level_1_r2_availability": -0.20801485,
+      "level_3_behavioral_effect": 0.43333334,
+      "level_5_causal_specificity_drop": 0.0,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "HIGH_PRIORITY_PROMOTION (Q13 Core)",
+      "structural_phenomenon": "EVIDENCE_INVERSION (Helpful vs Opposite vs Random Sources)"
+    },
+    {
+      "scout_id": "scout_2_signed_source_types",
+      "config_name": "signed_source_types",
+      "estimand_lineage": {
+        "scout_id": "scout_2_signed_source_types",
+        "construct_name": "Negative Evidence Weighting / Inversion",
+        "ground_truth_origin": "env.tape.sources[opposite].reliability = 0.15",
+        "behavioral_target": "P(action = 1 - r | Opposite_Source)",
+        "conditioned_on": [
+          "source_type = Opposite"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "signed_source_ablation",
+        "controls_applied": [
+          "random_source_50_null_control"
+        ]
+      },
+      "level_0_oracle_return": 0.36,
+      "level_0_blind_return": 0.12,
+      "level_0_economic_validity": true,
+      "level_1_r2_availability": -0.31516063,
+      "level_3_behavioral_effect": 0.46666664,
+      "level_5_causal_specificity_drop": 0.0,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "HIGH_PRIORITY_PROMOTION (Q13 Core)",
+      "structural_phenomenon": "EVIDENCE_INVERSION (Helpful vs Opposite vs Random Sources)"
+    },
+    {
+      "scout_id": "scout_2_signed_source_types",
+      "config_name": "signed_source_types",
+      "estimand_lineage": {
+        "scout_id": "scout_2_signed_source_types",
+        "construct_name": "Negative Evidence Weighting / Inversion",
+        "ground_truth_origin": "env.tape.sources[opposite].reliability = 0.15",
+        "behavioral_target": "P(action = 1 - r | Opposite_Source)",
+        "conditioned_on": [
+          "source_type = Opposite"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "signed_source_ablation",
+        "controls_applied": [
+          "random_source_50_null_control"
+        ]
+      },
+      "level_0_oracle_return": 0.48,
+      "level_0_blind_return": 0.1,
+      "level_0_economic_validity": true,
+      "level_1_r2_availability": -0.44268584,
+      "level_3_behavioral_effect": 0.5,
+      "level_5_causal_specificity_drop": 0.48333332,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "HIGH_PRIORITY_PROMOTION (Q13 Core)",
+      "structural_phenomenon": "EVIDENCE_INVERSION (Helpful vs Opposite vs Random Sources)"
+    },
+    {
+      "scout_id": "scout_2_signed_source_types",
+      "config_name": "signed_source_types",
+      "estimand_lineage": {
+        "scout_id": "scout_2_signed_source_types",
+        "construct_name": "Negative Evidence Weighting / Inversion",
+        "ground_truth_origin": "env.tape.sources[opposite].reliability = 0.15",
+        "behavioral_target": "P(action = 1 - r | Opposite_Source)",
+        "conditioned_on": [
+          "source_type = Opposite"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "signed_source_ablation",
+        "controls_applied": [
+          "random_source_50_null_control"
+        ]
+      },
+      "level_0_oracle_return": 0.6,
+      "level_0_blind_return": -0.16,
+      "level_0_economic_validity": true,
+      "level_1_r2_availability": -0.88896537,
+      "level_3_behavioral_effect": 0.6166667,
+      "level_5_causal_specificity_drop": 0.0,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "HIGH_PRIORITY_PROMOTION (Q13 Core)",
+      "structural_phenomenon": "EVIDENCE_INVERSION (Helpful vs Opposite vs Random Sources)"
+    }
+  ],
+  [
+    {
+      "scout_id": "scout_3_domain_conditional",
+      "config_name": "domain_conditional",
+      "estimand_lineage": {
+        "scout_id": "scout_3_domain_conditional",
+        "construct_name": "Context-Dependent Epistemic Routing",
+        "ground_truth_origin": "env.tape.sources[s].domain_competence[d]",
+        "behavioral_target": "Trust(S0 | Domain 0) - Trust(S0 | Domain 1)",
+        "conditioned_on": [
+          "domain_context in {0, 1}"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "domain_context_swap",
+        "controls_applied": [
+          "source_identity_held_constant"
+        ]
+      },
+      "level_0_oracle_return": 0.38,
+      "level_0_blind_return": 0.38,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": -0.34028423,
+      "level_3_behavioral_effect": 0.51666665,
+      "level_5_causal_specificity_drop": 1.0,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "PROMOTED_SECONDARY",
+      "structural_phenomenon": "CONTEXT_SPECIFIC_EPISTEMIC_ROUTING (Domain-Gated Trust)"
+    },
+    {
+      "scout_id": "scout_3_domain_conditional",
+      "config_name": "domain_conditional",
+      "estimand_lineage": {
+        "scout_id": "scout_3_domain_conditional",
+        "construct_name": "Context-Dependent Epistemic Routing",
+        "ground_truth_origin": "env.tape.sources[s].domain_competence[d]",
+        "behavioral_target": "Trust(S0 | Domain 0) - Trust(S0 | Domain 1)",
+        "conditioned_on": [
+          "domain_context in {0, 1}"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "domain_context_swap",
+        "controls_applied": [
+          "source_identity_held_constant"
+        ]
+      },
+      "level_0_oracle_return": 0.52,
+      "level_0_blind_return": 0.52,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": -0.082371354,
+      "level_3_behavioral_effect": 0.5,
+      "level_5_causal_specificity_drop": 0.5,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "PROMOTED_SECONDARY",
+      "structural_phenomenon": "CONTEXT_SPECIFIC_EPISTEMIC_ROUTING (Domain-Gated Trust)"
+    },
+    {
+      "scout_id": "scout_3_domain_conditional",
+      "config_name": "domain_conditional",
+      "estimand_lineage": {
+        "scout_id": "scout_3_domain_conditional",
+        "construct_name": "Context-Dependent Epistemic Routing",
+        "ground_truth_origin": "env.tape.sources[s].domain_competence[d]",
+        "behavioral_target": "Trust(S0 | Domain 0) - Trust(S0 | Domain 1)",
+        "conditioned_on": [
+          "domain_context in {0, 1}"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "domain_context_swap",
+        "controls_applied": [
+          "source_identity_held_constant"
+        ]
+      },
+      "level_0_oracle_return": 0.5,
+      "level_0_blind_return": 0.5,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": 0.2245295,
+      "level_3_behavioral_effect": 0.5333333,
+      "level_5_causal_specificity_drop": 0.45,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "PROMOTED_SECONDARY",
+      "structural_phenomenon": "CONTEXT_SPECIFIC_EPISTEMIC_ROUTING (Domain-Gated Trust)"
+    },
+    {
+      "scout_id": "scout_3_domain_conditional",
+      "config_name": "domain_conditional",
+      "estimand_lineage": {
+        "scout_id": "scout_3_domain_conditional",
+        "construct_name": "Context-Dependent Epistemic Routing",
+        "ground_truth_origin": "env.tape.sources[s].domain_competence[d]",
+        "behavioral_target": "Trust(S0 | Domain 0) - Trust(S0 | Domain 1)",
+        "conditioned_on": [
+          "domain_context in {0, 1}"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "domain_context_swap",
+        "controls_applied": [
+          "source_identity_held_constant"
+        ]
+      },
+      "level_0_oracle_return": 0.42,
+      "level_0_blind_return": 0.42,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": 0.054971576,
+      "level_3_behavioral_effect": 0.35,
+      "level_5_causal_specificity_drop": 0.71666664,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "PROMOTED_SECONDARY",
+      "structural_phenomenon": "CONTEXT_SPECIFIC_EPISTEMIC_ROUTING (Domain-Gated Trust)"
+    },
+    {
+      "scout_id": "scout_3_domain_conditional",
+      "config_name": "domain_conditional",
+      "estimand_lineage": {
+        "scout_id": "scout_3_domain_conditional",
+        "construct_name": "Context-Dependent Epistemic Routing",
+        "ground_truth_origin": "env.tape.sources[s].domain_competence[d]",
+        "behavioral_target": "Trust(S0 | Domain 0) - Trust(S0 | Domain 1)",
+        "conditioned_on": [
+          "domain_context in {0, 1}"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "domain_context_swap",
+        "controls_applied": [
+          "source_identity_held_constant"
+        ]
+      },
+      "level_0_oracle_return": 0.48,
+      "level_0_blind_return": 0.48,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": 0.2663774,
+      "level_3_behavioral_effect": 0.35,
+      "level_5_causal_specificity_drop": 0.33333334,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "PROMOTED_SECONDARY",
+      "structural_phenomenon": "CONTEXT_SPECIFIC_EPISTEMIC_ROUTING (Domain-Gated Trust)"
+    },
+    {
+      "scout_id": "scout_3_domain_conditional",
+      "config_name": "domain_conditional",
+      "estimand_lineage": {
+        "scout_id": "scout_3_domain_conditional",
+        "construct_name": "Context-Dependent Epistemic Routing",
+        "ground_truth_origin": "env.tape.sources[s].domain_competence[d]",
+        "behavioral_target": "Trust(S0 | Domain 0) - Trust(S0 | Domain 1)",
+        "conditioned_on": [
+          "domain_context in {0, 1}"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "domain_context_swap",
+        "controls_applied": [
+          "source_identity_held_constant"
+        ]
+      },
+      "level_0_oracle_return": 0.36,
+      "level_0_blind_return": 0.36,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": -0.09081066,
+      "level_3_behavioral_effect": 0.56666666,
+      "level_5_causal_specificity_drop": 0.4,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "PROMOTED_SECONDARY",
+      "structural_phenomenon": "CONTEXT_SPECIFIC_EPISTEMIC_ROUTING (Domain-Gated Trust)"
+    },
+    {
+      "scout_id": "scout_3_domain_conditional",
+      "config_name": "domain_conditional",
+      "estimand_lineage": {
+        "scout_id": "scout_3_domain_conditional",
+        "construct_name": "Context-Dependent Epistemic Routing",
+        "ground_truth_origin": "env.tape.sources[s].domain_competence[d]",
+        "behavioral_target": "Trust(S0 | Domain 0) - Trust(S0 | Domain 1)",
+        "conditioned_on": [
+          "domain_context in {0, 1}"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "domain_context_swap",
+        "controls_applied": [
+          "source_identity_held_constant"
+        ]
+      },
+      "level_0_oracle_return": 0.32,
+      "level_0_blind_return": 0.32,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": -0.07288849,
+      "level_3_behavioral_effect": 0.45,
+      "level_5_causal_specificity_drop": 0.0,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "PROMOTED_SECONDARY",
+      "structural_phenomenon": "CONTEXT_SPECIFIC_EPISTEMIC_ROUTING (Domain-Gated Trust)"
+    },
+    {
+      "scout_id": "scout_3_domain_conditional",
+      "config_name": "domain_conditional",
+      "estimand_lineage": {
+        "scout_id": "scout_3_domain_conditional",
+        "construct_name": "Context-Dependent Epistemic Routing",
+        "ground_truth_origin": "env.tape.sources[s].domain_competence[d]",
+        "behavioral_target": "Trust(S0 | Domain 0) - Trust(S0 | Domain 1)",
+        "conditioned_on": [
+          "domain_context in {0, 1}"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "domain_context_swap",
+        "controls_applied": [
+          "source_identity_held_constant"
+        ]
+      },
+      "level_0_oracle_return": 0.54,
+      "level_0_blind_return": 0.54,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": -0.09782612,
+      "level_3_behavioral_effect": 0.48333335,
+      "level_5_causal_specificity_drop": 0.6,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "PROMOTED_SECONDARY",
+      "structural_phenomenon": "CONTEXT_SPECIFIC_EPISTEMIC_ROUTING (Domain-Gated Trust)"
+    },
+    {
+      "scout_id": "scout_3_domain_conditional",
+      "config_name": "domain_conditional",
+      "estimand_lineage": {
+        "scout_id": "scout_3_domain_conditional",
+        "construct_name": "Context-Dependent Epistemic Routing",
+        "ground_truth_origin": "env.tape.sources[s].domain_competence[d]",
+        "behavioral_target": "Trust(S0 | Domain 0) - Trust(S0 | Domain 1)",
+        "conditioned_on": [
+          "domain_context in {0, 1}"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "domain_context_swap",
+        "controls_applied": [
+          "source_identity_held_constant"
+        ]
+      },
+      "level_0_oracle_return": 0.52,
+      "level_0_blind_return": 0.52,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": 0.36385864,
+      "level_3_behavioral_effect": 0.56666666,
+      "level_5_causal_specificity_drop": 0.41666666,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "PROMOTED_SECONDARY",
+      "structural_phenomenon": "CONTEXT_SPECIFIC_EPISTEMIC_ROUTING (Domain-Gated Trust)"
+    },
+    {
+      "scout_id": "scout_3_domain_conditional",
+      "config_name": "domain_conditional",
+      "estimand_lineage": {
+        "scout_id": "scout_3_domain_conditional",
+        "construct_name": "Context-Dependent Epistemic Routing",
+        "ground_truth_origin": "env.tape.sources[s].domain_competence[d]",
+        "behavioral_target": "Trust(S0 | Domain 0) - Trust(S0 | Domain 1)",
+        "conditioned_on": [
+          "domain_context in {0, 1}"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "domain_context_swap",
+        "controls_applied": [
+          "source_identity_held_constant"
+        ]
+      },
+      "level_0_oracle_return": 0.48,
+      "level_0_blind_return": 0.48,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": 0.1816783,
+      "level_3_behavioral_effect": 0.5333333,
+      "level_5_causal_specificity_drop": 0.56666666,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "PROMOTED_SECONDARY",
+      "structural_phenomenon": "CONTEXT_SPECIFIC_EPISTEMIC_ROUTING (Domain-Gated Trust)"
+    },
+    {
+      "scout_id": "scout_3_domain_conditional",
+      "config_name": "domain_conditional",
+      "estimand_lineage": {
+        "scout_id": "scout_3_domain_conditional",
+        "construct_name": "Context-Dependent Epistemic Routing",
+        "ground_truth_origin": "env.tape.sources[s].domain_competence[d]",
+        "behavioral_target": "Trust(S0 | Domain 0) - Trust(S0 | Domain 1)",
+        "conditioned_on": [
+          "domain_context in {0, 1}"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "domain_context_swap",
+        "controls_applied": [
+          "source_identity_held_constant"
+        ]
+      },
+      "level_0_oracle_return": 0.38,
+      "level_0_blind_return": 0.38,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": 0.27357268,
+      "level_3_behavioral_effect": 0.35,
+      "level_5_causal_specificity_drop": 0.35,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "PROMOTED_SECONDARY",
+      "structural_phenomenon": "CONTEXT_SPECIFIC_EPISTEMIC_ROUTING (Domain-Gated Trust)"
+    },
+    {
+      "scout_id": "scout_3_domain_conditional",
+      "config_name": "domain_conditional",
+      "estimand_lineage": {
+        "scout_id": "scout_3_domain_conditional",
+        "construct_name": "Context-Dependent Epistemic Routing",
+        "ground_truth_origin": "env.tape.sources[s].domain_competence[d]",
+        "behavioral_target": "Trust(S0 | Domain 0) - Trust(S0 | Domain 1)",
+        "conditioned_on": [
+          "domain_context in {0, 1}"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "domain_context_swap",
+        "controls_applied": [
+          "source_identity_held_constant"
+        ]
+      },
+      "level_0_oracle_return": 0.38,
+      "level_0_blind_return": 0.38,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": 0.16621274,
+      "level_3_behavioral_effect": 0.5333333,
+      "level_5_causal_specificity_drop": 0.0,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "PROMOTED_SECONDARY",
+      "structural_phenomenon": "CONTEXT_SPECIFIC_EPISTEMIC_ROUTING (Domain-Gated Trust)"
+    },
+    {
+      "scout_id": "scout_3_domain_conditional",
+      "config_name": "domain_conditional",
+      "estimand_lineage": {
+        "scout_id": "scout_3_domain_conditional",
+        "construct_name": "Context-Dependent Epistemic Routing",
+        "ground_truth_origin": "env.tape.sources[s].domain_competence[d]",
+        "behavioral_target": "Trust(S0 | Domain 0) - Trust(S0 | Domain 1)",
+        "conditioned_on": [
+          "domain_context in {0, 1}"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "domain_context_swap",
+        "controls_applied": [
+          "source_identity_held_constant"
+        ]
+      },
+      "level_0_oracle_return": 0.56,
+      "level_0_blind_return": 0.56,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": -0.3602804,
+      "level_3_behavioral_effect": 0.38333333,
+      "level_5_causal_specificity_drop": 0.13333334,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "PROMOTED_SECONDARY",
+      "structural_phenomenon": "CONTEXT_SPECIFIC_EPISTEMIC_ROUTING (Domain-Gated Trust)"
+    },
+    {
+      "scout_id": "scout_3_domain_conditional",
+      "config_name": "domain_conditional",
+      "estimand_lineage": {
+        "scout_id": "scout_3_domain_conditional",
+        "construct_name": "Context-Dependent Epistemic Routing",
+        "ground_truth_origin": "env.tape.sources[s].domain_competence[d]",
+        "behavioral_target": "Trust(S0 | Domain 0) - Trust(S0 | Domain 1)",
+        "conditioned_on": [
+          "domain_context in {0, 1}"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "domain_context_swap",
+        "controls_applied": [
+          "source_identity_held_constant"
+        ]
+      },
+      "level_0_oracle_return": 0.5,
+      "level_0_blind_return": 0.5,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": 0.13924086,
+      "level_3_behavioral_effect": 0.5333333,
+      "level_5_causal_specificity_drop": 0.5833333,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "PROMOTED_SECONDARY",
+      "structural_phenomenon": "CONTEXT_SPECIFIC_EPISTEMIC_ROUTING (Domain-Gated Trust)"
+    },
+    {
+      "scout_id": "scout_3_domain_conditional",
+      "config_name": "domain_conditional",
+      "estimand_lineage": {
+        "scout_id": "scout_3_domain_conditional",
+        "construct_name": "Context-Dependent Epistemic Routing",
+        "ground_truth_origin": "env.tape.sources[s].domain_competence[d]",
+        "behavioral_target": "Trust(S0 | Domain 0) - Trust(S0 | Domain 1)",
+        "conditioned_on": [
+          "domain_context in {0, 1}"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "domain_context_swap",
+        "controls_applied": [
+          "source_identity_held_constant"
+        ]
+      },
+      "level_0_oracle_return": 0.4,
+      "level_0_blind_return": 0.4,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": -0.11852217,
+      "level_3_behavioral_effect": 0.51666665,
+      "level_5_causal_specificity_drop": 0.46666667,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "PROMOTED_SECONDARY",
+      "structural_phenomenon": "CONTEXT_SPECIFIC_EPISTEMIC_ROUTING (Domain-Gated Trust)"
+    },
+    {
+      "scout_id": "scout_3_domain_conditional",
+      "config_name": "domain_conditional",
+      "estimand_lineage": {
+        "scout_id": "scout_3_domain_conditional",
+        "construct_name": "Context-Dependent Epistemic Routing",
+        "ground_truth_origin": "env.tape.sources[s].domain_competence[d]",
+        "behavioral_target": "Trust(S0 | Domain 0) - Trust(S0 | Domain 1)",
+        "conditioned_on": [
+          "domain_context in {0, 1}"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "domain_context_swap",
+        "controls_applied": [
+          "source_identity_held_constant"
+        ]
+      },
+      "level_0_oracle_return": 0.54,
+      "level_0_blind_return": 0.54,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": 0.17102545,
+      "level_3_behavioral_effect": 0.55,
+      "level_5_causal_specificity_drop": 0.46666667,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "PROMOTED_SECONDARY",
+      "structural_phenomenon": "CONTEXT_SPECIFIC_EPISTEMIC_ROUTING (Domain-Gated Trust)"
+    }
+  ],
+  [
+    {
+      "scout_id": "scout_4_convergent_content",
+      "config_name": "convergent_content",
+      "estimand_lineage": {
+        "scout_id": "scout_4_convergent_content",
+        "construct_name": "Causal Provenance Effect (CPE)",
+        "ground_truth_origin": "env.provenance_events[acq].immediate_source_id",
+        "behavioral_target": "P(a | X, DirectObs) - P(a | X, S1)",
+        "conditioned_on": [
+          "decision_content_symbol = 2 (X=1)"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "raw_provenance_subspace_lesion",
+        "controls_applied": [
+          "exact_identical_current_content_symbol"
+        ]
+      },
+      "level_0_oracle_return": 0.16,
+      "level_0_blind_return": 0.16,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": -1.0,
+      "level_3_behavioral_effect": 0.35,
+      "level_5_causal_specificity_drop": 0.0,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "HIGH_PRIORITY_PROMOTION (Q14 Core)",
+      "structural_phenomenon": "CAUSAL_PROVENANCE_EFFECT (Identical Proposition, Divergent Origin)"
+    },
+    {
+      "scout_id": "scout_4_convergent_content",
+      "config_name": "convergent_content",
+      "estimand_lineage": {
+        "scout_id": "scout_4_convergent_content",
+        "construct_name": "Causal Provenance Effect (CPE)",
+        "ground_truth_origin": "env.provenance_events[acq].immediate_source_id",
+        "behavioral_target": "P(a | X, DirectObs) - P(a | X, S1)",
+        "conditioned_on": [
+          "decision_content_symbol = 2 (X=1)"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "raw_provenance_subspace_lesion",
+        "controls_applied": [
+          "exact_identical_current_content_symbol"
+        ]
+      },
+      "level_0_oracle_return": 0.12,
+      "level_0_blind_return": 0.12,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": -0.65993154,
+      "level_3_behavioral_effect": 0.35,
+      "level_5_causal_specificity_drop": 0.0,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "HIGH_PRIORITY_PROMOTION (Q14 Core)",
+      "structural_phenomenon": "CAUSAL_PROVENANCE_EFFECT (Identical Proposition, Divergent Origin)"
+    },
+    {
+      "scout_id": "scout_4_convergent_content",
+      "config_name": "convergent_content",
+      "estimand_lineage": {
+        "scout_id": "scout_4_convergent_content",
+        "construct_name": "Causal Provenance Effect (CPE)",
+        "ground_truth_origin": "env.provenance_events[acq].immediate_source_id",
+        "behavioral_target": "P(a | X, DirectObs) - P(a | X, S1)",
+        "conditioned_on": [
+          "decision_content_symbol = 2 (X=1)"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "raw_provenance_subspace_lesion",
+        "controls_applied": [
+          "exact_identical_current_content_symbol"
+        ]
+      },
+      "level_0_oracle_return": 0.08,
+      "level_0_blind_return": 0.08,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": -1.0,
+      "level_3_behavioral_effect": 0.35,
+      "level_5_causal_specificity_drop": 0.0,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "HIGH_PRIORITY_PROMOTION (Q14 Core)",
+      "structural_phenomenon": "CAUSAL_PROVENANCE_EFFECT (Identical Proposition, Divergent Origin)"
+    },
+    {
+      "scout_id": "scout_4_convergent_content",
+      "config_name": "convergent_content",
+      "estimand_lineage": {
+        "scout_id": "scout_4_convergent_content",
+        "construct_name": "Causal Provenance Effect (CPE)",
+        "ground_truth_origin": "env.provenance_events[acq].immediate_source_id",
+        "behavioral_target": "P(a | X, DirectObs) - P(a | X, S1)",
+        "conditioned_on": [
+          "decision_content_symbol = 2 (X=1)"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "raw_provenance_subspace_lesion",
+        "controls_applied": [
+          "exact_identical_current_content_symbol"
+        ]
+      },
+      "level_0_oracle_return": 0.04,
+      "level_0_blind_return": 0.04,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": -1.0,
+      "level_3_behavioral_effect": 0.35,
+      "level_5_causal_specificity_drop": 0.0,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "HIGH_PRIORITY_PROMOTION (Q14 Core)",
+      "structural_phenomenon": "CAUSAL_PROVENANCE_EFFECT (Identical Proposition, Divergent Origin)"
+    },
+    {
+      "scout_id": "scout_4_convergent_content",
+      "config_name": "convergent_content",
+      "estimand_lineage": {
+        "scout_id": "scout_4_convergent_content",
+        "construct_name": "Causal Provenance Effect (CPE)",
+        "ground_truth_origin": "env.provenance_events[acq].immediate_source_id",
+        "behavioral_target": "P(a | X, DirectObs) - P(a | X, S1)",
+        "conditioned_on": [
+          "decision_content_symbol = 2 (X=1)"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "raw_provenance_subspace_lesion",
+        "controls_applied": [
+          "exact_identical_current_content_symbol"
+        ]
+      },
+      "level_0_oracle_return": 0.1,
+      "level_0_blind_return": 0.1,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": -1.0,
+      "level_3_behavioral_effect": 0.35,
+      "level_5_causal_specificity_drop": 0.0,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "HIGH_PRIORITY_PROMOTION (Q14 Core)",
+      "structural_phenomenon": "CAUSAL_PROVENANCE_EFFECT (Identical Proposition, Divergent Origin)"
+    },
+    {
+      "scout_id": "scout_4_convergent_content",
+      "config_name": "convergent_content",
+      "estimand_lineage": {
+        "scout_id": "scout_4_convergent_content",
+        "construct_name": "Causal Provenance Effect (CPE)",
+        "ground_truth_origin": "env.provenance_events[acq].immediate_source_id",
+        "behavioral_target": "P(a | X, DirectObs) - P(a | X, S1)",
+        "conditioned_on": [
+          "decision_content_symbol = 2 (X=1)"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "raw_provenance_subspace_lesion",
+        "controls_applied": [
+          "exact_identical_current_content_symbol"
+        ]
+      },
+      "level_0_oracle_return": -0.08,
+      "level_0_blind_return": -0.08,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": -1.0,
+      "level_3_behavioral_effect": 0.35,
+      "level_5_causal_specificity_drop": 0.0,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "HIGH_PRIORITY_PROMOTION (Q14 Core)",
+      "structural_phenomenon": "CAUSAL_PROVENANCE_EFFECT (Identical Proposition, Divergent Origin)"
+    },
+    {
+      "scout_id": "scout_4_convergent_content",
+      "config_name": "convergent_content",
+      "estimand_lineage": {
+        "scout_id": "scout_4_convergent_content",
+        "construct_name": "Causal Provenance Effect (CPE)",
+        "ground_truth_origin": "env.provenance_events[acq].immediate_source_id",
+        "behavioral_target": "P(a | X, DirectObs) - P(a | X, S1)",
+        "conditioned_on": [
+          "decision_content_symbol = 2 (X=1)"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "raw_provenance_subspace_lesion",
+        "controls_applied": [
+          "exact_identical_current_content_symbol"
+        ]
+      },
+      "level_0_oracle_return": 0.06,
+      "level_0_blind_return": 0.06,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": -1.0,
+      "level_3_behavioral_effect": 0.35,
+      "level_5_causal_specificity_drop": 0.0,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "HIGH_PRIORITY_PROMOTION (Q14 Core)",
+      "structural_phenomenon": "CAUSAL_PROVENANCE_EFFECT (Identical Proposition, Divergent Origin)"
+    },
+    {
+      "scout_id": "scout_4_convergent_content",
+      "config_name": "convergent_content",
+      "estimand_lineage": {
+        "scout_id": "scout_4_convergent_content",
+        "construct_name": "Causal Provenance Effect (CPE)",
+        "ground_truth_origin": "env.provenance_events[acq].immediate_source_id",
+        "behavioral_target": "P(a | X, DirectObs) - P(a | X, S1)",
+        "conditioned_on": [
+          "decision_content_symbol = 2 (X=1)"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "raw_provenance_subspace_lesion",
+        "controls_applied": [
+          "exact_identical_current_content_symbol"
+        ]
+      },
+      "level_0_oracle_return": 0.06,
+      "level_0_blind_return": 0.06,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": -1.0,
+      "level_3_behavioral_effect": 0.35,
+      "level_5_causal_specificity_drop": 0.0,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "HIGH_PRIORITY_PROMOTION (Q14 Core)",
+      "structural_phenomenon": "CAUSAL_PROVENANCE_EFFECT (Identical Proposition, Divergent Origin)"
+    },
+    {
+      "scout_id": "scout_4_convergent_content",
+      "config_name": "convergent_content",
+      "estimand_lineage": {
+        "scout_id": "scout_4_convergent_content",
+        "construct_name": "Causal Provenance Effect (CPE)",
+        "ground_truth_origin": "env.provenance_events[acq].immediate_source_id",
+        "behavioral_target": "P(a | X, DirectObs) - P(a | X, S1)",
+        "conditioned_on": [
+          "decision_content_symbol = 2 (X=1)"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "raw_provenance_subspace_lesion",
+        "controls_applied": [
+          "exact_identical_current_content_symbol"
+        ]
+      },
+      "level_0_oracle_return": -0.02,
+      "level_0_blind_return": -0.02,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": -0.9897437,
+      "level_3_behavioral_effect": 0.35,
+      "level_5_causal_specificity_drop": 0.0,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "HIGH_PRIORITY_PROMOTION (Q14 Core)",
+      "structural_phenomenon": "CAUSAL_PROVENANCE_EFFECT (Identical Proposition, Divergent Origin)"
+    },
+    {
+      "scout_id": "scout_4_convergent_content",
+      "config_name": "convergent_content",
+      "estimand_lineage": {
+        "scout_id": "scout_4_convergent_content",
+        "construct_name": "Causal Provenance Effect (CPE)",
+        "ground_truth_origin": "env.provenance_events[acq].immediate_source_id",
+        "behavioral_target": "P(a | X, DirectObs) - P(a | X, S1)",
+        "conditioned_on": [
+          "decision_content_symbol = 2 (X=1)"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "raw_provenance_subspace_lesion",
+        "controls_applied": [
+          "exact_identical_current_content_symbol"
+        ]
+      },
+      "level_0_oracle_return": -0.1,
+      "level_0_blind_return": -0.1,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": -0.9757862,
+      "level_3_behavioral_effect": 0.35,
+      "level_5_causal_specificity_drop": 0.0,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "HIGH_PRIORITY_PROMOTION (Q14 Core)",
+      "structural_phenomenon": "CAUSAL_PROVENANCE_EFFECT (Identical Proposition, Divergent Origin)"
+    },
+    {
+      "scout_id": "scout_4_convergent_content",
+      "config_name": "convergent_content",
+      "estimand_lineage": {
+        "scout_id": "scout_4_convergent_content",
+        "construct_name": "Causal Provenance Effect (CPE)",
+        "ground_truth_origin": "env.provenance_events[acq].immediate_source_id",
+        "behavioral_target": "P(a | X, DirectObs) - P(a | X, S1)",
+        "conditioned_on": [
+          "decision_content_symbol = 2 (X=1)"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "raw_provenance_subspace_lesion",
+        "controls_applied": [
+          "exact_identical_current_content_symbol"
+        ]
+      },
+      "level_0_oracle_return": 0.04,
+      "level_0_blind_return": 0.04,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": -1.0,
+      "level_3_behavioral_effect": 0.35,
+      "level_5_causal_specificity_drop": 0.0,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "HIGH_PRIORITY_PROMOTION (Q14 Core)",
+      "structural_phenomenon": "CAUSAL_PROVENANCE_EFFECT (Identical Proposition, Divergent Origin)"
+    },
+    {
+      "scout_id": "scout_4_convergent_content",
+      "config_name": "convergent_content",
+      "estimand_lineage": {
+        "scout_id": "scout_4_convergent_content",
+        "construct_name": "Causal Provenance Effect (CPE)",
+        "ground_truth_origin": "env.provenance_events[acq].immediate_source_id",
+        "behavioral_target": "P(a | X, DirectObs) - P(a | X, S1)",
+        "conditioned_on": [
+          "decision_content_symbol = 2 (X=1)"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "raw_provenance_subspace_lesion",
+        "controls_applied": [
+          "exact_identical_current_content_symbol"
+        ]
+      },
+      "level_0_oracle_return": 0.08,
+      "level_0_blind_return": 0.08,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": -1.0,
+      "level_3_behavioral_effect": 0.35,
+      "level_5_causal_specificity_drop": 0.0,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "HIGH_PRIORITY_PROMOTION (Q14 Core)",
+      "structural_phenomenon": "CAUSAL_PROVENANCE_EFFECT (Identical Proposition, Divergent Origin)"
+    },
+    {
+      "scout_id": "scout_4_convergent_content",
+      "config_name": "convergent_content",
+      "estimand_lineage": {
+        "scout_id": "scout_4_convergent_content",
+        "construct_name": "Causal Provenance Effect (CPE)",
+        "ground_truth_origin": "env.provenance_events[acq].immediate_source_id",
+        "behavioral_target": "P(a | X, DirectObs) - P(a | X, S1)",
+        "conditioned_on": [
+          "decision_content_symbol = 2 (X=1)"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "raw_provenance_subspace_lesion",
+        "controls_applied": [
+          "exact_identical_current_content_symbol"
+        ]
+      },
+      "level_0_oracle_return": 0.12,
+      "level_0_blind_return": 0.12,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": -0.57079434,
+      "level_3_behavioral_effect": 0.35,
+      "level_5_causal_specificity_drop": 0.0,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "HIGH_PRIORITY_PROMOTION (Q14 Core)",
+      "structural_phenomenon": "CAUSAL_PROVENANCE_EFFECT (Identical Proposition, Divergent Origin)"
+    },
+    {
+      "scout_id": "scout_4_convergent_content",
+      "config_name": "convergent_content",
+      "estimand_lineage": {
+        "scout_id": "scout_4_convergent_content",
+        "construct_name": "Causal Provenance Effect (CPE)",
+        "ground_truth_origin": "env.provenance_events[acq].immediate_source_id",
+        "behavioral_target": "P(a | X, DirectObs) - P(a | X, S1)",
+        "conditioned_on": [
+          "decision_content_symbol = 2 (X=1)"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "raw_provenance_subspace_lesion",
+        "controls_applied": [
+          "exact_identical_current_content_symbol"
+        ]
+      },
+      "level_0_oracle_return": 0.0,
+      "level_0_blind_return": 0.0,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": -1.0,
+      "level_3_behavioral_effect": 0.35,
+      "level_5_causal_specificity_drop": 0.5833333,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "HIGH_PRIORITY_PROMOTION (Q14 Core)",
+      "structural_phenomenon": "CAUSAL_PROVENANCE_EFFECT (Identical Proposition, Divergent Origin)"
+    },
+    {
+      "scout_id": "scout_4_convergent_content",
+      "config_name": "convergent_content",
+      "estimand_lineage": {
+        "scout_id": "scout_4_convergent_content",
+        "construct_name": "Causal Provenance Effect (CPE)",
+        "ground_truth_origin": "env.provenance_events[acq].immediate_source_id",
+        "behavioral_target": "P(a | X, DirectObs) - P(a | X, S1)",
+        "conditioned_on": [
+          "decision_content_symbol = 2 (X=1)"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "raw_provenance_subspace_lesion",
+        "controls_applied": [
+          "exact_identical_current_content_symbol"
+        ]
+      },
+      "level_0_oracle_return": 0.06,
+      "level_0_blind_return": 0.06,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": -0.87430286,
+      "level_3_behavioral_effect": 0.35,
+      "level_5_causal_specificity_drop": 0.48333332,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "HIGH_PRIORITY_PROMOTION (Q14 Core)",
+      "structural_phenomenon": "CAUSAL_PROVENANCE_EFFECT (Identical Proposition, Divergent Origin)"
+    },
+    {
+      "scout_id": "scout_4_convergent_content",
+      "config_name": "convergent_content",
+      "estimand_lineage": {
+        "scout_id": "scout_4_convergent_content",
+        "construct_name": "Causal Provenance Effect (CPE)",
+        "ground_truth_origin": "env.provenance_events[acq].immediate_source_id",
+        "behavioral_target": "P(a | X, DirectObs) - P(a | X, S1)",
+        "conditioned_on": [
+          "decision_content_symbol = 2 (X=1)"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "raw_provenance_subspace_lesion",
+        "controls_applied": [
+          "exact_identical_current_content_symbol"
+        ]
+      },
+      "level_0_oracle_return": 0.0,
+      "level_0_blind_return": 0.0,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": -1.0,
+      "level_3_behavioral_effect": 0.35,
+      "level_5_causal_specificity_drop": 0.0,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "HIGH_PRIORITY_PROMOTION (Q14 Core)",
+      "structural_phenomenon": "CAUSAL_PROVENANCE_EFFECT (Identical Proposition, Divergent Origin)"
+    }
+  ],
+  [
+    {
+      "scout_id": "scout_5_dependency_duplicate",
+      "config_name": "dependency_duplicate",
+      "estimand_lineage": {
+        "scout_id": "scout_5_dependency_duplicate",
+        "construct_name": "Dependency Discounting Index (DDI)",
+        "ground_truth_origin": "env.provenance_events.dependency_group_id",
+        "behavioral_target": "Weight(Independent Corroboration) - Weight(Copied Evidence)",
+        "conditioned_on": [
+          "total_reports_received = 2",
+          "identical_surface_claims"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "dependency_root_lesion",
+        "controls_applied": [
+          "message_count_matched",
+          "surface_agreement_matched"
+        ]
+      },
+      "level_0_oracle_return": 0.74,
+      "level_0_blind_return": 0.76,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": 0.8128779,
+      "level_3_behavioral_effect": 0.5333333,
+      "level_5_causal_specificity_drop": 1.0,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "HIGH_PRIORITY_PROMOTION (Q15 Core)",
+      "structural_phenomenon": "DEPENDENCY_DISCOUNTING (Independent Corroboration vs Duplicate Ancestry)"
+    },
+    {
+      "scout_id": "scout_5_dependency_duplicate",
+      "config_name": "dependency_duplicate",
+      "estimand_lineage": {
+        "scout_id": "scout_5_dependency_duplicate",
+        "construct_name": "Dependency Discounting Index (DDI)",
+        "ground_truth_origin": "env.provenance_events.dependency_group_id",
+        "behavioral_target": "Weight(Independent Corroboration) - Weight(Copied Evidence)",
+        "conditioned_on": [
+          "total_reports_received = 2",
+          "identical_surface_claims"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "dependency_root_lesion",
+        "controls_applied": [
+          "message_count_matched",
+          "surface_agreement_matched"
+        ]
+      },
+      "level_0_oracle_return": 0.62,
+      "level_0_blind_return": 0.6,
+      "level_0_economic_validity": true,
+      "level_1_r2_availability": 0.77639085,
+      "level_3_behavioral_effect": 0.35,
+      "level_5_causal_specificity_drop": 0.21666667,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "HIGH_PRIORITY_PROMOTION (Q15 Core)",
+      "structural_phenomenon": "DEPENDENCY_DISCOUNTING (Independent Corroboration vs Duplicate Ancestry)"
+    },
+    {
+      "scout_id": "scout_5_dependency_duplicate",
+      "config_name": "dependency_duplicate",
+      "estimand_lineage": {
+        "scout_id": "scout_5_dependency_duplicate",
+        "construct_name": "Dependency Discounting Index (DDI)",
+        "ground_truth_origin": "env.provenance_events.dependency_group_id",
+        "behavioral_target": "Weight(Independent Corroboration) - Weight(Copied Evidence)",
+        "conditioned_on": [
+          "total_reports_received = 2",
+          "identical_surface_claims"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "dependency_root_lesion",
+        "controls_applied": [
+          "message_count_matched",
+          "surface_agreement_matched"
+        ]
+      },
+      "level_0_oracle_return": 0.84,
+      "level_0_blind_return": 0.8,
+      "level_0_economic_validity": true,
+      "level_1_r2_availability": 0.81124634,
+      "level_3_behavioral_effect": 0.5333333,
+      "level_5_causal_specificity_drop": 0.0,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "HIGH_PRIORITY_PROMOTION (Q15 Core)",
+      "structural_phenomenon": "DEPENDENCY_DISCOUNTING (Independent Corroboration vs Duplicate Ancestry)"
+    },
+    {
+      "scout_id": "scout_5_dependency_duplicate",
+      "config_name": "dependency_duplicate",
+      "estimand_lineage": {
+        "scout_id": "scout_5_dependency_duplicate",
+        "construct_name": "Dependency Discounting Index (DDI)",
+        "ground_truth_origin": "env.provenance_events.dependency_group_id",
+        "behavioral_target": "Weight(Independent Corroboration) - Weight(Copied Evidence)",
+        "conditioned_on": [
+          "total_reports_received = 2",
+          "identical_surface_claims"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "dependency_root_lesion",
+        "controls_applied": [
+          "message_count_matched",
+          "surface_agreement_matched"
+        ]
+      },
+      "level_0_oracle_return": 0.72,
+      "level_0_blind_return": 0.76,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": 0.9160987,
+      "level_3_behavioral_effect": 0.35,
+      "level_5_causal_specificity_drop": 0.71666664,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "HIGH_PRIORITY_PROMOTION (Q15 Core)",
+      "structural_phenomenon": "DEPENDENCY_DISCOUNTING (Independent Corroboration vs Duplicate Ancestry)"
+    },
+    {
+      "scout_id": "scout_5_dependency_duplicate",
+      "config_name": "dependency_duplicate",
+      "estimand_lineage": {
+        "scout_id": "scout_5_dependency_duplicate",
+        "construct_name": "Dependency Discounting Index (DDI)",
+        "ground_truth_origin": "env.provenance_events.dependency_group_id",
+        "behavioral_target": "Weight(Independent Corroboration) - Weight(Copied Evidence)",
+        "conditioned_on": [
+          "total_reports_received = 2",
+          "identical_surface_claims"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "dependency_root_lesion",
+        "controls_applied": [
+          "message_count_matched",
+          "surface_agreement_matched"
+        ]
+      },
+      "level_0_oracle_return": 0.58,
+      "level_0_blind_return": 0.58,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": 0.77365756,
+      "level_3_behavioral_effect": 0.35,
+      "level_5_causal_specificity_drop": 0.23333333,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "HIGH_PRIORITY_PROMOTION (Q15 Core)",
+      "structural_phenomenon": "DEPENDENCY_DISCOUNTING (Independent Corroboration vs Duplicate Ancestry)"
+    },
+    {
+      "scout_id": "scout_5_dependency_duplicate",
+      "config_name": "dependency_duplicate",
+      "estimand_lineage": {
+        "scout_id": "scout_5_dependency_duplicate",
+        "construct_name": "Dependency Discounting Index (DDI)",
+        "ground_truth_origin": "env.provenance_events.dependency_group_id",
+        "behavioral_target": "Weight(Independent Corroboration) - Weight(Copied Evidence)",
+        "conditioned_on": [
+          "total_reports_received = 2",
+          "identical_surface_claims"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "dependency_root_lesion",
+        "controls_applied": [
+          "message_count_matched",
+          "surface_agreement_matched"
+        ]
+      },
+      "level_0_oracle_return": 0.64,
+      "level_0_blind_return": 0.66,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": 0.8185737,
+      "level_3_behavioral_effect": 0.35,
+      "level_5_causal_specificity_drop": 0.23333333,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "HIGH_PRIORITY_PROMOTION (Q15 Core)",
+      "structural_phenomenon": "DEPENDENCY_DISCOUNTING (Independent Corroboration vs Duplicate Ancestry)"
+    },
+    {
+      "scout_id": "scout_5_dependency_duplicate",
+      "config_name": "dependency_duplicate",
+      "estimand_lineage": {
+        "scout_id": "scout_5_dependency_duplicate",
+        "construct_name": "Dependency Discounting Index (DDI)",
+        "ground_truth_origin": "env.provenance_events.dependency_group_id",
+        "behavioral_target": "Weight(Independent Corroboration) - Weight(Copied Evidence)",
+        "conditioned_on": [
+          "total_reports_received = 2",
+          "identical_surface_claims"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "dependency_root_lesion",
+        "controls_applied": [
+          "message_count_matched",
+          "surface_agreement_matched"
+        ]
+      },
+      "level_0_oracle_return": 0.72,
+      "level_0_blind_return": 0.68,
+      "level_0_economic_validity": true,
+      "level_1_r2_availability": 0.8969778,
+      "level_3_behavioral_effect": 0.35,
+      "level_5_causal_specificity_drop": 0.75,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "HIGH_PRIORITY_PROMOTION (Q15 Core)",
+      "structural_phenomenon": "DEPENDENCY_DISCOUNTING (Independent Corroboration vs Duplicate Ancestry)"
+    },
+    {
+      "scout_id": "scout_5_dependency_duplicate",
+      "config_name": "dependency_duplicate",
+      "estimand_lineage": {
+        "scout_id": "scout_5_dependency_duplicate",
+        "construct_name": "Dependency Discounting Index (DDI)",
+        "ground_truth_origin": "env.provenance_events.dependency_group_id",
+        "behavioral_target": "Weight(Independent Corroboration) - Weight(Copied Evidence)",
+        "conditioned_on": [
+          "total_reports_received = 2",
+          "identical_surface_claims"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "dependency_root_lesion",
+        "controls_applied": [
+          "message_count_matched",
+          "surface_agreement_matched"
+        ]
+      },
+      "level_0_oracle_return": 0.72,
+      "level_0_blind_return": 0.7,
+      "level_0_economic_validity": true,
+      "level_1_r2_availability": 0.70884454,
+      "level_3_behavioral_effect": 0.6,
+      "level_5_causal_specificity_drop": 0.0,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "HIGH_PRIORITY_PROMOTION (Q15 Core)",
+      "structural_phenomenon": "DEPENDENCY_DISCOUNTING (Independent Corroboration vs Duplicate Ancestry)"
+    },
+    {
+      "scout_id": "scout_5_dependency_duplicate",
+      "config_name": "dependency_duplicate",
+      "estimand_lineage": {
+        "scout_id": "scout_5_dependency_duplicate",
+        "construct_name": "Dependency Discounting Index (DDI)",
+        "ground_truth_origin": "env.provenance_events.dependency_group_id",
+        "behavioral_target": "Weight(Independent Corroboration) - Weight(Copied Evidence)",
+        "conditioned_on": [
+          "total_reports_received = 2",
+          "identical_surface_claims"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "dependency_root_lesion",
+        "controls_applied": [
+          "message_count_matched",
+          "surface_agreement_matched"
+        ]
+      },
+      "level_0_oracle_return": 0.78,
+      "level_0_blind_return": 0.76,
+      "level_0_economic_validity": true,
+      "level_1_r2_availability": 0.8114971,
+      "level_3_behavioral_effect": 0.45,
+      "level_5_causal_specificity_drop": 0.5833333,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "HIGH_PRIORITY_PROMOTION (Q15 Core)",
+      "structural_phenomenon": "DEPENDENCY_DISCOUNTING (Independent Corroboration vs Duplicate Ancestry)"
+    },
+    {
+      "scout_id": "scout_5_dependency_duplicate",
+      "config_name": "dependency_duplicate",
+      "estimand_lineage": {
+        "scout_id": "scout_5_dependency_duplicate",
+        "construct_name": "Dependency Discounting Index (DDI)",
+        "ground_truth_origin": "env.provenance_events.dependency_group_id",
+        "behavioral_target": "Weight(Independent Corroboration) - Weight(Copied Evidence)",
+        "conditioned_on": [
+          "total_reports_received = 2",
+          "identical_surface_claims"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "dependency_root_lesion",
+        "controls_applied": [
+          "message_count_matched",
+          "surface_agreement_matched"
+        ]
+      },
+      "level_0_oracle_return": 0.8,
+      "level_0_blind_return": 0.8,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": 0.836066,
+      "level_3_behavioral_effect": 0.48333335,
+      "level_5_causal_specificity_drop": 0.46666667,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "HIGH_PRIORITY_PROMOTION (Q15 Core)",
+      "structural_phenomenon": "DEPENDENCY_DISCOUNTING (Independent Corroboration vs Duplicate Ancestry)"
+    },
+    {
+      "scout_id": "scout_5_dependency_duplicate",
+      "config_name": "dependency_duplicate",
+      "estimand_lineage": {
+        "scout_id": "scout_5_dependency_duplicate",
+        "construct_name": "Dependency Discounting Index (DDI)",
+        "ground_truth_origin": "env.provenance_events.dependency_group_id",
+        "behavioral_target": "Weight(Independent Corroboration) - Weight(Copied Evidence)",
+        "conditioned_on": [
+          "total_reports_received = 2",
+          "identical_surface_claims"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "dependency_root_lesion",
+        "controls_applied": [
+          "message_count_matched",
+          "surface_agreement_matched"
+        ]
+      },
+      "level_0_oracle_return": 0.64,
+      "level_0_blind_return": 0.62,
+      "level_0_economic_validity": true,
+      "level_1_r2_availability": 0.78172064,
+      "level_3_behavioral_effect": 0.45,
+      "level_5_causal_specificity_drop": 0.55,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "HIGH_PRIORITY_PROMOTION (Q15 Core)",
+      "structural_phenomenon": "DEPENDENCY_DISCOUNTING (Independent Corroboration vs Duplicate Ancestry)"
+    },
+    {
+      "scout_id": "scout_5_dependency_duplicate",
+      "config_name": "dependency_duplicate",
+      "estimand_lineage": {
+        "scout_id": "scout_5_dependency_duplicate",
+        "construct_name": "Dependency Discounting Index (DDI)",
+        "ground_truth_origin": "env.provenance_events.dependency_group_id",
+        "behavioral_target": "Weight(Independent Corroboration) - Weight(Copied Evidence)",
+        "conditioned_on": [
+          "total_reports_received = 2",
+          "identical_surface_claims"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "dependency_root_lesion",
+        "controls_applied": [
+          "message_count_matched",
+          "surface_agreement_matched"
+        ]
+      },
+      "level_0_oracle_return": 0.76,
+      "level_0_blind_return": 0.82,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": 0.76756,
+      "level_3_behavioral_effect": 0.43333334,
+      "level_5_causal_specificity_drop": 0.0,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "HIGH_PRIORITY_PROMOTION (Q15 Core)",
+      "structural_phenomenon": "DEPENDENCY_DISCOUNTING (Independent Corroboration vs Duplicate Ancestry)"
+    },
+    {
+      "scout_id": "scout_5_dependency_duplicate",
+      "config_name": "dependency_duplicate",
+      "estimand_lineage": {
+        "scout_id": "scout_5_dependency_duplicate",
+        "construct_name": "Dependency Discounting Index (DDI)",
+        "ground_truth_origin": "env.provenance_events.dependency_group_id",
+        "behavioral_target": "Weight(Independent Corroboration) - Weight(Copied Evidence)",
+        "conditioned_on": [
+          "total_reports_received = 2",
+          "identical_surface_claims"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "dependency_root_lesion",
+        "controls_applied": [
+          "message_count_matched",
+          "surface_agreement_matched"
+        ]
+      },
+      "level_0_oracle_return": 0.76,
+      "level_0_blind_return": 0.78,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": 0.54293823,
+      "level_3_behavioral_effect": 0.45,
+      "level_5_causal_specificity_drop": 1.0,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "HIGH_PRIORITY_PROMOTION (Q15 Core)",
+      "structural_phenomenon": "DEPENDENCY_DISCOUNTING (Independent Corroboration vs Duplicate Ancestry)"
+    },
+    {
+      "scout_id": "scout_5_dependency_duplicate",
+      "config_name": "dependency_duplicate",
+      "estimand_lineage": {
+        "scout_id": "scout_5_dependency_duplicate",
+        "construct_name": "Dependency Discounting Index (DDI)",
+        "ground_truth_origin": "env.provenance_events.dependency_group_id",
+        "behavioral_target": "Weight(Independent Corroboration) - Weight(Copied Evidence)",
+        "conditioned_on": [
+          "total_reports_received = 2",
+          "identical_surface_claims"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "dependency_root_lesion",
+        "controls_applied": [
+          "message_count_matched",
+          "surface_agreement_matched"
+        ]
+      },
+      "level_0_oracle_return": 0.68,
+      "level_0_blind_return": 0.66,
+      "level_0_economic_validity": true,
+      "level_1_r2_availability": 0.8449633,
+      "level_3_behavioral_effect": 0.51666665,
+      "level_5_causal_specificity_drop": 0.0,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "HIGH_PRIORITY_PROMOTION (Q15 Core)",
+      "structural_phenomenon": "DEPENDENCY_DISCOUNTING (Independent Corroboration vs Duplicate Ancestry)"
+    },
+    {
+      "scout_id": "scout_5_dependency_duplicate",
+      "config_name": "dependency_duplicate",
+      "estimand_lineage": {
+        "scout_id": "scout_5_dependency_duplicate",
+        "construct_name": "Dependency Discounting Index (DDI)",
+        "ground_truth_origin": "env.provenance_events.dependency_group_id",
+        "behavioral_target": "Weight(Independent Corroboration) - Weight(Copied Evidence)",
+        "conditioned_on": [
+          "total_reports_received = 2",
+          "identical_surface_claims"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "dependency_root_lesion",
+        "controls_applied": [
+          "message_count_matched",
+          "surface_agreement_matched"
+        ]
+      },
+      "level_0_oracle_return": 0.64,
+      "level_0_blind_return": 0.68,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": 0.79000753,
+      "level_3_behavioral_effect": 0.35,
+      "level_5_causal_specificity_drop": 0.8333333,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "HIGH_PRIORITY_PROMOTION (Q15 Core)",
+      "structural_phenomenon": "DEPENDENCY_DISCOUNTING (Independent Corroboration vs Duplicate Ancestry)"
+    },
+    {
+      "scout_id": "scout_5_dependency_duplicate",
+      "config_name": "dependency_duplicate",
+      "estimand_lineage": {
+        "scout_id": "scout_5_dependency_duplicate",
+        "construct_name": "Dependency Discounting Index (DDI)",
+        "ground_truth_origin": "env.provenance_events.dependency_group_id",
+        "behavioral_target": "Weight(Independent Corroboration) - Weight(Copied Evidence)",
+        "conditioned_on": [
+          "total_reports_received = 2",
+          "identical_surface_claims"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "dependency_root_lesion",
+        "controls_applied": [
+          "message_count_matched",
+          "surface_agreement_matched"
+        ]
+      },
+      "level_0_oracle_return": 0.6,
+      "level_0_blind_return": 0.62,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": 0.74783605,
+      "level_3_behavioral_effect": 0.56666666,
+      "level_5_causal_specificity_drop": 0.0,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "HIGH_PRIORITY_PROMOTION (Q15 Core)",
+      "structural_phenomenon": "DEPENDENCY_DISCOUNTING (Independent Corroboration vs Duplicate Ancestry)"
+    }
+  ],
+  [
+    {
+      "scout_id": "scout_6_laundering_depth",
+      "config_name": "laundering_depth",
+      "estimand_lineage": {
+        "scout_id": "scout_6_laundering_depth",
+        "construct_name": "Provenance Half-Life / Ancestry Depth",
+        "ground_truth_origin": "env.provenance_events.transmission_depth",
+        "behavioral_target": "d(Action_Weight) / d(Transmission_Depth)",
+        "conditioned_on": [
+          "reported_claim_constant"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "depth_coordinate_clamp",
+        "controls_applied": [
+          "per_hop_copy_noise_fixed = 0.10"
+        ]
+      },
+      "level_0_oracle_return": 0.48,
+      "level_0_blind_return": 0.48,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": -0.628579,
+      "level_3_behavioral_effect": 0.46666664,
+      "level_5_causal_specificity_drop": 0.35,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "PROMOTED_SECONDARY",
+      "structural_phenomenon": "PROVENANCE_HALF_LIFE (Ancestry Chain Decay)"
+    },
+    {
+      "scout_id": "scout_6_laundering_depth",
+      "config_name": "laundering_depth",
+      "estimand_lineage": {
+        "scout_id": "scout_6_laundering_depth",
+        "construct_name": "Provenance Half-Life / Ancestry Depth",
+        "ground_truth_origin": "env.provenance_events.transmission_depth",
+        "behavioral_target": "d(Action_Weight) / d(Transmission_Depth)",
+        "conditioned_on": [
+          "reported_claim_constant"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "depth_coordinate_clamp",
+        "controls_applied": [
+          "per_hop_copy_noise_fixed = 0.10"
+        ]
+      },
+      "level_0_oracle_return": 0.48,
+      "level_0_blind_return": 0.48,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": -0.0376786,
+      "level_3_behavioral_effect": 0.35,
+      "level_5_causal_specificity_drop": 0.75,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "PROMOTED_SECONDARY",
+      "structural_phenomenon": "PROVENANCE_HALF_LIFE (Ancestry Chain Decay)"
+    },
+    {
+      "scout_id": "scout_6_laundering_depth",
+      "config_name": "laundering_depth",
+      "estimand_lineage": {
+        "scout_id": "scout_6_laundering_depth",
+        "construct_name": "Provenance Half-Life / Ancestry Depth",
+        "ground_truth_origin": "env.provenance_events.transmission_depth",
+        "behavioral_target": "d(Action_Weight) / d(Transmission_Depth)",
+        "conditioned_on": [
+          "reported_claim_constant"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "depth_coordinate_clamp",
+        "controls_applied": [
+          "per_hop_copy_noise_fixed = 0.10"
+        ]
+      },
+      "level_0_oracle_return": 0.46,
+      "level_0_blind_return": 0.46,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": -0.20086956,
+      "level_3_behavioral_effect": 0.5333333,
+      "level_5_causal_specificity_drop": 1.0,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "PROMOTED_SECONDARY",
+      "structural_phenomenon": "PROVENANCE_HALF_LIFE (Ancestry Chain Decay)"
+    },
+    {
+      "scout_id": "scout_6_laundering_depth",
+      "config_name": "laundering_depth",
+      "estimand_lineage": {
+        "scout_id": "scout_6_laundering_depth",
+        "construct_name": "Provenance Half-Life / Ancestry Depth",
+        "ground_truth_origin": "env.provenance_events.transmission_depth",
+        "behavioral_target": "d(Action_Weight) / d(Transmission_Depth)",
+        "conditioned_on": [
+          "reported_claim_constant"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "depth_coordinate_clamp",
+        "controls_applied": [
+          "per_hop_copy_noise_fixed = 0.10"
+        ]
+      },
+      "level_0_oracle_return": 0.46,
+      "level_0_blind_return": 0.46,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": -0.120274425,
+      "level_3_behavioral_effect": 0.51666665,
+      "level_5_causal_specificity_drop": 0.0,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "PROMOTED_SECONDARY",
+      "structural_phenomenon": "PROVENANCE_HALF_LIFE (Ancestry Chain Decay)"
+    },
+    {
+      "scout_id": "scout_6_laundering_depth",
+      "config_name": "laundering_depth",
+      "estimand_lineage": {
+        "scout_id": "scout_6_laundering_depth",
+        "construct_name": "Provenance Half-Life / Ancestry Depth",
+        "ground_truth_origin": "env.provenance_events.transmission_depth",
+        "behavioral_target": "d(Action_Weight) / d(Transmission_Depth)",
+        "conditioned_on": [
+          "reported_claim_constant"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "depth_coordinate_clamp",
+        "controls_applied": [
+          "per_hop_copy_noise_fixed = 0.10"
+        ]
+      },
+      "level_0_oracle_return": 0.54,
+      "level_0_blind_return": 0.54,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": -0.058911204,
+      "level_3_behavioral_effect": 0.35,
+      "level_5_causal_specificity_drop": 0.25,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "PROMOTED_SECONDARY",
+      "structural_phenomenon": "PROVENANCE_HALF_LIFE (Ancestry Chain Decay)"
+    },
+    {
+      "scout_id": "scout_6_laundering_depth",
+      "config_name": "laundering_depth",
+      "estimand_lineage": {
+        "scout_id": "scout_6_laundering_depth",
+        "construct_name": "Provenance Half-Life / Ancestry Depth",
+        "ground_truth_origin": "env.provenance_events.transmission_depth",
+        "behavioral_target": "d(Action_Weight) / d(Transmission_Depth)",
+        "conditioned_on": [
+          "reported_claim_constant"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "depth_coordinate_clamp",
+        "controls_applied": [
+          "per_hop_copy_noise_fixed = 0.10"
+        ]
+      },
+      "level_0_oracle_return": 0.42,
+      "level_0_blind_return": 0.42,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": 0.16829908,
+      "level_3_behavioral_effect": 0.35,
+      "level_5_causal_specificity_drop": 0.016666668,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "PROMOTED_SECONDARY",
+      "structural_phenomenon": "PROVENANCE_HALF_LIFE (Ancestry Chain Decay)"
+    },
+    {
+      "scout_id": "scout_6_laundering_depth",
+      "config_name": "laundering_depth",
+      "estimand_lineage": {
+        "scout_id": "scout_6_laundering_depth",
+        "construct_name": "Provenance Half-Life / Ancestry Depth",
+        "ground_truth_origin": "env.provenance_events.transmission_depth",
+        "behavioral_target": "d(Action_Weight) / d(Transmission_Depth)",
+        "conditioned_on": [
+          "reported_claim_constant"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "depth_coordinate_clamp",
+        "controls_applied": [
+          "per_hop_copy_noise_fixed = 0.10"
+        ]
+      },
+      "level_0_oracle_return": 0.44,
+      "level_0_blind_return": 0.44,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": -0.31304467,
+      "level_3_behavioral_effect": 0.46666664,
+      "level_5_causal_specificity_drop": 0.0,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "PROMOTED_SECONDARY",
+      "structural_phenomenon": "PROVENANCE_HALF_LIFE (Ancestry Chain Decay)"
+    },
+    {
+      "scout_id": "scout_6_laundering_depth",
+      "config_name": "laundering_depth",
+      "estimand_lineage": {
+        "scout_id": "scout_6_laundering_depth",
+        "construct_name": "Provenance Half-Life / Ancestry Depth",
+        "ground_truth_origin": "env.provenance_events.transmission_depth",
+        "behavioral_target": "d(Action_Weight) / d(Transmission_Depth)",
+        "conditioned_on": [
+          "reported_claim_constant"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "depth_coordinate_clamp",
+        "controls_applied": [
+          "per_hop_copy_noise_fixed = 0.10"
+        ]
+      },
+      "level_0_oracle_return": 0.58,
+      "level_0_blind_return": 0.58,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": -0.3525015,
+      "level_3_behavioral_effect": 0.6166667,
+      "level_5_causal_specificity_drop": 1.0,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "PROMOTED_SECONDARY",
+      "structural_phenomenon": "PROVENANCE_HALF_LIFE (Ancestry Chain Decay)"
+    },
+    {
+      "scout_id": "scout_6_laundering_depth",
+      "config_name": "laundering_depth",
+      "estimand_lineage": {
+        "scout_id": "scout_6_laundering_depth",
+        "construct_name": "Provenance Half-Life / Ancestry Depth",
+        "ground_truth_origin": "env.provenance_events.transmission_depth",
+        "behavioral_target": "d(Action_Weight) / d(Transmission_Depth)",
+        "conditioned_on": [
+          "reported_claim_constant"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "depth_coordinate_clamp",
+        "controls_applied": [
+          "per_hop_copy_noise_fixed = 0.10"
+        ]
+      },
+      "level_0_oracle_return": 0.4,
+      "level_0_blind_return": 0.4,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": -0.26708472,
+      "level_3_behavioral_effect": 0.5,
+      "level_5_causal_specificity_drop": 0.41666666,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "PROMOTED_SECONDARY",
+      "structural_phenomenon": "PROVENANCE_HALF_LIFE (Ancestry Chain Decay)"
+    },
+    {
+      "scout_id": "scout_6_laundering_depth",
+      "config_name": "laundering_depth",
+      "estimand_lineage": {
+        "scout_id": "scout_6_laundering_depth",
+        "construct_name": "Provenance Half-Life / Ancestry Depth",
+        "ground_truth_origin": "env.provenance_events.transmission_depth",
+        "behavioral_target": "d(Action_Weight) / d(Transmission_Depth)",
+        "conditioned_on": [
+          "reported_claim_constant"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "depth_coordinate_clamp",
+        "controls_applied": [
+          "per_hop_copy_noise_fixed = 0.10"
+        ]
+      },
+      "level_0_oracle_return": 0.42,
+      "level_0_blind_return": 0.42,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": 0.38277304,
+      "level_3_behavioral_effect": 0.5333333,
+      "level_5_causal_specificity_drop": 0.46666667,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "PROMOTED_SECONDARY",
+      "structural_phenomenon": "PROVENANCE_HALF_LIFE (Ancestry Chain Decay)"
+    },
+    {
+      "scout_id": "scout_6_laundering_depth",
+      "config_name": "laundering_depth",
+      "estimand_lineage": {
+        "scout_id": "scout_6_laundering_depth",
+        "construct_name": "Provenance Half-Life / Ancestry Depth",
+        "ground_truth_origin": "env.provenance_events.transmission_depth",
+        "behavioral_target": "d(Action_Weight) / d(Transmission_Depth)",
+        "conditioned_on": [
+          "reported_claim_constant"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "depth_coordinate_clamp",
+        "controls_applied": [
+          "per_hop_copy_noise_fixed = 0.10"
+        ]
+      },
+      "level_0_oracle_return": 0.46,
+      "level_0_blind_return": 0.46,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": -0.090874076,
+      "level_3_behavioral_effect": 0.46666664,
+      "level_5_causal_specificity_drop": 0.0,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "PROMOTED_SECONDARY",
+      "structural_phenomenon": "PROVENANCE_HALF_LIFE (Ancestry Chain Decay)"
+    },
+    {
+      "scout_id": "scout_6_laundering_depth",
+      "config_name": "laundering_depth",
+      "estimand_lineage": {
+        "scout_id": "scout_6_laundering_depth",
+        "construct_name": "Provenance Half-Life / Ancestry Depth",
+        "ground_truth_origin": "env.provenance_events.transmission_depth",
+        "behavioral_target": "d(Action_Weight) / d(Transmission_Depth)",
+        "conditioned_on": [
+          "reported_claim_constant"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "depth_coordinate_clamp",
+        "controls_applied": [
+          "per_hop_copy_noise_fixed = 0.10"
+        ]
+      },
+      "level_0_oracle_return": 0.48,
+      "level_0_blind_return": 0.48,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": -0.19461024,
+      "level_3_behavioral_effect": 0.5833334,
+      "level_5_causal_specificity_drop": 0.51666665,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "PROMOTED_SECONDARY",
+      "structural_phenomenon": "PROVENANCE_HALF_LIFE (Ancestry Chain Decay)"
+    },
+    {
+      "scout_id": "scout_6_laundering_depth",
+      "config_name": "laundering_depth",
+      "estimand_lineage": {
+        "scout_id": "scout_6_laundering_depth",
+        "construct_name": "Provenance Half-Life / Ancestry Depth",
+        "ground_truth_origin": "env.provenance_events.transmission_depth",
+        "behavioral_target": "d(Action_Weight) / d(Transmission_Depth)",
+        "conditioned_on": [
+          "reported_claim_constant"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "depth_coordinate_clamp",
+        "controls_applied": [
+          "per_hop_copy_noise_fixed = 0.10"
+        ]
+      },
+      "level_0_oracle_return": 0.38,
+      "level_0_blind_return": 0.38,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": -0.158741,
+      "level_3_behavioral_effect": 0.45,
+      "level_5_causal_specificity_drop": 1.0,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "PROMOTED_SECONDARY",
+      "structural_phenomenon": "PROVENANCE_HALF_LIFE (Ancestry Chain Decay)"
+    },
+    {
+      "scout_id": "scout_6_laundering_depth",
+      "config_name": "laundering_depth",
+      "estimand_lineage": {
+        "scout_id": "scout_6_laundering_depth",
+        "construct_name": "Provenance Half-Life / Ancestry Depth",
+        "ground_truth_origin": "env.provenance_events.transmission_depth",
+        "behavioral_target": "d(Action_Weight) / d(Transmission_Depth)",
+        "conditioned_on": [
+          "reported_claim_constant"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "depth_coordinate_clamp",
+        "controls_applied": [
+          "per_hop_copy_noise_fixed = 0.10"
+        ]
+      },
+      "level_0_oracle_return": 0.52,
+      "level_0_blind_return": 0.52,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": 0.33596474,
+      "level_3_behavioral_effect": 0.5,
+      "level_5_causal_specificity_drop": 0.33333334,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "PROMOTED_SECONDARY",
+      "structural_phenomenon": "PROVENANCE_HALF_LIFE (Ancestry Chain Decay)"
+    },
+    {
+      "scout_id": "scout_6_laundering_depth",
+      "config_name": "laundering_depth",
+      "estimand_lineage": {
+        "scout_id": "scout_6_laundering_depth",
+        "construct_name": "Provenance Half-Life / Ancestry Depth",
+        "ground_truth_origin": "env.provenance_events.transmission_depth",
+        "behavioral_target": "d(Action_Weight) / d(Transmission_Depth)",
+        "conditioned_on": [
+          "reported_claim_constant"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "depth_coordinate_clamp",
+        "controls_applied": [
+          "per_hop_copy_noise_fixed = 0.10"
+        ]
+      },
+      "level_0_oracle_return": 0.46,
+      "level_0_blind_return": 0.46,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": 0.11820072,
+      "level_3_behavioral_effect": 0.48333335,
+      "level_5_causal_specificity_drop": 1.0,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "PROMOTED_SECONDARY",
+      "structural_phenomenon": "PROVENANCE_HALF_LIFE (Ancestry Chain Decay)"
+    },
+    {
+      "scout_id": "scout_6_laundering_depth",
+      "config_name": "laundering_depth",
+      "estimand_lineage": {
+        "scout_id": "scout_6_laundering_depth",
+        "construct_name": "Provenance Half-Life / Ancestry Depth",
+        "ground_truth_origin": "env.provenance_events.transmission_depth",
+        "behavioral_target": "d(Action_Weight) / d(Transmission_Depth)",
+        "conditioned_on": [
+          "reported_claim_constant"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "depth_coordinate_clamp",
+        "controls_applied": [
+          "per_hop_copy_noise_fixed = 0.10"
+        ]
+      },
+      "level_0_oracle_return": 0.4,
+      "level_0_blind_return": 0.4,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": -0.52087915,
+      "level_3_behavioral_effect": 0.56666666,
+      "level_5_causal_specificity_drop": 0.0,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "PROMOTED_SECONDARY",
+      "structural_phenomenon": "PROVENANCE_HALF_LIFE (Ancestry Chain Decay)"
+    }
+  ],
+  [
+    {
+      "scout_id": "scout_7_source_content_conflict",
+      "config_name": "source_content_conflict",
+      "estimand_lineage": {
+        "scout_id": "scout_7_source_content_conflict",
+        "construct_name": "Source Vigilance vs Content Scrutiny",
+        "ground_truth_origin": "Source_Reliability (0.85/0.55) x Content_Plausibility (0.80/0.20)",
+        "behavioral_target": "2x2 Factorial Action Differential",
+        "conditioned_on": [
+          "factorial_2x2_design"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "orthogonal_vigilance_dissociation",
+        "controls_applied": [
+          "marginal_content_and_source_matching"
+        ]
+      },
+      "level_0_oracle_return": 0.0,
+      "level_0_blind_return": 0.0,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": 0.03612548,
+      "level_3_behavioral_effect": 0.6166667,
+      "level_5_causal_specificity_drop": 0.35,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "ARCHIVED_CONTROL",
+      "structural_phenomenon": "BASELINE_PROVENANCE_REPUTATION"
+    },
+    {
+      "scout_id": "scout_7_source_content_conflict",
+      "config_name": "source_content_conflict",
+      "estimand_lineage": {
+        "scout_id": "scout_7_source_content_conflict",
+        "construct_name": "Source Vigilance vs Content Scrutiny",
+        "ground_truth_origin": "Source_Reliability (0.85/0.55) x Content_Plausibility (0.80/0.20)",
+        "behavioral_target": "2x2 Factorial Action Differential",
+        "conditioned_on": [
+          "factorial_2x2_design"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "orthogonal_vigilance_dissociation",
+        "controls_applied": [
+          "marginal_content_and_source_matching"
+        ]
+      },
+      "level_0_oracle_return": -0.02,
+      "level_0_blind_return": -0.02,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": 0.024200678,
+      "level_3_behavioral_effect": 0.35,
+      "level_5_causal_specificity_drop": 0.78333336,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "ARCHIVED_CONTROL",
+      "structural_phenomenon": "BASELINE_PROVENANCE_REPUTATION"
+    },
+    {
+      "scout_id": "scout_7_source_content_conflict",
+      "config_name": "source_content_conflict",
+      "estimand_lineage": {
+        "scout_id": "scout_7_source_content_conflict",
+        "construct_name": "Source Vigilance vs Content Scrutiny",
+        "ground_truth_origin": "Source_Reliability (0.85/0.55) x Content_Plausibility (0.80/0.20)",
+        "behavioral_target": "2x2 Factorial Action Differential",
+        "conditioned_on": [
+          "factorial_2x2_design"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "orthogonal_vigilance_dissociation",
+        "controls_applied": [
+          "marginal_content_and_source_matching"
+        ]
+      },
+      "level_0_oracle_return": -0.14,
+      "level_0_blind_return": -0.14,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": 0.15742314,
+      "level_3_behavioral_effect": 0.5333333,
+      "level_5_causal_specificity_drop": 0.0,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "ARCHIVED_CONTROL",
+      "structural_phenomenon": "BASELINE_PROVENANCE_REPUTATION"
+    },
+    {
+      "scout_id": "scout_7_source_content_conflict",
+      "config_name": "source_content_conflict",
+      "estimand_lineage": {
+        "scout_id": "scout_7_source_content_conflict",
+        "construct_name": "Source Vigilance vs Content Scrutiny",
+        "ground_truth_origin": "Source_Reliability (0.85/0.55) x Content_Plausibility (0.80/0.20)",
+        "behavioral_target": "2x2 Factorial Action Differential",
+        "conditioned_on": [
+          "factorial_2x2_design"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "orthogonal_vigilance_dissociation",
+        "controls_applied": [
+          "marginal_content_and_source_matching"
+        ]
+      },
+      "level_0_oracle_return": 0.0,
+      "level_0_blind_return": 0.0,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": 0.21556914,
+      "level_3_behavioral_effect": 0.4166667,
+      "level_5_causal_specificity_drop": 0.06666667,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "ARCHIVED_CONTROL",
+      "structural_phenomenon": "BASELINE_PROVENANCE_REPUTATION"
+    },
+    {
+      "scout_id": "scout_7_source_content_conflict",
+      "config_name": "source_content_conflict",
+      "estimand_lineage": {
+        "scout_id": "scout_7_source_content_conflict",
+        "construct_name": "Source Vigilance vs Content Scrutiny",
+        "ground_truth_origin": "Source_Reliability (0.85/0.55) x Content_Plausibility (0.80/0.20)",
+        "behavioral_target": "2x2 Factorial Action Differential",
+        "conditioned_on": [
+          "factorial_2x2_design"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "orthogonal_vigilance_dissociation",
+        "controls_applied": [
+          "marginal_content_and_source_matching"
+        ]
+      },
+      "level_0_oracle_return": 0.2,
+      "level_0_blind_return": 0.2,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": -0.008923531,
+      "level_3_behavioral_effect": 0.55,
+      "level_5_causal_specificity_drop": 0.0,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "ARCHIVED_CONTROL",
+      "structural_phenomenon": "BASELINE_PROVENANCE_REPUTATION"
+    },
+    {
+      "scout_id": "scout_7_source_content_conflict",
+      "config_name": "source_content_conflict",
+      "estimand_lineage": {
+        "scout_id": "scout_7_source_content_conflict",
+        "construct_name": "Source Vigilance vs Content Scrutiny",
+        "ground_truth_origin": "Source_Reliability (0.85/0.55) x Content_Plausibility (0.80/0.20)",
+        "behavioral_target": "2x2 Factorial Action Differential",
+        "conditioned_on": [
+          "factorial_2x2_design"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "orthogonal_vigilance_dissociation",
+        "controls_applied": [
+          "marginal_content_and_source_matching"
+        ]
+      },
+      "level_0_oracle_return": 0.14,
+      "level_0_blind_return": 0.14,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": 0.1904974,
+      "level_3_behavioral_effect": 0.6166667,
+      "level_5_causal_specificity_drop": 0.4,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "ARCHIVED_CONTROL",
+      "structural_phenomenon": "BASELINE_PROVENANCE_REPUTATION"
+    },
+    {
+      "scout_id": "scout_7_source_content_conflict",
+      "config_name": "source_content_conflict",
+      "estimand_lineage": {
+        "scout_id": "scout_7_source_content_conflict",
+        "construct_name": "Source Vigilance vs Content Scrutiny",
+        "ground_truth_origin": "Source_Reliability (0.85/0.55) x Content_Plausibility (0.80/0.20)",
+        "behavioral_target": "2x2 Factorial Action Differential",
+        "conditioned_on": [
+          "factorial_2x2_design"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "orthogonal_vigilance_dissociation",
+        "controls_applied": [
+          "marginal_content_and_source_matching"
+        ]
+      },
+      "level_0_oracle_return": -0.14,
+      "level_0_blind_return": -0.14,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": 0.33868164,
+      "level_3_behavioral_effect": 0.45,
+      "level_5_causal_specificity_drop": 0.0,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "ARCHIVED_CONTROL",
+      "structural_phenomenon": "BASELINE_PROVENANCE_REPUTATION"
+    },
+    {
+      "scout_id": "scout_7_source_content_conflict",
+      "config_name": "source_content_conflict",
+      "estimand_lineage": {
+        "scout_id": "scout_7_source_content_conflict",
+        "construct_name": "Source Vigilance vs Content Scrutiny",
+        "ground_truth_origin": "Source_Reliability (0.85/0.55) x Content_Plausibility (0.80/0.20)",
+        "behavioral_target": "2x2 Factorial Action Differential",
+        "conditioned_on": [
+          "factorial_2x2_design"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "orthogonal_vigilance_dissociation",
+        "controls_applied": [
+          "marginal_content_and_source_matching"
+        ]
+      },
+      "level_0_oracle_return": 0.04,
+      "level_0_blind_return": 0.04,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": 0.18684053,
+      "level_3_behavioral_effect": 0.45,
+      "level_5_causal_specificity_drop": 0.0,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "ARCHIVED_CONTROL",
+      "structural_phenomenon": "BASELINE_PROVENANCE_REPUTATION"
+    },
+    {
+      "scout_id": "scout_7_source_content_conflict",
+      "config_name": "source_content_conflict",
+      "estimand_lineage": {
+        "scout_id": "scout_7_source_content_conflict",
+        "construct_name": "Source Vigilance vs Content Scrutiny",
+        "ground_truth_origin": "Source_Reliability (0.85/0.55) x Content_Plausibility (0.80/0.20)",
+        "behavioral_target": "2x2 Factorial Action Differential",
+        "conditioned_on": [
+          "factorial_2x2_design"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "orthogonal_vigilance_dissociation",
+        "controls_applied": [
+          "marginal_content_and_source_matching"
+        ]
+      },
+      "level_0_oracle_return": 0.02,
+      "level_0_blind_return": 0.02,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": 0.14694643,
+      "level_3_behavioral_effect": 0.46666664,
+      "level_5_causal_specificity_drop": 0.56666666,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "ARCHIVED_CONTROL",
+      "structural_phenomenon": "BASELINE_PROVENANCE_REPUTATION"
+    },
+    {
+      "scout_id": "scout_7_source_content_conflict",
+      "config_name": "source_content_conflict",
+      "estimand_lineage": {
+        "scout_id": "scout_7_source_content_conflict",
+        "construct_name": "Source Vigilance vs Content Scrutiny",
+        "ground_truth_origin": "Source_Reliability (0.85/0.55) x Content_Plausibility (0.80/0.20)",
+        "behavioral_target": "2x2 Factorial Action Differential",
+        "conditioned_on": [
+          "factorial_2x2_design"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "orthogonal_vigilance_dissociation",
+        "controls_applied": [
+          "marginal_content_and_source_matching"
+        ]
+      },
+      "level_0_oracle_return": -0.12,
+      "level_0_blind_return": -0.12,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": 0.17428923,
+      "level_3_behavioral_effect": 0.5,
+      "level_5_causal_specificity_drop": 0.56666666,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "ARCHIVED_CONTROL",
+      "structural_phenomenon": "BASELINE_PROVENANCE_REPUTATION"
+    },
+    {
+      "scout_id": "scout_7_source_content_conflict",
+      "config_name": "source_content_conflict",
+      "estimand_lineage": {
+        "scout_id": "scout_7_source_content_conflict",
+        "construct_name": "Source Vigilance vs Content Scrutiny",
+        "ground_truth_origin": "Source_Reliability (0.85/0.55) x Content_Plausibility (0.80/0.20)",
+        "behavioral_target": "2x2 Factorial Action Differential",
+        "conditioned_on": [
+          "factorial_2x2_design"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "orthogonal_vigilance_dissociation",
+        "controls_applied": [
+          "marginal_content_and_source_matching"
+        ]
+      },
+      "level_0_oracle_return": -0.02,
+      "level_0_blind_return": -0.02,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": -0.09235525,
+      "level_3_behavioral_effect": 0.5333333,
+      "level_5_causal_specificity_drop": 0.55,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "ARCHIVED_CONTROL",
+      "structural_phenomenon": "BASELINE_PROVENANCE_REPUTATION"
+    },
+    {
+      "scout_id": "scout_7_source_content_conflict",
+      "config_name": "source_content_conflict",
+      "estimand_lineage": {
+        "scout_id": "scout_7_source_content_conflict",
+        "construct_name": "Source Vigilance vs Content Scrutiny",
+        "ground_truth_origin": "Source_Reliability (0.85/0.55) x Content_Plausibility (0.80/0.20)",
+        "behavioral_target": "2x2 Factorial Action Differential",
+        "conditioned_on": [
+          "factorial_2x2_design"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "orthogonal_vigilance_dissociation",
+        "controls_applied": [
+          "marginal_content_and_source_matching"
+        ]
+      },
+      "level_0_oracle_return": 0.04,
+      "level_0_blind_return": 0.04,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": -0.13525844,
+      "level_3_behavioral_effect": 0.55,
+      "level_5_causal_specificity_drop": 0.0,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "ARCHIVED_CONTROL",
+      "structural_phenomenon": "BASELINE_PROVENANCE_REPUTATION"
+    },
+    {
+      "scout_id": "scout_7_source_content_conflict",
+      "config_name": "source_content_conflict",
+      "estimand_lineage": {
+        "scout_id": "scout_7_source_content_conflict",
+        "construct_name": "Source Vigilance vs Content Scrutiny",
+        "ground_truth_origin": "Source_Reliability (0.85/0.55) x Content_Plausibility (0.80/0.20)",
+        "behavioral_target": "2x2 Factorial Action Differential",
+        "conditioned_on": [
+          "factorial_2x2_design"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "orthogonal_vigilance_dissociation",
+        "controls_applied": [
+          "marginal_content_and_source_matching"
+        ]
+      },
+      "level_0_oracle_return": -0.04,
+      "level_0_blind_return": -0.04,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": -0.5000924,
+      "level_3_behavioral_effect": 0.39999998,
+      "level_5_causal_specificity_drop": 0.0,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "ARCHIVED_CONTROL",
+      "structural_phenomenon": "BASELINE_PROVENANCE_REPUTATION"
+    },
+    {
+      "scout_id": "scout_7_source_content_conflict",
+      "config_name": "source_content_conflict",
+      "estimand_lineage": {
+        "scout_id": "scout_7_source_content_conflict",
+        "construct_name": "Source Vigilance vs Content Scrutiny",
+        "ground_truth_origin": "Source_Reliability (0.85/0.55) x Content_Plausibility (0.80/0.20)",
+        "behavioral_target": "2x2 Factorial Action Differential",
+        "conditioned_on": [
+          "factorial_2x2_design"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "orthogonal_vigilance_dissociation",
+        "controls_applied": [
+          "marginal_content_and_source_matching"
+        ]
+      },
+      "level_0_oracle_return": 0.06,
+      "level_0_blind_return": 0.06,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": 0.2684424,
+      "level_3_behavioral_effect": 0.56666666,
+      "level_5_causal_specificity_drop": 0.33333334,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "ARCHIVED_CONTROL",
+      "structural_phenomenon": "BASELINE_PROVENANCE_REPUTATION"
+    },
+    {
+      "scout_id": "scout_7_source_content_conflict",
+      "config_name": "source_content_conflict",
+      "estimand_lineage": {
+        "scout_id": "scout_7_source_content_conflict",
+        "construct_name": "Source Vigilance vs Content Scrutiny",
+        "ground_truth_origin": "Source_Reliability (0.85/0.55) x Content_Plausibility (0.80/0.20)",
+        "behavioral_target": "2x2 Factorial Action Differential",
+        "conditioned_on": [
+          "factorial_2x2_design"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "orthogonal_vigilance_dissociation",
+        "controls_applied": [
+          "marginal_content_and_source_matching"
+        ]
+      },
+      "level_0_oracle_return": -0.02,
+      "level_0_blind_return": -0.02,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": 0.13121015,
+      "level_3_behavioral_effect": 0.51666665,
+      "level_5_causal_specificity_drop": 0.53333336,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "ARCHIVED_CONTROL",
+      "structural_phenomenon": "BASELINE_PROVENANCE_REPUTATION"
+    },
+    {
+      "scout_id": "scout_7_source_content_conflict",
+      "config_name": "source_content_conflict",
+      "estimand_lineage": {
+        "scout_id": "scout_7_source_content_conflict",
+        "construct_name": "Source Vigilance vs Content Scrutiny",
+        "ground_truth_origin": "Source_Reliability (0.85/0.55) x Content_Plausibility (0.80/0.20)",
+        "behavioral_target": "2x2 Factorial Action Differential",
+        "conditioned_on": [
+          "factorial_2x2_design"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "orthogonal_vigilance_dissociation",
+        "controls_applied": [
+          "marginal_content_and_source_matching"
+        ]
+      },
+      "level_0_oracle_return": -0.12,
+      "level_0_blind_return": -0.12,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": 0.2023558,
+      "level_3_behavioral_effect": 0.46666664,
+      "level_5_causal_specificity_drop": 0.21666667,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "ARCHIVED_CONTROL",
+      "structural_phenomenon": "BASELINE_PROVENANCE_REPUTATION"
+    }
+  ],
+  [
+    {
+      "scout_id": "scout_8_self_other_source",
+      "config_name": "self_other_source",
+      "estimand_lineage": {
+        "scout_id": "scout_8_self_other_source",
+        "construct_name": "Self-Generated vs Other-Generated Reality Monitoring",
+        "ground_truth_origin": "SourceType::SelfGenerated vs SourceType::Helpful",
+        "behavioral_target": "P(action | Self_Prediction) - P(action | Peer_Report)",
+        "conditioned_on": [
+          "reliability_matched = 0.85"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "agency_provenance_swap",
+        "controls_applied": [
+          "objective_accuracy_matched_at_85_percent"
+        ]
+      },
+      "level_0_oracle_return": 0.72,
+      "level_0_blind_return": 0.72,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": 0.32582903,
+      "level_3_behavioral_effect": 0.6,
+      "level_5_causal_specificity_drop": 0.0,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "ARCHIVED_CONTROL",
+      "structural_phenomenon": "BASELINE_PROVENANCE_REPUTATION"
+    },
+    {
+      "scout_id": "scout_8_self_other_source",
+      "config_name": "self_other_source",
+      "estimand_lineage": {
+        "scout_id": "scout_8_self_other_source",
+        "construct_name": "Self-Generated vs Other-Generated Reality Monitoring",
+        "ground_truth_origin": "SourceType::SelfGenerated vs SourceType::Helpful",
+        "behavioral_target": "P(action | Self_Prediction) - P(action | Peer_Report)",
+        "conditioned_on": [
+          "reliability_matched = 0.85"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "agency_provenance_swap",
+        "controls_applied": [
+          "objective_accuracy_matched_at_85_percent"
+        ]
+      },
+      "level_0_oracle_return": 0.76,
+      "level_0_blind_return": 0.76,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": 0.45250368,
+      "level_3_behavioral_effect": 0.56666666,
+      "level_5_causal_specificity_drop": 1.0,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "ARCHIVED_CONTROL",
+      "structural_phenomenon": "BASELINE_PROVENANCE_REPUTATION"
+    },
+    {
+      "scout_id": "scout_8_self_other_source",
+      "config_name": "self_other_source",
+      "estimand_lineage": {
+        "scout_id": "scout_8_self_other_source",
+        "construct_name": "Self-Generated vs Other-Generated Reality Monitoring",
+        "ground_truth_origin": "SourceType::SelfGenerated vs SourceType::Helpful",
+        "behavioral_target": "P(action | Self_Prediction) - P(action | Peer_Report)",
+        "conditioned_on": [
+          "reliability_matched = 0.85"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "agency_provenance_swap",
+        "controls_applied": [
+          "objective_accuracy_matched_at_85_percent"
+        ]
+      },
+      "level_0_oracle_return": 0.64,
+      "level_0_blind_return": 0.64,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": 0.7439015,
+      "level_3_behavioral_effect": 0.48333335,
+      "level_5_causal_specificity_drop": 0.0,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "ARCHIVED_CONTROL",
+      "structural_phenomenon": "BASELINE_PROVENANCE_REPUTATION"
+    },
+    {
+      "scout_id": "scout_8_self_other_source",
+      "config_name": "self_other_source",
+      "estimand_lineage": {
+        "scout_id": "scout_8_self_other_source",
+        "construct_name": "Self-Generated vs Other-Generated Reality Monitoring",
+        "ground_truth_origin": "SourceType::SelfGenerated vs SourceType::Helpful",
+        "behavioral_target": "P(action | Self_Prediction) - P(action | Peer_Report)",
+        "conditioned_on": [
+          "reliability_matched = 0.85"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "agency_provenance_swap",
+        "controls_applied": [
+          "objective_accuracy_matched_at_85_percent"
+        ]
+      },
+      "level_0_oracle_return": 0.76,
+      "level_0_blind_return": 0.76,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": 0.8482119,
+      "level_3_behavioral_effect": 0.51666665,
+      "level_5_causal_specificity_drop": 1.0,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "ARCHIVED_CONTROL",
+      "structural_phenomenon": "BASELINE_PROVENANCE_REPUTATION"
+    },
+    {
+      "scout_id": "scout_8_self_other_source",
+      "config_name": "self_other_source",
+      "estimand_lineage": {
+        "scout_id": "scout_8_self_other_source",
+        "construct_name": "Self-Generated vs Other-Generated Reality Monitoring",
+        "ground_truth_origin": "SourceType::SelfGenerated vs SourceType::Helpful",
+        "behavioral_target": "P(action | Self_Prediction) - P(action | Peer_Report)",
+        "conditioned_on": [
+          "reliability_matched = 0.85"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "agency_provenance_swap",
+        "controls_applied": [
+          "objective_accuracy_matched_at_85_percent"
+        ]
+      },
+      "level_0_oracle_return": 0.62,
+      "level_0_blind_return": 0.62,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": 0.48546916,
+      "level_3_behavioral_effect": 0.46666664,
+      "level_5_causal_specificity_drop": 0.0,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "ARCHIVED_CONTROL",
+      "structural_phenomenon": "BASELINE_PROVENANCE_REPUTATION"
+    },
+    {
+      "scout_id": "scout_8_self_other_source",
+      "config_name": "self_other_source",
+      "estimand_lineage": {
+        "scout_id": "scout_8_self_other_source",
+        "construct_name": "Self-Generated vs Other-Generated Reality Monitoring",
+        "ground_truth_origin": "SourceType::SelfGenerated vs SourceType::Helpful",
+        "behavioral_target": "P(action | Self_Prediction) - P(action | Peer_Report)",
+        "conditioned_on": [
+          "reliability_matched = 0.85"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "agency_provenance_swap",
+        "controls_applied": [
+          "objective_accuracy_matched_at_85_percent"
+        ]
+      },
+      "level_0_oracle_return": 0.74,
+      "level_0_blind_return": 0.74,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": 0.83530825,
+      "level_3_behavioral_effect": 0.5,
+      "level_5_causal_specificity_drop": 1.0,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "ARCHIVED_CONTROL",
+      "structural_phenomenon": "BASELINE_PROVENANCE_REPUTATION"
+    },
+    {
+      "scout_id": "scout_8_self_other_source",
+      "config_name": "self_other_source",
+      "estimand_lineage": {
+        "scout_id": "scout_8_self_other_source",
+        "construct_name": "Self-Generated vs Other-Generated Reality Monitoring",
+        "ground_truth_origin": "SourceType::SelfGenerated vs SourceType::Helpful",
+        "behavioral_target": "P(action | Self_Prediction) - P(action | Peer_Report)",
+        "conditioned_on": [
+          "reliability_matched = 0.85"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "agency_provenance_swap",
+        "controls_applied": [
+          "objective_accuracy_matched_at_85_percent"
+        ]
+      },
+      "level_0_oracle_return": 0.66,
+      "level_0_blind_return": 0.66,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": 0.7571094,
+      "level_3_behavioral_effect": 0.51666665,
+      "level_5_causal_specificity_drop": 0.0,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "ARCHIVED_CONTROL",
+      "structural_phenomenon": "BASELINE_PROVENANCE_REPUTATION"
+    },
+    {
+      "scout_id": "scout_8_self_other_source",
+      "config_name": "self_other_source",
+      "estimand_lineage": {
+        "scout_id": "scout_8_self_other_source",
+        "construct_name": "Self-Generated vs Other-Generated Reality Monitoring",
+        "ground_truth_origin": "SourceType::SelfGenerated vs SourceType::Helpful",
+        "behavioral_target": "P(action | Self_Prediction) - P(action | Peer_Report)",
+        "conditioned_on": [
+          "reliability_matched = 0.85"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "agency_provenance_swap",
+        "controls_applied": [
+          "objective_accuracy_matched_at_85_percent"
+        ]
+      },
+      "level_0_oracle_return": 0.62,
+      "level_0_blind_return": 0.62,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": 0.2332375,
+      "level_3_behavioral_effect": 0.48333335,
+      "level_5_causal_specificity_drop": 0.6,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "ARCHIVED_CONTROL",
+      "structural_phenomenon": "BASELINE_PROVENANCE_REPUTATION"
+    },
+    {
+      "scout_id": "scout_8_self_other_source",
+      "config_name": "self_other_source",
+      "estimand_lineage": {
+        "scout_id": "scout_8_self_other_source",
+        "construct_name": "Self-Generated vs Other-Generated Reality Monitoring",
+        "ground_truth_origin": "SourceType::SelfGenerated vs SourceType::Helpful",
+        "behavioral_target": "P(action | Self_Prediction) - P(action | Peer_Report)",
+        "conditioned_on": [
+          "reliability_matched = 0.85"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "agency_provenance_swap",
+        "controls_applied": [
+          "objective_accuracy_matched_at_85_percent"
+        ]
+      },
+      "level_0_oracle_return": 0.68,
+      "level_0_blind_return": 0.68,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": 0.6235442,
+      "level_3_behavioral_effect": 0.43333334,
+      "level_5_causal_specificity_drop": 0.0,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "ARCHIVED_CONTROL",
+      "structural_phenomenon": "BASELINE_PROVENANCE_REPUTATION"
+    },
+    {
+      "scout_id": "scout_8_self_other_source",
+      "config_name": "self_other_source",
+      "estimand_lineage": {
+        "scout_id": "scout_8_self_other_source",
+        "construct_name": "Self-Generated vs Other-Generated Reality Monitoring",
+        "ground_truth_origin": "SourceType::SelfGenerated vs SourceType::Helpful",
+        "behavioral_target": "P(action | Self_Prediction) - P(action | Peer_Report)",
+        "conditioned_on": [
+          "reliability_matched = 0.85"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "agency_provenance_swap",
+        "controls_applied": [
+          "objective_accuracy_matched_at_85_percent"
+        ]
+      },
+      "level_0_oracle_return": 0.74,
+      "level_0_blind_return": 0.74,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": 0.7620032,
+      "level_3_behavioral_effect": 0.65,
+      "level_5_causal_specificity_drop": 0.0,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "ARCHIVED_CONTROL",
+      "structural_phenomenon": "BASELINE_PROVENANCE_REPUTATION"
+    },
+    {
+      "scout_id": "scout_8_self_other_source",
+      "config_name": "self_other_source",
+      "estimand_lineage": {
+        "scout_id": "scout_8_self_other_source",
+        "construct_name": "Self-Generated vs Other-Generated Reality Monitoring",
+        "ground_truth_origin": "SourceType::SelfGenerated vs SourceType::Helpful",
+        "behavioral_target": "P(action | Self_Prediction) - P(action | Peer_Report)",
+        "conditioned_on": [
+          "reliability_matched = 0.85"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "agency_provenance_swap",
+        "controls_applied": [
+          "objective_accuracy_matched_at_85_percent"
+        ]
+      },
+      "level_0_oracle_return": 0.62,
+      "level_0_blind_return": 0.62,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": 0.44515425,
+      "level_3_behavioral_effect": 0.5,
+      "level_5_causal_specificity_drop": 0.55,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "ARCHIVED_CONTROL",
+      "structural_phenomenon": "BASELINE_PROVENANCE_REPUTATION"
+    },
+    {
+      "scout_id": "scout_8_self_other_source",
+      "config_name": "self_other_source",
+      "estimand_lineage": {
+        "scout_id": "scout_8_self_other_source",
+        "construct_name": "Self-Generated vs Other-Generated Reality Monitoring",
+        "ground_truth_origin": "SourceType::SelfGenerated vs SourceType::Helpful",
+        "behavioral_target": "P(action | Self_Prediction) - P(action | Peer_Report)",
+        "conditioned_on": [
+          "reliability_matched = 0.85"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "agency_provenance_swap",
+        "controls_applied": [
+          "objective_accuracy_matched_at_85_percent"
+        ]
+      },
+      "level_0_oracle_return": 0.58,
+      "level_0_blind_return": 0.58,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": 0.63824296,
+      "level_3_behavioral_effect": 0.5333333,
+      "level_5_causal_specificity_drop": 0.36666667,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "ARCHIVED_CONTROL",
+      "structural_phenomenon": "BASELINE_PROVENANCE_REPUTATION"
+    },
+    {
+      "scout_id": "scout_8_self_other_source",
+      "config_name": "self_other_source",
+      "estimand_lineage": {
+        "scout_id": "scout_8_self_other_source",
+        "construct_name": "Self-Generated vs Other-Generated Reality Monitoring",
+        "ground_truth_origin": "SourceType::SelfGenerated vs SourceType::Helpful",
+        "behavioral_target": "P(action | Self_Prediction) - P(action | Peer_Report)",
+        "conditioned_on": [
+          "reliability_matched = 0.85"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "agency_provenance_swap",
+        "controls_applied": [
+          "objective_accuracy_matched_at_85_percent"
+        ]
+      },
+      "level_0_oracle_return": 0.6,
+      "level_0_blind_return": 0.6,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": 0.7538976,
+      "level_3_behavioral_effect": 0.51666665,
+      "level_5_causal_specificity_drop": 0.5833333,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "ARCHIVED_CONTROL",
+      "structural_phenomenon": "BASELINE_PROVENANCE_REPUTATION"
+    },
+    {
+      "scout_id": "scout_8_self_other_source",
+      "config_name": "self_other_source",
+      "estimand_lineage": {
+        "scout_id": "scout_8_self_other_source",
+        "construct_name": "Self-Generated vs Other-Generated Reality Monitoring",
+        "ground_truth_origin": "SourceType::SelfGenerated vs SourceType::Helpful",
+        "behavioral_target": "P(action | Self_Prediction) - P(action | Peer_Report)",
+        "conditioned_on": [
+          "reliability_matched = 0.85"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "agency_provenance_swap",
+        "controls_applied": [
+          "objective_accuracy_matched_at_85_percent"
+        ]
+      },
+      "level_0_oracle_return": 0.7,
+      "level_0_blind_return": 0.7,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": 0.8434625,
+      "level_3_behavioral_effect": 0.6,
+      "level_5_causal_specificity_drop": 0.0,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "ARCHIVED_CONTROL",
+      "structural_phenomenon": "BASELINE_PROVENANCE_REPUTATION"
+    },
+    {
+      "scout_id": "scout_8_self_other_source",
+      "config_name": "self_other_source",
+      "estimand_lineage": {
+        "scout_id": "scout_8_self_other_source",
+        "construct_name": "Self-Generated vs Other-Generated Reality Monitoring",
+        "ground_truth_origin": "SourceType::SelfGenerated vs SourceType::Helpful",
+        "behavioral_target": "P(action | Self_Prediction) - P(action | Peer_Report)",
+        "conditioned_on": [
+          "reliability_matched = 0.85"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "agency_provenance_swap",
+        "controls_applied": [
+          "objective_accuracy_matched_at_85_percent"
+        ]
+      },
+      "level_0_oracle_return": 0.7,
+      "level_0_blind_return": 0.7,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": 0.7798575,
+      "level_3_behavioral_effect": 0.5833334,
+      "level_5_causal_specificity_drop": 1.0,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "ARCHIVED_CONTROL",
+      "structural_phenomenon": "BASELINE_PROVENANCE_REPUTATION"
+    },
+    {
+      "scout_id": "scout_8_self_other_source",
+      "config_name": "self_other_source",
+      "estimand_lineage": {
+        "scout_id": "scout_8_self_other_source",
+        "construct_name": "Self-Generated vs Other-Generated Reality Monitoring",
+        "ground_truth_origin": "SourceType::SelfGenerated vs SourceType::Helpful",
+        "behavioral_target": "P(action | Self_Prediction) - P(action | Peer_Report)",
+        "conditioned_on": [
+          "reliability_matched = 0.85"
+        ],
+        "predictor_state": "h_decision",
+        "intervention_type": "agency_provenance_swap",
+        "controls_applied": [
+          "objective_accuracy_matched_at_85_percent"
+        ]
+      },
+      "level_0_oracle_return": 0.52,
+      "level_0_blind_return": 0.52,
+      "level_0_economic_validity": false,
+      "level_1_r2_availability": 0.84635574,
+      "level_3_behavioral_effect": 0.5333333,
+      "level_5_causal_specificity_drop": 0.0,
+      "level_5_content_control_spared": true,
+      "promotion_verdict": "ARCHIVED_CONTROL",
+      "structural_phenomenon": "BASELINE_PROVENANCE_REPUTATION"
+    }
+  ]
+]
