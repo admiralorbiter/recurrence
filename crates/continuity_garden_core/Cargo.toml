@@ -123,3 +123,7 @@ path = "src/bin/run_q15h_factorization.rs"
 [[bin]]
 name = "run_q15i_hardening"
 path = "src/bin/run_q15i_hardening.rs"
+
+[[bin]]
+name = "run_q16a_directional_provenance"
+path = "src/bin/run_q16a_directional_provenance.rs"
