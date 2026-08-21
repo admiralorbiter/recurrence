@@ -1,5 +1,5 @@
 ---
-state: READY
+state: ESCALATED
 active_contract_id: CONTRACT-E-Q17A-R1
 contract_path: research/contracts/CONTRACT-E-Q17A-R1.md
 execution_base_sha: d50f6c36a097ad6305c2ee07f4d1a1119473cfc6
@@ -22,5 +22,5 @@ This document provides the machine-discoverable operational entry point for auto
 
 ## Protocol for Agents
 1. When starting work, parse the YAML frontmatter above.
-2. If `state: READY` or `state: RUNNING`, inspect the target contract at `contract_path` and optimize implementation strictly against its frozen constraints.
+2. If `state: ESCALATED` or `state: ESCALATED`, inspect the target contract at `contract_path` and optimize implementation strictly against its frozen constraints.
 3. Prohibited from modifying hypotheses, estimands, metrics, or claim ceilings after freezing.
