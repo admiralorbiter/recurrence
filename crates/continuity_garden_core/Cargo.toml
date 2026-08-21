@@ -77,9 +77,17 @@ name = "run_q13b_experiment"
 path = "src/bin/run_q13b_experiment.rs"
 
 [[bin]]
+name = "run_q13c_experiment"
+path = "src/bin/run_q13c_experiment.rs"
+
+[[bin]]
 name = "run_q15a_experiment"
 path = "src/bin/run_q15a_experiment.rs"
 
 [[bin]]
 name = "run_q15b_experiment"
 path = "src/bin/run_q15b_experiment.rs"
+
+[[bin]]
+name = "run_q15c_experiment"
+path = "src/bin/run_q15c_experiment.rs"
