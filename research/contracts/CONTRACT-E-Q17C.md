@@ -1,10 +1,10 @@
 ---
 contract_id: CONTRACT-E-Q17C
-status: DRAFT
+status: FROZEN
 proposed_by: antigravity
 design_review: APPROVED
 reviewed_by: chatgpt-pro
-authorized_by: null
+authorized_by: human
 base_sha: 1cb1ccce3df3f2ebfef7d53399d1f5dc242b7f0d
 execution_base_sha: null
 resource_class: cpu
@@ -13,7 +13,7 @@ exclusive_gpu: false
 interruptible: true
 ---
 
-# Research Contract Proposal: CONTRACT-E-Q17C (Hardened)
+# Research Contract: CONTRACT-E-Q17C (Frozen)
 
 ## Title
 Gate E Frontier: Endogenous Recurrent Causal History & Latent State Surgery for Zero-Shot Composition
