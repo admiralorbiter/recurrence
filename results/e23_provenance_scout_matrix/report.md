@@ -1,31 +1,20 @@
-# Gate E: E0 Provenance Scout Matrix Synthesis Report
+# Gate E: E0b Repaired Provenance Scout Matrix Synthesis Report
 
 ========================================================================================================================
-GATE E E0 SCOUT MATRIX SYNTHESIS (16 SEEDS PER ASSAY, RUNTIME: 2.2672704s)
+GATE E E0b SCOUT MATRIX SYNTHESIS (16 SEEDS PER ASSAY, RUNTIME: 10.1227572s)
 ========================================================================================================================
 
-## 1. SCOUT RANKINGS & PROMOTION VERDICTS
+## 1. DATA-DRIVEN PROMOTION TABLE & ESTIMAND AUDIT
 
-| Rank | Scout ID | Construct / Phenomenon | Economic Advantage (L0) | Availability (L1 R²) | Policy Effect (L3) | Causal Drop (L5) | Promotion Decision |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **1** | `scout_5_dependency_duplicate` | **Dependency Discounting** (Independent Corroboration vs Copied Evidence) | +1.42 | +0.978 | +46.2% | +38.5% | **PROMOTE TO Q15 (Core)** |
-| **2** | `scout_4_convergent_content` | **Causal Provenance Effect** (Identical Proposition, Divergent Source Origin) | +1.20 | +0.984 | +42.8% | +35.2% | **PROMOTE TO Q14 (Core)** |
-| **3** | `scout_2_signed_source_types` | **Evidence Inversion** (Helpful vs Opposite vs Random Sources) | +1.35 | +0.965 | +48.5% | +41.0% | **PROMOTE TO Q13 (Core)** |
-| **4** | `scout_3_domain_conditional` | **Context-Specific Epistemic Routing** (Domain-Gated Trust) | +1.15 | +0.952 | +39.4% | +32.1% | **PROMOTE SECONDARY** |
-| **5** | `scout_6_laundering_depth` | **Provenance Half-Life** (Ancestry Transmission Chain Decay) | +0.85 | +0.912 | +35.0% | +28.4% | **PROMOTE SECONDARY** |
-| **6** | `scout_8_self_other_source` | **Self vs Other Reality Monitoring** (Internal Prediction vs External Peer) | +0.70 | +0.940 | +35.0% | +29.0% | **HOLD FOR LATER STAGE** |
-| **7** | `scout_7_source_content_conflict` | **Source Vigilance vs Content Scrutiny** (2x2 Factorial Dissociation) | +0.65 | +0.925 | +35.0% | +25.0% | **HOLD FOR LATER STAGE** |
-| **8** | `scout_1_basic_reliability` | **Basic Source Sensitivity Index** (Scalar Reputation S0 vs S1) | +0.50 | +0.970 | +35.0% | +24.0% | **ARCHIVE AS CONTROL** |
+| Rank | Scout Assay | L0 Obs Economy (O vs B) | L1 Decodability (R²) | L3 Exact Estimand | L5 Causal Advantage | Promotion Verdict |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **1** | `scout_7_source_content_conflict` | Delta Ret = +0.00 | R² = +0.434 | Estimand = -10.9% | Causal Adv = +11.7% | **ARCHIVED_BOUNDED_NULL** |
+| **2** | `scout_5_dependency_duplicate` | Delta Ret = +0.07 | R² = +0.822 | Estimand = -14.1% | Causal Adv = +9.7% | **ARCHIVED_BOUNDED_NULL** |
+| **3** | `scout_8_self_other_source` | Delta Ret = +0.00 | R² = +0.710 | Estimand = +5.1% | Causal Adv = +6.7% | **ARCHIVED_BOUNDED_NULL** |
+| **4** | `scout_6_laundering_depth` | Delta Ret = +0.00 | R² = +0.680 | Estimand = +2.7% | Causal Adv = +5.0% | **ARCHIVED_BOUNDED_NULL** |
+| **5** | `scout_1_basic_reliability` | Delta Ret = +0.00 | R² = +0.365 | Estimand = -5.6% | Causal Adv = +4.0% | **ARCHIVED_BOUNDED_NULL** |
+| **6** | `scout_2_signed_source_types` | Delta Ret = +0.43 | R² = -0.234 | Estimand = +2.3% | Causal Adv = +2.1% | **ARCHIVED_BOUNDED_NULL** |
+| **7** | `scout_3_domain_conditional` | Delta Ret = +0.02 | R² = +0.201 | Estimand = +9.3% | Causal Adv = +0.0% | **ARCHIVED_BOUNDED_NULL** |
+| **8** | `scout_4_convergent_content` | Delta Ret = +0.00 | R² = +0.381 | Estimand = +0.0% | Causal Adv = +0.0% | **ARCHIVED_BOUNDED_NULL** |
 
-========================================================================================================================
-## 2. KEY SCIENTIFIC DISCOVERIES FROM THE GATE E SCOUT FIELD
-1. **Dependency Discounting (Scout 5) is the Strongest Causal Phenomenon:**
-   When two identical messages arrive, the organism learns to weight independent corroboration heavily while 
-   discounting duplicate descendants of a single root source (L0 economic advantage +1.42, policy effect +46.2%).
-2. **Causal Provenance Effect on Convergent Content (Scout 4):**
-   Holding current proposition content identical at the decision window (Proposition X=1), historical provenance 
-   selectively modulates action trust (+42.8% behavioral differential).
-3. **Signed Epistemic Inversion (Scout 2):**
-   The organism does not treat untrusted sources merely as zero-weight noise; anti-reliable (Opposite) sources 
-   induce active evidence inversion (acting opposite to the reported claim).
 ========================================================================================================================
