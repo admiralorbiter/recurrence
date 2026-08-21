@@ -6,7 +6,7 @@
   "git_sha": "584601fc16e6b373727c80d2600b7f1c77dc8826",
   "worktree_dirty": false,
   "evidence_mode": "TRAINED_MODEL",
-  "status": "SCOUT_GATE_PASS",
+  "status": "ASSAY_INVALID_FOR_PRIMARY_HYPOTHESIS",
   "model_revision": "v0.1.0",
   "environment_revision": "v0.1.0",
   "seed": 42,
@@ -41,8 +41,8 @@
     "source_run_ids": []
   },
   "metrics": {
-    "diagnostic_verdict": "PARTIAL_EMERGENCE_OR_COUPLED_DEVELOPMENT",
-    "verdict_analysis": "Anticipatory modeling and behavioral recruitment develop with seed heterogeneity.",
+    "diagnostic_verdict": "OBSERVABILITY_FAILURE_AND_ASSAY_NON_IDENTIFIABILITY",
+    "verdict_analysis": "Q10.0 environment/assay bring-up exposed an observability mismatch: the privileged oracle exploited hidden shock severity unavailable to the sensory stream, while the developmental readout targeted realized severity that could not be inferred from public history. Garden v2 infrastructure is operational, but Q10 requires an observation-based belief oracle, an uncertainty-aware predictive target, corrected regulation timing, and validated policy learning.",
     "aggregate_summary": {
       "total_paired_seeds": 8,
       "representation_onset_count": 0,

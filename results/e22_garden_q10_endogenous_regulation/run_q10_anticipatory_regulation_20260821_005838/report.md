@@ -29,11 +29,14 @@ SYNCHRONIZATION REPORT: GATE D / Q10 (EVIDENCE MODE: TRAINED_MODEL)
    - Seed 48: t_rep = None | t_recruit = None | Causal Selective: False
    - Seed 49: t_rep = None | t_recruit = None | Causal Selective: False
 7. THEORETICAL DIAGNOSTIC VERDICT:
-   - Classification:                          PARTIAL_EMERGENCE_OR_COUPLED_DEVELOPMENT
-   - Mechanistic Account:                     Anticipatory modeling and behavioral recruitment develop with seed heterogeneity.
+   - Classification:                          OBSERVABILITY_FAILURE_AND_ASSAY_NON_IDENTIFIABILITY
+   - Mechanistic Account:                     Q10.0 environment/assay bring-up exposed an observability mismatch: 
+                                              the privileged oracle exploited hidden shock severity unavailable to the 
+                                              sensory stream, while the developmental readout targeted realized severity 
+                                              that could not be inferred from public history.
 8. FAILURES / INVALID CELLS:  None. Evaluated cleanly across all checkpoints and paired lineages.
-9. CLAIM CEILING:             Gate D establishes that recurrent organisms develop internal predictive representations 
-                              of future self-reliability that developmentally precede and causally support anticipatory 
-                              self-maintenance.
-10. DECISION:                 SCOUT_GATE_PASS (Gate D / Q10 Verified).
+9. CLAIM CEILING:             Garden v2 infrastructure is operational (finite lattice, deterministic snapshots, paired CRN tapes), 
+                              but Q10 requires an observation-based belief oracle, an uncertainty-aware predictive target, 
+                              corrected regulation timing, and validated policy learning before scientific evaluation.
+10. DECISION:                 ASSAY_INVALID_FOR_PRIMARY_HYPOTHESIS (Refactored in Q10b).
 ================================================================================
