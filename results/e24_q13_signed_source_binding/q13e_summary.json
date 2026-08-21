@@ -10,10 +10,54 @@
         "signal_relative_interaction_ratio": 0.037327778,
         "r2_linear_source": 0.9998585,
         "r2_linear_content": 0.99992037,
-        "r2_linear_h_to_xor": 0.9338672,
-        "linear_h_to_xor_acc": 1.0,
+        "r2_standardized_linear_xor": 0.9338672,
+        "standardized_linear_xor_acc": 1.0,
         "r2_bilinear_composition_to_xor": 0.999209,
-        "bilinear_composition_acc": 1.0
+        "bilinear_composition_acc": 1.0,
+        "lambda_sweep": [
+          {
+            "lambda": 0.001,
+            "raw_r2": 0.241373,
+            "raw_acc": 0.74,
+            "standardized_r2": 0.99998426,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.01,
+            "raw_r2": -0.08256602,
+            "raw_acc": 0.74,
+            "standardized_r2": 0.99998856,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.1,
+            "raw_r2": -0.08014619,
+            "raw_acc": 0.74,
+            "standardized_r2": 0.9989305,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 1.0,
+            "raw_r2": -0.04570687,
+            "raw_acc": 0.5,
+            "standardized_r2": 0.9338672,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 10.0,
+            "raw_r2": -0.050159216,
+            "raw_acc": 0.45,
+            "standardized_r2": 0.30603802,
+            "standardized_acc": 0.74
+          },
+          {
+            "lambda": 100.0,
+            "raw_r2": -0.3325081,
+            "raw_acc": 0.45,
+            "standardized_r2": -0.5002483,
+            "standardized_acc": 0.45
+          }
+        ]
       },
       {
         "delay_steps": 1,
@@ -23,10 +67,54 @@
         "signal_relative_interaction_ratio": 0.038992003,
         "r2_linear_source": 0.9999089,
         "r2_linear_content": 0.99989855,
-        "r2_linear_h_to_xor": 0.99749607,
-        "linear_h_to_xor_acc": 1.0,
+        "r2_standardized_linear_xor": 0.99749607,
+        "standardized_linear_xor_acc": 1.0,
         "r2_bilinear_composition_to_xor": 0.9994381,
-        "bilinear_composition_acc": 1.0
+        "bilinear_composition_acc": 1.0,
+        "lambda_sweep": [
+          {
+            "lambda": 0.001,
+            "raw_r2": 0.16172671,
+            "raw_acc": 1.0,
+            "standardized_r2": 0.9999032,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.01,
+            "raw_r2": 0.00089746714,
+            "raw_acc": 0.59,
+            "standardized_r2": 0.9999997,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.1,
+            "raw_r2": -0.017884016,
+            "raw_acc": 0.59,
+            "standardized_r2": 0.9999726,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 1.0,
+            "raw_r2": -0.018768072,
+            "raw_acc": 0.59,
+            "standardized_r2": 0.99749607,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 10.0,
+            "raw_r2": -0.0056818724,
+            "raw_acc": 0.59,
+            "standardized_r2": 0.87974894,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 100.0,
+            "raw_r2": -0.09660947,
+            "raw_acc": 0.59,
+            "standardized_r2": 0.16150326,
+            "standardized_acc": 0.59
+          }
+        ]
       },
       {
         "delay_steps": 3,
@@ -36,10 +124,54 @@
         "signal_relative_interaction_ratio": 0.036479577,
         "r2_linear_source": 0.99991214,
         "r2_linear_content": 0.9998948,
-        "r2_linear_h_to_xor": 0.99143904,
-        "linear_h_to_xor_acc": 1.0,
+        "r2_standardized_linear_xor": 0.99143904,
+        "standardized_linear_xor_acc": 1.0,
         "r2_bilinear_composition_to_xor": 0.9994296,
-        "bilinear_composition_acc": 1.0
+        "bilinear_composition_acc": 1.0,
+        "lambda_sweep": [
+          {
+            "lambda": 0.001,
+            "raw_r2": -0.025579333,
+            "raw_acc": 0.7,
+            "standardized_r2": 0.99992126,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.01,
+            "raw_r2": -0.03883052,
+            "raw_acc": 0.7,
+            "standardized_r2": 0.999999,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.1,
+            "raw_r2": -0.03303659,
+            "raw_acc": 0.43,
+            "standardized_r2": 0.99989945,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 1.0,
+            "raw_r2": -0.035978913,
+            "raw_acc": 0.43,
+            "standardized_r2": 0.99143904,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 10.0,
+            "raw_r2": -0.06760204,
+            "raw_acc": 0.43,
+            "standardized_r2": 0.72101915,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 100.0,
+            "raw_r2": -0.4030044,
+            "raw_acc": 0.43,
+            "standardized_r2": -0.27112103,
+            "standardized_acc": 0.43
+          }
+        ]
       },
       {
         "delay_steps": 5,
@@ -49,10 +181,54 @@
         "signal_relative_interaction_ratio": 0.034097698,
         "r2_linear_source": 0.9999077,
         "r2_linear_content": 0.9999182,
-        "r2_linear_h_to_xor": 0.99249226,
-        "linear_h_to_xor_acc": 1.0,
+        "r2_standardized_linear_xor": 0.99249226,
+        "standardized_linear_xor_acc": 1.0,
         "r2_bilinear_composition_to_xor": 0.99943066,
-        "bilinear_composition_acc": 1.0
+        "bilinear_composition_acc": 1.0,
+        "lambda_sweep": [
+          {
+            "lambda": 0.001,
+            "raw_r2": 0.017933965,
+            "raw_acc": 0.54,
+            "standardized_r2": 0.99996704,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.01,
+            "raw_r2": 0.007447362,
+            "raw_acc": 0.54,
+            "standardized_r2": 0.9999991,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.1,
+            "raw_r2": 0.0022076368,
+            "raw_acc": 0.52,
+            "standardized_r2": 0.99991184,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 1.0,
+            "raw_r2": 0.00013566017,
+            "raw_acc": 0.52,
+            "standardized_r2": 0.99249226,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 10.0,
+            "raw_r2": -0.0035471916,
+            "raw_acc": 0.52,
+            "standardized_r2": 0.7584091,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 100.0,
+            "raw_r2": -0.19249952,
+            "raw_acc": 0.52,
+            "standardized_r2": -0.041711688,
+            "standardized_acc": 0.52
+          }
+        ]
       }
     ]
   },
@@ -67,10 +243,54 @@
         "signal_relative_interaction_ratio": 0.043878123,
         "r2_linear_source": 0.99989384,
         "r2_linear_content": 0.9998819,
-        "r2_linear_h_to_xor": 0.9475361,
-        "linear_h_to_xor_acc": 1.0,
+        "r2_standardized_linear_xor": 0.9475361,
+        "standardized_linear_xor_acc": 1.0,
         "r2_bilinear_composition_to_xor": 0.9993527,
-        "bilinear_composition_acc": 1.0
+        "bilinear_composition_acc": 1.0,
+        "lambda_sweep": [
+          {
+            "lambda": 0.001,
+            "raw_r2": 0.3336054,
+            "raw_acc": 1.0,
+            "standardized_r2": 0.9998665,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.01,
+            "raw_r2": 0.025763392,
+            "raw_acc": 0.47,
+            "standardized_r2": 0.9999913,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.1,
+            "raw_r2": -0.013362169,
+            "raw_acc": 0.47,
+            "standardized_r2": 0.9991743,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 1.0,
+            "raw_r2": -0.006803274,
+            "raw_acc": 0.47,
+            "standardized_r2": 0.9475361,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 10.0,
+            "raw_r2": -0.011025071,
+            "raw_acc": 0.47,
+            "standardized_r2": 0.4197566,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 100.0,
+            "raw_r2": -0.22168112,
+            "raw_acc": 0.47,
+            "standardized_r2": -0.2490784,
+            "standardized_acc": 0.47
+          }
+        ]
       },
       {
         "delay_steps": 1,
@@ -80,10 +300,54 @@
         "signal_relative_interaction_ratio": 0.04401523,
         "r2_linear_source": 0.9998882,
         "r2_linear_content": 0.9998396,
-        "r2_linear_h_to_xor": 0.9898948,
-        "linear_h_to_xor_acc": 1.0,
+        "r2_standardized_linear_xor": 0.9898948,
+        "standardized_linear_xor_acc": 1.0,
         "r2_bilinear_composition_to_xor": 0.9990371,
-        "bilinear_composition_acc": 1.0
+        "bilinear_composition_acc": 1.0,
+        "lambda_sweep": [
+          {
+            "lambda": 0.001,
+            "raw_r2": 0.04167056,
+            "raw_acc": 0.73,
+            "standardized_r2": 0.99970865,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.01,
+            "raw_r2": -0.0902226,
+            "raw_acc": 0.55,
+            "standardized_r2": 0.99999875,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.1,
+            "raw_r2": -0.06073022,
+            "raw_acc": 0.55,
+            "standardized_r2": 0.99987847,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 1.0,
+            "raw_r2": -0.0306952,
+            "raw_acc": 0.44,
+            "standardized_r2": 0.9898948,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 10.0,
+            "raw_r2": -0.014887571,
+            "raw_acc": 0.45,
+            "standardized_r2": 0.7164229,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 100.0,
+            "raw_r2": -0.079680204,
+            "raw_acc": 0.56,
+            "standardized_r2": 0.022538126,
+            "standardized_acc": 0.56
+          }
+        ]
       },
       {
         "delay_steps": 3,
@@ -93,10 +357,54 @@
         "signal_relative_interaction_ratio": 0.042069543,
         "r2_linear_source": 0.99991655,
         "r2_linear_content": 0.9999049,
-        "r2_linear_h_to_xor": 0.9944978,
-        "linear_h_to_xor_acc": 1.0,
+        "r2_standardized_linear_xor": 0.9944978,
+        "standardized_linear_xor_acc": 1.0,
         "r2_bilinear_composition_to_xor": 0.9994336,
-        "bilinear_composition_acc": 1.0
+        "bilinear_composition_acc": 1.0,
+        "lambda_sweep": [
+          {
+            "lambda": 0.001,
+            "raw_r2": 0.021089435,
+            "raw_acc": 0.78,
+            "standardized_r2": 0.999989,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.01,
+            "raw_r2": 0.002212286,
+            "raw_acc": 0.78,
+            "standardized_r2": 0.99998844,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.1,
+            "raw_r2": 0.0006824136,
+            "raw_acc": 0.51,
+            "standardized_r2": 0.999937,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 1.0,
+            "raw_r2": -0.00008666515,
+            "raw_acc": 0.51,
+            "standardized_r2": 0.9944978,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 10.0,
+            "raw_r2": -0.00090277195,
+            "raw_acc": 0.49,
+            "standardized_r2": 0.7966034,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 100.0,
+            "raw_r2": -0.18940353,
+            "raw_acc": 0.49,
+            "standardized_r2": -0.04132068,
+            "standardized_acc": 0.49
+          }
+        ]
       },
       {
         "delay_steps": 5,
@@ -106,10 +414,54 @@
         "signal_relative_interaction_ratio": 0.037387308,
         "r2_linear_source": 0.999861,
         "r2_linear_content": 0.99986,
-        "r2_linear_h_to_xor": 0.8902675,
-        "linear_h_to_xor_acc": 1.0,
+        "r2_standardized_linear_xor": 0.8902675,
+        "standardized_linear_xor_acc": 1.0,
         "r2_bilinear_composition_to_xor": 0.9993039,
-        "bilinear_composition_acc": 1.0
+        "bilinear_composition_acc": 1.0,
+        "lambda_sweep": [
+          {
+            "lambda": 0.001,
+            "raw_r2": -0.006012678,
+            "raw_acc": 0.28,
+            "standardized_r2": 0.99996024,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.01,
+            "raw_r2": -0.002769351,
+            "raw_acc": 0.53,
+            "standardized_r2": 0.9999675,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.1,
+            "raw_r2": -0.005640626,
+            "raw_acc": 0.53,
+            "standardized_r2": 0.9977932,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 1.0,
+            "raw_r2": -0.0075511932,
+            "raw_acc": 0.53,
+            "standardized_r2": 0.8902675,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 10.0,
+            "raw_r2": -0.02118814,
+            "raw_acc": 0.53,
+            "standardized_r2": 0.28557575,
+            "standardized_acc": 0.76
+          },
+          {
+            "lambda": 100.0,
+            "raw_r2": -0.21905017,
+            "raw_acc": 0.53,
+            "standardized_r2": -0.21289384,
+            "standardized_acc": 0.53
+          }
+        ]
       }
     ]
   },
@@ -124,10 +476,54 @@
         "signal_relative_interaction_ratio": 0.042175077,
         "r2_linear_source": 0.99987715,
         "r2_linear_content": 0.99989414,
-        "r2_linear_h_to_xor": 0.9491467,
-        "linear_h_to_xor_acc": 1.0,
+        "r2_standardized_linear_xor": 0.9491467,
+        "standardized_linear_xor_acc": 1.0,
         "r2_bilinear_composition_to_xor": 0.9993376,
-        "bilinear_composition_acc": 1.0
+        "bilinear_composition_acc": 1.0,
+        "lambda_sweep": [
+          {
+            "lambda": 0.001,
+            "raw_r2": 0.36894584,
+            "raw_acc": 1.0,
+            "standardized_r2": 0.9998696,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.01,
+            "raw_r2": 0.030463338,
+            "raw_acc": 0.48,
+            "standardized_r2": 0.99999154,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.1,
+            "raw_r2": -0.006412506,
+            "raw_acc": 0.48,
+            "standardized_r2": 0.9992065,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 1.0,
+            "raw_r2": -0.00670588,
+            "raw_acc": 0.22,
+            "standardized_r2": 0.9491467,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 10.0,
+            "raw_r2": -0.017818213,
+            "raw_acc": 0.48,
+            "standardized_r2": 0.4222579,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 100.0,
+            "raw_r2": -0.21403193,
+            "raw_acc": 0.48,
+            "standardized_r2": -0.24538338,
+            "standardized_acc": 0.48
+          }
+        ]
       },
       {
         "delay_steps": 1,
@@ -137,10 +533,54 @@
         "signal_relative_interaction_ratio": 0.04646405,
         "r2_linear_source": 0.9998717,
         "r2_linear_content": 0.99989426,
-        "r2_linear_h_to_xor": 0.9980613,
-        "linear_h_to_xor_acc": 1.0,
+        "r2_standardized_linear_xor": 0.9980613,
+        "standardized_linear_xor_acc": 1.0,
         "r2_bilinear_composition_to_xor": 0.9993446,
-        "bilinear_composition_acc": 1.0
+        "bilinear_composition_acc": 1.0,
+        "lambda_sweep": [
+          {
+            "lambda": 0.001,
+            "raw_r2": 0.18635523,
+            "raw_acc": 0.78,
+            "standardized_r2": 0.999925,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.01,
+            "raw_r2": 0.019332409,
+            "raw_acc": 0.78,
+            "standardized_r2": 0.99999976,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.1,
+            "raw_r2": 0.0004118085,
+            "raw_acc": 0.5,
+            "standardized_r2": 0.9999791,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 1.0,
+            "raw_r2": -0.00278306,
+            "raw_acc": 0.5,
+            "standardized_r2": 0.9980613,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 10.0,
+            "raw_r2": 0.0018777251,
+            "raw_acc": 0.53,
+            "standardized_r2": 0.8970072,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 100.0,
+            "raw_r2": -0.13687372,
+            "raw_acc": 0.5,
+            "standardized_r2": 0.10125142,
+            "standardized_acc": 0.5
+          }
+        ]
       },
       {
         "delay_steps": 3,
@@ -150,10 +590,54 @@
         "signal_relative_interaction_ratio": 0.05356046,
         "r2_linear_source": 0.999903,
         "r2_linear_content": 0.9998588,
-        "r2_linear_h_to_xor": 0.99906766,
-        "linear_h_to_xor_acc": 1.0,
+        "r2_standardized_linear_xor": 0.99906766,
+        "standardized_linear_xor_acc": 1.0,
         "r2_bilinear_composition_to_xor": 0.99940294,
-        "bilinear_composition_acc": 1.0
+        "bilinear_composition_acc": 1.0,
+        "lambda_sweep": [
+          {
+            "lambda": 0.001,
+            "raw_r2": 0.010988891,
+            "raw_acc": 0.57,
+            "standardized_r2": 0.99998164,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.01,
+            "raw_r2": -0.0063732862,
+            "raw_acc": 0.57,
+            "standardized_r2": 0.99999946,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.1,
+            "raw_r2": -0.000628829,
+            "raw_acc": 0.57,
+            "standardized_r2": 0.9999902,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 1.0,
+            "raw_r2": -0.010992765,
+            "raw_acc": 0.45,
+            "standardized_r2": 0.99906766,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 10.0,
+            "raw_r2": -0.033344984,
+            "raw_acc": 0.45,
+            "standardized_r2": 0.9370072,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 100.0,
+            "raw_r2": -0.28835547,
+            "raw_acc": 0.45,
+            "standardized_r2": 0.082644105,
+            "standardized_acc": 0.45
+          }
+        ]
       },
       {
         "delay_steps": 5,
@@ -163,10 +647,54 @@
         "signal_relative_interaction_ratio": 0.06258335,
         "r2_linear_source": 0.9998743,
         "r2_linear_content": 0.9999275,
-        "r2_linear_h_to_xor": 0.9952247,
-        "linear_h_to_xor_acc": 1.0,
+        "r2_standardized_linear_xor": 0.9952247,
+        "standardized_linear_xor_acc": 1.0,
         "r2_bilinear_composition_to_xor": 0.9992736,
-        "bilinear_composition_acc": 1.0
+        "bilinear_composition_acc": 1.0,
+        "lambda_sweep": [
+          {
+            "lambda": 0.001,
+            "raw_r2": -0.05256641,
+            "raw_acc": 0.53,
+            "standardized_r2": 0.9999987,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.01,
+            "raw_r2": -0.031468272,
+            "raw_acc": 0.53,
+            "standardized_r2": 0.9999956,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.1,
+            "raw_r2": -0.024418473,
+            "raw_acc": 0.45,
+            "standardized_r2": 0.9999466,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 1.0,
+            "raw_r2": -0.028041363,
+            "raw_acc": 0.45,
+            "standardized_r2": 0.9952247,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 10.0,
+            "raw_r2": -0.051256657,
+            "raw_acc": 0.45,
+            "standardized_r2": 0.79725873,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 100.0,
+            "raw_r2": -0.31700993,
+            "raw_acc": 0.45,
+            "standardized_r2": -0.23691916,
+            "standardized_acc": 0.45
+          }
+        ]
       }
     ]
   },
@@ -181,10 +709,54 @@
         "signal_relative_interaction_ratio": 0.044027958,
         "r2_linear_source": 0.9998894,
         "r2_linear_content": 0.99990016,
-        "r2_linear_h_to_xor": 0.93777525,
-        "linear_h_to_xor_acc": 1.0,
+        "r2_standardized_linear_xor": 0.93777525,
+        "standardized_linear_xor_acc": 1.0,
         "r2_bilinear_composition_to_xor": 0.99937844,
-        "bilinear_composition_acc": 1.0
+        "bilinear_composition_acc": 1.0,
+        "lambda_sweep": [
+          {
+            "lambda": 0.001,
+            "raw_r2": 0.44256556,
+            "raw_acc": 1.0,
+            "standardized_r2": 0.9997907,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.01,
+            "raw_r2": 0.04880154,
+            "raw_acc": 0.73,
+            "standardized_r2": 0.9999892,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.1,
+            "raw_r2": -0.003976941,
+            "raw_acc": 0.73,
+            "standardized_r2": 0.99897516,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 1.0,
+            "raw_r2": -0.0047763586,
+            "raw_acc": 0.49,
+            "standardized_r2": 0.93777525,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 10.0,
+            "raw_r2": -0.018877149,
+            "raw_acc": 0.49,
+            "standardized_r2": 0.38624775,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 100.0,
+            "raw_r2": -0.25004876,
+            "raw_acc": 0.49,
+            "standardized_r2": -0.24729478,
+            "standardized_acc": 0.49
+          }
+        ]
       },
       {
         "delay_steps": 1,
@@ -194,10 +766,54 @@
         "signal_relative_interaction_ratio": 0.04450783,
         "r2_linear_source": 0.99991924,
         "r2_linear_content": 0.99990207,
-        "r2_linear_h_to_xor": 0.9869625,
-        "linear_h_to_xor_acc": 1.0,
+        "r2_standardized_linear_xor": 0.9869625,
+        "standardized_linear_xor_acc": 1.0,
         "r2_bilinear_composition_to_xor": 0.9994152,
-        "bilinear_composition_acc": 1.0
+        "bilinear_composition_acc": 1.0,
+        "lambda_sweep": [
+          {
+            "lambda": 0.001,
+            "raw_r2": 0.16373312,
+            "raw_acc": 0.75,
+            "standardized_r2": 0.9999523,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.01,
+            "raw_r2": -0.042294502,
+            "raw_acc": 0.42,
+            "standardized_r2": 0.9999984,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.1,
+            "raw_r2": -0.06813717,
+            "raw_acc": 0.42,
+            "standardized_r2": 0.999841,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 1.0,
+            "raw_r2": -0.07395744,
+            "raw_acc": 0.42,
+            "standardized_r2": 0.9869625,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 10.0,
+            "raw_r2": -0.11348319,
+            "raw_acc": 0.42,
+            "standardized_r2": 0.64989114,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 100.0,
+            "raw_r2": -0.47844994,
+            "raw_acc": 0.42,
+            "standardized_r2": -0.3313532,
+            "standardized_acc": 0.42
+          }
+        ]
       },
       {
         "delay_steps": 3,
@@ -207,10 +823,54 @@
         "signal_relative_interaction_ratio": 0.038073592,
         "r2_linear_source": 0.9999024,
         "r2_linear_content": 0.9999191,
-        "r2_linear_h_to_xor": 0.9742998,
-        "linear_h_to_xor_acc": 1.0,
+        "r2_standardized_linear_xor": 0.9742998,
+        "standardized_linear_xor_acc": 1.0,
         "r2_bilinear_composition_to_xor": 0.99941784,
-        "bilinear_composition_acc": 1.0
+        "bilinear_composition_acc": 1.0,
+        "lambda_sweep": [
+          {
+            "lambda": 0.001,
+            "raw_r2": -0.03736794,
+            "raw_acc": 0.8,
+            "standardized_r2": 0.9999189,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.01,
+            "raw_r2": -0.06776464,
+            "raw_acc": 0.8,
+            "standardized_r2": 0.9999964,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.1,
+            "raw_r2": -0.040000558,
+            "raw_acc": 0.6,
+            "standardized_r2": 0.9996527,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 1.0,
+            "raw_r2": -0.0072585344,
+            "raw_acc": 0.6,
+            "standardized_r2": 0.9742998,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 10.0,
+            "raw_r2": -0.0014379025,
+            "raw_acc": 0.6,
+            "standardized_r2": 0.55124366,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 100.0,
+            "raw_r2": -0.1348015,
+            "raw_acc": 0.6,
+            "standardized_r2": -0.09894824,
+            "standardized_acc": 0.6
+          }
+        ]
       },
       {
         "delay_steps": 5,
@@ -220,10 +880,54 @@
         "signal_relative_interaction_ratio": 0.031842537,
         "r2_linear_source": 0.9998974,
         "r2_linear_content": 0.999887,
-        "r2_linear_h_to_xor": 0.96863526,
-        "linear_h_to_xor_acc": 1.0,
+        "r2_standardized_linear_xor": 0.96863526,
+        "standardized_linear_xor_acc": 1.0,
         "r2_bilinear_composition_to_xor": 0.999462,
-        "bilinear_composition_acc": 1.0
+        "bilinear_composition_acc": 1.0,
+        "lambda_sweep": [
+          {
+            "lambda": 0.001,
+            "raw_r2": 0.0059194565,
+            "raw_acc": 0.52,
+            "standardized_r2": 0.9998506,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.01,
+            "raw_r2": 0.00019431114,
+            "raw_acc": 0.52,
+            "standardized_r2": 0.99999547,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.1,
+            "raw_r2": -0.00036883354,
+            "raw_acc": 0.52,
+            "standardized_r2": 0.99955654,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 1.0,
+            "raw_r2": -0.00016319752,
+            "raw_acc": 0.52,
+            "standardized_r2": 0.96863526,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 10.0,
+            "raw_r2": -0.0038558245,
+            "raw_acc": 0.52,
+            "standardized_r2": 0.527935,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 100.0,
+            "raw_r2": -0.2001152,
+            "raw_acc": 0.52,
+            "standardized_r2": -0.14034855,
+            "standardized_acc": 0.52
+          }
+        ]
       }
     ]
   },
@@ -238,10 +942,54 @@
         "signal_relative_interaction_ratio": 0.039801303,
         "r2_linear_source": 0.99989736,
         "r2_linear_content": 0.9999015,
-        "r2_linear_h_to_xor": 0.9691005,
-        "linear_h_to_xor_acc": 1.0,
+        "r2_standardized_linear_xor": 0.9691005,
+        "standardized_linear_xor_acc": 1.0,
         "r2_bilinear_composition_to_xor": 0.9993707,
-        "bilinear_composition_acc": 1.0
+        "bilinear_composition_acc": 1.0,
+        "lambda_sweep": [
+          {
+            "lambda": 0.001,
+            "raw_r2": 0.60973924,
+            "raw_acc": 1.0,
+            "standardized_r2": 0.99896747,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.01,
+            "raw_r2": 0.08176547,
+            "raw_acc": 1.0,
+            "standardized_r2": 0.99999547,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.1,
+            "raw_r2": -0.02320981,
+            "raw_acc": 0.68,
+            "standardized_r2": 0.9995647,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 1.0,
+            "raw_r2": -0.030529141,
+            "raw_acc": 0.42,
+            "standardized_r2": 0.9691005,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 10.0,
+            "raw_r2": -0.014243841,
+            "raw_acc": 0.58,
+            "standardized_r2": 0.5371402,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 100.0,
+            "raw_r2": -0.054261208,
+            "raw_acc": 0.58,
+            "standardized_r2": -0.03215313,
+            "standardized_acc": 0.58
+          }
+        ]
       },
       {
         "delay_steps": 1,
@@ -251,10 +999,54 @@
         "signal_relative_interaction_ratio": 0.041495062,
         "r2_linear_source": 0.9998933,
         "r2_linear_content": 0.999911,
-        "r2_linear_h_to_xor": 0.9619336,
-        "linear_h_to_xor_acc": 1.0,
+        "r2_standardized_linear_xor": 0.9619336,
+        "standardized_linear_xor_acc": 1.0,
         "r2_bilinear_composition_to_xor": 0.99934477,
-        "bilinear_composition_acc": 1.0
+        "bilinear_composition_acc": 1.0,
+        "lambda_sweep": [
+          {
+            "lambda": 0.001,
+            "raw_r2": 0.30599445,
+            "raw_acc": 0.79,
+            "standardized_r2": 0.9999659,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.01,
+            "raw_r2": 0.015670538,
+            "raw_acc": 0.49,
+            "standardized_r2": 0.9999942,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.1,
+            "raw_r2": -0.022841215,
+            "raw_acc": 0.49,
+            "standardized_r2": 0.9994468,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 1.0,
+            "raw_r2": -0.0357033,
+            "raw_acc": 0.49,
+            "standardized_r2": 0.9619336,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 10.0,
+            "raw_r2": -0.072668076,
+            "raw_acc": 0.49,
+            "standardized_r2": 0.4665013,
+            "standardized_acc": 0.79
+          },
+          {
+            "lambda": 100.0,
+            "raw_r2": -0.3086884,
+            "raw_acc": 0.49,
+            "standardized_r2": -0.27097297,
+            "standardized_acc": 0.49
+          }
+        ]
       },
       {
         "delay_steps": 3,
@@ -264,10 +1056,54 @@
         "signal_relative_interaction_ratio": 0.044960923,
         "r2_linear_source": 0.999905,
         "r2_linear_content": 0.9999103,
-        "r2_linear_h_to_xor": 0.97729504,
-        "linear_h_to_xor_acc": 1.0,
+        "r2_standardized_linear_xor": 0.97729504,
+        "standardized_linear_xor_acc": 1.0,
         "r2_bilinear_composition_to_xor": 0.9994554,
-        "bilinear_composition_acc": 1.0
+        "bilinear_composition_acc": 1.0,
+        "lambda_sweep": [
+          {
+            "lambda": 0.001,
+            "raw_r2": 0.06749332,
+            "raw_acc": 0.75,
+            "standardized_r2": 0.99987125,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.01,
+            "raw_r2": 0.006559074,
+            "raw_acc": 0.52,
+            "standardized_r2": 0.99999684,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.1,
+            "raw_r2": 0.0015060306,
+            "raw_acc": 0.52,
+            "standardized_r2": 0.99969685,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 1.0,
+            "raw_r2": -0.000016450882,
+            "raw_acc": 0.52,
+            "standardized_r2": 0.97729504,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 10.0,
+            "raw_r2": -0.0079135895,
+            "raw_acc": 0.49,
+            "standardized_r2": 0.5814464,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 100.0,
+            "raw_r2": -0.19890714,
+            "raw_acc": 0.49,
+            "standardized_r2": -0.16203558,
+            "standardized_acc": 0.49
+          }
+        ]
       },
       {
         "delay_steps": 5,
@@ -277,10 +1113,54 @@
         "signal_relative_interaction_ratio": 0.049692225,
         "r2_linear_source": 0.9999166,
         "r2_linear_content": 0.9999038,
-        "r2_linear_h_to_xor": 0.99736655,
-        "linear_h_to_xor_acc": 1.0,
+        "r2_standardized_linear_xor": 0.99736655,
+        "standardized_linear_xor_acc": 1.0,
         "r2_bilinear_composition_to_xor": 0.9994339,
-        "bilinear_composition_acc": 1.0
+        "bilinear_composition_acc": 1.0,
+        "lambda_sweep": [
+          {
+            "lambda": 0.001,
+            "raw_r2": -0.018449068,
+            "raw_acc": 0.75,
+            "standardized_r2": 0.99997413,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.01,
+            "raw_r2": -0.03262472,
+            "raw_acc": 0.45,
+            "standardized_r2": 0.99999624,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.1,
+            "raw_r2": -0.032757998,
+            "raw_acc": 0.45,
+            "standardized_r2": 0.9999711,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 1.0,
+            "raw_r2": -0.029942274,
+            "raw_acc": 0.45,
+            "standardized_r2": 0.99736655,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 10.0,
+            "raw_r2": -0.011262894,
+            "raw_acc": 0.45,
+            "standardized_r2": 0.87590307,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 100.0,
+            "raw_r2": -0.079362035,
+            "raw_acc": 0.55,
+            "standardized_r2": 0.14301431,
+            "standardized_acc": 0.55
+          }
+        ]
       }
     ]
   },
@@ -295,10 +1175,54 @@
         "signal_relative_interaction_ratio": 0.03886232,
         "r2_linear_source": 0.99991995,
         "r2_linear_content": 0.9998849,
-        "r2_linear_h_to_xor": 0.9034438,
-        "linear_h_to_xor_acc": 1.0,
+        "r2_standardized_linear_xor": 0.9034438,
+        "standardized_linear_xor_acc": 1.0,
         "r2_bilinear_composition_to_xor": 0.99939173,
-        "bilinear_composition_acc": 1.0
+        "bilinear_composition_acc": 1.0,
+        "lambda_sweep": [
+          {
+            "lambda": 0.001,
+            "raw_r2": 0.4233117,
+            "raw_acc": 0.8,
+            "standardized_r2": 0.999893,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.01,
+            "raw_r2": 0.045986176,
+            "raw_acc": 0.8,
+            "standardized_r2": 0.9999801,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.1,
+            "raw_r2": -0.004091263,
+            "raw_acc": 0.8,
+            "standardized_r2": 0.9981511,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 1.0,
+            "raw_r2": -0.004318118,
+            "raw_acc": 0.59,
+            "standardized_r2": 0.9034438,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 10.0,
+            "raw_r2": -0.00045979023,
+            "raw_acc": 0.59,
+            "standardized_r2": 0.32158804,
+            "standardized_acc": 0.8
+          },
+          {
+            "lambda": 100.0,
+            "raw_r2": -0.089068174,
+            "raw_acc": 0.59,
+            "standardized_r2": -0.12541878,
+            "standardized_acc": 0.59
+          }
+        ]
       },
       {
         "delay_steps": 1,
@@ -308,10 +1232,54 @@
         "signal_relative_interaction_ratio": 0.038055725,
         "r2_linear_source": 0.99984366,
         "r2_linear_content": 0.9999006,
-        "r2_linear_h_to_xor": 0.9042793,
-        "linear_h_to_xor_acc": 1.0,
+        "r2_standardized_linear_xor": 0.9042793,
+        "standardized_linear_xor_acc": 1.0,
         "r2_bilinear_composition_to_xor": 0.9991827,
-        "bilinear_composition_acc": 1.0
+        "bilinear_composition_acc": 1.0,
+        "lambda_sweep": [
+          {
+            "lambda": 0.001,
+            "raw_r2": 0.09675968,
+            "raw_acc": 0.45,
+            "standardized_r2": 0.9993037,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.01,
+            "raw_r2": -0.06537676,
+            "raw_acc": 0.45,
+            "standardized_r2": 0.99998116,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.1,
+            "raw_r2": -0.02457714,
+            "raw_acc": 0.45,
+            "standardized_r2": 0.9982408,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 1.0,
+            "raw_r2": -0.0064610243,
+            "raw_acc": 0.53,
+            "standardized_r2": 0.9042793,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 10.0,
+            "raw_r2": -0.013602614,
+            "raw_acc": 0.47,
+            "standardized_r2": 0.2601515,
+            "standardized_acc": 0.68
+          },
+          {
+            "lambda": 100.0,
+            "raw_r2": -0.2144227,
+            "raw_acc": 0.47,
+            "standardized_r2": -0.37461412,
+            "standardized_acc": 0.47
+          }
+        ]
       },
       {
         "delay_steps": 3,
@@ -321,10 +1289,54 @@
         "signal_relative_interaction_ratio": 0.035052996,
         "r2_linear_source": 0.99987566,
         "r2_linear_content": 0.99990547,
-        "r2_linear_h_to_xor": 0.9946533,
-        "linear_h_to_xor_acc": 1.0,
+        "r2_standardized_linear_xor": 0.9946533,
+        "standardized_linear_xor_acc": 1.0,
         "r2_bilinear_composition_to_xor": 0.99930125,
-        "bilinear_composition_acc": 1.0
+        "bilinear_composition_acc": 1.0,
+        "lambda_sweep": [
+          {
+            "lambda": 0.001,
+            "raw_r2": 0.0026755333,
+            "raw_acc": 0.44,
+            "standardized_r2": 0.9999898,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.01,
+            "raw_r2": -0.010082722,
+            "raw_acc": 0.52,
+            "standardized_r2": 0.9999994,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.1,
+            "raw_r2": -0.0007904768,
+            "raw_acc": 0.52,
+            "standardized_r2": 0.99993914,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 1.0,
+            "raw_r2": 0.0009109378,
+            "raw_acc": 0.52,
+            "standardized_r2": 0.9946533,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 10.0,
+            "raw_r2": -0.0019396544,
+            "raw_acc": 0.48,
+            "standardized_r2": 0.7968029,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 100.0,
+            "raw_r2": -0.187186,
+            "raw_acc": 0.48,
+            "standardized_r2": -0.0709703,
+            "standardized_acc": 0.48
+          }
+        ]
       },
       {
         "delay_steps": 5,
@@ -334,10 +1346,54 @@
         "signal_relative_interaction_ratio": 0.0350161,
         "r2_linear_source": 0.9998664,
         "r2_linear_content": 0.9999032,
-        "r2_linear_h_to_xor": 0.9741062,
-        "linear_h_to_xor_acc": 1.0,
+        "r2_standardized_linear_xor": 0.9741062,
+        "standardized_linear_xor_acc": 1.0,
         "r2_bilinear_composition_to_xor": 0.99930054,
-        "bilinear_composition_acc": 1.0
+        "bilinear_composition_acc": 1.0,
+        "lambda_sweep": [
+          {
+            "lambda": 0.001,
+            "raw_r2": -0.054911017,
+            "raw_acc": 0.48,
+            "standardized_r2": 0.99996525,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.01,
+            "raw_r2": -0.029294968,
+            "raw_acc": 0.48,
+            "standardized_r2": 0.99999535,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.1,
+            "raw_r2": -0.0063654184,
+            "raw_acc": 0.53,
+            "standardized_r2": 0.9996522,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 1.0,
+            "raw_r2": -0.0015767813,
+            "raw_acc": 0.53,
+            "standardized_r2": 0.9741062,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 10.0,
+            "raw_r2": -0.0016460419,
+            "raw_acc": 0.53,
+            "standardized_r2": 0.5350412,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 100.0,
+            "raw_r2": -0.1870836,
+            "raw_acc": 0.47,
+            "standardized_r2": -0.300156,
+            "standardized_acc": 0.47
+          }
+        ]
       }
     ]
   },
@@ -352,10 +1408,54 @@
         "signal_relative_interaction_ratio": 0.043591745,
         "r2_linear_source": 0.9999043,
         "r2_linear_content": 0.9998865,
-        "r2_linear_h_to_xor": 0.9400816,
-        "linear_h_to_xor_acc": 1.0,
+        "r2_standardized_linear_xor": 0.9400816,
+        "standardized_linear_xor_acc": 1.0,
         "r2_bilinear_composition_to_xor": 0.9994721,
-        "bilinear_composition_acc": 1.0
+        "bilinear_composition_acc": 1.0,
+        "lambda_sweep": [
+          {
+            "lambda": 0.001,
+            "raw_r2": 0.5325843,
+            "raw_acc": 1.0,
+            "standardized_r2": 0.9999571,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.01,
+            "raw_r2": 0.06257713,
+            "raw_acc": 0.73,
+            "standardized_r2": 0.99998987,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.1,
+            "raw_r2": -0.017368913,
+            "raw_acc": 0.56,
+            "standardized_r2": 0.9990254,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 1.0,
+            "raw_r2": -0.015126944,
+            "raw_acc": 0.56,
+            "standardized_r2": 0.9400816,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 10.0,
+            "raw_r2": -0.009653568,
+            "raw_acc": 0.56,
+            "standardized_r2": 0.39332646,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 100.0,
+            "raw_r2": -0.24398541,
+            "raw_acc": 0.44,
+            "standardized_r2": -0.28230965,
+            "standardized_acc": 0.44
+          }
+        ]
       },
       {
         "delay_steps": 1,
@@ -365,10 +1465,54 @@
         "signal_relative_interaction_ratio": 0.04360835,
         "r2_linear_source": 0.99989307,
         "r2_linear_content": 0.9998173,
-        "r2_linear_h_to_xor": 0.88960546,
-        "linear_h_to_xor_acc": 1.0,
+        "r2_standardized_linear_xor": 0.88960546,
+        "standardized_linear_xor_acc": 1.0,
         "r2_bilinear_composition_to_xor": 0.9993106,
-        "bilinear_composition_acc": 1.0
+        "bilinear_composition_acc": 1.0,
+        "lambda_sweep": [
+          {
+            "lambda": 0.001,
+            "raw_r2": 0.21947658,
+            "raw_acc": 1.0,
+            "standardized_r2": 0.99998975,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.01,
+            "raw_r2": -0.023428798,
+            "raw_acc": 0.43,
+            "standardized_r2": 0.9999763,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.1,
+            "raw_r2": -0.050425053,
+            "raw_acc": 0.43,
+            "standardized_r2": 0.997817,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 1.0,
+            "raw_r2": -0.04079914,
+            "raw_acc": 0.43,
+            "standardized_r2": 0.88960546,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 10.0,
+            "raw_r2": -0.05084634,
+            "raw_acc": 0.44,
+            "standardized_r2": 0.25295436,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 100.0,
+            "raw_r2": -0.3329457,
+            "raw_acc": 0.44,
+            "standardized_r2": -0.37435925,
+            "standardized_acc": 0.44
+          }
+        ]
       },
       {
         "delay_steps": 3,
@@ -378,10 +1522,54 @@
         "signal_relative_interaction_ratio": 0.042928334,
         "r2_linear_source": 0.9999098,
         "r2_linear_content": 0.9999069,
-        "r2_linear_h_to_xor": 0.98714095,
-        "linear_h_to_xor_acc": 1.0,
+        "r2_standardized_linear_xor": 0.98714095,
+        "standardized_linear_xor_acc": 1.0,
         "r2_bilinear_composition_to_xor": 0.9994374,
-        "bilinear_composition_acc": 1.0
+        "bilinear_composition_acc": 1.0,
+        "lambda_sweep": [
+          {
+            "lambda": 0.001,
+            "raw_r2": 0.04455316,
+            "raw_acc": 0.81,
+            "standardized_r2": 0.99945813,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.01,
+            "raw_r2": -0.0009305477,
+            "raw_acc": 0.81,
+            "standardized_r2": 0.9999984,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.1,
+            "raw_r2": -0.006037593,
+            "raw_acc": 0.55,
+            "standardized_r2": 0.99984115,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 1.0,
+            "raw_r2": -0.0012637377,
+            "raw_acc": 0.55,
+            "standardized_r2": 0.98714095,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 10.0,
+            "raw_r2": -0.009856582,
+            "raw_acc": 0.6,
+            "standardized_r2": 0.67380536,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 100.0,
+            "raw_r2": -0.25648856,
+            "raw_acc": 0.45,
+            "standardized_r2": -0.18484497,
+            "standardized_acc": 0.45
+          }
+        ]
       },
       {
         "delay_steps": 5,
@@ -391,10 +1579,54 @@
         "signal_relative_interaction_ratio": 0.04353796,
         "r2_linear_source": 0.99988735,
         "r2_linear_content": 0.99992704,
-        "r2_linear_h_to_xor": 0.9964442,
-        "linear_h_to_xor_acc": 1.0,
+        "r2_standardized_linear_xor": 0.9964442,
+        "standardized_linear_xor_acc": 1.0,
         "r2_bilinear_composition_to_xor": 0.9994016,
-        "bilinear_composition_acc": 1.0
+        "bilinear_composition_acc": 1.0,
+        "lambda_sweep": [
+          {
+            "lambda": 0.001,
+            "raw_r2": 0.077438176,
+            "raw_acc": 0.66,
+            "standardized_r2": 0.9999904,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.01,
+            "raw_r2": 0.054099917,
+            "raw_acc": 0.66,
+            "standardized_r2": 0.9999984,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.1,
+            "raw_r2": 0.009863555,
+            "raw_acc": 0.66,
+            "standardized_r2": 0.9999601,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 1.0,
+            "raw_r2": -0.009345055,
+            "raw_acc": 0.57,
+            "standardized_r2": 0.9964442,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 10.0,
+            "raw_r2": -0.0015981197,
+            "raw_acc": 0.57,
+            "standardized_r2": 0.8519323,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 100.0,
+            "raw_r2": -0.10501671,
+            "raw_acc": 0.57,
+            "standardized_r2": 0.14815909,
+            "standardized_acc": 0.57
+          }
+        ]
       }
     ]
   },
@@ -409,10 +1641,54 @@
         "signal_relative_interaction_ratio": 0.045897603,
         "r2_linear_source": 0.99988955,
         "r2_linear_content": 0.99988633,
-        "r2_linear_h_to_xor": 0.9374373,
-        "linear_h_to_xor_acc": 1.0,
+        "r2_standardized_linear_xor": 0.9374373,
+        "standardized_linear_xor_acc": 1.0,
         "r2_bilinear_composition_to_xor": 0.9993215,
-        "bilinear_composition_acc": 1.0
+        "bilinear_composition_acc": 1.0,
+        "lambda_sweep": [
+          {
+            "lambda": 0.001,
+            "raw_r2": 0.39663267,
+            "raw_acc": 1.0,
+            "standardized_r2": 0.99981713,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.01,
+            "raw_r2": 0.047991276,
+            "raw_acc": 0.5,
+            "standardized_r2": 0.999989,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.1,
+            "raw_r2": -0.0014336109,
+            "raw_acc": 0.5,
+            "standardized_r2": 0.9989625,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 1.0,
+            "raw_r2": -0.0020016432,
+            "raw_acc": 0.5,
+            "standardized_r2": 0.9374373,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 10.0,
+            "raw_r2": -0.00022566319,
+            "raw_acc": 0.53,
+            "standardized_r2": 0.40031785,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 100.0,
+            "raw_r2": -0.15596104,
+            "raw_acc": 0.53,
+            "standardized_r2": -0.13760448,
+            "standardized_acc": 0.53
+          }
+        ]
       },
       {
         "delay_steps": 1,
@@ -422,10 +1698,54 @@
         "signal_relative_interaction_ratio": 0.048179455,
         "r2_linear_source": 0.99989,
         "r2_linear_content": 0.9998525,
-        "r2_linear_h_to_xor": 0.9800574,
-        "linear_h_to_xor_acc": 1.0,
+        "r2_standardized_linear_xor": 0.9800574,
+        "standardized_linear_xor_acc": 1.0,
         "r2_bilinear_composition_to_xor": 0.9992662,
-        "bilinear_composition_acc": 1.0
+        "bilinear_composition_acc": 1.0,
+        "lambda_sweep": [
+          {
+            "lambda": 0.001,
+            "raw_r2": 0.1707449,
+            "raw_acc": 0.55,
+            "standardized_r2": 0.99989396,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.01,
+            "raw_r2": 0.011385262,
+            "raw_acc": 0.55,
+            "standardized_r2": 0.9999973,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.1,
+            "raw_r2": 0.0017626882,
+            "raw_acc": 0.55,
+            "standardized_r2": 0.9997386,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 1.0,
+            "raw_r2": 0.007817328,
+            "raw_acc": 0.55,
+            "standardized_r2": 0.9800574,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 10.0,
+            "raw_r2": 0.00076019764,
+            "raw_acc": 0.52,
+            "standardized_r2": 0.6087092,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 100.0,
+            "raw_r2": -0.16572225,
+            "raw_acc": 0.52,
+            "standardized_r2": -0.092600465,
+            "standardized_acc": 0.52
+          }
+        ]
       },
       {
         "delay_steps": 3,
@@ -435,10 +1755,54 @@
         "signal_relative_interaction_ratio": 0.05136686,
         "r2_linear_source": 0.9999115,
         "r2_linear_content": 0.9999051,
-        "r2_linear_h_to_xor": 0.9976814,
-        "linear_h_to_xor_acc": 1.0,
+        "r2_standardized_linear_xor": 0.9976814,
+        "standardized_linear_xor_acc": 1.0,
         "r2_bilinear_composition_to_xor": 0.99945086,
-        "bilinear_composition_acc": 1.0
+        "bilinear_composition_acc": 1.0,
+        "lambda_sweep": [
+          {
+            "lambda": 0.001,
+            "raw_r2": -0.00008523464,
+            "raw_acc": 0.44,
+            "standardized_r2": 0.9998503,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.01,
+            "raw_r2": -0.02119112,
+            "raw_acc": 0.44,
+            "standardized_r2": 0.99999976,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.1,
+            "raw_r2": -0.020141125,
+            "raw_acc": 0.51,
+            "standardized_r2": 0.9999749,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 1.0,
+            "raw_r2": -0.022419453,
+            "raw_acc": 0.43,
+            "standardized_r2": 0.9976814,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 10.0,
+            "raw_r2": -0.047277212,
+            "raw_acc": 0.43,
+            "standardized_r2": 0.87732553,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 100.0,
+            "raw_r2": -0.35232544,
+            "raw_acc": 0.43,
+            "standardized_r2": -0.07371688,
+            "standardized_acc": 0.43
+          }
+        ]
       },
       {
         "delay_steps": 5,
@@ -448,10 +1812,54 @@
         "signal_relative_interaction_ratio": 0.055154096,
         "r2_linear_source": 0.9998961,
         "r2_linear_content": 0.999915,
-        "r2_linear_h_to_xor": 0.98688287,
-        "linear_h_to_xor_acc": 1.0,
+        "r2_standardized_linear_xor": 0.98688287,
+        "standardized_linear_xor_acc": 1.0,
         "r2_bilinear_composition_to_xor": 0.9994284,
-        "bilinear_composition_acc": 1.0
+        "bilinear_composition_acc": 1.0,
+        "lambda_sweep": [
+          {
+            "lambda": 0.001,
+            "raw_r2": -0.065030575,
+            "raw_acc": 0.43,
+            "standardized_r2": 0.9999985,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.01,
+            "raw_r2": -0.055992246,
+            "raw_acc": 0.69,
+            "standardized_r2": 0.9999979,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.1,
+            "raw_r2": -0.04376805,
+            "raw_acc": 0.42,
+            "standardized_r2": 0.99983966,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 1.0,
+            "raw_r2": -0.04442835,
+            "raw_acc": 0.42,
+            "standardized_r2": 0.98688287,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 10.0,
+            "raw_r2": -0.07577932,
+            "raw_acc": 0.42,
+            "standardized_r2": 0.6487014,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 100.0,
+            "raw_r2": -0.4064511,
+            "raw_acc": 0.42,
+            "standardized_r2": -0.34180486,
+            "standardized_acc": 0.42
+          }
+        ]
       }
     ]
   },
@@ -466,10 +1874,54 @@
         "signal_relative_interaction_ratio": 0.047222354,
         "r2_linear_source": 0.99989384,
         "r2_linear_content": 0.9998955,
-        "r2_linear_h_to_xor": 0.97773707,
-        "linear_h_to_xor_acc": 1.0,
+        "r2_standardized_linear_xor": 0.97773707,
+        "standardized_linear_xor_acc": 1.0,
         "r2_bilinear_composition_to_xor": 0.99940276,
-        "bilinear_composition_acc": 1.0
+        "bilinear_composition_acc": 1.0,
+        "lambda_sweep": [
+          {
+            "lambda": 0.001,
+            "raw_r2": 0.54778475,
+            "raw_acc": 1.0,
+            "standardized_r2": 0.9995922,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.01,
+            "raw_r2": 0.08734256,
+            "raw_acc": 0.74,
+            "standardized_r2": 0.99999696,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.1,
+            "raw_r2": 0.007043481,
+            "raw_acc": 0.53,
+            "standardized_r2": 0.9997035,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 1.0,
+            "raw_r2": 0.00024354458,
+            "raw_acc": 0.53,
+            "standardized_r2": 0.97773707,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 10.0,
+            "raw_r2": -0.0047376156,
+            "raw_acc": 0.53,
+            "standardized_r2": 0.58688647,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 100.0,
+            "raw_r2": -0.15853465,
+            "raw_acc": 0.53,
+            "standardized_r2": -0.11892986,
+            "standardized_acc": 0.53
+          }
+        ]
       },
       {
         "delay_steps": 1,
@@ -479,10 +1931,54 @@
         "signal_relative_interaction_ratio": 0.051496726,
         "r2_linear_source": 0.999909,
         "r2_linear_content": 0.9998861,
-        "r2_linear_h_to_xor": 0.9868389,
-        "linear_h_to_xor_acc": 1.0,
+        "r2_standardized_linear_xor": 0.9868389,
+        "standardized_linear_xor_acc": 1.0,
         "r2_bilinear_composition_to_xor": 0.9993567,
-        "bilinear_composition_acc": 1.0
+        "bilinear_composition_acc": 1.0,
+        "lambda_sweep": [
+          {
+            "lambda": 0.001,
+            "raw_r2": 0.30743223,
+            "raw_acc": 1.0,
+            "standardized_r2": 0.999998,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.01,
+            "raw_r2": 0.031220198,
+            "raw_acc": 0.28,
+            "standardized_r2": 0.99999833,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.1,
+            "raw_r2": -0.0069829226,
+            "raw_acc": 0.54,
+            "standardized_r2": 0.999837,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 1.0,
+            "raw_r2": -0.0058130026,
+            "raw_acc": 0.54,
+            "standardized_r2": 0.9868389,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 10.0,
+            "raw_r2": -0.007569313,
+            "raw_acc": 0.47,
+            "standardized_r2": 0.6712036,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 100.0,
+            "raw_r2": -0.22776508,
+            "raw_acc": 0.46,
+            "standardized_r2": -0.16275442,
+            "standardized_acc": 0.46
+          }
+        ]
       },
       {
         "delay_steps": 3,
@@ -492,10 +1988,54 @@
         "signal_relative_interaction_ratio": 0.047985222,
         "r2_linear_source": 0.9998875,
         "r2_linear_content": 0.99990225,
-        "r2_linear_h_to_xor": 0.95530546,
-        "linear_h_to_xor_acc": 1.0,
+        "r2_standardized_linear_xor": 0.95530546,
+        "standardized_linear_xor_acc": 1.0,
         "r2_bilinear_composition_to_xor": 0.99941456,
-        "bilinear_composition_acc": 1.0
+        "bilinear_composition_acc": 1.0,
+        "lambda_sweep": [
+          {
+            "lambda": 0.001,
+            "raw_r2": 0.035556912,
+            "raw_acc": 0.52,
+            "standardized_r2": 0.99990875,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.01,
+            "raw_r2": -0.016671538,
+            "raw_acc": 0.52,
+            "standardized_r2": 0.9999929,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.1,
+            "raw_r2": -0.013097286,
+            "raw_acc": 0.52,
+            "standardized_r2": 0.99932355,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 1.0,
+            "raw_r2": -0.003893137,
+            "raw_acc": 0.52,
+            "standardized_r2": 0.95530546,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 10.0,
+            "raw_r2": -0.00257802,
+            "raw_acc": 0.42,
+            "standardized_r2": 0.45267177,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 100.0,
+            "raw_r2": -0.19908547,
+            "raw_acc": 0.48,
+            "standardized_r2": -0.22266543,
+            "standardized_acc": 0.48
+          }
+        ]
       },
       {
         "delay_steps": 5,
@@ -505,10 +2045,54 @@
         "signal_relative_interaction_ratio": 0.041902058,
         "r2_linear_source": 0.9999058,
         "r2_linear_content": 0.9998978,
-        "r2_linear_h_to_xor": 0.974414,
-        "linear_h_to_xor_acc": 1.0,
+        "r2_standardized_linear_xor": 0.974414,
+        "standardized_linear_xor_acc": 1.0,
         "r2_bilinear_composition_to_xor": 0.9993757,
-        "bilinear_composition_acc": 1.0
+        "bilinear_composition_acc": 1.0,
+        "lambda_sweep": [
+          {
+            "lambda": 0.001,
+            "raw_r2": -0.019536257,
+            "raw_acc": 0.44,
+            "standardized_r2": 0.99998856,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.01,
+            "raw_r2": -0.032281637,
+            "raw_acc": 0.44,
+            "standardized_r2": 0.9999964,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.1,
+            "raw_r2": -0.032669425,
+            "raw_acc": 0.44,
+            "standardized_r2": 0.99965084,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 1.0,
+            "raw_r2": -0.029524922,
+            "raw_acc": 0.44,
+            "standardized_r2": 0.974414,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 10.0,
+            "raw_r2": -0.009789228,
+            "raw_acc": 0.56,
+            "standardized_r2": 0.5719533,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 100.0,
+            "raw_r2": -0.089496136,
+            "raw_acc": 0.56,
+            "standardized_r2": -0.03539133,
+            "standardized_acc": 0.56
+          }
+        ]
       }
     ]
   },
@@ -523,10 +2107,54 @@
         "signal_relative_interaction_ratio": 0.042337846,
         "r2_linear_source": 0.99989766,
         "r2_linear_content": 0.9998743,
-        "r2_linear_h_to_xor": 0.9285115,
-        "linear_h_to_xor_acc": 1.0,
+        "r2_standardized_linear_xor": 0.9285115,
+        "standardized_linear_xor_acc": 1.0,
         "r2_bilinear_composition_to_xor": 0.99931026,
-        "bilinear_composition_acc": 1.0
+        "bilinear_composition_acc": 1.0,
+        "lambda_sweep": [
+          {
+            "lambda": 0.001,
+            "raw_r2": 0.2912721,
+            "raw_acc": 0.74,
+            "standardized_r2": 0.9993468,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.01,
+            "raw_r2": 0.016664684,
+            "raw_acc": 0.52,
+            "standardized_r2": 0.9999867,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.1,
+            "raw_r2": -0.016930342,
+            "raw_acc": 0.52,
+            "standardized_r2": 0.9987611,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 1.0,
+            "raw_r2": -0.016462445,
+            "raw_acc": 0.52,
+            "standardized_r2": 0.9285115,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 10.0,
+            "raw_r2": -0.0038028955,
+            "raw_acc": 0.52,
+            "standardized_r2": 0.38539797,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 100.0,
+            "raw_r2": -0.1107074,
+            "raw_acc": 0.48,
+            "standardized_r2": -0.14666975,
+            "standardized_acc": 0.48
+          }
+        ]
       },
       {
         "delay_steps": 1,
@@ -536,10 +2164,54 @@
         "signal_relative_interaction_ratio": 0.043787632,
         "r2_linear_source": 0.99988335,
         "r2_linear_content": 0.9998726,
-        "r2_linear_h_to_xor": 0.9960323,
-        "linear_h_to_xor_acc": 1.0,
+        "r2_standardized_linear_xor": 0.9960323,
+        "standardized_linear_xor_acc": 1.0,
         "r2_bilinear_composition_to_xor": 0.99936986,
-        "bilinear_composition_acc": 1.0
+        "bilinear_composition_acc": 1.0,
+        "lambda_sweep": [
+          {
+            "lambda": 0.001,
+            "raw_r2": 0.093934536,
+            "raw_acc": 0.65,
+            "standardized_r2": 0.99999195,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.01,
+            "raw_r2": -0.034309983,
+            "raw_acc": 0.45,
+            "standardized_r2": 0.99999946,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.1,
+            "raw_r2": -0.03572476,
+            "raw_acc": 0.45,
+            "standardized_r2": 0.999956,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 1.0,
+            "raw_r2": -0.0387429,
+            "raw_acc": 0.45,
+            "standardized_r2": 0.9960323,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 10.0,
+            "raw_r2": -0.06552482,
+            "raw_acc": 0.45,
+            "standardized_r2": 0.82263917,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 100.0,
+            "raw_r2": -0.32751977,
+            "raw_acc": 0.45,
+            "standardized_r2": -0.16268122,
+            "standardized_acc": 0.45
+          }
+        ]
       },
       {
         "delay_steps": 3,
@@ -549,10 +2221,54 @@
         "signal_relative_interaction_ratio": 0.04417566,
         "r2_linear_source": 0.99990356,
         "r2_linear_content": 0.99989605,
-        "r2_linear_h_to_xor": 0.9591582,
-        "linear_h_to_xor_acc": 1.0,
+        "r2_standardized_linear_xor": 0.9591582,
+        "standardized_linear_xor_acc": 1.0,
         "r2_bilinear_composition_to_xor": 0.9993573,
-        "bilinear_composition_acc": 1.0
+        "bilinear_composition_acc": 1.0,
+        "lambda_sweep": [
+          {
+            "lambda": 0.001,
+            "raw_r2": 0.01066488,
+            "raw_acc": 0.48,
+            "standardized_r2": 0.9999246,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.01,
+            "raw_r2": -0.020044208,
+            "raw_acc": 0.48,
+            "standardized_r2": 0.9999936,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.1,
+            "raw_r2": -0.025324821,
+            "raw_acc": 0.48,
+            "standardized_r2": 0.9993893,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 1.0,
+            "raw_r2": -0.023406386,
+            "raw_acc": 0.48,
+            "standardized_r2": 0.9591582,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 10.0,
+            "raw_r2": -0.007364869,
+            "raw_acc": 0.48,
+            "standardized_r2": 0.49030322,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 100.0,
+            "raw_r2": -0.096152306,
+            "raw_acc": 0.52,
+            "standardized_r2": -0.08236742,
+            "standardized_acc": 0.52
+          }
+        ]
       },
       {
         "delay_steps": 5,
@@ -562,10 +2278,54 @@
         "signal_relative_interaction_ratio": 0.042824812,
         "r2_linear_source": 0.9998682,
         "r2_linear_content": 0.9998993,
-        "r2_linear_h_to_xor": 0.9869091,
-        "linear_h_to_xor_acc": 1.0,
+        "r2_standardized_linear_xor": 0.9869091,
+        "standardized_linear_xor_acc": 1.0,
         "r2_bilinear_composition_to_xor": 0.99935365,
-        "bilinear_composition_acc": 1.0
+        "bilinear_composition_acc": 1.0,
+        "lambda_sweep": [
+          {
+            "lambda": 0.001,
+            "raw_r2": -0.005676031,
+            "raw_acc": 0.76,
+            "standardized_r2": 0.999987,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.01,
+            "raw_r2": -0.0070881844,
+            "raw_acc": 0.5,
+            "standardized_r2": 0.9999907,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.1,
+            "raw_r2": -0.0066245794,
+            "raw_acc": 0.5,
+            "standardized_r2": 0.9998384,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 1.0,
+            "raw_r2": -0.0074442625,
+            "raw_acc": 0.5,
+            "standardized_r2": 0.9869091,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 10.0,
+            "raw_r2": -0.020247936,
+            "raw_acc": 0.5,
+            "standardized_r2": 0.66605735,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 100.0,
+            "raw_r2": -0.21917188,
+            "raw_acc": 0.5,
+            "standardized_r2": -0.17005396,
+            "standardized_acc": 0.5
+          }
+        ]
       }
     ]
   },
@@ -580,10 +2340,54 @@
         "signal_relative_interaction_ratio": 0.048597135,
         "r2_linear_source": 0.99988145,
         "r2_linear_content": 0.99989986,
-        "r2_linear_h_to_xor": 0.9791025,
-        "linear_h_to_xor_acc": 1.0,
+        "r2_standardized_linear_xor": 0.9791025,
+        "standardized_linear_xor_acc": 1.0,
         "r2_bilinear_composition_to_xor": 0.99937177,
-        "bilinear_composition_acc": 1.0
+        "bilinear_composition_acc": 1.0,
+        "lambda_sweep": [
+          {
+            "lambda": 0.001,
+            "raw_r2": 0.65745395,
+            "raw_acc": 1.0,
+            "standardized_r2": 0.9999969,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.01,
+            "raw_r2": 0.07848495,
+            "raw_acc": 0.67,
+            "standardized_r2": 0.9999972,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.1,
+            "raw_r2": -0.040114045,
+            "raw_acc": 0.45,
+            "standardized_r2": 0.99972856,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 1.0,
+            "raw_r2": -0.031772375,
+            "raw_acc": 0.45,
+            "standardized_r2": 0.9791025,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 10.0,
+            "raw_r2": -0.028609037,
+            "raw_acc": 0.43,
+            "standardized_r2": 0.56862247,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 100.0,
+            "raw_r2": -0.29660606,
+            "raw_acc": 0.43,
+            "standardized_r2": -0.3592918,
+            "standardized_acc": 0.43
+          }
+        ]
       },
       {
         "delay_steps": 1,
@@ -593,10 +2397,54 @@
         "signal_relative_interaction_ratio": 0.049426623,
         "r2_linear_source": 0.99990475,
         "r2_linear_content": 0.9999128,
-        "r2_linear_h_to_xor": 0.9945079,
-        "linear_h_to_xor_acc": 1.0,
+        "r2_standardized_linear_xor": 0.9945079,
+        "standardized_linear_xor_acc": 1.0,
         "r2_bilinear_composition_to_xor": 0.99944085,
-        "bilinear_composition_acc": 1.0
+        "bilinear_composition_acc": 1.0,
+        "lambda_sweep": [
+          {
+            "lambda": 0.001,
+            "raw_r2": 0.39383262,
+            "raw_acc": 1.0,
+            "standardized_r2": 1.0,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.01,
+            "raw_r2": 0.054246128,
+            "raw_acc": 0.56,
+            "standardized_r2": 0.99999934,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.1,
+            "raw_r2": 0.0057349205,
+            "raw_acc": 0.56,
+            "standardized_r2": 0.999937,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 1.0,
+            "raw_r2": -0.002929449,
+            "raw_acc": 0.56,
+            "standardized_r2": 0.9945079,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 10.0,
+            "raw_r2": -0.0053225756,
+            "raw_acc": 0.55,
+            "standardized_r2": 0.8011933,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 100.0,
+            "raw_r2": -0.123573065,
+            "raw_acc": 0.55,
+            "standardized_r2": 0.048737526,
+            "standardized_acc": 0.55
+          }
+        ]
       },
       {
         "delay_steps": 3,
@@ -606,10 +2454,54 @@
         "signal_relative_interaction_ratio": 0.046616305,
         "r2_linear_source": 0.99989367,
         "r2_linear_content": 0.99987286,
-        "r2_linear_h_to_xor": 0.9980285,
-        "linear_h_to_xor_acc": 1.0,
+        "r2_standardized_linear_xor": 0.9980285,
+        "standardized_linear_xor_acc": 1.0,
         "r2_bilinear_composition_to_xor": 0.99931735,
-        "bilinear_composition_acc": 1.0
+        "bilinear_composition_acc": 1.0,
+        "lambda_sweep": [
+          {
+            "lambda": 0.001,
+            "raw_r2": 0.052838862,
+            "raw_acc": 0.47,
+            "standardized_r2": 0.999935,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.01,
+            "raw_r2": -0.021104336,
+            "raw_acc": 0.47,
+            "standardized_r2": 0.99999976,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.1,
+            "raw_r2": -0.020900011,
+            "raw_acc": 0.47,
+            "standardized_r2": 0.9999788,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 1.0,
+            "raw_r2": -0.005422473,
+            "raw_acc": 0.47,
+            "standardized_r2": 0.9980285,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 10.0,
+            "raw_r2": -0.0075792074,
+            "raw_acc": 0.49,
+            "standardized_r2": 0.8941966,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 100.0,
+            "raw_r2": -0.21426976,
+            "raw_acc": 0.49,
+            "standardized_r2": 0.06469387,
+            "standardized_acc": 0.49
+          }
+        ]
       },
       {
         "delay_steps": 5,
@@ -619,10 +2511,54 @@
         "signal_relative_interaction_ratio": 0.04378936,
         "r2_linear_source": 0.9999017,
         "r2_linear_content": 0.99987596,
-        "r2_linear_h_to_xor": 0.99653184,
-        "linear_h_to_xor_acc": 1.0,
+        "r2_standardized_linear_xor": 0.99653184,
+        "standardized_linear_xor_acc": 1.0,
         "r2_bilinear_composition_to_xor": 0.9993693,
-        "bilinear_composition_acc": 1.0
+        "bilinear_composition_acc": 1.0,
+        "lambda_sweep": [
+          {
+            "lambda": 0.001,
+            "raw_r2": -0.001688838,
+            "raw_acc": 0.48,
+            "standardized_r2": 0.9999942,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.01,
+            "raw_r2": -0.012639642,
+            "raw_acc": 0.48,
+            "standardized_r2": 0.99999964,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.1,
+            "raw_r2": -0.004643917,
+            "raw_acc": 0.48,
+            "standardized_r2": 0.99996156,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 1.0,
+            "raw_r2": -0.0014593601,
+            "raw_acc": 0.52,
+            "standardized_r2": 0.99653184,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 10.0,
+            "raw_r2": -0.0100131035,
+            "raw_acc": 0.48,
+            "standardized_r2": 0.84484273,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 100.0,
+            "raw_r2": -0.23585594,
+            "raw_acc": 0.48,
+            "standardized_r2": -0.023800492,
+            "standardized_acc": 0.48
+          }
+        ]
       }
     ]
   },
@@ -637,10 +2573,54 @@
         "signal_relative_interaction_ratio": 0.047546253,
         "r2_linear_source": 0.99989784,
         "r2_linear_content": 0.9998863,
-        "r2_linear_h_to_xor": 0.9997029,
-        "linear_h_to_xor_acc": 1.0,
+        "r2_standardized_linear_xor": 0.9997029,
+        "standardized_linear_xor_acc": 1.0,
         "r2_bilinear_composition_to_xor": 0.9994088,
-        "bilinear_composition_acc": 1.0
+        "bilinear_composition_acc": 1.0,
+        "lambda_sweep": [
+          {
+            "lambda": 0.001,
+            "raw_r2": 0.49403185,
+            "raw_acc": 1.0,
+            "standardized_r2": 0.9998974,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.01,
+            "raw_r2": 0.0702284,
+            "raw_acc": 0.5,
+            "standardized_r2": 0.99999994,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.1,
+            "raw_r2": -0.00013101101,
+            "raw_acc": 0.5,
+            "standardized_r2": 0.99999696,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 1.0,
+            "raw_r2": -0.010371804,
+            "raw_acc": 0.5,
+            "standardized_r2": 0.9997029,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 10.0,
+            "raw_r2": -0.030216455,
+            "raw_acc": 0.5,
+            "standardized_r2": 0.97602814,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 100.0,
+            "raw_r2": -0.22888958,
+            "raw_acc": 0.5,
+            "standardized_r2": 0.4016754,
+            "standardized_acc": 0.5
+          }
+        ]
       },
       {
         "delay_steps": 1,
@@ -650,10 +2630,54 @@
         "signal_relative_interaction_ratio": 0.05097149,
         "r2_linear_source": 0.99988145,
         "r2_linear_content": 0.9998794,
-        "r2_linear_h_to_xor": 0.9895097,
-        "linear_h_to_xor_acc": 1.0,
+        "r2_standardized_linear_xor": 0.9895097,
+        "standardized_linear_xor_acc": 1.0,
         "r2_bilinear_composition_to_xor": 0.9992998,
-        "bilinear_composition_acc": 1.0
+        "bilinear_composition_acc": 1.0,
+        "lambda_sweep": [
+          {
+            "lambda": 0.001,
+            "raw_r2": 0.19753373,
+            "raw_acc": 0.74,
+            "standardized_r2": 0.9999577,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.01,
+            "raw_r2": -0.016092539,
+            "raw_acc": 0.43,
+            "standardized_r2": 0.9999987,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.1,
+            "raw_r2": -0.039658785,
+            "raw_acc": 0.43,
+            "standardized_r2": 0.99987376,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 1.0,
+            "raw_r2": -0.023219347,
+            "raw_acc": 0.48,
+            "standardized_r2": 0.9895097,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 10.0,
+            "raw_r2": -0.027371049,
+            "raw_acc": 0.48,
+            "standardized_r2": 0.69898313,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 100.0,
+            "raw_r2": -0.24187458,
+            "raw_acc": 0.48,
+            "standardized_r2": -0.16650367,
+            "standardized_acc": 0.48
+          }
+        ]
       },
       {
         "delay_steps": 3,
@@ -663,10 +2687,54 @@
         "signal_relative_interaction_ratio": 0.05164911,
         "r2_linear_source": 0.99992967,
         "r2_linear_content": 0.9998992,
-        "r2_linear_h_to_xor": 0.9681511,
-        "linear_h_to_xor_acc": 1.0,
+        "r2_standardized_linear_xor": 0.9681511,
+        "standardized_linear_xor_acc": 1.0,
         "r2_bilinear_composition_to_xor": 0.99937594,
-        "bilinear_composition_acc": 1.0
+        "bilinear_composition_acc": 1.0,
+        "lambda_sweep": [
+          {
+            "lambda": 0.001,
+            "raw_r2": -0.008963108,
+            "raw_acc": 0.5,
+            "standardized_r2": 0.9999845,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.01,
+            "raw_r2": -0.019442558,
+            "raw_acc": 0.49,
+            "standardized_r2": 0.9999954,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.1,
+            "raw_r2": -0.015775084,
+            "raw_acc": 0.49,
+            "standardized_r2": 0.9995559,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 1.0,
+            "raw_r2": -0.016388297,
+            "raw_acc": 0.49,
+            "standardized_r2": 0.9681511,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 10.0,
+            "raw_r2": -0.033258915,
+            "raw_acc": 0.49,
+            "standardized_r2": 0.49339414,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 100.0,
+            "raw_r2": -0.25194883,
+            "raw_acc": 0.49,
+            "standardized_r2": -0.2900784,
+            "standardized_acc": 0.49
+          }
+        ]
       },
       {
         "delay_steps": 5,
@@ -676,10 +2744,54 @@
         "signal_relative_interaction_ratio": 0.05332862,
         "r2_linear_source": 0.99986744,
         "r2_linear_content": 0.9999069,
-        "r2_linear_h_to_xor": 0.98656493,
-        "linear_h_to_xor_acc": 1.0,
+        "r2_standardized_linear_xor": 0.98656493,
+        "standardized_linear_xor_acc": 1.0,
         "r2_bilinear_composition_to_xor": 0.9992929,
-        "bilinear_composition_acc": 1.0
+        "bilinear_composition_acc": 1.0,
+        "lambda_sweep": [
+          {
+            "lambda": 0.001,
+            "raw_r2": -0.019390345,
+            "raw_acc": 0.23,
+            "standardized_r2": 0.99996,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.01,
+            "raw_r2": -0.0058705807,
+            "raw_acc": 0.54,
+            "standardized_r2": 0.99999666,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.1,
+            "raw_r2": -0.0019042492,
+            "raw_acc": 0.54,
+            "standardized_r2": 0.99983376,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 1.0,
+            "raw_r2": -0.0009663105,
+            "raw_acc": 0.54,
+            "standardized_r2": 0.98656493,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 10.0,
+            "raw_r2": -0.0013126135,
+            "raw_acc": 0.54,
+            "standardized_r2": 0.6614328,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 100.0,
+            "raw_r2": -0.1932143,
+            "raw_acc": 0.46,
+            "standardized_r2": -0.20479012,
+            "standardized_acc": 0.46
+          }
+        ]
       }
     ]
   },
@@ -694,10 +2806,54 @@
         "signal_relative_interaction_ratio": 0.04254427,
         "r2_linear_source": 0.9998595,
         "r2_linear_content": 0.999922,
-        "r2_linear_h_to_xor": 0.93828046,
-        "linear_h_to_xor_acc": 1.0,
+        "r2_standardized_linear_xor": 0.93828046,
+        "standardized_linear_xor_acc": 1.0,
         "r2_bilinear_composition_to_xor": 0.99931204,
-        "bilinear_composition_acc": 1.0
+        "bilinear_composition_acc": 1.0,
+        "lambda_sweep": [
+          {
+            "lambda": 0.001,
+            "raw_r2": 0.43523735,
+            "raw_acc": 0.79,
+            "standardized_r2": 0.9999383,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.01,
+            "raw_r2": 0.060880303,
+            "raw_acc": 0.79,
+            "standardized_r2": 0.9999893,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.1,
+            "raw_r2": 0.019961,
+            "raw_acc": 0.79,
+            "standardized_r2": 0.99898237,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 1.0,
+            "raw_r2": 0.01867479,
+            "raw_acc": 0.59,
+            "standardized_r2": 0.93828046,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 10.0,
+            "raw_r2": -0.009543896,
+            "raw_acc": 0.47,
+            "standardized_r2": 0.39128107,
+            "standardized_acc": 0.79
+          },
+          {
+            "lambda": 100.0,
+            "raw_r2": -0.2562021,
+            "raw_acc": 0.47,
+            "standardized_r2": -0.2622193,
+            "standardized_acc": 0.47
+          }
+        ]
       },
       {
         "delay_steps": 1,
@@ -707,10 +2863,54 @@
         "signal_relative_interaction_ratio": 0.045026883,
         "r2_linear_source": 0.9998814,
         "r2_linear_content": 0.9999016,
-        "r2_linear_h_to_xor": 0.98667175,
-        "linear_h_to_xor_acc": 1.0,
+        "r2_standardized_linear_xor": 0.98667175,
+        "standardized_linear_xor_acc": 1.0,
         "r2_bilinear_composition_to_xor": 0.9993356,
-        "bilinear_composition_acc": 1.0
+        "bilinear_composition_acc": 1.0,
+        "lambda_sweep": [
+          {
+            "lambda": 0.001,
+            "raw_r2": 0.20996559,
+            "raw_acc": 0.73,
+            "standardized_r2": 0.9997546,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.01,
+            "raw_r2": 0.0033071637,
+            "raw_acc": 0.46,
+            "standardized_r2": 0.99999833,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.1,
+            "raw_r2": -0.008104682,
+            "raw_acc": 0.5,
+            "standardized_r2": 0.9998346,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 1.0,
+            "raw_r2": -0.0032799244,
+            "raw_acc": 0.5,
+            "standardized_r2": 0.98667175,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 10.0,
+            "raw_r2": -0.000564456,
+            "raw_acc": 0.5,
+            "standardized_r2": 0.6716506,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 100.0,
+            "raw_r2": -0.17891979,
+            "raw_acc": 0.5,
+            "standardized_r2": -0.104339,
+            "standardized_acc": 0.5
+          }
+        ]
       },
       {
         "delay_steps": 3,
@@ -720,10 +2920,54 @@
         "signal_relative_interaction_ratio": 0.045455564,
         "r2_linear_source": 0.99990344,
         "r2_linear_content": 0.99989337,
-        "r2_linear_h_to_xor": 0.9961402,
-        "linear_h_to_xor_acc": 1.0,
+        "r2_standardized_linear_xor": 0.9961402,
+        "standardized_linear_xor_acc": 1.0,
         "r2_bilinear_composition_to_xor": 0.9994304,
-        "bilinear_composition_acc": 1.0
+        "bilinear_composition_acc": 1.0,
+        "lambda_sweep": [
+          {
+            "lambda": 0.001,
+            "raw_r2": 0.021695316,
+            "raw_acc": 0.67,
+            "standardized_r2": 0.9999479,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.01,
+            "raw_r2": -0.016917825,
+            "raw_acc": 0.67,
+            "standardized_r2": 0.9999996,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.1,
+            "raw_r2": -0.010633707,
+            "raw_acc": 0.49,
+            "standardized_r2": 0.9999571,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 1.0,
+            "raw_r2": -0.005536318,
+            "raw_acc": 0.49,
+            "standardized_r2": 0.9961402,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 10.0,
+            "raw_r2": -0.017852902,
+            "raw_acc": 0.49,
+            "standardized_r2": 0.8314966,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 100.0,
+            "raw_r2": -0.24838066,
+            "raw_acc": 0.49,
+            "standardized_r2": -0.06219685,
+            "standardized_acc": 0.49
+          }
+        ]
       },
       {
         "delay_steps": 5,
@@ -733,10 +2977,54 @@
         "signal_relative_interaction_ratio": 0.04772095,
         "r2_linear_source": 0.9999194,
         "r2_linear_content": 0.99990463,
-        "r2_linear_h_to_xor": 0.98180073,
-        "linear_h_to_xor_acc": 1.0,
+        "r2_standardized_linear_xor": 0.98180073,
+        "standardized_linear_xor_acc": 1.0,
         "r2_bilinear_composition_to_xor": 0.9994625,
-        "bilinear_composition_acc": 1.0
+        "bilinear_composition_acc": 1.0,
+        "lambda_sweep": [
+          {
+            "lambda": 0.001,
+            "raw_r2": -0.056038737,
+            "raw_acc": 0.46,
+            "standardized_r2": 0.9999876,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.01,
+            "raw_r2": -0.04102695,
+            "raw_acc": 0.46,
+            "standardized_r2": 0.9999969,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.1,
+            "raw_r2": -0.033960104,
+            "raw_acc": 0.46,
+            "standardized_r2": 0.99976563,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 1.0,
+            "raw_r2": -0.029660225,
+            "raw_acc": 0.46,
+            "standardized_r2": 0.98180073,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 10.0,
+            "raw_r2": -0.00916779,
+            "raw_acc": 0.46,
+            "standardized_r2": 0.6203871,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 100.0,
+            "raw_r2": -0.104073286,
+            "raw_acc": 0.54,
+            "standardized_r2": -0.04831505,
+            "standardized_acc": 0.54
+          }
+        ]
       }
     ]
   },
@@ -751,10 +3039,54 @@
         "signal_relative_interaction_ratio": 0.054023113,
         "r2_linear_source": 0.9998827,
         "r2_linear_content": 0.9999139,
-        "r2_linear_h_to_xor": 0.99103934,
-        "linear_h_to_xor_acc": 1.0,
+        "r2_standardized_linear_xor": 0.99103934,
+        "standardized_linear_xor_acc": 1.0,
         "r2_bilinear_composition_to_xor": 0.9993281,
-        "bilinear_composition_acc": 1.0
+        "bilinear_composition_acc": 1.0,
+        "lambda_sweep": [
+          {
+            "lambda": 0.001,
+            "raw_r2": 0.5354974,
+            "raw_acc": 0.8,
+            "standardized_r2": 0.99993443,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.01,
+            "raw_r2": 0.0772475,
+            "raw_acc": 0.8,
+            "standardized_r2": 0.9999989,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.1,
+            "raw_r2": 0.004136324,
+            "raw_acc": 0.8,
+            "standardized_r2": 0.9998938,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 1.0,
+            "raw_r2": -0.008728981,
+            "raw_acc": 0.49,
+            "standardized_r2": 0.99103934,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 10.0,
+            "raw_r2": -0.052176,
+            "raw_acc": 0.49,
+            "standardized_r2": 0.72312784,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 100.0,
+            "raw_r2": -0.29305363,
+            "raw_acc": 0.49,
+            "standardized_r2": -0.15310681,
+            "standardized_acc": 0.49
+          }
+        ]
       },
       {
         "delay_steps": 1,
@@ -764,10 +3096,54 @@
         "signal_relative_interaction_ratio": 0.056301735,
         "r2_linear_source": 0.9999057,
         "r2_linear_content": 0.99984735,
-        "r2_linear_h_to_xor": 0.96968824,
-        "linear_h_to_xor_acc": 1.0,
+        "r2_standardized_linear_xor": 0.96968824,
+        "standardized_linear_xor_acc": 1.0,
         "r2_bilinear_composition_to_xor": 0.99922794,
-        "bilinear_composition_acc": 1.0
+        "bilinear_composition_acc": 1.0,
+        "lambda_sweep": [
+          {
+            "lambda": 0.001,
+            "raw_r2": 0.230982,
+            "raw_acc": 0.51,
+            "standardized_r2": 0.9998937,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.01,
+            "raw_r2": -0.02117312,
+            "raw_acc": 0.51,
+            "standardized_r2": 0.9999957,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.1,
+            "raw_r2": -0.03686309,
+            "raw_acc": 0.51,
+            "standardized_r2": 0.99957967,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 1.0,
+            "raw_r2": -0.0056192875,
+            "raw_acc": 0.51,
+            "standardized_r2": 0.96968824,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 10.0,
+            "raw_r2": -0.008666635,
+            "raw_acc": 0.49,
+            "standardized_r2": 0.5129976,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 100.0,
+            "raw_r2": -0.21438134,
+            "raw_acc": 0.49,
+            "standardized_r2": -0.23831785,
+            "standardized_acc": 0.49
+          }
+        ]
       },
       {
         "delay_steps": 3,
@@ -777,10 +3153,54 @@
         "signal_relative_interaction_ratio": 0.06550008,
         "r2_linear_source": 0.99987125,
         "r2_linear_content": 0.99989474,
-        "r2_linear_h_to_xor": 0.98745185,
-        "linear_h_to_xor_acc": 1.0,
+        "r2_standardized_linear_xor": 0.98745185,
+        "standardized_linear_xor_acc": 1.0,
         "r2_bilinear_composition_to_xor": 0.9992841,
-        "bilinear_composition_acc": 1.0
+        "bilinear_composition_acc": 1.0,
+        "lambda_sweep": [
+          {
+            "lambda": 0.001,
+            "raw_r2": 0.015930176,
+            "raw_acc": 0.7,
+            "standardized_r2": 0.9999517,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.01,
+            "raw_r2": -0.039065003,
+            "raw_acc": 0.7,
+            "standardized_r2": 0.9999984,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.1,
+            "raw_r2": -0.04245019,
+            "raw_acc": 0.42,
+            "standardized_r2": 0.99984473,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 1.0,
+            "raw_r2": -0.037928462,
+            "raw_acc": 0.42,
+            "standardized_r2": 0.98745185,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 10.0,
+            "raw_r2": -0.0149412155,
+            "raw_acc": 0.58,
+            "standardized_r2": 0.6908941,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 100.0,
+            "raw_r2": -0.0750283,
+            "raw_acc": 0.58,
+            "standardized_r2": 0.04399246,
+            "standardized_acc": 0.58
+          }
+        ]
       },
       {
         "delay_steps": 5,
@@ -790,10 +3210,54 @@
         "signal_relative_interaction_ratio": 0.075929485,
         "r2_linear_source": 0.99991304,
         "r2_linear_content": 0.99990183,
-        "r2_linear_h_to_xor": 0.9942578,
-        "linear_h_to_xor_acc": 1.0,
+        "r2_standardized_linear_xor": 0.9942578,
+        "standardized_linear_xor_acc": 1.0,
         "r2_bilinear_composition_to_xor": 0.9994258,
-        "bilinear_composition_acc": 1.0
+        "bilinear_composition_acc": 1.0,
+        "lambda_sweep": [
+          {
+            "lambda": 0.001,
+            "raw_r2": 0.015555799,
+            "raw_acc": 0.52,
+            "standardized_r2": 0.99995583,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.01,
+            "raw_r2": 0.0018920898,
+            "raw_acc": 0.52,
+            "standardized_r2": 0.99999815,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.1,
+            "raw_r2": -0.0001385212,
+            "raw_acc": 0.52,
+            "standardized_r2": 0.99993414,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 1.0,
+            "raw_r2": -0.00074517727,
+            "raw_acc": 0.52,
+            "standardized_r2": 0.9942578,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 10.0,
+            "raw_r2": -0.009638071,
+            "raw_acc": 0.48,
+            "standardized_r2": 0.7893997,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 100.0,
+            "raw_r2": -0.23364699,
+            "raw_acc": 0.48,
+            "standardized_r2": -0.07416117,
+            "standardized_acc": 0.48
+          }
+        ]
       }
     ]
   },
@@ -808,10 +3272,54 @@
         "signal_relative_interaction_ratio": 0.05432941,
         "r2_linear_source": 0.99991643,
         "r2_linear_content": 0.99987817,
-        "r2_linear_h_to_xor": 0.96539277,
-        "linear_h_to_xor_acc": 1.0,
+        "r2_standardized_linear_xor": 0.96539277,
+        "standardized_linear_xor_acc": 1.0,
         "r2_bilinear_composition_to_xor": 0.9993732,
-        "bilinear_composition_acc": 1.0
+        "bilinear_composition_acc": 1.0,
+        "lambda_sweep": [
+          {
+            "lambda": 0.001,
+            "raw_r2": 0.6127559,
+            "raw_acc": 1.0,
+            "standardized_r2": 0.999878,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.01,
+            "raw_r2": 0.11636418,
+            "raw_acc": 0.82,
+            "standardized_r2": 0.9999948,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.1,
+            "raw_r2": 0.013171017,
+            "raw_acc": 0.52,
+            "standardized_r2": 0.9994995,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 1.0,
+            "raw_r2": -0.0032958984,
+            "raw_acc": 0.52,
+            "standardized_r2": 0.96539277,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 10.0,
+            "raw_r2": -0.0008265972,
+            "raw_acc": 0.55,
+            "standardized_r2": 0.52082145,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 100.0,
+            "raw_r2": -0.106820345,
+            "raw_acc": 0.55,
+            "standardized_r2": -0.06815326,
+            "standardized_acc": 0.55
+          }
+        ]
       },
       {
         "delay_steps": 1,
@@ -821,10 +3329,54 @@
         "signal_relative_interaction_ratio": 0.063810915,
         "r2_linear_source": 0.99988204,
         "r2_linear_content": 0.9998713,
-        "r2_linear_h_to_xor": 0.9661162,
-        "linear_h_to_xor_acc": 1.0,
+        "r2_standardized_linear_xor": 0.9661162,
+        "standardized_linear_xor_acc": 1.0,
         "r2_bilinear_composition_to_xor": 0.99921304,
-        "bilinear_composition_acc": 1.0
+        "bilinear_composition_acc": 1.0,
+        "lambda_sweep": [
+          {
+            "lambda": 0.001,
+            "raw_r2": 0.29722697,
+            "raw_acc": 0.77,
+            "standardized_r2": 0.9999972,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.01,
+            "raw_r2": -0.03196621,
+            "raw_acc": 0.5,
+            "standardized_r2": 0.9999951,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.1,
+            "raw_r2": -0.072175145,
+            "raw_acc": 0.5,
+            "standardized_r2": 0.999524,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 1.0,
+            "raw_r2": -0.063818455,
+            "raw_acc": 0.5,
+            "standardized_r2": 0.9661162,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 10.0,
+            "raw_r2": -0.08794737,
+            "raw_acc": 0.5,
+            "standardized_r2": 0.4745205,
+            "standardized_acc": 0.77
+          },
+          {
+            "lambda": 100.0,
+            "raw_r2": -0.32747686,
+            "raw_acc": 0.5,
+            "standardized_r2": -0.28668284,
+            "standardized_acc": 0.5
+          }
+        ]
       },
       {
         "delay_steps": 3,
@@ -834,10 +3386,54 @@
         "signal_relative_interaction_ratio": 0.078968346,
         "r2_linear_source": 0.99991274,
         "r2_linear_content": 0.99990827,
-        "r2_linear_h_to_xor": 0.9875284,
-        "linear_h_to_xor_acc": 1.0,
+        "r2_standardized_linear_xor": 0.9875284,
+        "standardized_linear_xor_acc": 1.0,
         "r2_bilinear_composition_to_xor": 0.99934924,
-        "bilinear_composition_acc": 1.0
+        "bilinear_composition_acc": 1.0,
+        "lambda_sweep": [
+          {
+            "lambda": 0.001,
+            "raw_r2": 0.0029192567,
+            "raw_acc": 0.78,
+            "standardized_r2": 0.99986476,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.01,
+            "raw_r2": -0.096575975,
+            "raw_acc": 0.78,
+            "standardized_r2": 0.9999984,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.1,
+            "raw_r2": -0.1076535,
+            "raw_acc": 0.43,
+            "standardized_r2": 0.9998458,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 1.0,
+            "raw_r2": -0.09909749,
+            "raw_acc": 0.43,
+            "standardized_r2": 0.9875284,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 10.0,
+            "raw_r2": -0.055492997,
+            "raw_acc": 0.43,
+            "standardized_r2": 0.69225514,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 100.0,
+            "raw_r2": -0.044862986,
+            "raw_acc": 0.57,
+            "standardized_r2": 0.048077345,
+            "standardized_acc": 0.57
+          }
+        ]
       },
       {
         "delay_steps": 5,
@@ -847,10 +3443,54 @@
         "signal_relative_interaction_ratio": 0.09368923,
         "r2_linear_source": 0.99989724,
         "r2_linear_content": 0.99992037,
-        "r2_linear_h_to_xor": 0.9996453,
-        "linear_h_to_xor_acc": 1.0,
+        "r2_standardized_linear_xor": 0.9996453,
+        "standardized_linear_xor_acc": 1.0,
         "r2_bilinear_composition_to_xor": 0.999427,
-        "bilinear_composition_acc": 1.0
+        "bilinear_composition_acc": 1.0,
+        "lambda_sweep": [
+          {
+            "lambda": 0.001,
+            "raw_r2": 0.010134816,
+            "raw_acc": 0.5,
+            "standardized_r2": 0.9996789,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.01,
+            "raw_r2": -0.0068432093,
+            "raw_acc": 0.5,
+            "standardized_r2": 0.99998677,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.1,
+            "raw_r2": -0.0025655031,
+            "raw_acc": 0.5,
+            "standardized_r2": 0.99999636,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 1.0,
+            "raw_r2": -0.0024644136,
+            "raw_acc": 0.53,
+            "standardized_r2": 0.9996453,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 10.0,
+            "raw_r2": -0.013889551,
+            "raw_acc": 0.47,
+            "standardized_r2": 0.97188115,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 100.0,
+            "raw_r2": -0.25086415,
+            "raw_acc": 0.47,
+            "standardized_r2": 0.33930725,
+            "standardized_acc": 0.47
+          }
+        ]
       }
     ]
   },
@@ -865,10 +3505,54 @@
         "signal_relative_interaction_ratio": 0.04974481,
         "r2_linear_source": 0.9999292,
         "r2_linear_content": 0.99989843,
-        "r2_linear_h_to_xor": 0.9341921,
-        "linear_h_to_xor_acc": 1.0,
+        "r2_standardized_linear_xor": 0.9341921,
+        "standardized_linear_xor_acc": 1.0,
         "r2_bilinear_composition_to_xor": 0.9993116,
-        "bilinear_composition_acc": 1.0
+        "bilinear_composition_acc": 1.0,
+        "lambda_sweep": [
+          {
+            "lambda": 0.001,
+            "raw_r2": 0.4834476,
+            "raw_acc": 1.0,
+            "standardized_r2": 0.99982846,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.01,
+            "raw_r2": -0.036597252,
+            "raw_acc": 0.69,
+            "standardized_r2": 0.9999888,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.1,
+            "raw_r2": -0.10473406,
+            "raw_acc": 0.69,
+            "standardized_r2": 0.99894047,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 1.0,
+            "raw_r2": -0.08905411,
+            "raw_acc": 0.44,
+            "standardized_r2": 0.9341921,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 10.0,
+            "raw_r2": -0.107486844,
+            "raw_acc": 0.44,
+            "standardized_r2": 0.3018378,
+            "standardized_acc": 0.69
+          },
+          {
+            "lambda": 100.0,
+            "raw_r2": -0.38635707,
+            "raw_acc": 0.44,
+            "standardized_r2": -0.5062436,
+            "standardized_acc": 0.44
+          }
+        ]
       },
       {
         "delay_steps": 1,
@@ -878,10 +3562,54 @@
         "signal_relative_interaction_ratio": 0.05405713,
         "r2_linear_source": 0.9999091,
         "r2_linear_content": 0.99989605,
-        "r2_linear_h_to_xor": 0.99405444,
-        "linear_h_to_xor_acc": 1.0,
+        "r2_standardized_linear_xor": 0.99405444,
+        "standardized_linear_xor_acc": 1.0,
         "r2_bilinear_composition_to_xor": 0.9994384,
-        "bilinear_composition_acc": 1.0
+        "bilinear_composition_acc": 1.0,
+        "lambda_sweep": [
+          {
+            "lambda": 0.001,
+            "raw_r2": 0.28769475,
+            "raw_acc": 1.0,
+            "standardized_r2": 0.9994712,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.01,
+            "raw_r2": 0.032522023,
+            "raw_acc": 0.74,
+            "standardized_r2": 0.9999993,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.1,
+            "raw_r2": 0.0018886328,
+            "raw_acc": 0.74,
+            "standardized_r2": 0.99993163,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 1.0,
+            "raw_r2": -0.0006467104,
+            "raw_acc": 0.5,
+            "standardized_r2": 0.99405444,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 10.0,
+            "raw_r2": -0.007604122,
+            "raw_acc": 0.5,
+            "standardized_r2": 0.7853844,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 100.0,
+            "raw_r2": -0.18850279,
+            "raw_acc": 0.5,
+            "standardized_r2": -0.05741906,
+            "standardized_acc": 0.5
+          }
+        ]
       },
       {
         "delay_steps": 3,
@@ -891,10 +3619,54 @@
         "signal_relative_interaction_ratio": 0.055720408,
         "r2_linear_source": 0.99991274,
         "r2_linear_content": 0.99991024,
-        "r2_linear_h_to_xor": 0.9943618,
-        "linear_h_to_xor_acc": 1.0,
+        "r2_standardized_linear_xor": 0.9943618,
+        "standardized_linear_xor_acc": 1.0,
         "r2_bilinear_composition_to_xor": 0.9994525,
-        "bilinear_composition_acc": 1.0
+        "bilinear_composition_acc": 1.0,
+        "lambda_sweep": [
+          {
+            "lambda": 0.001,
+            "raw_r2": 0.012785196,
+            "raw_acc": 0.69,
+            "standardized_r2": 0.9999879,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.01,
+            "raw_r2": -0.028617501,
+            "raw_acc": 0.69,
+            "standardized_r2": 0.9999982,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.1,
+            "raw_r2": -0.026920676,
+            "raw_acc": 0.69,
+            "standardized_r2": 0.99993515,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 1.0,
+            "raw_r2": -0.023674011,
+            "raw_acc": 0.43,
+            "standardized_r2": 0.9943618,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 10.0,
+            "raw_r2": -0.008033037,
+            "raw_acc": 0.57,
+            "standardized_r2": 0.7983564,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 100.0,
+            "raw_r2": -0.07741463,
+            "raw_acc": 0.57,
+            "standardized_r2": 0.06877035,
+            "standardized_acc": 0.57
+          }
+        ]
       },
       {
         "delay_steps": 5,
@@ -904,10 +3676,54 @@
         "signal_relative_interaction_ratio": 0.051327657,
         "r2_linear_source": 0.9998899,
         "r2_linear_content": 0.9998942,
-        "r2_linear_h_to_xor": 0.9989397,
-        "linear_h_to_xor_acc": 1.0,
+        "r2_standardized_linear_xor": 0.9989397,
+        "standardized_linear_xor_acc": 1.0,
         "r2_bilinear_composition_to_xor": 0.9994079,
-        "bilinear_composition_acc": 1.0
+        "bilinear_composition_acc": 1.0,
+        "lambda_sweep": [
+          {
+            "lambda": 0.001,
+            "raw_r2": 0.008143187,
+            "raw_acc": 0.27,
+            "standardized_r2": 0.9999984,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.01,
+            "raw_r2": 0.0027028918,
+            "raw_acc": 0.51,
+            "standardized_r2": 0.99999934,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 0.1,
+            "raw_r2": 0.00040107965,
+            "raw_acc": 0.51,
+            "standardized_r2": 0.99998885,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 1.0,
+            "raw_r2": -0.0005286932,
+            "raw_acc": 0.51,
+            "standardized_r2": 0.9989397,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 10.0,
+            "raw_r2": -0.0073657036,
+            "raw_acc": 0.51,
+            "standardized_r2": 0.93292445,
+            "standardized_acc": 1.0
+          },
+          {
+            "lambda": 100.0,
+            "raw_r2": -0.1847688,
+            "raw_acc": 0.51,
+            "standardized_r2": 0.17493147,
+            "standardized_acc": 0.51
+          }
+        ]
       }
     ]
   }
