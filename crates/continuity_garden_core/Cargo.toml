@@ -159,3 +159,20 @@ path = "src/bin/run_q16b1_transitive_laundering.rs"
 [[bin]]
 name = "run_q16b2_zeroshot_laundering"
 path = "src/bin/run_q16b2_zeroshot_laundering.rs"
+
+[[bin]]
+name = "run_q17a_endogenous_transitivity"
+path = "src/bin/run_q17a_endogenous_transitivity.rs"
+
+[[bin]]
+name = "verify_contract_q17a"
+path = "src/bin/verify_contract_q17a.rs"
+
+[[bin]]
+name = "run_q17b_self_supervised_composition"
+path = "src/bin/run_q17b_self_supervised_composition.rs"
+
+[[bin]]
+name = "verify_contract_q17b"
+path = "src/bin/verify_contract_q17b.rs"
+
