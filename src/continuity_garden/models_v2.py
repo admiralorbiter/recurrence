@@ -41,75 +41,71 @@ class DualLocusOrganism(nn.Module):
         self.symbol_embed = nn.Embedding(symbol_vocab_size, embed_dim)
         self.action_exec_embed = nn.Embedding(action_vocab_size, embed_dim)
         self.action_intend_embed = nn.Embedding(action_vocab_size, embed_dim)
-        self.warning_embed = nn.Embedding(2, embed_dim)
 
-        # Continuous sensors projection: [sensor_a, sensor_b] -> embed_dim
-        self.sensor_proj = nn.Linear(2, embed_dim)
+        # Continuous sensors projection: [sensor_a, sensor_b, warning_cue, is_decision_window] -> embed_dim
+        self.sensor_proj = nn.Linear(4, embed_dim)
 
-        # Total input dim to GRU: embed_dim * 5
-        self.gru = nn.GRU(embed_dim * 5, hidden_dim, batch_first=True)
+        # Total input dim to GRU: embed_dim * 4 (64 dims)
+        self.gru = nn.GRU(embed_dim * 4, hidden_dim, batch_first=True)
 
-        # Policy head (4 actions: MOTOR_0, MOTOR_1, MAINTAIN_A, MAINTAIN_B)
-        self.policy_head = nn.Linear(hidden_dim, 4)
+        # Policy & Value heads with direct observation pathways
+        self.policy_head = nn.Linear(hidden_dim + embed_dim * 2, 4)
+        self.value_head = nn.Linear(hidden_dim + embed_dim * 2, 1)
 
-        # Critic value head
-        self.value_head = nn.Linear(hidden_dim, 1)
-
-        # Forward predictive dynamics head: predicts next symbol (6 classes) and continuous sensors [a, b]
-        self.pred_symbol_head = nn.Linear(hidden_dim, symbol_vocab_size)
+        # Forward predictive dynamics head: predicts next continuous sensors [a, b]
         self.pred_sensors_head = nn.Linear(hidden_dim, 2)
 
-    def forward_features(self, obs: ObservationV2, device: torch.device = torch.device("cpu")) -> torch.Tensor:
-        """Converts an ObservationV2 into an input feature tensor."""
+    def forward_features(self, obs: ObservationV2, device: torch.device = torch.device("cpu")) -> Tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
+        """Converts an ObservationV2 into input feature tensors."""
         sym = torch.tensor([obs.symbol], dtype=torch.long, device=device)
         act_exec = torch.tensor([obs.last_action_executed], dtype=torch.long, device=device)
         act_intend = torch.tensor([obs.last_action_intended], dtype=torch.long, device=device)
-        warn = torch.tensor([obs.warning_cue], dtype=torch.long, device=device)
-        sensors = torch.tensor([[obs.sensor_a, obs.sensor_b]], dtype=torch.float32, device=device)
+        sensors = torch.tensor([[obs.sensor_a, obs.sensor_b, obs.warning_cue, float(obs.is_decision_window)]], dtype=torch.float32, device=device)
 
         e_sym = self.symbol_embed(sym) # (1, embed_dim)
         e_exec = self.action_exec_embed(act_exec)
         e_intend = self.action_intend_embed(act_intend)
-        e_warn = self.warning_embed(warn)
         e_sens = F.relu(self.sensor_proj(sensors))
 
-        features = torch.cat([e_sym, e_exec, e_intend, e_warn, e_sens], dim=-1).unsqueeze(1) # (1, 1, embed_dim * 5)
-        return features
+        feats = torch.cat([e_sym, e_exec, e_intend, e_sens], dim=-1).unsqueeze(1) # (1, 1, 64)
+        instant_feats = torch.cat([e_sym, e_sens], dim=-1) # (1, 32)
+        return feats, instant_feats, e_sym
 
     def step(
         self,
         obs: ObservationV2,
-        h: Optional[torch.Tensor] = None,
+        hidden_state: Optional[torch.Tensor] = None,
         device: torch.device = torch.device("cpu"),
     ) -> Tuple[torch.Tensor, torch.Tensor, torch.Tensor, Tuple[torch.Tensor, torch.Tensor]]:
         """
-        Single-step forward execution.
-        Returns:
-          h_next: (1, 1, hidden_dim)
-          action_logits: (1, 4)
-          value: (1, 1)
-          (pred_symbol_logits, pred_sensors): predicted next observations
+        Processes single step observation.
+        Returns: (next_hidden, logits, value, (pred_sensor_a, pred_sensor_b))
         """
-        feats = self.forward_features(obs, device=device)
-        if h is None:
-            h = torch.zeros(1, 1, self.hidden_dim, device=device)
+        feats, instant_feats, _ = self.forward_features(obs, device=device)
 
-        out, h_next = self.gru(feats, h)
-        h_flat = h_next.squeeze(0) # (1, hidden_dim)
+        if hidden_state is None:
+            hidden_state = torch.zeros(1, 1, self.hidden_dim, device=device)
 
-        action_logits = self.policy_head(h_flat)
-        value = self.value_head(h_flat)
-        pred_symbol = self.pred_symbol_head(h_flat)
+        gru_out, next_hidden = self.gru(feats, hidden_state)
+        h_flat = next_hidden.squeeze(0) # (1, hidden_dim)
+
+        combined = torch.cat([h_flat, instant_feats], dim=-1) # (1, hidden_dim + 32)
+        logits = self.policy_head(combined) # (1, 4)
+        value = self.value_head(combined) # (1, 1)
+
         pred_sensors = self.pred_sensors_head(h_flat)
+        pred_sensor_a = pred_sensors[0, 0:1]
+        pred_sensor_b = pred_sensors[0, 1:2]
 
-        return h_next, action_logits, value, (pred_symbol, pred_sensors)
+        return next_hidden, logits, value, (pred_sensor_a, pred_sensor_b)
 
-    def snapshot(self, current_h: Optional[torch.Tensor]) -> OrganismSnapshotV2:
+    def snapshot(self, current_hidden: Optional[torch.Tensor]) -> OrganismSnapshotV2:
         return OrganismSnapshotV2(
-            hidden_state=current_h.clone() if current_h is not None else None,
-            model_state_dict={k: v.clone() for k, v in self.state_dict().items()},
+            hidden_state=current_hidden.clone() if current_hidden is not None else None,
+            model_state_dict={k: v.cpu().clone() for k, v in self.state_dict().items()},
         )
 
-    def restore(self, snap: OrganismSnapshotV2) -> Optional[torch.Tensor]:
+    def restore(self, snap: OrganismSnapshotV2, device: torch.device = torch.device("cpu")) -> Optional[torch.Tensor]:
         self.load_state_dict(snap.model_state_dict)
-        return snap.hidden_state.clone() if snap.hidden_state is not None else None
+        self.to(device)
+        return snap.hidden_state.to(device) if snap.hidden_state is not None else None

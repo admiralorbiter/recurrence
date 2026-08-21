@@ -14,15 +14,13 @@ Key Invariants:
      - 2: MAINTAIN_A (restores i_t -> 1.0, cost c_maint)
      - 3: MAINTAIN_B (restores x_t -> 1.0, cost c_maint)
      - 4: NULL_ACTION (internal execution failure representation)
-  4. Maintenance Bypass:
-     - MAINTAIN_A and MAINTAIN_B are reliable and bypass the motor fidelity channel.
-  5. Neutral Sensory Stream:
-     - Symbol: target goal or effect outcome.
-     - sensor_A = i_t + eps_A (continuous noisy observation).
-     - sensor_B = x_t + eps_B (continuous noisy observation).
-     - warning_cue in {0, 1} (neutral indicator of potential upcoming shock).
-  6. Purely Instrumental Reward:
-     - +1.0 for producing target goal E*, -0.50 for wrong effect, 0.0 for NULL.
+  4. Structured Precursor & Decision Window Sequence:
+     - t_0, t_1, t_2: Precursor Evidence Steps (continuous noisy c_j ~ N(mu, sigma^2)).
+     - t_3: Delay Step (precursor gone, c = 0.0).
+     - t_4: Designated Regulatory Decision Window (is_decision_window = True, c = 0.0).
+     - t_5: Shock Impact (unmitigated crashes i -> 0.20; mitigated keeps i >= 0.90).
+  5. Purely Instrumental Reward:
+     - +1.0 for producing target goal E* (+3.0 on high demand / shock steps).
      - Cost -c_maint on maintenance actions. Zero oracle reward for internal state levels.
 """
 
@@ -35,9 +33,11 @@ import numpy as np
 @dataclass
 class EventTapeV2:
     """Pre-generated deterministic event tape for common random number paired lineages."""
-    warning_steps: List[int]
+    precursor_start_steps: List[int]
+    decision_window_steps: List[int]
     shock_steps: List[int]
-    shock_magnitudes: List[float] # Shock drop in lattice units (e.g. 0.2, 0.4, 0.6)
+    shock_magnitudes: List[float] # 0.10 (minor false alarm) or 0.70 (severe shock)
+    precursor_noise: List[List[float]] # 3 draws of noise per shock event
     sensor_noise_a: List[float]
     sensor_noise_b: List[float]
     motor_bernoulli_draws: List[float]
@@ -48,10 +48,11 @@ class EventTapeV2:
 
 @dataclass
 class ObservationV2:
-    symbol: int # 0: Blank/NULL, 1: Effect_0, 2: Effect_1, 3: Goal_0, 4: Goal_1
+    symbol: int # 3: Goal_0, 4: Goal_1 (or effect symbols)
     sensor_a: float # Continuous noisy reading of i_t
     sensor_b: float # Continuous noisy reading of x_t
-    warning_cue: int # 0 or 1
+    warning_cue: float # Continuous precursor cue (0.0 when inactive)
+    is_decision_window: int # 1 if at regulatory decision window t_4, else 0
     last_action_executed: int # 0..4
     last_action_intended: int # 0..3
 
@@ -61,10 +62,13 @@ class GroundTruthStateV2:
     step_idx: int
     internal_reliability_i: float
     external_reliability_x: float
-    warning_active: bool
+    is_precursor_active: bool
+    is_decision_window: bool
     shock_pending: bool
     shock_timer: int
     pending_shock_magnitude: float
+    bayesian_risk_q: float # Exact P(severe | c_1:3)
+    counterfactual_future_i_no_maint: float
     mitigation_active: bool
     target_goal: int
     last_effect: Optional[int]
@@ -79,10 +83,13 @@ class EnvironmentSnapshotV2:
     step_idx: int
     internal_reliability_i: float
     external_reliability_x: float
-    warning_active: bool
+    is_precursor_active: bool
+    is_decision_window: bool
     shock_pending: bool
     shock_timer: int
     pending_shock_magnitude: float
+    bayesian_risk_q: float
+    counterfactual_future_i_no_maint: float
     mitigation_active: bool
     target_goal: int
     last_effect: Optional[int]
@@ -106,7 +113,8 @@ class DualLocusRegulatorEnv:
         reward_target_hit: float = 1.00,
         penalty_wrong_effect: float = -0.50,
         sensor_noise_std: float = 0.08,
-        drift_rate: float = 0.00, # Drift per step
+        precursor_noise_std: float = 0.35,
+        drift_rate: float = 0.00,
         is_decorative: bool = False,
         seed: int = 42,
     ):
@@ -115,6 +123,7 @@ class DualLocusRegulatorEnv:
         self.reward_target_hit = reward_target_hit
         self.penalty_wrong_effect = penalty_wrong_effect
         self.sensor_noise_std = sensor_noise_std
+        self.precursor_noise_std = precursor_noise_std
         self.drift_rate = drift_rate
         self.is_decorative = is_decorative
         self.seed = seed
@@ -127,10 +136,14 @@ class DualLocusRegulatorEnv:
         self._step_idx = 0
         self._i_t = 1.0
         self._x_t = 1.0
-        self._warning_active = False
+        self._is_precursor_active = False
+        self._is_decision_window = False
         self._shock_pending = False
         self._shock_timer = 0
         self._pending_shock_magnitude = 0.0
+        self._bayesian_risk_q = 0.50
+        self._counterfactual_future_i = 1.0
+        self._mitigation_active = False
         self._target_goal = 0
         self._last_effect: Optional[int] = None
         self._last_executed = 4 # NULL
@@ -142,43 +155,63 @@ class DualLocusRegulatorEnv:
         idx = int(np.argmin(np.abs(cls.LATTICE_LEVELS - val)))
         return float(cls.LATTICE_LEVELS[idx])
 
+    @classmethod
+    def compute_exact_bayesian_posterior(
+        cls,
+        c_samples: List[float],
+        prior_p_severe: float = 0.55,
+        mu_severe: float = 0.80,
+        mu_minor: float = 0.20,
+        sigma: float = 0.50,
+    ) -> float:
+        """Calculates exact recursive Bayesian posterior P(severe | c_1:k)."""
+        if not c_samples:
+            return prior_p_severe
+        # Log likelihood ratio
+        ll_severe = sum(-0.5 * ((c - mu_severe) / sigma) ** 2 for c in c_samples)
+        ll_minor = sum(-0.5 * ((c - mu_minor) / sigma) ** 2 for c in c_samples)
+        log_prior_ratio = np.log(prior_p_severe / (1.0 - prior_p_severe))
+        log_post_ratio = log_prior_ratio + (ll_severe - ll_minor)
+        log_post_ratio = float(np.clip(log_post_ratio, -30.0, 30.0))
+        p_post = float(1.0 / (1.0 + np.exp(-log_post_ratio)))
+        return p_post
+
     def generate_deterministic_tape(self, length: int, rng_seed: Optional[int] = None) -> EventTapeV2:
         tape_rng = np.random.RandomState(rng_seed if rng_seed is not None else self.seed)
 
-        # Place 2-3 shock events per episode with warning cues 3-4 steps ahead
-        warning_steps = []
+        precursor_start_steps = []
+        decision_window_steps = []
         shock_steps = []
         shock_mags = []
-        high_demand = []
+        precursor_noises = []
 
-        # Schedule shocks at intervals
-        t = 4
-        while t < length - 3:
-            # 60% chance of warning sequence
+        # Schedule 2-3 structured shock events:
+        # t_warn (t), t+1, t+2 (precursors), t+3 (delay), t+4 (decision window), t+5 (shock impact)
+        t = 2
+        while t < length - 6:
             if tape_rng.rand() < 0.70:
                 warn_t = t
-                delay = int(tape_rng.randint(2, 4)) # 2 or 3 steps between warning and shock
-                shock_t = warn_t + delay
-                # 45% minor false alarm (mag 0.10), 55% severe shock (mag 0.60 or 0.80)
-                if tape_rng.rand() < 0.45:
-                    mag = 0.10
-                else:
-                    mag = float(tape_rng.choice([0.60, 0.80]))
+                dec_t = warn_t + 4
+                shk_t = warn_t + 5
+                is_sev = bool(tape_rng.rand() < 0.55)
+                mag = 0.70 if is_sev else 0.10
+                noises = [float(tape_rng.randn() * self.precursor_noise_std) for _ in range(3)]
 
-                is_high_dem = bool(tape_rng.rand() < 0.5)
-
-                warning_steps.append(warn_t)
-                shock_steps.append(shock_t)
+                precursor_start_steps.append(warn_t)
+                decision_window_steps.append(dec_t)
+                shock_steps.append(shk_t)
                 shock_mags.append(mag)
-                high_demand.append(is_high_dem)
-                t = shock_t + 4
+                precursor_noises.append(noises)
+                t = shk_t + 3
             else:
                 t += 2
 
         return EventTapeV2(
-            warning_steps=warning_steps,
+            precursor_start_steps=precursor_start_steps,
+            decision_window_steps=decision_window_steps,
             shock_steps=shock_steps,
             shock_magnitudes=shock_mags,
+            precursor_noise=precursor_noises,
             sensor_noise_a=[float(tape_rng.randn() * self.sensor_noise_std) for _ in range(length + 10)],
             sensor_noise_b=[float(tape_rng.randn() * self.sensor_noise_std) for _ in range(length + 10)],
             motor_bernoulli_draws=[float(tape_rng.rand()) for _ in range(length + 10)],
@@ -196,10 +229,13 @@ class DualLocusRegulatorEnv:
         self._step_idx = 0
         self._i_t = self.quantize_lattice(explicit_initial_i)
         self._x_t = self.quantize_lattice(explicit_initial_x)
-        self._warning_active = False
+        self._is_precursor_active = False
+        self._is_decision_window = False
         self._shock_pending = False
         self._shock_timer = 0
         self._pending_shock_magnitude = 0.0
+        self._bayesian_risk_q = 0.55
+        self._counterfactual_future_i = 1.0
         self._mitigation_active = False
         self._last_effect = None
         self._last_executed = 4 # NULL
@@ -212,7 +248,6 @@ class DualLocusRegulatorEnv:
 
         self._target_goal = self._tape.target_goals[0]
 
-        # Initial noise
         noise_a = self._tape.sensor_noise_a[0]
         noise_b = self._tape.sensor_noise_b[0]
 
@@ -220,10 +255,13 @@ class DualLocusRegulatorEnv:
             step_idx=0,
             internal_reliability_i=self._i_t,
             external_reliability_x=self._x_t,
-            warning_active=False,
+            is_precursor_active=False,
+            is_decision_window=False,
             shock_pending=False,
             shock_timer=0,
             pending_shock_magnitude=0.0,
+            bayesian_risk_q=0.55,
+            counterfactual_future_i_no_maint=1.0,
             mitigation_active=False,
             target_goal=self._target_goal,
             last_effect=None,
@@ -234,23 +272,17 @@ class DualLocusRegulatorEnv:
         )
 
         obs = ObservationV2(
-            symbol=self._target_goal + 3, # 3 for Goal_0, 4 for Goal_1
+            symbol=self._target_goal + 3,
             sensor_a=float(np.clip(self._i_t + noise_a, 0.0, 1.0)),
             sensor_b=float(np.clip(self._x_t + noise_b, 0.0, 1.0)),
-            warning_cue=0,
+            warning_cue=0.0,
+            is_decision_window=0,
             last_action_executed=4,
             last_action_intended=0,
         )
         return obs, self._ground_truth
 
     def step(self, action: int) -> Tuple[ObservationV2, float, bool, GroundTruthStateV2]:
-        """
-        Actions:
-          0: MOTOR_0
-          1: MOTOR_1
-          2: MAINTAIN_A (restore i_t -> 1.0)
-          3: MAINTAIN_B (restore x_t -> 1.0)
-        """
         assert self._ground_truth is not None, "Call reset() before step()."
         self._step_idx += 1
         is_terminal = bool(self._step_idx >= self.episode_len)
@@ -260,39 +292,69 @@ class DualLocusRegulatorEnv:
         tape = self._tape
         assert tape is not None
 
-        # 1. Update Scheduled Warnings and Shocks
-        # Check if warning appears on this step
-        if t in tape.warning_steps:
-            w_idx = tape.warning_steps.index(t)
-            self._warning_active = True
-            self._shock_pending = True
-            self._shock_timer = tape.shock_steps[w_idx] - t
-            self._pending_shock_magnitude = tape.shock_magnitudes[w_idx]
-            warning_cue = 1
-        elif self._shock_pending and self._shock_timer > 0:
-            self._shock_timer -= 1
-            warning_cue = 0 # Warning cue was instantaneous; timer counts down
-        else:
-            warning_cue = 0
+        # 1. Update Precursor Cues, Decision Windows, and Shocks
+        warning_signal = 0.0
+        self._is_decision_window = False
+
+        # Check if t is within a precursor window [warn_t, warn_t + 1, warn_t + 2]
+        for w_idx, warn_t in enumerate(tape.precursor_start_steps):
+            if warn_t <= t <= warn_t + 2:
+                self._is_precursor_active = True
+                self._shock_pending = True
+                self._shock_timer = tape.shock_steps[w_idx] - t
+                self._pending_shock_magnitude = tape.shock_magnitudes[w_idx]
+                self._counterfactual_future_i = float(max(0.0, self._i_t - self._pending_shock_magnitude))
+
+                # Emit continuous noisy precursor observation
+                offset = t - warn_t
+                mu = 0.80 if self._pending_shock_magnitude >= 0.50 else 0.20
+                noise = tape.precursor_noise[w_idx][offset]
+                warning_signal = float(np.clip(mu + noise, 0.0, 1.0))
+
+                # Compute running exact Bayesian posterior from available precursor samples
+                precursors_seen = [
+                    float(np.clip((0.80 if self._pending_shock_magnitude >= 0.50 else 0.20) + tape.precursor_noise[w_idx][k], 0.0, 1.0))
+                    for k in range(offset + 1)
+                ]
+                self._bayesian_risk_q = self.compute_exact_bayesian_posterior(
+                    precursors_seen, sigma=self.precursor_noise_std
+                )
+                break
+            elif t == tape.decision_window_steps[w_idx]:
+                # Step t_4: Designated Regulatory Decision Window
+                self._is_precursor_active = False
+                self._is_decision_window = True
+                self._shock_pending = True
+                self._shock_timer = 1
+                self._pending_shock_magnitude = tape.shock_magnitudes[w_idx]
+                self._counterfactual_future_i = float(max(0.0, self._i_t - self._pending_shock_magnitude))
+                warning_signal = 0.0 # Evidence has vanished
+                # Keep final 3-sample posterior
+                all_precursors = [
+                    float(np.clip((0.80 if self._pending_shock_magnitude >= 0.50 else 0.20) + tape.precursor_noise[w_idx][k], 0.0, 1.0))
+                    for k in range(3)
+                ]
+                self._bayesian_risk_q = self.compute_exact_bayesian_posterior(
+                    all_precursors, sigma=self.precursor_noise_std
+                )
+                break
 
         # Check if shock strikes at beginning of this step (before action execution)
         if t in tape.shock_steps:
             s_idx = tape.shock_steps.index(t)
             drop = tape.shock_magnitudes[s_idx]
             if self._mitigation_active:
-                # Anticipatory maintenance successfully buffered the shock
                 actual_drop = min(drop, 0.10)
             else:
-                # Unmitigated shock crashes reliability
                 actual_drop = drop
 
             self._i_t = self.quantize_lattice(max(0.0, self._i_t - actual_drop))
             self._shock_pending = False
             self._shock_timer = 0
-            self._warning_active = False
+            self._is_precursor_active = False
+            self._is_decision_window = False
             self._mitigation_active = False
 
-        # Apply subtle natural drift if configured
         if self.drift_rate > 0:
             self._i_t = self.quantize_lattice(max(0.0, self._i_t - self.drift_rate))
             self._x_t = self.quantize_lattice(max(0.0, self._x_t - self.drift_rate))
@@ -301,74 +363,67 @@ class DualLocusRegulatorEnv:
         self._last_intended = action
 
         if action in [2, 3]:
-            # Maintenance Action
             reward -= self.cost_maintain
             if action == 2:
-                # MAINTAIN_A restores i_t to 1.0 immediately and activates shock mitigation buffer
+                # MAINTAIN_A restores i_t. Activates shock mitigation buffer ONLY if executed at the designated decision window (t_4)
                 self._i_t = 1.0
-                if self._shock_pending:
+                if self._is_decision_window:
                     self._mitigation_active = True
                 self._last_executed = 2
             elif action == 3:
-                # MAINTAIN_B restores x_t to 1.0 immediately
                 self._x_t = 1.0
                 self._last_executed = 3
             executed_action = action
             effect = None
-            obs_symbol = 0 # Blank
+            obs_symbol = 0
 
         elif action in [0, 1]:
-            # Motor Action Attempt
-            # Step 2a: Intention -> Execution via i_t
             p_exec = 1.0 if self.is_decorative else (0.50 + 0.50 * self._i_t)
             u_motor = tape.motor_bernoulli_draws[t % len(tape.motor_bernoulli_draws)]
 
             if u_motor < p_exec:
                 executed_action = action
             else:
-                executed_action = 4 # NULL execution failure
+                executed_action = 4
 
             self._last_executed = executed_action
 
-            # Step 2b: Execution -> World Effect via x_t
             if executed_action in [0, 1]:
                 p_world = 0.50 + 0.50 * self._x_t
                 u_world = tape.world_bernoulli_draws[t % len(tape.world_bernoulli_draws)]
                 if u_world < p_world:
                     effect = executed_action
                 else:
-                    effect = 4 # NULL effect failure (no change)
+                    effect = 4
             else:
-                effect = 4 # NULL effect
+                effect = 4
 
-            # Step 2c: Evaluate Task Reward
+            self._last_effect = effect
+
+            # Evaluate Task Reward
             is_shock_step = bool(t in tape.shock_steps)
-            is_high_dem = is_shock_step or tape.high_demand_steps[t % len(tape.high_demand_steps)]
-            multiplier = 3.0 if is_high_dem else 1.0
+            is_high_dem = (not self._is_decision_window) and (is_shock_step or tape.high_demand_steps[t % len(tape.high_demand_steps)])
+            multiplier = 5.0 if is_shock_step else (2.0 if is_high_dem else 1.0)
 
             if effect == self._target_goal:
                 reward += self.reward_target_hit * multiplier
-                obs_symbol = effect + 1 # 1 for Effect_0, 2 for Effect_1
+                obs_symbol = effect + 1
             elif effect in [0, 1] and effect != self._target_goal:
                 reward += self.penalty_wrong_effect * multiplier
                 obs_symbol = effect + 1
             else:
-                # NULL execution or effect failure
-                null_penalty = -1.50 if is_high_dem else -0.10
+                null_penalty = -3.00 if is_shock_step else (-0.50 if is_high_dem else -0.10)
                 reward += null_penalty
-                obs_symbol = 0 # Blank
-
+                obs_symbol = 0
         else:
             executed_action = 4
             self._last_executed = 4
             effect = None
             obs_symbol = 0
 
-        # Update target goal for next step
         if t < len(tape.target_goals):
             self._target_goal = tape.target_goals[t]
 
-        # 3. Formulate Noisy Sensor Observations
         noise_a = tape.sensor_noise_a[t % len(tape.sensor_noise_a)]
         noise_b = tape.sensor_noise_b[t % len(tape.sensor_noise_b)]
 
@@ -379,10 +434,13 @@ class DualLocusRegulatorEnv:
             step_idx=t,
             internal_reliability_i=self._i_t,
             external_reliability_x=self._x_t,
-            warning_active=self._warning_active,
+            is_precursor_active=self._is_precursor_active,
+            is_decision_window=self._is_decision_window,
             shock_pending=self._shock_pending,
             shock_timer=self._shock_timer,
             pending_shock_magnitude=self._pending_shock_magnitude,
+            bayesian_risk_q=self._bayesian_risk_q,
+            counterfactual_future_i_no_maint=self._counterfactual_future_i,
             mitigation_active=self._mitigation_active,
             target_goal=self._target_goal,
             last_effect=self._last_effect,
@@ -392,11 +450,14 @@ class DualLocusRegulatorEnv:
             is_decorative=self.is_decorative,
         )
 
+        is_next_decision_win = bool((t + 1) in tape.decision_window_steps)
+
         obs = ObservationV2(
             symbol=self._target_goal + 3,
             sensor_a=obs_sensor_a,
             sensor_b=obs_sensor_b,
-            warning_cue=warning_cue,
+            warning_cue=warning_signal,
+            is_decision_window=1 if is_next_decision_win else 0,
             last_action_executed=self._last_executed,
             last_action_intended=self._last_intended,
         )
@@ -409,10 +470,13 @@ class DualLocusRegulatorEnv:
             step_idx=self._step_idx,
             internal_reliability_i=self._i_t,
             external_reliability_x=self._x_t,
-            warning_active=self._warning_active,
+            is_precursor_active=self._is_precursor_active,
+            is_decision_window=self._is_decision_window,
             shock_pending=self._shock_pending,
             shock_timer=self._shock_timer,
             pending_shock_magnitude=self._pending_shock_magnitude,
+            bayesian_risk_q=self._bayesian_risk_q,
+            counterfactual_future_i_no_maint=self._counterfactual_future_i,
             mitigation_active=self._mitigation_active,
             target_goal=self._target_goal,
             last_effect=self._last_effect,
@@ -428,10 +492,13 @@ class DualLocusRegulatorEnv:
         self._step_idx = snap.step_idx
         self._i_t = snap.internal_reliability_i
         self._x_t = snap.external_reliability_x
-        self._warning_active = snap.warning_active
+        self._is_precursor_active = snap.is_precursor_active
+        self._is_decision_window = snap.is_decision_window
         self._shock_pending = snap.shock_pending
         self._shock_timer = snap.shock_timer
         self._pending_shock_magnitude = snap.pending_shock_magnitude
+        self._bayesian_risk_q = snap.bayesian_risk_q
+        self._counterfactual_future_i = snap.counterfactual_future_i_no_maint
         self._mitigation_active = snap.mitigation_active
         self._target_goal = snap.target_goal
         self._last_effect = snap.last_effect
@@ -445,10 +512,13 @@ class DualLocusRegulatorEnv:
             step_idx=snap.step_idx,
             internal_reliability_i=snap.internal_reliability_i,
             external_reliability_x=snap.external_reliability_x,
-            warning_active=snap.warning_active,
+            is_precursor_active=snap.is_precursor_active,
+            is_decision_window=snap.is_decision_window,
             shock_pending=snap.shock_pending,
             shock_timer=snap.shock_timer,
             pending_shock_magnitude=snap.pending_shock_magnitude,
+            bayesian_risk_q=snap.bayesian_risk_q,
+            counterfactual_future_i_no_maint=snap.counterfactual_future_i_no_maint,
             mitigation_active=snap.mitigation_active,
             target_goal=snap.target_goal,
             last_effect=snap.last_effect,
@@ -465,6 +535,7 @@ class DualLocusRegulatorEnv:
             reward_target_hit=self.reward_target_hit,
             penalty_wrong_effect=self.penalty_wrong_effect,
             sensor_noise_std=self.sensor_noise_std,
+            precursor_noise_std=self.precursor_noise_std,
             drift_rate=self.drift_rate,
             is_decorative=self.is_decorative,
             seed=self.seed,

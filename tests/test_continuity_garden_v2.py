@@ -19,12 +19,18 @@ from src.continuity_garden.environment_v2 import (
 from src.continuity_garden.models_v2 import DualLocusOrganism
 from src.continuity_garden.oracle_v2 import (
     AlwaysMaintainPolicy,
-    BayesOptimalOraclePolicy,
     NeverMaintainPolicy,
+    ObservationBeliefOracle,
+    PrivilegedGroundTruthOracle,
     ReactiveSensorDropPolicy,
+    ShortHistoryWindowPolicy,
     WarningReflexPolicy,
-    evaluate_policy_on_env,
-    run_gate_d0_calibration,
+    run_gate_d0a_observability_calibration,
+)
+from src.continuity_garden.trainer_v2 import (
+    evaluate_motor_competence,
+    run_gate_d0b_optimizer_validity,
+    train_duallocus_organism,
 )
 
 
@@ -50,19 +56,18 @@ def test_v2_no_construct_leakage():
     env = DualLocusRegulatorEnv(seed=42)
     obs, gt = env.reset()
 
-    # Verify field names of ObservationV2
     fields = obs.__dataclass_fields__.keys()
-    forbidden_tokens = ["health", "battery", "self", "world", "ground_truth", "pending_shock", "shock_timer"]
+    forbidden_tokens = ["health", "battery", "self", "world", "ground_truth", "pending_shock", "shock_timer", "bayesian_risk", "counterfactual"]
     for f in fields:
         for forbidden in forbidden_tokens:
             assert forbidden not in f.lower(), f"Construct leakage detected: {f}"
 
-    # Verify sensor values are noisy continuous floats, not raw ground truth
     tape = env.generate_deterministic_tape(env.episode_len, rng_seed=42)
     obs, gt = env.reset(explicit_tape=tape)
     assert isinstance(obs.sensor_a, float)
     assert isinstance(obs.sensor_b, float)
-    assert obs.warning_cue in [0, 1]
+    assert isinstance(obs.warning_cue, float)
+    assert obs.is_decision_window in [0, 1]
 
 
 def test_v2_deterministic_snapshot_and_restore():
@@ -71,19 +76,16 @@ def test_v2_deterministic_snapshot_and_restore():
     tape = env.generate_deterministic_tape(env.episode_len, rng_seed=123)
     obs, gt = env.reset(explicit_tape=tape)
 
-    # Step 5 times
     for a in [0, 1, 2, 0, 1]:
         env.step(a)
 
     snap = env.snapshot()
 
-    # Step 5 more times along Branch 1
     branch1_obs = []
     for a in [0, 1, 0, 2, 1]:
         o, r, d, g = env.step(a)
         branch1_obs.append((o.sensor_a, o.sensor_b, r))
 
-    # Restore snapshot and step along Branch 2 with same actions
     env.restore(snap)
     branch2_obs = []
     for a in [0, 1, 0, 2, 1]:
@@ -102,15 +104,31 @@ def test_v2_paired_lineage_common_random_numbers():
     tape_a = env_a.generate_deterministic_tape(env_a.episode_len, rng_seed=seed)
     tape_b = env_b.generate_deterministic_tape(env_b.episode_len, rng_seed=seed)
 
-    assert tape_a.warning_steps == tape_b.warning_steps
+    assert tape_a.precursor_start_steps == tape_b.precursor_start_steps
+    assert tape_a.decision_window_steps == tape_b.decision_window_steps
     assert tape_a.shock_steps == tape_b.shock_steps
     assert tape_a.shock_magnitudes == tape_b.shock_magnitudes
+    assert tape_a.precursor_noise == tape_b.precursor_noise
     assert tape_a.sensor_noise_a == tape_b.sensor_noise_a
     assert tape_a.motor_bernoulli_draws == tape_b.motor_bernoulli_draws
 
 
-def test_v2_gate_d0_inequality():
-    """Verifies the Gate D0 Calibration Inequality: E[R_Bayes] >= max(Heuristics) + 0.20."""
-    calib = run_gate_d0_calibration(num_episodes=150, seed=42)
-    assert calib["gate_d0_pass"] is True
-    assert calib["oracle_advantage"] >= 0.20
+def test_v2_gate_d0a_observability_inequality():
+    """Verifies Gate D0a: E[R_Privileged] >= E[R_Belief] > max(Heuristics) + 0.20."""
+    calib = run_gate_d0a_observability_calibration(num_episodes=100, seed=42)
+    assert calib["gate_d0a_pass"] is True
+    assert calib["belief_oracle_advantage"] >= 0.20
+
+
+def test_v2_gate_d0b_optimizer_validity_smoke():
+    """Verifies Gate D0b on 2 test seeds: Privileged agent achieves return >= 28.0 and competence >= 75%."""
+    d0b_res = run_gate_d0b_optimizer_validity(seeds=[42, 43], episodes_per_seed=300, warmup_episodes=40)
+    assert d0b_res["gate_d0b_pass"] is True
+
+
+def test_v2_first_order_motor_competence():
+    """Verifies that an agent trained on baseline achieves >80% motor competence."""
+    model = DualLocusOrganism()
+    returns, ckpts = train_duallocus_organism(model, num_episodes=100, warmup_episodes=50, seed=42)
+    comp = evaluate_motor_competence(model, num_episodes=20, seed=42)
+    assert comp >= 0.75, f"Motor competence too low: {comp*100:.1f}%"
