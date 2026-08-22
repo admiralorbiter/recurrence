@@ -228,5 +228,9 @@ path = "src/bin/scout_q17e_g_typed_trainability.rs"
 name = "scout_q17e_h"
 path = "src/bin/scout_q17e_h_final_edge_necessity.rs"
 
+[[bin]]
+name = "scout_q17e_h_r1"
+path = "src/bin/scout_q17e_h_r1_exact_replay.rs"
+
 
 
