@@ -30,19 +30,36 @@ The objective of Continuity Garden (`recurrence`) is to discover the minimal dev
 
 ## 3. PROMOTED / ESTABLISHED (Durable Scientific Baseline)
 
-- **Q16 (Plastic Self-Model Foundations)**: Dual-locus neuromodulated plasticity sustains localized self-representations under environmental perturbation.
-- **Q17A (Neural Composition Kernel)**: A learned composition kernel can compose 2-hop relations when provided adjacent relation vectors.
-- **Q17B (Endogenous Induction)**: Trajectory-derived supervision induces composition-capable operators without explicit multi-hop topological labels.
-- **Q17C (2-Hop Developmental Organism — PROMOTED)**:
-  - **Checkpoint**: [`CHECKPOINT-E-Q17C`](https://github.com/admiralorbiter/recurrence/blob/main/research/checkpoints/CHECKPOINT-E-Q17C.md)
-  - **Candidate SHA**: `b0af2e131d279768393529329ee4fa3023e3160a`
-  - 120-epoch meta-trained Simple RNN on 2-step sequences ($u \to v \to w$).
-  - Achieved $16/16$ $k=2$ composition with positive causal state surgery.
-- **Q17D (Depth Horizon Generalization — PROMOTED NON_MONOTONIC_ANOMALOUS_DEPTH_PROFILE)**:
-  - **Checkpoint**: [`CHECKPOINT-E-Q17D`](https://github.com/admiralorbiter/recurrence/blob/main/research/checkpoints/CHECKPOINT-E-Q17D.md)
-  - **Candidate SHA**: `fa7ebb8577bc6f23d1d255169a6cf497da9fc8bf`
-  - Evaluated zero-shot generalization across horizons $k=2, 3, 4, 5$ under exact 120-epoch baseline.
-  - Durable findings: $k=3$ causal surgery $0/16$, reversal $6/16$, shuffle $12/16$, while $k=4$ showed anomalous non-monotonic signal ($12/16$ direction). Classified as `NON_MONOTONIC_ANOMALOUS_DEPTH_PROFILE`.
+- **CHECKPOINT-E-Q17A-R1 (Research Checkpoint: Q17A Endogenous 2-Hop Transitive Composition (Promoted))**:
+  - **Checkpoint**: [`CHECKPOINT-E-Q17A-R1.md`](research/checkpoints/CHECKPOINT-E-Q17A-R1.md)
+  - **Candidate SHA**: `UNKNOWN`
+  - **Hypothesis Confirmed**: Endogenous neural composition kernels $f_\theta(e_{AB}, e_{BC}) \to a_{AC}$ generalize to withheld multi-hop causal endpoints without explicit graph traversal.
+  - **Empirical Baseline**:
+  - **Next Frontier**: Q17B — Self-Supervised Composition Discovery (learning composition without explicit auxiliary two-hop targets).
+
+- **CHECKPOINT-E-Q17B (Checkpoint Record: CHECKPOINT-E-Q17B (Self-Supervised Endogenous Composition))**:
+  - **Checkpoint**: [`CHECKPOINT-E-Q17B.md`](research/checkpoints/CHECKPOINT-E-Q17B.md)
+  - **Candidate SHA**: `da925179bbe769d9da544239c6db9604fcbad243`
+  - **Contract Promoted**: `CONTRACT-E-Q17B`
+  - **Promotion Artifact**: [`research/promotions/PROMOTION-CONTRACT-E-Q17B.md`](../promotions/PROMOTION-CONTRACT-E-Q17B.md)
+  - **Verified Code Baseline**: `da925179bbe769d9da544239c6db9604fcbad243`
+  - **Empirical Confirmation**:
+
+- **CHECKPOINT-E-Q17C (Checkpoint Record: CHECKPOINT-E-Q17C (Endogenous Recurrent Causal History & State Surgery))**:
+  - **Checkpoint**: [`CHECKPOINT-E-Q17C.md`](research/checkpoints/CHECKPOINT-E-Q17C.md)
+  - **Candidate SHA**: `b0af2e13e4118564c72b0d004b7e2d54170657d2`
+  - **Contract Promoted**: `CONTRACT-E-Q17C`
+  - **Promotion Artifact**: [`research/promotions/PROMOTION-CONTRACT-E-Q17C.md`](../promotions/PROMOTION-CONTRACT-E-Q17C.md)
+  - **Verified Code Baseline (`candidate_sha`)**: `b0af2e13e4118564c72b0d004b7e2d54170657d2`
+  - **Empirical Confirmation**:
+
+- **CHECKPOINT-E-Q17D (Checkpoint Record: CHECKPOINT-E-Q17D (Multi-Hop Depth Dissociation & Endpoint Extrapolation))**:
+  - **Checkpoint**: [`CHECKPOINT-E-Q17D.md`](research/checkpoints/CHECKPOINT-E-Q17D.md)
+  - **Candidate SHA**: `fa7ebb857187429188e404b9015c7e8a9394602f`
+  - **Contract Promoted**: `CONTRACT-E-Q17D`
+  - **Promotion Artifact**: [`research/promotions/PROMOTION-CONTRACT-E-Q17D.md`](../promotions/PROMOTION-CONTRACT-E-Q17D.md)
+  - **Verified Code Baseline (`candidate_sha`)**: `fa7ebb857187429188e404b9015c7e8a9394602f`
+  - **Empirical Confirmation**:
 
 ---
 

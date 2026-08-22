@@ -1,0 +1,15 @@
+# Evidence Index: Recurrence
+
+- [`q17c_endogenous_results.json`](evidence/q17c_endogenous_results.json) (220645 bytes)
+- [`q17d_b_diagnostic_results.json`](evidence/q17d_b_diagnostic_results.json) (16500 bytes)
+- [`q17d_depth_results.json`](evidence/q17d_depth_results.json) (97838 bytes)
+- [`q17e_alpha_scout_results.json`](evidence/q17e_alpha_scout_results.json) (72423 bytes)
+- [`q17e_c_gating_scout_results.json`](evidence/q17e_c_gating_scout_results.json) (24227 bytes)
+- [`q17e_d_factorization_results.json`](evidence/q17e_d_factorization_results.json) (47274 bytes)
+- [`q17e_e_relational_closure_results.json`](evidence/q17e_e_relational_closure_results.json) (47686 bytes)
+- [`q17e_f_typed_relational_results.json`](evidence/q17e_f_typed_relational_results.json) (7554 bytes)
+- [`q17e_g_serialized_models.json`](evidence/q17e_g_serialized_models.json) (7187225 bytes)
+- [`q17e_g_typed_trainability_results.json`](evidence/q17e_g_typed_trainability_results.json) (41565 bytes)
+- [`q17e_h_final_edge_results.json`](evidence/q17e_h_final_edge_results.json) (10629 bytes)
+- [`q17e_h_r1_exact_replay_results.json`](evidence/q17e_h_r1_exact_replay_results.json) (11574 bytes)
+- [`q17e_lambda_scout_results.json`](evidence/q17e_lambda_scout_results.json) (100715 bytes)
