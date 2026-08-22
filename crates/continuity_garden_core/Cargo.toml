@@ -232,5 +232,9 @@ path = "src/bin/scout_q17e_h_final_edge_necessity.rs"
 name = "scout_q17e_h_r1"
 path = "src/bin/scout_q17e_h_r1_exact_replay.rs"
 
+[[bin]]
+name = "scout_q17e_i"
+path = "src/bin/scout_q17e_i_broken_joins.rs"
+
 
 
