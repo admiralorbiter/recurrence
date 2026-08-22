@@ -2,10 +2,10 @@
 contract_id: CONTRACT-E-Q17E
 status: DRAFT
 proposed_by: antigravity
-design_review: null
+design_review: NOT_APPROVED_SUPERSEDED
 reviewed_by: chatgpt-pro
 authorized_by: null
-base_sha: 1b69bba4e73bb93be589c36bbd922ec9e0cb7031
+base_sha: fa7ebb857187429188e404b9015c7e8a9394602f
 execution_base_sha: null
 resource_class: cpu
 long_running: false
@@ -13,21 +13,18 @@ exclusive_gpu: false
 interruptible: true
 ---
 
-# Research Contract Proposal: CONTRACT-E-Q17E (Preservation of Causal History Under Recurrent Depth)
+# Research Contract Proposal: CONTRACT-E-Q17E (Mechanistic Exploration of Causal History Preservation)
 
-## Title
-Gate E Confirmatory Frontier: Preservation of Causal History Under Recurrent Depth via Minimal Temporal Residual Carry
+> [!WARNING]
+> **Status**: `NOT_APPROVED_SUPERSEDED_BY_DEVELOPMENT_EVIDENCE`.
+> The fixed convex-residual hypothesis was falsified in pre-confirmatory development scouts (Scout 1: `SPECIFICITY_BY_SUPPRESSION`; Scout 2: `NORM_PRESERVATION_WITHOUT_CAUSAL_COMPOSITION`).
+> Preserving this document as an active drafting record while SCOUT-E-Q17E-C investigates minimal adaptive gating architectures before final confirmatory contract freezing.
 
 ## 1. Context & Research Problem
-In `CHECKPOINT-E-Q17D` (corrected under the frozen 120-epoch Q17C training baseline), Recurrence established the following empirical profile:
+In `CHECKPOINT-E-Q17D` (corrected under the frozen 120-epoch Q17C training baseline, candidate `fa7ebb8`), Recurrence established the following empirical profile:
 - Global validity ($16/16$) and coordinate-OOD controls $C_3, C_4, C_5$ ($16/16$) pass completely.
 - Endpoint directional margins extrapolate positively beyond 2-step training ($12/16$ at $k=4, p = 6.88 \times 10^{-3}$), but fail causal state-surgery transfer ($0/16$), reversal collapse ($6/16$ at $k=3$), and temporal shuffle superiority ($12/16$).
-
-Diagnostic Scout `Q17D-B` isolated the underlying geometric mechanics under 120 training epochs:
-- Zero static bias in the readout ($\equiv 0.0000$).
-- Low saturation ($0.4\%$) with states operating in the responsive moderate-curvature regime ($1 - z_t^2 \approx 0.766$).
-- Compound Jacobian sensitivity decay $\left\|\frac{\partial z_k}{\partial x_1}\right\|_F$ losing $\approx 37.5\%$ per recurrent step ($100\% \to 62.5\% \to 32.7\% \to 18.6\%$).
-- Readout forward vs reverse alignment difference is only $\Delta \cos \approx 0.114$, explaining why fine-grained causal state surgery and temporal reversal fail despite positive endpoint score margins.
+- Diagnostic Scout `Q17D-B` isolated compound Jacobian sensitivity decay losing $\approx 37.5\%$ per recurrent step.
 
 ### Core Research Hypothesis
 Residual carry introduces an explicit identity-mediated path $\lambda \mathbf{I}$ into the local state transition Jacobian:
