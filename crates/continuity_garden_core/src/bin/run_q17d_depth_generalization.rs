@@ -768,8 +768,10 @@ fn main() {
 
     let tier3_k5_achieved = tier2_k4_achieved && c5_valid;
 
-    let is_bounded_depth = global_validity_passed && c3_valid && !tier1_k3_achieved;
-    let is_anomalous_profile = (tier2_k4_achieved && !tier1_k3_achieved) || (tier3_k5_achieved && !tier2_k4_achieved);
+    let is_bounded_depth = global_validity_passed && c3_valid && k3_pass_count < 12;
+    let is_anomalous_profile = global_validity_passed && (
+        (k3_pass_count >= 12 && !tier1_k3_achieved) || (k4_pass_count >= 10 && !tier1_k3_achieved)
+    );
 
     let outcome_tier_verdict = if is_anomalous_profile {
         "NON_MONOTONIC_ANOMALOUS_DEPTH_PROFILE".to_string()

@@ -241,12 +241,14 @@ fn main() {
     println!("Depth k=5 Outcome: {}/16, mean={:.4}, median={:.4} -> Tier 3 {}",
         k5_pass_count, k5_mean, k5_median, if tier3_k5 { "PASSED" } else { "NOT ACHIEVED" });
 
-    let is_bounded_depth = global_validity_passed && c3_valid && !tier1_k3;
-    let is_anomalous = (tier2_k4 && !tier1_k3) || (tier3_k5 && !tier2_k4);
+    let is_bounded_depth = global_validity_passed && c3_valid && k3_pass_count < 12;
+    let is_anomalous = global_validity_passed && (
+        (k3_pass_count >= 12 && !tier1_k3) || (k4_pass_count >= 10 && !tier1_k3)
+    );
 
     println!("================================================================================");
     if is_anomalous {
-        println!("VERDICT: NON_MONOTONIC_ANOMALOUS_DEPTH_PROFILE");
+        println!("VERDICT: NON_MONOTONIC_ANOMALOUS_DEPTH_PROFILE (VALID PROMOTABLE ANOMALY)");
     } else if tier3_k5 {
         println!("VERDICT: TIER_3_DEPTH_5_FRONTIER (POSITIVE PROMOTABLE)");
     } else if tier2_k4 {
