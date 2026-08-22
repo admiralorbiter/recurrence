@@ -176,3 +176,11 @@ path = "src/bin/run_q17b_self_supervised_composition.rs"
 name = "verify_contract_q17b"
 path = "src/bin/verify_contract_q17b.rs"
 
+[[bin]]
+name = "run_q17c_endogenous_composition"
+path = "src/bin/run_q17c_endogenous_composition.rs"
+
+[[bin]]
+name = "verify_contract_q17c"
+path = "src/bin/verify_contract_q17c.rs"
+
