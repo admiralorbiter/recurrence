@@ -2,8 +2,9 @@
 
 **Generated**: 2026-08-22 10:00:00Z  
 **Project**: `recurrence`  
-**generated_from_sha**: `a4e5304`  
-**Verified HEAD**: `a4e5304`  
+**generated_from_sha**: `98820bc`  
+**Verified HEAD**: `98820bc`  
+
 **Last Promoted Checkpoint / Contract**: `PROMOTION-CONTRACT-E-Q17E` (`aa5023e529ee8c16bcb2c7de6b24dbf45a607f3a`)  
 **Operational State**: `IDLE` (Synthetic Path-Composition Horizon Concluded; Moonshot Pivot to Causal Self-Modeling)
 
