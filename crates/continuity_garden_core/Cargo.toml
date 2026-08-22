@@ -260,5 +260,9 @@ path = "src/bin/scout_q17e_k_r1_learning_necessity.rs"
 name = "scout_q17e_k_r2"
 path = "src/bin/scout_q17e_k_r2_learn_algebra.rs"
 
+[[bin]]
+name = "confirmatory_q17e"
+path = "src/bin/confirmatory_q17e_contraction_algebra.rs"
+
 
 
