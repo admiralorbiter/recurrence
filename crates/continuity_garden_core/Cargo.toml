@@ -196,4 +196,9 @@ path = "src/bin/verify_contract_q17d.rs"
 name = "scout_q17d_b_diagnostics"
 path = "src/bin/scout_q17d_b_diagnostics.rs"
 
+[[bin]]
+name = "scout_q17e_lambda_grid"
+path = "src/bin/scout_q17e_lambda_grid.rs"
+
+
 
