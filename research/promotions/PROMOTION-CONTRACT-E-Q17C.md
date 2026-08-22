@@ -2,9 +2,9 @@
 promotion_id: PROMOTION-CONTRACT-E-Q17C
 contract_id: CONTRACT-E-Q17C
 status: CANDIDATE
-candidate_sha: 16a1b7895834762e734da2fd6e11313d19a89786
-generated_at: "2026-08-21 23:55:00Z"
-repair_rounds: 1
+candidate_sha: b0af2e13e4118564c72b0d004b7e2d54170657d2
+generated_at: "2026-08-22 00:28:00Z"
+repair_rounds: 2
 reviewed_by: codex
 authorized_by: null
 ---
@@ -17,11 +17,11 @@ authorized_by: null
 - **Target Contract**: `CONTRACT-E-Q17C`
 - **Phase / Milestone**: Gate E Frontier: Endogenous Recurrent Causal History
 - **Candidate Branch**: `mb/CONTRACT-E-Q17C`
-- **Scientific Candidate Commit SHA**: `16a1b7895834762e734da2fd6e11313d19a89786`
+- **Scientific Candidate Commit SHA**: `b0af2e13e4118564c72b0d004b7e2d54170657d2`
 - **Execution Base SHA**: `ecb24762988a4727076c9fc42a04f9bd52a4a2fc`
-- **Contract Acceptance Verifier**: `PASS` (`verify_contract_q17c` executed independently with exact paired sign-flip permutation tests, donor-aligned state swap transfer assertions, same-history swap controls with independent nuisance sampling, real 20-trial 1-hop sensor task accuracy preservation, genuine shuffled control, and structural zero-sidecar API checks)
-- **Auditor Verdict**: `PASS` (All 8 frozen statistical gates independently recomputed from raw telemetry across 16 seeds with frozen architecture $d=128$)
-- **Repair Iterations**: 1 round (corrected BPTT meta-training with self-supervised objective, $d=128$, real sensor trials, and raw telemetry persistence).
+- **Contract Acceptance Verifier**: `PASS` (`verify_contract_q17c` executed independently with exact paired sign-flip permutation tests, donor-aligned state swap transfer assertions, same-history swap controls with independent nuisance sampling, real 20-trial 1-hop sensor task accuracy preservation against gold truth, genuine shuffled control, and structural zero-sidecar API checks directly from raw event telemetry)
+- **Auditor Verdict**: `PASS` (All 8 frozen statistical gates independently recomputed from raw event telemetry across 16 seeds with frozen architecture $d=128$)
+- **Repair Iterations**: 2 rounds (corrected BPTT meta-training with self-supervised objective, query-conditioned associative readout $r_\theta(z_t, q)$, genuinely distinct Gate 1 / Gate 2 challenge worlds, 20-trial choice records for latent reset, and 20-trial sensor classifications against gold labels).
 
 ## 2. Frozen Statistical Gates & Empirical Outcomes
 
@@ -29,7 +29,7 @@ authorized_by: null
 | :--- | :--- | :--- | :--- | :--- |
 | **Gate 1: Endogenous 2-Hop Conflict** | Persistent $z_t \ge 10/16$ ($62.5\%$) | **16 / 16 seeds ($100.0\%$)** | Exact binomial | **PASS** |
 | **Gate 2: Endogenous Laundering** | Persistent $z_t \ge 10/16$ ($62.5\%$) | **16 / 16 seeds ($100.0\%$)** | Exact binomial | **PASS** |
-| **Gate 3: Continuous Latent Reset Lesion** | $\Delta_{\text{reset}} = m_{\text{pers}} - m_{\text{reset}}$, $p < 0.01$, near-chance $\ge 12/16$ | **16/16 drop ($100\%$), 16/16 near chance** | Paired sign-flip $p = 1.5259 \times 10^{-5}$ | **PASS** |
+| **Gate 3: Continuous Latent Reset Lesion** | $\Delta_{\text{reset}} = m_{\text{pers}} - m_{\text{reset}}$, $p < 0.01$, near-chance $\ge 12/16$ | **16/16 drop ($100\%$), 15/16 near chance** | Paired sign-flip $p = 1.5259 \times 10^{-5}$ | **PASS** |
 | **Gate 4: Continuous Donor-Aligned Swap** | Transfer $\ge 12/16$ ($75\%$), $p < 0.01$ | **16 / 16 seeds ($100.0\%$)** | Paired sign-flip $p = 1.5259 \times 10^{-5}$ | **PASS** |
 | **Gate 5: Same-History Swap Stability** | Stable behavioral preference $\ge 15/16$ | **16 / 16 seeds ($100.0\%$)** | $\le 1/16$ threshold | **PASS** |
 | **Gate 6: First-Order Competence** | 1-hop sensor accuracy $\ge 90\%$ in $\ge 15/16$ | **16 / 16 seeds ($100.0\%$)** | Baseline retention floor | **PASS** |
