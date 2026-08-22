@@ -240,5 +240,9 @@ path = "src/bin/scout_q17e_i_broken_joins.rs"
 name = "scout_q17e_j"
 path = "src/bin/scout_q17e_j_relational_addressability.rs"
 
+[[bin]]
+name = "scout_q17e_j_r1"
+path = "src/bin/scout_q17e_j_r1_frozen_addressability.rs"
+
 
 
