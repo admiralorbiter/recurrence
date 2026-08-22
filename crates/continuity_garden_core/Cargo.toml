@@ -256,5 +256,9 @@ path = "src/bin/scout_q17e_k_tensor_composition.rs"
 name = "scout_q17e_k_r1"
 path = "src/bin/scout_q17e_k_r1_learning_necessity.rs"
 
+[[bin]]
+name = "scout_q17e_k_r2"
+path = "src/bin/scout_q17e_k_r2_learn_algebra.rs"
+
 
 

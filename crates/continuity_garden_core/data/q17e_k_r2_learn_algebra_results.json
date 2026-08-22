@@ -1,0 +1,930 @@
+[
+  {
+    "seed_index": 1,
+    "seed": 88777,
+    "topology_4way": {
+      "seed_index": 1,
+      "seed": 88777,
+      "initial_probs": [
+        0.25,
+        0.25,
+        0.25,
+        0.25
+      ],
+      "final_probs": [
+        0.99534374,
+        0.0015945163,
+        0.0016288708,
+        0.0014329143
+      ],
+      "canonical_re_prob": 0.99534374,
+      "canonical_selected": true,
+      "k2_accuracy": 1.0,
+      "k2_pass": true,
+      "k3_zero_shot_accuracy": 1.0,
+      "k3_pass": true,
+      "k3_selectivity_margin": 0.9730702,
+      "source_grounding_drop": 0.98416466,
+      "destination_grounding_gap": 0.9731012
+    },
+    "general_6way": {
+      "seed_index": 1,
+      "seed": 88777,
+      "initial_probs": [
+        0.16666667,
+        0.16666667,
+        0.16666667,
+        0.16666667,
+        0.16666667,
+        0.16666667
+      ],
+      "final_probs": [
+        0.9950086,
+        0.0010634412,
+        0.0010877907,
+        0.0009590967,
+        0.00094607286,
+        0.00093487866
+      ],
+      "canonical_re_prob": 0.9950086,
+      "canonical_selected": true,
+      "k2_accuracy": 1.0,
+      "k2_pass": true,
+      "k3_zero_shot_accuracy": 1.0,
+      "k3_pass": true,
+      "k3_selectivity_margin": 0.97233063,
+      "source_grounding_drop": 0.98336416,
+      "destination_grounding_gap": 0.97232383
+    }
+  },
+  {
+    "seed_index": 2,
+    "seed": 89554,
+    "topology_4way": {
+      "seed_index": 2,
+      "seed": 89554,
+      "initial_probs": [
+        0.25,
+        0.25,
+        0.25,
+        0.25
+      ],
+      "final_probs": [
+        0.7919598,
+        0.04546793,
+        0.022662142,
+        0.13991015
+      ],
+      "canonical_re_prob": 0.7919598,
+      "canonical_selected": true,
+      "k2_accuracy": 1.0,
+      "k2_pass": true,
+      "k3_zero_shot_accuracy": 1.0,
+      "k3_pass": true,
+      "k3_selectivity_margin": 0.43249497,
+      "source_grounding_drop": 0.422831,
+      "destination_grounding_gap": 0.43421796
+    },
+    "general_6way": {
+      "seed_index": 2,
+      "seed": 89554,
+      "initial_probs": [
+        0.16666667,
+        0.16666667,
+        0.16666667,
+        0.16666667,
+        0.16666667,
+        0.16666667
+      ],
+      "final_probs": [
+        0.6939825,
+        0.0142954085,
+        0.009759775,
+        0.018773934,
+        0.25994113,
+        0.003247214
+      ],
+      "canonical_re_prob": 0.6939825,
+      "canonical_selected": true,
+      "k2_accuracy": 1.0,
+      "k2_pass": true,
+      "k3_zero_shot_accuracy": 1.0,
+      "k3_pass": true,
+      "k3_selectivity_margin": 0.32979676,
+      "source_grounding_drop": 0.32583028,
+      "destination_grounding_gap": 0.330268
+    }
+  },
+  {
+    "seed_index": 3,
+    "seed": 90331,
+    "topology_4way": {
+      "seed_index": 3,
+      "seed": 90331,
+      "initial_probs": [
+        0.25,
+        0.25,
+        0.25,
+        0.25
+      ],
+      "final_probs": [
+        0.9961443,
+        0.0013168625,
+        0.0013460438,
+        0.001192825
+      ],
+      "canonical_re_prob": 0.9961443,
+      "canonical_selected": true,
+      "k2_accuracy": 1.0,
+      "k2_pass": true,
+      "k3_zero_shot_accuracy": 1.0,
+      "k3_pass": true,
+      "k3_selectivity_margin": 1.019763,
+      "source_grounding_drop": 0.9875815,
+      "destination_grounding_gap": 1.0197548
+    },
+    "general_6way": {
+      "seed_index": 3,
+      "seed": 90331,
+      "initial_probs": [
+        0.16666667,
+        0.16666667,
+        0.16666667,
+        0.16666667,
+        0.16666667,
+        0.16666667
+      ],
+      "final_probs": [
+        0.9957824,
+        0.000886253,
+        0.0009063515,
+        0.0008051695,
+        0.0007976437,
+        0.0008223101
+      ],
+      "canonical_re_prob": 0.9957824,
+      "canonical_selected": true,
+      "k2_accuracy": 1.0,
+      "k2_pass": true,
+      "k3_zero_shot_accuracy": 1.0,
+      "k3_pass": true,
+      "k3_selectivity_margin": 1.0188651,
+      "source_grounding_drop": 0.98667824,
+      "destination_grounding_gap": 1.0187922
+    }
+  },
+  {
+    "seed_index": 4,
+    "seed": 91108,
+    "topology_4way": {
+      "seed_index": 4,
+      "seed": 91108,
+      "initial_probs": [
+        0.25,
+        0.25,
+        0.25,
+        0.25
+      ],
+      "final_probs": [
+        0.9928572,
+        0.002410203,
+        0.002338059,
+        0.002394444
+      ],
+      "canonical_re_prob": 0.9928572,
+      "canonical_selected": true,
+      "k2_accuracy": 1.0,
+      "k2_pass": true,
+      "k3_zero_shot_accuracy": 1.0,
+      "k3_pass": true,
+      "k3_selectivity_margin": 0.8360339,
+      "source_grounding_drop": 0.83747834,
+      "destination_grounding_gap": 0.83601296
+    },
+    "general_6way": {
+      "seed_index": 4,
+      "seed": 91108,
+      "initial_probs": [
+        0.16666667,
+        0.16666667,
+        0.16666667,
+        0.16666667,
+        0.16666667,
+        0.16666667
+      ],
+      "final_probs": [
+        0.9925938,
+        0.0015868358,
+        0.0015486155,
+        0.001568766,
+        0.0015899382,
+        0.0011119549
+      ],
+      "canonical_re_prob": 0.9925938,
+      "canonical_selected": true,
+      "k2_accuracy": 1.0,
+      "k2_pass": true,
+      "k3_zero_shot_accuracy": 1.0,
+      "k3_pass": true,
+      "k3_selectivity_margin": 0.8356569,
+      "source_grounding_drop": 0.83698404,
+      "destination_grounding_gap": 0.83564544
+    }
+  },
+  {
+    "seed_index": 5,
+    "seed": 91885,
+    "topology_4way": {
+      "seed_index": 5,
+      "seed": 91885,
+      "initial_probs": [
+        0.25,
+        0.25,
+        0.25,
+        0.25
+      ],
+      "final_probs": [
+        0.9962895,
+        0.0012893712,
+        0.0012698892,
+        0.0011513535
+      ],
+      "canonical_re_prob": 0.9962895,
+      "canonical_selected": true,
+      "k2_accuracy": 1.0,
+      "k2_pass": true,
+      "k3_zero_shot_accuracy": 1.0,
+      "k3_pass": true,
+      "k3_selectivity_margin": 1.0976351,
+      "source_grounding_drop": 1.0697834,
+      "destination_grounding_gap": 1.0976245
+    },
+    "general_6way": {
+      "seed_index": 5,
+      "seed": 91885,
+      "initial_probs": [
+        0.16666667,
+        0.16666667,
+        0.16666667,
+        0.16666667,
+        0.16666667,
+        0.16666667
+      ],
+      "final_probs": [
+        0.99587137,
+        0.00087478396,
+        0.000862214,
+        0.00078013306,
+        0.000782375,
+        0.0008291131
+      ],
+      "canonical_re_prob": 0.99587137,
+      "canonical_selected": true,
+      "k2_accuracy": 1.0,
+      "k2_pass": true,
+      "k3_zero_shot_accuracy": 1.0,
+      "k3_pass": true,
+      "k3_selectivity_margin": 1.0965172,
+      "source_grounding_drop": 1.0687155,
+      "destination_grounding_gap": 1.0965174
+    }
+  },
+  {
+    "seed_index": 6,
+    "seed": 92662,
+    "topology_4way": {
+      "seed_index": 6,
+      "seed": 92662,
+      "initial_probs": [
+        0.25,
+        0.25,
+        0.25,
+        0.25
+      ],
+      "final_probs": [
+        0.99138665,
+        0.003030521,
+        0.003033485,
+        0.0025493714
+      ],
+      "canonical_re_prob": 0.99138665,
+      "canonical_selected": true,
+      "k2_accuracy": 1.0,
+      "k2_pass": true,
+      "k3_zero_shot_accuracy": 1.0,
+      "k3_pass": true,
+      "k3_selectivity_margin": 0.8364193,
+      "source_grounding_drop": 0.8438284,
+      "destination_grounding_gap": 0.8365483
+    },
+    "general_6way": {
+      "seed_index": 6,
+      "seed": 92662,
+      "initial_probs": [
+        0.16666667,
+        0.16666667,
+        0.16666667,
+        0.16666667,
+        0.16666667,
+        0.16666667
+      ],
+      "final_probs": [
+        0.99145144,
+        0.0019695356,
+        0.0019639959,
+        0.0016728939,
+        0.0016380468,
+        0.0013042857
+      ],
+      "canonical_re_prob": 0.99145144,
+      "canonical_selected": true,
+      "k2_accuracy": 1.0,
+      "k2_pass": true,
+      "k3_zero_shot_accuracy": 1.0,
+      "k3_pass": true,
+      "k3_selectivity_margin": 0.8363173,
+      "source_grounding_drop": 0.843562,
+      "destination_grounding_gap": 0.8364246
+    }
+  },
+  {
+    "seed_index": 7,
+    "seed": 93439,
+    "topology_4way": {
+      "seed_index": 7,
+      "seed": 93439,
+      "initial_probs": [
+        0.25,
+        0.25,
+        0.25,
+        0.25
+      ],
+      "final_probs": [
+        0.9967327,
+        0.0011135639,
+        0.0011304455,
+        0.0010232524
+      ],
+      "canonical_re_prob": 0.9967327,
+      "canonical_selected": true,
+      "k2_accuracy": 1.0,
+      "k2_pass": true,
+      "k3_zero_shot_accuracy": 1.0,
+      "k3_pass": true,
+      "k3_selectivity_margin": 1.0325204,
+      "source_grounding_drop": 1.0445784,
+      "destination_grounding_gap": 1.0325063
+    },
+    "general_6way": {
+      "seed_index": 7,
+      "seed": 93439,
+      "initial_probs": [
+        0.16666667,
+        0.16666667,
+        0.16666667,
+        0.16666667,
+        0.16666667,
+        0.16666667
+      ],
+      "final_probs": [
+        0.9963636,
+        0.0007497228,
+        0.00076276157,
+        0.00069004233,
+        0.00068655843,
+        0.0007473218
+      ],
+      "canonical_re_prob": 0.9963636,
+      "canonical_selected": true,
+      "k2_accuracy": 1.0,
+      "k2_pass": true,
+      "k3_zero_shot_accuracy": 1.0,
+      "k3_pass": true,
+      "k3_selectivity_margin": 1.0315052,
+      "source_grounding_drop": 1.0436078,
+      "destination_grounding_gap": 1.0315443
+    }
+  },
+  {
+    "seed_index": 8,
+    "seed": 94216,
+    "topology_4way": {
+      "seed_index": 8,
+      "seed": 94216,
+      "initial_probs": [
+        0.25,
+        0.25,
+        0.25,
+        0.25
+      ],
+      "final_probs": [
+        0.9961009,
+        0.0013332111,
+        0.0013417514,
+        0.0012241359
+      ],
+      "canonical_re_prob": 0.9961009,
+      "canonical_selected": true,
+      "k2_accuracy": 1.0,
+      "k2_pass": true,
+      "k3_zero_shot_accuracy": 1.0,
+      "k3_pass": true,
+      "k3_selectivity_margin": 1.0169774,
+      "source_grounding_drop": 0.9986286,
+      "destination_grounding_gap": 1.0169597
+    },
+    "general_6way": {
+      "seed_index": 8,
+      "seed": 94216,
+      "initial_probs": [
+        0.16666667,
+        0.16666667,
+        0.16666667,
+        0.16666667,
+        0.16666667,
+        0.16666667
+      ],
+      "final_probs": [
+        0.995713,
+        0.0008996276,
+        0.0009057561,
+        0.00082633743,
+        0.0008262015,
+        0.0008289544
+      ],
+      "canonical_re_prob": 0.995713,
+      "canonical_selected": true,
+      "k2_accuracy": 1.0,
+      "k2_pass": true,
+      "k3_zero_shot_accuracy": 1.0,
+      "k3_pass": true,
+      "k3_selectivity_margin": 1.0160377,
+      "source_grounding_drop": 0.99769735,
+      "destination_grounding_gap": 1.0160216
+    }
+  },
+  {
+    "seed_index": 9,
+    "seed": 94993,
+    "topology_4way": {
+      "seed_index": 9,
+      "seed": 94993,
+      "initial_probs": [
+        0.25,
+        0.25,
+        0.25,
+        0.25
+      ],
+      "final_probs": [
+        0.99584645,
+        0.001437958,
+        0.0014379409,
+        0.001277567
+      ],
+      "canonical_re_prob": 0.99584645,
+      "canonical_selected": true,
+      "k2_accuracy": 1.0,
+      "k2_pass": true,
+      "k3_zero_shot_accuracy": 1.0,
+      "k3_pass": true,
+      "k3_selectivity_margin": 1.0136669,
+      "source_grounding_drop": 0.97864795,
+      "destination_grounding_gap": 1.0136582
+    },
+    "general_6way": {
+      "seed_index": 9,
+      "seed": 94993,
+      "initial_probs": [
+        0.16666667,
+        0.16666667,
+        0.16666667,
+        0.16666667,
+        0.16666667,
+        0.16666667
+      ],
+      "final_probs": [
+        0.99548894,
+        0.0009651793,
+        0.00096524606,
+        0.00085961405,
+        0.00086207857,
+        0.00085888716
+      ],
+      "canonical_re_prob": 0.99548894,
+      "canonical_selected": true,
+      "k2_accuracy": 1.0,
+      "k2_pass": true,
+      "k3_zero_shot_accuracy": 1.0,
+      "k3_pass": true,
+      "k3_selectivity_margin": 1.0127972,
+      "source_grounding_drop": 0.9777652,
+      "destination_grounding_gap": 1.0127321
+    }
+  },
+  {
+    "seed_index": 10,
+    "seed": 95770,
+    "topology_4way": {
+      "seed_index": 10,
+      "seed": 95770,
+      "initial_probs": [
+        0.25,
+        0.25,
+        0.25,
+        0.25
+      ],
+      "final_probs": [
+        0.9972045,
+        0.00094812055,
+        0.0009435959,
+        0.0009037444
+      ],
+      "canonical_re_prob": 0.9972045,
+      "canonical_selected": true,
+      "k2_accuracy": 1.0,
+      "k2_pass": true,
+      "k3_zero_shot_accuracy": 1.0,
+      "k3_pass": true,
+      "k3_selectivity_margin": 1.0640264,
+      "source_grounding_drop": 1.0685066,
+      "destination_grounding_gap": 1.0640215
+    },
+    "general_6way": {
+      "seed_index": 10,
+      "seed": 95770,
+      "initial_probs": [
+        0.16666667,
+        0.16666667,
+        0.16666667,
+        0.16666667,
+        0.16666667,
+        0.16666667
+      ],
+      "final_probs": [
+        0.9968419,
+        0.00064195343,
+        0.0006393549,
+        0.000611122,
+        0.0006158372,
+        0.00064991985
+      ],
+      "canonical_re_prob": 0.9968419,
+      "canonical_selected": true,
+      "k2_accuracy": 1.0,
+      "k2_pass": true,
+      "k3_zero_shot_accuracy": 1.0,
+      "k3_pass": true,
+      "k3_selectivity_margin": 1.0631162,
+      "source_grounding_drop": 1.0676527,
+      "destination_grounding_gap": 1.063121
+    }
+  },
+  {
+    "seed_index": 11,
+    "seed": 96547,
+    "topology_4way": {
+      "seed_index": 11,
+      "seed": 96547,
+      "initial_probs": [
+        0.25,
+        0.25,
+        0.25,
+        0.25
+      ],
+      "final_probs": [
+        0.9951314,
+        0.0016959481,
+        0.0017165384,
+        0.0014562148
+      ],
+      "canonical_re_prob": 0.9951314,
+      "canonical_selected": true,
+      "k2_accuracy": 1.0,
+      "k2_pass": true,
+      "k3_zero_shot_accuracy": 1.0,
+      "k3_pass": true,
+      "k3_selectivity_margin": 1.0179998,
+      "source_grounding_drop": 0.98822623,
+      "destination_grounding_gap": 1.0180268
+    },
+    "general_6way": {
+      "seed_index": 11,
+      "seed": 96547,
+      "initial_probs": [
+        0.16666667,
+        0.16666667,
+        0.16666667,
+        0.16666667,
+        0.16666667,
+        0.16666667
+      ],
+      "final_probs": [
+        0.9947919,
+        0.0011321412,
+        0.0011453829,
+        0.0009784709,
+        0.0009718295,
+        0.0009802656
+      ],
+      "canonical_re_prob": 0.9947919,
+      "canonical_selected": true,
+      "k2_accuracy": 1.0,
+      "k2_pass": true,
+      "k3_zero_shot_accuracy": 1.0,
+      "k3_pass": true,
+      "k3_selectivity_margin": 1.0170205,
+      "source_grounding_drop": 0.9873033,
+      "destination_grounding_gap": 1.0171418
+    }
+  },
+  {
+    "seed_index": 12,
+    "seed": 97324,
+    "topology_4way": {
+      "seed_index": 12,
+      "seed": 97324,
+      "initial_probs": [
+        0.25,
+        0.25,
+        0.25,
+        0.25
+      ],
+      "final_probs": [
+        0.99202335,
+        0.0027634243,
+        0.002672607,
+        0.002540512
+      ],
+      "canonical_re_prob": 0.99202335,
+      "canonical_selected": true,
+      "k2_accuracy": 1.0,
+      "k2_pass": true,
+      "k3_zero_shot_accuracy": 1.0,
+      "k3_pass": true,
+      "k3_selectivity_margin": 0.859299,
+      "source_grounding_drop": 0.8619273,
+      "destination_grounding_gap": 0.8592785
+    },
+    "general_6way": {
+      "seed_index": 12,
+      "seed": 97324,
+      "initial_probs": [
+        0.16666667,
+        0.16666667,
+        0.16666667,
+        0.16666667,
+        0.16666667,
+        0.16666667
+      ],
+      "final_probs": [
+        0.99189985,
+        0.0018016266,
+        0.0017529464,
+        0.0016573969,
+        0.001629372,
+        0.0012587414
+      ],
+      "canonical_re_prob": 0.99189985,
+      "canonical_selected": true,
+      "k2_accuracy": 1.0,
+      "k2_pass": true,
+      "k3_zero_shot_accuracy": 1.0,
+      "k3_pass": true,
+      "k3_selectivity_margin": 0.8589399,
+      "source_grounding_drop": 0.8613845,
+      "destination_grounding_gap": 0.8589232
+    }
+  },
+  {
+    "seed_index": 13,
+    "seed": 98101,
+    "topology_4way": {
+      "seed_index": 13,
+      "seed": 98101,
+      "initial_probs": [
+        0.25,
+        0.25,
+        0.25,
+        0.25
+      ],
+      "final_probs": [
+        0.9957848,
+        0.001459724,
+        0.0014536657,
+        0.0013017732
+      ],
+      "canonical_re_prob": 0.9957848,
+      "canonical_selected": true,
+      "k2_accuracy": 1.0,
+      "k2_pass": true,
+      "k3_zero_shot_accuracy": 1.0,
+      "k3_pass": true,
+      "k3_selectivity_margin": 1.0338324,
+      "source_grounding_drop": 1.0302703,
+      "destination_grounding_gap": 1.0338534
+    },
+    "general_6way": {
+      "seed_index": 13,
+      "seed": 98101,
+      "initial_probs": [
+        0.16666667,
+        0.16666667,
+        0.16666667,
+        0.16666667,
+        0.16666667,
+        0.16666667
+      ],
+      "final_probs": [
+        0.9953761,
+        0.0009826979,
+        0.0009824458,
+        0.0008776886,
+        0.0008881332,
+        0.0008928068
+      ],
+      "canonical_re_prob": 0.9953761,
+      "canonical_selected": true,
+      "k2_accuracy": 1.0,
+      "k2_pass": true,
+      "k3_zero_shot_accuracy": 1.0,
+      "k3_pass": true,
+      "k3_selectivity_margin": 1.0327995,
+      "source_grounding_drop": 1.029226,
+      "destination_grounding_gap": 1.0328163
+    }
+  },
+  {
+    "seed_index": 14,
+    "seed": 98878,
+    "topology_4way": {
+      "seed_index": 14,
+      "seed": 98878,
+      "initial_probs": [
+        0.25,
+        0.25,
+        0.25,
+        0.25
+      ],
+      "final_probs": [
+        0.9953258,
+        0.0015964009,
+        0.0015983196,
+        0.0014794365
+      ],
+      "canonical_re_prob": 0.9953258,
+      "canonical_selected": true,
+      "k2_accuracy": 1.0,
+      "k2_pass": true,
+      "k3_zero_shot_accuracy": 1.0,
+      "k3_pass": true,
+      "k3_selectivity_margin": 0.91043556,
+      "source_grounding_drop": 0.9375313,
+      "destination_grounding_gap": 0.9104225
+    },
+    "general_6way": {
+      "seed_index": 14,
+      "seed": 98878,
+      "initial_probs": [
+        0.16666667,
+        0.16666667,
+        0.16666667,
+        0.16666667,
+        0.16666667,
+        0.16666667
+      ],
+      "final_probs": [
+        0.99498606,
+        0.0010674077,
+        0.0010663444,
+        0.0009902425,
+        0.0009884766,
+        0.00090142654
+      ],
+      "canonical_re_prob": 0.99498606,
+      "canonical_selected": true,
+      "k2_accuracy": 1.0,
+      "k2_pass": true,
+      "k3_zero_shot_accuracy": 1.0,
+      "k3_pass": true,
+      "k3_selectivity_margin": 0.9098032,
+      "source_grounding_drop": 0.9368164,
+      "destination_grounding_gap": 0.909787
+    }
+  },
+  {
+    "seed_index": 15,
+    "seed": 99655,
+    "topology_4way": {
+      "seed_index": 15,
+      "seed": 99655,
+      "initial_probs": [
+        0.25,
+        0.25,
+        0.25,
+        0.25
+      ],
+      "final_probs": [
+        0.99483216,
+        0.0017946393,
+        0.0017955586,
+        0.0015776614
+      ],
+      "canonical_re_prob": 0.99483216,
+      "canonical_selected": true,
+      "k2_accuracy": 1.0,
+      "k2_pass": true,
+      "k3_zero_shot_accuracy": 1.0,
+      "k3_pass": true,
+      "k3_selectivity_margin": 0.94708115,
+      "source_grounding_drop": 0.9325917,
+      "destination_grounding_gap": 0.9470812
+    },
+    "general_6way": {
+      "seed_index": 15,
+      "seed": 99655,
+      "initial_probs": [
+        0.16666667,
+        0.16666667,
+        0.16666667,
+        0.16666667,
+        0.16666667,
+        0.16666667
+      ],
+      "final_probs": [
+        0.9945359,
+        0.001197355,
+        0.0011947355,
+        0.0010557746,
+        0.0010449721,
+        0.0009713918
+      ],
+      "canonical_re_prob": 0.9945359,
+      "canonical_selected": true,
+      "k2_accuracy": 1.0,
+      "k2_pass": true,
+      "k3_zero_shot_accuracy": 1.0,
+      "k3_pass": true,
+      "k3_selectivity_margin": 0.9463633,
+      "source_grounding_drop": 0.9318411,
+      "destination_grounding_gap": 0.9463924
+    }
+  },
+  {
+    "seed_index": 16,
+    "seed": 100432,
+    "topology_4way": {
+      "seed_index": 16,
+      "seed": 100432,
+      "initial_probs": [
+        0.25,
+        0.25,
+        0.25,
+        0.25
+      ],
+      "final_probs": [
+        0.99631643,
+        0.001258694,
+        0.0012811,
+        0.0011437077
+      ],
+      "canonical_re_prob": 0.99631643,
+      "canonical_selected": true,
+      "k2_accuracy": 1.0,
+      "k2_pass": true,
+      "k3_zero_shot_accuracy": 1.0,
+      "k3_pass": true,
+      "k3_selectivity_margin": 1.0089878,
+      "source_grounding_drop": 0.9865117,
+      "destination_grounding_gap": 1.0089706
+    },
+    "general_6way": {
+      "seed_index": 16,
+      "seed": 100432,
+      "initial_probs": [
+        0.16666667,
+        0.16666667,
+        0.16666667,
+        0.16666667,
+        0.16666667,
+        0.16666667
+      ],
+      "final_probs": [
+        0.99594694,
+        0.0008477695,
+        0.0008629981,
+        0.0007718039,
+        0.0007753761,
+        0.0007949621
+      ],
+      "canonical_re_prob": 0.99594694,
+      "canonical_selected": true,
+      "k2_accuracy": 1.0,
+      "k2_pass": true,
+      "k3_zero_shot_accuracy": 1.0,
+      "k3_pass": true,
+      "k3_selectivity_margin": 1.0081083,
+      "source_grounding_drop": 0.98565406,
+      "destination_grounding_gap": 1.008096
+    }
+  }
+]
