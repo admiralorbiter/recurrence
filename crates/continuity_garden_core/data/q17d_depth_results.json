@@ -1,0 +1,3309 @@
+{
+  "contract_id": "CONTRACT-E-Q17D",
+  "hidden_dim": 128,
+  "total_seeds": 16,
+  "raw_seed_results": [
+    {
+      "seed_index": 1,
+      "seed": 17777,
+      "aux_train_seed": 18776,
+      "theta_hash": "d6456323513c4ed4beba948051be79585b6825a78b2f21b3f67192ac3188ae5f",
+      "v1_fingerprint_valid": true,
+      "v2_m2_fwd": -0.021902936,
+      "v2_m2_rev": -2.9179323,
+      "v2_m2_margin": 2.8960292,
+      "v2_passed": true,
+      "v3_sensor_trials": [
+        {
+          "trial_id": 0,
+          "cue_feature": 0.48939705,
+          "gold_label": true,
+          "predicted_prob": 0.94875455,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 1,
+          "cue_feature": 0.5155836,
+          "gold_label": true,
+          "predicted_prob": 0.95001286,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 2,
+          "cue_feature": 0.4659926,
+          "gold_label": true,
+          "predicted_prob": 0.9476046,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 3,
+          "cue_feature": 0.5722893,
+          "gold_label": true,
+          "predicted_prob": 0.952638,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 4,
+          "cue_feature": 0.46843967,
+          "gold_label": true,
+          "predicted_prob": 0.947726,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 5,
+          "cue_feature": 0.54453003,
+          "gold_label": true,
+          "predicted_prob": 0.9513697,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 6,
+          "cue_feature": 0.49268478,
+          "gold_label": true,
+          "predicted_prob": 0.9489142,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 7,
+          "cue_feature": 0.58368087,
+          "gold_label": true,
+          "predicted_prob": 0.9531493,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 8,
+          "cue_feature": 0.4704605,
+          "gold_label": true,
+          "predicted_prob": 0.947826,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 9,
+          "cue_feature": 0.5813568,
+          "gold_label": true,
+          "predicted_prob": 0.9530455,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 10,
+          "cue_feature": -3.5227213,
+          "gold_label": false,
+          "predicted_prob": 0.2509415,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 11,
+          "cue_feature": -3.6636646,
+          "gold_label": false,
+          "predicted_prob": 0.22538769,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 12,
+          "cue_feature": -3.736495,
+          "gold_label": false,
+          "predicted_prob": 0.21292707,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 13,
+          "cue_feature": -3.8547444,
+          "gold_label": false,
+          "predicted_prob": 0.19378196,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 14,
+          "cue_feature": -3.9605591,
+          "gold_label": false,
+          "predicted_prob": 0.17778379,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 15,
+          "cue_feature": -3.5150344,
+          "gold_label": false,
+          "predicted_prob": 0.25238913,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 16,
+          "cue_feature": -3.613668,
+          "gold_label": false,
+          "predicted_prob": 0.23423614,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 17,
+          "cue_feature": -3.7645135,
+          "gold_label": false,
+          "predicted_prob": 0.20826927,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 18,
+          "cue_feature": -3.9337668,
+          "gold_label": false,
+          "predicted_prob": 0.18173406,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 19,
+          "cue_feature": -3.7856355,
+          "gold_label": false,
+          "predicted_prob": 0.20480785,
+          "predicted_label": false,
+          "is_correct": true
+        }
+      ],
+      "v3_sensor_accuracy": 1.0,
+      "v3_passed": true,
+      "v4_zero_sidecar": true,
+      "c3_margin": 5.0812607,
+      "c3_passed": true,
+      "c4_margin": 7.60231,
+      "c4_passed": true,
+      "c5_margin": 10.399169,
+      "c5_passed": true,
+      "k3_fwd_score": -1.7360638,
+      "k3_rev_score": -6.017897,
+      "k3_margin": 4.281833,
+      "k3_passed": true,
+      "k3_transposition_score": 6.746835,
+      "k3_transposition_passed": false,
+      "k3_shuffle_score": 5.4040384,
+      "k3_shuffle_margin": -1.1222053,
+      "k3_shuffle_passed": false,
+      "k3_surgery_h1_margin": 4.281833,
+      "k3_surgery_h2_margin": 6.746835,
+      "k3_surgery_transferred": false,
+      "k4_fwd_score": -1.65844,
+      "k4_rev_score": -9.01405,
+      "k4_margin": 7.3556094,
+      "k4_passed": true,
+      "k4_transposition_score": -3.9020185,
+      "k4_transposition_passed": true,
+      "k5_fwd_score": -4.433963,
+      "k5_rev_score": -10.576161,
+      "k5_margin": 6.1421986,
+      "k5_passed": true
+    },
+    {
+      "seed_index": 2,
+      "seed": 18554,
+      "aux_train_seed": 19553,
+      "theta_hash": "b3579fad542842cc81c2b31f54b4370c8899c5204edfdd2094830b08dde713da",
+      "v1_fingerprint_valid": true,
+      "v2_m2_fwd": -0.027407205,
+      "v2_m2_rev": -2.925424,
+      "v2_m2_margin": 2.898017,
+      "v2_passed": true,
+      "v3_sensor_trials": [
+        {
+          "trial_id": 0,
+          "cue_feature": 0.5147866,
+          "gold_label": true,
+          "predicted_prob": 0.95096976,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 1,
+          "cue_feature": 0.5896127,
+          "gold_label": true,
+          "predicted_prob": 0.9543432,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 2,
+          "cue_feature": 0.49974388,
+          "gold_label": true,
+          "predicted_prob": 0.9502636,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 3,
+          "cue_feature": 0.5210966,
+          "gold_label": true,
+          "predicted_prob": 0.9512632,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 4,
+          "cue_feature": 0.42980754,
+          "gold_label": true,
+          "predicted_prob": 0.9468522,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 5,
+          "cue_feature": 0.47448134,
+          "gold_label": true,
+          "predicted_prob": 0.94905597,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 6,
+          "cue_feature": 0.56695056,
+          "gold_label": true,
+          "predicted_prob": 0.9533456,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 7,
+          "cue_feature": 0.42845333,
+          "gold_label": true,
+          "predicted_prob": 0.9467841,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 8,
+          "cue_feature": 0.563983,
+          "gold_label": true,
+          "predicted_prob": 0.95321345,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 9,
+          "cue_feature": 0.56754774,
+          "gold_label": true,
+          "predicted_prob": 0.9533721,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 10,
+          "cue_feature": -3.6775513,
+          "gold_label": false,
+          "predicted_prob": 0.22665553,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 11,
+          "cue_feature": -3.944512,
+          "gold_label": false,
+          "predicted_prob": 0.1832841,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 12,
+          "cue_feature": -3.9305332,
+          "gold_label": false,
+          "predicted_prob": 0.18538587,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 13,
+          "cue_feature": -3.5169063,
+          "gold_label": false,
+          "predicted_prob": 0.25604102,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 14,
+          "cue_feature": -3.626106,
+          "gold_label": false,
+          "predicted_prob": 0.23579957,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 15,
+          "cue_feature": -3.586354,
+          "gold_label": false,
+          "predicted_prob": 0.24303788,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 16,
+          "cue_feature": -3.8405797,
+          "gold_label": false,
+          "predicted_prob": 0.1993564,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 17,
+          "cue_feature": -3.9228163,
+          "gold_label": false,
+          "predicted_prob": 0.18655407,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 18,
+          "cue_feature": -3.7079377,
+          "gold_label": false,
+          "predicted_prob": 0.22137357,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 19,
+          "cue_feature": -3.518006,
+          "gold_label": false,
+          "predicted_prob": 0.25583157,
+          "predicted_label": false,
+          "is_correct": true
+        }
+      ],
+      "v3_sensor_accuracy": 1.0,
+      "v3_passed": true,
+      "v4_zero_sidecar": true,
+      "c3_margin": 5.085956,
+      "c3_passed": true,
+      "c4_margin": 7.6332626,
+      "c4_passed": true,
+      "c5_margin": 10.4725895,
+      "c5_passed": true,
+      "k3_fwd_score": -1.4446099,
+      "k3_rev_score": -5.8220572,
+      "k3_margin": 4.377447,
+      "k3_passed": true,
+      "k3_transposition_score": 4.8130875,
+      "k3_transposition_passed": false,
+      "k3_shuffle_score": 3.9181976,
+      "k3_shuffle_margin": 0.4592495,
+      "k3_shuffle_passed": true,
+      "k3_surgery_h1_margin": 4.377447,
+      "k3_surgery_h2_margin": 4.8130875,
+      "k3_surgery_transferred": false,
+      "k4_fwd_score": -0.3602665,
+      "k4_rev_score": -8.670395,
+      "k4_margin": 8.310128,
+      "k4_passed": true,
+      "k4_transposition_score": 4.0293517,
+      "k4_transposition_passed": false,
+      "k5_fwd_score": -4.828738,
+      "k5_rev_score": -9.79522,
+      "k5_margin": 4.966482,
+      "k5_passed": true
+    },
+    {
+      "seed_index": 3,
+      "seed": 19331,
+      "aux_train_seed": 20330,
+      "theta_hash": "2cdfbca340689a0ad5c77f68ba827145c6bcc9845af97864a8c048d40a5eea5a",
+      "v1_fingerprint_valid": true,
+      "v2_m2_fwd": -0.021070002,
+      "v2_m2_rev": -2.9292843,
+      "v2_m2_margin": 2.9082143,
+      "v2_passed": true,
+      "v3_sensor_trials": [
+        {
+          "trial_id": 0,
+          "cue_feature": 0.4224615,
+          "gold_label": true,
+          "predicted_prob": 0.9468326,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 1,
+          "cue_feature": 0.5401073,
+          "gold_label": true,
+          "predicted_prob": 0.952453,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 2,
+          "cue_feature": 0.5089307,
+          "gold_label": true,
+          "predicted_prob": 0.9510211,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 3,
+          "cue_feature": 0.49171358,
+          "gold_label": true,
+          "predicted_prob": 0.95021284,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 4,
+          "cue_feature": 0.45332786,
+          "gold_label": true,
+          "predicted_prob": 0.9483651,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 5,
+          "cue_feature": 0.45945072,
+          "gold_label": true,
+          "predicted_prob": 0.9486641,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 6,
+          "cue_feature": 0.42261922,
+          "gold_label": true,
+          "predicted_prob": 0.94684047,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 7,
+          "cue_feature": 0.5751578,
+          "gold_label": true,
+          "predicted_prob": 0.95401543,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 8,
+          "cue_feature": 0.48965502,
+          "gold_label": true,
+          "predicted_prob": 0.9501153,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 9,
+          "cue_feature": 0.43704984,
+          "gold_label": true,
+          "predicted_prob": 0.9475622,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 10,
+          "cue_feature": -3.6513429,
+          "gold_label": false,
+          "predicted_prob": 0.23252141,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 11,
+          "cue_feature": -3.7093081,
+          "gold_label": false,
+          "predicted_prob": 0.22233795,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 12,
+          "cue_feature": -3.978459,
+          "gold_label": false,
+          "predicted_prob": 0.17927836,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 13,
+          "cue_feature": -3.8420413,
+          "gold_label": false,
+          "predicted_prob": 0.20023493,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 14,
+          "cue_feature": -3.507561,
+          "gold_label": false,
+          "predicted_prob": 0.25915858,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 15,
+          "cue_feature": -3.5032744,
+          "gold_label": false,
+          "predicted_prob": 0.2599824,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 16,
+          "cue_feature": -3.9252963,
+          "gold_label": false,
+          "predicted_prob": 0.18723436,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 17,
+          "cue_feature": -3.9470277,
+          "gold_label": false,
+          "predicted_prob": 0.18394978,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 18,
+          "cue_feature": -3.761054,
+          "gold_label": false,
+          "predicted_prob": 0.21351956,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 19,
+          "cue_feature": -3.6273232,
+          "gold_label": false,
+          "predicted_prob": 0.23683536,
+          "predicted_label": false,
+          "is_correct": true
+        }
+      ],
+      "v3_sensor_accuracy": 1.0,
+      "v3_passed": true,
+      "v4_zero_sidecar": true,
+      "c3_margin": 5.3555307,
+      "c3_passed": true,
+      "c4_margin": 8.172872,
+      "c4_passed": true,
+      "c5_margin": 11.240829,
+      "c5_passed": true,
+      "k3_fwd_score": -4.524503,
+      "k3_rev_score": -2.644901,
+      "k3_margin": -1.8796022,
+      "k3_passed": false,
+      "k3_transposition_score": -2.1029892,
+      "k3_transposition_passed": true,
+      "k3_shuffle_score": -3.9678164,
+      "k3_shuffle_margin": 2.0882142,
+      "k3_shuffle_passed": true,
+      "k3_surgery_h1_margin": -1.8796022,
+      "k3_surgery_h2_margin": -2.1029892,
+      "k3_surgery_transferred": false,
+      "k4_fwd_score": -3.433088,
+      "k4_rev_score": -7.2055345,
+      "k4_margin": 3.7724464,
+      "k4_passed": true,
+      "k4_transposition_score": -17.710611,
+      "k4_transposition_passed": true,
+      "k5_fwd_score": -11.370792,
+      "k5_rev_score": -1.2095851,
+      "k5_margin": -10.161207,
+      "k5_passed": false
+    },
+    {
+      "seed_index": 4,
+      "seed": 20108,
+      "aux_train_seed": 21107,
+      "theta_hash": "dfee5cec1c9fe6a658589aebce9c799bd6a7d57234c70b21cdfc7dedce71d3b9",
+      "v1_fingerprint_valid": true,
+      "v2_m2_fwd": -0.03664768,
+      "v2_m2_rev": -2.9015355,
+      "v2_m2_margin": 2.8648877,
+      "v2_passed": true,
+      "v3_sensor_trials": [
+        {
+          "trial_id": 0,
+          "cue_feature": 0.41395834,
+          "gold_label": true,
+          "predicted_prob": 0.94511276,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 1,
+          "cue_feature": 0.44070005,
+          "gold_label": true,
+          "predicted_prob": 0.94648355,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 2,
+          "cue_feature": 0.5318909,
+          "gold_label": true,
+          "predicted_prob": 0.9509189,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 3,
+          "cue_feature": 0.44257903,
+          "gold_label": true,
+          "predicted_prob": 0.9465786,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 4,
+          "cue_feature": 0.5398208,
+          "gold_label": true,
+          "predicted_prob": 0.9512877,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 5,
+          "cue_feature": 0.41288367,
+          "gold_label": true,
+          "predicted_prob": 0.9450569,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 6,
+          "cue_feature": 0.59670866,
+          "gold_label": true,
+          "predicted_prob": 0.9538571,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 7,
+          "cue_feature": 0.54187024,
+          "gold_label": true,
+          "predicted_prob": 0.95138264,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 8,
+          "cue_feature": 0.5508221,
+          "gold_label": true,
+          "predicted_prob": 0.951795,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 9,
+          "cue_feature": 0.5948024,
+          "gold_label": true,
+          "predicted_prob": 0.9537732,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 10,
+          "cue_feature": -3.893015,
+          "gold_label": false,
+          "predicted_prob": 0.18832208,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 11,
+          "cue_feature": -3.5864635,
+          "gold_label": false,
+          "predicted_prob": 0.23968662,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 12,
+          "cue_feature": -3.910713,
+          "gold_label": false,
+          "predicted_prob": 0.18563172,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 13,
+          "cue_feature": -3.8619778,
+          "gold_label": false,
+          "predicted_prob": 0.19311227,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 14,
+          "cue_feature": -3.6266413,
+          "gold_label": false,
+          "predicted_prob": 0.23244147,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 15,
+          "cue_feature": -3.9373198,
+          "gold_label": false,
+          "predicted_prob": 0.18164311,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 16,
+          "cue_feature": -3.7740011,
+          "gold_label": false,
+          "predicted_prob": 0.20719185,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 17,
+          "cue_feature": -3.8765967,
+          "gold_label": false,
+          "predicted_prob": 0.19084457,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 18,
+          "cue_feature": -3.528426,
+          "gold_label": false,
+          "predicted_prob": 0.25042236,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 19,
+          "cue_feature": -3.5919535,
+          "gold_label": false,
+          "predicted_prob": 0.23868755,
+          "predicted_label": false,
+          "is_correct": true
+        }
+      ],
+      "v3_sensor_accuracy": 1.0,
+      "v3_passed": true,
+      "v4_zero_sidecar": true,
+      "c3_margin": 5.0646,
+      "c3_passed": true,
+      "c4_margin": 7.644887,
+      "c4_passed": true,
+      "c5_margin": 10.552425,
+      "c5_passed": true,
+      "k3_fwd_score": -2.7090938,
+      "k3_rev_score": -5.032403,
+      "k3_margin": 2.3233092,
+      "k3_passed": true,
+      "k3_transposition_score": 3.0131924,
+      "k3_transposition_passed": false,
+      "k3_shuffle_score": 1.9198275,
+      "k3_shuffle_margin": 0.40348172,
+      "k3_shuffle_passed": true,
+      "k3_surgery_h1_margin": 2.3233092,
+      "k3_surgery_h2_margin": 3.0131924,
+      "k3_surgery_transferred": false,
+      "k4_fwd_score": -2.1467855,
+      "k4_rev_score": -7.9775696,
+      "k4_margin": 5.830784,
+      "k4_passed": true,
+      "k4_transposition_score": 1.0046864,
+      "k4_transposition_passed": false,
+      "k5_fwd_score": -6.5333104,
+      "k5_rev_score": -8.27352,
+      "k5_margin": 1.74021,
+      "k5_passed": true
+    },
+    {
+      "seed_index": 5,
+      "seed": 20885,
+      "aux_train_seed": 21884,
+      "theta_hash": "9562b334fc242d049c38e6e9b818bb541b0b638c96d70447400132d0c3e7d1db",
+      "v1_fingerprint_valid": true,
+      "v2_m2_fwd": -0.041838016,
+      "v2_m2_rev": -2.931796,
+      "v2_m2_margin": 2.8899581,
+      "v2_passed": true,
+      "v3_sensor_trials": [
+        {
+          "trial_id": 0,
+          "cue_feature": 0.46307445,
+          "gold_label": true,
+          "predicted_prob": 0.9492814,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 1,
+          "cue_feature": 0.5219969,
+          "gold_label": true,
+          "predicted_prob": 0.9520443,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 2,
+          "cue_feature": 0.4347267,
+          "gold_label": true,
+          "predicted_prob": 0.94789904,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 3,
+          "cue_feature": 0.5254122,
+          "gold_label": true,
+          "predicted_prob": 0.95220006,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 4,
+          "cue_feature": 0.47004268,
+          "gold_label": true,
+          "predicted_prob": 0.94961584,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 5,
+          "cue_feature": 0.49380794,
+          "gold_label": true,
+          "predicted_prob": 0.9507409,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 6,
+          "cue_feature": 0.53233296,
+          "gold_label": true,
+          "predicted_prob": 0.952514,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 7,
+          "cue_feature": 0.54490423,
+          "gold_label": true,
+          "predicted_prob": 0.95307946,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 8,
+          "cue_feature": 0.42498598,
+          "gold_label": true,
+          "predicted_prob": 0.94741577,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 9,
+          "cue_feature": 0.5947726,
+          "gold_label": true,
+          "predicted_prob": 0.9552598,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 10,
+          "cue_feature": -3.5349524,
+          "gold_label": false,
+          "predicted_prob": 0.25566667,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 11,
+          "cue_feature": -3.6594772,
+          "gold_label": false,
+          "predicted_prob": 0.23269796,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 12,
+          "cue_feature": -3.9063554,
+          "gold_label": false,
+          "predicted_prob": 0.19154267,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 13,
+          "cue_feature": -3.7778516,
+          "gold_label": false,
+          "predicted_prob": 0.21223369,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 14,
+          "cue_feature": -3.9756613,
+          "gold_label": false,
+          "predicted_prob": 0.18103911,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 15,
+          "cue_feature": -3.954186,
+          "gold_label": false,
+          "predicted_prob": 0.18424496,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 16,
+          "cue_feature": -3.9054797,
+          "gold_label": false,
+          "predicted_prob": 0.19167832,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 17,
+          "cue_feature": -3.8937962,
+          "gold_label": false,
+          "predicted_prob": 0.19349504,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 18,
+          "cue_feature": -3.5889335,
+          "gold_label": false,
+          "predicted_prob": 0.24553017,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 19,
+          "cue_feature": -3.936225,
+          "gold_label": false,
+          "predicted_prob": 0.1869598,
+          "predicted_label": false,
+          "is_correct": true
+        }
+      ],
+      "v3_sensor_accuracy": 1.0,
+      "v3_passed": true,
+      "v4_zero_sidecar": true,
+      "c3_margin": 5.3931203,
+      "c3_passed": true,
+      "c4_margin": 8.394011,
+      "c4_passed": true,
+      "c5_margin": 11.774451,
+      "c5_passed": true,
+      "k3_fwd_score": -3.0309682,
+      "k3_rev_score": -4.191012,
+      "k3_margin": 1.1600437,
+      "k3_passed": true,
+      "k3_transposition_score": 4.257489,
+      "k3_transposition_passed": false,
+      "k3_shuffle_score": 2.546389,
+      "k3_shuffle_margin": -1.3863454,
+      "k3_shuffle_passed": false,
+      "k3_surgery_h1_margin": 1.1600437,
+      "k3_surgery_h2_margin": 4.257489,
+      "k3_surgery_transferred": false,
+      "k4_fwd_score": -3.356652,
+      "k4_rev_score": -7.0681524,
+      "k4_margin": 3.7115004,
+      "k4_passed": true,
+      "k4_transposition_score": -20.399088,
+      "k4_transposition_passed": true,
+      "k5_fwd_score": -12.532684,
+      "k5_rev_score": 0.5521843,
+      "k5_margin": -13.084868,
+      "k5_passed": false
+    },
+    {
+      "seed_index": 6,
+      "seed": 21662,
+      "aux_train_seed": 22661,
+      "theta_hash": "503131c06b09bf90a80b3eb31d5338844e5be8c92e5c1e8d2882a8105c60c056",
+      "v1_fingerprint_valid": true,
+      "v2_m2_fwd": -0.013649225,
+      "v2_m2_rev": -2.929872,
+      "v2_m2_margin": 2.9162228,
+      "v2_passed": true,
+      "v3_sensor_trials": [
+        {
+          "trial_id": 0,
+          "cue_feature": 0.4691032,
+          "gold_label": true,
+          "predicted_prob": 0.9492685,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 1,
+          "cue_feature": 0.595156,
+          "gold_label": true,
+          "predicted_prob": 0.95500636,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 2,
+          "cue_feature": 0.45865482,
+          "gold_label": true,
+          "predicted_prob": 0.94876295,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 3,
+          "cue_feature": 0.53718907,
+          "gold_label": true,
+          "predicted_prob": 0.9524488,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 4,
+          "cue_feature": 0.49699724,
+          "gold_label": true,
+          "predicted_prob": 0.9505951,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 5,
+          "cue_feature": 0.5379584,
+          "gold_label": true,
+          "predicted_prob": 0.9524837,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 6,
+          "cue_feature": 0.540598,
+          "gold_label": true,
+          "predicted_prob": 0.95260304,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 7,
+          "cue_feature": 0.40397263,
+          "gold_label": true,
+          "predicted_prob": 0.94603854,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 8,
+          "cue_feature": 0.41710967,
+          "gold_label": true,
+          "predicted_prob": 0.9467053,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 9,
+          "cue_feature": 0.59050125,
+          "gold_label": true,
+          "predicted_prob": 0.95480597,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 10,
+          "cue_feature": -3.831786,
+          "gold_label": false,
+          "predicted_prob": 0.202338,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 11,
+          "cue_feature": -3.565558,
+          "gold_label": false,
+          "predicted_prob": 0.24870752,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 12,
+          "cue_feature": -3.6001608,
+          "gold_label": false,
+          "predicted_prob": 0.24229826,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 13,
+          "cue_feature": -3.7024567,
+          "gold_label": false,
+          "predicted_prob": 0.22401568,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 14,
+          "cue_feature": -3.9715226,
+          "gold_label": false,
+          "predicted_prob": 0.18071924,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 15,
+          "cue_feature": -3.6110091,
+          "gold_label": false,
+          "predicted_prob": 0.24031217,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 16,
+          "cue_feature": -3.8661368,
+          "gold_label": false,
+          "predicted_prob": 0.1968505,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 17,
+          "cue_feature": -3.5218527,
+          "gold_label": false,
+          "predicted_prob": 0.25696328,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 18,
+          "cue_feature": -3.5181541,
+          "gold_label": false,
+          "predicted_prob": 0.2576701,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 19,
+          "cue_feature": -3.7492023,
+          "gold_label": false,
+          "predicted_prob": 0.21599473,
+          "predicted_label": false,
+          "is_correct": true
+        }
+      ],
+      "v3_sensor_accuracy": 1.0,
+      "v3_passed": true,
+      "v4_zero_sidecar": true,
+      "c3_margin": 5.346868,
+      "c3_passed": true,
+      "c4_margin": 8.160366,
+      "c4_passed": true,
+      "c5_margin": 11.245358,
+      "c5_passed": true,
+      "k3_fwd_score": -2.6426175,
+      "k3_rev_score": -4.9299293,
+      "k3_margin": 2.2873118,
+      "k3_passed": true,
+      "k3_transposition_score": 3.1371891,
+      "k3_transposition_passed": false,
+      "k3_shuffle_score": 2.1425462,
+      "k3_shuffle_margin": 0.14476562,
+      "k3_shuffle_passed": true,
+      "k3_surgery_h1_margin": 2.2873118,
+      "k3_surgery_h2_margin": 3.1371891,
+      "k3_surgery_transferred": false,
+      "k4_fwd_score": -1.7674856,
+      "k4_rev_score": -8.87602,
+      "k4_margin": 7.108535,
+      "k4_passed": true,
+      "k4_transposition_score": 2.360341,
+      "k4_transposition_passed": false,
+      "k5_fwd_score": -4.754288,
+      "k5_rev_score": -9.511035,
+      "k5_margin": 4.756747,
+      "k5_passed": true
+    },
+    {
+      "seed_index": 7,
+      "seed": 22439,
+      "aux_train_seed": 23438,
+      "theta_hash": "db47237d27f44ce11e95d5bfbf712b2e4aaa7348cae19bc33afeae62fcae720b",
+      "v1_fingerprint_valid": true,
+      "v2_m2_fwd": -0.034233786,
+      "v2_m2_rev": -2.9173083,
+      "v2_m2_margin": 2.8830745,
+      "v2_passed": true,
+      "v3_sensor_trials": [
+        {
+          "trial_id": 0,
+          "cue_feature": 0.5197998,
+          "gold_label": true,
+          "predicted_prob": 0.9510148,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 1,
+          "cue_feature": 0.57581127,
+          "gold_label": true,
+          "predicted_prob": 0.9535592,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 2,
+          "cue_feature": 0.47541243,
+          "gold_label": true,
+          "predicted_prob": 0.9489051,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 3,
+          "cue_feature": 0.44192886,
+          "gold_label": true,
+          "predicted_prob": 0.94725716,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 4,
+          "cue_feature": 0.41216725,
+          "gold_label": true,
+          "predicted_prob": 0.94575024,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 5,
+          "cue_feature": 0.47089118,
+          "gold_label": true,
+          "predicted_prob": 0.94868547,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 6,
+          "cue_feature": 0.47846824,
+          "gold_label": true,
+          "predicted_prob": 0.94905305,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 7,
+          "cue_feature": 0.5763504,
+          "gold_label": true,
+          "predicted_prob": 0.9535831,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 8,
+          "cue_feature": 0.45666936,
+          "gold_label": true,
+          "predicted_prob": 0.9479887,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 9,
+          "cue_feature": 0.4931542,
+          "gold_label": true,
+          "predicted_prob": 0.94975847,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 10,
+          "cue_feature": -3.9163556,
+          "gold_label": false,
+          "predicted_prob": 0.18692055,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 11,
+          "cue_feature": -3.618498,
+          "gold_label": false,
+          "predicted_prob": 0.23644175,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 12,
+          "cue_feature": -3.7941484,
+          "gold_label": false,
+          "predicted_prob": 0.2062077,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 13,
+          "cue_feature": -3.733522,
+          "gold_label": false,
+          "predicted_prob": 0.21630824,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 14,
+          "cue_feature": -3.6268358,
+          "gold_label": false,
+          "predicted_prob": 0.2349398,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 15,
+          "cue_feature": -3.868641,
+          "gold_label": false,
+          "predicted_prob": 0.19428085,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 16,
+          "cue_feature": -3.766637,
+          "gold_label": false,
+          "predicted_prob": 0.21074733,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 17,
+          "cue_feature": -3.8760393,
+          "gold_label": false,
+          "predicted_prob": 0.19312537,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 18,
+          "cue_feature": -3.8336773,
+          "gold_label": false,
+          "predicted_prob": 0.19981247,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 19,
+          "cue_feature": -3.6476974,
+          "gold_label": false,
+          "predicted_prob": 0.2312108,
+          "predicted_label": false,
+          "is_correct": true
+        }
+      ],
+      "v3_sensor_accuracy": 1.0,
+      "v3_passed": true,
+      "v4_zero_sidecar": true,
+      "c3_margin": 5.1072083,
+      "c3_passed": true,
+      "c4_margin": 7.6623077,
+      "c4_passed": true,
+      "c5_margin": 10.465748,
+      "c5_passed": true,
+      "k3_fwd_score": -3.5983012,
+      "k3_rev_score": -3.7617671,
+      "k3_margin": 0.16346598,
+      "k3_passed": true,
+      "k3_transposition_score": -1.1961143,
+      "k3_transposition_passed": true,
+      "k3_shuffle_score": -3.1207,
+      "k3_shuffle_margin": 3.2841659,
+      "k3_shuffle_passed": true,
+      "k3_surgery_h1_margin": 0.16346598,
+      "k3_surgery_h2_margin": -1.1961143,
+      "k3_surgery_transferred": true,
+      "k4_fwd_score": -2.908186,
+      "k4_rev_score": -7.8466783,
+      "k4_margin": 4.9384923,
+      "k4_passed": true,
+      "k4_transposition_score": -0.51589966,
+      "k4_transposition_passed": true,
+      "k5_fwd_score": -9.630388,
+      "k5_rev_score": -3.7905707,
+      "k5_margin": -5.8398175,
+      "k5_passed": false
+    },
+    {
+      "seed_index": 8,
+      "seed": 23216,
+      "aux_train_seed": 24215,
+      "theta_hash": "ef97af135dec54466de2dba8c0ac15de13ad72bd3fbb9b27c66db6d0d1d0f2fe",
+      "v1_fingerprint_valid": true,
+      "v2_m2_fwd": -0.03160398,
+      "v2_m2_rev": -2.92352,
+      "v2_m2_margin": 2.891916,
+      "v2_passed": true,
+      "v3_sensor_trials": [
+        {
+          "trial_id": 0,
+          "cue_feature": 0.5177034,
+          "gold_label": true,
+          "predicted_prob": 0.9515299,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 1,
+          "cue_feature": 0.49843362,
+          "gold_label": true,
+          "predicted_prob": 0.9506334,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 2,
+          "cue_feature": 0.5140674,
+          "gold_label": true,
+          "predicted_prob": 0.951362,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 3,
+          "cue_feature": 0.44478175,
+          "gold_label": true,
+          "predicted_prob": 0.94805384,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 4,
+          "cue_feature": 0.46223873,
+          "gold_label": true,
+          "predicted_prob": 0.94890684,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 5,
+          "cue_feature": 0.5805993,
+          "gold_label": true,
+          "predicted_prob": 0.9543497,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 6,
+          "cue_feature": 0.473604,
+          "gold_label": true,
+          "predicted_prob": 0.949455,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 7,
+          "cue_feature": 0.53791195,
+          "gold_label": true,
+          "predicted_prob": 0.95245355,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 8,
+          "cue_feature": 0.54428655,
+          "gold_label": true,
+          "predicted_prob": 0.9527414,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 9,
+          "cue_feature": 0.46462864,
+          "gold_label": true,
+          "predicted_prob": 0.9490226,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 10,
+          "cue_feature": -3.9192257,
+          "gold_label": false,
+          "predicted_prob": 0.18849732,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 11,
+          "cue_feature": -3.9610515,
+          "gold_label": false,
+          "predicted_prob": 0.18218258,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 12,
+          "cue_feature": -3.7921076,
+          "gold_label": false,
+          "predicted_prob": 0.20871545,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 13,
+          "cue_feature": -3.6391392,
+          "gold_label": false,
+          "predicted_prob": 0.23510301,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 14,
+          "cue_feature": -3.5194635,
+          "gold_label": false,
+          "predicted_prob": 0.25730148,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 15,
+          "cue_feature": -3.7070103,
+          "gold_label": false,
+          "predicted_prob": 0.22311784,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 16,
+          "cue_feature": -3.9658823,
+          "gold_label": false,
+          "predicted_prob": 0.18146393,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 17,
+          "cue_feature": -3.5622728,
+          "gold_label": false,
+          "predicted_prob": 0.2492061,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 18,
+          "cue_feature": -3.6345794,
+          "gold_label": false,
+          "predicted_prob": 0.23592399,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 19,
+          "cue_feature": -3.7780483,
+          "gold_label": false,
+          "predicted_prob": 0.2110469,
+          "predicted_label": false,
+          "is_correct": true
+        }
+      ],
+      "v3_sensor_accuracy": 1.0,
+      "v3_passed": true,
+      "v4_zero_sidecar": true,
+      "c3_margin": 5.2925196,
+      "c3_passed": true,
+      "c4_margin": 8.112128,
+      "c4_passed": true,
+      "c5_margin": 11.235918,
+      "c5_passed": true,
+      "k3_fwd_score": -2.973853,
+      "k3_rev_score": -4.770121,
+      "k3_margin": 1.796268,
+      "k3_passed": true,
+      "k3_transposition_score": 4.6137867,
+      "k3_transposition_passed": false,
+      "k3_shuffle_score": 3.1596153,
+      "k3_shuffle_margin": -1.3633473,
+      "k3_shuffle_passed": false,
+      "k3_surgery_h1_margin": 1.796268,
+      "k3_surgery_h2_margin": 4.6137867,
+      "k3_surgery_transferred": false,
+      "k4_fwd_score": -2.183731,
+      "k4_rev_score": -8.986563,
+      "k4_margin": 6.8028316,
+      "k4_passed": true,
+      "k4_transposition_score": -5.803008,
+      "k4_transposition_passed": true,
+      "k5_fwd_score": -6.7053394,
+      "k5_rev_score": -7.7390165,
+      "k5_margin": 1.0336771,
+      "k5_passed": true
+    },
+    {
+      "seed_index": 9,
+      "seed": 23993,
+      "aux_train_seed": 24992,
+      "theta_hash": "7d139e6317bf945f13a77ea6f97134e0fca960615c21a4aa215dbd846a503726",
+      "v1_fingerprint_valid": true,
+      "v2_m2_fwd": -0.046889067,
+      "v2_m2_rev": -2.9004366,
+      "v2_m2_margin": 2.8535476,
+      "v2_passed": true,
+      "v3_sensor_trials": [
+        {
+          "trial_id": 0,
+          "cue_feature": 0.4973536,
+          "gold_label": true,
+          "predicted_prob": 0.9492676,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 1,
+          "cue_feature": 0.4505324,
+          "gold_label": true,
+          "predicted_prob": 0.9469648,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 2,
+          "cue_feature": 0.469594,
+          "gold_label": true,
+          "predicted_prob": 0.94791394,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 3,
+          "cue_feature": 0.4239198,
+          "gold_label": true,
+          "predicted_prob": 0.9456122,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 4,
+          "cue_feature": 0.55223334,
+          "gold_label": true,
+          "predicted_prob": 0.9518463,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 5,
+          "cue_feature": 0.42841986,
+          "gold_label": true,
+          "predicted_prob": 0.9458431,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 6,
+          "cue_feature": 0.5716481,
+          "gold_label": true,
+          "predicted_prob": 0.95272845,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 7,
+          "cue_feature": 0.48005953,
+          "gold_label": true,
+          "predicted_prob": 0.9484283,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 8,
+          "cue_feature": 0.476137,
+          "gold_label": true,
+          "predicted_prob": 0.94823605,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 9,
+          "cue_feature": 0.49184415,
+          "gold_label": true,
+          "predicted_prob": 0.94900167,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 10,
+          "cue_feature": -3.5153198,
+          "gold_label": false,
+          "predicted_prob": 0.25283545,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 11,
+          "cue_feature": -3.9538388,
+          "gold_label": false,
+          "predicted_prob": 0.17915757,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 12,
+          "cue_feature": -3.7445266,
+          "gold_label": false,
+          "predicted_prob": 0.21202648,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 13,
+          "cue_feature": -3.7318826,
+          "gold_label": false,
+          "predicted_prob": 0.21414663,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 14,
+          "cue_feature": -3.865151,
+          "gold_label": false,
+          "predicted_prob": 0.19257295,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 15,
+          "cue_feature": -3.54077,
+          "gold_label": false,
+          "predicted_prob": 0.24805796,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 16,
+          "cue_feature": -3.6379507,
+          "gold_label": false,
+          "predicted_prob": 0.23037814,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 17,
+          "cue_feature": -3.5286608,
+          "gold_label": false,
+          "predicted_prob": 0.25032356,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 18,
+          "cue_feature": -3.6463318,
+          "gold_label": false,
+          "predicted_prob": 0.22889547,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 19,
+          "cue_feature": -3.5613058,
+          "gold_label": false,
+          "predicted_prob": 0.24424738,
+          "predicted_label": false,
+          "is_correct": true
+        }
+      ],
+      "v3_sensor_accuracy": 1.0,
+      "v3_passed": true,
+      "v4_zero_sidecar": true,
+      "c3_margin": 5.0008907,
+      "c3_passed": true,
+      "c4_margin": 7.5176997,
+      "c4_passed": true,
+      "c5_margin": 10.3558445,
+      "c5_passed": true,
+      "k3_fwd_score": -4.07505,
+      "k3_rev_score": -3.8584437,
+      "k3_margin": -0.21660614,
+      "k3_passed": false,
+      "k3_transposition_score": 2.3417645,
+      "k3_transposition_passed": false,
+      "k3_shuffle_score": 0.11626387,
+      "k3_shuffle_margin": -0.33287,
+      "k3_shuffle_passed": false,
+      "k3_surgery_h1_margin": -0.21660614,
+      "k3_surgery_h2_margin": 2.3417645,
+      "k3_surgery_transferred": false,
+      "k4_fwd_score": -3.4610524,
+      "k4_rev_score": -7.038866,
+      "k4_margin": 3.5778136,
+      "k4_passed": true,
+      "k4_transposition_score": -9.683811,
+      "k4_transposition_passed": true,
+      "k5_fwd_score": -10.611288,
+      "k5_rev_score": -3.582481,
+      "k5_margin": -7.028807,
+      "k5_passed": false
+    },
+    {
+      "seed_index": 10,
+      "seed": 24770,
+      "aux_train_seed": 25769,
+      "theta_hash": "4ccbdc6e86bef53973ef216043c9c7f53cf0bab2875733e628eb296657907f5f",
+      "v1_fingerprint_valid": true,
+      "v2_m2_fwd": -0.050205834,
+      "v2_m2_rev": -2.9151845,
+      "v2_m2_margin": 2.8649786,
+      "v2_passed": true,
+      "v3_sensor_trials": [
+        {
+          "trial_id": 0,
+          "cue_feature": 0.5645714,
+          "gold_label": true,
+          "predicted_prob": 0.95335555,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 1,
+          "cue_feature": 0.5150268,
+          "gold_label": true,
+          "predicted_prob": 0.95110226,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 2,
+          "cue_feature": 0.5147206,
+          "gold_label": true,
+          "predicted_prob": 0.9510881,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 3,
+          "cue_feature": 0.45938566,
+          "gold_label": true,
+          "predicted_prob": 0.94844866,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 4,
+          "cue_feature": 0.5544213,
+          "gold_label": true,
+          "predicted_prob": 0.95290214,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 5,
+          "cue_feature": 0.4821878,
+          "gold_label": true,
+          "predicted_prob": 0.9495522,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 6,
+          "cue_feature": 0.4717364,
+          "gold_label": true,
+          "predicted_prob": 0.94904923,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 7,
+          "cue_feature": 0.4527793,
+          "gold_label": true,
+          "predicted_prob": 0.9481247,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 8,
+          "cue_feature": 0.5404579,
+          "gold_label": true,
+          "predicted_prob": 0.95227146,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 9,
+          "cue_feature": 0.48685706,
+          "gold_label": true,
+          "predicted_prob": 0.9497754,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 10,
+          "cue_feature": -3.7543535,
+          "gold_label": false,
+          "predicted_prob": 0.21391445,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 11,
+          "cue_feature": -3.77496,
+          "gold_label": false,
+          "predicted_prob": 0.21046978,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 12,
+          "cue_feature": -3.5909824,
+          "gold_label": false,
+          "predicted_prob": 0.24266599,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 13,
+          "cue_feature": -3.5996087,
+          "gold_label": false,
+          "predicted_prob": 0.2410842,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 14,
+          "cue_feature": -3.9201555,
+          "gold_label": false,
+          "predicted_prob": 0.18735465,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 15,
+          "cue_feature": -3.8790836,
+          "gold_label": false,
+          "predicted_prob": 0.1936884,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 16,
+          "cue_feature": -3.7696185,
+          "gold_label": false,
+          "predicted_prob": 0.21135877,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 17,
+          "cue_feature": -3.5720391,
+          "gold_label": false,
+          "predicted_prob": 0.24616434,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 18,
+          "cue_feature": -3.8307114,
+          "gold_label": false,
+          "predicted_prob": 0.20135494,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 19,
+          "cue_feature": -3.5078394,
+          "gold_label": false,
+          "predicted_prob": 0.2582708,
+          "predicted_label": false,
+          "is_correct": true
+        }
+      ],
+      "v3_sensor_accuracy": 1.0,
+      "v3_passed": true,
+      "v4_zero_sidecar": true,
+      "c3_margin": 5.448923,
+      "c3_passed": true,
+      "c4_margin": 8.540819,
+      "c4_passed": true,
+      "c5_margin": 11.988513,
+      "c5_passed": true,
+      "k3_fwd_score": -0.752014,
+      "k3_rev_score": -6.4628696,
+      "k3_margin": 5.7108555,
+      "k3_passed": true,
+      "k3_transposition_score": 6.8465858,
+      "k3_transposition_passed": false,
+      "k3_shuffle_score": 5.831011,
+      "k3_shuffle_margin": -0.120155334,
+      "k3_shuffle_passed": false,
+      "k3_surgery_h1_margin": 5.7108555,
+      "k3_surgery_h2_margin": 6.8465858,
+      "k3_surgery_transferred": false,
+      "k4_fwd_score": 0.22432089,
+      "k4_rev_score": -9.888488,
+      "k4_margin": 10.112808,
+      "k4_passed": true,
+      "k4_transposition_score": 7.39878,
+      "k4_transposition_passed": false,
+      "k5_fwd_score": -2.0657232,
+      "k5_rev_score": -11.324282,
+      "k5_margin": 9.258558,
+      "k5_passed": true
+    },
+    {
+      "seed_index": 11,
+      "seed": 25547,
+      "aux_train_seed": 26546,
+      "theta_hash": "c46cf93282db5e768501bb15581f59d117f191652f9d3acb490eaff18eff7ed1",
+      "v1_fingerprint_valid": true,
+      "v2_m2_fwd": -0.012406916,
+      "v2_m2_rev": -2.9322217,
+      "v2_m2_margin": 2.9198148,
+      "v2_passed": true,
+      "v3_sensor_trials": [
+        {
+          "trial_id": 0,
+          "cue_feature": 0.5033426,
+          "gold_label": true,
+          "predicted_prob": 0.9504659,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 1,
+          "cue_feature": 0.45490372,
+          "gold_label": true,
+          "predicted_prob": 0.9481351,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 2,
+          "cue_feature": 0.508276,
+          "gold_label": true,
+          "predicted_prob": 0.9506977,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 3,
+          "cue_feature": 0.500114,
+          "gold_label": true,
+          "predicted_prob": 0.9503137,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 4,
+          "cue_feature": 0.4153792,
+          "gold_label": true,
+          "predicted_prob": 0.9461567,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 5,
+          "cue_feature": 0.56015474,
+          "gold_label": true,
+          "predicted_prob": 0.95307326,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 6,
+          "cue_feature": 0.4964029,
+          "gold_label": true,
+          "predicted_prob": 0.9501382,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 7,
+          "cue_feature": 0.5325333,
+          "gold_label": true,
+          "predicted_prob": 0.9518223,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 8,
+          "cue_feature": 0.55760056,
+          "gold_label": true,
+          "predicted_prob": 0.95295894,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 9,
+          "cue_feature": 0.5385059,
+          "gold_label": true,
+          "predicted_prob": 0.9520955,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 10,
+          "cue_feature": -3.9175057,
+          "gold_label": false,
+          "predicted_prob": 0.18746647,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 11,
+          "cue_feature": -3.5199406,
+          "gold_label": false,
+          "predicted_prob": 0.25559482,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 12,
+          "cue_feature": -3.955573,
+          "gold_label": false,
+          "predicted_prob": 0.18173681,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 13,
+          "cue_feature": -3.7915611,
+          "gold_label": false,
+          "predicted_prob": 0.20740935,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 14,
+          "cue_feature": -3.7565174,
+          "gold_label": false,
+          "predicted_prob": 0.21322928,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 15,
+          "cue_feature": -3.6845484,
+          "gold_label": false,
+          "predicted_prob": 0.225552,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 16,
+          "cue_feature": -3.8310902,
+          "gold_label": false,
+          "predicted_prob": 0.20098625,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 17,
+          "cue_feature": -3.7468064,
+          "gold_label": false,
+          "predicted_prob": 0.21486297,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 18,
+          "cue_feature": -3.9944358,
+          "gold_label": false,
+          "predicted_prob": 0.17602892,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 19,
+          "cue_feature": -3.8123257,
+          "gold_label": false,
+          "predicted_prob": 0.20401657,
+          "predicted_label": false,
+          "is_correct": true
+        }
+      ],
+      "v3_sensor_accuracy": 1.0,
+      "v3_passed": true,
+      "v4_zero_sidecar": true,
+      "c3_margin": 5.041841,
+      "c3_passed": true,
+      "c4_margin": 7.4072347,
+      "c4_passed": true,
+      "c5_margin": 9.9396305,
+      "c5_passed": true,
+      "k3_fwd_score": -1.1290946,
+      "k3_rev_score": -6.2313433,
+      "k3_margin": 5.1022487,
+      "k3_passed": true,
+      "k3_transposition_score": 5.314075,
+      "k3_transposition_passed": false,
+      "k3_shuffle_score": 5.1309805,
+      "k3_shuffle_margin": -0.028731823,
+      "k3_shuffle_passed": false,
+      "k3_surgery_h1_margin": 5.1022487,
+      "k3_surgery_h2_margin": 5.314075,
+      "k3_surgery_transferred": false,
+      "k4_fwd_score": -0.94449973,
+      "k4_rev_score": -9.054168,
+      "k4_margin": 8.109668,
+      "k4_passed": true,
+      "k4_transposition_score": 6.6284146,
+      "k4_transposition_passed": false,
+      "k5_fwd_score": -2.422558,
+      "k5_rev_score": -11.171327,
+      "k5_margin": 8.748769,
+      "k5_passed": true
+    },
+    {
+      "seed_index": 12,
+      "seed": 26324,
+      "aux_train_seed": 27323,
+      "theta_hash": "78fabaafb0f4d1e58fc8999e309541ffdabf689a4bfd59b282f57467ee939998",
+      "v1_fingerprint_valid": true,
+      "v2_m2_fwd": -0.041182958,
+      "v2_m2_rev": -2.9124463,
+      "v2_m2_margin": 2.8712633,
+      "v2_passed": true,
+      "v3_sensor_trials": [
+        {
+          "trial_id": 0,
+          "cue_feature": 0.48247862,
+          "gold_label": true,
+          "predicted_prob": 0.9495389,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 1,
+          "cue_feature": 0.51723564,
+          "gold_label": true,
+          "predicted_prob": 0.95117843,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 2,
+          "cue_feature": 0.57584345,
+          "gold_label": true,
+          "predicted_prob": 0.95382917,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 3,
+          "cue_feature": 0.4012461,
+          "gold_label": true,
+          "predicted_prob": 0.9455013,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 4,
+          "cue_feature": 0.40310705,
+          "gold_label": true,
+          "predicted_prob": 0.9455972,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 5,
+          "cue_feature": 0.4290034,
+          "gold_label": true,
+          "predicted_prob": 0.94691414,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 6,
+          "cue_feature": 0.50240076,
+          "gold_label": true,
+          "predicted_prob": 0.9504849,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 7,
+          "cue_feature": 0.44196746,
+          "gold_label": true,
+          "predicted_prob": 0.947562,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 8,
+          "cue_feature": 0.49177006,
+          "gold_label": true,
+          "predicted_prob": 0.9499821,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 9,
+          "cue_feature": 0.59853345,
+          "gold_label": true,
+          "predicted_prob": 0.95481825,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 10,
+          "cue_feature": -3.724088,
+          "gold_label": false,
+          "predicted_prob": 0.21895039,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 11,
+          "cue_feature": -3.9812253,
+          "gold_label": false,
+          "predicted_prob": 0.17815019,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 12,
+          "cue_feature": -3.853806,
+          "gold_label": false,
+          "predicted_prob": 0.19757639,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 13,
+          "cue_feature": -3.5460463,
+          "gold_label": false,
+          "predicted_prob": 0.25091246,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 14,
+          "cue_feature": -3.5250149,
+          "gold_label": false,
+          "predicted_prob": 0.2548861,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 15,
+          "cue_feature": -3.9781663,
+          "gold_label": false,
+          "predicted_prob": 0.17859851,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 16,
+          "cue_feature": -3.7922914,
+          "gold_label": false,
+          "predicted_prob": 0.20751059,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 17,
+          "cue_feature": -3.9856274,
+          "gold_label": false,
+          "predicted_prob": 0.17750658,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 18,
+          "cue_feature": -3.8028111,
+          "gold_label": false,
+          "predicted_prob": 0.20578593,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 19,
+          "cue_feature": -3.9630637,
+          "gold_label": false,
+          "predicted_prob": 0.18082483,
+          "predicted_label": false,
+          "is_correct": true
+        }
+      ],
+      "v3_sensor_accuracy": 1.0,
+      "v3_passed": true,
+      "v4_zero_sidecar": true,
+      "c3_margin": 5.214588,
+      "c3_passed": true,
+      "c4_margin": 8.040929,
+      "c4_passed": true,
+      "c5_margin": 11.278604,
+      "c5_passed": true,
+      "k3_fwd_score": -3.7229698,
+      "k3_rev_score": -3.8256934,
+      "k3_margin": 0.1027236,
+      "k3_passed": true,
+      "k3_transposition_score": 5.440406,
+      "k3_transposition_passed": false,
+      "k3_shuffle_score": 2.4045873,
+      "k3_shuffle_margin": -2.3018637,
+      "k3_shuffle_passed": false,
+      "k3_surgery_h1_margin": 0.1027236,
+      "k3_surgery_h2_margin": 5.440406,
+      "k3_surgery_transferred": false,
+      "k4_fwd_score": -3.1712985,
+      "k4_rev_score": -7.211552,
+      "k4_margin": 4.0402536,
+      "k4_passed": true,
+      "k4_transposition_score": -24.722092,
+      "k4_transposition_passed": true,
+      "k5_fwd_score": -13.830842,
+      "k5_rev_score": 2.0772207,
+      "k5_margin": -15.908063,
+      "k5_passed": false
+    },
+    {
+      "seed_index": 13,
+      "seed": 27101,
+      "aux_train_seed": 28100,
+      "theta_hash": "3d42b7722313f36451653616749361b63370a0bd05db4f4b0d1f43ce7befc7e2",
+      "v1_fingerprint_valid": true,
+      "v2_m2_fwd": -0.03134496,
+      "v2_m2_rev": -2.9061036,
+      "v2_m2_margin": 2.8747587,
+      "v2_passed": true,
+      "v3_sensor_trials": [
+        {
+          "trial_id": 0,
+          "cue_feature": 0.42160484,
+          "gold_label": true,
+          "predicted_prob": 0.9457194,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 1,
+          "cue_feature": 0.44524032,
+          "gold_label": true,
+          "predicted_prob": 0.94692,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 2,
+          "cue_feature": 0.4607451,
+          "gold_label": true,
+          "predicted_prob": 0.947694,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 3,
+          "cue_feature": 0.43210256,
+          "gold_label": true,
+          "predicted_prob": 0.9462558,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 4,
+          "cue_feature": 0.48559737,
+          "gold_label": true,
+          "predicted_prob": 0.9489123,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 5,
+          "cue_feature": 0.44954106,
+          "gold_label": true,
+          "predicted_prob": 0.94713575,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 6,
+          "cue_feature": 0.55528766,
+          "gold_label": true,
+          "predicted_prob": 0.95218694,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 7,
+          "cue_feature": 0.5291591,
+          "gold_label": true,
+          "predicted_prob": 0.9509832,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 8,
+          "cue_feature": 0.53025043,
+          "gold_label": true,
+          "predicted_prob": 0.951034,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 9,
+          "cue_feature": 0.48126885,
+          "gold_label": true,
+          "predicted_prob": 0.948702,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 10,
+          "cue_feature": -3.9871478,
+          "gold_label": false,
+          "predicted_prob": 0.17494582,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 11,
+          "cue_feature": -3.9728916,
+          "gold_label": false,
+          "predicted_prob": 0.17701311,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 12,
+          "cue_feature": -3.809564,
+          "gold_label": false,
+          "predicted_prob": 0.20207284,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 13,
+          "cue_feature": -3.9589689,
+          "gold_label": false,
+          "predicted_prob": 0.17905049,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 14,
+          "cue_feature": -3.7757475,
+          "gold_label": false,
+          "predicted_prob": 0.20758039,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 15,
+          "cue_feature": -3.8611102,
+          "gold_label": false,
+          "predicted_prob": 0.19388908,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 16,
+          "cue_feature": -3.5609796,
+          "gold_label": false,
+          "predicted_prob": 0.2451212,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 17,
+          "cue_feature": -3.8212557,
+          "gold_label": false,
+          "predicted_prob": 0.20019428,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 18,
+          "cue_feature": -3.6404142,
+          "gold_label": false,
+          "predicted_prob": 0.23072198,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 19,
+          "cue_feature": -3.6581285,
+          "gold_label": false,
+          "predicted_prob": 0.22759287,
+          "predicted_label": false,
+          "is_correct": true
+        }
+      ],
+      "v3_sensor_accuracy": 1.0,
+      "v3_passed": true,
+      "v4_zero_sidecar": true,
+      "c3_margin": 5.10628,
+      "c3_passed": true,
+      "c4_margin": 7.749104,
+      "c4_passed": true,
+      "c5_margin": 10.751514,
+      "c5_passed": true,
+      "k3_fwd_score": -6.64105,
+      "k3_rev_score": -0.29598004,
+      "k3_margin": -6.34507,
+      "k3_passed": false,
+      "k3_transposition_score": -12.568385,
+      "k3_transposition_passed": true,
+      "k3_shuffle_score": -11.639131,
+      "k3_shuffle_margin": 5.2940607,
+      "k3_shuffle_passed": true,
+      "k3_surgery_h1_margin": -6.34507,
+      "k3_surgery_h2_margin": -12.568385,
+      "k3_surgery_transferred": false,
+      "k4_fwd_score": -7.444953,
+      "k4_rev_score": -2.8905375,
+      "k4_margin": -4.5544157,
+      "k4_passed": false,
+      "k4_transposition_score": -18.254787,
+      "k4_transposition_passed": true,
+      "k5_fwd_score": -17.519026,
+      "k5_rev_score": 7.2024074,
+      "k5_margin": -24.721434,
+      "k5_passed": false
+    },
+    {
+      "seed_index": 14,
+      "seed": 27878,
+      "aux_train_seed": 28877,
+      "theta_hash": "ac2893d4b5de4dea0b8e34925e0f5098bb76da1c1f2211f08c11fd0cac216ba4",
+      "v1_fingerprint_valid": true,
+      "v2_m2_fwd": -0.049459405,
+      "v2_m2_rev": -2.900612,
+      "v2_m2_margin": 2.8511527,
+      "v2_passed": true,
+      "v3_sensor_trials": [
+        {
+          "trial_id": 0,
+          "cue_feature": 0.40661642,
+          "gold_label": true,
+          "predicted_prob": 0.94507164,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 1,
+          "cue_feature": 0.47912282,
+          "gold_label": true,
+          "predicted_prob": 0.94871634,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 2,
+          "cue_feature": 0.4734968,
+          "gold_label": true,
+          "predicted_prob": 0.94844186,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 3,
+          "cue_feature": 0.5265505,
+          "gold_label": true,
+          "predicted_prob": 0.95097536,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 4,
+          "cue_feature": 0.58685106,
+          "gold_label": true,
+          "predicted_prob": 0.9537114,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 5,
+          "cue_feature": 0.5981493,
+          "gold_label": true,
+          "predicted_prob": 0.9542076,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 6,
+          "cue_feature": 0.5355816,
+          "gold_label": true,
+          "predicted_prob": 0.95139474,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 7,
+          "cue_feature": 0.5412829,
+          "gold_label": true,
+          "predicted_prob": 0.95165765,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 8,
+          "cue_feature": 0.539008,
+          "gold_label": true,
+          "predicted_prob": 0.9515529,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 9,
+          "cue_feature": 0.42871273,
+          "gold_label": true,
+          "predicted_prob": 0.94620746,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 10,
+          "cue_feature": -3.8764975,
+          "gold_label": false,
+          "predicted_prob": 0.19187337,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 11,
+          "cue_feature": -3.5102959,
+          "gold_label": false,
+          "predicted_prob": 0.25508344,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 12,
+          "cue_feature": -3.5597034,
+          "gold_label": false,
+          "predicted_prob": 0.24580936,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 13,
+          "cue_feature": -3.8658504,
+          "gold_label": false,
+          "predicted_prob": 0.1935297,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 14,
+          "cue_feature": -3.6514816,
+          "gold_label": false,
+          "predicted_prob": 0.2291941,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 15,
+          "cue_feature": -3.8250618,
+          "gold_label": false,
+          "predicted_prob": 0.1999755,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 16,
+          "cue_feature": -3.8910346,
+          "gold_label": false,
+          "predicted_prob": 0.18962938,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 17,
+          "cue_feature": -3.5755823,
+          "gold_label": false,
+          "predicted_prob": 0.2428775,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 18,
+          "cue_feature": -3.838958,
+          "gold_label": false,
+          "predicted_prob": 0.19776158,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 19,
+          "cue_feature": -3.5020895,
+          "gold_label": false,
+          "predicted_prob": 0.25664592,
+          "predicted_label": false,
+          "is_correct": true
+        }
+      ],
+      "v3_sensor_accuracy": 1.0,
+      "v3_passed": true,
+      "v4_zero_sidecar": true,
+      "c3_margin": 5.195332,
+      "c3_passed": true,
+      "c4_margin": 7.9739575,
+      "c4_passed": true,
+      "c5_margin": 11.094966,
+      "c5_passed": true,
+      "k3_fwd_score": -3.3873172,
+      "k3_rev_score": -4.2319374,
+      "k3_margin": 0.8446202,
+      "k3_passed": true,
+      "k3_transposition_score": 4.9528346,
+      "k3_transposition_passed": false,
+      "k3_shuffle_score": 3.0550222,
+      "k3_shuffle_margin": -2.210402,
+      "k3_shuffle_passed": false,
+      "k3_surgery_h1_margin": 0.8446202,
+      "k3_surgery_h2_margin": 4.9528346,
+      "k3_surgery_transferred": false,
+      "k4_fwd_score": -1.2373528,
+      "k4_rev_score": -8.588721,
+      "k4_margin": 7.3513684,
+      "k4_passed": true,
+      "k4_transposition_score": -3.0974178,
+      "k4_transposition_passed": true,
+      "k5_fwd_score": -6.337519,
+      "k5_rev_score": -7.84443,
+      "k5_margin": 1.5069108,
+      "k5_passed": true
+    },
+    {
+      "seed_index": 15,
+      "seed": 28655,
+      "aux_train_seed": 29654,
+      "theta_hash": "19c01c5f4aacd1284885f81de267a3af4e1bfe6f0b209b095d3ef91c59394fae",
+      "v1_fingerprint_valid": true,
+      "v2_m2_fwd": -0.03048754,
+      "v2_m2_rev": -2.9211342,
+      "v2_m2_margin": 2.8906467,
+      "v2_passed": true,
+      "v3_sensor_trials": [
+        {
+          "trial_id": 0,
+          "cue_feature": 0.5690182,
+          "gold_label": true,
+          "predicted_prob": 0.953477,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 1,
+          "cue_feature": 0.43759072,
+          "gold_label": true,
+          "predicted_prob": 0.9472871,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 2,
+          "cue_feature": 0.46371016,
+          "gold_label": true,
+          "predicted_prob": 0.9485763,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 3,
+          "cue_feature": 0.46752504,
+          "gold_label": true,
+          "predicted_prob": 0.94876206,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 4,
+          "cue_feature": 0.57327735,
+          "gold_label": true,
+          "predicted_prob": 0.9536657,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 5,
+          "cue_feature": 0.40604767,
+          "gold_label": true,
+          "predicted_prob": 0.9456897,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 6,
+          "cue_feature": 0.5984121,
+          "gold_label": true,
+          "predicted_prob": 0.95476365,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 7,
+          "cue_feature": 0.4883448,
+          "gold_label": true,
+          "predicted_prob": 0.9497647,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 8,
+          "cue_feature": 0.41433546,
+          "gold_label": true,
+          "predicted_prob": 0.94611377,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 9,
+          "cue_feature": 0.5974039,
+          "gold_label": true,
+          "predicted_prob": 0.9547201,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 10,
+          "cue_feature": -3.934803,
+          "gold_label": false,
+          "predicted_prob": 0.18487675,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 11,
+          "cue_feature": -3.7922907,
+          "gold_label": false,
+          "predicted_prob": 0.20732303,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 12,
+          "cue_feature": -3.7189965,
+          "gold_label": false,
+          "predicted_prob": 0.21962665,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 13,
+          "cue_feature": -3.6834269,
+          "gold_label": false,
+          "predicted_prob": 0.2257837,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 14,
+          "cue_feature": -3.5074813,
+          "gold_label": false,
+          "predicted_prob": 0.25801176,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 15,
+          "cue_feature": -3.7038438,
+          "gold_label": false,
+          "predicted_prob": 0.2222347,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 16,
+          "cue_feature": -3.6040285,
+          "gold_label": false,
+          "predicted_prob": 0.23996428,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 17,
+          "cue_feature": -3.7060378,
+          "gold_label": false,
+          "predicted_prob": 0.22185571,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 18,
+          "cue_feature": -3.8974514,
+          "gold_label": false,
+          "predicted_prob": 0.1905719,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 19,
+          "cue_feature": -3.987739,
+          "gold_label": false,
+          "predicted_prob": 0.17703211,
+          "predicted_label": false,
+          "is_correct": true
+        }
+      ],
+      "v3_sensor_accuracy": 1.0,
+      "v3_passed": true,
+      "v4_zero_sidecar": true,
+      "c3_margin": 5.165747,
+      "c3_passed": true,
+      "c4_margin": 7.845611,
+      "c4_passed": true,
+      "c5_margin": 10.853081,
+      "c5_passed": true,
+      "k3_fwd_score": -1.4414251,
+      "k3_rev_score": -6.1519737,
+      "k3_margin": 4.7105484,
+      "k3_passed": true,
+      "k3_transposition_score": 5.2146072,
+      "k3_transposition_passed": false,
+      "k3_shuffle_score": 4.5973854,
+      "k3_shuffle_margin": 0.113162994,
+      "k3_shuffle_passed": true,
+      "k3_surgery_h1_margin": 4.7105484,
+      "k3_surgery_h2_margin": 5.2146072,
+      "k3_surgery_transferred": false,
+      "k4_fwd_score": -1.2898207,
+      "k4_rev_score": -9.250787,
+      "k4_margin": 7.960966,
+      "k4_passed": true,
+      "k4_transposition_score": 3.3019848,
+      "k4_transposition_passed": false,
+      "k5_fwd_score": -3.8783941,
+      "k5_rev_score": -10.721733,
+      "k5_margin": 6.843339,
+      "k5_passed": true
+    },
+    {
+      "seed_index": 16,
+      "seed": 29432,
+      "aux_train_seed": 30431,
+      "theta_hash": "80c32b6cec614afc087e375b01a86a8729bb7aa061d618b47825bc2bcd9f59fe",
+      "v1_fingerprint_valid": true,
+      "v2_m2_fwd": -0.02935639,
+      "v2_m2_rev": -2.9155865,
+      "v2_m2_margin": 2.88623,
+      "v2_passed": true,
+      "v3_sensor_trials": [
+        {
+          "trial_id": 0,
+          "cue_feature": 0.44500643,
+          "gold_label": true,
+          "predicted_prob": 0.9480217,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 1,
+          "cue_feature": 0.5406443,
+          "gold_label": true,
+          "predicted_prob": 0.9525375,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 2,
+          "cue_feature": 0.5256803,
+          "gold_label": true,
+          "predicted_prob": 0.9518563,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 3,
+          "cue_feature": 0.5677149,
+          "gold_label": true,
+          "predicted_prob": 0.95374644,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 4,
+          "cue_feature": 0.51204884,
+          "gold_label": true,
+          "predicted_prob": 0.95122784,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 5,
+          "cue_feature": 0.40852848,
+          "gold_label": true,
+          "predicted_prob": 0.9461945,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 6,
+          "cue_feature": 0.5583071,
+          "gold_label": true,
+          "predicted_prob": 0.9533297,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 7,
+          "cue_feature": 0.59126157,
+          "gold_label": true,
+          "predicted_prob": 0.9547742,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 8,
+          "cue_feature": 0.4319886,
+          "gold_label": true,
+          "predicted_prob": 0.94737643,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 9,
+          "cue_feature": 0.4804667,
+          "gold_label": true,
+          "predicted_prob": 0.9497415,
+          "predicted_label": true,
+          "is_correct": true
+        },
+        {
+          "trial_id": 10,
+          "cue_feature": -3.8314164,
+          "gold_label": false,
+          "predicted_prob": 0.20215614,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 11,
+          "cue_feature": -3.753047,
+          "gold_label": false,
+          "predicted_prob": 0.21509159,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 12,
+          "cue_feature": -3.8911011,
+          "gold_label": false,
+          "predicted_prob": 0.19270055,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 13,
+          "cue_feature": -3.9556904,
+          "gold_label": false,
+          "predicted_prob": 0.1828515,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 14,
+          "cue_feature": -3.5697198,
+          "gold_label": false,
+          "predicted_prob": 0.24765173,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 15,
+          "cue_feature": -3.9397855,
+          "gold_label": false,
+          "predicted_prob": 0.18523996,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 16,
+          "cue_feature": -3.6191378,
+          "gold_label": false,
+          "predicted_prob": 0.2385594,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 17,
+          "cue_feature": -3.9485302,
+          "gold_label": false,
+          "predicted_prob": 0.18392378,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 18,
+          "cue_feature": -3.963272,
+          "gold_label": false,
+          "predicted_prob": 0.18172139,
+          "predicted_label": false,
+          "is_correct": true
+        },
+        {
+          "trial_id": 19,
+          "cue_feature": -3.6455915,
+          "gold_label": false,
+          "predicted_prob": 0.2337874,
+          "predicted_label": false,
+          "is_correct": true
+        }
+      ],
+      "v3_sensor_accuracy": 1.0,
+      "v3_passed": true,
+      "v4_zero_sidecar": true,
+      "c3_margin": 5.265697,
+      "c3_passed": true,
+      "c4_margin": 8.12408,
+      "c4_passed": true,
+      "c5_margin": 11.371927,
+      "c5_passed": true,
+      "k3_fwd_score": -3.4913263,
+      "k3_rev_score": -4.1686354,
+      "k3_margin": 0.67730904,
+      "k3_passed": true,
+      "k3_transposition_score": 3.5502315,
+      "k3_transposition_passed": false,
+      "k3_shuffle_score": 1.9870517,
+      "k3_shuffle_margin": -1.3097427,
+      "k3_shuffle_passed": false,
+      "k3_surgery_h1_margin": 0.67730904,
+      "k3_surgery_h2_margin": 3.5502315,
+      "k3_surgery_transferred": false,
+      "k4_fwd_score": -1.8691506,
+      "k4_rev_score": -8.731067,
+      "k4_margin": 6.861916,
+      "k4_passed": true,
+      "k4_transposition_score": -0.90611744,
+      "k4_transposition_passed": true,
+      "k5_fwd_score": -8.154701,
+      "k5_rev_score": -5.9137735,
+      "k5_margin": -2.2409277,
+      "k5_passed": false
+    }
+  ],
+  "v1_all_hashes_valid": true,
+  "v2_k2_retention_count": 16,
+  "v2_k2_retention_rate": 1.0,
+  "v2_passed": true,
+  "v3_sensor_competence_count": 16,
+  "v3_sensor_competence_rate": 1.0,
+  "v3_passed": true,
+  "v4_zero_sidecar": true,
+  "global_validity_passed": true,
+  "c3_pass_count": 16,
+  "c3_pass_rate": 1.0,
+  "c3_valid": true,
+  "c4_pass_count": 16,
+  "c4_pass_rate": 1.0,
+  "c4_valid": true,
+  "c5_pass_count": 16,
+  "c5_pass_rate": 1.0,
+  "c5_valid": true,
+  "k3_pass_count": 13,
+  "k3_pass_rate": 0.8125,
+  "k3_sign_flip_p": 0.029144287109375,
+  "k3_surgery_pass_count": 1,
+  "k3_transposition_pass_count": 3,
+  "k3_shuffle_pass_count": 7,
+  "tier1_k3_achieved": false,
+  "k4_pass_count": 15,
+  "k4_pass_rate": 0.9375,
+  "k4_sign_flip_p": 0.000091552734375,
+  "k4_transposition_pass_count": 10,
+  "tier2_k4_achieved": false,
+  "k5_pass_count": 9,
+  "k5_pass_rate": 0.5625,
+  "k5_mean_margin": -2.1242647,
+  "k5_median_margin": 1.270294,
+  "tier3_k5_achieved": false,
+  "is_bounded_depth": true,
+  "is_anomalous_profile": false,
+  "outcome_tier_verdict": "BOUNDED_DEPTH_CLEAN_NEGATIVE_2HOP"
+}
