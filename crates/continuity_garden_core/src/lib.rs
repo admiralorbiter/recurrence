@@ -8,6 +8,7 @@ pub mod plastic_trainer;
 pub mod provenance_kernel;
 pub mod provenance_oracle;
 pub mod trainer;
+pub mod typed_model;
 
 pub use bptt_trainer::{evaluate_q10d_model, train_policy_readout_regimes, Q10dEvaluationMetrics};
 pub use environment::{DualLocusRegulatorEnv, GroundTruthStateV2, ObservationV2};
