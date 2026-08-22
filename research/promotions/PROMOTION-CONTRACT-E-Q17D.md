@@ -2,7 +2,7 @@
 promotion_id: PROMOTION-CONTRACT-E-Q17D
 contract_id: CONTRACT-E-Q17D
 status: PROMOTED
-candidate_sha: fa7ebb857187429188e404b9015c7e8a9394602f
+candidate_sha: fa7ebb809ee98e77da3863eaeaefda1901eb48af
 generated_at: "2026-08-22 02:50:00Z"
 repair_rounds: 1
 reviewed_by: chatgpt-pro
