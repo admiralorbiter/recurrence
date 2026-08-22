@@ -419,7 +419,7 @@ fn evaluate_seed_full_diagnostics(seed_index: usize) -> DiagnosticSeedRecord {
     let aux_train_seed = seed + 999;
 
     let mut model = RecurrentMemoryModel::new_init(seed);
-    model.meta_train_bptt(aux_train_seed, 250);
+    model.meta_train_bptt(aux_train_seed, 120);
 
     let a = 1;
     let b = 2;

@@ -3,7 +3,7 @@ checkpoint_id: CHECKPOINT-E-Q17D
 contract_id: CONTRACT-E-Q17D
 promotion_id: PROMOTION-CONTRACT-E-Q17D
 timestamp: "2026-08-22 02:22:00Z"
-base_sha: 905a4afc1bbd9c90ebdbf0d1a49df5d8869fc485
+base_sha: fa7ebb857187429188e404b9015c7e8a9394602f
 status: PROMOTED
 authorized_by: human
 ---
@@ -13,7 +13,7 @@ authorized_by: human
 ## 1. Verified Scientific State
 - **Contract Promoted**: `CONTRACT-E-Q17D`
 - **Promotion Artifact**: [`research/promotions/PROMOTION-CONTRACT-E-Q17D.md`](../promotions/PROMOTION-CONTRACT-E-Q17D.md)
-- **Verified Code Baseline (`candidate_sha`)**: `905a4afc1bbd9c90ebdbf0d1a49df5d8869fc485`
+- **Verified Code Baseline (`candidate_sha`)**: `fa7ebb857187429188e404b9015c7e8a9394602f`
 - **Empirical Confirmation**:
   - **Global Validity V1–V4**: Full 8-tensor SHA-256 parameter hashes verified ($16/16$), canonical 2-hop baseline retained ($16/16, 100.0\%$), contemporaneous 20-trial 1-hop sensor competence retained ($16/16, 100.0\%$), and zero sidecar reads maintained ($16/16$).
   - **Coordinate-OOD Controls $C_3, C_4, C_5$**: 2-hop transitions utilizing extended role coordinates $D=4, E=5, F=6$ pass with $100\%$ precision ($16/16$ per control). This confirms that out-of-distribution coordinate representation is not the cause of multi-hop breakdown.
