@@ -212,6 +212,11 @@ path = "src/bin/scout_q17e_c_adaptive_gating.rs"
 name = "scout_q17e_d_trainability_and_pressure"
 path = "src/bin/scout_q17e_d_trainability_and_pressure.rs"
 
+[[bin]]
+name = "scout_q17e_e_relational_closure"
+path = "src/bin/scout_q17e_e_relational_closure.rs"
+
+
 
 
 
