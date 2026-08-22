@@ -2,7 +2,7 @@
 
 **Generated**: 2026-08-22 03:50:00Z  
 **Project**: `recurrence`  
-**generated_from_sha**: `fc8cbd02047ff96d5b058a5e848bc95dd7ff07df`  
+**generated_from_sha**: `fc8cbd0`  
 **Last Promoted Checkpoint**: `CHECKPOINT-E-Q17D` (`fa7ebb8`)  
 **Operational State**: `IDLE` (Scout H completed; diagnoses unbound reachability shortcut)
 
