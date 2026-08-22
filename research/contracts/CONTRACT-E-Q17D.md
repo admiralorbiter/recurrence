@@ -2,7 +2,7 @@
 contract_id: CONTRACT-E-Q17D
 status: DRAFT
 proposed_by: antigravity
-design_review: null
+design_review: APPROVED
 reviewed_by: chatgpt-pro
 authorized_by: null
 base_sha: ffffcf88d02e9dc56e264872c8a4c4bcce14f1c6
@@ -32,14 +32,14 @@ Same Frozen Model Weights theta_i (Trained ONLY on 2-Step Trajectories)
                  │
                  ▼
 Sequential Multi-Step Life Experience:
-Length 3: Trajectory (A->B, B->C, C->D)             -> Persistent z_t -> Query (A, D) [3-Hop Composition]
-Length 4: Trajectory (A->B, B->C, C->D, D->E)       -> Persistent z_t -> Query (A, E) [4-Hop Composition]
-Length 5: Trajectory (A->B, B->C, C->D, D->E, E->F) -> Persistent z_t -> Query (A, F) [5-Hop Composition]
+Length 3: Trajectory [(A, 1.0, B), (B, 2.0, C), (C, 1.0, D)]             -> Persistent z_t -> Query (A, D) [3-Hop]
+Length 4: Trajectory [(A, 1.0, B), (B, 2.0, C), (C, 1.0, D), (D, 2.0, E)] -> Persistent z_t -> Query (A, E) [4-Hop]
+Length 5: Trajectory [(A, 1.0, B), (B, 2.0, C), (C, 1.0, D), (D, 2.0, E), (E, 1.0, F)] -> Persistent z_t -> Query (A, F) [5-Hop]
 
 DEPTH-SPECIFIC COORDINATE-OOD CONTROLS (Disambiguating Depth from Coordinate Extrapolation):
-Control C3: Trajectory (A->B, B->D)                 -> Persistent z_t -> Query (A, D) [2-Hop with D coordinate]
-Control C4: Trajectory (A->B, B->E)                 -> Persistent z_t -> Query (A, E) [2-Hop with E coordinate]
-Control C5: Trajectory (A->B, B->F)                 -> Persistent z_t -> Query (A, F) [2-Hop with F coordinate]
+Control C3: Trajectory [(A, 1.0, B), (B, 2.0, D)]                 -> Persistent z_t -> Query (A, D) [2-Hop with D coordinate]
+Control C4: Trajectory [(A, 1.0, B), (B, 2.0, E)]                 -> Persistent z_t -> Query (A, E) [2-Hop with E coordinate]
+Control C5: Trajectory [(A, 1.0, B), (B, 2.0, F)]                 -> Persistent z_t -> Query (A, F) [2-Hop with F coordinate]
 ```
 
 ### Core Research Question
@@ -56,11 +56,24 @@ To isolate recursive compositional depth, all architectural parameters are held 
 3. **Query Dimension**: $d_q = 2$ (`QUERY_DIM = 2`, source and destination query roles).
 4. **Recurrent Dynamics**: $z_{t+1} = \tanh(W_z z_t + W_x x_t + b_z)$ with initial state $z_0 = \mathbf{0}$.
 5. **Associative Query Readout**: $r_\theta(z_t, (u, v)) = b_r + \sum_{i=0}^{127} W_r[i] \cdot z_t[i] \cdot (W_q (u, v))[i]$.
+6. **First-Order Sensor Head**: $s(x) = \text{softmax}(W_{\text{sensor}} x + b_{\text{sensor}})$.
 
-### Operational Definition of "Same Frozen Weights"
-For each random seed $i \in 0..15$:
-1. Model parameters $\theta_i = (W_z, W_x, b_z, W_q, W_r, b_r)$ are reproduced and meta-trained **ONCE** using the exact promoted Q17C deterministic training procedure, loss function, and auxiliary synthetic seed schedule (`candidate_sha: b0af2e13e4118564c72b0d004b7e2d54170657d2`).
-2. A cryptographic SHA-256 hash $\text{theta\_hash}_i$ is computed from the serialized parameter byte array.
+### Promoted Action Sequence Invariant
+To ensure depth scaling is not confounded with unseen action representations, all multi-hop transitions strictly alternate across the promoted Q17C action vocabulary $\{1.0, 2.0\}$:
+- Length 3 ($k=3$): Actions $[1.0, 2.0, 1.0]$ across transitions $(A \to B, B \to C, C \to D)$.
+- Length 4 ($k=4$): Actions $[1.0, 2.0, 1.0, 2.0]$ across transitions $(A \to B, B \to C, C \to D, D \to E)$.
+- Length 5 ($k=5$): Actions $[1.0, 2.0, 1.0, 2.0, 1.0]$ across transitions $(A \to B, B \to C, C \to D, D \to E, E \to F)$.
+- Coordinate Controls ($C_3, C_4, C_5$): Actions $[1.0, 2.0]$ across 2-step transitions.
+- **Zero new action coordinates** may appear in Q17D.
+
+### Exact Promoted Seed Schedule & Operational Definition of "Same Frozen Weights"
+The 16 experimental seeds are generated deterministically for index $i \in 1..16$:
+$$\text{seed}_i = 17000 + i \times 777$$
+$$\text{aux\_train\_seed}_i = \text{seed}_i + 999$$
+
+For each seed $i \in 1..16$:
+1. Complete parameter set $\theta_i = (W_z, W_x, b_z, W_q, W_r, b_r, W_{\text{sensor}}, b_{\text{sensor}})$ is reproduced and meta-trained **ONCE** using the exact promoted Q17C deterministic training procedure (`candidate_sha: b0af2e13e4118564c72b0d004b7e2d54170657d2`).
+2. A cryptographic SHA-256 hash $\text{theta\_hash}_i$ is computed from the full serialized parameter byte array across all 8 tensors.
 3. That exact parameter set $\theta_i$ is **frozen (ZERO subsequent weight updates or fine-tuning)** and cloned across all experimental conditions for seed $i$:
    - Canonical 2-hop baseline ($k=2$)
    - Coordinate control $C_3$
@@ -72,6 +85,7 @@ For each random seed $i \in 0..15$:
    - Multi-hop transposition collapse
    - Deterministic temporal shuffle control
    - Multi-hop causal state surgery
+   - 20-trial first-order sensor competence
 4. The acceptance verifier asserts byte-level parameter equality ($\text{theta\_hash}_i$) across all conditions within seed $i$.
 
 ---
@@ -104,14 +118,14 @@ where $e_1 = (A \to B)$, $e_2 = (B \to C)$, $e_3 = (C \to D)$.
 
 ## 4. Experiment-Validity Gates vs. Nested Outcome Tiers
 
-The experiment evaluates 16 independent random seeds ($\text{seed} \in 0..15$).
+The experiment evaluates 16 independent random seeds ($i \in 1..16$).
 
 ### Section A: Global Experiment-Validity Gates (Mandatory for Any Promotable Execution)
 These gates establish that the experimental harness, model weights, and baseline capacities are functioning validly.
 
 | Gate / Estimand | Preregistered Condition / Floor | Verification Method | Pass Threshold |
 | :--- | :--- | :--- | :--- |
-| **Gate V1: Promoted Architecture & Weight Fingerprint** | Parameter shapes match Q17C; $\text{theta\_hash}_i$ identical across conditions | Structural code assertion & SHA-256 byte check | $d=128, d_x=4, d_q=2$; $16/16$ hashes verified |
+| **Gate V1: Promoted Architecture & Full Parameter Hash** | Parameter shapes match Q17C; full $\text{theta\_hash}_i$ (all 8 tensors) identical across conditions | Structural code assertion & SHA-256 byte check | $d=128, d_x=4, d_q=2$; $16/16$ hashes verified |
 | **Gate V2: Canonical 2-Hop Retention ($k=2$)** | Directional margin $m_2 = \text{score}(A \to C) - \text{score}(C \to A) > 0.0$ | Exact binomial | $\ge 15 / 16$ seeds ($93.75\%$) |
 | **Gate V3: Contemporaneous Sensor Competence** | 20-trial 1-hop sensor classification accuracy | Baseline accuracy floor | $\ge 90.0\%$ in $16 / 16$ seeds |
 | **Gate V4: Structural Zero-Sidecar Invariant** | External transition store reads $\equiv 0$ | Direct API invariant | $\equiv 0$ sidecar calls ($16/16$) |
