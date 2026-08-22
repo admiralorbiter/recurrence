@@ -1,7 +1,7 @@
 [
   {
     "seed_index": 1,
-    "seed": 99777,
+    "seed": 111777,
     "primary_6way_initial_probs": [
       0.16666667,
       0.16666667,
@@ -11,27 +11,27 @@
       0.16666667
     ],
     "primary_6way_final_probs": [
-      0.99587005,
-      0.00086151675,
-      0.0008624975,
-      0.00079774973,
-      0.00079709914,
-      0.00081111345
+      0.993768,
+      0.0013828082,
+      0.0013886058,
+      0.0011896612,
+      0.0011742223,
+      0.0010965919
     ],
-    "primary_6way_canonical_prob": 0.99587005,
+    "primary_6way_canonical_prob": 0.993768,
     "primary_6way_dominant": true,
     "primary_6way_untrained": {
       "name": "primary_6way_untrained_uniform",
       "k2_accuracy": 1.0,
       "k2_pass": true,
-      "k3_accuracy": 0.94,
+      "k3_accuracy": 0.9,
       "k3_pass": true,
-      "k3_target_score": 0.0346144,
-      "k3_reverse_score": 0.0018259507,
-      "k3_distractor_score": -0.0012385389,
-      "k3_selectivity_margin": 0.03585293,
-      "source_grounding_drop": 0.035440974,
-      "destination_grounding_gap": 0.036436986
+      "k3_target_score": 0.047044106,
+      "k3_reverse_score": 0.00469526,
+      "k3_distractor_score": 0.0011412364,
+      "k3_selectivity_margin": 0.04590286,
+      "source_grounding_drop": 0.040538277,
+      "destination_grounding_gap": 0.046150494
     },
     "primary_6way_trained": {
       "name": "primary_6way_trained",
@@ -39,14 +39,14 @@
       "k2_pass": true,
       "k3_accuracy": 1.0,
       "k3_pass": true,
-      "k3_target_score": 0.9919807,
-      "k3_reverse_score": 0.07407952,
-      "k3_distractor_score": -0.0076817316,
-      "k3_selectivity_margin": 0.9996619,
-      "source_grounding_drop": 0.9840625,
-      "destination_grounding_gap": 0.99967295
+      "k3_target_score": 0.98837304,
+      "k3_reverse_score": 0.12428471,
+      "k3_distractor_score": 0.022089763,
+      "k3_selectivity_margin": 0.9662828,
+      "source_grounding_drop": 0.91555107,
+      "destination_grounding_gap": 0.9662696
     },
-    "primary_6way_margin_delta": 0.963809,
+    "primary_6way_margin_delta": 0.92037994,
     "topo_4way_initial_probs": [
       0.25,
       0.25,
@@ -54,12 +54,12 @@
       0.25
     ],
     "topo_4way_final_probs": [
-      0.9962502,
-      0.0012811535,
-      0.0012825789,
-      0.0011860139
+      0.99403316,
+      0.0020823986,
+      0.002099616,
+      0.0017847833
     ],
-    "topo_4way_canonical_prob": 0.9962502,
+    "topo_4way_canonical_prob": 0.99403316,
     "topo_4way_dominant": true,
     "topo_4way_untrained": {
       "name": "topo_4way_untrained_uniform",
@@ -67,12 +67,12 @@
       "k2_pass": true,
       "k3_accuracy": 1.0,
       "k3_pass": true,
-      "k3_target_score": 0.07981347,
-      "k3_reverse_score": 0.0056885965,
-      "k3_distractor_score": -0.0011064869,
-      "k3_selectivity_margin": 0.08091999,
-      "source_grounding_drop": 0.08041039,
-      "destination_grounding_gap": 0.08104373
+      "k3_target_score": 0.09771361,
+      "k3_reverse_score": 0.014813329,
+      "k3_distractor_score": -0.00034623078,
+      "k3_selectivity_margin": 0.098059826,
+      "source_grounding_drop": 0.09515173,
+      "destination_grounding_gap": 0.098137
     },
     "topo_4way_trained": {
       "name": "topo_4way_trained",
@@ -80,31 +80,31 @@
       "k2_pass": true,
       "k3_accuracy": 1.0,
       "k3_pass": true,
-      "k3_target_score": 0.992852,
-      "k3_reverse_score": 0.07414417,
-      "k3_distractor_score": -0.007691381,
-      "k3_selectivity_margin": 1.0005434,
-      "source_grounding_drop": 0.9849199,
-      "destination_grounding_gap": 1.00055
+      "k3_target_score": 0.9891321,
+      "k3_reverse_score": 0.12440735,
+      "k3_distractor_score": 0.022070516,
+      "k3_selectivity_margin": 0.96706116,
+      "source_grounding_drop": 0.91638094,
+      "destination_grounding_gap": 0.9670623
     },
-    "topo_4way_margin_delta": 0.9196234,
+    "topo_4way_margin_delta": 0.8690013,
     "negative_control_wrong_index": {
       "name": "wrong_index_contraction",
-      "k2_accuracy": 0.915,
-      "k2_pass": true,
-      "k3_accuracy": 0.51,
+      "k2_accuracy": 0.84,
+      "k2_pass": false,
+      "k3_accuracy": 0.575,
       "k3_pass": false,
-      "k3_target_score": 0.0021577016,
-      "k3_reverse_score": -0.00010886982,
-      "k3_distractor_score": 0.00023683874,
-      "k3_selectivity_margin": 0.0019208633,
-      "source_grounding_drop": 0.0023295647,
-      "destination_grounding_gap": 0.001920863
+      "k3_target_score": 0.00995267,
+      "k3_reverse_score": 0.0016803842,
+      "k3_distractor_score": 0.0034175976,
+      "k3_selectivity_margin": 0.0065350705,
+      "source_grounding_drop": 0.015293252,
+      "destination_grounding_gap": 0.0065350705
     }
   },
   {
     "seed_index": 2,
-    "seed": 100554,
+    "seed": 112554,
     "primary_6way_initial_probs": [
       0.16666667,
       0.16666667,
@@ -114,14 +114,1044 @@
       0.16666667
     ],
     "primary_6way_final_probs": [
-      0.9952362,
-      0.0010232558,
-      0.0010203057,
-      0.0009134851,
-      0.0009104507,
-      0.00089622516
+      0.99610436,
+      0.00082686765,
+      0.00082605815,
+      0.00072302273,
+      0.00072017335,
+      0.00079953857
     ],
-    "primary_6way_canonical_prob": 0.9952362,
+    "primary_6way_canonical_prob": 0.99610436,
+    "primary_6way_dominant": true,
+    "primary_6way_untrained": {
+      "name": "primary_6way_untrained_uniform",
+      "k2_accuracy": 1.0,
+      "k2_pass": true,
+      "k3_accuracy": 0.84,
+      "k3_pass": true,
+      "k3_target_score": 0.033518005,
+      "k3_reverse_score": 0.0048626773,
+      "k3_distractor_score": -0.0045413477,
+      "k3_selectivity_margin": 0.03805935,
+      "source_grounding_drop": 0.04872916,
+      "destination_grounding_gap": 0.038587272
+    },
+    "primary_6way_trained": {
+      "name": "primary_6way_trained",
+      "k2_accuracy": 1.0,
+      "k2_pass": true,
+      "k3_accuracy": 1.0,
+      "k3_pass": true,
+      "k3_target_score": 0.9925349,
+      "k3_reverse_score": 0.13207275,
+      "k3_distractor_score": -0.07646227,
+      "k3_selectivity_margin": 1.0689968,
+      "source_grounding_drop": 1.0664315,
+      "destination_grounding_gap": 1.0689906
+    },
+    "primary_6way_margin_delta": 1.0309374,
+    "topo_4way_initial_probs": [
+      0.25,
+      0.25,
+      0.25,
+      0.25
+    ],
+    "topo_4way_final_probs": [
+      0.9964855,
+      0.0012239178,
+      0.0012225419,
+      0.001068009
+    ],
+    "topo_4way_canonical_prob": 0.9964855,
+    "topo_4way_dominant": true,
+    "topo_4way_untrained": {
+      "name": "topo_4way_untrained_uniform",
+      "k2_accuracy": 1.0,
+      "k2_pass": true,
+      "k3_accuracy": 1.0,
+      "k3_pass": true,
+      "k3_target_score": 0.10087904,
+      "k3_reverse_score": 0.013275558,
+      "k3_distractor_score": -0.00895616,
+      "k3_selectivity_margin": 0.10983512,
+      "source_grounding_drop": 0.10819793,
+      "destination_grounding_gap": 0.11102514
+    },
+    "topo_4way_trained": {
+      "name": "topo_4way_trained",
+      "k2_accuracy": 1.0,
+      "k2_pass": true,
+      "k3_accuracy": 1.0,
+      "k3_pass": true,
+      "k3_target_score": 0.9936583,
+      "k3_reverse_score": 0.13221341,
+      "k3_distractor_score": -0.07652723,
+      "k3_selectivity_margin": 1.0701854,
+      "source_grounding_drop": 1.067527,
+      "destination_grounding_gap": 1.0701764
+    },
+    "topo_4way_margin_delta": 0.9603503,
+    "negative_control_wrong_index": {
+      "name": "wrong_index_contraction",
+      "k2_accuracy": 0.935,
+      "k2_pass": true,
+      "k3_accuracy": 0.545,
+      "k3_pass": false,
+      "k3_target_score": 0.013963734,
+      "k3_reverse_score": -0.0028141069,
+      "k3_distractor_score": -0.004509887,
+      "k3_selectivity_margin": 0.018473627,
+      "source_grounding_drop": 0.014774871,
+      "destination_grounding_gap": 0.018473627
+    }
+  },
+  {
+    "seed_index": 3,
+    "seed": 113331,
+    "primary_6way_initial_probs": [
+      0.16666667,
+      0.16666667,
+      0.16666667,
+      0.16666667,
+      0.16666667,
+      0.16666667
+    ],
+    "primary_6way_final_probs": [
+      0.99428815,
+      0.001226832,
+      0.0012649945,
+      0.001123418,
+      0.0011132859,
+      0.0009832202
+    ],
+    "primary_6way_canonical_prob": 0.99428815,
+    "primary_6way_dominant": true,
+    "primary_6way_untrained": {
+      "name": "primary_6way_untrained_uniform",
+      "k2_accuracy": 1.0,
+      "k2_pass": true,
+      "k3_accuracy": 1.0,
+      "k3_pass": true,
+      "k3_target_score": 0.047287602,
+      "k3_reverse_score": 0.0018156228,
+      "k3_distractor_score": 0.006048308,
+      "k3_selectivity_margin": 0.04123928,
+      "source_grounding_drop": 0.0343773,
+      "destination_grounding_gap": 0.043677058
+    },
+    "primary_6way_trained": {
+      "name": "primary_6way_trained",
+      "k2_accuracy": 1.0,
+      "k2_pass": true,
+      "k3_accuracy": 1.0,
+      "k3_pass": true,
+      "k3_target_score": 0.9890954,
+      "k3_reverse_score": 0.060055837,
+      "k3_distractor_score": 0.07329474,
+      "k3_selectivity_margin": 0.9158008,
+      "source_grounding_drop": 0.91043144,
+      "destination_grounding_gap": 0.9158759
+    },
+    "primary_6way_margin_delta": 0.87456155,
+    "topo_4way_initial_probs": [
+      0.25,
+      0.25,
+      0.25,
+      0.25
+    ],
+    "topo_4way_final_probs": [
+      0.9945522,
+      0.0018526606,
+      0.0019084149,
+      0.0016867075
+    ],
+    "topo_4way_canonical_prob": 0.9945522,
+    "topo_4way_dominant": true,
+    "topo_4way_untrained": {
+      "name": "topo_4way_untrained_uniform",
+      "k2_accuracy": 1.0,
+      "k2_pass": true,
+      "k3_accuracy": 1.0,
+      "k3_pass": true,
+      "k3_target_score": 0.07879866,
+      "k3_reverse_score": 0.0049425582,
+      "k3_distractor_score": 0.005512079,
+      "k3_selectivity_margin": 0.07328659,
+      "source_grounding_drop": 0.07510663,
+      "destination_grounding_gap": 0.07424686
+    },
+    "topo_4way_trained": {
+      "name": "topo_4way_trained",
+      "k2_accuracy": 1.0,
+      "k2_pass": true,
+      "k3_accuracy": 1.0,
+      "k3_pass": true,
+      "k3_target_score": 0.9896114,
+      "k3_reverse_score": 0.060085088,
+      "k3_distractor_score": 0.073272675,
+      "k3_selectivity_margin": 0.9163388,
+      "source_grounding_drop": 0.91104555,
+      "destination_grounding_gap": 0.91636676
+    },
+    "topo_4way_margin_delta": 0.8430522,
+    "negative_control_wrong_index": {
+      "name": "wrong_index_contraction",
+      "k2_accuracy": 0.98,
+      "k2_pass": true,
+      "k3_accuracy": 0.345,
+      "k3_pass": false,
+      "k3_target_score": 0.00014390174,
+      "k3_reverse_score": 0.00043938792,
+      "k3_distractor_score": 0.00026798385,
+      "k3_selectivity_margin": -0.00012408204,
+      "source_grounding_drop": 0.0009441868,
+      "destination_grounding_gap": -0.000124082
+    }
+  },
+  {
+    "seed_index": 4,
+    "seed": 114108,
+    "primary_6way_initial_probs": [
+      0.16666667,
+      0.16666667,
+      0.16666667,
+      0.16666667,
+      0.16666667,
+      0.16666667
+    ],
+    "primary_6way_final_probs": [
+      0.9878005,
+      0.0027480198,
+      0.0025635425,
+      0.0026610296,
+      0.002742166,
+      0.0014847552
+    ],
+    "primary_6way_canonical_prob": 0.9878005,
+    "primary_6way_dominant": true,
+    "primary_6way_untrained": {
+      "name": "primary_6way_untrained_uniform",
+      "k2_accuracy": 1.0,
+      "k2_pass": true,
+      "k3_accuracy": 1.0,
+      "k3_pass": true,
+      "k3_target_score": 0.06672749,
+      "k3_reverse_score": 0.010017239,
+      "k3_distractor_score": 0.019286426,
+      "k3_selectivity_margin": 0.04744107,
+      "source_grounding_drop": 0.02656114,
+      "destination_grounding_gap": 0.048009705
+    },
+    "primary_6way_trained": {
+      "name": "primary_6way_trained",
+      "k2_accuracy": 1.0,
+      "k2_pass": true,
+      "k3_accuracy": 1.0,
+      "k3_pass": true,
+      "k3_target_score": 0.9772431,
+      "k3_reverse_score": 0.08520116,
+      "k3_distractor_score": 0.20673195,
+      "k3_selectivity_margin": 0.77051127,
+      "source_grounding_drop": 0.76843995,
+      "destination_grounding_gap": 0.77053636
+    },
+    "primary_6way_margin_delta": 0.7230702,
+    "topo_4way_initial_probs": [
+      0.25,
+      0.25,
+      0.25,
+      0.25
+    ],
+    "topo_4way_final_probs": [
+      0.98752314,
+      0.004301341,
+      0.003972208,
+      0.004203322
+    ],
+    "topo_4way_canonical_prob": 0.98752314,
+    "topo_4way_dominant": true,
+    "topo_4way_untrained": {
+      "name": "topo_4way_untrained_uniform",
+      "k2_accuracy": 1.0,
+      "k2_pass": true,
+      "k3_accuracy": 1.0,
+      "k3_pass": true,
+      "k3_target_score": 0.086312115,
+      "k3_reverse_score": 0.008936379,
+      "k3_distractor_score": 0.020022685,
+      "k3_selectivity_margin": 0.066289425,
+      "source_grounding_drop": 0.062391497,
+      "destination_grounding_gap": 0.06608937
+    },
+    "topo_4way_trained": {
+      "name": "topo_4way_trained",
+      "k2_accuracy": 1.0,
+      "k2_pass": true,
+      "k3_accuracy": 1.0,
+      "k3_pass": true,
+      "k3_target_score": 0.97660494,
+      "k3_reverse_score": 0.08509418,
+      "k3_distractor_score": 0.20651692,
+      "k3_selectivity_margin": 0.77008814,
+      "source_grounding_drop": 0.7682169,
+      "destination_grounding_gap": 0.770103
+    },
+    "topo_4way_margin_delta": 0.7037987,
+    "negative_control_wrong_index": {
+      "name": "wrong_index_contraction",
+      "k2_accuracy": 0.965,
+      "k2_pass": true,
+      "k3_accuracy": 0.635,
+      "k3_pass": false,
+      "k3_target_score": 0.006592661,
+      "k3_reverse_score": 0.00047306894,
+      "k3_distractor_score": 0.0008032725,
+      "k3_selectivity_margin": 0.0057893842,
+      "source_grounding_drop": 0.0011901803,
+      "destination_grounding_gap": 0.0057893842
+    }
+  },
+  {
+    "seed_index": 5,
+    "seed": 114885,
+    "primary_6way_initial_probs": [
+      0.16666667,
+      0.16666667,
+      0.16666667,
+      0.16666667,
+      0.16666667,
+      0.16666667
+    ],
+    "primary_6way_final_probs": [
+      0.9943295,
+      0.001219257,
+      0.0012224851,
+      0.0011125696,
+      0.0011227664,
+      0.0009935838
+    ],
+    "primary_6way_canonical_prob": 0.9943295,
+    "primary_6way_dominant": true,
+    "primary_6way_untrained": {
+      "name": "primary_6way_untrained_uniform",
+      "k2_accuracy": 1.0,
+      "k2_pass": true,
+      "k3_accuracy": 0.98,
+      "k3_pass": true,
+      "k3_target_score": 0.04710628,
+      "k3_reverse_score": 0.0032473572,
+      "k3_distractor_score": 0.005018075,
+      "k3_selectivity_margin": 0.042088214,
+      "source_grounding_drop": 0.033133164,
+      "destination_grounding_gap": 0.043984782
+    },
+    "primary_6way_trained": {
+      "name": "primary_6way_trained",
+      "k2_accuracy": 1.0,
+      "k2_pass": true,
+      "k3_accuracy": 1.0,
+      "k3_pass": true,
+      "k3_target_score": 0.9892297,
+      "k3_reverse_score": 0.06606856,
+      "k3_distractor_score": 0.080495074,
+      "k3_selectivity_margin": 0.90873504,
+      "source_grounding_drop": 0.91605514,
+      "destination_grounding_gap": 0.9087731
+    },
+    "primary_6way_margin_delta": 0.8666468,
+    "topo_4way_initial_probs": [
+      0.25,
+      0.25,
+      0.25,
+      0.25
+    ],
+    "topo_4way_final_probs": [
+      0.99464154,
+      0.0018417872,
+      0.0018419761,
+      0.0016747097
+    ],
+    "topo_4way_canonical_prob": 0.99464154,
+    "topo_4way_dominant": true,
+    "topo_4way_untrained": {
+      "name": "topo_4way_untrained_uniform",
+      "k2_accuracy": 1.0,
+      "k2_pass": true,
+      "k3_accuracy": 1.0,
+      "k3_pass": true,
+      "k3_target_score": 0.082913235,
+      "k3_reverse_score": 0.0057975287,
+      "k3_distractor_score": 0.0067004757,
+      "k3_selectivity_margin": 0.07621276,
+      "source_grounding_drop": 0.07609399,
+      "destination_grounding_gap": 0.07667104
+    },
+    "topo_4way_trained": {
+      "name": "topo_4way_trained",
+      "k2_accuracy": 1.0,
+      "k2_pass": true,
+      "k3_accuracy": 1.0,
+      "k3_pass": true,
+      "k3_target_score": 0.98987657,
+      "k3_reverse_score": 0.06610049,
+      "k3_distractor_score": 0.08050533,
+      "k3_selectivity_margin": 0.9093712,
+      "source_grounding_drop": 0.9167687,
+      "destination_grounding_gap": 0.9093811
+    },
+    "topo_4way_margin_delta": 0.83315843,
+    "negative_control_wrong_index": {
+      "name": "wrong_index_contraction",
+      "k2_accuracy": 0.87,
+      "k2_pass": true,
+      "k3_accuracy": 0.605,
+      "k3_pass": false,
+      "k3_target_score": 0.0024756242,
+      "k3_reverse_score": 0.00052319164,
+      "k3_distractor_score": -0.0006131627,
+      "k3_selectivity_margin": 0.0030887865,
+      "source_grounding_drop": 0.0030041924,
+      "destination_grounding_gap": 0.003088786
+    }
+  },
+  {
+    "seed_index": 6,
+    "seed": 115662,
+    "primary_6way_initial_probs": [
+      0.16666667,
+      0.16666667,
+      0.16666667,
+      0.16666667,
+      0.16666667,
+      0.16666667
+    ],
+    "primary_6way_final_probs": [
+      0.9911179,
+      0.0020136635,
+      0.002155792,
+      0.0016664979,
+      0.0016097337,
+      0.0014364828
+    ],
+    "primary_6way_canonical_prob": 0.9911179,
+    "primary_6way_dominant": true,
+    "primary_6way_untrained": {
+      "name": "primary_6way_untrained_uniform",
+      "k2_accuracy": 1.0,
+      "k2_pass": true,
+      "k3_accuracy": 0.975,
+      "k3_pass": true,
+      "k3_target_score": 0.06082066,
+      "k3_reverse_score": 0.007994793,
+      "k3_distractor_score": 0.007414135,
+      "k3_selectivity_margin": 0.05340652,
+      "source_grounding_drop": 0.053673495,
+      "destination_grounding_gap": 0.053621326
+    },
+    "primary_6way_trained": {
+      "name": "primary_6way_trained",
+      "k2_accuracy": 1.0,
+      "k2_pass": true,
+      "k3_accuracy": 1.0,
+      "k3_pass": true,
+      "k3_target_score": 0.9839356,
+      "k3_reverse_score": 0.1585042,
+      "k3_distractor_score": 0.08295026,
+      "k3_selectivity_margin": 0.90098554,
+      "source_grounding_drop": 0.9165097,
+      "destination_grounding_gap": 0.9009353
+    },
+    "primary_6way_margin_delta": 0.847579,
+    "topo_4way_initial_probs": [
+      0.25,
+      0.25,
+      0.25,
+      0.25
+    ],
+    "topo_4way_final_probs": [
+      0.9910522,
+      0.0030827771,
+      0.0033391041,
+      0.0025259359
+    ],
+    "topo_4way_canonical_prob": 0.9910522,
+    "topo_4way_dominant": true,
+    "topo_4way_untrained": {
+      "name": "topo_4way_untrained_uniform",
+      "k2_accuracy": 1.0,
+      "k2_pass": true,
+      "k3_accuracy": 1.0,
+      "k3_pass": true,
+      "k3_target_score": 0.11293882,
+      "k3_reverse_score": 0.023153612,
+      "k3_distractor_score": 0.008185688,
+      "k3_selectivity_margin": 0.10475312,
+      "source_grounding_drop": 0.11680646,
+      "destination_grounding_gap": 0.10213004
+    },
+    "topo_4way_trained": {
+      "name": "topo_4way_trained",
+      "k2_accuracy": 1.0,
+      "k2_pass": true,
+      "k3_accuracy": 1.0,
+      "k3_pass": true,
+      "k3_target_score": 0.9842832,
+      "k3_reverse_score": 0.15863383,
+      "k3_distractor_score": 0.08288871,
+      "k3_selectivity_margin": 0.9013947,
+      "source_grounding_drop": 0.91712356,
+      "destination_grounding_gap": 0.9012906
+    },
+    "topo_4way_margin_delta": 0.7966416,
+    "negative_control_wrong_index": {
+      "name": "wrong_index_contraction",
+      "k2_accuracy": 0.935,
+      "k2_pass": true,
+      "k3_accuracy": 0.575,
+      "k3_pass": false,
+      "k3_target_score": 0.02288706,
+      "k3_reverse_score": 0.0010490688,
+      "k3_distractor_score": 0.007869151,
+      "k3_selectivity_margin": 0.015017911,
+      "source_grounding_drop": 0.03968958,
+      "destination_grounding_gap": 0.015017914
+    }
+  },
+  {
+    "seed_index": 7,
+    "seed": 116439,
+    "primary_6way_initial_probs": [
+      0.16666667,
+      0.16666667,
+      0.16666667,
+      0.16666667,
+      0.16666667,
+      0.16666667
+    ],
+    "primary_6way_final_probs": [
+      0.9942114,
+      0.0012637055,
+      0.0012706531,
+      0.0011007865,
+      0.0010964641,
+      0.0010570686
+    ],
+    "primary_6way_canonical_prob": 0.9942114,
+    "primary_6way_dominant": true,
+    "primary_6way_untrained": {
+      "name": "primary_6way_untrained_uniform",
+      "k2_accuracy": 0.99,
+      "k2_pass": true,
+      "k3_accuracy": 0.94,
+      "k3_pass": true,
+      "k3_target_score": 0.049930263,
+      "k3_reverse_score": 0.0051967166,
+      "k3_distractor_score": 0.0009895291,
+      "k3_selectivity_margin": 0.04894074,
+      "source_grounding_drop": 0.04918557,
+      "destination_grounding_gap": 0.050252672
+    },
+    "primary_6way_trained": {
+      "name": "primary_6way_trained",
+      "k2_accuracy": 1.0,
+      "k2_pass": true,
+      "k3_accuracy": 1.0,
+      "k3_pass": true,
+      "k3_target_score": 0.9891579,
+      "k3_reverse_score": 0.135439,
+      "k3_distractor_score": 0.03498991,
+      "k3_selectivity_margin": 0.954168,
+      "source_grounding_drop": 0.9643508,
+      "destination_grounding_gap": 0.9542116
+    },
+    "primary_6way_margin_delta": 0.9052273,
+    "topo_4way_initial_probs": [
+      0.25,
+      0.25,
+      0.25,
+      0.25
+    ],
+    "topo_4way_final_probs": [
+      0.99457693,
+      0.0018873123,
+      0.0018983082,
+      0.0016374211
+    ],
+    "topo_4way_canonical_prob": 0.99457693,
+    "topo_4way_dominant": true,
+    "topo_4way_untrained": {
+      "name": "topo_4way_untrained_uniform",
+      "k2_accuracy": 1.0,
+      "k2_pass": true,
+      "k3_accuracy": 1.0,
+      "k3_pass": true,
+      "k3_target_score": 0.10099268,
+      "k3_reverse_score": 0.017295526,
+      "k3_distractor_score": 0.0013045319,
+      "k3_selectivity_margin": 0.09968814,
+      "source_grounding_drop": 0.10178982,
+      "destination_grounding_gap": 0.09962407
+    },
+    "topo_4way_trained": {
+      "name": "topo_4way_trained",
+      "k2_accuracy": 1.0,
+      "k2_pass": true,
+      "k3_accuracy": 1.0,
+      "k3_pass": true,
+      "k3_target_score": 0.9901335,
+      "k3_reverse_score": 0.13562539,
+      "k3_distractor_score": 0.03500644,
+      "k3_selectivity_margin": 0.95512694,
+      "source_grounding_drop": 0.9653416,
+      "destination_grounding_gap": 0.95514214
+    },
+    "topo_4way_margin_delta": 0.8554388,
+    "negative_control_wrong_index": {
+      "name": "wrong_index_contraction",
+      "k2_accuracy": 0.955,
+      "k2_pass": true,
+      "k3_accuracy": 0.635,
+      "k3_pass": false,
+      "k3_target_score": 0.022490533,
+      "k3_reverse_score": 0.00294729,
+      "k3_distractor_score": 0.0014042269,
+      "k3_selectivity_margin": 0.021086298,
+      "source_grounding_drop": 0.02438147,
+      "destination_grounding_gap": 0.021086298
+    }
+  },
+  {
+    "seed_index": 8,
+    "seed": 117216,
+    "primary_6way_initial_probs": [
+      0.16666667,
+      0.16666667,
+      0.16666667,
+      0.16666667,
+      0.16666667,
+      0.16666667
+    ],
+    "primary_6way_final_probs": [
+      0.9945504,
+      0.0011823599,
+      0.0011952048,
+      0.0010662446,
+      0.0010347097,
+      0.0009711758
+    ],
+    "primary_6way_canonical_prob": 0.9945504,
+    "primary_6way_dominant": true,
+    "primary_6way_untrained": {
+      "name": "primary_6way_untrained_uniform",
+      "k2_accuracy": 1.0,
+      "k2_pass": true,
+      "k3_accuracy": 0.975,
+      "k3_pass": true,
+      "k3_target_score": 0.04486891,
+      "k3_reverse_score": 0.0024086507,
+      "k3_distractor_score": 0.0035941529,
+      "k3_selectivity_margin": 0.04127472,
+      "source_grounding_drop": 0.034453243,
+      "destination_grounding_gap": 0.04150457
+    },
+    "primary_6way_trained": {
+      "name": "primary_6way_trained",
+      "k2_accuracy": 1.0,
+      "k2_pass": true,
+      "k3_accuracy": 1.0,
+      "k3_pass": true,
+      "k3_target_score": 0.9896299,
+      "k3_reverse_score": 0.07296505,
+      "k3_distractor_score": 0.034443505,
+      "k3_selectivity_margin": 0.9551863,
+      "source_grounding_drop": 0.93375474,
+      "destination_grounding_gap": 0.95521474
+    },
+    "primary_6way_margin_delta": 0.9139116,
+    "topo_4way_initial_probs": [
+      0.25,
+      0.25,
+      0.25,
+      0.25
+    ],
+    "topo_4way_final_probs": [
+      0.99480695,
+      0.0017831813,
+      0.0018097853,
+      0.0016000791
+    ],
+    "topo_4way_canonical_prob": 0.99480695,
+    "topo_4way_dominant": true,
+    "topo_4way_untrained": {
+      "name": "topo_4way_untrained_uniform",
+      "k2_accuracy": 1.0,
+      "k2_pass": true,
+      "k3_accuracy": 1.0,
+      "k3_pass": true,
+      "k3_target_score": 0.08333946,
+      "k3_reverse_score": 0.006873423,
+      "k3_distractor_score": 0.0021077874,
+      "k3_selectivity_margin": 0.08123168,
+      "source_grounding_drop": 0.08043787,
+      "destination_grounding_gap": 0.08166261
+    },
+    "topo_4way_trained": {
+      "name": "topo_4way_trained",
+      "k2_accuracy": 1.0,
+      "k2_pass": true,
+      "k3_accuracy": 1.0,
+      "k3_pass": true,
+      "k3_target_score": 0.9901934,
+      "k3_reverse_score": 0.07301134,
+      "k3_distractor_score": 0.034410514,
+      "k3_selectivity_margin": 0.95578307,
+      "source_grounding_drop": 0.9344047,
+      "destination_grounding_gap": 0.9557952
+    },
+    "topo_4way_margin_delta": 0.8745514,
+    "negative_control_wrong_index": {
+      "name": "wrong_index_contraction",
+      "k2_accuracy": 0.95,
+      "k2_pass": true,
+      "k3_accuracy": 0.505,
+      "k3_pass": false,
+      "k3_target_score": 0.0040599424,
+      "k3_reverse_score": 0.00077299436,
+      "k3_distractor_score": 0.00048429906,
+      "k3_selectivity_margin": 0.003575643,
+      "source_grounding_drop": 0.0057793623,
+      "destination_grounding_gap": 0.0035756421
+    }
+  },
+  {
+    "seed_index": 9,
+    "seed": 117993,
+    "primary_6way_initial_probs": [
+      0.16666667,
+      0.16666667,
+      0.16666667,
+      0.16666667,
+      0.16666667,
+      0.16666667
+    ],
+    "primary_6way_final_probs": [
+      0.993983,
+      0.0013080494,
+      0.0013180359,
+      0.0011936858,
+      0.001175801,
+      0.0010215103
+    ],
+    "primary_6way_canonical_prob": 0.993983,
+    "primary_6way_dominant": true,
+    "primary_6way_untrained": {
+      "name": "primary_6way_untrained_uniform",
+      "k2_accuracy": 1.0,
+      "k2_pass": true,
+      "k3_accuracy": 0.99,
+      "k3_pass": true,
+      "k3_target_score": 0.04923791,
+      "k3_reverse_score": 0.0028033908,
+      "k3_distractor_score": 0.0055750273,
+      "k3_selectivity_margin": 0.043662917,
+      "source_grounding_drop": 0.03591691,
+      "destination_grounding_gap": 0.046267062
+    },
+    "primary_6way_trained": {
+      "name": "primary_6way_trained",
+      "k2_accuracy": 1.0,
+      "k2_pass": true,
+      "k3_accuracy": 1.0,
+      "k3_pass": true,
+      "k3_target_score": 0.9886026,
+      "k3_reverse_score": 0.08544797,
+      "k3_distractor_score": 0.08355764,
+      "k3_selectivity_margin": 0.90504587,
+      "source_grounding_drop": 0.9340262,
+      "destination_grounding_gap": 0.90514237
+    },
+    "primary_6way_margin_delta": 0.86138296,
+    "topo_4way_initial_probs": [
+      0.25,
+      0.25,
+      0.25,
+      0.25
+    ],
+    "topo_4way_final_probs": [
+      0.99422777,
+      0.0019813247,
+      0.0019938038,
+      0.001797172
+    ],
+    "topo_4way_canonical_prob": 0.99422777,
+    "topo_4way_dominant": true,
+    "topo_4way_untrained": {
+      "name": "topo_4way_untrained_uniform",
+      "k2_accuracy": 1.0,
+      "k2_pass": true,
+      "k3_accuracy": 1.0,
+      "k3_pass": true,
+      "k3_target_score": 0.08316022,
+      "k3_reverse_score": 0.0060128574,
+      "k3_distractor_score": 0.005960441,
+      "k3_selectivity_margin": 0.07719977,
+      "source_grounding_drop": 0.07987778,
+      "destination_grounding_gap": 0.078980185
+    },
+    "topo_4way_trained": {
+      "name": "topo_4way_trained",
+      "k2_accuracy": 1.0,
+      "k2_pass": true,
+      "k3_accuracy": 1.0,
+      "k3_pass": true,
+      "k3_target_score": 0.98911476,
+      "k3_reverse_score": 0.08548239,
+      "k3_distractor_score": 0.083536364,
+      "k3_selectivity_margin": 0.9055788,
+      "source_grounding_drop": 0.93465424,
+      "destination_grounding_gap": 0.905636
+    },
+    "topo_4way_margin_delta": 0.82837903,
+    "negative_control_wrong_index": {
+      "name": "wrong_index_contraction",
+      "k2_accuracy": 0.9,
+      "k2_pass": true,
+      "k3_accuracy": 0.365,
+      "k3_pass": false,
+      "k3_target_score": 0.003108481,
+      "k3_reverse_score": -0.00058840006,
+      "k3_distractor_score": -0.000028938777,
+      "k3_selectivity_margin": 0.0031374202,
+      "source_grounding_drop": 0.0034223255,
+      "destination_grounding_gap": 0.0031374206
+    }
+  },
+  {
+    "seed_index": 10,
+    "seed": 118770,
+    "primary_6way_initial_probs": [
+      0.16666667,
+      0.16666667,
+      0.16666667,
+      0.16666667,
+      0.16666667,
+      0.16666667
+    ],
+    "primary_6way_final_probs": [
+      0.99541974,
+      0.0009851874,
+      0.0009773845,
+      0.00085396186,
+      0.0008683695,
+      0.0008953208
+    ],
+    "primary_6way_canonical_prob": 0.99541974,
+    "primary_6way_dominant": true,
+    "primary_6way_untrained": {
+      "name": "primary_6way_untrained_uniform",
+      "k2_accuracy": 1.0,
+      "k2_pass": true,
+      "k3_accuracy": 0.83,
+      "k3_pass": true,
+      "k3_target_score": 0.039567783,
+      "k3_reverse_score": 0.0069240076,
+      "k3_distractor_score": -0.004086313,
+      "k3_selectivity_margin": 0.043654114,
+      "source_grounding_drop": 0.04827573,
+      "destination_grounding_gap": 0.042807613
+    },
+    "primary_6way_trained": {
+      "name": "primary_6way_trained",
+      "k2_accuracy": 1.0,
+      "k2_pass": true,
+      "k3_accuracy": 1.0,
+      "k3_pass": true,
+      "k3_target_score": 0.99136865,
+      "k3_reverse_score": 0.1439526,
+      "k3_distractor_score": -0.0070319246,
+      "k3_selectivity_margin": 0.9984001,
+      "source_grounding_drop": 1.0584004,
+      "destination_grounding_gap": 0.9983685
+    },
+    "primary_6way_margin_delta": 0.954746,
+    "topo_4way_initial_probs": [
+      0.25,
+      0.25,
+      0.25,
+      0.25
+    ],
+    "topo_4way_final_probs": [
+      0.9958442,
+      0.0014539021,
+      0.0014423538,
+      0.001259538
+    ],
+    "topo_4way_canonical_prob": 0.9958442,
+    "topo_4way_dominant": true,
+    "topo_4way_untrained": {
+      "name": "topo_4way_untrained_uniform",
+      "k2_accuracy": 1.0,
+      "k2_pass": true,
+      "k3_accuracy": 1.0,
+      "k3_pass": true,
+      "k3_target_score": 0.104095794,
+      "k3_reverse_score": 0.017560866,
+      "k3_distractor_score": -0.001410877,
+      "k3_selectivity_margin": 0.105506666,
+      "source_grounding_drop": 0.111536406,
+      "destination_grounding_gap": 0.10522731
+    },
+    "topo_4way_trained": {
+      "name": "topo_4way_trained",
+      "k2_accuracy": 1.0,
+      "k2_pass": true,
+      "k3_accuracy": 1.0,
+      "k3_pass": true,
+      "k3_target_score": 0.99251664,
+      "k3_reverse_score": 0.14411877,
+      "k3_distractor_score": -0.006986654,
+      "k3_selectivity_margin": 0.9995036,
+      "source_grounding_drop": 1.0595654,
+      "destination_grounding_gap": 0.9995005
+    },
+    "topo_4way_margin_delta": 0.89399695,
+    "negative_control_wrong_index": {
+      "name": "wrong_index_contraction",
+      "k2_accuracy": 0.9,
+      "k2_pass": true,
+      "k3_accuracy": 0.715,
+      "k3_pass": false,
+      "k3_target_score": 0.015768649,
+      "k3_reverse_score": 0.0028004518,
+      "k3_distractor_score": -0.0027315512,
+      "k3_selectivity_margin": 0.018500205,
+      "source_grounding_drop": 0.014651166,
+      "destination_grounding_gap": 0.018500203
+    }
+  },
+  {
+    "seed_index": 11,
+    "seed": 119547,
+    "primary_6way_initial_probs": [
+      0.16666667,
+      0.16666667,
+      0.16666667,
+      0.16666667,
+      0.16666667,
+      0.16666667
+    ],
+    "primary_6way_final_probs": [
+      0.993654,
+      0.001362265,
+      0.0013418397,
+      0.0013136023,
+      0.0012944367,
+      0.0010338955
+    ],
+    "primary_6way_canonical_prob": 0.993654,
+    "primary_6way_dominant": true,
+    "primary_6way_untrained": {
+      "name": "primary_6way_untrained_uniform",
+      "k2_accuracy": 1.0,
+      "k2_pass": true,
+      "k3_accuracy": 0.995,
+      "k3_pass": true,
+      "k3_target_score": 0.054106593,
+      "k3_reverse_score": 0.004009991,
+      "k3_distractor_score": 0.009049259,
+      "k3_selectivity_margin": 0.04505736,
+      "source_grounding_drop": 0.03402059,
+      "destination_grounding_gap": 0.0452022
+    },
+    "primary_6way_trained": {
+      "name": "primary_6way_trained",
+      "k2_accuracy": 1.0,
+      "k2_pass": true,
+      "k3_accuracy": 1.0,
+      "k3_pass": true,
+      "k3_target_score": 0.9879381,
+      "k3_reverse_score": 0.05728271,
+      "k3_distractor_score": 0.15204072,
+      "k3_selectivity_margin": 0.83589727,
+      "source_grounding_drop": 0.85591096,
+      "destination_grounding_gap": 0.8359165
+    },
+    "primary_6way_margin_delta": 0.7908399,
+    "topo_4way_initial_probs": [
+      0.25,
+      0.25,
+      0.25,
+      0.25
+    ],
+    "topo_4way_final_probs": [
+      0.99391264,
+      0.002065218,
+      0.0020284595,
+      0.0019937572
+    ],
+    "topo_4way_canonical_prob": 0.99391264,
+    "topo_4way_dominant": true,
+    "topo_4way_untrained": {
+      "name": "topo_4way_untrained_uniform",
+      "k2_accuracy": 1.0,
+      "k2_pass": true,
+      "k3_accuracy": 1.0,
+      "k3_pass": true,
+      "k3_target_score": 0.07852032,
+      "k3_reverse_score": 0.0041296394,
+      "k3_distractor_score": 0.011861161,
+      "k3_selectivity_margin": 0.06665914,
+      "source_grounding_drop": 0.06667172,
+      "destination_grounding_gap": 0.0673691
+    },
+    "topo_4way_trained": {
+      "name": "topo_4way_trained",
+      "k2_accuracy": 1.0,
+      "k2_pass": true,
+      "k3_accuracy": 1.0,
+      "k3_pass": true,
+      "k3_target_score": 0.9883625,
+      "k3_reverse_score": 0.057279166,
+      "k3_distractor_score": 0.15207018,
+      "k3_selectivity_margin": 0.8362919,
+      "source_grounding_drop": 0.8564193,
+      "destination_grounding_gap": 0.83631575
+    },
+    "topo_4way_margin_delta": 0.76963276,
+    "negative_control_wrong_index": {
+      "name": "wrong_index_contraction",
+      "k2_accuracy": 0.95,
+      "k2_pass": true,
+      "k3_accuracy": 0.41,
+      "k3_pass": false,
+      "k3_target_score": 0.0025068503,
+      "k3_reverse_score": -0.00042090134,
+      "k3_distractor_score": 0.000024989487,
+      "k3_selectivity_margin": 0.0024818599,
+      "source_grounding_drop": 0.0029804043,
+      "destination_grounding_gap": 0.0024818594
+    }
+  },
+  {
+    "seed_index": 12,
+    "seed": 120324,
+    "primary_6way_initial_probs": [
+      0.16666667,
+      0.16666667,
+      0.16666667,
+      0.16666667,
+      0.16666667,
+      0.16666667
+    ],
+    "primary_6way_final_probs": [
+      0.9956292,
+      0.00091428694,
+      0.0009350225,
+      0.00083986425,
+      0.0008372895,
+      0.00084439095
+    ],
+    "primary_6way_canonical_prob": 0.9956292,
     "primary_6way_dominant": true,
     "primary_6way_untrained": {
       "name": "primary_6way_untrained_uniform",
@@ -129,12 +1159,12 @@
       "k2_pass": true,
       "k3_accuracy": 0.955,
       "k3_pass": true,
-      "k3_target_score": 0.04171579,
-      "k3_reverse_score": 0.001665975,
-      "k3_distractor_score": 0.0015076254,
-      "k3_selectivity_margin": 0.040208165,
-      "source_grounding_drop": 0.038121123,
-      "destination_grounding_gap": 0.03810452
+      "k3_target_score": 0.04079229,
+      "k3_reverse_score": 0.002799166,
+      "k3_distractor_score": -0.0011973113,
+      "k3_selectivity_margin": 0.041989595,
+      "source_grounding_drop": 0.041301724,
+      "destination_grounding_gap": 0.042156067
     },
     "primary_6way_trained": {
       "name": "primary_6way_trained",
@@ -142,14 +1172,14 @@
       "k2_pass": true,
       "k3_accuracy": 1.0,
       "k3_pass": true,
-      "k3_target_score": 0.99088377,
-      "k3_reverse_score": 0.06921231,
-      "k3_distractor_score": 0.053442415,
-      "k3_selectivity_margin": 0.93744135,
-      "source_grounding_drop": 0.92557126,
-      "destination_grounding_gap": 0.93738484
+      "k3_target_score": 0.99161875,
+      "k3_reverse_score": 0.07756288,
+      "k3_distractor_score": -0.019598665,
+      "k3_selectivity_margin": 1.0112171,
+      "source_grounding_drop": 1.0063677,
+      "destination_grounding_gap": 1.0112203
     },
-    "primary_6way_margin_delta": 0.8972332,
+    "primary_6way_margin_delta": 0.96922755,
     "topo_4way_initial_probs": [
       0.25,
       0.25,
@@ -157,12 +1187,12 @@
       0.25
     ],
     "topo_4way_final_probs": [
-      0.99558014,
-      0.001529114,
-      0.0015297986,
-      0.0013609686
+      0.9960083,
+      0.0013587507,
+      0.0013869894,
+      0.0012458339
     ],
-    "topo_4way_canonical_prob": 0.99558014,
+    "topo_4way_canonical_prob": 0.9960083,
     "topo_4way_dominant": true,
     "topo_4way_untrained": {
       "name": "topo_4way_untrained_uniform",
@@ -170,12 +1200,12 @@
       "k2_pass": true,
       "k3_accuracy": 1.0,
       "k3_pass": true,
-      "k3_target_score": 0.08316935,
-      "k3_reverse_score": 0.0057284553,
-      "k3_distractor_score": 0.0034090038,
-      "k3_selectivity_margin": 0.07976033,
-      "source_grounding_drop": 0.08075888,
-      "destination_grounding_gap": 0.07828642
+      "k3_target_score": 0.08674761,
+      "k3_reverse_score": 0.007832764,
+      "k3_distractor_score": -0.0012420255,
+      "k3_selectivity_margin": 0.087989636,
+      "source_grounding_drop": 0.08841049,
+      "destination_grounding_gap": 0.086658455
     },
     "topo_4way_trained": {
       "name": "topo_4way_trained",
@@ -183,1061 +1213,31 @@
       "k2_pass": true,
       "k3_accuracy": 1.0,
       "k3_pass": true,
-      "k3_target_score": 0.99166226,
-      "k3_reverse_score": 0.06926925,
-      "k3_distractor_score": 0.05348733,
-      "k3_selectivity_margin": 0.9381747,
-      "source_grounding_drop": 0.92635185,
-      "destination_grounding_gap": 0.93814325
+      "k3_target_score": 0.99251807,
+      "k3_reverse_score": 0.07763589,
+      "k3_distractor_score": -0.019606607,
+      "k3_selectivity_margin": 1.0121248,
+      "source_grounding_drop": 1.0072509,
+      "destination_grounding_gap": 1.0121021
     },
-    "topo_4way_margin_delta": 0.8584144,
+    "topo_4way_margin_delta": 0.92413515,
     "negative_control_wrong_index": {
       "name": "wrong_index_contraction",
-      "k2_accuracy": 0.905,
+      "k2_accuracy": 0.96,
       "k2_pass": true,
-      "k3_accuracy": 0.345,
+      "k3_accuracy": 0.57,
       "k3_pass": false,
-      "k3_target_score": 0.0018969066,
-      "k3_reverse_score": -0.00012356,
-      "k3_distractor_score": 0.000028776873,
-      "k3_selectivity_margin": 0.0018681289,
-      "source_grounding_drop": 0.0022562537,
-      "destination_grounding_gap": 0.0018681289
-    }
-  },
-  {
-    "seed_index": 3,
-    "seed": 101331,
-    "primary_6way_initial_probs": [
-      0.16666667,
-      0.16666667,
-      0.16666667,
-      0.16666667,
-      0.16666667,
-      0.16666667
-    ],
-    "primary_6way_final_probs": [
-      0.99644804,
-      0.0007426674,
-      0.0007377954,
-      0.00067116105,
-      0.00066856766,
-      0.00073189044
-    ],
-    "primary_6way_canonical_prob": 0.99644804,
-    "primary_6way_dominant": true,
-    "primary_6way_untrained": {
-      "name": "primary_6way_untrained_uniform",
-      "k2_accuracy": 1.0,
-      "k2_pass": true,
-      "k3_accuracy": 0.86,
-      "k3_pass": true,
-      "k3_target_score": 0.027878065,
-      "k3_reverse_score": 0.0045438246,
-      "k3_distractor_score": -0.0020452682,
-      "k3_selectivity_margin": 0.02992333,
-      "source_grounding_drop": 0.03944923,
-      "destination_grounding_gap": 0.03211533
-    },
-    "primary_6way_trained": {
-      "name": "primary_6way_trained",
-      "k2_accuracy": 1.0,
-      "k2_pass": true,
-      "k3_accuracy": 1.0,
-      "k3_pass": true,
-      "k3_target_score": 0.9930985,
-      "k3_reverse_score": 0.10507709,
-      "k3_distractor_score": -0.06935983,
-      "k3_selectivity_margin": 1.0624579,
-      "source_grounding_drop": 1.0687922,
-      "destination_grounding_gap": 1.062505
-    },
-    "primary_6way_margin_delta": 1.0325346,
-    "topo_4way_initial_probs": [
-      0.25,
-      0.25,
-      0.25,
-      0.25
-    ],
-    "topo_4way_final_probs": [
-      0.996833,
-      0.0010923814,
-      0.0010865817,
-      0.0009879904
-    ],
-    "topo_4way_canonical_prob": 0.996833,
-    "topo_4way_dominant": true,
-    "topo_4way_untrained": {
-      "name": "topo_4way_untrained_uniform",
-      "k2_accuracy": 1.0,
-      "k2_pass": true,
-      "k3_accuracy": 1.0,
-      "k3_pass": true,
-      "k3_target_score": 0.09927848,
-      "k3_reverse_score": 0.016233556,
-      "k3_distractor_score": -0.0074211247,
-      "k3_selectivity_margin": 0.106699616,
-      "source_grounding_drop": 0.10767898,
-      "destination_grounding_gap": 0.105030686
-    },
-    "topo_4way_trained": {
-      "name": "topo_4way_trained",
-      "k2_accuracy": 1.0,
-      "k2_pass": true,
-      "k3_accuracy": 1.0,
-      "k3_pass": true,
-      "k3_target_score": 0.9941857,
-      "k3_reverse_score": 0.105215654,
-      "k3_distractor_score": -0.06943337,
-      "k3_selectivity_margin": 1.0636189,
-      "source_grounding_drop": 1.0698609,
-      "destination_grounding_gap": 1.0635962
-    },
-    "topo_4way_margin_delta": 0.9569193,
-    "negative_control_wrong_index": {
-      "name": "wrong_index_contraction",
-      "k2_accuracy": 0.835,
-      "k2_pass": false,
-      "k3_accuracy": 0.62,
-      "k3_pass": false,
-      "k3_target_score": 0.021187287,
-      "k3_reverse_score": 0.004359998,
-      "k3_distractor_score": -0.00080538273,
-      "k3_selectivity_margin": 0.021992676,
-      "source_grounding_drop": 0.022903169,
-      "destination_grounding_gap": 0.021992676
-    }
-  },
-  {
-    "seed_index": 4,
-    "seed": 102108,
-    "primary_6way_initial_probs": [
-      0.16666667,
-      0.16666667,
-      0.16666667,
-      0.16666667,
-      0.16666667,
-      0.16666667
-    ],
-    "primary_6way_final_probs": [
-      0.9930636,
-      0.0015098056,
-      0.0014979796,
-      0.0013648446,
-      0.0013858011,
-      0.0011778473
-    ],
-    "primary_6way_canonical_prob": 0.9930636,
-    "primary_6way_dominant": true,
-    "primary_6way_untrained": {
-      "name": "primary_6way_untrained_uniform",
-      "k2_accuracy": 1.0,
-      "k2_pass": true,
-      "k3_accuracy": 0.905,
-      "k3_pass": true,
-      "k3_target_score": 0.057472695,
-      "k3_reverse_score": 0.011348772,
-      "k3_distractor_score": 0.005140898,
-      "k3_selectivity_margin": 0.0523318,
-      "source_grounding_drop": 0.042310305,
-      "destination_grounding_gap": 0.0541475
-    },
-    "primary_6way_trained": {
-      "name": "primary_6way_trained",
-      "k2_accuracy": 1.0,
-      "k2_pass": true,
-      "k3_accuracy": 1.0,
-      "k3_pass": true,
-      "k3_target_score": 0.98711795,
-      "k3_reverse_score": 0.12884659,
-      "k3_distractor_score": 0.12303587,
-      "k3_selectivity_margin": 0.864082,
-      "source_grounding_drop": 0.89094704,
-      "destination_grounding_gap": 0.86412215
-    },
-    "primary_6way_margin_delta": 0.8117502,
-    "topo_4way_initial_probs": [
-      0.25,
-      0.25,
-      0.25,
-      0.25
-    ],
-    "topo_4way_final_probs": [
-      0.9934335,
-      0.002269125,
-      0.0022425072,
-      0.0020548084
-    ],
-    "topo_4way_canonical_prob": 0.9934335,
-    "topo_4way_dominant": true,
-    "topo_4way_untrained": {
-      "name": "topo_4way_untrained_uniform",
-      "k2_accuracy": 1.0,
-      "k2_pass": true,
-      "k3_accuracy": 1.0,
-      "k3_pass": true,
-      "k3_target_score": 0.10313019,
-      "k3_reverse_score": 0.019563327,
-      "k3_distractor_score": 0.014099316,
-      "k3_selectivity_margin": 0.08903089,
-      "source_grounding_drop": 0.09098452,
-      "destination_grounding_gap": 0.08893544
-    },
-    "topo_4way_trained": {
-      "name": "topo_4way_trained",
-      "k2_accuracy": 1.0,
-      "k2_pass": true,
-      "k3_accuracy": 1.0,
-      "k3_pass": true,
-      "k3_target_score": 0.98808324,
-      "k3_reverse_score": 0.12898491,
-      "k3_distractor_score": 0.123174675,
-      "k3_selectivity_margin": 0.86490846,
-      "source_grounding_drop": 0.8919026,
-      "destination_grounding_gap": 0.8649076
-    },
-    "topo_4way_margin_delta": 0.7758776,
-    "negative_control_wrong_index": {
-      "name": "wrong_index_contraction",
-      "k2_accuracy": 0.9,
-      "k2_pass": true,
-      "k3_accuracy": 0.65,
-      "k3_pass": false,
-      "k3_target_score": 0.021677224,
-      "k3_reverse_score": 0.0054116594,
-      "k3_distractor_score": 0.0021722415,
-      "k3_selectivity_margin": 0.019504989,
-      "source_grounding_drop": 0.018240761,
-      "destination_grounding_gap": 0.019504989
-    }
-  },
-  {
-    "seed_index": 5,
-    "seed": 102885,
-    "primary_6way_initial_probs": [
-      0.16666667,
-      0.16666667,
-      0.16666667,
-      0.16666667,
-      0.16666667,
-      0.16666667
-    ],
-    "primary_6way_final_probs": [
-      0.9967429,
-      0.00066129916,
-      0.0006565986,
-      0.0006315946,
-      0.00063722645,
-      0.00067032414
-    ],
-    "primary_6way_canonical_prob": 0.9967429,
-    "primary_6way_dominant": true,
-    "primary_6way_untrained": {
-      "name": "primary_6way_untrained_uniform",
-      "k2_accuracy": 1.0,
-      "k2_pass": true,
-      "k3_accuracy": 0.88,
-      "k3_pass": true,
-      "k3_target_score": 0.025424967,
-      "k3_reverse_score": 0.0039376793,
-      "k3_distractor_score": -0.004857813,
-      "k3_selectivity_margin": 0.030282784,
-      "source_grounding_drop": 0.034712892,
-      "destination_grounding_gap": 0.03063586
-    },
-    "primary_6way_trained": {
-      "name": "primary_6way_trained",
-      "k2_accuracy": 1.0,
-      "k2_pass": true,
-      "k3_accuracy": 1.0,
-      "k3_pass": true,
-      "k3_target_score": 0.9935599,
-      "k3_reverse_score": 0.06799052,
-      "k3_distractor_score": -0.07380191,
-      "k3_selectivity_margin": 1.067362,
-      "source_grounding_drop": 1.0506779,
-      "destination_grounding_gap": 1.0673696
-    },
-    "primary_6way_margin_delta": 1.0370792,
-    "topo_4way_initial_probs": [
-      0.25,
-      0.25,
-      0.25,
-      0.25
-    ],
-    "topo_4way_final_probs": [
-      0.9971148,
-      0.0009784594,
-      0.0009707741,
-      0.0009359971
-    ],
-    "topo_4way_canonical_prob": 0.9971148,
-    "topo_4way_dominant": true,
-    "topo_4way_untrained": {
-      "name": "topo_4way_untrained_uniform",
-      "k2_accuracy": 1.0,
-      "k2_pass": true,
-      "k3_accuracy": 1.0,
-      "k3_pass": true,
-      "k3_target_score": 0.0775213,
-      "k3_reverse_score": 0.004482317,
-      "k3_distractor_score": -0.0039151898,
-      "k3_selectivity_margin": 0.081436485,
-      "source_grounding_drop": 0.07926901,
-      "destination_grounding_gap": 0.082692176
-    },
-    "topo_4way_trained": {
-      "name": "topo_4way_trained",
-      "k2_accuracy": 1.0,
-      "k2_pass": true,
-      "k3_accuracy": 1.0,
-      "k3_pass": true,
-      "k3_target_score": 0.9944738,
-      "k3_reverse_score": 0.06802283,
-      "k3_distractor_score": -0.07381319,
-      "k3_selectivity_margin": 1.0682865,
-      "source_grounding_drop": 1.0515418,
-      "destination_grounding_gap": 1.068304
-    },
-    "topo_4way_margin_delta": 0.98685,
-    "negative_control_wrong_index": {
-      "name": "wrong_index_contraction",
-      "k2_accuracy": 0.9,
-      "k2_pass": true,
-      "k3_accuracy": 0.505,
-      "k3_pass": false,
-      "k3_target_score": -0.0014593648,
-      "k3_reverse_score": 0.000029497223,
-      "k3_distractor_score": -0.00052655797,
-      "k3_selectivity_margin": -0.0009328071,
-      "source_grounding_drop": -0.0012489046,
-      "destination_grounding_gap": -0.00093280716
-    }
-  },
-  {
-    "seed_index": 6,
-    "seed": 103662,
-    "primary_6way_initial_probs": [
-      0.16666667,
-      0.16666667,
-      0.16666667,
-      0.16666667,
-      0.16666667,
-      0.16666667
-    ],
-    "primary_6way_final_probs": [
-      0.9960234,
-      0.0008232378,
-      0.0008290057,
-      0.0007661531,
-      0.00077491597,
-      0.0007832642
-    ],
-    "primary_6way_canonical_prob": 0.9960234,
-    "primary_6way_dominant": true,
-    "primary_6way_untrained": {
-      "name": "primary_6way_untrained_uniform",
-      "k2_accuracy": 1.0,
-      "k2_pass": true,
-      "k3_accuracy": 0.95,
-      "k3_pass": true,
-      "k3_target_score": 0.035342544,
-      "k3_reverse_score": 0.0018569385,
-      "k3_distractor_score": -0.0012954291,
-      "k3_selectivity_margin": 0.03663799,
-      "source_grounding_drop": 0.037357405,
-      "destination_grounding_gap": 0.036821846
-    },
-    "primary_6way_trained": {
-      "name": "primary_6way_trained",
-      "k2_accuracy": 1.0,
-      "k2_pass": true,
-      "k3_accuracy": 1.0,
-      "k3_pass": true,
-      "k3_target_score": 0.99227965,
-      "k3_reverse_score": 0.06571719,
-      "k3_distractor_score": -0.039781485,
-      "k3_selectivity_margin": 1.032061,
-      "source_grounding_drop": 0.9779406,
-      "destination_grounding_gap": 1.0320679
-    },
-    "primary_6way_margin_delta": 0.99542296,
-    "topo_4way_initial_probs": [
-      0.25,
-      0.25,
-      0.25,
-      0.25
-    ],
-    "topo_4way_final_probs": [
-      0.9963967,
-      0.0012268722,
-      0.0012360844,
-      0.001140272
-    ],
-    "topo_4way_canonical_prob": 0.9963967,
-    "topo_4way_dominant": true,
-    "topo_4way_untrained": {
-      "name": "topo_4way_untrained_uniform",
-      "k2_accuracy": 1.0,
-      "k2_pass": true,
-      "k3_accuracy": 1.0,
-      "k3_pass": true,
-      "k3_target_score": 0.07825122,
-      "k3_reverse_score": 0.005006252,
-      "k3_distractor_score": -0.0030985367,
-      "k3_selectivity_margin": 0.08134978,
-      "source_grounding_drop": 0.07834762,
-      "destination_grounding_gap": 0.08159443
-    },
-    "topo_4way_trained": {
-      "name": "topo_4way_trained",
-      "k2_accuracy": 1.0,
-      "k2_pass": true,
-      "k3_accuracy": 1.0,
-      "k3_pass": true,
-      "k3_target_score": 0.9931076,
-      "k3_reverse_score": 0.06577159,
-      "k3_distractor_score": -0.039819036,
-      "k3_selectivity_margin": 1.0329267,
-      "source_grounding_drop": 0.97876185,
-      "destination_grounding_gap": 1.0329322
-    },
-    "topo_4way_margin_delta": 0.9515769,
-    "negative_control_wrong_index": {
-      "name": "wrong_index_contraction",
-      "k2_accuracy": 0.885,
-      "k2_pass": true,
-      "k3_accuracy": 0.44,
-      "k3_pass": false,
-      "k3_target_score": 0.001029903,
-      "k3_reverse_score": -0.00053508324,
-      "k3_distractor_score": 0.00013439084,
-      "k3_selectivity_margin": 0.00089551246,
-      "source_grounding_drop": 0.0008481449,
-      "destination_grounding_gap": 0.00089551276
-    }
-  },
-  {
-    "seed_index": 7,
-    "seed": 104439,
-    "primary_6way_initial_probs": [
-      0.16666667,
-      0.16666667,
-      0.16666667,
-      0.16666667,
-      0.16666667,
-      0.16666667
-    ],
-    "primary_6way_final_probs": [
-      0.99659353,
-      0.00070102024,
-      0.0006938946,
-      0.00065436214,
-      0.00066356675,
-      0.0006935796
-    ],
-    "primary_6way_canonical_prob": 0.99659353,
-    "primary_6way_dominant": true,
-    "primary_6way_untrained": {
-      "name": "primary_6way_untrained_uniform",
-      "k2_accuracy": 1.0,
-      "k2_pass": true,
-      "k3_accuracy": 0.895,
-      "k3_pass": true,
-      "k3_target_score": 0.029995913,
-      "k3_reverse_score": 0.0045120236,
-      "k3_distractor_score": -0.004974056,
-      "k3_selectivity_margin": 0.034969974,
-      "source_grounding_drop": 0.038203627,
-      "destination_grounding_gap": 0.035144232
-    },
-    "primary_6way_trained": {
-      "name": "primary_6way_trained",
-      "k2_accuracy": 1.0,
-      "k2_pass": true,
-      "k3_accuracy": 1.0,
-      "k3_pass": true,
-      "k3_target_score": 0.99334455,
-      "k3_reverse_score": 0.08714938,
-      "k3_distractor_score": -0.07413607,
-      "k3_selectivity_margin": 1.0674808,
-      "source_grounding_drop": 1.0512383,
-      "destination_grounding_gap": 1.0674874
-    },
-    "primary_6way_margin_delta": 1.0325109,
-    "topo_4way_initial_probs": [
-      0.25,
-      0.25,
-      0.25,
-      0.25
-    ],
-    "topo_4way_final_probs": [
-      0.99697065,
-      0.0010360662,
-      0.0010251363,
-      0.0009680403
-    ],
-    "topo_4way_canonical_prob": 0.99697065,
-    "topo_4way_dominant": true,
-    "topo_4way_untrained": {
-      "name": "topo_4way_untrained_uniform",
-      "k2_accuracy": 1.0,
-      "k2_pass": true,
-      "k3_accuracy": 1.0,
-      "k3_pass": true,
-      "k3_target_score": 0.08235124,
-      "k3_reverse_score": 0.00690696,
-      "k3_distractor_score": -0.0051362175,
-      "k3_selectivity_margin": 0.08748747,
-      "source_grounding_drop": 0.08518073,
-      "destination_grounding_gap": 0.087578565
-    },
-    "topo_4way_trained": {
-      "name": "topo_4way_trained",
-      "k2_accuracy": 1.0,
-      "k2_pass": true,
-      "k3_accuracy": 1.0,
-      "k3_pass": true,
-      "k3_target_score": 0.99426645,
-      "k3_reverse_score": 0.08721184,
-      "k3_distractor_score": -0.074162714,
-      "k3_selectivity_margin": 1.0684291,
-      "source_grounding_drop": 1.052128,
-      "destination_grounding_gap": 1.0684274
-    },
-    "topo_4way_margin_delta": 0.98094165,
-    "negative_control_wrong_index": {
-      "name": "wrong_index_contraction",
-      "k2_accuracy": 0.98,
-      "k2_pass": true,
-      "k3_accuracy": 0.395,
-      "k3_pass": false,
-      "k3_target_score": 0.002296224,
-      "k3_reverse_score": -0.0011172179,
-      "k3_distractor_score": 0.00029402928,
-      "k3_selectivity_margin": 0.0020021943,
-      "source_grounding_drop": 0.00062386127,
-      "destination_grounding_gap": 0.0020021936
-    }
-  },
-  {
-    "seed_index": 8,
-    "seed": 105216,
-    "primary_6way_initial_probs": [
-      0.16666667,
-      0.16666667,
-      0.16666667,
-      0.16666667,
-      0.16666667,
-      0.16666667
-    ],
-    "primary_6way_final_probs": [
-      0.9959259,
-      0.0008587067,
-      0.0008460728,
-      0.0007851854,
-      0.00077980047,
-      0.0008043093
-    ],
-    "primary_6way_canonical_prob": 0.9959259,
-    "primary_6way_dominant": true,
-    "primary_6way_untrained": {
-      "name": "primary_6way_untrained_uniform",
-      "k2_accuracy": 1.0,
-      "k2_pass": true,
-      "k3_accuracy": 0.86,
-      "k3_pass": true,
-      "k3_target_score": 0.03491943,
-      "k3_reverse_score": 0.0048563015,
-      "k3_distractor_score": -0.004738939,
-      "k3_selectivity_margin": 0.039658353,
-      "source_grounding_drop": 0.037985094,
-      "destination_grounding_gap": 0.042087693
-    },
-    "primary_6way_trained": {
-      "name": "primary_6way_trained",
-      "k2_accuracy": 1.0,
-      "k2_pass": true,
-      "k3_accuracy": 1.0,
-      "k3_pass": true,
-      "k3_target_score": 0.9921222,
-      "k3_reverse_score": 0.08764832,
-      "k3_distractor_score": -0.06818991,
-      "k3_selectivity_margin": 1.060312,
-      "source_grounding_drop": 1.0280639,
-      "destination_grounding_gap": 1.0603511
-    },
-    "primary_6way_margin_delta": 1.0206537,
-    "topo_4way_initial_probs": [
-      0.25,
-      0.25,
-      0.25,
-      0.25
-    ],
-    "topo_4way_final_probs": [
-      0.996311,
-      0.0012721816,
-      0.0012532396,
-      0.0011636313
-    ],
-    "topo_4way_canonical_prob": 0.996311,
-    "topo_4way_dominant": true,
-    "topo_4way_untrained": {
-      "name": "topo_4way_untrained_uniform",
-      "k2_accuracy": 1.0,
-      "k2_pass": true,
-      "k3_accuracy": 1.0,
-      "k3_pass": true,
-      "k3_target_score": 0.08827832,
-      "k3_reverse_score": 0.0073053534,
-      "k3_distractor_score": -0.0057209725,
-      "k3_selectivity_margin": 0.09399926,
-      "source_grounding_drop": 0.08920342,
-      "destination_grounding_gap": 0.094226964
-    },
-    "topo_4way_trained": {
-      "name": "topo_4way_trained",
-      "k2_accuracy": 1.0,
-      "k2_pass": true,
-      "k3_accuracy": 1.0,
-      "k3_pass": true,
-      "k3_target_score": 0.99309874,
-      "k3_reverse_score": 0.08771045,
-      "k3_distractor_score": -0.06821734,
-      "k3_selectivity_margin": 1.0613165,
-      "source_grounding_drop": 1.0290172,
-      "destination_grounding_gap": 1.0613214
-    },
-    "topo_4way_margin_delta": 0.9673172,
-    "negative_control_wrong_index": {
-      "name": "wrong_index_contraction",
-      "k2_accuracy": 0.92,
-      "k2_pass": true,
-      "k3_accuracy": 0.48,
-      "k3_pass": false,
-      "k3_target_score": 0.009084594,
-      "k3_reverse_score": 0.00031442172,
-      "k3_distractor_score": -0.0016144882,
-      "k3_selectivity_margin": 0.010699081,
-      "source_grounding_drop": 0.0073016696,
-      "destination_grounding_gap": 0.01069908
-    }
-  },
-  {
-    "seed_index": 9,
-    "seed": 105993,
-    "primary_6way_initial_probs": [
-      0.16666667,
-      0.16666667,
-      0.16666667,
-      0.16666667,
-      0.16666667,
-      0.16666667
-    ],
-    "primary_6way_final_probs": [
-      0.98807085,
-      0.002763934,
-      0.0028293966,
-      0.002417382,
-      0.0023164803,
-      0.0016020729
-    ],
-    "primary_6way_canonical_prob": 0.98807085,
-    "primary_6way_dominant": true,
-    "primary_6way_untrained": {
-      "name": "primary_6way_untrained_uniform",
-      "k2_accuracy": 0.995,
-      "k2_pass": true,
-      "k3_accuracy": 0.97,
-      "k3_pass": true,
-      "k3_target_score": 0.07260836,
-      "k3_reverse_score": 0.01078914,
-      "k3_distractor_score": 0.011779772,
-      "k3_selectivity_margin": 0.06082859,
-      "source_grounding_drop": 0.04698725,
-      "destination_grounding_gap": 0.06422905
-    },
-    "primary_6way_trained": {
-      "name": "primary_6way_trained",
-      "k2_accuracy": 1.0,
-      "k2_pass": true,
-      "k3_accuracy": 1.0,
-      "k3_pass": true,
-      "k3_target_score": 0.9785116,
-      "k3_reverse_score": 0.13553764,
-      "k3_distractor_score": 0.13762103,
-      "k3_selectivity_margin": 0.8408907,
-      "source_grounding_drop": 0.81623846,
-      "destination_grounding_gap": 0.84098434
-    },
-    "primary_6way_margin_delta": 0.78006214,
-    "topo_4way_initial_probs": [
-      0.25,
-      0.25,
-      0.25,
-      0.25
-    ],
-    "topo_4way_final_probs": [
-      0.98739153,
-      0.004368926,
-      0.004454148,
-      0.0037854628
-    ],
-    "topo_4way_canonical_prob": 0.98739153,
-    "topo_4way_dominant": true,
-    "topo_4way_untrained": {
-      "name": "topo_4way_untrained_uniform",
-      "k2_accuracy": 1.0,
-      "k2_pass": true,
-      "k3_accuracy": 1.0,
-      "k3_pass": true,
-      "k3_target_score": 0.10925106,
-      "k3_reverse_score": 0.019034969,
-      "k3_distractor_score": 0.012896055,
-      "k3_selectivity_margin": 0.096355,
-      "source_grounding_drop": 0.09554896,
-      "destination_grounding_gap": 0.09664822
-    },
-    "topo_4way_trained": {
-      "name": "topo_4way_trained",
-      "k2_accuracy": 1.0,
-      "k2_pass": true,
-      "k3_accuracy": 1.0,
-      "k3_pass": true,
-      "k3_target_score": 0.9775962,
-      "k3_reverse_score": 0.13543567,
-      "k3_distractor_score": 0.13737118,
-      "k3_selectivity_margin": 0.84022504,
-      "source_grounding_drop": 0.81579244,
-      "destination_grounding_gap": 0.8402543
-    },
-    "topo_4way_margin_delta": 0.74387,
-    "negative_control_wrong_index": {
-      "name": "wrong_index_contraction",
-      "k2_accuracy": 0.84,
-      "k2_pass": false,
-      "k3_accuracy": 0.73,
-      "k3_pass": false,
-      "k3_target_score": 0.026906824,
-      "k3_reverse_score": 0.0034507287,
-      "k3_distractor_score": 0.0034702402,
-      "k3_selectivity_margin": 0.023436595,
-      "source_grounding_drop": 0.02731215,
-      "destination_grounding_gap": 0.023436591
-    }
-  },
-  {
-    "seed_index": 10,
-    "seed": 106770,
-    "primary_6way_initial_probs": [
-      0.16666667,
-      0.16666667,
-      0.16666667,
-      0.16666667,
-      0.16666667,
-      0.16666667
-    ],
-    "primary_6way_final_probs": [
-      0.9942486,
-      0.0012524179,
-      0.0012591879,
-      0.0011154203,
-      0.0011328635,
-      0.0009915017
-    ],
-    "primary_6way_canonical_prob": 0.9942486,
-    "primary_6way_dominant": true,
-    "primary_6way_untrained": {
-      "name": "primary_6way_untrained_uniform",
-      "k2_accuracy": 1.0,
-      "k2_pass": true,
-      "k3_accuracy": 0.985,
-      "k3_pass": true,
-      "k3_target_score": 0.0480073,
-      "k3_reverse_score": 0.0029653208,
-      "k3_distractor_score": 0.0044517647,
-      "k3_selectivity_margin": 0.043555535,
-      "source_grounding_drop": 0.03768562,
-      "destination_grounding_gap": 0.04326816
-    },
-    "primary_6way_trained": {
-      "name": "primary_6way_trained",
-      "k2_accuracy": 1.0,
-      "k2_pass": true,
-      "k3_accuracy": 1.0,
-      "k3_pass": true,
-      "k3_target_score": 0.9891224,
-      "k3_reverse_score": 0.07528074,
-      "k3_distractor_score": 0.07913813,
-      "k3_selectivity_margin": 0.9099841,
-      "source_grounding_drop": 0.92028916,
-      "destination_grounding_gap": 0.90997505
-    },
-    "primary_6way_margin_delta": 0.86642855,
-    "topo_4way_initial_probs": [
-      0.25,
-      0.25,
-      0.25,
-      0.25
-    ],
-    "topo_4way_final_probs": [
-      0.99455255,
-      0.0018813465,
-      0.0018965732,
-      0.0016695488
-    ],
-    "topo_4way_canonical_prob": 0.99455255,
-    "topo_4way_dominant": true,
-    "topo_4way_untrained": {
-      "name": "topo_4way_untrained_uniform",
-      "k2_accuracy": 1.0,
-      "k2_pass": true,
-      "k3_accuracy": 1.0,
-      "k3_pass": true,
-      "k3_target_score": 0.08418353,
-      "k3_reverse_score": 0.006453028,
-      "k3_distractor_score": 0.00558294,
-      "k3_selectivity_margin": 0.07860061,
-      "source_grounding_drop": 0.080640934,
-      "destination_grounding_gap": 0.07836132
-    },
-    "topo_4way_trained": {
-      "name": "topo_4way_trained",
-      "k2_accuracy": 1.0,
-      "k2_pass": true,
-      "k3_accuracy": 1.0,
-      "k3_pass": true,
-      "k3_target_score": 0.98975444,
-      "k3_reverse_score": 0.075326875,
-      "k3_distractor_score": 0.07914794,
-      "k3_selectivity_margin": 0.91060644,
-      "source_grounding_drop": 0.9210047,
-      "destination_grounding_gap": 0.9106029
-    },
-    "topo_4way_margin_delta": 0.83200586,
-    "negative_control_wrong_index": {
-      "name": "wrong_index_contraction",
-      "k2_accuracy": 0.985,
-      "k2_pass": true,
-      "k3_accuracy": 0.365,
-      "k3_pass": false,
-      "k3_target_score": 0.0017245108,
-      "k3_reverse_score": 0.0004141792,
-      "k3_distractor_score": -0.00021270497,
-      "k3_selectivity_margin": 0.001937217,
-      "source_grounding_drop": 0.003074509,
-      "destination_grounding_gap": 0.0019372165
-    }
-  },
-  {
-    "seed_index": 11,
-    "seed": 107547,
-    "primary_6way_initial_probs": [
-      0.16666667,
-      0.16666667,
-      0.16666667,
-      0.16666667,
-      0.16666667,
-      0.16666667
-    ],
-    "primary_6way_final_probs": [
-      0.9960807,
-      0.0008132025,
-      0.0008057753,
-      0.0007620645,
-      0.00076360314,
-      0.0007746967
-    ],
-    "primary_6way_canonical_prob": 0.9960807,
-    "primary_6way_dominant": true,
-    "primary_6way_untrained": {
-      "name": "primary_6way_untrained_uniform",
-      "k2_accuracy": 1.0,
-      "k2_pass": true,
-      "k3_accuracy": 0.97,
-      "k3_pass": true,
-      "k3_target_score": 0.03375506,
-      "k3_reverse_score": 0.0030043933,
-      "k3_distractor_score": -0.002326233,
-      "k3_selectivity_margin": 0.036081318,
-      "source_grounding_drop": 0.036393154,
-      "destination_grounding_gap": 0.035936203
-    },
-    "primary_6way_trained": {
-      "name": "primary_6way_trained",
-      "k2_accuracy": 1.0,
-      "k2_pass": true,
-      "k3_accuracy": 1.0,
-      "k3_pass": true,
-      "k3_target_score": 0.9923711,
-      "k3_reverse_score": 0.061474457,
-      "k3_distractor_score": -0.003071615,
-      "k3_selectivity_margin": 0.9954426,
-      "source_grounding_drop": 1.0006664,
-      "destination_grounding_gap": 0.995438
-    },
-    "primary_6way_margin_delta": 0.9593613,
-    "topo_4way_initial_probs": [
-      0.25,
-      0.25,
-      0.25,
-      0.25
-    ],
-    "topo_4way_final_probs": [
-      0.99646795,
-      0.00120615,
-      0.0011949377,
-      0.0011309829
-    ],
-    "topo_4way_canonical_prob": 0.99646795,
-    "topo_4way_dominant": true,
-    "topo_4way_untrained": {
-      "name": "topo_4way_untrained_uniform",
-      "k2_accuracy": 1.0,
-      "k2_pass": true,
-      "k3_accuracy": 1.0,
-      "k3_pass": true,
-      "k3_target_score": 0.08100308,
-      "k3_reverse_score": 0.005530013,
-      "k3_distractor_score": 0.0007629301,
-      "k3_selectivity_margin": 0.080240145,
-      "source_grounding_drop": 0.08035353,
-      "destination_grounding_gap": 0.08016764
-    },
-    "topo_4way_trained": {
-      "name": "topo_4way_trained",
-      "k2_accuracy": 1.0,
-      "k2_pass": true,
-      "k3_accuracy": 1.0,
-      "k3_pass": true,
-      "k3_target_score": 0.9932749,
-      "k3_reverse_score": 0.06152521,
-      "k3_distractor_score": -0.0030421081,
-      "k3_selectivity_margin": 0.99631685,
-      "source_grounding_drop": 1.0015484,
-      "destination_grounding_gap": 0.9963196
-    },
-    "topo_4way_margin_delta": 0.9160767,
-    "negative_control_wrong_index": {
-      "name": "wrong_index_contraction",
-      "k2_accuracy": 0.92,
-      "k2_pass": true,
-      "k3_accuracy": 0.56,
-      "k3_pass": false,
-      "k3_target_score": 0.0041660564,
-      "k3_reverse_score": 0.000031180643,
-      "k3_distractor_score": 0.00031378184,
-      "k3_selectivity_margin": 0.0038522745,
-      "source_grounding_drop": 0.0024918905,
-      "destination_grounding_gap": 0.0038522747
-    }
-  },
-  {
-    "seed_index": 12,
-    "seed": 108324,
-    "primary_6way_initial_probs": [
-      0.16666667,
-      0.16666667,
-      0.16666667,
-      0.16666667,
-      0.16666667,
-      0.16666667
-    ],
-    "primary_6way_final_probs": [
-      0.99601525,
-      0.0008462484,
-      0.00082986586,
-      0.0007620054,
-      0.000756572,
-      0.0007900547
-    ],
-    "primary_6way_canonical_prob": 0.99601525,
-    "primary_6way_dominant": true,
-    "primary_6way_untrained": {
-      "name": "primary_6way_untrained_uniform",
-      "k2_accuracy": 1.0,
-      "k2_pass": true,
-      "k3_accuracy": 0.86,
-      "k3_pass": true,
-      "k3_target_score": 0.037082545,
-      "k3_reverse_score": 0.005265463,
-      "k3_distractor_score": -0.004637986,
-      "k3_selectivity_margin": 0.041720524,
-      "source_grounding_drop": 0.042907834,
-      "destination_grounding_gap": 0.04156892
-    },
-    "primary_6way_trained": {
-      "name": "primary_6way_trained",
-      "k2_accuracy": 1.0,
-      "k2_pass": true,
-      "k3_accuracy": 1.0,
-      "k3_pass": true,
-      "k3_target_score": 0.9923717,
-      "k3_reverse_score": 0.09520796,
-      "k3_distractor_score": -0.039782625,
-      "k3_selectivity_margin": 1.0321544,
-      "source_grounding_drop": 1.023524,
-      "destination_grounding_gap": 1.0321627
-    },
-    "primary_6way_margin_delta": 0.99043393,
-    "topo_4way_initial_probs": [
-      0.25,
-      0.25,
-      0.25,
-      0.25
-    ],
-    "topo_4way_final_probs": [
-      0.9963928,
-      0.0012503733,
-      0.0012282728,
-      0.0011285387
-    ],
-    "topo_4way_canonical_prob": 0.9963928,
-    "topo_4way_dominant": true,
-    "topo_4way_untrained": {
-      "name": "topo_4way_untrained_uniform",
-      "k2_accuracy": 1.0,
-      "k2_pass": true,
-      "k3_accuracy": 1.0,
-      "k3_pass": true,
-      "k3_target_score": 0.09483345,
-      "k3_reverse_score": 0.0103827305,
-      "k3_distractor_score": -0.0034211054,
-      "k3_selectivity_margin": 0.0982545,
-      "source_grounding_drop": 0.09761532,
-      "destination_grounding_gap": 0.09843502
-    },
-    "topo_4way_trained": {
-      "name": "topo_4way_trained",
-      "k2_accuracy": 1.0,
-      "k2_pass": true,
-      "k3_accuracy": 1.0,
-      "k3_pass": true,
-      "k3_target_score": 0.993361,
-      "k3_reverse_score": 0.09528875,
-      "k3_distractor_score": -0.03978754,
-      "k3_selectivity_margin": 1.0331485,
-      "source_grounding_drop": 1.0244954,
-      "destination_grounding_gap": 1.0331569
-    },
-    "topo_4way_margin_delta": 0.934894,
-    "negative_control_wrong_index": {
-      "name": "wrong_index_contraction",
-      "k2_accuracy": 0.83,
-      "k2_pass": false,
-      "k3_accuracy": 0.565,
-      "k3_pass": false,
-      "k3_target_score": 0.01189292,
-      "k3_reverse_score": 0.00009020704,
-      "k3_distractor_score": -0.00089937926,
-      "k3_selectivity_margin": 0.012792305,
-      "source_grounding_drop": 0.0132136885,
-      "destination_grounding_gap": 0.012792301
+      "k3_target_score": 0.0050912825,
+      "k3_reverse_score": 0.00021668349,
+      "k3_distractor_score": 0.0004424909,
+      "k3_selectivity_margin": 0.0046487916,
+      "source_grounding_drop": 0.0060643186,
+      "destination_grounding_gap": 0.0046487926
     }
   },
   {
     "seed_index": 13,
-    "seed": 109101,
+    "seed": 121101,
     "primary_6way_initial_probs": [
       0.16666667,
       0.16666667,
@@ -1247,27 +1247,27 @@
       0.16666667
     ],
     "primary_6way_final_probs": [
-      0.99387616,
-      0.0013395669,
-      0.0013894557,
-      0.0011337678,
-      0.0011465683,
-      0.00111461
+      0.9958456,
+      0.00086894527,
+      0.0008880324,
+      0.00078910956,
+      0.0007852108,
+      0.00082311244
     ],
-    "primary_6way_canonical_prob": 0.99387616,
+    "primary_6way_canonical_prob": 0.9958456,
     "primary_6way_dominant": true,
     "primary_6way_untrained": {
       "name": "primary_6way_untrained_uniform",
       "k2_accuracy": 1.0,
       "k2_pass": true,
-      "k3_accuracy": 0.915,
+      "k3_accuracy": 0.945,
       "k3_pass": true,
-      "k3_target_score": 0.056472495,
-      "k3_reverse_score": 0.009194315,
-      "k3_distractor_score": -0.0018836011,
-      "k3_selectivity_margin": 0.058356103,
-      "source_grounding_drop": 0.05415326,
-      "destination_grounding_gap": 0.056542877
+      "k3_target_score": 0.034627296,
+      "k3_reverse_score": 0.002588666,
+      "k3_distractor_score": -0.0011903256,
+      "k3_selectivity_margin": 0.035817627,
+      "source_grounding_drop": 0.03815444,
+      "destination_grounding_gap": 0.035645496
     },
     "primary_6way_trained": {
       "name": "primary_6way_trained",
@@ -1275,14 +1275,14 @@
       "k2_pass": true,
       "k3_accuracy": 1.0,
       "k3_pass": true,
-      "k3_target_score": 0.9887963,
-      "k3_reverse_score": 0.13216414,
-      "k3_distractor_score": 0.01276909,
-      "k3_selectivity_margin": 0.97602737,
-      "source_grounding_drop": 1.0075616,
-      "destination_grounding_gap": 0.9759457
+      "k3_target_score": 0.992005,
+      "k3_reverse_score": 0.08246286,
+      "k3_distractor_score": -0.01771022,
+      "k3_selectivity_margin": 1.0097154,
+      "source_grounding_drop": 1.0108124,
+      "destination_grounding_gap": 1.009697
     },
-    "primary_6way_margin_delta": 0.91767126,
+    "primary_6way_margin_delta": 0.9738978,
     "topo_4way_initial_probs": [
       0.25,
       0.25,
@@ -1290,12 +1290,12 @@
       0.25
     ],
     "topo_4way_final_probs": [
-      0.99424344,
-      0.0020008886,
-      0.0020720793,
-      0.0016835871
+      0.9962134,
+      0.0012931873,
+      0.00132245,
+      0.0011709783
     ],
-    "topo_4way_canonical_prob": 0.99424344,
+    "topo_4way_canonical_prob": 0.9962134,
     "topo_4way_dominant": true,
     "topo_4way_untrained": {
       "name": "topo_4way_untrained_uniform",
@@ -1303,12 +1303,12 @@
       "k2_pass": true,
       "k3_accuracy": 1.0,
       "k3_pass": true,
-      "k3_target_score": 0.110034905,
-      "k3_reverse_score": 0.017339505,
-      "k3_distractor_score": 0.0012227242,
-      "k3_selectivity_margin": 0.10881216,
-      "source_grounding_drop": 0.11333418,
-      "destination_grounding_gap": 0.10859605
+      "k3_target_score": 0.08857911,
+      "k3_reverse_score": 0.008576837,
+      "k3_distractor_score": -0.0023361288,
+      "k3_selectivity_margin": 0.09091524,
+      "source_grounding_drop": 0.09458872,
+      "destination_grounding_gap": 0.092250995
     },
     "topo_4way_trained": {
       "name": "topo_4way_trained",
@@ -1316,31 +1316,31 @@
       "k2_pass": true,
       "k3_accuracy": 1.0,
       "k3_pass": true,
-      "k3_target_score": 0.9897978,
-      "k3_reverse_score": 0.13229318,
-      "k3_distractor_score": 0.012810368,
-      "k3_selectivity_margin": 0.97698706,
-      "source_grounding_drop": 1.0086495,
-      "destination_grounding_gap": 0.9769559
+      "k3_target_score": 0.99291277,
+      "k3_reverse_score": 0.08255244,
+      "k3_distractor_score": -0.017726667,
+      "k3_selectivity_margin": 1.0106394,
+      "source_grounding_drop": 1.011761,
+      "destination_grounding_gap": 1.0106555
     },
-    "topo_4way_margin_delta": 0.8681749,
+    "topo_4way_margin_delta": 0.91972417,
     "negative_control_wrong_index": {
       "name": "wrong_index_contraction",
       "k2_accuracy": 0.89,
       "k2_pass": true,
-      "k3_accuracy": 0.65,
+      "k3_accuracy": 0.645,
       "k3_pass": false,
-      "k3_target_score": 0.0239361,
-      "k3_reverse_score": 0.0018636743,
-      "k3_distractor_score": -0.0004944483,
-      "k3_selectivity_margin": 0.024430566,
-      "source_grounding_drop": 0.02155701,
-      "destination_grounding_gap": 0.024430566
+      "k3_target_score": 0.011477048,
+      "k3_reverse_score": 0.0008769906,
+      "k3_distractor_score": -0.0003653851,
+      "k3_selectivity_margin": 0.011842427,
+      "source_grounding_drop": 0.014311654,
+      "destination_grounding_gap": 0.01184243
     }
   },
   {
     "seed_index": 14,
-    "seed": 109878,
+    "seed": 121878,
     "primary_6way_initial_probs": [
       0.16666667,
       0.16666667,
@@ -1350,27 +1350,27 @@
       0.16666667
     ],
     "primary_6way_final_probs": [
-      0.9962359,
-      0.0008002312,
-      0.00078520656,
-      0.00070740335,
-      0.0007069896,
-      0.0007642678
+      0.9956097,
+      0.00092086435,
+      0.00091690425,
+      0.0008395615,
+      0.0008422135,
+      0.0008707567
     ],
-    "primary_6way_canonical_prob": 0.9962359,
+    "primary_6way_canonical_prob": 0.9956097,
     "primary_6way_dominant": true,
     "primary_6way_untrained": {
       "name": "primary_6way_untrained_uniform",
       "k2_accuracy": 1.0,
       "k2_pass": true,
-      "k3_accuracy": 0.775,
-      "k3_pass": false,
-      "k3_target_score": 0.03308264,
-      "k3_reverse_score": 0.008044808,
-      "k3_distractor_score": -0.005126464,
-      "k3_selectivity_margin": 0.038209084,
-      "source_grounding_drop": 0.0494077,
-      "destination_grounding_gap": 0.03829255
+      "k3_accuracy": 0.935,
+      "k3_pass": true,
+      "k3_target_score": 0.040968016,
+      "k3_reverse_score": 0.005459769,
+      "k3_distractor_score": -0.0014579673,
+      "k3_selectivity_margin": 0.04242599,
+      "source_grounding_drop": 0.043801818,
+      "destination_grounding_gap": 0.042486466
     },
     "primary_6way_trained": {
       "name": "primary_6way_trained",
@@ -1378,14 +1378,14 @@
       "k2_pass": true,
       "k3_accuracy": 1.0,
       "k3_pass": true,
-      "k3_target_score": 0.99276733,
-      "k3_reverse_score": 0.1475252,
-      "k3_distractor_score": -0.092980884,
-      "k3_selectivity_margin": 1.0857483,
-      "source_grounding_drop": 1.0635216,
-      "destination_grounding_gap": 1.0857778
+      "k3_target_score": 0.99161357,
+      "k3_reverse_score": 0.1084847,
+      "k3_distractor_score": -0.009222201,
+      "k3_selectivity_margin": 1.000836,
+      "source_grounding_drop": 0.97073805,
+      "destination_grounding_gap": 1.0008246
     },
-    "primary_6way_margin_delta": 1.0475392,
+    "primary_6way_margin_delta": 0.95841,
     "topo_4way_initial_probs": [
       0.25,
       0.25,
@@ -1393,12 +1393,12 @@
       0.25
     ],
     "topo_4way_final_probs": [
-      0.9966344,
-      0.0011731928,
-      0.0011515226,
-      0.0010408345
+      0.9960228,
+      0.0013672737,
+      0.0013622055,
+      0.001247622
     ],
-    "topo_4way_canonical_prob": 0.9966344,
+    "topo_4way_canonical_prob": 0.9960228,
     "topo_4way_dominant": true,
     "topo_4way_untrained": {
       "name": "topo_4way_untrained_uniform",
@@ -1406,12 +1406,12 @@
       "k2_pass": true,
       "k3_accuracy": 1.0,
       "k3_pass": true,
-      "k3_target_score": 0.10145777,
-      "k3_reverse_score": 0.01594836,
-      "k3_distractor_score": -0.0064871414,
-      "k3_selectivity_margin": 0.107944936,
-      "source_grounding_drop": 0.10523619,
-      "destination_grounding_gap": 0.107189424
+      "k3_target_score": 0.0932824,
+      "k3_reverse_score": 0.012752554,
+      "k3_distractor_score": 0.0016635251,
+      "k3_selectivity_margin": 0.09161887,
+      "source_grounding_drop": 0.088932715,
+      "destination_grounding_gap": 0.09294878
     },
     "topo_4way_trained": {
       "name": "topo_4way_trained",
@@ -1419,31 +1419,31 @@
       "k2_pass": true,
       "k3_accuracy": 1.0,
       "k3_pass": true,
-      "k3_target_score": 0.9939104,
-      "k3_reverse_score": 0.14766136,
-      "k3_distractor_score": -0.093021564,
-      "k3_selectivity_margin": 1.0869327,
-      "source_grounding_drop": 1.0645801,
-      "destination_grounding_gap": 1.0869459
+      "k3_target_score": 0.9926344,
+      "k3_reverse_score": 0.10860424,
+      "k3_distractor_score": -0.00917417,
+      "k3_selectivity_margin": 1.0018083,
+      "source_grounding_drop": 0.9716874,
+      "destination_grounding_gap": 1.0018325
     },
-    "topo_4way_margin_delta": 0.9789877,
+    "topo_4way_margin_delta": 0.9101894,
     "negative_control_wrong_index": {
       "name": "wrong_index_contraction",
-      "k2_accuracy": 0.925,
+      "k2_accuracy": 0.91,
       "k2_pass": true,
-      "k3_accuracy": 0.55,
+      "k3_accuracy": 0.62,
       "k3_pass": false,
-      "k3_target_score": 0.013782304,
-      "k3_reverse_score": -0.00019925681,
-      "k3_distractor_score": -0.00059348764,
-      "k3_selectivity_margin": 0.014375802,
-      "source_grounding_drop": 0.00962174,
-      "destination_grounding_gap": 0.014375795
+      "k3_target_score": 0.01499397,
+      "k3_reverse_score": 0.0012394614,
+      "k3_distractor_score": 0.00089446665,
+      "k3_selectivity_margin": 0.014099505,
+      "source_grounding_drop": 0.013574869,
+      "destination_grounding_gap": 0.014099506
     }
   },
   {
     "seed_index": 15,
-    "seed": 110655,
+    "seed": 122655,
     "primary_6way_initial_probs": [
       0.16666667,
       0.16666667,
@@ -1453,27 +1453,27 @@
       0.16666667
     ],
     "primary_6way_final_probs": [
-      0.9955004,
-      0.0009469075,
-      0.0009570963,
-      0.0008721711,
-      0.0008687762,
-      0.0008546902
+      0.9926582,
+      0.0016853202,
+      0.0016812114,
+      0.0013734903,
+      0.0013579504,
+      0.0012438006
     ],
-    "primary_6way_canonical_prob": 0.9955004,
+    "primary_6way_canonical_prob": 0.9926582,
     "primary_6way_dominant": true,
     "primary_6way_untrained": {
       "name": "primary_6way_untrained_uniform",
       "k2_accuracy": 1.0,
       "k2_pass": true,
-      "k3_accuracy": 0.925,
+      "k3_accuracy": 0.93,
       "k3_pass": true,
-      "k3_target_score": 0.04004396,
-      "k3_reverse_score": 0.00331462,
-      "k3_distractor_score": -0.0023964357,
-      "k3_selectivity_margin": 0.04244041,
-      "source_grounding_drop": 0.036993098,
-      "destination_grounding_gap": 0.042700917
+      "k3_target_score": 0.05610645,
+      "k3_reverse_score": 0.0065855896,
+      "k3_distractor_score": 0.0007026071,
+      "k3_selectivity_margin": 0.055403814,
+      "source_grounding_drop": 0.049817175,
+      "destination_grounding_gap": 0.054108173
     },
     "primary_6way_trained": {
       "name": "primary_6way_trained",
@@ -1481,14 +1481,14 @@
       "k2_pass": true,
       "k3_accuracy": 1.0,
       "k3_pass": true,
-      "k3_target_score": 0.9913532,
-      "k3_reverse_score": 0.084542274,
-      "k3_distractor_score": -0.021855772,
-      "k3_selectivity_margin": 1.0132087,
-      "source_grounding_drop": 0.9535899,
-      "destination_grounding_gap": 1.0132194
+      "k3_target_score": 0.9865452,
+      "k3_reverse_score": 0.13990626,
+      "k3_distractor_score": 0.060391914,
+      "k3_selectivity_margin": 0.926153,
+      "source_grounding_drop": 0.9503346,
+      "destination_grounding_gap": 0.9261098
     },
-    "primary_6way_margin_delta": 0.97076833,
+    "primary_6way_margin_delta": 0.8707492,
     "topo_4way_initial_probs": [
       0.25,
       0.25,
@@ -1496,12 +1496,12 @@
       0.25
     ],
     "topo_4way_final_probs": [
-      0.99587303,
-      0.001407759,
-      0.001423425,
-      0.0012957472
+      0.9928181,
+      0.00255409,
+      0.0025587464,
+      0.002069108
     ],
-    "topo_4way_canonical_prob": 0.99587303,
+    "topo_4way_canonical_prob": 0.9928181,
     "topo_4way_dominant": true,
     "topo_4way_untrained": {
       "name": "topo_4way_untrained_uniform",
@@ -1509,12 +1509,12 @@
       "k2_pass": true,
       "k3_accuracy": 1.0,
       "k3_pass": true,
-      "k3_target_score": 0.0838994,
-      "k3_reverse_score": 0.007609497,
-      "k3_distractor_score": -0.0019247908,
-      "k3_selectivity_margin": 0.08582416,
-      "source_grounding_drop": 0.08122104,
-      "destination_grounding_gap": 0.08629295
+      "k3_target_score": 0.10372014,
+      "k3_reverse_score": 0.014597776,
+      "k3_distractor_score": 0.0041175988,
+      "k3_selectivity_margin": 0.099602506,
+      "source_grounding_drop": 0.10175878,
+      "destination_grounding_gap": 0.09837448
     },
     "topo_4way_trained": {
       "name": "topo_4way_trained",
@@ -1522,31 +1522,31 @@
       "k2_pass": true,
       "k3_accuracy": 1.0,
       "k3_pass": true,
-      "k3_target_score": 0.99221206,
-      "k3_reverse_score": 0.08461239,
-      "k3_distractor_score": -0.021866571,
-      "k3_selectivity_margin": 1.0140786,
-      "source_grounding_drop": 0.9544252,
-      "destination_grounding_gap": 1.0140892
+      "k3_target_score": 0.9871963,
+      "k3_reverse_score": 0.14000373,
+      "k3_distractor_score": 0.060428213,
+      "k3_selectivity_margin": 0.92676795,
+      "source_grounding_drop": 0.9510687,
+      "destination_grounding_gap": 0.9267319
     },
-    "topo_4way_margin_delta": 0.9282545,
+    "topo_4way_margin_delta": 0.8271654,
     "negative_control_wrong_index": {
       "name": "wrong_index_contraction",
-      "k2_accuracy": 0.89,
+      "k2_accuracy": 0.885,
       "k2_pass": true,
-      "k3_accuracy": 0.52,
+      "k3_accuracy": 0.615,
       "k3_pass": false,
-      "k3_target_score": 0.0049018087,
-      "k3_reverse_score": -0.00014935121,
-      "k3_distractor_score": 0.0008251457,
-      "k3_selectivity_margin": 0.004076667,
-      "source_grounding_drop": 0.00550656,
-      "destination_grounding_gap": 0.004076668
+      "k3_target_score": 0.010134857,
+      "k3_reverse_score": -0.0016590478,
+      "k3_distractor_score": 0.0016266829,
+      "k3_selectivity_margin": 0.008508175,
+      "source_grounding_drop": 0.013564094,
+      "destination_grounding_gap": 0.008508176
     }
   },
   {
     "seed_index": 16,
-    "seed": 111432,
+    "seed": 123432,
     "primary_6way_initial_probs": [
       0.16666667,
       0.16666667,
@@ -1556,27 +1556,27 @@
       0.16666667
     ],
     "primary_6way_final_probs": [
-      0.9963481,
-      0.00075534586,
-      0.0007577217,
-      0.0006949235,
-      0.000698882,
-      0.00074489304
+      0.9959747,
+      0.0008434774,
+      0.0008487833,
+      0.0007669563,
+      0.0007674212,
+      0.00079852965
     ],
-    "primary_6way_canonical_prob": 0.9963481,
+    "primary_6way_canonical_prob": 0.9959747,
     "primary_6way_dominant": true,
     "primary_6way_untrained": {
       "name": "primary_6way_untrained_uniform",
       "k2_accuracy": 1.0,
       "k2_pass": true,
-      "k3_accuracy": 0.88,
+      "k3_accuracy": 0.955,
       "k3_pass": true,
-      "k3_target_score": 0.0286613,
-      "k3_reverse_score": 0.0024529195,
-      "k3_distractor_score": -0.0015507936,
-      "k3_selectivity_margin": 0.030212097,
-      "source_grounding_drop": 0.03566809,
-      "destination_grounding_gap": 0.030737974
+      "k3_target_score": 0.038493894,
+      "k3_reverse_score": 0.00328448,
+      "k3_distractor_score": -0.0033970084,
+      "k3_selectivity_margin": 0.04189089,
+      "source_grounding_drop": 0.045630682,
+      "destination_grounding_gap": 0.04008666
     },
     "primary_6way_trained": {
       "name": "primary_6way_trained",
@@ -1584,14 +1584,14 @@
       "k2_pass": true,
       "k3_accuracy": 1.0,
       "k3_pass": true,
-      "k3_target_score": 0.9928614,
-      "k3_reverse_score": 0.07651004,
-      "k3_distractor_score": -0.04451612,
-      "k3_selectivity_margin": 1.0373772,
-      "source_grounding_drop": 1.0099006,
-      "destination_grounding_gap": 1.0373849
+      "k3_target_score": 0.992236,
+      "k3_reverse_score": 0.0764401,
+      "k3_distractor_score": -0.028873222,
+      "k3_selectivity_margin": 1.0211096,
+      "source_grounding_drop": 1.0176654,
+      "destination_grounding_gap": 1.0210977
     },
-    "primary_6way_margin_delta": 1.0071652,
+    "primary_6way_margin_delta": 0.9792187,
     "topo_4way_initial_probs": [
       0.25,
       0.25,
@@ -1599,12 +1599,12 @@
       0.25
     ],
     "topo_4way_final_probs": [
-      0.99672025,
-      0.0011217627,
-      0.0011266893,
-      0.0010313742
+      0.99634606,
+      0.0012549474,
+      0.0012612559,
+      0.0011377906
     ],
-    "topo_4way_canonical_prob": 0.99672025,
+    "topo_4way_canonical_prob": 0.99634606,
     "topo_4way_dominant": true,
     "topo_4way_untrained": {
       "name": "topo_4way_untrained_uniform",
@@ -1612,12 +1612,12 @@
       "k2_pass": true,
       "k3_accuracy": 1.0,
       "k3_pass": true,
-      "k3_target_score": 0.081266604,
-      "k3_reverse_score": 0.006930166,
-      "k3_distractor_score": -0.0034429398,
-      "k3_selectivity_margin": 0.084709555,
-      "source_grounding_drop": 0.08377541,
-      "destination_grounding_gap": 0.08436697
+      "k3_target_score": 0.08889583,
+      "k3_reverse_score": 0.00736151,
+      "k3_distractor_score": -0.004436093,
+      "k3_selectivity_margin": 0.093331926,
+      "source_grounding_drop": 0.092687696,
+      "destination_grounding_gap": 0.09209957
     },
     "topo_4way_trained": {
       "name": "topo_4way_trained",
@@ -1625,26 +1625,26 @@
       "k2_pass": true,
       "k3_accuracy": 1.0,
       "k3_pass": true,
-      "k3_target_score": 0.9937699,
-      "k3_reverse_score": 0.0765804,
-      "k3_distractor_score": -0.044554222,
-      "k3_selectivity_margin": 1.0383246,
-      "source_grounding_drop": 1.0107785,
-      "destination_grounding_gap": 1.0383188
+      "k3_target_score": 0.9931701,
+      "k3_reverse_score": 0.076510176,
+      "k3_distractor_score": -0.028898885,
+      "k3_selectivity_margin": 1.022069,
+      "source_grounding_drop": 1.0185874,
+      "destination_grounding_gap": 1.0220504
     },
-    "topo_4way_margin_delta": 0.95361507,
+    "topo_4way_margin_delta": 0.92873704,
     "negative_control_wrong_index": {
       "name": "wrong_index_contraction",
-      "k2_accuracy": 0.97,
+      "k2_accuracy": 0.945,
       "k2_pass": true,
-      "k3_accuracy": 0.495,
+      "k3_accuracy": 0.565,
       "k3_pass": false,
-      "k3_target_score": 0.001985481,
-      "k3_reverse_score": 0.00046116908,
-      "k3_distractor_score": 0.00059132394,
-      "k3_selectivity_margin": 0.0013941558,
-      "source_grounding_drop": -0.00024493918,
-      "destination_grounding_gap": 0.0013941559
+      "k3_target_score": 0.010151664,
+      "k3_reverse_score": 0.000352955,
+      "k3_distractor_score": -0.00065614586,
+      "k3_selectivity_margin": 0.0108078085,
+      "source_grounding_drop": 0.012670428,
+      "destination_grounding_gap": 0.0108078085
     }
   }
 ]
