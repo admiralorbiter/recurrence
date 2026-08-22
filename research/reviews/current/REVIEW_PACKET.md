@@ -1,6 +1,6 @@
 # Evidence Review Packet: Recurrence (recurrence)
 **Active Contract**: `None`
-**Repository HEAD**: `bbe509705fa092891de24fdde18aacb89f4f0131`
+**Repository HEAD**: `5bc4e78688eb89cdacaa38edb39a077857755a62`
 
 ## 1. Project Moonshot & Conceptual Formalism
 # BOOTSTRAP.md — Recurrence Project Manual & Conceptual Atlas
@@ -159,6 +159,16 @@ authorized_by: human
 | `k2_broken_join_rejection` | +1.0088 | +0.8772 | +1.0987 |
 | `k2_wrong_dst_rejection` | -0.3508 | -0.4065 | -0.2977 |
 | `k3_zero_shot_margin` | +2.3493 | +2.0879 | +2.9814 |
+
+### `q17e_j_r1_frozen_addressability_results.json` (14688 bytes)
+| Metric | Mean Across Seeds | Min | Max |
+| :--- | :--- | :--- | :--- |
+| `seed_index` | +8.5000 | +1.0000 | +16.0000 |
+| `seed` | +94604.5000 | +88777.0000 | +100432.0000 |
+| `k2_target_score` | +0.9774 | +0.5760 | +1.4710 |
+| `k2_reverse_score` | -4.9610 | -6.1501 | -4.2009 |
+| `k2_mean_distractor_score` | -1.4931 | -1.7995 | -1.2998 |
+| `k2_selectivity_margin` | +1.0418 | +0.3705 | +1.8436 |
 
 ### `q17e_j_relational_addressability_results.json` (16408 bytes)
 ### `q17e_lambda_scout_results.json` (100715 bytes)
