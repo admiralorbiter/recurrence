@@ -1,13 +1,13 @@
 ---
 contract_id: CONTRACT-E-Q17E
 status: DRAFT
-base_sha: 5ffd695c0245a498b8354c0e6fc85e50529d20c5
+base_sha: 75afd691996cb4a77eeed6b5f4361852239e48ae
 resource_class: cpu
 long_running: false
 exclusive_gpu: false
 interruptible: true
 proposed_by: antigravity
-design_review: CHANGES_REQUESTED
+design_review: APPROVED
 reviewed_by: chatgpt-pro
 authorized_by: null
 ---
@@ -40,8 +40,8 @@ Organisms maintain a capacity-matched matrix state $R_t \in \mathbb{R}^{11 \time
 3. **Negative Control (Algebraic Specificity)**:
    - Fixed wrong-index contraction ($R^T \cdot E$).
 
-### Confirmatory Protocol & Master Seed Formula
-- **Seeds**: $N=16$ completely fresh independent seeds: $\text{MasterSeed}(i) = 99000 + 777 \times i$ ($i = 1 \dots 16$), disjoint from all prior Scout exploratory runs.
+### Confirmatory Protocol & Master Seed Schedule
+- **Seeds**: $N=16$ completely fresh independent seeds: $\text{MasterSeed}(i) = 111000 + 777 \times i$ ($i = 1 \dots 16$), disjoint from all prior Scout exploratory runs ($88000$) and confirmatory rehearsals ($99000$).
 - **Training**: 120 epochs $\times$ 100 batches, learning rate $\eta_{\text{logits}} = 0.08$. Zero 3-hop training labels.
 - **Evaluation**: 200 evaluation trajectories per seed.
 

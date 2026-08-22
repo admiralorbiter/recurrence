@@ -536,8 +536,8 @@ impl ConfirmatoryOrganism {
 // Seed Execution
 // -----------------------------------------------------------------------------
 fn run_confirmatory_q17e_seed(seed_index: usize) -> ConfirmatorySeedResult {
-    // Master Seed Formula: 99000 + 777 * i (Disjoint from all previous scouts)
-    let seed = 99000 + (seed_index as u64) * 777;
+    // Master Seed Formula: 111000 + 777 * i (Completely fresh confirmatory seeds, disjoint from Scout K and rehearsal)
+    let seed = 111000 + (seed_index as u64) * 777;
     let train_seed = seed + 999;
     let eval_seed = seed ^ 0xDEADBEEFCAFE;
 
