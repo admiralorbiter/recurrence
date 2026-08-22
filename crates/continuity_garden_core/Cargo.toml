@@ -204,6 +204,11 @@ path = "src/bin/scout_q17e_lambda_grid.rs"
 name = "scout_q17e_alpha_preactivation"
 path = "src/bin/scout_q17e_alpha_preactivation.rs"
 
+[[bin]]
+name = "scout_q17e_c_adaptive_gating"
+path = "src/bin/scout_q17e_c_adaptive_gating.rs"
+
+
 
 
 
