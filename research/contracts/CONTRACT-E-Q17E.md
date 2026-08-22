@@ -1,6 +1,6 @@
 ---
 contract_id: CONTRACT-E-Q17E
-status: DRAFT
+status: FROZEN
 base_sha: 75afd691996cb4a77eeed6b5f4361852239e48ae
 resource_class: cpu
 long_running: false
@@ -9,7 +9,7 @@ interruptible: true
 proposed_by: antigravity
 design_review: APPROVED
 reviewed_by: chatgpt-pro
-authorized_by: null
+authorized_by: human
 ---
 
 # Research Contract: CONTRACT-E-Q17E (Autonomous Selection of Relational Composition Algebra & Multi-Hop Closure)
