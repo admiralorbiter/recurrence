@@ -23,12 +23,12 @@ This research map defines the theoretical boundaries, formal mathematical distin
 ```mermaid
 graph LR
     subgraph "External World Model (M_W)"
-        S_T["World State S_t"] -->|Action A_t| M_W["World Transition M_W"]
-        M_W --> S_NEXT["Predicted World State S_{t+1}"]
+        S_T["External State S_t"] -->|Action / Ext Intervention A_t| M_W["World Transition M_W"]
+        M_W --> S_NEXT["Predicted External Dynamics S_{t+1}"]
     end
 
     subgraph "Endogenous Causal Self Model (M_S)"
-        H_T["Internal State H_t"] -->|Self-Intervention do(Δ_H)| M_S["Self-Dynamics M_S"]
+        H_T["Internal Mechanism H_t"] -->|Self-Intervention do(Δ_H)| M_S["Self-Dynamics M_S"]
         THETA["Plastic Weights θ_t"] --> M_S
         M_S --> H_PRED["Predicted Internal Dynamics H_{t+1}"]
         M_S --> Y_PRED["Predicted Behavioral Capacity Y"]
@@ -36,16 +36,16 @@ graph LR
 ```
 
 ### The World Model $M_W$
-A world model predicts the state transitions of the external environment under agent actions:
+A world model predicts the causal state transitions of the environment **outside the agent's computational mechanism** under actions and external interventions:
 $$M_W(S_t, A_t) \longrightarrow \hat{S}_{t+1}, \hat{R}_{t+1}$$
 
 ### The Self Model $M_S$
-A self model predicts the internal state transitions, computational bottlenecks, and behavioral consequences of the organism's own physical and representational architecture:
+A self model predicts the causal state transitions, computational bottlenecks, and behavioral consequences of the **mechanism generating the agent's own behavior** under internal interventions and lesions:
 $$M_S(H_t, \Theta_t, \text{do}(\Delta_H), \text{do}(\Delta_\Theta)) \longrightarrow \hat{H}_{t+1}, \hat{\Theta}_{t+1}, \hat{Y}_{\text{behavior}}$$
 
-### The Inherent Asymmetry
-- In $M_W$, the environment is an external, unperturbable black box observed through sensors.
-- In $M_S$, the system being modeled is the *very computational medium executing the model*. Intervening on the self ($\text{do}(\Delta_H)$) directly alters the substrate of inference, demanding representation separation between the *executing process* and the *self-model representation*.
+### The Shared-Substrate Challenge
+The core computational challenge of self-modeling is that **the model and the modeled system may share the same physical or representational substrate**. Intervening on the self ($\text{do}(\Delta_H)$) directly perturbs the medium executing the model.
+- *Candidate Architectural Hypothesis*: Shared substrate creates a potential interference and identifiability challenge. Explicit representation separation (e.g. distinct meta-locus or introspective query head) is one candidate architectural solution, alongside overlapping, distributed, or recursively self-referential alternatives.
 
 ---
 
@@ -58,7 +58,7 @@ The Self-Model Ladder
 ├── Level 0: Observability              (Internal state decodable by external diagnostic probe)
 ├── Level 1: Self-Prediction            (Internal state predicts agent's own future outputs)
 ├── Level 2: Interventional Prediction   (Agent predicts consequence of do(Δ_H) on its own outputs)
-├── Level 3: Lesion Discrimination      (Agent distinguishes distinct internal faults before acting)
+├── Level 3: Self/World Discrimination   (Matched internal vs external perturbations produce distinct explanations)
 ├── Level 4: Online Model Updating      (Agent updates M_S when internal dynamics diverge from reality)
 ├── Level 5: Compensatory Simulation    (Agent uses M_S to synthesize adaptation without trial-and-error)
 └── Level 6: Zero-Shot Lesion Closure   (Agent compensates for novel, unseen internal lesions zero-shot)
@@ -66,14 +66,14 @@ The Self-Model Ladder
 
 ### Ladder Tier Specifications & Anti-Shortcut Criteria
 
-| Tier | Required Capability | Mathematical Estimand | Anti-Shortcut Verification (How World Models Fail) |
+| Tier | Required Capability | Mathematical Estimand | Anti-Shortcut Battery (How Simpler Models Fail) |
 | :--- | :--- | :--- | :--- |
-| **Level 0: Observability** | External readout decodes internal representations. | Accuracy of probe $f_\phi(H_t) \approx S_t$. | **Trivial baseline**: Any recurrent network passes this without self-awareness. |
+| **Level 0: Observability** | External readout decodes internal representations. | Accuracy of probe $f_\phi(H_t) \approx S_t$. | **Trivial baseline**: Any recurrent network passes this without self-representation. |
 | **Level 1: Self-Prediction** | Agent predicts its own future action/decision before observation. | $\hat{A}_{t+k} = M_S(H_t)$, $\text{Acc}(\hat{A}_{t+k}) > \text{Baseline}$. | A pure policy network with action caching can pass; requires interventional test. |
-| **Level 2: Interventional Prediction** | Agent predicts behavioral change under hypothetical internal state lesion. | $\hat{Y} = M_S(H_t, \text{do}(H_{\text{locus}} = 0))$. | World model has no representation of internal loci $H_{\text{locus}}$ and cannot condition on internal interventions. |
-| **Level 3: Lesion Discrimination** | Agent accurately distinguishes between sensor lesions, memory lesions, and actuator lesions purely from internal dynamics. | Mutual Information $I(\hat{\text{Fault}}; \text{ActualFault}) \approx 1.0$. | Environmental models conflate sensor failure with external darkness or actuator failure with an external obstacle. |
-| **Level 4: Online Model Update** | When a physical/internal change occurs (e.g. frozen locus, severed plastic link), agent detects discrepancy and updates $M_S$. | $\mathcal{L}(M_S | \text{damaged}) \to 0$ after $N$ internal test impulses. | Fixed diagnostic probes and non-plastic models cannot adapt their self-representation post-damage. |
-| **Level 5: Compensatory Simulation** | Agent internally simulates alternative processing routes using updated $M_S$ to regain task performance without external trial-and-error. | Task Performance restored to $\ge 90\%$ on Trial 1 post-simulation. | Trial-and-error RL requires physical environment steps; genuine self-modeling recovers *in silico*. |
+| **Level 2: Interventional Prediction** | Agent predicts behavioral change under hypothetical internal state lesion. | $\hat{Y} = M_S(H_t, \text{do}(H_{\text{locus}} = 0))$. | Must predict behavioral drop under counterfactual state clamp without executing the action physically. |
+| **Level 3: Self/World Causal Discrimination** | Agent distinguishes an internal lesion from a matched external observation mimic. | $P(\text{Attribution}=\text{SELF} \mid \text{do}(H_m=0)) \approx 1.0$, $P(\text{Attribution}=\text{WORLD} \mid \text{ObsMimic}) \approx 1.0$. | **Matched Alternative Test**: Matched external and internal perturbations producing identical immediate sensations must lead to distinct inferred causal explanations and distinct compensatory behaviors. |
+| **Level 4: Online Model Update** | When a physical/internal change occurs (e.g. frozen locus, severed plastic link), agent detects discrepancy and updates $M_S$. | $\mathcal{L}(M_S \mid \text{damaged}) \to 0$ after $N$ internal test impulses. | Fixed diagnostic probes and non-plastic models cannot adapt their self-representation post-damage. |
+| **Level 5: Compensatory Simulation** | Agent internally simulates alternative processing routes using updated $M_S$ to regain task performance without external trial-and-error. | Task Performance restored to $\ge 90\%$ on Trial 1 post-simulation. | Trial-and-error RL requires physical environment steps; genuine self-modeling recovers *in silico* (Bongard et al. 2006). |
 | **Level 6: Zero-Shot Generalization** | Agent successfully compensates for a novel, unseen combinatorial lesion based on structural self-model composition. | Performance on unseen lesion pair $(L_1 \land L_2) \ge 85\%$ zero-shot. | Lookup tables and memorized fault policies fail combinatorially out-of-distribution. |
 
 ---
@@ -94,9 +94,9 @@ The Self-Model Ladder
 
 ```mermaid
 graph TD
-    P1["Phase 1: Internal Counterfactuals & Lesion Probing<br/>- Dual-locus organism with introspective query head<br/>- Agent predicts output under do(H_locus = 0)<br/>- Level 2 & 3 Certification"]
+    P1["Phase 1: Internal Counterfactuals & Self/World Discrimination<br/>- Dual-locus organism with introspective query head<br/>- Agent predicts output under do(H_locus = 0)<br/>- Level 2 & Level 3 Certification"]
     
-    P2["Phase 2: Bongard-Style Internal Damage Recovery<br/>- Sudden locus dropout / plasticity severance<br/>- Internal self-simulation to find compensatory routing<br/>- Level 4 & 5 Certification"]
+    P2["Phase 2: Bongard-Style Internal Damage Recovery<br/>- Sudden locus dropout / plasticity severance<br/>- Internal self-simulation to find compensatory routing<br/>- Level 4 & Level 5 Certification"]
     
     P3["Phase 3: Morphological Plasticity Metamodeling<br/>- Agent maintains explicit causal graph of its own synapses<br/>- Level 6 Zero-Shot Generalization"]
     
@@ -109,5 +109,5 @@ graph TD
 
 With this research map committed:
 - Recurrence has a clear, non-canonical conceptual ontology grounded in robotics and causal self-modeling literature.
-- No experiments or contracts are prematurely opened.
-- The project is prepared for a dedicated **Research Reorientation** session once GENE completes its confirmatory stage.
+- The distinction between world-models and self-models is mathematically anchored in the **Self/World Causal Discrimination assay**.
+- No experiments or contracts are prematurely opened; the project is prepared for a dedicated **Research Reorientation** session following GENE Stage 8C-R3 confirmatory execution.
