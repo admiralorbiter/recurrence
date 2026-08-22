@@ -192,3 +192,8 @@ path = "src/bin/run_q17d_depth_generalization.rs"
 name = "verify_contract_q17d"
 path = "src/bin/verify_contract_q17d.rs"
 
+[[bin]]
+name = "scout_q17d_b_diagnostics"
+path = "src/bin/scout_q17d_b_diagnostics.rs"
+
+
