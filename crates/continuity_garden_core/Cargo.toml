@@ -248,5 +248,9 @@ path = "src/bin/scout_q17e_j_r1_frozen_addressability.rs"
 name = "scout_q17e_j_r2"
 path = "src/bin/scout_q17e_j_r2_depth_stability.rs"
 
+[[bin]]
+name = "scout_q17e_k"
+path = "src/bin/scout_q17e_k_tensor_composition.rs"
+
 
 

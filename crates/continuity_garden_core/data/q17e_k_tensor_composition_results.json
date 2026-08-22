@@ -1,0 +1,562 @@
+[
+  {
+    "seed_index": 1,
+    "seed": 88777,
+    "arm_a_k0": {
+      "m3_linear_36class_acc": 0.5,
+      "m3_mlp_36class_acc": 0.19,
+      "k0_binding_found_nonlinearly": false
+    },
+    "arm_b_pos_control": {
+      "k2_target_score": 1.0,
+      "k2_reverse_score": 0.0,
+      "k2_distractor_score": 0.0,
+      "k2_selectivity_margin": 1.0,
+      "k2_pass": true,
+      "k3_target_score": 1.0,
+      "k3_reverse_score": 0.0,
+      "k3_distractor_score": 0.0,
+      "k3_selectivity_margin": 1.0,
+      "k3_pass": true,
+      "source_grounding_drop": 1.0,
+      "destination_grounding_gap": 1.0
+    },
+    "arm_c_learned_tensor": {
+      "k2_validity_acc": 1.0,
+      "k2_pass": true,
+      "k3_zero_shot_acc": 1.0,
+      "k3_pass": true,
+      "k3_target_score": -0.4201645,
+      "k3_reverse_score": -1.3248236,
+      "k3_distractor_score": -1.4277961,
+      "k3_selectivity_margin": 1.0076315,
+      "source_grounding_drop": 1.0001004,
+      "destination_grounding_gap": 1.0079648
+    }
+  },
+  {
+    "seed_index": 2,
+    "seed": 89554,
+    "arm_a_k0": {
+      "m3_linear_36class_acc": 0.5,
+      "m3_mlp_36class_acc": 0.155,
+      "k0_binding_found_nonlinearly": false
+    },
+    "arm_b_pos_control": {
+      "k2_target_score": 1.0,
+      "k2_reverse_score": 0.0,
+      "k2_distractor_score": 0.0,
+      "k2_selectivity_margin": 1.0,
+      "k2_pass": true,
+      "k3_target_score": 1.0,
+      "k3_reverse_score": 0.0,
+      "k3_distractor_score": 0.0,
+      "k3_selectivity_margin": 1.0,
+      "k3_pass": true,
+      "source_grounding_drop": 1.0,
+      "destination_grounding_gap": 1.0
+    },
+    "arm_c_learned_tensor": {
+      "k2_validity_acc": 1.0,
+      "k2_pass": true,
+      "k3_zero_shot_acc": 1.0,
+      "k3_pass": true,
+      "k3_target_score": -0.42288586,
+      "k3_reverse_score": -1.3211658,
+      "k3_distractor_score": -1.421713,
+      "k3_selectivity_margin": 0.9988262,
+      "source_grounding_drop": 1.0027078,
+      "destination_grounding_gap": 0.9982216
+    }
+  },
+  {
+    "seed_index": 3,
+    "seed": 90331,
+    "arm_a_k0": {
+      "m3_linear_36class_acc": 0.5,
+      "m3_mlp_36class_acc": 0.185,
+      "k0_binding_found_nonlinearly": false
+    },
+    "arm_b_pos_control": {
+      "k2_target_score": 1.0,
+      "k2_reverse_score": 0.0,
+      "k2_distractor_score": 0.0,
+      "k2_selectivity_margin": 1.0,
+      "k2_pass": true,
+      "k3_target_score": 1.0,
+      "k3_reverse_score": 0.0,
+      "k3_distractor_score": 0.0,
+      "k3_selectivity_margin": 1.0,
+      "k3_pass": true,
+      "source_grounding_drop": 1.0,
+      "destination_grounding_gap": 1.0
+    },
+    "arm_c_learned_tensor": {
+      "k2_validity_acc": 1.0,
+      "k2_pass": true,
+      "k3_zero_shot_acc": 1.0,
+      "k3_pass": true,
+      "k3_target_score": -0.5637551,
+      "k3_reverse_score": -1.266334,
+      "k3_distractor_score": -1.3795418,
+      "k3_selectivity_margin": 0.8157872,
+      "source_grounding_drop": 0.80704176,
+      "destination_grounding_gap": 0.8196024
+    }
+  },
+  {
+    "seed_index": 4,
+    "seed": 91108,
+    "arm_a_k0": {
+      "m3_linear_36class_acc": 0.6,
+      "m3_mlp_36class_acc": 0.125,
+      "k0_binding_found_nonlinearly": false
+    },
+    "arm_b_pos_control": {
+      "k2_target_score": 1.0,
+      "k2_reverse_score": 0.0,
+      "k2_distractor_score": 0.0,
+      "k2_selectivity_margin": 1.0,
+      "k2_pass": true,
+      "k3_target_score": 1.0,
+      "k3_reverse_score": 0.0,
+      "k3_distractor_score": 0.0,
+      "k3_selectivity_margin": 1.0,
+      "k3_pass": true,
+      "source_grounding_drop": 1.0,
+      "destination_grounding_gap": 1.0
+    },
+    "arm_c_learned_tensor": {
+      "k2_validity_acc": 1.0,
+      "k2_pass": true,
+      "k3_zero_shot_acc": 1.0,
+      "k3_pass": true,
+      "k3_target_score": -0.5175463,
+      "k3_reverse_score": -1.3164694,
+      "k3_distractor_score": -1.3773026,
+      "k3_selectivity_margin": 0.85975575,
+      "source_grounding_drop": 0.86312515,
+      "destination_grounding_gap": 0.86797243
+    }
+  },
+  {
+    "seed_index": 5,
+    "seed": 91885,
+    "arm_a_k0": {
+      "m3_linear_36class_acc": 0.585,
+      "m3_mlp_36class_acc": 0.18,
+      "k0_binding_found_nonlinearly": false
+    },
+    "arm_b_pos_control": {
+      "k2_target_score": 1.0,
+      "k2_reverse_score": 0.0,
+      "k2_distractor_score": 0.0,
+      "k2_selectivity_margin": 1.0,
+      "k2_pass": true,
+      "k3_target_score": 1.0,
+      "k3_reverse_score": 0.0,
+      "k3_distractor_score": 0.0,
+      "k3_selectivity_margin": 1.0,
+      "k3_pass": true,
+      "source_grounding_drop": 1.0,
+      "destination_grounding_gap": 1.0
+    },
+    "arm_c_learned_tensor": {
+      "k2_validity_acc": 1.0,
+      "k2_pass": true,
+      "k3_zero_shot_acc": 1.0,
+      "k3_pass": true,
+      "k3_target_score": -0.4624232,
+      "k3_reverse_score": -1.3195812,
+      "k3_distractor_score": -1.4086837,
+      "k3_selectivity_margin": 0.9462602,
+      "source_grounding_drop": 0.94890875,
+      "destination_grounding_gap": 0.9451741
+    }
+  },
+  {
+    "seed_index": 6,
+    "seed": 92662,
+    "arm_a_k0": {
+      "m3_linear_36class_acc": 0.615,
+      "m3_mlp_36class_acc": 0.235,
+      "k0_binding_found_nonlinearly": false
+    },
+    "arm_b_pos_control": {
+      "k2_target_score": 1.0,
+      "k2_reverse_score": 0.0,
+      "k2_distractor_score": 0.0,
+      "k2_selectivity_margin": 1.0,
+      "k2_pass": true,
+      "k3_target_score": 1.0,
+      "k3_reverse_score": 0.0,
+      "k3_distractor_score": 0.0,
+      "k3_selectivity_margin": 1.0,
+      "k3_pass": true,
+      "source_grounding_drop": 1.0,
+      "destination_grounding_gap": 1.0
+    },
+    "arm_c_learned_tensor": {
+      "k2_validity_acc": 1.0,
+      "k2_pass": true,
+      "k3_zero_shot_acc": 1.0,
+      "k3_pass": true,
+      "k3_target_score": -0.3398022,
+      "k3_reverse_score": -1.3313019,
+      "k3_distractor_score": -1.4685053,
+      "k3_selectivity_margin": 1.1287038,
+      "source_grounding_drop": 1.1259205,
+      "destination_grounding_gap": 1.1338273
+    }
+  },
+  {
+    "seed_index": 7,
+    "seed": 93439,
+    "arm_a_k0": {
+      "m3_linear_36class_acc": 0.49,
+      "m3_mlp_36class_acc": 0.12,
+      "k0_binding_found_nonlinearly": false
+    },
+    "arm_b_pos_control": {
+      "k2_target_score": 1.0,
+      "k2_reverse_score": 0.0,
+      "k2_distractor_score": 0.0,
+      "k2_selectivity_margin": 1.0,
+      "k2_pass": true,
+      "k3_target_score": 1.0,
+      "k3_reverse_score": 0.0,
+      "k3_distractor_score": 0.0,
+      "k3_selectivity_margin": 1.0,
+      "k3_pass": true,
+      "source_grounding_drop": 1.0,
+      "destination_grounding_gap": 1.0
+    },
+    "arm_c_learned_tensor": {
+      "k2_validity_acc": 1.0,
+      "k2_pass": true,
+      "k3_zero_shot_acc": 1.0,
+      "k3_pass": true,
+      "k3_target_score": -0.5727361,
+      "k3_reverse_score": -1.2952255,
+      "k3_distractor_score": -1.3628418,
+      "k3_selectivity_margin": 0.79010606,
+      "source_grounding_drop": 0.7856999,
+      "destination_grounding_gap": 0.7967238
+    }
+  },
+  {
+    "seed_index": 8,
+    "seed": 94216,
+    "arm_a_k0": {
+      "m3_linear_36class_acc": 0.485,
+      "m3_mlp_36class_acc": 0.15,
+      "k0_binding_found_nonlinearly": false
+    },
+    "arm_b_pos_control": {
+      "k2_target_score": 1.0,
+      "k2_reverse_score": 0.0,
+      "k2_distractor_score": 0.0,
+      "k2_selectivity_margin": 1.0,
+      "k2_pass": true,
+      "k3_target_score": 1.0,
+      "k3_reverse_score": 0.0,
+      "k3_distractor_score": 0.0,
+      "k3_selectivity_margin": 1.0,
+      "k3_pass": true,
+      "source_grounding_drop": 1.0,
+      "destination_grounding_gap": 1.0
+    },
+    "arm_c_learned_tensor": {
+      "k2_validity_acc": 1.0,
+      "k2_pass": true,
+      "k3_zero_shot_acc": 1.0,
+      "k3_pass": true,
+      "k3_target_score": -0.48978078,
+      "k3_reverse_score": -1.3184007,
+      "k3_distractor_score": -1.387011,
+      "k3_selectivity_margin": 0.89723086,
+      "source_grounding_drop": 0.8998151,
+      "destination_grounding_gap": 0.9014176
+    }
+  },
+  {
+    "seed_index": 9,
+    "seed": 94993,
+    "arm_a_k0": {
+      "m3_linear_36class_acc": 0.525,
+      "m3_mlp_36class_acc": 0.225,
+      "k0_binding_found_nonlinearly": false
+    },
+    "arm_b_pos_control": {
+      "k2_target_score": 1.0,
+      "k2_reverse_score": 0.0,
+      "k2_distractor_score": 0.0,
+      "k2_selectivity_margin": 1.0,
+      "k2_pass": true,
+      "k3_target_score": 1.0,
+      "k3_reverse_score": 0.0,
+      "k3_distractor_score": 0.0,
+      "k3_selectivity_margin": 1.0,
+      "k3_pass": true,
+      "source_grounding_drop": 1.0,
+      "destination_grounding_gap": 1.0
+    },
+    "arm_c_learned_tensor": {
+      "k2_validity_acc": 1.0,
+      "k2_pass": true,
+      "k3_zero_shot_acc": 1.0,
+      "k3_pass": true,
+      "k3_target_score": -0.20596628,
+      "k3_reverse_score": -1.3650137,
+      "k3_distractor_score": -1.5274072,
+      "k3_selectivity_margin": 1.3214407,
+      "source_grounding_drop": 1.3162112,
+      "destination_grounding_gap": 1.3028575
+    }
+  },
+  {
+    "seed_index": 10,
+    "seed": 95770,
+    "arm_a_k0": {
+      "m3_linear_36class_acc": 0.485,
+      "m3_mlp_36class_acc": 0.19,
+      "k0_binding_found_nonlinearly": false
+    },
+    "arm_b_pos_control": {
+      "k2_target_score": 1.0,
+      "k2_reverse_score": 0.0,
+      "k2_distractor_score": 0.0,
+      "k2_selectivity_margin": 1.0,
+      "k2_pass": true,
+      "k3_target_score": 1.0,
+      "k3_reverse_score": 0.0,
+      "k3_distractor_score": 0.0,
+      "k3_selectivity_margin": 1.0,
+      "k3_pass": true,
+      "source_grounding_drop": 1.0,
+      "destination_grounding_gap": 1.0
+    },
+    "arm_c_learned_tensor": {
+      "k2_validity_acc": 1.0,
+      "k2_pass": true,
+      "k3_zero_shot_acc": 1.0,
+      "k3_pass": true,
+      "k3_target_score": -0.23798448,
+      "k3_reverse_score": -1.373208,
+      "k3_distractor_score": -1.4961644,
+      "k3_selectivity_margin": 1.2581797,
+      "source_grounding_drop": 1.2652205,
+      "destination_grounding_gap": 1.2568613
+    }
+  },
+  {
+    "seed_index": 11,
+    "seed": 96547,
+    "arm_a_k0": {
+      "m3_linear_36class_acc": 0.55,
+      "m3_mlp_36class_acc": 0.165,
+      "k0_binding_found_nonlinearly": false
+    },
+    "arm_b_pos_control": {
+      "k2_target_score": 1.0,
+      "k2_reverse_score": 0.0,
+      "k2_distractor_score": 0.0,
+      "k2_selectivity_margin": 1.0,
+      "k2_pass": true,
+      "k3_target_score": 1.0,
+      "k3_reverse_score": 0.0,
+      "k3_distractor_score": 0.0,
+      "k3_selectivity_margin": 1.0,
+      "k3_pass": true,
+      "source_grounding_drop": 1.0,
+      "destination_grounding_gap": 1.0
+    },
+    "arm_c_learned_tensor": {
+      "k2_validity_acc": 1.0,
+      "k2_pass": true,
+      "k3_zero_shot_acc": 1.0,
+      "k3_pass": true,
+      "k3_target_score": -0.36536664,
+      "k3_reverse_score": -1.3445401,
+      "k3_distractor_score": -1.4415866,
+      "k3_selectivity_margin": 1.0762203,
+      "source_grounding_drop": 1.0741591,
+      "destination_grounding_gap": 1.0752105
+    }
+  },
+  {
+    "seed_index": 12,
+    "seed": 97324,
+    "arm_a_k0": {
+      "m3_linear_36class_acc": 0.55,
+      "m3_mlp_36class_acc": 0.145,
+      "k0_binding_found_nonlinearly": false
+    },
+    "arm_b_pos_control": {
+      "k2_target_score": 1.0,
+      "k2_reverse_score": 0.0,
+      "k2_distractor_score": 0.0,
+      "k2_selectivity_margin": 1.0,
+      "k2_pass": true,
+      "k3_target_score": 1.0,
+      "k3_reverse_score": 0.0,
+      "k3_distractor_score": 0.0,
+      "k3_selectivity_margin": 1.0,
+      "k3_pass": true,
+      "source_grounding_drop": 1.0,
+      "destination_grounding_gap": 1.0
+    },
+    "arm_c_learned_tensor": {
+      "k2_validity_acc": 1.0,
+      "k2_pass": true,
+      "k3_zero_shot_acc": 1.0,
+      "k3_pass": true,
+      "k3_target_score": -0.24687098,
+      "k3_reverse_score": -1.3510025,
+      "k3_distractor_score": -1.5256848,
+      "k3_selectivity_margin": 1.2788147,
+      "source_grounding_drop": 1.2794179,
+      "destination_grounding_gap": 1.2622099
+    }
+  },
+  {
+    "seed_index": 13,
+    "seed": 98101,
+    "arm_a_k0": {
+      "m3_linear_36class_acc": 0.565,
+      "m3_mlp_36class_acc": 0.21,
+      "k0_binding_found_nonlinearly": false
+    },
+    "arm_b_pos_control": {
+      "k2_target_score": 1.0,
+      "k2_reverse_score": 0.0,
+      "k2_distractor_score": 0.0,
+      "k2_selectivity_margin": 1.0,
+      "k2_pass": true,
+      "k3_target_score": 1.0,
+      "k3_reverse_score": 0.0,
+      "k3_distractor_score": 0.0,
+      "k3_selectivity_margin": 1.0,
+      "k3_pass": true,
+      "source_grounding_drop": 1.0,
+      "destination_grounding_gap": 1.0
+    },
+    "arm_c_learned_tensor": {
+      "k2_validity_acc": 1.0,
+      "k2_pass": true,
+      "k3_zero_shot_acc": 1.0,
+      "k3_pass": true,
+      "k3_target_score": -0.4932791,
+      "k3_reverse_score": -1.315092,
+      "k3_distractor_score": -1.4012123,
+      "k3_selectivity_margin": 0.9079331,
+      "source_grounding_drop": 0.8963527,
+      "destination_grounding_gap": 0.9188301
+    }
+  },
+  {
+    "seed_index": 14,
+    "seed": 98878,
+    "arm_a_k0": {
+      "m3_linear_36class_acc": 0.645,
+      "m3_mlp_36class_acc": 0.155,
+      "k0_binding_found_nonlinearly": false
+    },
+    "arm_b_pos_control": {
+      "k2_target_score": 1.0,
+      "k2_reverse_score": 0.0,
+      "k2_distractor_score": 0.0,
+      "k2_selectivity_margin": 1.0,
+      "k2_pass": true,
+      "k3_target_score": 1.0,
+      "k3_reverse_score": 0.0,
+      "k3_distractor_score": 0.0,
+      "k3_selectivity_margin": 1.0,
+      "k3_pass": true,
+      "source_grounding_drop": 1.0,
+      "destination_grounding_gap": 1.0
+    },
+    "arm_c_learned_tensor": {
+      "k2_validity_acc": 1.0,
+      "k2_pass": true,
+      "k3_zero_shot_acc": 1.0,
+      "k3_pass": true,
+      "k3_target_score": -0.27317888,
+      "k3_reverse_score": -1.3918004,
+      "k3_distractor_score": -1.4755888,
+      "k3_selectivity_margin": 1.202411,
+      "source_grounding_drop": 1.1983442,
+      "destination_grounding_gap": 1.2054049
+    }
+  },
+  {
+    "seed_index": 15,
+    "seed": 99655,
+    "arm_a_k0": {
+      "m3_linear_36class_acc": 0.53,
+      "m3_mlp_36class_acc": 0.15,
+      "k0_binding_found_nonlinearly": false
+    },
+    "arm_b_pos_control": {
+      "k2_target_score": 1.0,
+      "k2_reverse_score": 0.0,
+      "k2_distractor_score": 0.0,
+      "k2_selectivity_margin": 1.0,
+      "k2_pass": true,
+      "k3_target_score": 1.0,
+      "k3_reverse_score": 0.0,
+      "k3_distractor_score": 0.0,
+      "k3_selectivity_margin": 1.0,
+      "k3_pass": true,
+      "source_grounding_drop": 1.0,
+      "destination_grounding_gap": 1.0
+    },
+    "arm_c_learned_tensor": {
+      "k2_validity_acc": 1.0,
+      "k2_pass": true,
+      "k3_zero_shot_acc": 1.0,
+      "k3_pass": true,
+      "k3_target_score": -0.6094267,
+      "k3_reverse_score": -1.2587051,
+      "k3_distractor_score": -1.3434387,
+      "k3_selectivity_margin": 0.73401207,
+      "source_grounding_drop": 0.7427706,
+      "destination_grounding_gap": 0.72678465
+    }
+  },
+  {
+    "seed_index": 16,
+    "seed": 100432,
+    "arm_a_k0": {
+      "m3_linear_36class_acc": 0.515,
+      "m3_mlp_36class_acc": 0.145,
+      "k0_binding_found_nonlinearly": false
+    },
+    "arm_b_pos_control": {
+      "k2_target_score": 1.0,
+      "k2_reverse_score": 0.0,
+      "k2_distractor_score": 0.0,
+      "k2_selectivity_margin": 1.0,
+      "k2_pass": true,
+      "k3_target_score": 1.0,
+      "k3_reverse_score": 0.0,
+      "k3_distractor_score": 0.0,
+      "k3_selectivity_margin": 1.0,
+      "k3_pass": true,
+      "source_grounding_drop": 1.0,
+      "destination_grounding_gap": 1.0
+    },
+    "arm_c_learned_tensor": {
+      "k2_validity_acc": 1.0,
+      "k2_pass": true,
+      "k3_zero_shot_acc": 1.0,
+      "k3_pass": true,
+      "k3_target_score": -0.4167423,
+      "k3_reverse_score": -1.3137348,
+      "k3_distractor_score": -1.4403262,
+      "k3_selectivity_margin": 1.0235835,
+      "source_grounding_drop": 1.0039103,
+      "destination_grounding_gap": 1.0391927
+    }
+  }
+]
