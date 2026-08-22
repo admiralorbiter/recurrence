@@ -221,14 +221,12 @@ name = "scout_q17e_f_typed_relational_closure"
 path = "src/bin/scout_q17e_f_typed_relational_closure.rs"
 
 [[bin]]
-name = "scout_q17e_g_typed_trainability"
+name = "scout_q17e_g"
 path = "src/bin/scout_q17e_g_typed_trainability.rs"
 
-
-
-
-
-
+[[bin]]
+name = "scout_q17e_h"
+path = "src/bin/scout_q17e_h_final_edge_necessity.rs"
 
 
 
