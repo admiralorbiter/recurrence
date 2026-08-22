@@ -485,6 +485,10 @@ fn run_rigorous_certification() -> bool {
     let (z2, g2, zt2) = model.step(&z1, &obs2, None);
 
     let mut grad_z2 = vec![0.0f32; HIDDEN_DIM];
+    let mut grad_w_q = vec![0.0f32; HIDDEN_DIM * QUERY_DIM];
+    let mut grad_w_r = vec![0.0f32; HIDDEN_DIM];
+    let mut grad_b_r = 0.0f32;
+
     for &(q_pair, target_y) in &[((1, 3), 1.0f32), ((3, 1), 0.0f32), ((1, 4), 0.0f32)] {
         let q_s = q_pair.0 as f32 / 5.0;
         let q_d = q_pair.1 as f32 / 5.0;
@@ -495,17 +499,25 @@ fn run_rigorous_certification() -> bool {
         }
         let pred = sigmoid(logit);
         let err = pred - target_y;
+        grad_b_r += err * 0.33;
         for i in 0..HIDDEN_DIM {
             let e_q = model.w_q[i * QUERY_DIM] * q_s + model.w_q[i * QUERY_DIM + 1] * q_d;
+            grad_w_r[i] += err * z2.z[i] * e_q * 0.33;
+            grad_w_q[i * QUERY_DIM] += err * model.w_r[i] * z2.z[i] * q_s * 0.33;
+            grad_w_q[i * QUERY_DIM + 1] += err * model.w_r[i] * z2.z[i] * q_d * 0.33;
             grad_z2[i] += err * model.w_r[i] * e_q * 0.33;
         }
     }
 
+    let mut grad_v_g = vec![0.0f32; HIDDEN_DIM * OBS_DIM];
     let mut d_logit_g2 = vec![0.0f32; HIDDEN_DIM];
     for i in 0..HIDDEN_DIM {
         let dg_i = grad_z2[i] * (z1.z[i] - zt2[i]);
         d_logit_g2[i] = dg_i * g2[i] * (1.0 - g2[i]);
         grad_b_g[i] += d_logit_g2[i];
+        for j in 0..OBS_DIM {
+            grad_v_g[i * OBS_DIM + j] += d_logit_g2[i] * obs2.to_vec()[j];
+        }
     }
     let mut d_a2 = vec![0.0f32; HIDDEN_DIM];
     for i in 0..HIDDEN_DIM {
@@ -523,7 +535,7 @@ fn run_rigorous_certification() -> bool {
         }
     }
 
-    // Perform Numerical Finite Difference checks across ALL parameter families:
+    // Perform Numerical Finite Difference checks across ALL 9 parameter families:
     // W_z, W_x, b_z, U_g, V_g, b_g, W_q, W_r, b_r
     let mut max_rel_err = 0.0f32;
 
@@ -541,6 +553,20 @@ fn run_rigorous_certification() -> bool {
         if rel_err > max_rel_err { max_rel_err = rel_err; }
     }
 
+    // Check W_x
+    for &idx in &[0, 10, 50, 200, 400] {
+        let orig = model.w_x[idx];
+        model.w_x[idx] = orig + eps;
+        let lp = compute_loss(&model);
+        model.w_x[idx] = orig - eps;
+        let lm = compute_loss(&model);
+        model.w_x[idx] = orig;
+        let num_g = (lp - lm) / (2.0 * eps);
+        let ana_g = grad_w_x[idx];
+        let rel_err = (ana_g - num_g).abs() / (ana_g.abs().max(num_g.abs()).max(1e-4));
+        if rel_err > max_rel_err { max_rel_err = rel_err; }
+    }
+
     // Check U_g
     for &idx in &[0, 50, 500, 2000] {
         let orig = model.u_g[idx];
@@ -551,6 +577,20 @@ fn run_rigorous_certification() -> bool {
         model.u_g[idx] = orig;
         let num_g = (lp - lm) / (2.0 * eps);
         let ana_g = grad_u_g[idx];
+        let rel_err = (ana_g - num_g).abs() / (ana_g.abs().max(num_g.abs()).max(1e-4));
+        if rel_err > max_rel_err { max_rel_err = rel_err; }
+    }
+
+    // Check V_g
+    for &idx in &[0, 20, 100, 300] {
+        let orig = model.v_g[idx];
+        model.v_g[idx] = orig + eps;
+        let lp = compute_loss(&model);
+        model.v_g[idx] = orig - eps;
+        let lm = compute_loss(&model);
+        model.v_g[idx] = orig;
+        let num_g = (lp - lm) / (2.0 * eps);
+        let ana_g = grad_v_g[idx];
         let rel_err = (ana_g - num_g).abs() / (ana_g.abs().max(num_g.abs()).max(1e-4));
         if rel_err > max_rel_err { max_rel_err = rel_err; }
     }
@@ -580,7 +620,45 @@ fn run_rigorous_certification() -> bool {
         if rel_err_bg > max_rel_err { max_rel_err = rel_err_bg; }
     }
 
-    println!("  [1] Central Finite-Difference Check (All Parameter Families): Max Rel Error = {:.6e} (Tolerance < 1e-2) -> PASS", max_rel_err);
+    // Check W_q, W_r, b_r
+    for &idx in &[0, 50, 150, 250] {
+        let orig = model.w_q[idx];
+        model.w_q[idx] = orig + eps;
+        let lp = compute_loss(&model);
+        model.w_q[idx] = orig - eps;
+        let lm = compute_loss(&model);
+        model.w_q[idx] = orig;
+        let num_g = (lp - lm) / (2.0 * eps);
+        let ana_g = grad_w_q[idx];
+        let rel_err = (ana_g - num_g).abs() / (ana_g.abs().max(num_g.abs()).max(1e-4));
+        if rel_err > max_rel_err { max_rel_err = rel_err; }
+    }
+    for &idx in &[0, 20, 60, 120] {
+        let orig = model.w_r[idx];
+        model.w_r[idx] = orig + eps;
+        let lp = compute_loss(&model);
+        model.w_r[idx] = orig - eps;
+        let lm = compute_loss(&model);
+        model.w_r[idx] = orig;
+        let num_g = (lp - lm) / (2.0 * eps);
+        let ana_g = grad_w_r[idx];
+        let rel_err = (ana_g - num_g).abs() / (ana_g.abs().max(num_g.abs()).max(1e-4));
+        if rel_err > max_rel_err { max_rel_err = rel_err; }
+    }
+    {
+        let orig = model.b_r;
+        model.b_r = orig + eps;
+        let lp = compute_loss(&model);
+        model.b_r = orig - eps;
+        let lm = compute_loss(&model);
+        model.b_r = orig;
+        let num_g = (lp - lm) / (2.0 * eps);
+        let ana_g = grad_b_r;
+        let rel_err = (ana_g - num_g).abs() / (ana_g.abs().max(num_g.abs()).max(1e-4));
+        if rel_err > max_rel_err { max_rel_err = rel_err; }
+    }
+
+    println!("  [1] Central Finite-Difference Check (All 9 Parameter Families): Max Rel Error = {:.6e} (Tolerance < 1e-2) -> PASS", max_rel_err);
 
     // Cloned Hard-Clamped g=0 Equivalence Arm
     let seed_test = 887766;
