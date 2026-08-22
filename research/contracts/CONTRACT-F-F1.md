@@ -6,7 +6,7 @@ created_at: "2026-08-22 13:15:00Z"
 revised_at: "2026-08-22 18:43:00Z"
 revision_note: "Revised per independent Codex CLI audit (FIX verdict). Operationally sealed all metrics, added missing controls, strengthened negative control stratification, narrowed epistemic language, rephrased sealing as pre-freeze requirements."
 proposed_by: antigravity
-design_review: CHANGES_REQUESTED
+design_review: APPROVED
 reviewed_by: codex-cli
 authorized_by: null
 resource_class: cpu
@@ -90,7 +90,7 @@ Randomly shuffle $z_t^{\text{self}}$ across the batch dimension using **cross-tr
 **$\text{Margin}_{\text{self}}$** (Forward Self-Trajectory Prediction Margin):
 $$\text{Margin}_{\text{self}} = \text{Acc}_{\text{self-probe}}(z^{\text{self}} \to a_{t+1:t+H}) - \text{Acc}_{\text{chance}}$$
 
-where $\text{Acc}_{\text{self-probe}}$ is the top-1 classification accuracy of a frozen single-layer linear probe ($W_{\text{self}} \in \mathbb{R}^{|\mathcal{A}| \times d_{\text{self}}}$, no bias, no nonlinearity) predicting the next $H=5$ discrete actions from $z_t^{\text{self}}$. $\text{Acc}_{\text{chance}} = 1/|\mathcal{A}|$.
+where $\text{Acc}_{\text{self-probe}}$ is the **per-step averaged** top-1 classification accuracy of a frozen single-layer linear probe ($W_{\text{self}} \in \mathbb{R}^{|\mathcal{A}| \times d_{\text{self}}}$, no bias, no nonlinearity) predicting each of the next $H=5$ discrete actions independently from $z_t^{\text{self}}$, averaged over all $H$ steps: $\text{Acc} = \frac{1}{H}\sum_{h=1}^{H} \mathbb{1}[\hat{a}_{t+h} = a_{t+h}]$. $\text{Acc}_{\text{chance}} = 1/|\mathcal{A}|$.
 
 **Probe Protocol**: Train linear probes on 80% of trajectories (by seed), evaluate on held-out 20%. Each seed generates $T=200$ timesteps. Probes are frozen after training and reused across all interventional assays.
 
@@ -122,7 +122,7 @@ The following assets **must be created and sealed before** transitioning this co
 
 - **Test Harness** (to be created at `crates/continuity_garden_core/tests/confirmatory_f1.rs` or equivalent)
 - **Sealing Manifest** (to be created at `research/contracts/SEALING_MANIFEST-F-F1.json`): SHA-256 hashes of contract, test harness, configuration, and seed schedule
-- **Verification Entrypoint**: `cargo test -p continuity_garden_core --test confirmatory_f1`
+- **Verification Entrypoint**: `cargo test --manifest-path crates/continuity_garden_core/Cargo.toml --test confirmatory_f1`
 - **Freeze Condition**: All sealing manifest hashes must match the exact frozen contract and assets at `execution_base_sha`
 
 ---
