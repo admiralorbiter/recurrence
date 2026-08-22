@@ -32,7 +32,7 @@ The objective of Continuity Garden (`recurrence`) is to discover the minimal dev
 
 - **CHECKPOINT-E-Q17A-R1 (Research Checkpoint: Q17A Endogenous 2-Hop Transitive Composition (Promoted))**:
   - **Checkpoint**: [`CHECKPOINT-E-Q17A-R1.md`](research/checkpoints/CHECKPOINT-E-Q17A-R1.md)
-  - **Candidate SHA**: `UNKNOWN`
+  - **Candidate SHA**: `efc2d9941bb546a28fc01ff634211e79070a5bae`
   - **Hypothesis Confirmed**: Endogenous neural composition kernels $f_\theta(e_{AB}, e_{BC}) \to a_{AC}$ generalize to withheld multi-hop causal endpoints without explicit graph traversal.
   - **Empirical Baseline**:
   - **Next Frontier**: Q17B — Self-Supervised Composition Discovery (learning composition without explicit auxiliary two-hop targets).

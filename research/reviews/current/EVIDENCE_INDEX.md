@@ -12,4 +12,6 @@
 - [`q17e_g_typed_trainability_results.json`](evidence/q17e_g_typed_trainability_results.json) (41565 bytes)
 - [`q17e_h_final_edge_results.json`](evidence/q17e_h_final_edge_results.json) (10629 bytes)
 - [`q17e_h_r1_exact_replay_results.json`](evidence/q17e_h_r1_exact_replay_results.json) (11574 bytes)
+- [`q17e_i_broken_joins_results.json`](evidence/q17e_i_broken_joins_results.json) (9000 bytes)
+- [`q17e_j_relational_addressability_results.json`](evidence/q17e_j_relational_addressability_results.json) (16408 bytes)
 - [`q17e_lambda_scout_results.json`](evidence/q17e_lambda_scout_results.json) (100715 bytes)

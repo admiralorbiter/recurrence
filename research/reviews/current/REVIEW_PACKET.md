@@ -1,6 +1,6 @@
 # Evidence Review Packet: Recurrence (recurrence)
 **Active Contract**: `None`
-**Repository HEAD**: `087f95e18bbf98aa65221928a47a74fd21a775e2`
+**Repository HEAD**: `bbe509705fa092891de24fdde18aacb89f4f0131`
 
 ## 1. Project Moonshot & Conceptual Formalism
 # BOOTSTRAP.md — Recurrence Project Manual & Conceptual Atlas
@@ -150,6 +150,17 @@ authorized_by: human
 | `recomputed_k2_margin` | +3.4977 | +2.3714 | +4.1248 |
 | `original_k3_margin` | +5.9563 | -7.2594 | +10.1568 |
 
+### `q17e_i_broken_joins_results.json` (9000 bytes)
+| Metric | Mean Across Seeds | Min | Max |
+| :--- | :--- | :--- | :--- |
+| `seed_index` | +8.5000 | +1.0000 | +16.0000 |
+| `seed` | +94604.5000 | +88777.0000 | +100432.0000 |
+| `k2_intact_margin` | +0.9775 | +0.8468 | +1.1773 |
+| `k2_broken_join_rejection` | +1.0088 | +0.8772 | +1.0987 |
+| `k2_wrong_dst_rejection` | -0.3508 | -0.4065 | -0.2977 |
+| `k3_zero_shot_margin` | +2.3493 | +2.0879 | +2.9814 |
+
+### `q17e_j_relational_addressability_results.json` (16408 bytes)
 ### `q17e_lambda_scout_results.json` (100715 bytes)
 | Metric | Mean Across Seeds | Min | Max |
 | :--- | :--- | :--- | :--- |
