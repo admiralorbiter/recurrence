@@ -208,6 +208,11 @@ path = "src/bin/scout_q17e_alpha_preactivation.rs"
 name = "scout_q17e_c_adaptive_gating"
 path = "src/bin/scout_q17e_c_adaptive_gating.rs"
 
+[[bin]]
+name = "scout_q17e_d_trainability_and_pressure"
+path = "src/bin/scout_q17e_d_trainability_and_pressure.rs"
+
+
 
 
 
