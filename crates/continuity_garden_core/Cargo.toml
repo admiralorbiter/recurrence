@@ -236,5 +236,9 @@ path = "src/bin/scout_q17e_h_r1_exact_replay.rs"
 name = "scout_q17e_i"
 path = "src/bin/scout_q17e_i_broken_joins.rs"
 
+[[bin]]
+name = "scout_q17e_j"
+path = "src/bin/scout_q17e_j_relational_addressability.rs"
+
 
 
