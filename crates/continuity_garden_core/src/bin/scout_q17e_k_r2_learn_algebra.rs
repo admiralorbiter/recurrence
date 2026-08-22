@@ -5,9 +5,10 @@
 //! and whether the resulting learned operator recursively closes at zero-shot k=3.
 //!
 //! Evaluates:
-//! - Arm 1: 4-Way Tensor Contraction Topology Selection (R*E, R^T*E, R*E^T, R^T*E^T)
-//! - Arm 2: 6-Way General Composition Operator Selection (Matrix Contractions + Hadamard + Additive)
-//! - Arm 3: Low-Rank Bilinear Map C_theta(r, e) = U[(Ar) . (Be)]
+//! - Arm 1A: Untrained Uniform 4-Way Mixture Baseline [25%, 25%, 25%, 25%]
+//! - Arm 1B: Trained 4-Way Contraction Topology Selection (RE, RtE, REt, RtEt)
+//! - Arm 2A: Untrained Uniform 6-Way Mixture Baseline [16.7%, 16.7%, 16.7%, 16.7%, 16.7%, 16.7%]
+//! - Arm 2B: Trained 6-Way General Composition Operator Selection (RE, RtE, REt, RtEt, R.E, R+E)
 //!
 //! Training: Exclusively on 1- and 2-step experience with broken joins and counterfactuals.
 //! Zero 3-hop labels during meta-training. Evaluated across 16 independent seeds.
@@ -17,7 +18,7 @@ use std::path::Path;
 
 use continuity_garden_core::typed_model::sigmoid;
 use rand::seq::SliceRandom;
-use rand::{Rng, SeedableRng};
+use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
 use rand_distr::{Distribution, Normal};
 use rayon::prelude::*;
@@ -28,13 +29,8 @@ pub const TENSOR_P: usize = 11;
 pub const TENSOR_DIM: usize = TENSOR_P * TENSOR_P; // 121
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct Topology4WayResult {
-    pub seed_index: usize,
-    pub seed: u64,
-    pub initial_probs: Vec<f32>, // [25.0%, 25.0%, 25.0%, 25.0%]
-    pub final_probs: Vec<f32>,
-    pub canonical_re_prob: f32,  // O1: R * E
-    pub canonical_selected: bool,
+pub struct AssayBatteryResult {
+    pub name: String,
     pub k2_accuracy: f32,
     pub k2_pass: bool,
     pub k3_zero_shot_accuracy: f32,
@@ -45,6 +41,18 @@ pub struct Topology4WayResult {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Topology4WayResult {
+    pub seed_index: usize,
+    pub seed: u64,
+    pub initial_probs: Vec<f32>, // [25.0%, 25.0%, 25.0%, 25.0%]
+    pub final_probs: Vec<f32>,
+    pub canonical_re_prob: f32,  // O1: R * E
+    pub canonical_selected: bool,
+    pub untrained_baseline: AssayBatteryResult,
+    pub trained_result: AssayBatteryResult,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct General6WayResult {
     pub seed_index: usize,
     pub seed: u64,
@@ -52,13 +60,8 @@ pub struct General6WayResult {
     pub final_probs: Vec<f32>,
     pub canonical_re_prob: f32,
     pub canonical_selected: bool,
-    pub k2_accuracy: f32,
-    pub k2_pass: bool,
-    pub k3_zero_shot_accuracy: f32,
-    pub k3_pass: bool,
-    pub k3_selectivity_margin: f32,
-    pub source_grounding_drop: f32,
-    pub destination_grounding_gap: f32,
+    pub untrained_baseline: AssayBatteryResult,
+    pub trained_result: AssayBatteryResult,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -228,6 +231,78 @@ impl Topology4WayOrganism {
         score
     }
 
+    pub fn run_battery(&self, eval_seed: u64, name: &str) -> AssayBatteryResult {
+        let mut rng = ChaCha8Rng::seed_from_u64(eval_seed);
+        let nodes = [1, 2, 3, 4, 5, 6];
+
+        let mut k2_correct = 0;
+        let mut k3_correct = 0;
+        let mut total_k3_margin = 0.0f32;
+        let mut total_source_drop = 0.0f32;
+        let mut total_dest_gap = 0.0f32;
+
+        let n_eval = 200;
+        for _ in 0..n_eval {
+            let mut perm = nodes;
+            perm.shuffle(&mut rng);
+            let u = perm[0];
+            let v = perm[1];
+            let w = perm[2];
+            let z = perm[3];
+            let x = perm[4];
+            let y = perm[5];
+
+            let e1 = self.encode_edge(u, v);
+            let e2 = self.encode_edge(v, w);
+            let r2 = self.compose(&e1, &e2);
+
+            let k2_tgt = self.query(&r2, u, w);
+            let k2_rev = self.query(&r2, w, u);
+            let k2_dist = self.query(&r2, u, y);
+            if k2_tgt > k2_rev && k2_tgt > k2_dist {
+                k2_correct += 1;
+            }
+
+            // Zero-shot step 3
+            let e3 = self.encode_edge(w, z);
+            let r3 = self.compose(&r2, &e3);
+
+            let k3_tgt = self.query(&r3, u, z);
+            let k3_rev = self.query(&r3, z, u);
+            let k3_dist = self.query(&r3, u, y);
+            let margin = k3_tgt - k3_dist;
+
+            total_k3_margin += margin;
+
+            if k3_tgt > k3_rev && k3_tgt > k3_dist {
+                k3_correct += 1;
+            }
+
+            let e3_brk = self.encode_edge(x, z);
+            let r3_brk = self.compose(&r2, &e3_brk);
+            let k3_brk_tgt = self.query(&r3_brk, u, z);
+            total_source_drop += k3_tgt - k3_brk_tgt;
+
+            let e3_alt = self.encode_edge(w, y);
+            let r3_alt = self.compose(&r2, &e3_alt);
+            let k3_alt_tgt = self.query(&r3_alt, u, y);
+            let k3_alt_old = self.query(&r3_alt, u, z);
+            total_dest_gap += k3_alt_tgt - k3_alt_old;
+        }
+
+        let n = n_eval as f32;
+        AssayBatteryResult {
+            name: name.to_string(),
+            k2_accuracy: k2_correct as f32 / n,
+            k2_pass: (k2_correct as f32 / n) >= 0.85,
+            k3_zero_shot_accuracy: k3_correct as f32 / n,
+            k3_pass: (k3_correct as f32 / n) >= 0.80,
+            k3_selectivity_margin: total_k3_margin / n,
+            source_grounding_drop: total_source_drop / n,
+            destination_grounding_gap: total_dest_gap / n,
+        }
+    }
+
     pub fn train(&mut self, train_seed: u64, epochs: usize) {
         let mut rng = ChaCha8Rng::seed_from_u64(train_seed);
         let nodes = [1, 2, 3, 4, 5, 6];
@@ -325,74 +400,16 @@ fn evaluate_topology_4way(seed_index: usize, seed: u64, train_seed: u64, eval_se
     let mut organism = Topology4WayOrganism::new(seed);
     let initial_probs = softmax(&organism.op_logits);
 
+    // 1. UNTRAINED UNIFORM BASELINE
+    let untrained_baseline = organism.run_battery(eval_seed, "untrained_uniform_4way");
+
+    // 2. TRAINED MIXTURE
     organism.train(train_seed, 120);
     let final_probs = softmax(&organism.op_logits);
     let canonical_re_prob = final_probs[0];
     let canonical_selected = canonical_re_prob >= 0.70;
+    let trained_result = organism.run_battery(eval_seed, "trained_mixture_4way");
 
-    let mut rng = ChaCha8Rng::seed_from_u64(eval_seed);
-    let nodes = [1, 2, 3, 4, 5, 6];
-
-    let mut k2_correct = 0;
-    let mut k3_correct = 0;
-    let mut total_k3_tgt = 0.0f32;
-    let mut total_k3_dist = 0.0f32;
-    let mut total_k3_margin = 0.0f32;
-    let mut total_source_drop = 0.0f32;
-    let mut total_dest_gap = 0.0f32;
-
-    let n_eval = 200;
-    for _ in 0..n_eval {
-        let mut perm = nodes;
-        perm.shuffle(&mut rng);
-        let u = perm[0];
-        let v = perm[1];
-        let w = perm[2];
-        let z = perm[3];
-        let x = perm[4];
-        let y = perm[5];
-
-        let e1 = organism.encode_edge(u, v);
-        let e2 = organism.encode_edge(v, w);
-        let r2 = organism.compose(&e1, &e2);
-
-        let k2_tgt = organism.query(&r2, u, w);
-        let k2_rev = organism.query(&r2, w, u);
-        let k2_dist = organism.query(&r2, u, y);
-        if k2_tgt > k2_rev && k2_tgt > k2_dist {
-            k2_correct += 1;
-        }
-
-        // Zero-shot step 3
-        let e3 = organism.encode_edge(w, z);
-        let r3 = organism.compose(&r2, &e3);
-
-        let k3_tgt = organism.query(&r3, u, z);
-        let k3_rev = organism.query(&r3, z, u);
-        let k3_dist = organism.query(&r3, u, y);
-        let margin = k3_tgt - k3_dist;
-
-        total_k3_tgt += k3_tgt;
-        total_k3_dist += k3_dist;
-        total_k3_margin += margin;
-
-        if k3_tgt > k3_rev && k3_tgt > k3_dist {
-            k3_correct += 1;
-        }
-
-        let e3_brk = organism.encode_edge(x, z);
-        let r3_brk = organism.compose(&r2, &e3_brk);
-        let k3_brk_tgt = organism.query(&r3_brk, u, z);
-        total_source_drop += k3_tgt - k3_brk_tgt;
-
-        let e3_alt = organism.encode_edge(w, y);
-        let r3_alt = organism.compose(&r2, &e3_alt);
-        let k3_alt_tgt = organism.query(&r3_alt, u, y);
-        let k3_alt_old = organism.query(&r3_alt, u, z);
-        total_dest_gap += k3_alt_tgt - k3_alt_old;
-    }
-
-    let n = n_eval as f32;
     Topology4WayResult {
         seed_index,
         seed,
@@ -400,13 +417,8 @@ fn evaluate_topology_4way(seed_index: usize, seed: u64, train_seed: u64, eval_se
         final_probs,
         canonical_re_prob,
         canonical_selected,
-        k2_accuracy: k2_correct as f32 / n,
-        k2_pass: (k2_correct as f32 / n) >= 0.85,
-        k3_zero_shot_accuracy: k3_correct as f32 / n,
-        k3_pass: (k3_correct as f32 / n) >= 0.80,
-        k3_selectivity_margin: total_k3_margin / n,
-        source_grounding_drop: total_source_drop / n,
-        destination_grounding_gap: total_dest_gap / n,
+        untrained_baseline,
+        trained_result,
     }
 }
 
@@ -493,6 +505,78 @@ impl General6WayOrganism {
             }
         }
         score
+    }
+
+    pub fn run_battery(&self, eval_seed: u64, name: &str) -> AssayBatteryResult {
+        let mut rng = ChaCha8Rng::seed_from_u64(eval_seed);
+        let nodes = [1, 2, 3, 4, 5, 6];
+
+        let mut k2_correct = 0;
+        let mut k3_correct = 0;
+        let mut total_k3_margin = 0.0f32;
+        let mut total_source_drop = 0.0f32;
+        let mut total_dest_gap = 0.0f32;
+
+        let n_eval = 200;
+        for _ in 0..n_eval {
+            let mut perm = nodes;
+            perm.shuffle(&mut rng);
+            let u = perm[0];
+            let v = perm[1];
+            let w = perm[2];
+            let z = perm[3];
+            let x = perm[4];
+            let y = perm[5];
+
+            let e1 = self.encode_edge(u, v);
+            let e2 = self.encode_edge(v, w);
+            let r2 = self.compose(&e1, &e2);
+
+            let k2_tgt = self.query(&r2, u, w);
+            let k2_rev = self.query(&r2, w, u);
+            let k2_dist = self.query(&r2, u, y);
+            if k2_tgt > k2_rev && k2_tgt > k2_dist {
+                k2_correct += 1;
+            }
+
+            // Zero-shot step 3
+            let e3 = self.encode_edge(w, z);
+            let r3 = self.compose(&r2, &e3);
+
+            let k3_tgt = self.query(&r3, u, z);
+            let k3_rev = self.query(&r3, z, u);
+            let k3_dist = self.query(&r3, u, y);
+            let margin = k3_tgt - k3_dist;
+
+            total_k3_margin += margin;
+
+            if k3_tgt > k3_rev && k3_tgt > k3_dist {
+                k3_correct += 1;
+            }
+
+            let e3_brk = self.encode_edge(x, z);
+            let r3_brk = self.compose(&r2, &e3_brk);
+            let k3_brk_tgt = self.query(&r3_brk, u, z);
+            total_source_drop += k3_tgt - k3_brk_tgt;
+
+            let e3_alt = self.encode_edge(w, y);
+            let r3_alt = self.compose(&r2, &e3_alt);
+            let k3_alt_tgt = self.query(&r3_alt, u, y);
+            let k3_alt_old = self.query(&r3_alt, u, z);
+            total_dest_gap += k3_alt_tgt - k3_alt_old;
+        }
+
+        let n = n_eval as f32;
+        AssayBatteryResult {
+            name: name.to_string(),
+            k2_accuracy: k2_correct as f32 / n,
+            k2_pass: (k2_correct as f32 / n) >= 0.85,
+            k3_zero_shot_accuracy: k3_correct as f32 / n,
+            k3_pass: (k3_correct as f32 / n) >= 0.80,
+            k3_selectivity_margin: total_k3_margin / n,
+            source_grounding_drop: total_source_drop / n,
+            destination_grounding_gap: total_dest_gap / n,
+        }
     }
 
     pub fn train(&mut self, train_seed: u64, epochs: usize) {
@@ -592,74 +676,16 @@ fn evaluate_general_6way(seed_index: usize, seed: u64, train_seed: u64, eval_see
     let mut organism = General6WayOrganism::new(seed);
     let initial_probs = softmax(&organism.op_logits);
 
+    // 1. UNTRAINED UNIFORM BASELINE
+    let untrained_baseline = organism.run_battery(eval_seed, "untrained_uniform_6way");
+
+    // 2. TRAINED MIXTURE
     organism.train(train_seed, 120);
     let final_probs = softmax(&organism.op_logits);
     let canonical_re_prob = final_probs[0];
     let canonical_selected = canonical_re_prob >= 0.50;
+    let trained_result = organism.run_battery(eval_seed, "trained_mixture_6way");
 
-    let mut rng = ChaCha8Rng::seed_from_u64(eval_seed);
-    let nodes = [1, 2, 3, 4, 5, 6];
-
-    let mut k2_correct = 0;
-    let mut k3_correct = 0;
-    let mut total_k3_tgt = 0.0f32;
-    let mut total_k3_dist = 0.0f32;
-    let mut total_k3_margin = 0.0f32;
-    let mut total_source_drop = 0.0f32;
-    let mut total_dest_gap = 0.0f32;
-
-    let n_eval = 200;
-    for _ in 0..n_eval {
-        let mut perm = nodes;
-        perm.shuffle(&mut rng);
-        let u = perm[0];
-        let v = perm[1];
-        let w = perm[2];
-        let z = perm[3];
-        let x = perm[4];
-        let y = perm[5];
-
-        let e1 = organism.encode_edge(u, v);
-        let e2 = organism.encode_edge(v, w);
-        let r2 = organism.compose(&e1, &e2);
-
-        let k2_tgt = organism.query(&r2, u, w);
-        let k2_rev = organism.query(&r2, w, u);
-        let k2_dist = organism.query(&r2, u, y);
-        if k2_tgt > k2_rev && k2_tgt > k2_dist {
-            k2_correct += 1;
-        }
-
-        // Zero-shot step 3
-        let e3 = organism.encode_edge(w, z);
-        let r3 = organism.compose(&r2, &e3);
-
-        let k3_tgt = organism.query(&r3, u, z);
-        let k3_rev = organism.query(&r3, z, u);
-        let k3_dist = organism.query(&r3, u, y);
-        let margin = k3_tgt - k3_dist;
-
-        total_k3_tgt += k3_tgt;
-        total_k3_dist += k3_dist;
-        total_k3_margin += margin;
-
-        if k3_tgt > k3_rev && k3_tgt > k3_dist {
-            k3_correct += 1;
-        }
-
-        let e3_brk = organism.encode_edge(x, z);
-        let r3_brk = organism.compose(&r2, &e3_brk);
-        let k3_brk_tgt = organism.query(&r3_brk, u, z);
-        total_source_drop += k3_tgt - k3_brk_tgt;
-
-        let e3_alt = organism.encode_edge(w, y);
-        let r3_alt = organism.compose(&r2, &e3_alt);
-        let k3_alt_tgt = organism.query(&r3_alt, u, y);
-        let k3_alt_old = organism.query(&r3_alt, u, z);
-        total_dest_gap += k3_alt_tgt - k3_alt_old;
-    }
-
-    let n = n_eval as f32;
     General6WayResult {
         seed_index,
         seed,
@@ -667,13 +693,8 @@ fn evaluate_general_6way(seed_index: usize, seed: u64, train_seed: u64, eval_see
         final_probs,
         canonical_re_prob,
         canonical_selected,
-        k2_accuracy: k2_correct as f32 / n,
-        k2_pass: (k2_correct as f32 / n) >= 0.85,
-        k3_zero_shot_accuracy: k3_correct as f32 / n,
-        k3_pass: (k3_correct as f32 / n) >= 0.80,
-        k3_selectivity_margin: total_k3_margin / n,
-        source_grounding_drop: total_source_drop / n,
-        destination_grounding_gap: total_dest_gap / n,
+        untrained_baseline,
+        trained_result,
     }
 }
 
@@ -699,7 +720,7 @@ fn run_scout_k_r2_seed(seed_index: usize) -> ScoutKR2SeedResult {
 fn main() {
     println!("================================================================================");
     println!("SCOUT-E-Q17E-K-R2: Learn the Contraction Algebra Study");
-    println!("Evaluating Operator Mixture Selection across 16 Seeds");
+    println!("Evaluating Untrained Uniform Baseline vs Trained Mixture across 16 Seeds");
     println!("================================================================================\n");
 
     let results: Vec<ScoutKR2SeedResult> = (1..=16)
@@ -709,59 +730,64 @@ fn main() {
 
     let n = results.len() as f32;
 
-    // Topology 4-Way Summary
-    let top_k2_p = results.iter().filter(|r| r.topology_4way.k2_pass).count();
-    let top_k3_p = results.iter().filter(|r| r.topology_4way.k3_pass).count();
+    // Topology 4-Way
+    let top_untrained_k2_p = results.iter().filter(|r| r.topology_4way.untrained_baseline.k2_pass).count();
+    let top_untrained_k3_p = results.iter().filter(|r| r.topology_4way.untrained_baseline.k3_pass).count();
+    let avg_top_un_k2 = results.iter().map(|r| r.topology_4way.untrained_baseline.k2_accuracy).sum::<f32>() / n * 100.0;
+    let avg_top_un_k3 = results.iter().map(|r| r.topology_4way.untrained_baseline.k3_zero_shot_accuracy).sum::<f32>() / n * 100.0;
+    let avg_top_un_margin = results.iter().map(|r| r.topology_4way.untrained_baseline.k3_selectivity_margin).sum::<f32>() / n;
+    let avg_top_un_src_drop = results.iter().map(|r| r.topology_4way.untrained_baseline.source_grounding_drop).sum::<f32>() / n;
+    let avg_top_un_dst_gap = results.iter().map(|r| r.topology_4way.untrained_baseline.destination_grounding_gap).sum::<f32>() / n;
+
+    let top_trained_k2_p = results.iter().filter(|r| r.topology_4way.trained_result.k2_pass).count();
+    let top_trained_k3_p = results.iter().filter(|r| r.topology_4way.trained_result.k3_pass).count();
     let top_canon_p = results.iter().filter(|r| r.topology_4way.canonical_selected).count();
-    let avg_top_k2 = results.iter().map(|r| r.topology_4way.k2_accuracy).sum::<f32>() / n * 100.0;
-    let avg_top_k3 = results.iter().map(|r| r.topology_4way.k3_zero_shot_accuracy).sum::<f32>() / n * 100.0;
+    let avg_top_tr_k2 = results.iter().map(|r| r.topology_4way.trained_result.k2_accuracy).sum::<f32>() / n * 100.0;
+    let avg_top_tr_k3 = results.iter().map(|r| r.topology_4way.trained_result.k3_zero_shot_accuracy).sum::<f32>() / n * 100.0;
     let avg_top_re_prob = results.iter().map(|r| r.topology_4way.canonical_re_prob).sum::<f32>() / n * 100.0;
-    let avg_top_margin = results.iter().map(|r| r.topology_4way.k3_selectivity_margin).sum::<f32>() / n;
-    let avg_top_src_drop = results.iter().map(|r| r.topology_4way.source_grounding_drop).sum::<f32>() / n;
-    let avg_top_dst_gap = results.iter().map(|r| r.topology_4way.destination_grounding_gap).sum::<f32>() / n;
+    let avg_top_tr_margin = results.iter().map(|r| r.topology_4way.trained_result.k3_selectivity_margin).sum::<f32>() / n;
+    let avg_top_tr_src_drop = results.iter().map(|r| r.topology_4way.trained_result.source_grounding_drop).sum::<f32>() / n;
+    let avg_top_tr_dst_gap = results.iter().map(|r| r.topology_4way.trained_result.destination_grounding_gap).sum::<f32>() / n;
 
-    // General 6-Way Summary
-    let gen_k2_p = results.iter().filter(|r| r.general_6way.k2_pass).count();
-    let gen_k3_p = results.iter().filter(|r| r.general_6way.k3_pass).count();
+    // General 6-Way
+    let gen_untrained_k2_p = results.iter().filter(|r| r.general_6way.untrained_baseline.k2_pass).count();
+    let gen_untrained_k3_p = results.iter().filter(|r| r.general_6way.untrained_baseline.k3_pass).count();
+    let avg_gen_un_k2 = results.iter().map(|r| r.general_6way.untrained_baseline.k2_accuracy).sum::<f32>() / n * 100.0;
+    let avg_gen_un_k3 = results.iter().map(|r| r.general_6way.untrained_baseline.k3_zero_shot_accuracy).sum::<f32>() / n * 100.0;
+    let avg_gen_un_margin = results.iter().map(|r| r.general_6way.untrained_baseline.k3_selectivity_margin).sum::<f32>() / n;
+
+    let gen_trained_k2_p = results.iter().filter(|r| r.general_6way.trained_result.k2_pass).count();
+    let gen_trained_k3_p = results.iter().filter(|r| r.general_6way.trained_result.k3_pass).count();
     let gen_canon_p = results.iter().filter(|r| r.general_6way.canonical_selected).count();
-    let avg_gen_k2 = results.iter().map(|r| r.general_6way.k2_accuracy).sum::<f32>() / n * 100.0;
-    let avg_gen_k3 = results.iter().map(|r| r.general_6way.k3_zero_shot_accuracy).sum::<f32>() / n * 100.0;
+    let avg_gen_tr_k2 = results.iter().map(|r| r.general_6way.trained_result.k2_accuracy).sum::<f32>() / n * 100.0;
+    let avg_gen_tr_k3 = results.iter().map(|r| r.general_6way.trained_result.k3_zero_shot_accuracy).sum::<f32>() / n * 100.0;
     let avg_gen_re_prob = results.iter().map(|r| r.general_6way.canonical_re_prob).sum::<f32>() / n * 100.0;
-    let avg_gen_margin = results.iter().map(|r| r.general_6way.k3_selectivity_margin).sum::<f32>() / n;
-    let avg_gen_src_drop = results.iter().map(|r| r.general_6way.source_grounding_drop).sum::<f32>() / n;
-    let avg_gen_dst_gap = results.iter().map(|r| r.general_6way.destination_grounding_gap).sum::<f32>() / n;
+    let avg_gen_tr_margin = results.iter().map(|r| r.general_6way.trained_result.k3_selectivity_margin).sum::<f32>() / n;
 
     println!("--------------------------------------------------------------------------------");
-    println!("ASSAY 1: 4-WAY CONTRACTION TOPOLOGY SELECTION [R*E, R^T*E, R*E^T, R^T*E^T]");
-    println!("  Initial Operator Probabilities:                  [25.0%, 25.0%, 25.0%, 25.0%]");
-    println!("  Mean Canonical O1 (R * E) Probability:           {:.1}%", avg_top_re_prob);
-    println!("  Canonical Operator Dominance Rate (Prob >= 70%): {}/16 ({:.1}%)", top_canon_p, top_canon_p as f32 / n * 100.0);
-    println!("  k=2 Developmental Validity Pass Rate:            {}/16 ({:.1}%) [Mean: {:.1}%]", top_k2_p, top_k2_p as f32 / n * 100.0, avg_top_k2);
-    println!("  Zero-Shot k=3 Recursive Pass Rate:               {}/16 ({:.1}%) [Mean: {:.1}%]", top_k3_p, top_k3_p as f32 / n * 100.0, avg_top_k3);
-    println!("  k=3 Margin: {:>+5.2} | SrcDrop: {:>+5.2} | DstGap: {:>+5.2}", avg_top_margin, avg_top_src_drop, avg_top_dst_gap);
+    println!("ASSAY 1: 4-WAY CONTRACTION TOPOLOGY (UNTRAINED UNIFORM vs TRAINED)");
+    println!("  [UNTRAINED UNIFORM 25% each]:");
+    println!("    k=2 Validity Pass Rate:                        {}/16 ({:.1}%) [Mean: {:.1}%]", top_untrained_k2_p, top_untrained_k2_p as f32 / n * 100.0, avg_top_un_k2);
+    println!("    Zero-Shot k=3 Pass Rate:                       {}/16 ({:.1}%) [Mean: {:.1}%]", top_untrained_k3_p, top_untrained_k3_p as f32 / n * 100.0, avg_top_un_k3);
+    println!("    k=3 Margin: {:>+5.2} | SrcDrop: {:>+5.2} | DstGap: {:>+5.2}", avg_top_un_margin, avg_top_un_src_drop, avg_top_un_dst_gap);
+    println!("  [TRAINED 2-STEP DEVELOPMENT]:");
+    println!("    Mean Canonical O1 (R * E) Probability:         {:.1}%", avg_top_re_prob);
+    println!("    Canonical Operator Dominance Rate (>= 70%):    {}/16 ({:.1}%)", top_canon_p, top_canon_p as f32 / n * 100.0);
+    println!("    k=2 Validity Pass Rate:                        {}/16 ({:.1}%) [Mean: {:.1}%]", top_trained_k2_p, top_trained_k2_p as f32 / n * 100.0, avg_top_tr_k2);
+    println!("    Zero-Shot k=3 Pass Rate:                       {}/16 ({:.1}%) [Mean: {:.1}%]", top_trained_k3_p, top_trained_k3_p as f32 / n * 100.0, avg_top_tr_k3);
+    println!("    k=3 Margin: {:>+5.2} | SrcDrop: {:>+5.2} | DstGap: {:>+5.2}", avg_top_tr_margin, avg_top_tr_src_drop, avg_top_tr_dst_gap);
     println!("--------------------------------------------------------------------------------");
-    println!("PER-SEED 4-WAY TOPOLOGY CONVERGENCE & k3 ZERO-SHOT RESULTS:");
-    for r in &results {
-        let p_str: Vec<String> = r.topology_4way.final_probs.iter().map(|p| format!("{:.1}%", p * 100.0)).collect();
-        println!(
-            "Seed [{:>2}] | O1(R*E): {:>5.1}% | Topo Probs [RE, RtE, REt, RtEt]: [{}] | k2:{:.1}% k3:{:.1}% (Margin:{:>+5.2}) | Pass:{}",
-            r.seed_index,
-            r.topology_4way.canonical_re_prob * 100.0,
-            p_str.join(", "),
-            r.topology_4way.k2_accuracy * 100.0,
-            r.topology_4way.k3_zero_shot_accuracy * 100.0,
-            r.topology_4way.k3_selectivity_margin,
-            r.topology_4way.k3_pass,
-        );
-    }
-    println!("--------------------------------------------------------------------------------");
-    println!("ASSAY 2: 6-WAY GENERAL COMPOSITION SELECTION [RE, RtE, REt, RtEt, R.E, R+E]");
-    println!("  Initial Operator Probabilities:                  [16.7%, 16.7%, 16.7%, 16.7%, 16.7%, 16.7%]");
-    println!("  Mean Canonical O1 (R * E) Probability:           {:.1}%", avg_gen_re_prob);
-    println!("  Canonical Operator Dominance Rate (Prob >= 50%): {}/16 ({:.1}%)", gen_canon_p, gen_canon_p as f32 / n * 100.0);
-    println!("  k=2 Developmental Validity Pass Rate:            {}/16 ({:.1}%) [Mean: {:.1}%]", gen_k2_p, gen_k2_p as f32 / n * 100.0, avg_gen_k2);
-    println!("  Zero-Shot k=3 Recursive Pass Rate:               {}/16 ({:.1}%) [Mean: {:.1}%]", gen_k3_p, gen_k3_p as f32 / n * 100.0, avg_gen_k3);
-    println!("  k=3 Margin: {:>+5.2} | SrcDrop: {:>+5.2} | DstGap: {:>+5.2}", avg_gen_margin, avg_gen_src_drop, avg_gen_dst_gap);
+    println!("ASSAY 2: 6-WAY GENERAL COMPOSITION (UNTRAINED UNIFORM vs TRAINED)");
+    println!("  [UNTRAINED UNIFORM 16.7% each]:");
+    println!("    k=2 Validity Pass Rate:                        {}/16 ({:.1}%) [Mean: {:.1}%]", gen_untrained_k2_p, gen_untrained_k2_p as f32 / n * 100.0, avg_gen_un_k2);
+    println!("    Zero-Shot k=3 Pass Rate:                       {}/16 ({:.1}%) [Mean: {:.1}%]", gen_untrained_k3_p, gen_untrained_k3_p as f32 / n * 100.0, avg_gen_un_k3);
+    println!("    k=3 Margin: {:>+5.2}", avg_gen_un_margin);
+    println!("  [TRAINED 2-STEP DEVELOPMENT]:");
+    println!("    Mean Canonical O1 (R * E) Probability:         {:.1}%", avg_gen_re_prob);
+    println!("    Canonical Operator Dominance Rate (>= 50%):    {}/16 ({:.1}%)", gen_canon_p, gen_canon_p as f32 / n * 100.0);
+    println!("    k=2 Validity Pass Rate:                        {}/16 ({:.1}%) [Mean: {:.1}%]", gen_trained_k2_p, gen_trained_k2_p as f32 / n * 100.0, avg_gen_tr_k2);
+    println!("    Zero-Shot k=3 Pass Rate:                       {}/16 ({:.1}%) [Mean: {:.1}%]", gen_trained_k3_p, gen_trained_k3_p as f32 / n * 100.0, avg_gen_tr_k3);
+    println!("    k=3 Margin: {:>+5.2}", avg_gen_tr_margin);
     println!("================================================================================\n");
 
     let out_dir = Path::new("crates/continuity_garden_core/data");

@@ -19,13 +19,26 @@
       ],
       "canonical_re_prob": 0.99534374,
       "canonical_selected": true,
-      "k2_accuracy": 1.0,
-      "k2_pass": true,
-      "k3_zero_shot_accuracy": 1.0,
-      "k3_pass": true,
-      "k3_selectivity_margin": 0.9730702,
-      "source_grounding_drop": 0.98416466,
-      "destination_grounding_gap": 0.9731012
+      "untrained_baseline": {
+        "name": "untrained_uniform_4way",
+        "k2_accuracy": 1.0,
+        "k2_pass": true,
+        "k3_zero_shot_accuracy": 1.0,
+        "k3_pass": true,
+        "k3_selectivity_margin": 0.08373661,
+        "source_grounding_drop": 0.085130274,
+        "destination_grounding_gap": 0.08507374
+      },
+      "trained_result": {
+        "name": "trained_mixture_4way",
+        "k2_accuracy": 1.0,
+        "k2_pass": true,
+        "k3_zero_shot_accuracy": 1.0,
+        "k3_pass": true,
+        "k3_selectivity_margin": 0.9730702,
+        "source_grounding_drop": 0.98416466,
+        "destination_grounding_gap": 0.9731012
+      }
     },
     "general_6way": {
       "seed_index": 1,
@@ -48,13 +61,26 @@
       ],
       "canonical_re_prob": 0.9950086,
       "canonical_selected": true,
-      "k2_accuracy": 1.0,
-      "k2_pass": true,
-      "k3_zero_shot_accuracy": 1.0,
-      "k3_pass": true,
-      "k3_selectivity_margin": 0.97233063,
-      "source_grounding_drop": 0.98336416,
-      "destination_grounding_gap": 0.97232383
+      "untrained_baseline": {
+        "name": "untrained_uniform_6way",
+        "k2_accuracy": 1.0,
+        "k2_pass": true,
+        "k3_zero_shot_accuracy": 0.955,
+        "k3_pass": true,
+        "k3_selectivity_margin": 0.04585792,
+        "source_grounding_drop": 0.041832265,
+        "destination_grounding_gap": 0.04458841
+      },
+      "trained_result": {
+        "name": "trained_mixture_6way",
+        "k2_accuracy": 1.0,
+        "k2_pass": true,
+        "k3_zero_shot_accuracy": 1.0,
+        "k3_pass": true,
+        "k3_selectivity_margin": 0.97233063,
+        "source_grounding_drop": 0.98336416,
+        "destination_grounding_gap": 0.97232383
+      }
     }
   },
   {
@@ -77,13 +103,26 @@
       ],
       "canonical_re_prob": 0.7919598,
       "canonical_selected": true,
-      "k2_accuracy": 1.0,
-      "k2_pass": true,
-      "k3_zero_shot_accuracy": 1.0,
-      "k3_pass": true,
-      "k3_selectivity_margin": 0.43249497,
-      "source_grounding_drop": 0.422831,
-      "destination_grounding_gap": 0.43421796
+      "untrained_baseline": {
+        "name": "untrained_uniform_4way",
+        "k2_accuracy": 1.0,
+        "k2_pass": true,
+        "k3_zero_shot_accuracy": 1.0,
+        "k3_pass": true,
+        "k3_selectivity_margin": 0.069479026,
+        "source_grounding_drop": 0.05544667,
+        "destination_grounding_gap": 0.07239074
+      },
+      "trained_result": {
+        "name": "trained_mixture_4way",
+        "k2_accuracy": 1.0,
+        "k2_pass": true,
+        "k3_zero_shot_accuracy": 1.0,
+        "k3_pass": true,
+        "k3_selectivity_margin": 0.43249497,
+        "source_grounding_drop": 0.422831,
+        "destination_grounding_gap": 0.43421796
+      }
     },
     "general_6way": {
       "seed_index": 2,
@@ -106,13 +145,26 @@
       ],
       "canonical_re_prob": 0.6939825,
       "canonical_selected": true,
-      "k2_accuracy": 1.0,
-      "k2_pass": true,
-      "k3_zero_shot_accuracy": 1.0,
-      "k3_pass": true,
-      "k3_selectivity_margin": 0.32979676,
-      "source_grounding_drop": 0.32583028,
-      "destination_grounding_gap": 0.330268
+      "untrained_baseline": {
+        "name": "untrained_uniform_6way",
+        "k2_accuracy": 1.0,
+        "k2_pass": true,
+        "k3_zero_shot_accuracy": 1.0,
+        "k3_pass": true,
+        "k3_selectivity_margin": 0.059070162,
+        "source_grounding_drop": 0.02802026,
+        "destination_grounding_gap": 0.06253765
+      },
+      "trained_result": {
+        "name": "trained_mixture_6way",
+        "k2_accuracy": 1.0,
+        "k2_pass": true,
+        "k3_zero_shot_accuracy": 1.0,
+        "k3_pass": true,
+        "k3_selectivity_margin": 0.32979676,
+        "source_grounding_drop": 0.32583028,
+        "destination_grounding_gap": 0.330268
+      }
     }
   },
   {
@@ -135,13 +187,26 @@
       ],
       "canonical_re_prob": 0.9961443,
       "canonical_selected": true,
-      "k2_accuracy": 1.0,
-      "k2_pass": true,
-      "k3_zero_shot_accuracy": 1.0,
-      "k3_pass": true,
-      "k3_selectivity_margin": 1.019763,
-      "source_grounding_drop": 0.9875815,
-      "destination_grounding_gap": 1.0197548
+      "untrained_baseline": {
+        "name": "untrained_uniform_4way",
+        "k2_accuracy": 1.0,
+        "k2_pass": true,
+        "k3_zero_shot_accuracy": 1.0,
+        "k3_pass": true,
+        "k3_selectivity_margin": 0.090028934,
+        "source_grounding_drop": 0.088962644,
+        "destination_grounding_gap": 0.08971163
+      },
+      "trained_result": {
+        "name": "trained_mixture_4way",
+        "k2_accuracy": 1.0,
+        "k2_pass": true,
+        "k3_zero_shot_accuracy": 1.0,
+        "k3_pass": true,
+        "k3_selectivity_margin": 1.019763,
+        "source_grounding_drop": 0.9875815,
+        "destination_grounding_gap": 1.0197548
+      }
     },
     "general_6way": {
       "seed_index": 3,
@@ -164,13 +229,26 @@
       ],
       "canonical_re_prob": 0.9957824,
       "canonical_selected": true,
-      "k2_accuracy": 1.0,
-      "k2_pass": true,
-      "k3_zero_shot_accuracy": 1.0,
-      "k3_pass": true,
-      "k3_selectivity_margin": 1.0188651,
-      "source_grounding_drop": 0.98667824,
-      "destination_grounding_gap": 1.0187922
+      "untrained_baseline": {
+        "name": "untrained_uniform_6way",
+        "k2_accuracy": 1.0,
+        "k2_pass": true,
+        "k3_zero_shot_accuracy": 0.91,
+        "k3_pass": true,
+        "k3_selectivity_margin": 0.03806808,
+        "source_grounding_drop": 0.038369887,
+        "destination_grounding_gap": 0.035721093
+      },
+      "trained_result": {
+        "name": "trained_mixture_6way",
+        "k2_accuracy": 1.0,
+        "k2_pass": true,
+        "k3_zero_shot_accuracy": 1.0,
+        "k3_pass": true,
+        "k3_selectivity_margin": 1.0188651,
+        "source_grounding_drop": 0.98667824,
+        "destination_grounding_gap": 1.0187922
+      }
     }
   },
   {
@@ -193,13 +271,26 @@
       ],
       "canonical_re_prob": 0.9928572,
       "canonical_selected": true,
-      "k2_accuracy": 1.0,
-      "k2_pass": true,
-      "k3_zero_shot_accuracy": 1.0,
-      "k3_pass": true,
-      "k3_selectivity_margin": 0.8360339,
-      "source_grounding_drop": 0.83747834,
-      "destination_grounding_gap": 0.83601296
+      "untrained_baseline": {
+        "name": "untrained_uniform_4way",
+        "k2_accuracy": 1.0,
+        "k2_pass": true,
+        "k3_zero_shot_accuracy": 1.0,
+        "k3_pass": true,
+        "k3_selectivity_margin": 0.071425684,
+        "source_grounding_drop": 0.06680672,
+        "destination_grounding_gap": 0.07082251
+      },
+      "trained_result": {
+        "name": "trained_mixture_4way",
+        "k2_accuracy": 1.0,
+        "k2_pass": true,
+        "k3_zero_shot_accuracy": 1.0,
+        "k3_pass": true,
+        "k3_selectivity_margin": 0.8360339,
+        "source_grounding_drop": 0.83747834,
+        "destination_grounding_gap": 0.83601296
+      }
     },
     "general_6way": {
       "seed_index": 4,
@@ -222,13 +313,26 @@
       ],
       "canonical_re_prob": 0.9925938,
       "canonical_selected": true,
-      "k2_accuracy": 1.0,
-      "k2_pass": true,
-      "k3_zero_shot_accuracy": 1.0,
-      "k3_pass": true,
-      "k3_selectivity_margin": 0.8356569,
-      "source_grounding_drop": 0.83698404,
-      "destination_grounding_gap": 0.83564544
+      "untrained_baseline": {
+        "name": "untrained_uniform_6way",
+        "k2_accuracy": 1.0,
+        "k2_pass": true,
+        "k3_zero_shot_accuracy": 1.0,
+        "k3_pass": true,
+        "k3_selectivity_margin": 0.050436195,
+        "source_grounding_drop": 0.033301175,
+        "destination_grounding_gap": 0.050058622
+      },
+      "trained_result": {
+        "name": "trained_mixture_6way",
+        "k2_accuracy": 1.0,
+        "k2_pass": true,
+        "k3_zero_shot_accuracy": 1.0,
+        "k3_pass": true,
+        "k3_selectivity_margin": 0.8356569,
+        "source_grounding_drop": 0.83698404,
+        "destination_grounding_gap": 0.83564544
+      }
     }
   },
   {
@@ -251,13 +355,26 @@
       ],
       "canonical_re_prob": 0.9962895,
       "canonical_selected": true,
-      "k2_accuracy": 1.0,
-      "k2_pass": true,
-      "k3_zero_shot_accuracy": 1.0,
-      "k3_pass": true,
-      "k3_selectivity_margin": 1.0976351,
-      "source_grounding_drop": 1.0697834,
-      "destination_grounding_gap": 1.0976245
+      "untrained_baseline": {
+        "name": "untrained_uniform_4way",
+        "k2_accuracy": 1.0,
+        "k2_pass": true,
+        "k3_zero_shot_accuracy": 1.0,
+        "k3_pass": true,
+        "k3_selectivity_margin": 0.10510918,
+        "source_grounding_drop": 0.10129557,
+        "destination_grounding_gap": 0.103897326
+      },
+      "trained_result": {
+        "name": "trained_mixture_4way",
+        "k2_accuracy": 1.0,
+        "k2_pass": true,
+        "k3_zero_shot_accuracy": 1.0,
+        "k3_pass": true,
+        "k3_selectivity_margin": 1.0976351,
+        "source_grounding_drop": 1.0697834,
+        "destination_grounding_gap": 1.0976245
+      }
     },
     "general_6way": {
       "seed_index": 5,
@@ -280,13 +397,26 @@
       ],
       "canonical_re_prob": 0.99587137,
       "canonical_selected": true,
-      "k2_accuracy": 1.0,
-      "k2_pass": true,
-      "k3_zero_shot_accuracy": 1.0,
-      "k3_pass": true,
-      "k3_selectivity_margin": 1.0965172,
-      "source_grounding_drop": 1.0687155,
-      "destination_grounding_gap": 1.0965174
+      "untrained_baseline": {
+        "name": "untrained_uniform_6way",
+        "k2_accuracy": 1.0,
+        "k2_pass": true,
+        "k3_zero_shot_accuracy": 0.85,
+        "k3_pass": true,
+        "k3_selectivity_margin": 0.047340576,
+        "source_grounding_drop": 0.046795968,
+        "destination_grounding_gap": 0.04701603
+      },
+      "trained_result": {
+        "name": "trained_mixture_6way",
+        "k2_accuracy": 1.0,
+        "k2_pass": true,
+        "k3_zero_shot_accuracy": 1.0,
+        "k3_pass": true,
+        "k3_selectivity_margin": 1.0965172,
+        "source_grounding_drop": 1.0687155,
+        "destination_grounding_gap": 1.0965174
+      }
     }
   },
   {
@@ -309,13 +439,26 @@
       ],
       "canonical_re_prob": 0.99138665,
       "canonical_selected": true,
-      "k2_accuracy": 1.0,
-      "k2_pass": true,
-      "k3_zero_shot_accuracy": 1.0,
-      "k3_pass": true,
-      "k3_selectivity_margin": 0.8364193,
-      "source_grounding_drop": 0.8438284,
-      "destination_grounding_gap": 0.8365483
+      "untrained_baseline": {
+        "name": "untrained_uniform_4way",
+        "k2_accuracy": 1.0,
+        "k2_pass": true,
+        "k3_zero_shot_accuracy": 1.0,
+        "k3_pass": true,
+        "k3_selectivity_margin": 0.07872747,
+        "source_grounding_drop": 0.08414567,
+        "destination_grounding_gap": 0.08145985
+      },
+      "trained_result": {
+        "name": "trained_mixture_4way",
+        "k2_accuracy": 1.0,
+        "k2_pass": true,
+        "k3_zero_shot_accuracy": 1.0,
+        "k3_pass": true,
+        "k3_selectivity_margin": 0.8364193,
+        "source_grounding_drop": 0.8438284,
+        "destination_grounding_gap": 0.8365483
+      }
     },
     "general_6way": {
       "seed_index": 6,
@@ -338,13 +481,26 @@
       ],
       "canonical_re_prob": 0.99145144,
       "canonical_selected": true,
-      "k2_accuracy": 1.0,
-      "k2_pass": true,
-      "k3_zero_shot_accuracy": 1.0,
-      "k3_pass": true,
-      "k3_selectivity_margin": 0.8363173,
-      "source_grounding_drop": 0.843562,
-      "destination_grounding_gap": 0.8364246
+      "untrained_baseline": {
+        "name": "untrained_uniform_6way",
+        "k2_accuracy": 1.0,
+        "k2_pass": true,
+        "k3_zero_shot_accuracy": 0.915,
+        "k3_pass": true,
+        "k3_selectivity_margin": 0.044349805,
+        "source_grounding_drop": 0.03757266,
+        "destination_grounding_gap": 0.046082065
+      },
+      "trained_result": {
+        "name": "trained_mixture_6way",
+        "k2_accuracy": 1.0,
+        "k2_pass": true,
+        "k3_zero_shot_accuracy": 1.0,
+        "k3_pass": true,
+        "k3_selectivity_margin": 0.8363173,
+        "source_grounding_drop": 0.843562,
+        "destination_grounding_gap": 0.8364246
+      }
     }
   },
   {
@@ -367,13 +523,26 @@
       ],
       "canonical_re_prob": 0.9967327,
       "canonical_selected": true,
-      "k2_accuracy": 1.0,
-      "k2_pass": true,
-      "k3_zero_shot_accuracy": 1.0,
-      "k3_pass": true,
-      "k3_selectivity_margin": 1.0325204,
-      "source_grounding_drop": 1.0445784,
-      "destination_grounding_gap": 1.0325063
+      "untrained_baseline": {
+        "name": "untrained_uniform_4way",
+        "k2_accuracy": 1.0,
+        "k2_pass": true,
+        "k3_zero_shot_accuracy": 1.0,
+        "k3_pass": true,
+        "k3_selectivity_margin": 0.090768985,
+        "source_grounding_drop": 0.09383726,
+        "destination_grounding_gap": 0.08955863
+      },
+      "trained_result": {
+        "name": "trained_mixture_4way",
+        "k2_accuracy": 1.0,
+        "k2_pass": true,
+        "k3_zero_shot_accuracy": 1.0,
+        "k3_pass": true,
+        "k3_selectivity_margin": 1.0325204,
+        "source_grounding_drop": 1.0445784,
+        "destination_grounding_gap": 1.0325063
+      }
     },
     "general_6way": {
       "seed_index": 7,
@@ -396,13 +565,26 @@
       ],
       "canonical_re_prob": 0.9963636,
       "canonical_selected": true,
-      "k2_accuracy": 1.0,
-      "k2_pass": true,
-      "k3_zero_shot_accuracy": 1.0,
-      "k3_pass": true,
-      "k3_selectivity_margin": 1.0315052,
-      "source_grounding_drop": 1.0436078,
-      "destination_grounding_gap": 1.0315443
+      "untrained_baseline": {
+        "name": "untrained_uniform_6way",
+        "k2_accuracy": 1.0,
+        "k2_pass": true,
+        "k3_zero_shot_accuracy": 0.845,
+        "k3_pass": true,
+        "k3_selectivity_margin": 0.029402342,
+        "source_grounding_drop": 0.03777336,
+        "destination_grounding_gap": 0.031070119
+      },
+      "trained_result": {
+        "name": "trained_mixture_6way",
+        "k2_accuracy": 1.0,
+        "k2_pass": true,
+        "k3_zero_shot_accuracy": 1.0,
+        "k3_pass": true,
+        "k3_selectivity_margin": 1.0315052,
+        "source_grounding_drop": 1.0436078,
+        "destination_grounding_gap": 1.0315443
+      }
     }
   },
   {
@@ -425,13 +607,26 @@
       ],
       "canonical_re_prob": 0.9961009,
       "canonical_selected": true,
-      "k2_accuracy": 1.0,
-      "k2_pass": true,
-      "k3_zero_shot_accuracy": 1.0,
-      "k3_pass": true,
-      "k3_selectivity_margin": 1.0169774,
-      "source_grounding_drop": 0.9986286,
-      "destination_grounding_gap": 1.0169597
+      "untrained_baseline": {
+        "name": "untrained_uniform_4way",
+        "k2_accuracy": 1.0,
+        "k2_pass": true,
+        "k3_zero_shot_accuracy": 1.0,
+        "k3_pass": true,
+        "k3_selectivity_margin": 0.09146184,
+        "source_grounding_drop": 0.09002175,
+        "destination_grounding_gap": 0.09105454
+      },
+      "trained_result": {
+        "name": "trained_mixture_4way",
+        "k2_accuracy": 1.0,
+        "k2_pass": true,
+        "k3_zero_shot_accuracy": 1.0,
+        "k3_pass": true,
+        "k3_selectivity_margin": 1.0169774,
+        "source_grounding_drop": 0.9986286,
+        "destination_grounding_gap": 1.0169597
+      }
     },
     "general_6way": {
       "seed_index": 8,
@@ -454,13 +649,26 @@
       ],
       "canonical_re_prob": 0.995713,
       "canonical_selected": true,
-      "k2_accuracy": 1.0,
-      "k2_pass": true,
-      "k3_zero_shot_accuracy": 1.0,
-      "k3_pass": true,
-      "k3_selectivity_margin": 1.0160377,
-      "source_grounding_drop": 0.99769735,
-      "destination_grounding_gap": 1.0160216
+      "untrained_baseline": {
+        "name": "untrained_uniform_6way",
+        "k2_accuracy": 1.0,
+        "k2_pass": true,
+        "k3_zero_shot_accuracy": 0.895,
+        "k3_pass": true,
+        "k3_selectivity_margin": 0.044237375,
+        "source_grounding_drop": 0.041680876,
+        "destination_grounding_gap": 0.04354956
+      },
+      "trained_result": {
+        "name": "trained_mixture_6way",
+        "k2_accuracy": 1.0,
+        "k2_pass": true,
+        "k3_zero_shot_accuracy": 1.0,
+        "k3_pass": true,
+        "k3_selectivity_margin": 1.0160377,
+        "source_grounding_drop": 0.99769735,
+        "destination_grounding_gap": 1.0160216
+      }
     }
   },
   {
@@ -483,13 +691,26 @@
       ],
       "canonical_re_prob": 0.99584645,
       "canonical_selected": true,
-      "k2_accuracy": 1.0,
-      "k2_pass": true,
-      "k3_zero_shot_accuracy": 1.0,
-      "k3_pass": true,
-      "k3_selectivity_margin": 1.0136669,
-      "source_grounding_drop": 0.97864795,
-      "destination_grounding_gap": 1.0136582
+      "untrained_baseline": {
+        "name": "untrained_uniform_4way",
+        "k2_accuracy": 1.0,
+        "k2_pass": true,
+        "k3_zero_shot_accuracy": 1.0,
+        "k3_pass": true,
+        "k3_selectivity_margin": 0.08843547,
+        "source_grounding_drop": 0.08600418,
+        "destination_grounding_gap": 0.08819267
+      },
+      "trained_result": {
+        "name": "trained_mixture_4way",
+        "k2_accuracy": 1.0,
+        "k2_pass": true,
+        "k3_zero_shot_accuracy": 1.0,
+        "k3_pass": true,
+        "k3_selectivity_margin": 1.0136669,
+        "source_grounding_drop": 0.97864795,
+        "destination_grounding_gap": 1.0136582
+      }
     },
     "general_6way": {
       "seed_index": 9,
@@ -512,13 +733,26 @@
       ],
       "canonical_re_prob": 0.99548894,
       "canonical_selected": true,
-      "k2_accuracy": 1.0,
-      "k2_pass": true,
-      "k3_zero_shot_accuracy": 1.0,
-      "k3_pass": true,
-      "k3_selectivity_margin": 1.0127972,
-      "source_grounding_drop": 0.9777652,
-      "destination_grounding_gap": 1.0127321
+      "untrained_baseline": {
+        "name": "untrained_uniform_6way",
+        "k2_accuracy": 1.0,
+        "k2_pass": true,
+        "k3_zero_shot_accuracy": 0.92,
+        "k3_pass": true,
+        "k3_selectivity_margin": 0.03920588,
+        "source_grounding_drop": 0.03632588,
+        "destination_grounding_gap": 0.036622323
+      },
+      "trained_result": {
+        "name": "trained_mixture_6way",
+        "k2_accuracy": 1.0,
+        "k2_pass": true,
+        "k3_zero_shot_accuracy": 1.0,
+        "k3_pass": true,
+        "k3_selectivity_margin": 1.0127972,
+        "source_grounding_drop": 0.9777652,
+        "destination_grounding_gap": 1.0127321
+      }
     }
   },
   {
@@ -541,13 +775,26 @@
       ],
       "canonical_re_prob": 0.9972045,
       "canonical_selected": true,
-      "k2_accuracy": 1.0,
-      "k2_pass": true,
-      "k3_zero_shot_accuracy": 1.0,
-      "k3_pass": true,
-      "k3_selectivity_margin": 1.0640264,
-      "source_grounding_drop": 1.0685066,
-      "destination_grounding_gap": 1.0640215
+      "untrained_baseline": {
+        "name": "untrained_uniform_4way",
+        "k2_accuracy": 1.0,
+        "k2_pass": true,
+        "k3_zero_shot_accuracy": 1.0,
+        "k3_pass": true,
+        "k3_selectivity_margin": 0.08111289,
+        "source_grounding_drop": 0.080017604,
+        "destination_grounding_gap": 0.08051211
+      },
+      "trained_result": {
+        "name": "trained_mixture_4way",
+        "k2_accuracy": 1.0,
+        "k2_pass": true,
+        "k3_zero_shot_accuracy": 1.0,
+        "k3_pass": true,
+        "k3_selectivity_margin": 1.0640264,
+        "source_grounding_drop": 1.0685066,
+        "destination_grounding_gap": 1.0640215
+      }
     },
     "general_6way": {
       "seed_index": 10,
@@ -570,13 +817,26 @@
       ],
       "canonical_re_prob": 0.9968419,
       "canonical_selected": true,
-      "k2_accuracy": 1.0,
-      "k2_pass": true,
-      "k3_zero_shot_accuracy": 1.0,
-      "k3_pass": true,
-      "k3_selectivity_margin": 1.0631162,
-      "source_grounding_drop": 1.0676527,
-      "destination_grounding_gap": 1.063121
+      "untrained_baseline": {
+        "name": "untrained_uniform_6way",
+        "k2_accuracy": 1.0,
+        "k2_pass": true,
+        "k3_zero_shot_accuracy": 0.895,
+        "k3_pass": true,
+        "k3_selectivity_margin": 0.02772412,
+        "source_grounding_drop": 0.034293655,
+        "destination_grounding_gap": 0.028432114
+      },
+      "trained_result": {
+        "name": "trained_mixture_6way",
+        "k2_accuracy": 1.0,
+        "k2_pass": true,
+        "k3_zero_shot_accuracy": 1.0,
+        "k3_pass": true,
+        "k3_selectivity_margin": 1.0631162,
+        "source_grounding_drop": 1.0676527,
+        "destination_grounding_gap": 1.063121
+      }
     }
   },
   {
@@ -599,13 +859,26 @@
       ],
       "canonical_re_prob": 0.9951314,
       "canonical_selected": true,
-      "k2_accuracy": 1.0,
-      "k2_pass": true,
-      "k3_zero_shot_accuracy": 1.0,
-      "k3_pass": true,
-      "k3_selectivity_margin": 1.0179998,
-      "source_grounding_drop": 0.98822623,
-      "destination_grounding_gap": 1.0180268
+      "untrained_baseline": {
+        "name": "untrained_uniform_4way",
+        "k2_accuracy": 1.0,
+        "k2_pass": true,
+        "k3_zero_shot_accuracy": 1.0,
+        "k3_pass": true,
+        "k3_selectivity_margin": 0.096457504,
+        "source_grounding_drop": 0.09480616,
+        "destination_grounding_gap": 0.09747482
+      },
+      "trained_result": {
+        "name": "trained_mixture_4way",
+        "k2_accuracy": 1.0,
+        "k2_pass": true,
+        "k3_zero_shot_accuracy": 1.0,
+        "k3_pass": true,
+        "k3_selectivity_margin": 1.0179998,
+        "source_grounding_drop": 0.98822623,
+        "destination_grounding_gap": 1.0180268
+      }
     },
     "general_6way": {
       "seed_index": 11,
@@ -628,13 +901,26 @@
       ],
       "canonical_re_prob": 0.9947919,
       "canonical_selected": true,
-      "k2_accuracy": 1.0,
-      "k2_pass": true,
-      "k3_zero_shot_accuracy": 1.0,
-      "k3_pass": true,
-      "k3_selectivity_margin": 1.0170205,
-      "source_grounding_drop": 0.9873033,
-      "destination_grounding_gap": 1.0171418
+      "untrained_baseline": {
+        "name": "untrained_uniform_6way",
+        "k2_accuracy": 1.0,
+        "k2_pass": true,
+        "k3_zero_shot_accuracy": 0.885,
+        "k3_pass": true,
+        "k3_selectivity_margin": 0.042198963,
+        "source_grounding_drop": 0.04154817,
+        "destination_grounding_gap": 0.046114344
+      },
+      "trained_result": {
+        "name": "trained_mixture_6way",
+        "k2_accuracy": 1.0,
+        "k2_pass": true,
+        "k3_zero_shot_accuracy": 1.0,
+        "k3_pass": true,
+        "k3_selectivity_margin": 1.0170205,
+        "source_grounding_drop": 0.9873033,
+        "destination_grounding_gap": 1.0171418
+      }
     }
   },
   {
@@ -657,13 +943,26 @@
       ],
       "canonical_re_prob": 0.99202335,
       "canonical_selected": true,
-      "k2_accuracy": 1.0,
-      "k2_pass": true,
-      "k3_zero_shot_accuracy": 1.0,
-      "k3_pass": true,
-      "k3_selectivity_margin": 0.859299,
-      "source_grounding_drop": 0.8619273,
-      "destination_grounding_gap": 0.8592785
+      "untrained_baseline": {
+        "name": "untrained_uniform_4way",
+        "k2_accuracy": 1.0,
+        "k2_pass": true,
+        "k3_zero_shot_accuracy": 1.0,
+        "k3_pass": true,
+        "k3_selectivity_margin": 0.08503259,
+        "source_grounding_drop": 0.08194231,
+        "destination_grounding_gap": 0.08505684
+      },
+      "trained_result": {
+        "name": "trained_mixture_4way",
+        "k2_accuracy": 1.0,
+        "k2_pass": true,
+        "k3_zero_shot_accuracy": 1.0,
+        "k3_pass": true,
+        "k3_selectivity_margin": 0.859299,
+        "source_grounding_drop": 0.8619273,
+        "destination_grounding_gap": 0.8592785
+      }
     },
     "general_6way": {
       "seed_index": 12,
@@ -686,13 +985,26 @@
       ],
       "canonical_re_prob": 0.99189985,
       "canonical_selected": true,
-      "k2_accuracy": 1.0,
-      "k2_pass": true,
-      "k3_zero_shot_accuracy": 1.0,
-      "k3_pass": true,
-      "k3_selectivity_margin": 0.8589399,
-      "source_grounding_drop": 0.8613845,
-      "destination_grounding_gap": 0.8589232
+      "untrained_baseline": {
+        "name": "untrained_uniform_6way",
+        "k2_accuracy": 1.0,
+        "k2_pass": true,
+        "k3_zero_shot_accuracy": 0.935,
+        "k3_pass": true,
+        "k3_selectivity_margin": 0.051540677,
+        "source_grounding_drop": 0.033312228,
+        "destination_grounding_gap": 0.052194968
+      },
+      "trained_result": {
+        "name": "trained_mixture_6way",
+        "k2_accuracy": 1.0,
+        "k2_pass": true,
+        "k3_zero_shot_accuracy": 1.0,
+        "k3_pass": true,
+        "k3_selectivity_margin": 0.8589399,
+        "source_grounding_drop": 0.8613845,
+        "destination_grounding_gap": 0.8589232
+      }
     }
   },
   {
@@ -715,13 +1027,26 @@
       ],
       "canonical_re_prob": 0.9957848,
       "canonical_selected": true,
-      "k2_accuracy": 1.0,
-      "k2_pass": true,
-      "k3_zero_shot_accuracy": 1.0,
-      "k3_pass": true,
-      "k3_selectivity_margin": 1.0338324,
-      "source_grounding_drop": 1.0302703,
-      "destination_grounding_gap": 1.0338534
+      "untrained_baseline": {
+        "name": "untrained_uniform_4way",
+        "k2_accuracy": 1.0,
+        "k2_pass": true,
+        "k3_zero_shot_accuracy": 1.0,
+        "k3_pass": true,
+        "k3_selectivity_margin": 0.09851064,
+        "source_grounding_drop": 0.09598249,
+        "destination_grounding_gap": 0.09971502
+      },
+      "trained_result": {
+        "name": "trained_mixture_4way",
+        "k2_accuracy": 1.0,
+        "k2_pass": true,
+        "k3_zero_shot_accuracy": 1.0,
+        "k3_pass": true,
+        "k3_selectivity_margin": 1.0338324,
+        "source_grounding_drop": 1.0302703,
+        "destination_grounding_gap": 1.0338534
+      }
     },
     "general_6way": {
       "seed_index": 13,
@@ -744,13 +1069,26 @@
       ],
       "canonical_re_prob": 0.9953761,
       "canonical_selected": true,
-      "k2_accuracy": 1.0,
-      "k2_pass": true,
-      "k3_zero_shot_accuracy": 1.0,
-      "k3_pass": true,
-      "k3_selectivity_margin": 1.0327995,
-      "source_grounding_drop": 1.029226,
-      "destination_grounding_gap": 1.0328163
+      "untrained_baseline": {
+        "name": "untrained_uniform_6way",
+        "k2_accuracy": 1.0,
+        "k2_pass": true,
+        "k3_zero_shot_accuracy": 0.865,
+        "k3_pass": true,
+        "k3_selectivity_margin": 0.045962952,
+        "source_grounding_drop": 0.042305727,
+        "destination_grounding_gap": 0.047471162
+      },
+      "trained_result": {
+        "name": "trained_mixture_6way",
+        "k2_accuracy": 1.0,
+        "k2_pass": true,
+        "k3_zero_shot_accuracy": 1.0,
+        "k3_pass": true,
+        "k3_selectivity_margin": 1.0327995,
+        "source_grounding_drop": 1.029226,
+        "destination_grounding_gap": 1.0328163
+      }
     }
   },
   {
@@ -773,13 +1111,26 @@
       ],
       "canonical_re_prob": 0.9953258,
       "canonical_selected": true,
-      "k2_accuracy": 1.0,
-      "k2_pass": true,
-      "k3_zero_shot_accuracy": 1.0,
-      "k3_pass": true,
-      "k3_selectivity_margin": 0.91043556,
-      "source_grounding_drop": 0.9375313,
-      "destination_grounding_gap": 0.9104225
+      "untrained_baseline": {
+        "name": "untrained_uniform_4way",
+        "k2_accuracy": 1.0,
+        "k2_pass": true,
+        "k3_zero_shot_accuracy": 1.0,
+        "k3_pass": true,
+        "k3_selectivity_margin": 0.07277829,
+        "source_grounding_drop": 0.07564387,
+        "destination_grounding_gap": 0.07185805
+      },
+      "trained_result": {
+        "name": "trained_mixture_4way",
+        "k2_accuracy": 1.0,
+        "k2_pass": true,
+        "k3_zero_shot_accuracy": 1.0,
+        "k3_pass": true,
+        "k3_selectivity_margin": 0.91043556,
+        "source_grounding_drop": 0.9375313,
+        "destination_grounding_gap": 0.9104225
+      }
     },
     "general_6way": {
       "seed_index": 14,
@@ -802,13 +1153,26 @@
       ],
       "canonical_re_prob": 0.99498606,
       "canonical_selected": true,
-      "k2_accuracy": 1.0,
-      "k2_pass": true,
-      "k3_zero_shot_accuracy": 1.0,
-      "k3_pass": true,
-      "k3_selectivity_margin": 0.9098032,
-      "source_grounding_drop": 0.9368164,
-      "destination_grounding_gap": 0.909787
+      "untrained_baseline": {
+        "name": "untrained_uniform_6way",
+        "k2_accuracy": 1.0,
+        "k2_pass": true,
+        "k3_zero_shot_accuracy": 0.985,
+        "k3_pass": true,
+        "k3_selectivity_margin": 0.040719986,
+        "source_grounding_drop": 0.037867125,
+        "destination_grounding_gap": 0.040231176
+      },
+      "trained_result": {
+        "name": "trained_mixture_6way",
+        "k2_accuracy": 1.0,
+        "k2_pass": true,
+        "k3_zero_shot_accuracy": 1.0,
+        "k3_pass": true,
+        "k3_selectivity_margin": 0.9098032,
+        "source_grounding_drop": 0.9368164,
+        "destination_grounding_gap": 0.909787
+      }
     }
   },
   {
@@ -831,13 +1195,26 @@
       ],
       "canonical_re_prob": 0.99483216,
       "canonical_selected": true,
-      "k2_accuracy": 1.0,
-      "k2_pass": true,
-      "k3_zero_shot_accuracy": 1.0,
-      "k3_pass": true,
-      "k3_selectivity_margin": 0.94708115,
-      "source_grounding_drop": 0.9325917,
-      "destination_grounding_gap": 0.9470812
+      "untrained_baseline": {
+        "name": "untrained_uniform_4way",
+        "k2_accuracy": 1.0,
+        "k2_pass": true,
+        "k3_zero_shot_accuracy": 1.0,
+        "k3_pass": true,
+        "k3_selectivity_margin": 0.08544548,
+        "source_grounding_drop": 0.08508031,
+        "destination_grounding_gap": 0.0856644
+      },
+      "trained_result": {
+        "name": "trained_mixture_4way",
+        "k2_accuracy": 1.0,
+        "k2_pass": true,
+        "k3_zero_shot_accuracy": 1.0,
+        "k3_pass": true,
+        "k3_selectivity_margin": 0.94708115,
+        "source_grounding_drop": 0.9325917,
+        "destination_grounding_gap": 0.9470812
+      }
     },
     "general_6way": {
       "seed_index": 15,
@@ -860,13 +1237,26 @@
       ],
       "canonical_re_prob": 0.9945359,
       "canonical_selected": true,
-      "k2_accuracy": 1.0,
-      "k2_pass": true,
-      "k3_zero_shot_accuracy": 1.0,
-      "k3_pass": true,
-      "k3_selectivity_margin": 0.9463633,
-      "source_grounding_drop": 0.9318411,
-      "destination_grounding_gap": 0.9463924
+      "untrained_baseline": {
+        "name": "untrained_uniform_6way",
+        "k2_accuracy": 1.0,
+        "k2_pass": true,
+        "k3_zero_shot_accuracy": 0.97,
+        "k3_pass": true,
+        "k3_selectivity_margin": 0.043867625,
+        "source_grounding_drop": 0.0409574,
+        "destination_grounding_gap": 0.04561262
+      },
+      "trained_result": {
+        "name": "trained_mixture_6way",
+        "k2_accuracy": 1.0,
+        "k2_pass": true,
+        "k3_zero_shot_accuracy": 1.0,
+        "k3_pass": true,
+        "k3_selectivity_margin": 0.9463633,
+        "source_grounding_drop": 0.9318411,
+        "destination_grounding_gap": 0.9463924
+      }
     }
   },
   {
@@ -889,13 +1279,26 @@
       ],
       "canonical_re_prob": 0.99631643,
       "canonical_selected": true,
-      "k2_accuracy": 1.0,
-      "k2_pass": true,
-      "k3_zero_shot_accuracy": 1.0,
-      "k3_pass": true,
-      "k3_selectivity_margin": 1.0089878,
-      "source_grounding_drop": 0.9865117,
-      "destination_grounding_gap": 1.0089706
+      "untrained_baseline": {
+        "name": "untrained_uniform_4way",
+        "k2_accuracy": 1.0,
+        "k2_pass": true,
+        "k3_zero_shot_accuracy": 1.0,
+        "k3_pass": true,
+        "k3_selectivity_margin": 0.08421217,
+        "source_grounding_drop": 0.08360212,
+        "destination_grounding_gap": 0.0831325
+      },
+      "trained_result": {
+        "name": "trained_mixture_4way",
+        "k2_accuracy": 1.0,
+        "k2_pass": true,
+        "k3_zero_shot_accuracy": 1.0,
+        "k3_pass": true,
+        "k3_selectivity_margin": 1.0089878,
+        "source_grounding_drop": 0.9865117,
+        "destination_grounding_gap": 1.0089706
+      }
     },
     "general_6way": {
       "seed_index": 16,
@@ -918,13 +1321,26 @@
       ],
       "canonical_re_prob": 0.99594694,
       "canonical_selected": true,
-      "k2_accuracy": 1.0,
-      "k2_pass": true,
-      "k3_zero_shot_accuracy": 1.0,
-      "k3_pass": true,
-      "k3_selectivity_margin": 1.0081083,
-      "source_grounding_drop": 0.98565406,
-      "destination_grounding_gap": 1.008096
+      "untrained_baseline": {
+        "name": "untrained_uniform_6way",
+        "k2_accuracy": 1.0,
+        "k2_pass": true,
+        "k3_zero_shot_accuracy": 0.98,
+        "k3_pass": true,
+        "k3_selectivity_margin": 0.037077606,
+        "source_grounding_drop": 0.03840451,
+        "destination_grounding_gap": 0.036476947
+      },
+      "trained_result": {
+        "name": "trained_mixture_6way",
+        "k2_accuracy": 1.0,
+        "k2_pass": true,
+        "k3_zero_shot_accuracy": 1.0,
+        "k3_pass": true,
+        "k3_selectivity_margin": 1.0081083,
+        "source_grounding_drop": 0.98565406,
+        "destination_grounding_gap": 1.008096
+      }
     }
   }
 ]
