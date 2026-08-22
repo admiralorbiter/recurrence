@@ -1,12 +1,12 @@
 ---
 contract_id: CONTRACT-E-Q17D
-status: DRAFT
+status: FROZEN
 proposed_by: antigravity
 design_review: APPROVED
 reviewed_by: chatgpt-pro
-authorized_by: null
+authorized_by: human
 base_sha: ffffcf88d02e9dc56e264872c8a4c4bcce14f1c6
-execution_base_sha: null
+execution_base_sha: f949eb42c52dc980cb59802e07f8b015b4b93df7
 resource_class: cpu
 long_running: false
 exclusive_gpu: false
