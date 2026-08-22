@@ -1,17 +1,17 @@
 ---
 promotion_id: PROMOTION-CONTRACT-E-Q17C
 contract_id: CONTRACT-E-Q17C
-status: CANDIDATE
+status: PROMOTED
 candidate_sha: b0af2e13e4118564c72b0d004b7e2d54170657d2
 generated_at: "2026-08-22 00:28:00Z"
 repair_rounds: 2
-reviewed_by: codex
-authorized_by: null
+reviewed_by: chatgpt-pro
+authorized_by: human
 ---
 
-# Candidate Promotion Record: PROMOTION-CONTRACT-E-Q17C (Endogenous Recurrent Memory & State Surgery)
+# Verified Promotion Record: PROMOTION-CONTRACT-E-Q17C (Endogenous Recurrent Memory & State Surgery)
 
-**Lifecycle Status**: `CANDIDATE` (Awaiting Scientific Promotion Review by ChatGPT Pro & Human Research Director Authorization)
+**Lifecycle Status**: `PROMOTED` (Scientific Promotion Review APPROVED by ChatGPT Pro; Strategic Promotion Authorized by Human Research Director)
 
 ## 1. Execution & Audit Summary
 - **Target Contract**: `CONTRACT-E-Q17C`
