@@ -842,7 +842,7 @@ fn main() {
         outcome_tier_verdict: outcome_tier_verdict.clone(),
     };
 
-    let data_dir = Path::new("crates/continuity_garden_core/data");
+    let data_dir = Path::new("data");
     fs::create_dir_all(data_dir).expect("Failed to create data dir");
     let results_path = data_dir.join("q17d_depth_results.json");
     let json_bytes = serde_json::to_vec_pretty(&summary).expect("Failed to serialize Q17D results");
