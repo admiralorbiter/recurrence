@@ -2,9 +2,9 @@
 promotion_id: PROMOTION-CONTRACT-E-Q17D
 contract_id: CONTRACT-E-Q17D
 status: PROMOTED
-candidate_sha: 905a4afc1bbd9c90ebdbf0d1a49df5d8869fc485
-generated_at: "2026-08-22 02:20:00Z"
-repair_rounds: 0
+candidate_sha: fa7ebb857187429188e404b9015c7e8a9394602f
+generated_at: "2026-08-22 02:50:00Z"
+repair_rounds: 1
 reviewed_by: chatgpt-pro
 authorized_by: human
 ---
@@ -17,13 +17,13 @@ authorized_by: human
 - **Target Contract**: `CONTRACT-E-Q17D`
 - **Phase / Milestone**: Gate E Frontier: Zero-Shot Multi-Hop Depth Generalization (3-Hop to 5-Hop)
 - **Candidate Branch**: `mb/CONTRACT-E-Q17D`
-- **Scientific Candidate Commit SHA**: `905a4afc1bbd9c90ebdbf0d1a49df5d8869fc485`
+- **Scientific Candidate Commit SHA**: `fa7ebb857187429188e404b9015c7e8a9394602f`
 - **Execution Base SHA**: `f949eb42c52dc980cb59802e07f8b015b4b93df7`
-- **Contract Acceptance Verifier**: `PASS` (`verify_contract_q17d` executed directly from raw 16-seed telemetry with full 8-tensor SHA-256 parameter hashes, exact 2-hop baseline retention, 20-trial 1-hop sensor classifications, coordinate controls $C_3, C_4, C_5$, and depth evaluations)
+- **Contract Acceptance Verifier**: `PASS` (`verify_contract_q17d` executed directly from raw 16-seed telemetry with full 8-tensor SHA-256 parameter hashes, exact 120-epoch training verification, exact 2-hop baseline retention, 20-trial 1-hop sensor classifications, coordinate controls $C_3, C_4, C_5$, and depth evaluations)
 - **Evidence Package**: Committed and verified in tree:
   - `crates/continuity_garden_core/data/q17d_depth_results.json` (Full 16-seed raw event telemetry across all depths and controls)
 - **Classification Outcome**: `NON_MONOTONIC_ANOMALOUS_DEPTH_PROFILE` (Dissociation between multi-hop score extrapolation and causally grounded composition)
-- **Repair Iterations**: 0 rounds (clean first-pass confirmatory run on frozen contract).
+- **Repair Iterations**: 1 round (repaired training epoch discrepancy to match exact promoted Q17C 120-epoch training baseline).
 
 ---
 
@@ -33,7 +33,7 @@ authorized_by: human
 
 | Gate / Estimand | Preregistered Condition / Floor | Observed Result | Statistical Test | Verdict |
 | :--- | :--- | :--- | :--- | :--- |
-| **Gate V1: Promoted Architecture & Weight Fingerprint** | $d=128, d_x=4, d_q=2$; 8-tensor hash $\text{theta\_hash}_i$ identical | **16 / 16 seeds verified ($100.0\%$)** | SHA-256 byte digest | **PASS** |
+| **Gate V1: Promoted Architecture & Weight Fingerprint** | $d=128, d_x=4, d_q=2$; 8-tensor hash $\text{theta\_hash}_i$ identical; epochs $=120$, lr $=0.030$, batches $=64$ | **16 / 16 seeds verified ($100.0\%$)** | SHA-256 byte digest | **PASS** |
 | **Gate V2: Canonical 2-Hop Retention ($k=2$)** | Directional margin $m_2 = \text{score}(A \to C) - \text{score}(C \to A) > 0$ | **16 / 16 seeds ($100.0\%$)** | Exact binomial ($\ge 15/16$) | **PASS** |
 | **Gate V3: Contemporaneous Sensor Competence** | 20-trial 1-hop sensor classification accuracy $\ge 90.0\%$ | **16 / 16 seeds ($100.0\%$)** | 20 trials vs gold truth | **PASS** |
 | **Gate V4: Structural Zero-Sidecar Invariant** | External transition store reads $\equiv 0$ | **16 / 16 verified ($100.0\%$)** | Direct API invariant | **PASS** |
@@ -63,5 +63,5 @@ authorized_by: human
 ---
 
 ## 3. Epistemic Interpretation & Scope Ceilings
-- **Core Promoted Claim**: Under the frozen Q17C recurrent architecture, endpoint-directional scores can extrapolate beyond two-step training—including strongly at four steps ($15/16, p \approx 9.2 \times 10^{-5}$)—but the longer-horizon responses fail preregistered causal state-surgery ($1/16$), reversal ($3/16$), and temporal-order controls ($7/16$). Therefore Q17D does not establish recursive compositional depth scaling; it reveals a dissociation between score-level extrapolation and causally grounded developmental-history composition.
+- **Core Promoted Claim**: Under the frozen Q17C recurrent architecture (120 training epochs), endpoint-directional scores can extrapolate beyond two-step training—including at four steps ($12/16, p = 6.882 \times 10^{-3}$)—but the longer-horizon responses fail preregistered causal state-surgery ($0/16$), reversal ($6/16$ at $k=3$), and temporal-order controls ($12/16$). Therefore Q17D does not establish recursive compositional depth scaling; it reveals a dissociation between score-level extrapolation and causally grounded developmental-history composition.
 - **Immediate Diagnostic Follow-up**: Initiating Diagnostic Scout `Q17D-B` to probe zero-history / query-only baselines, query-readout vs recurrent state contributions, and Jacobian attenuation across time.
