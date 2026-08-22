@@ -1,0 +1,10 @@
+{
+  "contract_id": "CONTRACT-E-Q17E",
+  "base_sha": "75afd691996cb4a77eeed6b5f4361852239e48ae",
+  "execution_base_sha": "17fee7ec3a51f319cdb1d4bffbd19eaef322f155",
+  "assets": {
+    "crates/continuity_garden_core/src/bin/confirmatory_q17e_contraction_algebra.rs": "271bf5f4d08030e203a8c32530ceb8fe4ca208fe58286101b93bf0e166d07b49",
+    "crates/continuity_garden_core/Cargo.toml": "faaf4e9e682707872ce833cbfcc3246238e998f9f4bc1df4b6628c5847213c14",
+    "research/contracts/CONTRACT-E-Q17E.md": "5b212a1d2b1deb6806c4519e1d4048424648f128cabe4056b5c28cb7351dd9a1"
+  }
+}

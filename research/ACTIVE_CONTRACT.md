@@ -1,21 +1,22 @@
 ---
-state: IDLE
-active_contract_id: null
-contract_path: null
-execution_base_sha: null
+state: READY
+active_contract_id: CONTRACT-E-Q17E
+contract_path: research/contracts/CONTRACT-E-Q17E.md
+base_sha: 75afd691996cb4a77eeed6b5f4361852239e48ae
+execution_base_sha: 17fee7ec3a51f319cdb1d4bffbd19eaef322f155
 last_checkpoint: research/checkpoints/CHECKPOINT-E-Q17D.md
 last_promotion: research/promotions/PROMOTION-CONTRACT-E-Q17D.md
 ---
 
 # Active Research Contract Pointer
 
-**Current Operational State**: `IDLE`
+**Current Operational State**: `READY`
 
 This document provides the machine-discoverable operational entry point for autonomous research agents and Mother Base.
 
 ## Active Contract Details
-- **Active Contract ID**: None (`IDLE` state following Stage Q17D promotion)
-- **Contract Path**: None
-- **Last Checkpoint**: [`research/checkpoints/CHECKPOINT-E-Q17D.md`](checkpoints/CHECKPOINT-E-Q17D.md)
-- **Last Promotion**: [`research/promotions/PROMOTION-CONTRACT-E-Q17D.md`](promotions/PROMOTION-CONTRACT-E-Q17D.md)
-- **Next Planned Milestone**: Diagnostic Scout `Q17D-B` (Multi-Hop Causal Dissociation & Query Geometry Diagnostics).
+- **Active Contract ID**: `CONTRACT-E-Q17E`
+- **Contract Path**: [`research/contracts/CONTRACT-E-Q17E.md`](contracts/CONTRACT-E-Q17E.md)
+- **Base SHA**: `75afd691996cb4a77eeed6b5f4361852239e48ae`
+- **Execution Base SHA**: `17fee7ec3a51f319cdb1d4bffbd19eaef322f155`
+- **Sealing Manifest**: [`research/contracts/SEALING_MANIFEST-E-Q17E.json`](contracts/SEALING_MANIFEST-E-Q17E.json)
