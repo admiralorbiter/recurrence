@@ -34,11 +34,15 @@ The objective of Continuity Garden (`recurrence`) is to discover the minimal dev
 - **Q17A (Neural Composition Kernel)**: A learned composition kernel can compose 2-hop relations when provided adjacent relation vectors.
 - **Q17B (Endogenous Induction)**: Trajectory-derived supervision induces composition-capable operators without explicit multi-hop topological labels.
 - **Q17C (2-Hop Developmental Organism — PROMOTED)**:
+  - **Checkpoint**: [`CHECKPOINT-E-Q17C`](https://github.com/admiralorbiter/recurrence/blob/main/research/checkpoints/CHECKPOINT-E-Q17C.md)
+  - **Candidate SHA**: `b0af2e131d279768393529329ee4fa3023e3160a`
   - 120-epoch meta-trained Simple RNN on 2-step sequences ($u \to v \to w$).
   - Achieved $16/16$ $k=2$ composition with positive causal state surgery.
-- **Q17D (Depth Horizon Generalization — PROMOTED MIXED/ANOMALOUS)**:
-  - Evaluated zero-shot generalization across horizons $k=2, 3, 4, 5$ on candidate commit `fa7ebb8`.
-  - Established that standard Simple RNN exhibits mixed/anomalous behavior beyond trained depth ($k=3$: $13/16$ positive direction, but failed sign-flip significance $p=0.029$, state surgery only $1/16$, shuffle superiority only $7/16$).
+- **Q17D (Depth Horizon Generalization — PROMOTED NON_MONOTONIC_ANOMALOUS_DEPTH_PROFILE)**:
+  - **Checkpoint**: [`CHECKPOINT-E-Q17D`](https://github.com/admiralorbiter/recurrence/blob/main/research/checkpoints/CHECKPOINT-E-Q17D.md)
+  - **Candidate SHA**: `fa7ebb8577bc6f23d1d255169a6cf497da9fc8bf`
+  - Evaluated zero-shot generalization across horizons $k=2, 3, 4, 5$ under exact 120-epoch baseline.
+  - Durable findings: $k=3$ causal surgery $0/16$, reversal $6/16$, shuffle $12/16$, while $k=4$ showed anomalous non-monotonic signal ($12/16$ direction). Classified as `NON_MONOTONIC_ANOMALOUS_DEPTH_PROFILE`.
 
 ---
 
@@ -55,9 +59,9 @@ The objective of Continuity Garden (`recurrence`) is to discover the minimal dev
 - **Scout E (Shared Prefix Supervision)**: Forced shared relational supervision across steps; revealed that monolithic RNN states collapse into a "recency attractor" ($S_{\text{late}} \approx 11.4$, $k=3 \to 0/16$).
 - **Scout F (Typed Relational State)**: Separated local edge $e \in \mathbb{R}^{32}$ from relational accumulator $m \in \mathbb{R}^{96}$; identified double-$\tanh$ saturation bottleneck.
 - **Scout G (Additive Residual Accumulator)**: Linear edge encoder + Additive residual accumulator ($\eta=1.00$, $m \in \mathbb{R}^{128}$) restored $k=2$ to $16/16$, achieved $15/16$ $k=3$ direction ($p=0.0002$), and showed strong history swap drop ($+30.27$).
-- **Scout H (Final-Edge Necessity & Compositional Binding Assay)**:
-  - Discovered that Scout G's $m_2$ state predicts $A \to D$ reachability before observing edge 3 ($+3.96$ pre-edge margin).
-  - Swapping wrong source edge $X \to D$ where $X \ne C$ produces $+2.00$ margin (no drop), proving that the model exhibits an **unbound reachability shortcut** rather than verified variable-binding composition $(A \to C) \circ (C \to D)$.
+- **Scout H / H-R1 (Final-Edge Necessity & Exact Replay Assay)**:
+  - Exact replay on winning Scout-G organisms confirmed that $m_2$ state predicts $A \to D$ reachability before observing edge 3 ($+32.81$ pre-edge margin).
+  - Swapping wrong source edge $X \to D$ ($X \ne C$) produces $+16.81$ margin, and zero edge produces $+48.95$, proving that the model exhibits an **unbound reachability shortcut** (propagation without intermediate variable unification) under arithmetic/fixed curricula.
 
 ---
 
