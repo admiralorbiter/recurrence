@@ -17,7 +17,7 @@ authorized_by: human
 - **Empirical Confirmation**:
   - **Global Validity V1–V4**: Full 8-tensor SHA-256 parameter hashes verified ($16/16$), canonical 2-hop baseline retained ($16/16, 100.0\%$), contemporaneous 20-trial 1-hop sensor competence retained ($16/16, 100.0\%$), and zero sidecar reads maintained ($16/16$).
   - **Coordinate-OOD Controls $C_3, C_4, C_5$**: 2-hop transitions utilizing extended role coordinates $D=4, E=5, F=6$ pass with $100\%$ precision ($16/16$ per control). This confirms that out-of-distribution coordinate representation is not the cause of multi-hop breakdown.
-  - **Score-Level Extrapolation Dissociation**: Raw endpoint directional margins extrapolate positively beyond 2-step training ($13/16$ at $k=3, p=0.029$; $15/16$ at $k=4, p=9.155 \times 10^{-5}$), but fail causal state-surgery transfer ($1/16$), reversal collapse ($3/16$ at $k=3$), and temporal shuffle superiority ($7/16$).
+  - **Score-Level Extrapolation Dissociation**: Raw endpoint directional margins extrapolate positively beyond 2-step training ($12/16$ at $k=4, p = 6.88 \times 10^{-3}$), but fail causal state-surgery transfer ($0/16$), reversal collapse ($6/16$ at $k=3$), and temporal shuffle superiority ($12/16$).
   - **Classification Verdict**: `NON_MONOTONIC_ANOMALOUS_DEPTH_PROFILE`.
 
 ## 2. Epistemic Boundaries & Core Scientific Belief
