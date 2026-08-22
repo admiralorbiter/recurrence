@@ -216,6 +216,11 @@ path = "src/bin/scout_q17e_d_trainability_and_pressure.rs"
 name = "scout_q17e_e_relational_closure"
 path = "src/bin/scout_q17e_e_relational_closure.rs"
 
+[[bin]]
+name = "scout_q17e_f_typed_relational_closure"
+path = "src/bin/scout_q17e_f_typed_relational_closure.rs"
+
+
 
 
 
