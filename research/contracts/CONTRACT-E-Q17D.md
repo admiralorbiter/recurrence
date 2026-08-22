@@ -24,7 +24,8 @@ In exploration stage Q17B, self-supervised 2-hop composition was established und
 Stage Q17D germinates the next logical scaling frontier: **Out-of-Distribution Compositional Depth Generalization**.
 
 ```
-Q17B / Q17C (Validated 2-Hop Memory):
+Q17B: validated external-memory 2-hop composition
+Q17C: candidate endogenous-memory migration
 Trajectory (A->B, B->C) -> Persistent z_t -> Readout predicts A->C reachability
 
 Q17D (Multi-Hop Generalization):
