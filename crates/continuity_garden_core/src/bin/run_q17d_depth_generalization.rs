@@ -362,6 +362,9 @@ pub struct RawSeedEvaluationQ17D {
     pub seed: u64,
     pub aux_train_seed: u64,
     pub theta_hash: String,
+    pub train_epochs: usize,
+    pub train_lr: f32,
+    pub train_batches_per_epoch: usize,
 
     // Global Validity
     pub v1_fingerprint_valid: bool,
@@ -495,12 +498,16 @@ fn compute_sign_flip_p_val(margins: &[f32]) -> f64 {
     (extreme_count as f64) / (total_perms as f64)
 }
 
+pub const TRAIN_EPOCHS: usize = 120;
+pub const TRAIN_LR: f32 = 0.030;
+pub const TRAIN_BATCHES_PER_EPOCH: usize = 64;
+
 fn evaluate_seed_q17d(seed_index: usize) -> RawSeedEvaluationQ17D {
     let seed = 17000 + (seed_index as u64) * 777;
     let aux_train_seed = seed + 999;
 
     let mut model = RecurrentMemoryModel::new_init(seed);
-    model.meta_train_bptt(aux_train_seed, 250);
+    model.meta_train_bptt(aux_train_seed, TRAIN_EPOCHS);
     let theta_hash = model.compute_theta_hash();
 
     // Node definitions (distinct role representations)
@@ -651,6 +658,9 @@ fn evaluate_seed_q17d(seed_index: usize) -> RawSeedEvaluationQ17D {
         seed,
         aux_train_seed,
         theta_hash,
+        train_epochs: TRAIN_EPOCHS,
+        train_lr: TRAIN_LR,
+        train_batches_per_epoch: TRAIN_BATCHES_PER_EPOCH,
         v1_fingerprint_valid: true,
         v2_m2_fwd,
         v2_m2_rev,

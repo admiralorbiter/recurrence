@@ -30,6 +30,9 @@ pub struct RawSeedEvaluationQ17D {
     pub seed: u64,
     pub aux_train_seed: u64,
     pub theta_hash: String,
+    pub train_epochs: usize,
+    pub train_lr: f32,
+    pub train_batches_per_epoch: usize,
     pub v1_fingerprint_valid: bool,
     pub v2_m2_fwd: f32,
     pub v2_m2_rev: f32,
@@ -128,19 +131,22 @@ fn main() {
     assert_eq!(summary.total_seeds, 16);
     assert_eq!(summary.raw_seed_results.len(), 16);
 
-    // 1. Gate V1: Parameter Hash Verification
+    // 1. Gate V1: Parameter Hash & Training Procedure Verification
     let mut valid_hashes = 0;
     for r in &summary.raw_seed_results {
         let expected_seed = 17000 + (r.seed_index as u64) * 777;
         let expected_aux_seed = expected_seed + 999;
         assert_eq!(r.seed, expected_seed, "Seed formula mismatch for seed_index {}", r.seed_index);
         assert_eq!(r.aux_train_seed, expected_aux_seed, "Aux seed formula mismatch for seed_index {}", r.seed_index);
+        assert_eq!(r.train_epochs, 120, "Training epochs mismatch for seed_index {} (expected 120, found {})", r.seed_index, r.train_epochs);
+        assert!((r.train_lr - 0.030).abs() < 1e-5, "Training lr mismatch for seed_index {}", r.seed_index);
+        assert_eq!(r.train_batches_per_epoch, 64, "Training batches mismatch for seed_index {}", r.seed_index);
         if r.theta_hash.len() == 64 && r.v1_fingerprint_valid {
             valid_hashes += 1;
         }
     }
     let v1_passed = valid_hashes == 16;
-    println!("Gate V1 (Promoted Architecture & 8-Tensor Parameter Hash): {}/16 -> {}", valid_hashes, if v1_passed { "PASS" } else { "FAIL" });
+    println!("Gate V1 (Promoted Architecture, 120-Epoch Training & 8-Tensor Hash): {}/16 -> {}", valid_hashes, if v1_passed { "PASS" } else { "FAIL" });
 
     // 2. Gate V2: Canonical 2-Hop Retention
     let mut v2_recomputed_pass = 0;
