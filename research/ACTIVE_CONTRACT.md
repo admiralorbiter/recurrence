@@ -1,22 +1,21 @@
 ---
-state: READY
-active_contract_id: CONTRACT-E-Q17D
-contract_path: research/contracts/CONTRACT-E-Q17D.md
-execution_base_sha: f949eb42c52dc980cb59802e07f8b015b4b93df7
-last_checkpoint: research/checkpoints/CHECKPOINT-E-Q17C.md
-last_promotion: research/promotions/PROMOTION-CONTRACT-E-Q17C.md
+state: IDLE
+active_contract_id: null
+contract_path: null
+execution_base_sha: null
+last_checkpoint: research/checkpoints/CHECKPOINT-E-Q17D.md
+last_promotion: research/promotions/PROMOTION-CONTRACT-E-Q17D.md
 ---
 
 # Active Research Contract Pointer
 
-**Current Operational State**: `READY`
+**Current Operational State**: `IDLE`
 
 This document provides the machine-discoverable operational entry point for autonomous research agents and Mother Base.
 
 ## Active Contract Details
-- **Active Contract ID**: `CONTRACT-E-Q17D`
-- **Contract Path**: [`research/contracts/CONTRACT-E-Q17D.md`](contracts/CONTRACT-E-Q17D.md)
-- **Execution Base Commit (`execution_base_sha`)**: `f949eb42c52dc980cb59802e07f8b015b4b93df7`
-- **Last Checkpoint**: [`research/checkpoints/CHECKPOINT-E-Q17C.md`](checkpoints/CHECKPOINT-E-Q17C.md)
-- **Last Promotion**: [`research/promotions/PROMOTION-CONTRACT-E-Q17C.md`](promotions/PROMOTION-CONTRACT-E-Q17C.md)
-- **Governance**: Design Review `APPROVED`, Strategic Authorization by `human`. Repository armed and ready for dispatch execution on branch `mb/CONTRACT-E-Q17D`.
+- **Active Contract ID**: None (`IDLE` state following Stage Q17D promotion)
+- **Contract Path**: None
+- **Last Checkpoint**: [`research/checkpoints/CHECKPOINT-E-Q17D.md`](checkpoints/CHECKPOINT-E-Q17D.md)
+- **Last Promotion**: [`research/promotions/PROMOTION-CONTRACT-E-Q17D.md`](promotions/PROMOTION-CONTRACT-E-Q17D.md)
+- **Next Planned Milestone**: Diagnostic Scout `Q17D-B` (Multi-Hop Causal Dissociation & Query Geometry Diagnostics).
