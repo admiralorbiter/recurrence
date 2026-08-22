@@ -14,5 +14,6 @@
 - [`q17e_h_r1_exact_replay_results.json`](evidence/q17e_h_r1_exact_replay_results.json) (11574 bytes)
 - [`q17e_i_broken_joins_results.json`](evidence/q17e_i_broken_joins_results.json) (9000 bytes)
 - [`q17e_j_r1_frozen_addressability_results.json`](evidence/q17e_j_r1_frozen_addressability_results.json) (14688 bytes)
+- [`q17e_j_r2_depth_stability_results.json`](evidence/q17e_j_r2_depth_stability_results.json) (11009 bytes)
 - [`q17e_j_relational_addressability_results.json`](evidence/q17e_j_relational_addressability_results.json) (16408 bytes)
 - [`q17e_lambda_scout_results.json`](evidence/q17e_lambda_scout_results.json) (100715 bytes)
