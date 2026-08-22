@@ -252,5 +252,9 @@ path = "src/bin/scout_q17e_j_r2_depth_stability.rs"
 name = "scout_q17e_k"
 path = "src/bin/scout_q17e_k_tensor_composition.rs"
 
+[[bin]]
+name = "scout_q17e_k_r1"
+path = "src/bin/scout_q17e_k_r1_learning_necessity.rs"
+
 
 
