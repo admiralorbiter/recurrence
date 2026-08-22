@@ -56,9 +56,9 @@ authorized_by: human
 
 | Depth Level | Empirical Observation | Mechanistic Breakdown | Preregistered Tier Criteria | Tier Outcome |
 | :--- | :--- | :--- | :--- | :--- |
-| **Depth $k=3$ ($A \to B \to C \to D$)** | $m_3 > 0.0$ in $13/16$ seeds ($81.2\%$), paired sign-flip $p = 0.0291$ | - State Surgery Choice Flips: **$1/16$**<br>- Transposition Reversals: **$3/16$**<br>- Deranged Shuffle Superiority $[e_2, e_3, e_1]$: **$7/16$** | $p < 0.01$, Surgery $\ge 12/16$, Trans $\ge 15/16$, Shuf $\ge 12/16$ | **Tier 1 NOT Achieved** |
-| **Depth $k=4$ ($A \to B \to C \to D \to E$)** | $m_4 > 0.0$ in $15/16$ seeds ($93.8\%$), $p = 9.155 \times 10^{-5}$ | - Transposition Reversals: **$10/16$** | Tier 1 Satisfied + Trans $\ge 14/16$ | **Tier 2 NOT Achieved** |
-| **Depth $k=5$ ($A \to B \to C \to D \to E \to F$)** | $m_5 > 0.0$ in $9/16$ seeds ($56.2\%$) | - Mean Margin: $-2.1243$, Median: $+1.2703$ | Continuous empirical reporting | **Tier 3 Descriptive** |
+| **Depth $k=3$ ($A \to B \to C \to D$)** | $m_3 > 0.0$ in $6/16$ seeds ($37.5\%$), paired sign-flip $p = 1.000$ | - State Surgery Choice Flips: **$0/16$**<br>- Transposition Reversals: **$6/16$**<br>- Deranged Shuffle Superiority $[e_2, e_3, e_1]$: **$12/16$** | $p < 0.01$, Surgery $\ge 12/16$, Trans $\ge 15/16$, Shuf $\ge 12/16$ | **Tier 1 NOT Achieved** |
+| **Depth $k=4$ ($A \to B \to C \to D \to E$)** | $m_4 > 0.0$ in $12/16$ seeds ($75.0\%$), $p = 6.882 \times 10^{-3}$ | - Transposition Reversals: **$13/16$** | Tier 1 Satisfied + Trans $\ge 14/16$ | **Tier 2 NOT Achieved** |
+| **Depth $k=5$ ($A \to B \to C \to D \to E \to F$)** | $m_5 > 0.0$ in $5/16$ seeds ($31.2\%$) | - Mean Margin: $-3.8539$, Median: $-3.4187$ | Continuous empirical reporting | **Tier 3 Descriptive** |
 
 ---
 
